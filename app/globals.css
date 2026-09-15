@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Euler Motors — design tokens sourced from the Figma file            */
+/* (variables: --ink, --ink-3, --on-dark-2, --r-md:16, --r-lg:24 …)    */
+/* ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: "Archia";
+  src: url("/fonts/archia/archia-regular-webfont.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  /* Typography */
+  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archia", var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand palette (Figma) */
+  --color-ink: #121212;            /* var(--ink) */
+  --color-ink-3: #5c6675;          /* var(--ink-3) */
+  --color-on-dark-2: #c7d2e4;      /* var(--on-dark-2) */
+  --color-brand: #1d6fff;          /* Euler blue */
+  --color-brand-2: #4a8cff;
+  --color-brand-3: #347eff;
+  --color-navy: #0e2f6d;           /* headings accent / dark blue */
+  --color-deep: #041231;           /* dark sections */
+  --color-deeper: #030d1e;         /* calculator panel */
+  --color-deep-card: #0c2c66;      /* form active tab */
+  --color-surface: #f3f4f5;        /* light cards */
+  --color-mist: #e9edf3;           /* light section base */
+  --color-chip-red: #d96c6c;
+  --color-chip-green: #6fcf97;
+  --color-hairline: #ededed;
+  --color-placeholder: #9ca3af;
+
+  /* Radii (Figma --r-md / --r-lg) */
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Figma button/link reset */
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: #1d6fff;
+  color: #fff;
+}
+
+/* Horizontal snap scrollers used by the carousels (mobile design shows
+   overflowing card rows — implemented as snap scroll containers). */
+.snap-row {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.snap-row::-webkit-scrollbar {
+  display: none;
+}
+.snap-row > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}

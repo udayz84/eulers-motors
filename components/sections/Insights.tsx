@@ -1,0 +1,77 @@
+import Image from "next/image";
+import Eyebrow from "../ui/Eyebrow";
+import Button from "../ui/Button";
+
+const ARTICLES = [
+  {
+    img: "/assets/insights/article-1.jpg",
+    title: "What an electric fleet really costs",
+    desc: "Electricity, servicing, insurance, battery, and resale value. Everything calculated for fleets driving 80km to 200 km per day.",
+    imgClass: "",
+  },
+  {
+    img: "/assets/insights/article-2.png",
+    title: "How much EV subsidy will you get?",
+    desc: "Which states still offer subsidies, what ended in April, and how to claim them.",
+    imgClass: "object-[50%_0%]",
+  },
+  {
+    img: "/assets/insights/article-3.png",
+    title: "Depot or public charging?",
+    desc: "Under 9 vehicles, public charging works out cheaper. The full working is inside",
+    imgClass: "",
+  },
+];
+
+/**
+ * "Learn more about EVs" (desktop 1:1853 · mobile 1:4924).
+ * Article cards with white date chip and glass info panel.
+ */
+export default function Insights() {
+  return (
+    <section className="bg-white" aria-label="Insights">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-6 px-5 pb-8 pt-10 lg:w-full lg:gap-8 lg:px-20 lg:pb-14 lg:pt-[42px]">
+        <div className="flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-4">
+            <Eyebrow label="insights" />
+            <h2 className="text-center font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-left lg:text-[52px]">
+              Learn more about EVs
+            </h2>
+          </div>
+          <Button variant="dark" arrow="white" className="hidden lg:inline-flex">
+            All articles
+          </Button>
+        </div>
+
+        <div className="snap-row -mx-5 gap-3 px-5 lg:mx-0 lg:gap-5 lg:px-0">
+          {ARTICLES.map((a) => (
+            <article
+              key={a.title}
+              className="relative h-[320px] w-[324px] overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-4xl"
+            >
+              <Image src={a.img} alt="" fill sizes="(max-width:1024px) 324px, 427px" className={`object-cover ${a.imgClass}`} />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-[44%] from-black/0 to-[87.7%] to-black/50" />
+              <div aria-hidden className="absolute -bottom-[118px] left-1/2 h-[247px] w-[473px] -translate-x-1/2 bg-black/20 blur-[102px]" />
+              <div aria-hidden className="absolute -left-[383px] -top-[164px] h-[247px] w-[473px] bg-black/20 blur-[102px]" />
+
+              {/* date + read time chip */}
+              <div className="absolute left-3 top-3 flex items-center gap-2.5 rounded-full bg-white px-2.5 py-1 lg:left-3 lg:top-3">
+                <span className="text-[12px] font-bold text-black lg:text-[14px]">14 July 2026</span>
+                <span aria-hidden className="size-1 rounded-full bg-black/50" />
+                <span className="text-[12px] font-bold text-black lg:text-[14px]">09 Min</span>
+              </div>
+
+              {/* info panel */}
+              <div className="absolute inset-x-4 bottom-4 flex flex-col gap-3 rounded-[10px] bg-white/20 p-3 backdrop-blur-[2px] lg:inset-x-4 lg:bottom-4 lg:gap-3 lg:p-4">
+                <h3 className="text-[16px] font-semibold leading-normal tracking-[-0.4px] text-white lg:text-[20px]">
+                  {a.title}
+                </h3>
+                <p className="line-clamp-3 text-[12px] leading-[1.5] text-white lg:text-[14px]">{a.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

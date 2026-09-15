@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="21.0989" height="17.7957" viewBox="0 0 21.0989 17.7957" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Post Icons Container">
+<g id="Vector 145" filter="url(#filter0_f_0_90)">
+<path d="M7.98522 15.2861L12.8499 9.61057C13.2015 9.20046 13.2015 8.59529 12.8499 8.18518L7.98522 2.50967" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+</g>
+<path id="Vector 140" opacity="0.1" d="M0.684464 15.2851L5.54919 9.60964C5.90071 9.19952 5.90071 8.59436 5.54919 8.18425L0.684463 2.50873" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+<path id="Vector 141" opacity="0.2" d="M4.33487 15.2851L9.19959 9.60964C9.55112 9.19952 9.55112 8.59436 9.19959 8.18425L4.33487 2.50873" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+<path id="Vector 142" d="M7.98527 15.2851L12.85 9.60964C13.2015 9.19952 13.2015 8.59436 12.85 8.18425L7.98527 2.50873" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+<path id="Vector 143" opacity="0.2" d="M11.6357 15.2851L16.5004 9.60964C16.8519 9.19952 16.8519 8.59436 16.5004 8.18425L11.6357 2.50873" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+<path id="Vector 144" opacity="0.1" d="M15.2861 15.2851L20.1508 9.60964C20.5023 9.19952 20.5023 8.59436 20.1508 8.18425L15.2861 2.50873" stroke="white" stroke-width="1.3689" stroke-linecap="round"/>
+</g>
+<defs>
+<filter id="filter0_f_0_90" x="5.47556" y="5.96046e-08" width="10.1477" height="17.7957" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="0.912601" result="effect1_foregroundBlur_0_90"/>
+</filter>
+</defs>
+</svg>
