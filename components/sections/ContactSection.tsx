@@ -26,7 +26,7 @@ export default function ContactSection() {
       />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent via-white/80 to-white max-lg:hidden" />
 
-      <div className="relative mx-auto flex max-w-[1440px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-20 lg:pb-10 lg:pt-16">
+      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-0 lg:pb-10 lg:pt-16">
         {/* left column */}
         <div className="flex flex-col gap-5 lg:gap-0">
           <div className="flex flex-col gap-4">

@@ -9,12 +9,14 @@ const ACTIONS = [
 /**
  * Floating quick-action rail (Figma "Component 31" / mobile instance 1:5205).
  * Black glass rail with circular buttons, rounded on the left side only.
+ * Rendered inside the Hero section and absolutely positioned within it, so it
+ * only exists while the hero is on screen (Figma places it in the hero frame).
  */
 export default function FloatingWidget() {
   return (
     <aside
       aria-label="Quick actions"
-      className="fixed right-0 top-[506px] z-40 flex flex-col overflow-clip rounded-l-[32px] bg-black/80 py-1.5 pl-1.5 pr-[42px] max-lg:top-[430px] max-lg:py-1.5 max-lg:pl-1.5 max-lg:pr-10 lg:top-[400px]"
+      className="absolute right-0 top-[506px] z-40 flex flex-col overflow-clip rounded-l-[32px] bg-black/80 py-1.5 pl-1.5 pr-[42px] max-lg:top-[430px] max-lg:py-1.5 max-lg:pl-1.5 max-lg:pr-10 lg:top-[400px]"
     >
       <div className="flex flex-col gap-2.5 max-lg:gap-2.5">
         {ACTIONS.map((a) => (

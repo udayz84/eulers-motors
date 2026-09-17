@@ -14,7 +14,7 @@ type ButtonProps = {
 
 const VARIANTS: Record<ButtonVariant, string> = {
   // bg #121212 · 0.5px white border · radius 4 (Figma "Right Button Container")
-  dark: "bg-ink border border-white/100 text-white",
+  dark: "bg-ink border-[0.5px] border-solid border-white text-white",
   white: "bg-white border border-transparent",
   outline: "bg-surface border border-ink/50 text-ink",
 };

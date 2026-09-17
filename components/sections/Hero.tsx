@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "../ui/Button";
+import FloatingWidget from "../FloatingWidget";
 
 const SLIDES = 4;
 
@@ -17,7 +18,7 @@ export default function Hero() {
   const go = (dir: 1 | -1) => setActive((i) => (i + dir + SLIDES) % SLIDES);
 
   return (
-    <section className="relative h-[852px] overflow-clip lg:h-[900px]" aria-label="Featured vehicle">
+    <section id="hero" className="relative h-[852px] overflow-clip lg:h-[900px]" aria-label="Featured vehicle">
       {/* hero backgrounds — desktop 1440×800 / mobile 393×762 (Figma 1:1283 / 1:4523);
           both sources match the frame aspect, so object-cover fits edge-to-edge */}
       <Image
@@ -108,6 +109,9 @@ export default function Hero() {
           ))}
         </div>
       </div>
+
+      {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
+      <FloatingWidget />
     </section>
   );
 }

@@ -16,7 +16,7 @@ const BULLETS = [
 export default function EnterpriseDealer() {
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-15 lg:pb-5">
+      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pb-5">
         {/* Enterprise card */}
         <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-[800px] lg:rounded-2xl">
           <Image

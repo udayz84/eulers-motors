@@ -8,8 +8,9 @@ type EyebrowProps = {
 };
 
 /**
- * Recurring Figma badge: slanted underline sweep + cap mark + label.
- * Desktop: underline 148.8×20.35 / label 14px; Mobile: 117×16 / label 12px.
+ * Recurring Figma badge: cap mark + label with the slanted sweep behind the
+ * label's start (Figma: cap x=0 · sweep x=3.43 · text x=24.8, overlapping).
+ * Desktop: sweep 148.8×20.35 / label 14px; Mobile: 117×16 / label 12px.
  */
 export default function Eyebrow({ label, dark = false, className = "" }: EyebrowProps) {
   const line = dark ? "/assets/products/badge-line-white.svg" : "/assets/products/badge-line.svg";
@@ -21,7 +22,7 @@ export default function Eyebrow({ label, dark = false, className = "" }: Eyebrow
         alt=""
         width={117}
         height={16}
-        className="h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]"
+        className="absolute left-[2.7px] top-0 h-4 w-[117px] lg:left-[3.43px] lg:h-[20.355px] lg:w-[148.821px]"
         aria-hidden
       />
       <Image
@@ -29,7 +30,7 @@ export default function Eyebrow({ label, dark = false, className = "" }: Eyebrow
         alt=""
         width={14.8}
         height={16}
-        className="h-4 w-[14.8px] lg:h-[20.355px] lg:w-[18.821px]"
+        className="relative h-4 w-[14.8px] lg:h-[20.355px] lg:w-[18.821px]"
         aria-hidden
       />
       <span

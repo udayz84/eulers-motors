@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import FloatingWidget from "@/components/FloatingWidget";
 import Hero from "@/components/sections/Hero";
 import StatsBanner from "@/components/sections/StatsBanner";
 import ProductShowcase from "@/components/sections/ProductShowcase";
@@ -47,6 +46,7 @@ export default function Home() {
           align="right"
           icon="phone"
           pad="60"
+          cardH="450"
           /* Figma 1:1473 crop: left -5.58% · top -11.78% · 76.19% × 126% */
           crop={[-5.58, -11.78, 76.19, 126]}
           mobilePosition="78% 40%"
@@ -61,7 +61,6 @@ export default function Home() {
         <SocialWall />
       </main>
       <Footer />
-      <FloatingWidget />
     </>
   );
 }
