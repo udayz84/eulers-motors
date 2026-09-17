@@ -7,16 +7,16 @@ import Button from "../ui/Button";
 
 type Product = {
   name: string;
-  /** crop: [left%, top%, width%] of the source image, from Figma */
-  crop: [number, number, number];
+  /** crop box [left%, top%, width%, height%] of the thumbnail frame, from Figma 1:1330-1:1339 */
+  crop: [number, number, number, number];
 };
 
 /** Figma 1:1329-1:1340 product cards — same source image, different crops */
 const PRODUCTS: Product[] = [
-  { name: "Storm EV T1500", crop: [-228.13, -145.73, 335.27] },
-  { name: "Strom EV LR 200", crop: [-4.46, -140.4, 325.69] },
-  { name: "Turbo EV 1000", crop: [-2.9, -6.56, 322.07] },
-  { name: "HiLoad EV", crop: [-295.3, -19.56, 415.35] },
+  { name: "Storm EV T1500", crop: [-228.13, -145.73, 335.27, 237.35] },
+  { name: "Strom EV LR 200", crop: [-4.46, -140.4, 325.69, 230.57] },
+  { name: "Turbo EV 1000", crop: [-2.9, -6.56, 322.07, 228] },
+  { name: "HiLoad EV", crop: [-295.3, -19.56, 415.35, 294.03] },
 ];
 
 const SPECS = [
@@ -59,9 +59,9 @@ export default function ProductShowcase() {
       />
       <div aria-hidden className="absolute inset-x-0 top-[-170px] mx-auto h-[432px] w-[min(2160px,150vw)] bg-surface blur-[86.6px]" />
 
-      <div className="relative mx-auto flex min-h-[751px] w-full flex-col px-5 pb-10 pt-[123px] lg:min-h-0 lg:w-full lg:px-0 lg:pb-0 lg:pt-0">
-        {/* section header */}
-        <div className="lg:mx-auto lg:mb-[190px] lg:flex lg:w-[1285.539px] lg:items-start lg:justify-between">
+      <div className="relative mx-auto flex min-h-[751px] w-full flex-col px-5 pb-10 pt-[123px] lg:min-h-0 lg:w-full lg:px-0 lg:pb-0 lg:pt-[66.2px]">
+        {/* section header — Figma 1:1321: 1285.539×136.355 at x 77.2 / y 66.2 */}
+        <div className="lg:mx-auto lg:mb-[190px] lg:flex lg:w-[1285.539px] lg:items-center lg:justify-between">
           <div className="flex flex-col gap-[14px] lg:gap-5">
             <Eyebrow label="Choose your truck" />
             <h2 className="w-[322px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink lg:w-[403px] lg:text-[42px]">
@@ -69,33 +69,37 @@ export default function ProductShowcase() {
             </h2>
           </div>
 
-          {/* thumbnails — desktop row / mobile snap scroller */}
-          <div className="snap-row mt-[24px] gap-8 lg:mt-0 lg:flex lg:w-[723px] lg:justify-between lg:gap-0 lg:overflow-visible">
+          {/* thumbnails — Figma 1:1328: 723px justify-between · mobile 1:4615:
+              full-bleed row, px-20, cards hug their labels, 55×52 images */}
+          <div className="mt-[24px] -mx-5 flex items-center justify-between px-5 lg:mx-0 lg:mt-0 lg:w-[723px] lg:justify-between lg:px-0">
             {PRODUCTS.map((p, i) => (
               <button
                 key={p.name}
                 type="button"
                 onClick={() => setActive(i)}
                 aria-pressed={i === active}
-                className={`flex w-[86px] flex-col items-center gap-[7.22px] transition-opacity lg:w-[100.075px] lg:gap-[10.868px] ${
+                className={`flex shrink-0 flex-col items-center gap-[7.215px] transition-opacity lg:w-[100.075px] lg:gap-[10.868px] ${
                   i === active ? "opacity-100" : "opacity-40"
                 }`}
               >
-                <span className="relative block h-[52px] w-full overflow-hidden rounded-[9.62px] lg:h-[94.642px] lg:rounded-[14.491px]">
-                  <Image
-                    src="/assets/products/product.png"
-                    alt=""
-                    fill
-                    sizes="120px"
-                    className="object-cover"
-                    style={
-                      {
-                        objectPosition: `${-p.crop[0] - 50}% ${-p.crop[1] - 50}%`,
-                        transform: `scale(${p.crop[2] / 100})`,
-                        transformOrigin: "top left",
-                      } as React.CSSProperties
-                    }
-                  />
+                <span className="relative block h-[52px] w-[55px] overflow-hidden rounded-[9.62px] lg:h-[94.642px] lg:w-full lg:rounded-[14.491px]">
+                  <span
+                    className="absolute"
+                    style={{
+                      left: `${p.crop[0]}%`,
+                      top: `${p.crop[1]}%`,
+                      width: `${p.crop[2]}%`,
+                      height: `${p.crop[3]}%`,
+                    }}
+                  >
+                    <Image
+                      src="/assets/products/product.png"
+                      alt=""
+                      fill
+                      sizes="120px"
+                      className="object-cover"
+                    />
+                  </span>
                 </span>
                 <span className="whitespace-nowrap text-center text-[12px] font-bold leading-[1.15] tracking-[-0.32px] text-ink lg:text-[16px]">
                   {p.name}
