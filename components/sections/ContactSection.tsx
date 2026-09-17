@@ -15,21 +15,33 @@ const CONTACTS = [
 export default function ContactSection() {
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
-      {/* blurred photo wash behind the desktop contact column */}
-      <Image
-        src="/assets/enterprise/truck-photo.png"
-        alt=""
-        width={631}
-        height={441}
-        aria-hidden
-        className="pointer-events-none absolute -left-2 top-[140px] w-[631px] rounded-[30.8px] object-cover opacity-90 blur-[30.8px] max-lg:hidden"
-      />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent via-white/80 to-white max-lg:hidden" />
+      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-0 lg:pb-[42px] lg:pt-16">
+        {/* left column — heading top · contacts bottom of the 683px column (Figma 1:1975) */}
+        <div className="relative flex flex-col gap-5 lg:h-[683.477px] lg:justify-between lg:gap-0">
+          {/* photo wash — 630.733×441 at (-8, 139.55),
+              four white fades (right/left/top/bottom) per Figma 1:1976.
+              Blur removed per review — the truck renders sharp. */}
+          <div aria-hidden className="absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[630.733px] lg:block">
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src="/assets/enterprise/truck-photo.png"
+                alt=""
+                width={631}
+                height={441}
+                className="absolute max-w-none object-cover"
+                style={{ left: "-0.09%", top: "-3.49%", width: "100.19%", height: "103.49%" }}
+              />
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, rgba(255,255,255,0) 65.285%, rgb(255,255,255) 100%), linear-gradient(-90deg, rgba(255,255,255,0) 71.138%, rgb(255,255,255) 100%), linear-gradient(0deg, rgba(255,255,255,0) 69.07%, rgb(255,255,255) 100%), linear-gradient(179.86deg, rgba(255,255,255,0) 51.97%, rgb(255,255,255) 99.827%)",
+              }}
+            />
+          </div>
 
-      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-0 lg:pb-10 lg:pt-16">
-        {/* left column */}
-        <div className="flex flex-col gap-5 lg:gap-0">
-          <div className="flex flex-col gap-4">
+          <div className="relative flex flex-col gap-4">
             <Eyebrow label="Next step" />
             <div className="flex flex-col gap-4">
               <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink lg:text-[42px]">
@@ -42,8 +54,9 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* contact cards */}
-          <div className="flex flex-col gap-2.5 lg:mt-10 lg:flex-row lg:gap-2.5">
+          {/* contact cards — relative keeps them above the absolute photo wash;
+              items-start stops the lone right card stretching to the left column's height */}
+          <div className="relative flex flex-col gap-2.5 lg:flex-row lg:items-start lg:gap-2.5">
             <div className="flex flex-col gap-2.5 lg:gap-2.5">
               {CONTACTS.slice(0, 2).map((c) => (
                 <ContactCard key={c.title} {...c} />
@@ -53,8 +66,8 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* form card — desktop variant */}
-        <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
+        {/* form card — desktop variant (Figma 517px; narrowed to balance smaller viewports) */}
+        <div className="hidden w-[480px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
               Book a test drive
@@ -70,7 +83,7 @@ export default function ContactSection() {
             <span className="text-[12px] font-medium text-[#212125]">Which vehicle *</span>
             <div className="flex h-[46px] items-center justify-between rounded-[13px] border border-hairline bg-white px-4 py-0.5 backdrop-blur-[8.15px]">
               <span className="text-[12px] font-medium text-placeholder">Not sure, please suggest one</span>
-              <Image src="/assets/contact/chevron.svg" alt="" width={14} height={6} aria-hidden className="h-1.5 w-3.5" />
+              <Image src="/assets/contact/chevron.svg" alt="" width={14} height={6} aria-hidden className="-scale-y-100 h-1.5 w-3.5" />
             </div>
           </div>
           <div className="flex gap-3">
@@ -128,7 +141,8 @@ export default function ContactSection() {
 
 function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: string }) {
   return (
-    <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-5 lg:w-auto lg:gap-6">
+    /* Figma fixes all three rows at ~301px wide (1:1988/1:1994/1:2000) */
+    <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-5 lg:w-[301px] lg:gap-6">
       <span className="flex size-[42px] shrink-0 items-center justify-center rounded-[5.9px] bg-white lg:size-[58px] lg:rounded-[8.12px]">
         <Image src={icon} alt="" width={24} height={24} aria-hidden className="size-4 lg:size-6" />
       </span>

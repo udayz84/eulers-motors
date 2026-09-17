@@ -5,7 +5,22 @@ import Image from "next/image";
 import Button from "../ui/Button";
 import FloatingWidget from "../FloatingWidget";
 
-const SLIDES = 4;
+const HERO_SLIDES = [
+  {
+    headline: "Euler Storm EV T1500 with 200km Range — Built for Heavy Commercial Hauling",
+  },
+  {
+    headline: "Euler Turbo EV 1000 with 180km RealRange™ — Make One More Delivery Every Day!",
+  },
+  {
+    headline: "Euler Storm EV LongRange 200 — Maximize Your Daily Fleet Earnings",
+  },
+  {
+    headline: "Euler HiLoad EV — India's Most Powerful Commercial 3-Wheeler",
+  },
+];
+
+const SLIDES = HERO_SLIDES.length;
 
 /**
  * Hero V3 (Figma 1:1283). Desktop 1440×800 · mobile 393×762.
@@ -43,21 +58,21 @@ export default function Hero() {
         type="button"
         aria-label="Previous slide"
         onClick={() => go(-1)}
-        className="absolute left-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block"
+        className="absolute left-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer hover:scale-110 transition-transform z-20"
       >
         <Image
           src="/assets/hero/arrow-left.svg"
           alt=""
           width={42}
           height={42}
-          className="h-[42px] w-[42px] -scale-y-100"
+          className="h-[42px] w-[42px] -scale-x-100"
         />
       </button>
       <button
         type="button"
         aria-label="Next slide"
         onClick={() => go(1)}
-        className="absolute right-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block"
+        className="absolute right-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer hover:scale-110 transition-transform z-20"
       >
         <Image
           src="/assets/hero/arrow-right.svg"
@@ -70,8 +85,8 @@ export default function Hero() {
 
       {/* headline block — Figma bottom 60.52 (desktop) / 24 (mobile) */}
       <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-6 px-5 lg:bottom-[60.52px] lg:gap-6">
-        <h1 className="max-w-[788.543px] text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px]">
-          Euler Turbo EV 1000 की 180km की RealRange™ हो तो करो 1 डिलीवरी और!
+        <h1 className="max-w-[788.543px] text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px] transition-opacity duration-300">
+          {HERO_SLIDES[active].headline}
         </h1>
         <Button variant="dark" arrow="white" className="rounded-[4.571px] px-[22.822px] lg:rounded-[4px] lg:px-6">
           Explore our Vehicles

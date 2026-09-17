@@ -13,7 +13,7 @@ const STATS: Stat[] = [
 
 function StatValue({ value, unit }: { value: string; unit?: string }) {
   return (
-    <span className="whitespace-nowrap font-display text-[40px] font-semibold leading-[1.15] tracking-[-0.8833px] text-white">
+    <span className="whitespace-nowrap font-display text-[40px] font-semibold leading-[1.15] tracking-[-0.8833px] text-white lg:text-[44.167px]">
       {value}{" "}
       {unit && (
         <span className="text-[22px] font-bold font-sans leading-[1.15]">{unit}</span>
@@ -30,36 +30,43 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
 export default function StatsBanner() {
   return (
     <section className="relative overflow-clip bg-deep" aria-label="Euler Motors in numbers">
-      {/* truck photo layer @20% (Figma "Banner image" 1:1384) + blue brand wash */}
-      <Image
-        src="/assets/products/banner-img.png"
-        alt=""
-        fill
-        sizes="100vw"
-        aria-hidden
-        className="object-cover object-right opacity-20 pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(220deg, #0E2F6D 20%, #1D6FFF 130%)",
-          opacity: 0.55,
-        }}
-      />
-      {/* decorative concentric rings (desktop) */}
-      <Image
-        src="/assets/products/concentric.svg"
-        alt=""
-        width={1336}
-        height={1336}
-        aria-hidden
-        className="pointer-events-none absolute -right-[424px] -top-[484px] hidden opacity-90 lg:block"
-      />
-      {/* blurred ellipse glows */}
-      <div aria-hidden className="absolute left-1/2 top-[269px] h-[198px] w-[1015px] -translate-x-1/2 opacity-40 blur-[102px]" style={{ background: "radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.35), transparent)" }} />
-      <div aria-hidden className="absolute right-0 top-0 h-full w-1/2 opacity-30 blur-[102px]" style={{ background: "radial-gradient(50% 50% at 60% 40%, #1D6FFF, transparent)" }} />
+      {/* background stack (Figma 1:1384, bottom → top): brand gradient + photo @20%,
+          both covered by the solid #041231 layer — the band renders flat deep */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(219.98deg, rgb(14,47,109) 138.16%, rgb(29,111,255) 87.019%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
+          }}
+        />
+        <Image
+          src="/assets/products/banner-img.png"
+          alt=""
+          fill
+          sizes="100vw"
+          aria-hidden
+          className="object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-[#041231]" />
+      </div>
+      {/* concentric rings — 1335.635² at (-423.63, -484.38), svg inset -1.73% (Figma 1:1435) */}
+      <div aria-hidden className="absolute -right-[423.63px] -top-[484.38px] hidden size-[1335.635px] lg:block">
+        <div className="absolute inset-[-1.73%]">
+          <Image src="/assets/products/concentric.svg" alt="" fill sizes="1382px" className="pointer-events-none" />
+        </div>
+      </div>
+      {/* ellipse glows (Figma 1:1440/1:1441) */}
+      <div aria-hidden className="absolute left-1/2 top-[269px] hidden h-[197.726px] w-[1014.71px] -translate-x-1/2 lg:block">
+        <div className="absolute inset-[-107.22%_-20.89%]">
+          <Image src="/assets/products/ellipse-1.svg" alt="" fill sizes="1439px" className="pointer-events-none" />
+        </div>
+      </div>
+      <div aria-hidden className="absolute left-1/2 top-[195px] hidden h-[271.726px] w-[1394.471px] -translate-x-1/2 lg:block">
+        <div className="absolute inset-[-78.02%_-15.2%]">
+          <Image src="/assets/products/ellipse-2.svg" alt="" fill sizes="1818px" className="pointer-events-none" />
+        </div>
+      </div>
 
       <div className="relative flex flex-col items-center gap-[14px] px-[33px] py-6 lg:py-[42px]">
         {/* mobile grid: rows of two cards with hairline dividers, last card centered */}
@@ -85,7 +92,7 @@ export default function StatsBanner() {
             <div key={stat.label} className="flex flex-1 items-center">
               <div className="flex flex-1 flex-col items-center gap-5 overflow-clip rounded-[24px] px-[2px] py-8">
                 <StatValue value={stat.value} unit={stat.unit} />
-                <p className="text-center text-[22px] font-bold leading-none text-white">
+                <p className="text-center text-[22px] font-bold leading-normal text-white">
                   {stat.label}
                 </p>
               </div>

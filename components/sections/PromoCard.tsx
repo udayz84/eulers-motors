@@ -16,10 +16,15 @@ type PromoCardProps = {
   icon?: "arrow" | "phone";
   /** desktop section horizontal padding (Neo: 80px · Talk: 60px) */
   pad?: "60" | "80";
-  /** desktop card height (Figma: Neo 413 · Talk 450) */
-  cardH?: "413" | "450";
+  /** desktop card height (Figma: Neo 413 · Talk 450; 480 per review) */
+  cardH?: "413" | "450" | "470" | "480" | "500";
   /** desktop photo placement: [left%, top%, width%, height%] of the card (Figma crop) */
   crop?: [number, number, number, number];
+  /** mobile photo placement (Figma mobile crop, e.g. Neo 1:4671) */
+  cropMobile?: [number, number, number, number];
+  /** stacked mobile image layers — [src, left%, top%, width%, height%]
+      (e.g. Talk 1:4691 uses two: desktop-bg + talk-3) */
+  mobileLayers?: { src: string; box: [number, number, number, number] }[];
   /** mobile photo object-position */
   mobilePosition?: string;
 };
@@ -42,6 +47,8 @@ export default function PromoCard({
   pad = "80",
   cardH = "413",
   crop,
+  cropMobile,
+  mobileLayers,
   mobilePosition = "50% 100%",
 }: PromoCardProps) {
   const right = align === "right";
@@ -58,19 +65,30 @@ export default function PromoCard({
     : undefined;
   return (
     <section className="bg-white" aria-label={title}>
-      {/* section padding per Figma: Neo 1:1442 px80/py48 · Talk 1:1472 px60/py58 */}
+      {/* section padding per Figma: Neo 1:1442 px80/py48 · Talk 1:1472 px60/py58.
+          Both cards widened to 1500px per review. */}
       <div
         className={`mx-auto w-full px-5 py-10 lg:px-0 ${
-          pad === "80" ? "max-w-[1280px] lg:py-12" : "max-w-[1320px] lg:py-[58px]"
+          pad === "80" ? "max-w-[1500px] lg:py-12" : "max-w-[1500px] lg:py-[58px]"
         }`}
       >
         <div
           className={`relative h-[420px] w-full overflow-clip rounded-[18px] lg:rounded-[20px] ${
-            cardH === "450" ? "lg:h-[450px]" : "lg:h-[413px]"
+            cardH === "450"
+              ? "lg:h-[450px]"
+              : cardH === "470"
+                ? "lg:h-[470px]"
+                : cardH === "480"
+                  ? "lg:h-[480px]"
+                  : cardH === "500"
+                    ? "lg:h-[500px]"
+                    : "lg:h-[413px]"
           } ${washCls}`}
         >
           {crop && (
-            /* desktop: exact Figma placement — the photo fills an oversized box */
+            /* desktop: exact Figma placement — the photo fills an oversized,
+               absolutely-positioned box (left/top only apply when positioned;
+               max-w-none escapes preflight's img max-width clamp at 114% width) */
             <Image
               src={image}
               alt={imageAlt}
@@ -78,27 +96,75 @@ export default function PromoCard({
               height={1200}
               aria-hidden={false}
               style={cropStyle}
-              className="hidden lg:block"
+              className="absolute hidden max-w-none lg:block"
             />
           )}
-          <Image
-            src={image}
-            alt={crop ? "" : imageAlt}
-            aria-hidden={!!crop}
-            fill
-            sizes="(max-width: 1024px) 393px, 1320px"
-            className={`object-cover ${crop ? "lg:hidden" : ""}`}
-            style={{ objectPosition: mobilePosition }}
-          />
+          {mobileLayers ? (
+            /* stacked mobile layers with exact Figma boxes (Talk 1:4691) */
+            mobileLayers.map((m, i) => (
+              <Image
+                key={i}
+                src={m.src}
+                alt={i === mobileLayers.length - 1 ? imageAlt : ""}
+                aria-hidden={i !== mobileLayers.length - 1}
+                width={2400}
+                height={1200}
+                className="absolute max-w-none max-lg:block lg:hidden"
+                style={{
+                  left: `${m.box[0]}%`,
+                  top: `${m.box[1]}%`,
+                  width: `${m.box[2]}%`,
+                  height: `${m.box[3]}%`,
+                  objectFit: "fill",
+                }}
+              />
+            ))
+          ) : cropMobile ? (
+            /* mobile: exact Figma crop box (Neo 1:4671) */
+            <Image
+              src={image}
+              alt={imageAlt}
+              width={2400}
+              height={1200}
+              aria-hidden={false}
+              className="absolute max-w-none max-lg:block lg:hidden"
+              style={{
+                left: `${cropMobile[0]}%`,
+                top: `${cropMobile[1]}%`,
+                width: `${cropMobile[2]}%`,
+                height: `${cropMobile[3]}%`,
+                objectFit: "fill",
+              }}
+            />
+          ) : (
+            <Image
+              src={image}
+              alt={crop ? "" : imageAlt}
+              aria-hidden={!!crop}
+              fill
+              sizes="(max-width: 1024px) 393px, 1320px"
+              className={`object-cover ${crop ? "lg:hidden" : ""}`}
+              style={{ objectPosition: mobilePosition }}
+            />
+          )}
           {/* soft ellipse glow — desktop uses the exact Ellipse 74 svg placements:
               Neo (Figma 1:1444): container 932.512×750.623 at (-366.94,-119.11),
                 svg oversized via insets -33.35%/-26.84%
               Talk (Figma 1:1474): container 1116.054×2002.27 at (670.5,-630.1),
-                svg oversized via insets -12.5%/-22.43% */}
+                svg oversized via insets -12.5%/-22.43%
+              Neo mobile (1:4672): container 505.519×329.738 at (-104.19,-119.24),
+                svg oversized via insets -52.71%/-34.38% */}
           {!right && (
             <div aria-hidden className="absolute left-[-366.94px] top-[-119.11px] hidden h-[750.623px] w-[932.512px] lg:block">
               <div className="absolute inset-[-33.35%_-26.84%]">
                 <Image src="/assets/neo/ellipse.svg" alt="" fill sizes="1433px" className="pointer-events-none" />
+              </div>
+            </div>
+          )}
+          {!right && (
+            <div aria-hidden className="absolute left-[-104.19px] top-[-119.24px] block h-[329.738px] w-[505.519px] max-lg:block lg:hidden">
+              <div className="absolute inset-[-52.71%_-34.38%]">
+                <Image src="/assets/neo/ellipse-mobile.svg" alt="" fill sizes="853px" className="pointer-events-none" />
               </div>
             </div>
           )}
@@ -109,43 +175,48 @@ export default function PromoCard({
               </div>
             </div>
           )}
-          {/* mobile glow stays as a blur approximation on both variants */}
-          <div
-            aria-hidden
-            className={`absolute h-[326px] w-[506px] rounded-full bg-[#e8ecf2] opacity-70 blur-[173px] ${
-              right ? "-right-40 -top-24 lg:hidden" : "-left-40 -bottom-24 lg:hidden"
-            }`}
-          />
+          {/* Talk mobile glow — #e8ecf2 blurred rect, 573.092×219.121 at
+              (-120.74, -51.56), blur 17.6 (Figma 1:4692) */}
+          {right && (
+            <div
+              aria-hidden
+              className="absolute left-[-120.74px] top-[-51.56px] block h-[219.121px] w-[573.092px] bg-[#e8ecf2] blur-[17.6px] lg:hidden"
+            />
+          )}
 
           <div
             className={`absolute inset-0 flex px-5 ${
               right
-                ? "items-end justify-end lg:items-center lg:justify-end"
-                : "items-end justify-center lg:items-center lg:justify-start"
+                ? /* Talk mobile (1:4693): content centered in the upper part;
+                     desktop stays right-aligned per 1:1484 */
+                  "items-start justify-center pt-[7px] lg:items-center lg:justify-end lg:pt-0"
+                : /* Neo mobile (1:4673): content sits in the upper part of the card */
+                  "items-start justify-center pt-[15px] lg:items-center lg:justify-start lg:pt-0"
             } ${right ? "lg:pl-15 lg:pr-[69.57px]" : "lg:pl-15 lg:pr-15"}`}
           >
             <div
-              className={`flex w-[316px] flex-col items-center gap-[14px] text-center lg:w-[414.434px] lg:items-start lg:gap-4 lg:text-left ${
-                right ? "lg:items-end lg:text-right" : "lg:-translate-y-[34.81px]"
+              className={`flex w-[312px] flex-col items-center gap-[14px] text-center lg:w-[414.434px] lg:gap-4 ${
+                right ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left lg:-translate-y-[34.81px]"
               }`}
             >
               {eyebrow && <Eyebrow label={eyebrow} />}
-              <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
+              <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
                 {title}
               </h2>
               <p className="text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-[22px]">{body}</p>
-              <Button variant="dark" arrow={icon === "phone" ? "none" : "white"}>
+              <Button variant="dark" arrow={icon === "phone" ? "none" : "white"} className="max-lg:px-3">
                 <span className="inline-flex items-center gap-2">
                   {cta}
                   {icon === "phone" && (
-                    /* Figma 1:1496: 23.8×24 icon container, glyph 18×17.85 after the label */
-                    <span className="inline-flex h-6 w-[23.8px] items-center justify-center" aria-hidden>
+                    /* desktop 1:1496: 23.8×24 container, glyph 18×17.85 ·
+                       mobile 1:4702: 16×16 container, glyph 11.94 */
+                    <span className="inline-flex h-4 w-4 items-center justify-center lg:h-6 lg:w-[23.8px]" aria-hidden>
                       <Image
                         src="/assets/nav/phone-white.svg"
                         alt=""
                         width={18}
                         height={18}
-                        className="h-[17.85px] w-[18px]"
+                        className="h-3 w-3 lg:h-[17.85px] lg:w-[18px]"
                       />
                     </span>
                   )}

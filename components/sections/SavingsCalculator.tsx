@@ -91,9 +91,10 @@ export default function SavingsCalculator() {
       {/* Figma 1:2382: the row is the full 1280px (736 chart + 32 gap + 512 controls)
           with no internal padding, offset 9px left of center (row x=71 in the 1440
           frame) — px-[10px] is mobile-only (Figma 1:4689) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-[10px] lg:w-[1280px] lg:max-w-full lg:flex-row lg:items-end lg:gap-8 lg:px-0 lg:pt-0 lg:-translate-x-[9px]">
-        {/* left: heading + chart */}
-        <div className="flex flex-col gap-[14px] lg:h-[610px] lg:gap-9 lg:pt-[14px] lg:shrink-0">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-[10px] lg:w-[1372px] lg:max-w-full lg:flex-row lg:items-end lg:gap-8 lg:px-0 lg:pt-0 lg:-translate-x-[9px]">
+        {/* left: heading + chart — flexes down to its max (780) so the right
+            column keeps its 560px width on narrower viewports */}
+        <div className="flex flex-col gap-[14px] lg:max-w-[780px] lg:min-w-0 lg:flex-1 lg:gap-9 lg:pt-[14px]">
           <div className="flex flex-col gap-3 lg:gap-3">
             <Eyebrow label="Savings calculator" dark />
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:text-[28px]">
@@ -105,32 +106,34 @@ export default function SavingsCalculator() {
             alt="Savings comparison chart between diesel and Euler vehicles"
             width={736}
             height={496}
-            className="hidden w-[736px] lg:block"
+            className="hidden h-auto w-full lg:block"
           />
         </div>
 
-        {/* right: vehicle selector + sliders — 42px gap between group and panel (Figma 1:2391) */}
-        <div className="flex flex-1 flex-col gap-[18px] lg:gap-[42px]">
+        {/* right: vehicle selector + sliders — fixed 560px width (Figma 1:2391 spec'd
+            512; widened per review, 48px gap between group and panel) */}
+        <div className="flex flex-1 flex-col gap-[18px] lg:w-[560px] lg:min-w-0 lg:flex-none lg:gap-[48px]">
           <div className="flex flex-col gap-[14px] lg:gap-5">
             <p className="text-[14px] font-medium leading-[1.15] tracking-[-0.4px] text-white lg:text-[20px]">
               Select Vehicle
             </p>
 
-            {/* mobile: snap scroller · desktop: 2×2 grid */}
-            <div className="snap-row -mx-[6px] gap-2 px-[6px] lg:grid lg:grid-cols-2 lg:gap-[18px] lg:overflow-visible">
+            {/* 2×2 vehicle grid at every breakpoint (two per row); mobile card
+               styling per Figma 1:4689 (56px cards, r6, 42px thumbs, 14px names) */}
+            <div className="grid grid-cols-2 gap-2 lg:gap-[24px]">
               {VEHICLES.map((v, i) => (
                 <button
                   key={v.name}
                   type="button"
                   onClick={() => setVehicle(i)}
                   aria-pressed={i === vehicle}
-                  className={`flex h-[70px] w-full items-center gap-[15px] rounded-2xl border border-brand/50 p-[6px] text-left transition-opacity lg:w-auto ${
+                  className={`flex h-[56px] w-full items-center gap-[15px] rounded-[6px] border border-brand/50 py-[6px] pl-[6px] pr-[10px] text-left transition-opacity lg:h-[70px] lg:rounded-2xl lg:p-[6px] ${
                     i === vehicle ? "bg-brand/20" : "bg-brand/10 opacity-60"
                   }`}
                 >
-                  {/* 58×58 white tile with a 42×42 sprite window at inset 8 (Figma 1:2397–98) */}
-                  <span className="relative h-[58px] w-[58px] shrink-0 bg-white max-lg:h-[42px] max-lg:w-[42px]">
-                    <span className="absolute inset-0 overflow-hidden rounded-[5.8px] lg:inset-2 lg:rounded-[8.008px]">
+                  {/* white tile: 42×42 mobile (r4, 30.4px window) · 58×58 desktop (r12, 42px window) */}
+                  <span className="relative h-[42px] w-[42px] shrink-0 rounded-[4px] bg-white lg:h-[58px] lg:w-[58px] lg:rounded-xl">
+                    <span className="absolute inset-[5.79px] overflow-hidden rounded-[5.799px] lg:inset-2 lg:rounded-[8.008px]">
                       <Image
                         src="/assets/calculator/vehicle.png"
                         alt=""
@@ -149,8 +152,8 @@ export default function SavingsCalculator() {
                       />
                     </span>
                   </span>
-                  <span className="flex flex-col gap-[6px] leading-[1.15]">
-                    <span className="whitespace-nowrap text-[14px] font-bold tracking-[-0.32px] text-white lg:text-[16px]">
+                  <span className="flex flex-col gap-[4px] leading-[1.15] lg:gap-[6px]">
+                    <span className="whitespace-nowrap text-[14px] font-bold tracking-[-0.28px] text-white lg:text-[16px] lg:tracking-[-0.32px]">
                       {v.name}
                     </span>
                     <span className="text-[12px] font-medium tracking-[-0.24px] text-white">
@@ -162,7 +165,7 @@ export default function SavingsCalculator() {
             </div>
           </div>
 
-          {/* sliders panel */}
+          {/* sliders panel — mobile p12/r8/gap12, desktop p24/r16/gap32 (Figma) */}
           <div className="flex flex-col gap-3 rounded-lg bg-deeper p-3 lg:gap-8 lg:rounded-2xl lg:p-6">
             <SliderBlock
               label="How many kilometres driven per day?"
@@ -193,6 +196,16 @@ export default function SavingsCalculator() {
               onChange={setYears}
             />
           </div>
+
+          {/* mobile bottom visual — Component 31 (Figma 1:5278), 373×251,
+              sits 24px below the controls per the mobile frame */}
+          <Image
+            src="/assets/calculator/chart-mobile.svg"
+            alt="Savings comparison illustration"
+            width={373}
+            height={251}
+            className="mt-6 w-full lg:hidden"
+          />
         </div>
       </div>
     </section>

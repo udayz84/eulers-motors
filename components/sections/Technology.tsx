@@ -104,20 +104,22 @@ export default function Technology() {
                   desc="Track vehicle locations, charge levels, driving behavior, and service due dates all on one screen."
                 />
                 <div className="mt-2 flex items-start gap-[4.8px] lg:absolute lg:left-[30px] lg:top-[253.29px] lg:mt-0">
-                  {/* App Store badge — Figma "Component 2" (126×42, r6, border #a6a6a6) */}
-                  <span className="flex h-[22.1px] w-[66.3px] items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:w-[126px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
+                  {/* App Store badge — Figma "Component 2" (r6, border #a6a6a6). Width is
+                      content-hugged: Manrope runs wider than Figma's SF Compact at 18.9px */}
+                  <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
                     <Image src="/assets/technology/apple.svg" alt="" width={11} height={13} aria-hidden className="h-[13px] w-[11px] lg:h-[25.2px] lg:w-[21px]" />
-                    <span className="flex flex-col text-white">
+                    <span className="flex flex-col whitespace-nowrap text-white">
                       <span className="text-[5px] leading-[1.2] lg:text-[9.45px] lg:leading-[9.45px]">Download on the</span>
                       <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">App Store</span>
                     </span>
                   </span>
-                  {/* Google Play badge — Figma "Component 3"; wordmark 77.7×15.75 (path90) */}
-                  <span className="flex h-[22.1px] w-[66.3px] items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:w-[126px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
+                  {/* Google Play badge — Figma "Component 3". The path90 wordmark is stored
+                      vertically flipped in Figma and rendered with -scale-y-100 */}
+                  <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
                     <Image src="/assets/technology/playstore.svg" alt="" width={12} height={13} aria-hidden className="h-[13px] w-[12px] lg:h-[25.2px] lg:w-[22.05px]" />
-                    <span className="flex flex-col gap-[1.7px] text-white lg:gap-[3.15px]">
+                    <span className="flex flex-col gap-[1.7px] whitespace-nowrap text-white lg:gap-[3.15px]">
                       <span className="text-[5.5px] uppercase leading-none lg:text-[10.5px]">GET IT ON</span>
-                      <Image src="/assets/technology/play-wordmark.svg" alt="Google Play" width={78} height={16} className="w-[20px] lg:w-[77.7px]" />
+                      <Image src="/assets/technology/play-wordmark.svg" alt="Google Play" width={78} height={16} className="-scale-y-100 w-[20px] lg:w-[77.7px]" />
                     </span>
                   </span>
                 </div>

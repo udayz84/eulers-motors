@@ -25,10 +25,12 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  { icon: "/assets/footer/icon-instagram.svg", label: "Instagram" },
-  { icon: "/assets/footer/icon-linkedin.svg", label: "LinkedIn" },
-  { icon: "/assets/footer/icon-youtube.svg", label: "YouTube" },
-  { icon: "/assets/footer/icon-x.svg", label: "X" },
+  /* the Figma sources for instagram/linkedin/youtube are stored flipped and
+     displayed with -rotate-180 -scale-x-100 (node 1:2235/37/39); X is upright */
+  { icon: "/assets/footer/icon-instagram.svg", label: "Instagram", flip: true },
+  { icon: "/assets/footer/icon-linkedin.svg", label: "LinkedIn", flip: true },
+  { icon: "/assets/footer/icon-youtube.svg", label: "YouTube", flip: true },
+  { icon: "/assets/footer/icon-x.svg", label: "X", flip: false },
 ];
 
 /**
@@ -39,7 +41,18 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-clip">
-      <Image src="/assets/footer/bg.png" alt="" fill sizes="100vw" className="object-cover object-top" priority={false} />
+      {/* background sized to just cover the screen edges — full width,
+          aspect-true, BOTTOM-anchored so the lower part of the picture shows
+          and any excess is cropped from the top by the footer's clip */}
+      <Image
+        src="/assets/footer/bg.png"
+        alt=""
+        width={1588}
+        height={991}
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-auto w-full"
+        priority={false}
+      />
       <div aria-hidden className="absolute inset-x-0 top-0 h-[48%] bg-white/90 blur-[168px]" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-[45%] bg-black/25 blur-[102px]" />
 
@@ -63,14 +76,22 @@ export default function Footer() {
                 aria-label={s.label}
                 className="flex size-[38px] items-center justify-center rounded-[6.653px] bg-surface py-[6.4px]"
               >
-                <Image src={s.icon} alt="" width={18} height={18} aria-hidden className="size-[18px]" />
+                <Image
+                  src={s.icon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  aria-hidden
+                  className={`size-[18px] ${s.flip ? "-rotate-180 -scale-x-100" : ""}`}
+                />
               </a>
             ))}
           </div>
         </div>
 
-        {/* link columns — desktop grid / mobile accordion */}
-        <div className="hidden justify-between lg:flex">
+        {/* link columns — desktop grid / mobile accordion.
+            Figma 1:2174: links start at y218.16, 42.93px below the header block. */}
+        <div className="hidden justify-between pt-[42.93px] lg:flex">
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title} className="flex flex-col gap-6">
               <h3 className="text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">{col.title}</h3>
@@ -121,8 +142,8 @@ export default function Footer() {
 
         {/* bottom bar */}
         <div className="mt-auto flex flex-col gap-1 pt-6 lg:flex-row lg:items-center lg:justify-between lg:pt-0">
-          <p className="whitespace-pre-line text-[12px] font-medium leading-[21px] text-white lg:text-[14px]">
-            © 2026 Euler Motors. All rights reserved.{"\n"}CIN U34100DL2018PTC000000.
+          <p className="text-[12px] font-medium leading-[21px] text-white lg:text-[14px]">
+            © 2026 Euler Motors. All rights reserved. CIN U34100DL2018PTC000000.
           </p>
           <div className="flex items-center gap-1">
             <span className="text-[12px] leading-[1.3] text-white">Carefully crafted by</span>

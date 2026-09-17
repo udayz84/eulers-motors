@@ -11,41 +11,48 @@ const BULLETS = [
 
 /**
  * Enterprise + Dealer cards (desktop 1:1908 · mobile 1:4965).
- * Desktop: 800px dark card + 460px light card side by side. Mobile: stacked.
+ * Desktop: 800px dark card + 460px light card, gap 20, pb 19 (no top pad).
  */
 export default function EnterpriseDealer() {
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
-      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pb-5">
-        {/* Enterprise card */}
+      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pt-0 lg:pb-[19px]">
+        {/* Enterprise card — 800×510 on #041231 (Figma 1:1909) */}
         <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-[800px] lg:rounded-2xl">
-          <Image
-            src="/assets/enterprise/ellipse.svg"
-            alt=""
-            width={604}
-            height={928}
-            aria-hidden
-            className="pointer-events-none absolute -right-[299px] -top-[395px] hidden w-[604px] -scale-y-90 rotate-[61.22deg] skew-x-[23.46deg] lg:block"
-          />
-          <Image
-            src="/assets/enterprise/ellipse2.svg"
-            aria-hidden
-            alt=""
-            width={228}
-            height={366}
-            className="pointer-events-none absolute -right-[136px] -top-[133px] hidden w-[228px] -scale-y-90 rotate-[61.22deg] skew-x-[23.46deg] lg:block"
-          />
+          {/* Ellipse 3427 — container 603.078×927.122 at (468.49, -395.37),
+              rotated 61.22° · scale-y .92 · skew-x 23.46° (Figma 1:1910) */}
+          <div aria-hidden className="absolute left-[468.49px] top-[-395.37px] hidden h-[927.122px] w-[603.078px] items-center justify-center lg:flex">
+            <div className="flex-none rotate-[61.22deg] scale-y-92 skew-x-[23.46deg]">
+              <div className="relative h-[526.727px] w-[582.672px]">
+                <div className="absolute inset-[-40.25%_-36.38%]">
+                  <Image src="/assets/enterprise/ellipse.svg" alt="" fill sizes="1007px" className="pointer-events-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* concentric rings svg — 840.105² at (524, -294.6), svg inset -2.18% (Figma 1:1911) */}
+          <div aria-hidden className="absolute left-[524px] top-[-294.6px] hidden h-[840.105px] w-[840.105px] lg:block">
+            <div className="absolute inset-[-2.18%]">
+              <Image src="/assets/enterprise/glow.svg" alt="" fill sizes="877px" className="pointer-events-none" />
+            </div>
+          </div>
+          {/* Ellipse 3426 — container 227.546×365.607 at (649.23, -133.41) (Figma 1:1950) */}
+          <div aria-hidden className="absolute left-[649.23px] top-[-133.41px] hidden h-[365.607px] w-[227.546px] items-center justify-center lg:flex">
+            <div className="flex-none rotate-[61.22deg] scale-y-92 skew-x-[23.46deg]">
+              <div className="relative h-[149.962px] w-[281.871px]">
+                <div className="absolute inset-[-141.37%_-75.21%]">
+                  <Image src="/assets/enterprise/ellipse2.svg" alt="" fill sizes="796px" className="pointer-events-none" />
+                </div>
+              </div>
+            </div>
+          </div>
           {/* mobile concentric rings */}
           <div aria-hidden className="absolute -right-16 -top-10 size-[380px] rounded-full border border-white/25 opacity-25 lg:hidden" />
           <div aria-hidden className="absolute -right-6 top-0 size-[290px] rounded-full border border-white/30 opacity-25 lg:hidden" />
-          {/* desktop concentric rings (Figma ellipses 62/64/65/66) */}
-          <div aria-hidden className="pointer-events-none absolute right-[60px] top-[110px] hidden size-[203px] rounded-full border-[0.98px] border-white/80 lg:block" />
-          <div aria-hidden className="pointer-events-none absolute right-0 top-[50px] hidden size-[322px] rounded-full border-[1.55px] border-white/60 lg:block" />
-          <div aria-hidden className="pointer-events-none absolute -right-[90px] top-[-10px] hidden size-[463px] rounded-full border-[2.24px] border-white/40 lg:block" />
-          <div aria-hidden className="pointer-events-none absolute -right-[190px] top-[-80px] hidden size-[599px] rounded-full border-[2.89px] border-white/20 lg:block" />
 
-          <div className="relative flex h-full flex-col justify-center gap-[26px] p-6 lg:w-[466px] lg:gap-0 lg:pl-10 lg:pr-0">
-            <div className="flex flex-col gap-4 lg:justify-between lg:gap-[24px]">
+          {/* content — (36, 43.27) 727×408, justify-between (Figma 1:1916) */}
+          <div className="flex flex-col justify-center gap-[26px] p-6 lg:absolute lg:left-[36px] lg:top-[43.27px] lg:h-[408px] lg:w-[727px] lg:justify-between lg:gap-0 lg:p-0">
+            <div className="flex flex-col gap-4 lg:gap-5">
               <Eyebrow label="Enterprise" dark />
               <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-1.04px] text-white lg:text-[52px]">
                 Need 50+ trucks?
@@ -55,13 +62,11 @@ export default function EnterpriseDealer() {
               </p>
             </div>
 
-            <div className="hidden lg:mt-6 lg:block">
+            {/* desktop: button + bullets, gap 24 (Figma 1:1924) */}
+            <div className="hidden lg:flex lg:flex-col lg:gap-6">
               <Button variant="white" arrow="ink" className="text-ink">
                 Talk to our team
               </Button>
-            </div>
-
-            <ul className="hidden flex-col gap-4 lg:mt-[24px] lg:flex lg:gap-4">
               <div className="flex gap-[26px]">
                 <div className="flex flex-col gap-4">
                   {BULLETS.slice(0, 2).map((b) => (
@@ -74,7 +79,7 @@ export default function EnterpriseDealer() {
                   ))}
                 </div>
               </div>
-            </ul>
+            </div>
 
             {/* mobile bullets + CTA inline */}
             <ul className="flex flex-col gap-1.5 lg:hidden">
@@ -92,7 +97,7 @@ export default function EnterpriseDealer() {
           </div>
         </div>
 
-        {/* Dealer card */}
+        {/* Dealer card — 460×510 on the light blue gradient (Figma 1:1951) */}
         <div
           className="relative h-[430px] w-full overflow-clip rounded-lg lg:h-[510px] lg:w-[460px] lg:rounded-2xl"
           style={{
@@ -100,16 +105,29 @@ export default function EnterpriseDealer() {
               "linear-gradient(175.65deg, rgba(194,211,241,0.8) 21.28%, rgba(91,148,214,0.8) 151.97%)",
           }}
         >
+          {/* mobile photo */}
           <Image
             src="/assets/enterprise/dealer-photo.png"
             alt="Euler dealership"
             width={467}
             height={467}
-            className="absolute bottom-0 left-1/2 w-[88%] -translate-x-1/2 object-cover lg:left-[19.5px] lg:h-auto lg:w-[467px] lg:translate-x-0"
+            className="absolute bottom-0 left-1/2 w-[88%] -translate-x-1/2 object-cover lg:hidden"
           />
-          <div className="absolute inset-x-5 top-10 flex flex-col gap-5">
+          {/* desktop photo — window 467×373 at (19.5, 200.27), img h 125.24% (Figma 1:1952) */}
+          <div aria-hidden className="absolute left-[19.5px] top-[200.27px] hidden h-[373px] w-[467px] overflow-hidden lg:block">
+            <Image
+              src="/assets/enterprise/dealer-photo.png"
+              alt="Euler dealership"
+              width={467}
+              height={467}
+              className="absolute left-0 top-0 h-[125.24%] w-full object-cover"
+            />
+          </div>
+
+          {/* content — (24, 40.27) w-412, gap 20 (Figma 1:1953) */}
+          <div className="absolute inset-x-5 top-10 flex flex-col gap-5 lg:inset-x-auto lg:left-[24px] lg:top-[40.27px] lg:w-[412px]">
             <Eyebrow label="38 cities open" />
-            <div className="flex flex-col gap-2.5 lg:gap-2.5">
+            <div className="flex flex-col gap-2.5">
               <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
                 Want to become a dealer?
               </h2>
@@ -121,7 +139,7 @@ export default function EnterpriseDealer() {
               <span className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-white/50 bg-surface/50 px-5 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] lg:h-[42px] lg:text-[14px]">
                 Download details
               </span>
-              <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] border border-white/50 bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]">
+              <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-solid border-white bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]">
                 Apply now
                 <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3.5 w-[18.9px]" />
               </span>
