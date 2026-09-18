@@ -16,11 +16,11 @@ const STORY_IMAGES = [
  */
 export default function CustomerReviews() {
   return (
-    <section className="bg-white" aria-label="Customer reviews">
+    <section className="bg-white overflow-hidden" aria-label="Customer reviews">
       {/* Figma 1:1669 anchors at x=80 — moved to 40px (lg:pl-10) to match the
           widened 1360px page grid; the heading stays anchored to the cards' left
           edge at every desktop width; the row bleeds off the right edge (carousel) */}
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[24px] px-5 pb-[18px] pt-10 lg:gap-[42px] lg:px-0 lg:pb-[62px] lg:pt-[62px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[62px]">
         <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-10 lg:text-left">
           <Eyebrow label="Customers" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
@@ -30,16 +30,20 @@ export default function CustomerReviews() {
             Watch real customers share their experience with Euler Motors.
           </p>
         </div>
+      </div>
 
-        {/* cards — mobile snap scroller; desktop row anchored at x=80, bleeding right
-            (the offset lives on a wrapper: padding on the snap scroller itself gets
-            consumed as initial scroll by the browser) */}
-        <div className="w-full lg:pl-10">
-          <div className="snap-row -mx-5 gap-[13px] px-5 lg:mx-0 lg:gap-6 lg:px-0">
-          {STORY_IMAGES.map((story, i) => (
+      {/* cards — mobile snap scroller; desktop row anchored at x=80, bleeding right
+          (the offset lives on a wrapper: padding on the snap scroller itself gets
+          consumed as initial scroll by the browser) */}
+      <div className="w-full pb-[18px] lg:pb-[62px]">
+        <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+          {/* Spacers for alignment */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
+        {STORY_IMAGES.map((story, i) => (
             <article
               key={i}
-              className="relative aspect-[300/400] h-[466.7px] w-[350px] overflow-clip rounded-[14.6px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
+              className="relative aspect-[300/400] h-[400px] w-[300px] overflow-clip rounded-[14.6px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
             >
               <Image src={story.base} alt="Customer story" fill sizes="400px" className="object-cover" />
               {story.overlay && (
@@ -108,9 +112,11 @@ export default function CustomerReviews() {
               </button>
             </article>
           ))}
+          {/* Spacers for right bleed padding */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
           </div>
         </div>
-      </div>
     </section>
   );
 }

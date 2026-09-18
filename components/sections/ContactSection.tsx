@@ -64,14 +64,14 @@ export default function ContactSection() {
                 <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">Book a test drive</h3>
                 <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
               </div>
-              <div className="flex gap-3">
-                <span className="flex flex-1 items-center justify-center rounded-[32px] bg-deep-card px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-white">
+              <div className="flex w-full gap-2">
+                <span className="flex flex-1 items-center justify-center rounded-[32px] bg-deep-card px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-white whitespace-nowrap">
                   Test drive
                 </span>
-                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px]">
+                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
                   Price Enquiry
                 </span>
-                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px]">
+                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
                   Fleet
                 </span>
               </div>
@@ -149,8 +149,8 @@ function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: s
   return (
     /* Figma fixes all three rows at ~301px wide (1:1988/1:1994/1:2000) */
     <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-5 lg:w-[301px] lg:gap-6">
-      <span className="flex size-[42px] shrink-0 items-center justify-center rounded-[5.9px] bg-white lg:size-[58px] lg:rounded-[8.12px]">
-        <Image src={icon} alt="" width={24} height={24} aria-hidden className="size-4 lg:size-6" />
+      <span className="flex size-[52px] shrink-0 items-center justify-center rounded-[7px] bg-deep-card lg:size-[58px] lg:rounded-[8.12px]">
+        <Image src={icon} alt="" width={28} height={28} aria-hidden className="size-7 brightness-0 invert lg:size-6" />
       </span>
       <span className="flex flex-col gap-[6px] leading-[1.15]">
         <span className="whitespace-nowrap text-[14px] font-bold tracking-[-0.32px] text-ink lg:text-[16px]">{title}</span>

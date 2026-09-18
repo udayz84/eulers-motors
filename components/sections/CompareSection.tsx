@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
@@ -54,6 +57,8 @@ const ICON_SIZE: Record<string, [number, number]> = {
  * Split Without/With Euler carousels over a navy→blue gradient.
  */
 export default function CompareSection() {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <section
       className="relative overflow-clip"
@@ -63,6 +68,16 @@ export default function CompareSection() {
       }}
       aria-label="Why Euler"
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(calc(-50% - 21px)); }
+        }
+        .animate-marquee {
+          animation: marquee 35s linear infinite;
+        }
+      `}} />
+      
       {/* ── mobile: composed Figma 1:4703 frame (393×612) — title block at
           y31.3 · flat visual render (1:4704) at y94 · Neo promo at y459 ── */}
       <div className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
@@ -74,28 +89,69 @@ export default function CompareSection() {
           </h2>
           <div className="snap-row -mx-[19.32px] w-auto justify-start gap-3 px-[19.32px]">
             {AUDIENCE.map((a, i) => (
-              <span
+              <button
                 key={a}
-                className={`flex h-[32px] shrink-0 items-center justify-center whitespace-nowrap rounded-[24.381px] px-[14px] font-display text-[12px] font-semibold leading-none ${
-                  i === 0
+                onClick={() => setActiveTab(i)}
+                className={`flex h-[32px] shrink-0 items-center justify-center whitespace-nowrap rounded-[24.381px] px-[14px] font-display text-[12px] font-semibold leading-none cursor-pointer transition-colors ${
+                  i === activeTab
                     ? "border-[0.641px] border-[rgba(18,18,18,0.5)] border-solid bg-white text-ink"
-                    : "border-[0.762px] border-solid border-white/10 bg-black text-white backdrop-blur-[7.619px]"
+                    : "border-[0.762px] border-solid border-white/10 bg-black text-white backdrop-blur-[7.619px] hover:bg-white/10"
                 }`}
               >
                 {a}
-              </span>
+              </button>
             ))}
           </div>
         </div>
 
-        {/* visual — exact render of the composed frame 1:4704 at (0, 94) */}
-        <Image
-          src="/assets/compare/mobile-top.png"
-          alt="Without Euler versus with Euler comparison"
-          width={393}
-          height={418}
-          className="absolute left-0 top-[94px] h-[417.845px] w-full object-cover"
-        />
+        {/* mobile functional carousels & labels (replacing mobile-top.png) */}
+        <div className="absolute left-0 top-[220px] h-[220px] w-full">
+          {/* Vertical divider */}
+          <div className="absolute left-1/2 top-[-40px] h-[220px] w-px -translate-x-1/2 bg-white/20" />
+
+          {/* Left Half: Without Euler cards */}
+          <div className="absolute left-0 top-0 h-[125px] w-1/2 overflow-hidden group">
+            <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
+              <div className="flex gap-[42px] animate-marquee group-active:[animation-play-state:paused]">
+                {WITHOUT_DESK.map((c, i) => (
+                  <DeskCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
+                ))}
+                {WITHOUT_DESK.map((c, i) => (
+                  <DeskCardView key={`w2m-${i}`} c={c} tone="black" chip="red" />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Half: With Euler cards */}
+          <div className="absolute left-1/2 top-0 h-[125px] w-1/2 overflow-hidden group">
+            <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
+              <div className="flex gap-[42px] animate-marquee group-active:[animation-play-state:paused]">
+                {WITH_DESK.map((c, i) => (
+                  <DeskCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
+                ))}
+                {WITH_DESK.map((c, i) => (
+                  <DeskCardView key={`w2m-${i}`} c={c} tone="glass" chip="green" />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Labels below cards */}
+          <p className="absolute top-[150px] left-0 w-1/2 text-center font-display text-[16px] font-semibold leading-[normal] tracking-[-0.32px] text-[#ccc]">
+            Without Euler
+          </p>
+          <div className="absolute top-[150px] left-1/2 flex w-1/2 items-center justify-center gap-2">
+            <p className="font-display text-[16px] font-semibold leading-[normal] tracking-[-0.32px] text-white">With</p>
+            <Image
+              src="/assets/compare/logo-small.svg"
+              alt="Euler"
+              width={60}
+              height={10}
+              className="h-[10px] w-[60px]"
+            />
+          </div>
+        </div>
 
         {/* Neo promo — (20, 459) 353×133, r8, p16, stacked centered (1:4771) */}
         <div className="absolute left-1/2 top-[459px] z-10 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-lg p-4">
@@ -161,18 +217,19 @@ export default function CompareSection() {
         </div>
         <div className="snap-row gap-3" role="tablist" aria-label="Audience">
           {AUDIENCE.map((a, i) => (
-            <span
+            <button
               key={a}
               role="tab"
-              aria-selected={i === 0}
-              className={`flex h-[42px] items-center justify-center whitespace-nowrap rounded-[32px] px-6 font-display text-[16px] font-semibold leading-none ${
-                i === 0
+              aria-selected={i === activeTab}
+              onClick={() => setActiveTab(i)}
+              className={`flex h-[42px] items-center justify-center whitespace-nowrap rounded-[32px] px-6 font-display text-[16px] font-semibold leading-none cursor-pointer transition-colors ${
+                i === activeTab
                   ? "border-[0.841px] border-[rgba(18,18,18,0.5)] border-solid bg-white text-ink"
-                  : "border border-white/10 bg-black text-white backdrop-blur-[10px]"
+                  : "border border-white/10 bg-black text-white backdrop-blur-[10px] hover:bg-white/10"
               }`}
             >
               {a}
-            </span>
+            </button>
           ))}
         </div>
       </div>
@@ -181,24 +238,34 @@ export default function CompareSection() {
             keep the Figma 1:1520/1:1552 look: static cropped rows, not a marquee.
             Left half "Without" (80% opacity), right half "With", split at the
             section's centre line like the design's 720/740 split. */}
-      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block">
-        <div className="absolute left-[-210.08px] top-0 flex h-[220px] gap-[42px]">
+      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
+        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee group-hover:[animation-play-state:paused]">
+          {/* First set of 8 cards */}
           {WITHOUT_DESK.map((c, i) => (
-            <DeskCardView key={i} c={c} tone="black" chip="red" />
+            <DeskCardView key={`w1-${i}`} c={c} tone="black" chip="red" />
+          ))}
+          {/* Duplicated set for infinite marquee */}
+          {WITHOUT_DESK.map((c, i) => (
+            <DeskCardView key={`w2-${i}`} c={c} tone="black" chip="red" />
           ))}
         </div>
       </div>
-      <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block">
-        <div className="absolute left-[-231.08px] top-0 flex h-[220px] gap-[42px]">
+      <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
+        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee group-hover:[animation-play-state:paused]">
+          {/* First set of 8 cards */}
           {WITH_DESK.map((c, i) => (
-            <DeskCardView key={i} c={c} tone="glass" chip="green" />
+            <DeskCardView key={`w1-${i}`} c={c} tone="glass" chip="green" />
+          ))}
+          {/* Duplicated set for infinite marquee */}
+          {WITH_DESK.map((c, i) => (
+            <DeskCardView key={`w2-${i}`} c={c} tone="glass" chip="green" />
           ))}
         </div>
       </div>
 
       {/* ── desktop: exact Figma frame 1:1498 (labels y277.38 · strips y371 ·
             divider y201.57 · promo y679 within the 1440×800 section) ───── */}
-      <div className="relative mx-auto hidden h-[585.43px] w-full max-w-[1440px] lg:block">
+      <div className="relative mx-auto hidden h-[585.43px] w-full max-w-[1440px] lg:block pointer-events-none">
         {/* labels (y277.38) */}
         <p className="absolute left-[279.47px] top-[62.81px] font-display text-[32px] font-semibold leading-[normal] tracking-[-0.64px] text-[#ccc]">
           Without Euler

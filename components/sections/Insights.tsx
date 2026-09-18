@@ -57,11 +57,13 @@ export default function Insights() {
           </div>
         </div>
 
-        <div className="snap-row -mx-5 gap-3 px-5 lg:mx-0 lg:gap-5 lg:px-0">
+        <div className="snap-row snap-center-mobile -mx-5 gap-[13px] lg:mx-0 lg:gap-5">
+          {/* Mobile alignment spacer */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
           {ARTICLES.map((a) => (
             <article
               key={a.title}
-              className="relative h-[320px] w-[324px] overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px]"
+              className="relative h-[320px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px]"
             >
               {a.crop ? (
                 <Image
@@ -94,7 +96,7 @@ export default function Insights() {
               </div>
 
               {/* info panel — bottom 16, w 382, bg-white/20, p16, r10, gap 12 */}
-              <div className="absolute inset-x-4 bottom-4 flex flex-col gap-3 rounded-[10px] bg-white/20 p-3 lg:gap-3 lg:p-4">
+              <div className="absolute inset-x-4 bottom-4 flex flex-col gap-3 rounded-[10px] bg-white/20 p-3 backdrop-blur-[10px] border border-white/20 lg:gap-3 lg:p-4">
                 <h3 className="text-[16px] font-semibold leading-normal tracking-[-0.4px] text-white lg:text-[20px]">
                   {a.title}
                 </h3>
@@ -102,6 +104,8 @@ export default function Insights() {
               </div>
             </article>
           ))}
+          {/* Mobile alignment spacer */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
         </div>
 
         {/* mobile-only CTA below the cards — centered (Figma 1:4956) */}

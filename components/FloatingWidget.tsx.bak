@@ -80,17 +80,17 @@ export default function FloatingWidget() {
           <button
             type="button"
             aria-label="Chat on WhatsApp"
-            className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[2px] shadow-sm"
+            className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[1.667px]"
           >
-            <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
+            <span className="relative block size-[46.667px] overflow-hidden rounded-[27.5px]">
               <Image
                 src="/assets/widget/whatsapp.png"
-                alt="WhatsApp"
-                width={46}
-                height={46}
-                className="h-full w-full scale-[1.24] object-cover"
+                alt=""
+                width={96}
+                height={96}
+                className="absolute left-[-11.81%] top-[-11.81%] size-[123.61%] object-cover"
               />
-            </div>
+            </span>
           </button>
         </aside>
       </div>

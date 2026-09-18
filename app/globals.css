@@ -79,6 +79,23 @@ button {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
+.snap-row.snap-center-mobile > :not([aria-hidden]) {
+  scroll-snap-align: center;
+}
+@media (min-width: 1024px) {
+  .snap-row.snap-center-mobile > :not([aria-hidden]) {
+    scroll-snap-align: start;
+  }
+}
+
+/* Scrollable but scrollbar-less (mobile overflow rows, e.g. vehicle tabs) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
 @keyframes fadeIn {
   from {
@@ -95,3 +112,14 @@ button {
   animation: fadeIn 0.25s ease-out forwards;
 }
 
+
+@media (min-width: 1024px) {
+  .carousel-pad-reviews {
+    padding-left: calc(max(0px, (100vw - 1440px) / 2) + 40px);
+    padding-right: calc(max(0px, (100vw - 1440px) / 2) + 40px);
+  }
+  .carousel-pad-social {
+    padding-left: calc(max(0px, (100vw - 1440px) / 2) + 24px);
+    padding-right: calc(max(0px, (100vw - 1440px) / 2) + 24px);
+  }
+}

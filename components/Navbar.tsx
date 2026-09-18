@@ -99,11 +99,11 @@ export default function Navbar() {
 
       <div ref={navRef}>
         <nav
-          className="flex items-center justify-between border-b border-white/30 bg-black/40 px-5 lg:pl-10 lg:pr-3 backdrop-blur-[15px]"
+          className="relative flex items-center justify-between border-b border-white/30 bg-black/40 pl-5 pr-0 lg:pl-10 lg:pr-3 backdrop-blur-[15px]"
           aria-label="Main navigation"
         >
-          {/* mobile: hamburger + logo */}
-          <div className="flex items-center gap-3 py-[13px] lg:hidden">
+          {/* mobile: hamburger */}
+          <div className="flex items-center py-[13px] lg:hidden">
             <button
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -116,7 +116,11 @@ export default function Navbar() {
               <span className="block h-[2px] w-full bg-white" />
               <span className="block h-[2px] w-full bg-white" />
             </button>
-            <Link href="/" aria-label="Euler Motors home" className="flex items-center">
+          </div>
+
+          {/* mobile: logo (flex-centered in available space to avoid collision) */}
+          <div className="flex flex-1 items-center justify-center pr-2 lg:hidden">
+            <Link href="/" aria-label="Euler Motors home">
               <Image
                 src="/assets/nav/logo-white.svg"
                 alt="Euler Motors"
@@ -227,7 +231,7 @@ export default function Navbar() {
             </form>
             <Link
               href="#book-test-drive"
-              className="flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] bg-white px-3 lg:gap-2 lg:px-8"
+              className="flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none bg-white px-3 lg:gap-2 lg:px-8"
             >
               <span className="font-display text-[12px] font-semibold leading-none text-ink lg:text-[16px]">
                 Book a Test Drive

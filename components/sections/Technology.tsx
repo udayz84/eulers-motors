@@ -59,7 +59,7 @@ export default function Technology() {
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] md:h-[360px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
                 {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
                 <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
-                <Image src="/assets/technology/card-safety-mobile.png" alt="" fill sizes="393px" className="object-cover lg:hidden" />
+                <Image src="/assets/technology/card-safety-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] translate-x-[5%] translate-y-[10%] lg:hidden" />
                 {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
                 <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
                 {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
@@ -84,7 +84,7 @@ export default function Technology() {
 
             {/* row 2 */}
             <div className="flex flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[290px] md:h-[330px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] md:h-[330px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
                 {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
                 <Image
                   src="/assets/technology/app-photo.png"
@@ -93,7 +93,7 @@ export default function Technology() {
                   height={442}
                   className="pointer-events-none absolute left-0 top-[0.36px] h-[442px] w-[671px] object-cover max-lg:hidden"
                 />
-                <Image src="/assets/technology/card-app-mobile.png" alt="" fill sizes="393px" className="object-cover lg:hidden" />
+                <Image src="/assets/technology/card-app-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.15] lg:hidden" />
                 {/* mobile phone mockup — Figma 1:4799 overlay: 51.41% wide at
                     (55.15%, 6.34%), bleeding past the card bottom */}
                 <Image
@@ -145,8 +145,8 @@ export default function Technology() {
                 </div>
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[290px] md:h-[330px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
-                <Image src="/assets/technology/card-perf.png" alt="" fill sizes="(max-width:1024px) 393px, 589px" className="object-cover object-bottom max-lg:hidden" />
-                <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover lg:hidden" />
+                <Image src="/assets/technology/card-perf.png" alt="" fill sizes="(max-width:1024px) 393px, 589px" className="object-cover object-top max-lg:hidden" />
+                <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
                 <CardHeading
                   className="lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
                   num="04 / Performance"
