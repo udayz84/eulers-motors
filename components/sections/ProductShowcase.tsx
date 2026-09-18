@@ -118,11 +118,21 @@ export default function ProductShowcase() {
         aria-hidden
         className="absolute left-[calc(50%_-_25px)] top-[-170.73px] hidden h-[432px] w-[2160px] -translate-x-1/2 bg-surface blur-[86.6px] lg:block"
       />
-      {/* mobile background (Figma 1:4605): environment render + white 50% wash —
-          the truck-carrying top render removed per review */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none lg:hidden">
-        <Image src="/assets/products/mobile-bg-1.png" alt="" fill sizes="100vw" className="object-cover object-bottom" />
-        <div className="absolute inset-0 bg-white/50" />
+      {/* mobile background — main-bg.png recomposed as a right-sized asset
+          (main-bg-mobile.png, 790×1724 = 395×862 @2x): the baked truck fully
+          visible and centered over a softly blurred scene fill; @50% opacity
+          per the Figma wash (1:1318) */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-0 h-[862px] w-[395px] -translate-x-1/2 pointer-events-none overflow-hidden lg:hidden"
+      >
+        <Image
+          src="/assets/products/main-bg-mobile.png"
+          alt=""
+          fill
+          sizes="395px"
+          className="object-cover opacity-50"
+        />
       </div>
       {/* mobile blurred band (Figma 1:4607): 1874.7×374.9 at (50%+19.5, -73.34) */}
       <div
@@ -161,9 +171,8 @@ export default function ProductShowcase() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(index)}
-                  className={`group flex h-[73.215px] shrink-0 cursor-pointer flex-col items-center justify-between transition-all duration-200 lg:h-auto lg:justify-start lg:gap-2 ${
-                    isActive ? "opacity-100" : "opacity-40 hover:opacity-85"
-                  }`}
+                  className={`group flex h-[73.215px] shrink-0 cursor-pointer flex-col items-center justify-between transition-all duration-200 lg:h-auto lg:justify-start lg:gap-2 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-85"
+                    }`}
                 >
                   <span className="relative flex h-[52px] w-[54.986px] items-center justify-center overflow-hidden rounded-[9.621px] bg-transparent transition-transform group-hover:scale-105 sm:h-[64px] sm:w-[72px] lg:h-[80px] lg:w-[94px] lg:rounded-[12px]">
                     <span
@@ -193,15 +202,27 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        {/* Stage — the scene renders behind provide the vehicle; the arrows
-            cycle the selection on both sides */}
+        {/* Stage — desktop: truck cutout + arrows · mobile: static per the
+            Figma (1:4605) — no product image, no arrows, just the background */}
         <div className="relative flex h-[242px] w-full items-center justify-center lg:my-6 lg:h-auto lg:min-h-[600px]">
-          {/* Left Arrow */}
+          <div className="relative hidden h-[550px] w-[680px] items-center justify-center lg:flex">
+            <Image
+              key={current.id}
+              src={current.image}
+              alt={current.altText}
+              fill
+              sizes="680px"
+              priority
+              className="animate-fadeIn object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+            />
+          </div>
+
+          {/* Left Arrow — desktop only */}
           <button
             type="button"
             onClick={handlePrev}
             aria-label="Previous vehicle"
-            className="absolute left-1 z-20 flex h-11 w-11 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 sm:left-3 lg:left-6 lg:h-14 lg:w-14"
+            className="absolute left-6 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -216,12 +237,12 @@ export default function ProductShowcase() {
             </svg>
           </button>
 
-          {/* Right Arrow */}
+          {/* Right Arrow — desktop only */}
           <button
             type="button"
             onClick={handleNext}
             aria-label="Next vehicle"
-            className="absolute right-1 z-20 flex h-11 w-11 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 sm:right-3 lg:right-6 lg:h-14 lg:w-14"
+            className="absolute right-6 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
