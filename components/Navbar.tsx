@@ -99,7 +99,7 @@ export default function Navbar() {
 
       <div ref={navRef}>
         <nav
-          className="flex items-center justify-between border-b border-white/30 bg-black/40 px-5 lg:pl-20 lg:pr-3 backdrop-blur-[15px]"
+          className="flex items-center justify-between border-b border-white/30 bg-black/40 px-5 lg:pl-10 lg:pr-3 backdrop-blur-[15px]"
           aria-label="Main navigation"
         >
           {/* mobile: hamburger + logo */}

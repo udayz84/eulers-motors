@@ -17,8 +17,11 @@ const STORY_IMAGES = [
 export default function CustomerReviews() {
   return (
     <section className="bg-white" aria-label="Customer reviews">
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[24px] px-5 pb-[18px] pt-10 lg:w-[1280px] lg:gap-[42px] lg:px-0 lg:pb-[62px] lg:pt-[62px]">
-        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
+      {/* Figma 1:1669 anchors at x=80 — moved to 40px (lg:pl-10) to match the
+          widened 1360px page grid; the heading stays anchored to the cards' left
+          edge at every desktop width; the row bleeds off the right edge (carousel) */}
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[24px] px-5 pb-[18px] pt-10 lg:gap-[42px] lg:px-0 lg:pb-[62px] lg:pt-[62px]">
+        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-10 lg:text-left">
           <Eyebrow label="Customers" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             Customer reviews
@@ -28,8 +31,11 @@ export default function CustomerReviews() {
           </p>
         </div>
 
-        {/* cards — mobile snap scroller, desktop 5-up row */}
-        <div className="snap-row -mx-5 gap-[13px] px-5 lg:mx-0 lg:gap-6 lg:px-0">
+        {/* cards — mobile snap scroller; desktop row anchored at x=80, bleeding right
+            (the offset lives on a wrapper: padding on the snap scroller itself gets
+            consumed as initial scroll by the browser) */}
+        <div className="w-full lg:pl-10">
+          <div className="snap-row -mx-5 gap-[13px] px-5 lg:mx-0 lg:gap-6 lg:px-0">
           {STORY_IMAGES.map((story, i) => (
             <article
               key={i}
@@ -102,6 +108,7 @@ export default function CustomerReviews() {
               </button>
             </article>
           ))}
+          </div>
         </div>
       </div>
     </section>

@@ -56,7 +56,7 @@ export default function Footer() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-[48%] bg-white/90 blur-[168px]" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-[45%] bg-black/25 blur-[102px]" />
 
-      <div className="relative mx-auto flex min-h-[824px] max-w-[1440px] flex-col gap-8 px-5 pb-9 pt-10 lg:w-[1280px] lg:min-h-[927px] lg:gap-0 lg:px-0 lg:pb-[38px] lg:pt-[39px]">
+      <div className="relative mx-auto flex min-h-[824px] max-w-[1440px] flex-col gap-8 px-5 pb-9 pt-10 lg:w-[1360px] lg:min-h-[927px] lg:gap-0 lg:px-0 lg:pb-[38px] lg:pt-[39px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-[38px]">

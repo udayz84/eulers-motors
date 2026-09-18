@@ -15,8 +15,11 @@ const POSTS = [
 export default function SocialWall() {
   return (
     <section className="bg-white" aria-label="From the road">
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 px-5 pb-5 pt-10 lg:w-[1280px] lg:gap-[42px] lg:px-0 lg:pb-5 lg:pt-[60px]">
-        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
+      {/* Figma 1:2008 anchors at x=80 — expanded left-side only to 24px
+          (lg:pl-6) per review; the heading stays anchored to the cards' left
+          edge at every desktop width; the row bleeds off the right edge (carousel) */}
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 px-5 pb-5 pt-10 lg:gap-[42px] lg:px-0 lg:pb-5 lg:pt-[60px]">
+        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-6 lg:text-left">
           <Eyebrow label="From the road" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             See the trucks in action.
@@ -26,7 +29,10 @@ export default function SocialWall() {
           </p>
         </div>
 
-        <div className="snap-row -mx-5 gap-[12px] px-5 lg:mx-0 lg:gap-[30.663px] lg:overflow-clip lg:px-0">
+        {/* desktop row anchored at x=80, bleeding right — offset on a wrapper so
+            the snap scroller doesn't consume it as initial scroll */}
+        <div className="w-full lg:pl-6">
+          <div className="snap-row -mx-5 gap-[12px] px-5 lg:mx-0 lg:gap-[30.663px] lg:px-0">
           {POSTS.map((post, i) => {
             const last = i === POSTS.length - 1;
             return (
@@ -99,6 +105,7 @@ export default function SocialWall() {
               </article>
             );
           })}
+          </div>
         </div>
       </div>
     </section>

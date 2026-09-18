@@ -152,7 +152,7 @@ export default function CompareSection() {
       </div>
 
       {/* header — desktop only; the mobile frame 1:4703 has its own title block */}
-      <div className="relative mx-auto hidden w-full max-w-[1280px] flex-col items-center gap-[24px] px-5 pt-[62px] lg:flex">
+      <div className="relative mx-auto hidden w-full max-w-[1360px] flex-col items-center gap-[24px] px-5 pt-[62px] lg:flex">
         <div className="flex flex-col items-center gap-4">
           <Eyebrow label="Why Euler" dark />
           <h2 className="text-center font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px] text-white">

@@ -9,20 +9,21 @@ type EyebrowProps = {
 
 /**
  * Recurring Figma badge: cap mark + label with the slanted sweep behind the
- * label's start (Figma: cap x=0 · sweep x=3.43 · text x=24.8, overlapping).
- * Desktop: sweep 148.8×20.35 / label 14px; Mobile: 117×16 / label 12px.
+ * label's start (Figma: cap x=0 · sweep x=3.43, overlapping).
+ * Desktop: sweep 148.8×20.35 / label 14px / gap 6 / tracking 0.7;
+ * Mobile: sweep 117×16 / label 12px / gap 4 / tracking 0.6.
  */
 export default function Eyebrow({ label, dark = false, className = "" }: EyebrowProps) {
   const line = dark ? "/assets/products/badge-line-white.svg" : "/assets/products/badge-line.svg";
   const cap = dark ? "/assets/products/badge-cap-white.svg" : "/assets/products/badge-cap.svg";
   return (
-    <span className={`relative inline-flex items-center gap-[6px] ${className}`}>
+    <span className={`relative inline-flex items-center gap-[4px] lg:gap-[6px] ${className}`}>
       <Image
         src={line}
         alt=""
         width={117}
         height={16}
-        className="absolute left-[2.7px] top-0 h-4 w-[117px] lg:left-[3.43px] lg:h-[20.355px] lg:w-[148.821px]"
+        className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]"
         aria-hidden
       />
       <Image
@@ -34,7 +35,7 @@ export default function Eyebrow({ label, dark = false, className = "" }: Eyebrow
         aria-hidden
       />
       <span
-        className={`relative uppercase font-bold text-[12px] leading-none tracking-[0.7px] lg:text-[14px] ${
+        className={`relative uppercase font-bold text-[12px] leading-none tracking-[0.6px] lg:text-[14px] lg:tracking-[0.7px] ${
           dark ? "text-white" : "text-navy"
         }`}
       >

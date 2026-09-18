@@ -31,21 +31,30 @@ const ARTICLES = [
 /**
  * "Learn more about EVs" (desktop 1:1853 · mobile 1:4924).
  * Article cards with white date chip and glass info panel.
+ * Desktop: CTA on one line with the heading (1:1862) · mobile: single CTA
+ * below the cards, centered (1:4956).
  */
 export default function Insights() {
   return (
     <section className="bg-white" aria-label="Insights">
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-8 pt-10 lg:gap-8 lg:px-0 lg:pb-14 lg:pt-[42px]">
-        <div className="flex items-end justify-between gap-4">
-          <div className="flex flex-col gap-4">
+      {/* Figma 1:1853: content spans 80→1360 inside the 1440 frame (1280px) */}
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:gap-8 lg:px-0 lg:pb-14">
+        {/* header — centered on mobile (Figma 1:4925), left on desktop; title
+            stays on one line (1:1862) */}
+        <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
             <Eyebrow label="insights" />
-            <h2 className="text-center font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-left lg:text-[52px]">
+            <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
               Learn more about EVs
             </h2>
           </div>
-          <Button variant="dark" arrow="white" className="hidden lg:inline-flex">
-            All articles
-          </Button>
+          {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
+              `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
+          <div className="hidden lg:block">
+            <Button variant="dark" arrow="white">
+              All articles
+            </Button>
+          </div>
         </div>
 
         <div className="snap-row -mx-5 gap-3 px-5 lg:mx-0 lg:gap-5 lg:px-0">
@@ -94,6 +103,11 @@ export default function Insights() {
             </article>
           ))}
         </div>
+
+        {/* mobile-only CTA below the cards — centered (Figma 1:4956) */}
+        <Button variant="dark" arrow="white" className="self-center lg:hidden">
+          All Articles
+        </Button>
       </div>
     </section>
   );

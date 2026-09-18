@@ -16,9 +16,12 @@ const BULLETS = [
 export default function EnterpriseDealer() {
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
-      <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pt-0 lg:pb-[19px]">
+      {/* Figma 1:1908 grid: 800 + 20 gap + 460 = 1280px — widened a bit to the
+          1360px container; the pair keeps its Figma ratio via flex-[800]/flex-[460]
+          so both cards grow with the page grid */}
+      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pt-0 lg:pb-[19px]">
         {/* Enterprise card — 800×510 on #041231 (Figma 1:1909) */}
-        <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-[800px] lg:rounded-2xl">
+        <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-auto lg:flex-[800] lg:rounded-2xl">
           {/* Ellipse 3427 — container 603.078×927.122 at (468.49, -395.37),
               rotated 61.22° · scale-y .92 · skew-x 23.46° (Figma 1:1910) */}
           <div aria-hidden className="absolute left-[468.49px] top-[-395.37px] hidden h-[927.122px] w-[603.078px] items-center justify-center lg:flex">
@@ -97,24 +100,21 @@ export default function EnterpriseDealer() {
           </div>
         </div>
 
-        {/* Dealer card — 460×510 on the light blue gradient (Figma 1:1951) */}
-        <div
-          className="relative h-[430px] w-full overflow-clip rounded-lg lg:h-[510px] lg:w-[460px] lg:rounded-2xl"
-          style={{
-            backgroundImage:
-              "linear-gradient(175.65deg, rgba(194,211,241,0.8) 21.28%, rgba(91,148,214,0.8) 151.97%)",
-          }}
-        >
-          {/* mobile photo */}
-          <Image
-            src="/assets/enterprise/dealer-photo.png"
-            alt="Euler dealership"
-            width={467}
-            height={467}
-            className="absolute bottom-0 left-1/2 w-[88%] -translate-x-1/2 object-cover lg:hidden"
-          />
-          {/* desktop photo — window 467×373 at (19.5, 200.27), img h 125.24% (Figma 1:1952) */}
-          <div aria-hidden className="absolute left-[19.5px] top-[200.27px] hidden h-[373px] w-[467px] overflow-hidden lg:block">
+        {/* Dealer card — desktop 460×510 (Figma 1:1951) · mobile 353×430 (Figma 1:5005) */}
+        <div className="relative h-[430px] w-full overflow-clip rounded-lg bg-[linear-gradient(175.22deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)] lg:h-[510px] lg:w-auto lg:flex-[460] lg:rounded-2xl lg:bg-[linear-gradient(175.65deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
+          {/* mobile photo — window 312×249 at (50, 221.67), img h 125.24% (Figma 1:5006) */}
+          <div className="absolute left-[50px] top-[221.67px] h-[249px] w-[312px] overflow-hidden lg:hidden">
+            <Image
+              src="/assets/enterprise/dealer-photo.png"
+              alt="Euler dealership"
+              width={467}
+              height={467}
+              className="absolute left-0 top-0 h-[125.24%] w-full object-cover"
+            />
+          </div>
+          {/* desktop photo — Figma 1:1952 window 467×373 at (19.5, 200.27) of the
+              460px card, as % (4.24% / 101.52%) so it scales with the wider card */}
+          <div aria-hidden className="absolute left-[4.24%] top-[200.27px] hidden h-[373px] w-[101.52%] overflow-hidden lg:block">
             <Image
               src="/assets/enterprise/dealer-photo.png"
               alt="Euler dealership"
@@ -124,24 +124,24 @@ export default function EnterpriseDealer() {
             />
           </div>
 
-          {/* content — (24, 40.27) w-412, gap 20 (Figma 1:1953) */}
-          <div className="absolute inset-x-5 top-10 flex flex-col gap-5 lg:inset-x-auto lg:left-[24px] lg:top-[40.27px] lg:w-[412px]">
+          {/* content — mobile (20, 19.67) w-313, gaps 12/16/12 (Figma 1:5007) ·
+              desktop (24, 40.27) w-412, gaps 12/10/20 (Figma 1:1953) */}
+          <div className="absolute inset-x-5 top-[19.67px] flex flex-col lg:inset-x-auto lg:left-[24px] lg:top-[40.27px] lg:w-[412px]">
             <Eyebrow label="38 cities open" />
-            <div className="flex flex-col gap-2.5">
-              <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
-                Want to become a dealer?
-              </h2>
-              <p className="max-w-[248px] text-[12px] leading-snug text-ink lg:max-w-none lg:text-[16px] lg:leading-normal">
-                Your area, with clear numbers. We manage showroom setup and training.
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <span className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-white/50 bg-surface/50 px-5 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] lg:h-[42px] lg:text-[14px]">
+            <h2 className="mt-3 w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink lg:w-full">
+              Want to become a dealer?
+            </h2>
+            <p className="mt-4 w-[248px] text-[12px] leading-4 text-ink lg:mt-2.5 lg:w-full lg:text-[16px] lg:leading-[21.33px]">
+              Your area, with clear numbers.<br />
+              We manage showroom setup and training.
+            </p>
+            <div className="mt-3 flex gap-3 lg:mt-5">
+              <span className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-ink/50 bg-surface px-5 font-display text-[12px] font-semibold leading-none text-ink lg:h-[42px] lg:border-white/50 lg:bg-surface/50 lg:px-6 lg:text-[14px] lg:backdrop-blur-[10px]">
                 Download details
               </span>
-              <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-solid border-white bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]">
+              <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6 lg:text-[14px]">
                 Apply now
-                <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3.5 w-[18.9px]" />
+                <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3 w-[18.857px] lg:h-3.5 lg:w-[22px]" />
               </span>
             </div>
           </div>

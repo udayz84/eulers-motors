@@ -10,7 +10,7 @@ const HERO_SLIDES = [
     headline: "Euler Storm EV T1500 with 200km Range — Built for Heavy Commercial Hauling",
   },
   {
-    headline: "Euler Turbo EV 1000 with 180km RealRange™ — Make One More Delivery Every Day!",
+    headline: "Euler Turbo EV 1000 की 180km की RealRange™ हो तो करो 1 डिलीवरी और!",
   },
   {
     headline: "Euler Storm EV LongRange 200 — Maximize Your Daily Fleet Earnings",
@@ -83,14 +83,34 @@ export default function Hero() {
         />
       </button>
 
-      {/* headline block — Figma bottom 60.52 (desktop) / 24 (mobile) */}
-      <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-6 px-5 lg:bottom-[60.52px] lg:gap-6">
-        <h1 className="max-w-[788.543px] text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px] transition-opacity duration-300">
+      {/* headline block — Figma 1:4526 (mobile): bottom 24, container w 353, items-start,
+          gap 12 · Figma 1:1297 (desktop): bottom 60.52, centered, gap 24 */}
+      <div className="absolute inset-x-0 bottom-6 flex flex-col items-start gap-3 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-6">
+        <h1 className="max-w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:max-w-[788.543px] lg:text-center lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px] transition-opacity duration-300">
           {HERO_SLIDES[active].headline}
         </h1>
-        <Button variant="dark" arrow="white" className="rounded-[4.571px] px-[22.822px] lg:rounded-[4px] lg:px-6">
+        <Button
+          variant="dark"
+          arrow="white"
+          className="h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
+        >
           Explore our Vehicles
         </Button>
+
+        {/* mobile dots — in-flow under the CTA, left-aligned (Figma 1:4537) */}
+        <div className="flex items-center gap-[7px] p-2.5 lg:hidden" role="tablist" aria-label="Hero slides">
+          {Array.from({ length: SLIDES }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-selected={i === active}
+              aria-label={`Slide ${i + 1}`}
+              onClick={() => setActive(i)}
+              className={`h-1.5 w-1.5 rounded-[1px] ${i === active ? "bg-white" : "bg-white/20"}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* carousel dots */}
@@ -109,22 +129,6 @@ export default function Hero() {
           ))}
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 flex justify-center pb-2.5 lg:hidden" role="tablist" aria-label="Hero slides">
-        <div className="flex items-center gap-[7px]">
-          {Array.from({ length: SLIDES }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              role="tab"
-              aria-selected={i === active}
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => setActive(i)}
-              className={`h-1.5 w-1.5 rounded-[1px] ${i === active ? "bg-white" : "bg-white/20"}`}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
       <FloatingWidget />
     </section>

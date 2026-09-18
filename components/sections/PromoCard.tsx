@@ -65,11 +65,13 @@ export default function PromoCard({
     : undefined;
   return (
     <section className="bg-white" aria-label={title}>
-      {/* section padding per Figma: Neo 1:1442 px80/py48 · Talk 1:1472 px60/py58.
-          Both cards widened to 1500px per review. */}
+      {/* Figma grids — Neo 1:1442: card spans 80→1360 (1280px), widened to 40px
+          side insets (1360px) per review · Talk 1:1472/1:1473: card spans
+          113.33→1379.33 in Figma, widened to ml 80 / mr 40 (1320px), keeping its
+          right-shifted asymmetry. */}
       <div
-        className={`mx-auto w-full px-5 py-10 lg:px-0 ${
-          pad === "80" ? "max-w-[1500px] lg:py-12" : "max-w-[1500px] lg:py-[58px]"
+        className={`mx-auto w-full max-w-[1440px] px-5 py-10 lg:px-0 ${
+          pad === "80" ? "lg:py-12" : "lg:py-[58px]"
         }`}
       >
         <div
@@ -83,7 +85,7 @@ export default function PromoCard({
                   : cardH === "500"
                     ? "lg:h-[500px]"
                     : "lg:h-[413px]"
-          } ${washCls}`}
+          } ${washCls} ${pad === "80" ? "lg:mx-10 lg:w-auto" : "lg:ml-20 lg:mr-10 lg:w-auto"}`}
         >
           {crop && (
             /* desktop: exact Figma placement — the photo fills an oversized,

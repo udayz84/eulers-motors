@@ -15,9 +15,9 @@ const CONTACTS = [
 export default function ContactSection() {
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
-      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-0 lg:pb-[42px] lg:pt-16">
+      <div className="relative mx-auto flex w-full max-w-[1360px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-0 lg:pb-[42px] lg:pt-16">
         {/* left column — heading top · contacts bottom of the 683px column (Figma 1:1975) */}
-        <div className="relative flex flex-col gap-5 lg:h-[683.477px] lg:justify-between lg:gap-0">
+        <div className="relative flex flex-col gap-6 lg:h-[683.477px] lg:justify-between lg:gap-0">
           {/* photo wash — 630.733×441 at (-8, 139.55),
               four white fades (right/left/top/bottom) per Figma 1:1976.
               Blur removed per review — the truck renders sharp. */}
@@ -54,15 +54,49 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* contact cards — relative keeps them above the absolute photo wash;
-              items-start stops the lone right card stretching to the left column's height */}
-          <div className="relative flex flex-col gap-2.5 lg:flex-row lg:items-start lg:gap-2.5">
-            <div className="flex flex-col gap-2.5 lg:gap-2.5">
-              {CONTACTS.slice(0, 2).map((c) => (
-                <ContactCard key={c.title} {...c} />
-              ))}
+          {/* mobile (Figma 1:5028/1:5037): the form card sits above the contact rows;
+              lg:contents dissolves the group on desktop so the 683px column keeps
+              heading · contacts unchanged */}
+          <div className="flex flex-col gap-2.5 lg:contents">
+            {/* form card — mobile variant (Figma 1:5038) */}
+            <div className="flex w-full flex-col gap-3 rounded-[10px] bg-surface p-4 lg:hidden">
+              <div className="flex flex-col gap-1.5">
+                <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">Book a test drive</h3>
+                <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
+              </div>
+              <div className="flex gap-3">
+                <span className="flex flex-1 items-center justify-center rounded-[32px] bg-deep-card px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-white">
+                  Test drive
+                </span>
+                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px]">
+                  Price Enquiry
+                </span>
+                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-6 py-[10px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px]">
+                  Fleet
+                </span>
+              </div>
+              <div className="flex gap-1.5">
+                <Field label="Name *" placeholder="Full name" mobile />
+                <Field label="Mobile number *" placeholder="10 digit" mobile />
+              </div>
+              <Button variant="dark" arrow="white" className="w-full">
+                Continue
+              </Button>
+              <p className="text-center text-[12px] font-medium text-ink">
+                We never share your number with anyone else. No spam calls.
+              </p>
             </div>
-            <ContactCard {...CONTACTS[2]} />
+
+            {/* contact cards — relative keeps them above the absolute photo wash;
+                items-start stops the lone right card stretching to the left column's height */}
+            <div className="relative flex flex-col gap-2.5 lg:flex-row lg:items-start lg:gap-2.5">
+              <div className="flex flex-col gap-2.5 lg:gap-2.5">
+                {CONTACTS.slice(0, 2).map((c) => (
+                  <ContactCard key={c.title} {...c} />
+                ))}
+              </div>
+              <ContactCard {...CONTACTS[2]} />
+            </div>
           </div>
         </div>
 
@@ -106,34 +140,6 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* form card — mobile variant (simplified per Figma 1:5038) */}
-        <div className="flex w-full flex-col gap-3 rounded-[10px] bg-surface p-4 lg:hidden">
-          <div className="flex flex-col gap-1.5">
-            <h3 className="text-2xl font-bold text-ink">Book a test drive</h3>
-            <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
-          </div>
-          <div className="flex gap-3">
-            <span className="flex h-8 flex-1 items-center justify-center rounded-full bg-deep-card px-3 font-display text-[12px] font-semibold text-white">
-              Test drive
-            </span>
-            <span className="flex h-8 flex-1 items-center justify-center rounded-full border border-white/50 bg-white/80 px-3 font-display text-[12px] font-semibold text-ink">
-              Price Enquiry
-            </span>
-            <span className="flex h-8 flex-1 items-center justify-center rounded-full border border-white/50 bg-white/80 px-3 font-display text-[12px] font-semibold text-ink">
-              Fleet
-            </span>
-          </div>
-          <div className="flex gap-1.5">
-            <Field label="Name *" placeholder="Full name" mobile />
-            <Field label="Mobile number *" placeholder="10 digit" mobile />
-          </div>
-          <Button variant="dark" arrow="white" className="mt-1 w-full">
-            Continue
-          </Button>
-          <p className="text-center text-[12px] text-ink">
-            We never share your number with anyone else. No spam calls.
-          </p>
-        </div>
       </div>
     </section>
   );
@@ -179,7 +185,7 @@ function Field({ label, placeholder, mobile = false }: { label: string; placehol
         placeholder={placeholder}
         className={
           mobile
-            ? "h-9 w-full rounded-lg border border-hairline bg-white px-4 text-[12px] font-medium text-placeholder outline-none"
+            ? "h-9 w-full rounded-lg border border-hairline bg-white px-4 text-[12px] font-medium text-placeholder backdrop-blur-[8.15px] outline-none"
             : "h-[46px] w-full rounded-[13px] border border-hairline bg-white px-4 text-[12px] font-medium text-placeholder backdrop-blur-[8.15px] outline-none"
         }
       />
