@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Image from "next/image";
 
 type Stat = {
@@ -110,7 +111,7 @@ export default function StatsBanner() {
         </div>
       </div>
 
-      <div className="relative flex flex-col items-center gap-[14px] px-[33px] py-6 lg:py-[42px]">
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[14px] px-5 py-6 lg:max-w-[1600px] lg:px-[30px] lg:py-[42px]">
         {/* mobile grid: centered rows of two flat stat cells split by hairlines, last cell alone */}
         <div className="flex w-full flex-col gap-[14px] lg:hidden">
           {[
@@ -128,27 +129,22 @@ export default function StatsBanner() {
           </div>
         </div>
 
-        {/* desktop row — Figma 1:1385 stats span x 97→1268 (1170.7px), centered */}
-        <div className="hidden w-[1170.7px] max-w-full items-center gap-6 lg:flex">
+        {/* desktop row — spans the full inner width of the Promo Card-matched
+            container (Neo 1:1442: max-w 1600px · px 30px) so the first/last
+            stat land on the card's content boundaries. Dividers sit in
+            zero-width slots (Figma 1:1395) so they steal no cell width and each
+            label keeps its full cell — one line per stat */}
+        <div className="hidden w-full items-center gap-6 lg:flex">
           {STATS.map((stat, i) => (
-            <div key={stat.label} className="flex flex-1 items-center">
-              <div className="flex flex-1 flex-col items-center gap-5 overflow-clip rounded-[24px] px-[2px] py-8">
+            <Fragment key={stat.label}>
+              <div className="flex flex-1 flex-col items-center gap-6 overflow-clip rounded-[24px] px-[2px] py-8">
                 <StatValue value={stat.value} unit={stat.unit} />
-                <p className="text-center text-[22px] font-bold leading-normal text-white">
+                <p className="text-center text-[22px] font-bold leading-normal text-white min-[1366px]:whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
-              {i < STATS.length - 1 && (
-                <Image
-                  src="/assets/products/stat-divider.svg"
-                  alt=""
-                  width={62}
-                  height={1}
-                  aria-hidden
-                  className="h-px w-[62px] shrink-0 rotate-90"
-                />
-              )}
-            </div>
+              {i < STATS.length - 1 && <DesktopDivider />}
+            </Fragment>
           ))}
         </div>
       </div>
@@ -174,8 +170,26 @@ function MobileCard({ stat }: { stat: Stat }) {
   return (
     <div className="flex h-[115px] w-[162px] flex-col items-center justify-center gap-[2.8px] overflow-clip rounded-[16.8px] px-[1.4px] py-3">
       <StatValue value={stat.valueMobile ?? stat.value} unit={stat.unitMobile ?? stat.unit} />
-      <p className="text-center text-[16px] font-bold leading-normal text-white">{stat.label}</p>
+      {/* 15px (Figma 16): at ≤393px viewports the two cards squeeze to ~152px and
+          the 16px "Trucks up & running" wraps — 15px keeps every label one line */}
+      <p className="text-center text-[15px] font-bold leading-normal text-white">{stat.label}</p>
     </div>
+  );
+}
+
+/** desktop hairline — Line 86 (62×1) rotated 90° inside a zero-width slot
+ *  (Figma 1:1395 `w-0`), so it never eats into the stat cell widths */
+function DesktopDivider() {
+  return (
+    <span aria-hidden className="flex h-[62px] w-0 shrink-0 items-center justify-center">
+      <Image
+        src="/assets/products/stat-divider.svg"
+        alt=""
+        width={62}
+        height={1}
+        className="h-px w-[62px] max-w-none rotate-90"
+      />
+    </span>
   );
 }
 
@@ -188,7 +202,7 @@ function MobileDivider() {
         alt=""
         width={44}
         height={1}
-        className="h-[0.7px] w-[43.4px] rotate-90"
+        className="h-[0.7px] w-[43.4px] max-w-none rotate-90"
       />
     </span>
   );

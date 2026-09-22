@@ -30,7 +30,6 @@ export default function Home() {
           image="/assets/neo/product.png"
           imageAlt="Neo by Euler three-wheelers"
           wash="blue"
-          pad="80"
           cardH="470"
           /* Figma 1:1443 crop: left -14.13% · top -52.08% · 114.13% × 178.14% */
           crop={[-14.13, -52.08, 114.13, 178.14]}
@@ -48,7 +47,7 @@ export default function Home() {
           wash="mobile-blue"
           align="right"
           icon="phone"
-          pad="60"
+          bigText
           cardH="480"
           /* Figma 1:1473 crop: left -5.58% · top -11.78% · 76.19% × 126% */
           crop={[-5.58, -11.78, 76.19, 126]}

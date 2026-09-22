@@ -12,7 +12,10 @@ import Button from "../ui/Button";
 export default function Technology() {
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:w-[1360px] lg:max-w-full lg:gap-[42px] lg:px-0 lg:pb-12 lg:pt-12">
+      {/* container matches PromoCard's shared spacing system: 20px sides in a
+          1440px frame on mobile, 30px sides in a widened 1600px frame on lg —
+          the cards' outer edges align with the promo cards at every width */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:max-w-[1600px] lg:gap-[42px] lg:px-[30px] lg:pb-12 lg:pt-12">
         {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-[14px]">
@@ -59,7 +62,27 @@ export default function Technology() {
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] md:h-[360px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
                 {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
                 <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
-                <Image src="/assets/technology/card-safety-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] translate-x-[5%] translate-y-[10%] lg:hidden" />
+                {/* mobile: the truck split from its background — the card base
+                    is the truck-free gradient strip (top third of the Figma
+                    fill 1:4799, stretched), and the truck itself is a crop
+                    from the same render parked bottom-right, masked with a
+                    diagonal fade so its edges melt into the identical
+                    gradient (no rectangle seam, and only the truck moves) */}
+                <Image
+                  src="/assets/technology/card-safety-mobile-bg.png"
+                  alt=""
+                  fill
+                  sizes="393px"
+                  className="object-fill lg:hidden"
+                />
+                <Image
+                  src="/assets/technology/card-safety-mobile-truck.png"
+                  alt=""
+                  width={1909}
+                  height={1040}
+                  sizes="240px"
+                  className="pointer-events-none absolute bottom-0 right-[-15px] w-[78%] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
+                />
                 {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
                 <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
                 {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
@@ -144,8 +167,20 @@ export default function Technology() {
                   </div>
                 </div>
               </article>
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[290px] md:h-[330px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
-                <Image src="/assets/technology/card-perf.png" alt="" fill sizes="(max-width:1024px) 393px, 589px" className="object-cover object-top max-lg:hidden" />
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] md:h-[330px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
+                {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
+                    top-right — this flex-1 card runs wider than Figma's 588px, and a
+                    filling object-cover would zoom the truck down over the heading.
+                    The flat wash left of the photo matches the photo background (same
+                    family as the 01 battery card's bg) */}
+                <Image
+                  src="/assets/technology/card-perf.png"
+                  alt=""
+                  width={588}
+                  height={369}
+                  sizes="588px"
+                  className="absolute right-0 top-0 h-[343px] w-[588px] object-cover object-top max-lg:hidden"
+                />
                 <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
                 <CardHeading
                   className="lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"

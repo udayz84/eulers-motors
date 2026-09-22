@@ -182,7 +182,7 @@ export default function ProductShowcase() {
             <Eyebrow label="Choose your truck" />
             <h2 className="w-[322px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:w-auto sm:text-[36px] lg:text-[42px] lg:leading-[1.12] lg:tracking-[-0.84px]">
               Pick the vehicle
-              <br className="hidden lg:block" />
+              <br className="hidden lg:block" />{" "}
               that fits your work.
             </h2>
           </div>

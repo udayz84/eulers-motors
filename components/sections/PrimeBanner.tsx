@@ -18,7 +18,7 @@ const FEATURES = [
  */
 export default function PrimeBanner() {
   return (
-    <section className="relative h-[583px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
+    <section className="relative h-[620px] overflow-clip bg-black lg:h-[650px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         {/* mobile background (Figma 1:4894) — bg-3 only, bottom half of the section */}
         <div className="absolute inset-0 overflow-hidden lg:hidden">
@@ -67,9 +67,20 @@ export default function PrimeBanner() {
           </div>
         </div>
       </div>
-      <div aria-hidden className="absolute -left-[205px] -top-[75px] hidden h-[817px] w-[646px] bg-black/20 blur-[102px] lg:block" />
+      {/* Container Background (Figma 1:1820) — frosted-glass panel over the
+          left bg stack: inner backdrop-blur 16 + black/20 wash, its edges
+          softened by the 102.15px gaussian on the wrapper */}
+      <div aria-hidden className="absolute -left-[204.85px] -top-[74.54px] hidden h-[816.697px] w-[646.484px] blur-[102.15px] lg:block">
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-[16px]" />
+      </div>
 
-      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[636px] lg:justify-center lg:gap-[25px] lg:pl-10 lg:pt-0">
+      {/* desktop column per Figma 1:1821: vertically centered, left-anchored
+          on the shared section grid — the same starting line as every other
+          section (max-w-[1440px] px-5 · lg widened to 1600px with 30px sides)
+          measured against the full-bleed banner. The bg art scales with the
+          viewport, so the text keeps its position in the composition at every
+          width. Mobile stays top-left as before */}
+      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(636px+max(0px,(100vw-1600px)/2))] lg:justify-center lg:gap-[25px] lg:pl-[calc(max(0px,(100vw-1600px)/2)+30px)] lg:pt-0">
         <Eyebrow label="Euler Prime" dark />
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[52px] lg:tracking-[-1.04px]">
           Get free check-up at your depot with Prime

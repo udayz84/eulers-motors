@@ -38,9 +38,10 @@ export default function Insights() {
   return (
     <section className="bg-white" aria-label="Insights">
       {/* Figma 1:1853: content spans 80→1360 inside the 1440 frame (1280px) —
-          widened to the 1360px page grid so it matches the other card sections
-          and spreads wider on large screens */}
-      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:gap-8 lg:px-0 lg:pb-14">
+          container matches the Promo Card (Neo 1:1442): px-5 mobile ·
+          max-w 1600px + px-[30px] desktop, so the cards share the card's
+          content boundaries */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:max-w-[1600px] lg:gap-8 lg:px-[30px] lg:pb-14">
         {/* header — centered on mobile (Figma 1:4925), left on desktop; title
             stays on one line (1:1862) */}
         <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between">
@@ -60,8 +61,10 @@ export default function Insights() {
         </div>
 
         <div className="snap-row snap-center-mobile -mx-5 gap-[13px] lg:mx-0 lg:gap-5">
-          {/* Mobile alignment spacer */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+          {/* Mobile spacer — same system as Customer Reviews: the row bleeds
+              to the viewport edge (-mx-5), so 20px gutter minus the 13px gap
+              starts the first card at the container's 20px (px-5) content edge */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
           {ARTICLES.map((a) => (
             <article
               key={a.title}
@@ -106,8 +109,8 @@ export default function Insights() {
               </div>
             </article>
           ))}
-          {/* Mobile alignment spacer */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+          {/* Mobile spacer — mirrors the left one for symmetric end padding */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
         </div>
 
         {/* mobile-only CTA below the cards — centered (Figma 1:4956) */}

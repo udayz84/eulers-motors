@@ -61,7 +61,11 @@ export default function Footer() {
       <div aria-hidden className="absolute inset-x-0 top-0 hidden h-[48%] bg-white/90 blur-[168px] lg:block" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 hidden h-[45%] bg-black/25 blur-[102px] lg:block" />
 
-      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-auto lg:w-[1360px] lg:min-h-[927px] lg:gap-0 lg:px-0 lg:pb-[38px] lg:pt-[39px]">
+      {/* container follows the PromoCard grid — max-w-[1440px] px-5 on
+          mobile/tablet, lg:max-w-[1600px] lg:px-[30px] on desktop — so all
+          footer content (header row, columns, bottom bar) starts and ends on
+          the promo cards' content boundaries */}
+      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-auto lg:max-w-[1600px] lg:min-h-[927px] lg:gap-0 lg:px-[30px] lg:pb-[38px] lg:pt-[39px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">

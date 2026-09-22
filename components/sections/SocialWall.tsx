@@ -15,11 +15,15 @@ const POSTS = [
 export default function SocialWall() {
   return (
     <section className="bg-white overflow-hidden" aria-label="From the road">
-      {/* Figma 1:2008 anchors at x=80 — expanded left-side only to 24px
-          (lg:pl-6) per review; the row bleeds off the right edge (carousel).
-          On wide screens (≥1760px, all 4 cards fit) the row centers instead */}
+      {/* Figma 1:2008 anchors at x=80 — expanded left-side only to 24px per
+          review; the row bleeds off the right edge (carousel). The heading
+          starts on the first card's line (Figma: header and first post both at
+          x=80): card left = 24px anchor + 30.663px row gap. On wide screens
+          (≥1760px, all 4 cards fit) the row centers instead, so the heading
+          block shifts to follow the first card (constant -106px off the
+          1440 frame: 50vw − 826px card group centering) */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[20px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[60px]">
-        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-6 lg:text-left">
+        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-[54.663px] min-[1760px]:-ml-[160.658px] lg:text-left">
           <Eyebrow label="From the road" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             See the trucks in action.
@@ -36,8 +40,11 @@ export default function SocialWall() {
         <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[1760px]:justify-center">
           {/* Spacers for alignment — the desktop spacer anchors the row to the
               page grid; once the viewport fits all 4 cards (≥1760px) it hides
-              and the row centers instead (justify-center on the snap-row) */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+              and the row centers instead (justify-center on the snap-row).
+              Mobile mirrors Customer Reviews: 20px gutter (the heading's px-5
+              content edge) minus the row's 12px gap, so the first card starts
+              at exactly the same 20px as the reviews cards */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
           <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
           {POSTS.map((post, i) => {
             const last = i === POSTS.length - 1;
@@ -111,8 +118,9 @@ export default function SocialWall() {
               </article>
             );
           })}
-          {/* Spacers for right bleed padding */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
+          {/* Spacers for right bleed padding — same width as the left one,
+              keeping scroll-end padding symmetric with the start gutter */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
           <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
           </div>
         </div>

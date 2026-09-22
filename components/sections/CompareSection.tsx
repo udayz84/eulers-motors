@@ -109,7 +109,16 @@ export default function CompareSection() {
           <h2 className="w-[310.678px] text-center font-display text-[28px] font-semibold leading-[normal] tracking-[-0.56px] text-white">
             What changes when you switch?
           </h2>
-          <div className="snap-row -mx-[19.32px] w-auto justify-start gap-3 px-[19.32px]">
+          {/* pills row (Figma 1:4759: full 353px container width, first pill at
+              its x=0). The 19.32px gutters live in snap-aligned spacer children
+              — NOT container padding: mandatory snap ignores padding, so
+              px-[19.32px] made scrollLeft 0 an invalid rest point and the
+              browser auto-snapped the first pill against the raw left edge,
+              cropping it. The spacers make 0 a valid snap position (same
+              pattern as the Insights/Reviews rows), and the explicit width
+              removes the w-auto shrink-to-fit drift */}
+          <div className="snap-row -mx-[19.32px] w-[calc(100%+38.64px)] justify-start gap-3">
+            <div aria-hidden className="shrink-0" style={{ width: "calc(19.32px - 12px)" }} />
             {AUDIENCE.map((a, i) => (
               <button
                 key={a}
@@ -123,13 +132,22 @@ export default function CompareSection() {
                 {a}
               </button>
             ))}
+            <div aria-hidden className="shrink-0" style={{ width: "calc(19.32px - 12px)" }} />
           </div>
         </div>
 
         {/* mobile functional carousels & labels (replacing mobile-top.png) */}
         <div className="absolute left-0 top-[220px] h-[220px] w-full">
-          {/* Vertical divider */}
-          <div className="absolute left-1/2 top-[-40px] h-[220px] w-px -translate-x-1/2 bg-white/20" />
+          {/* Vertical divider — Line 93's gradient asset rotated 90° (1px at
+              mobile scale): fades at the ends, brightest at the centre */}
+          <Image
+            src="/assets/compare/divider-h.svg"
+            alt=""
+            width={220}
+            height={1}
+            aria-hidden
+            className="pointer-events-none absolute left-[calc(50%_-_1px)] top-[-40px] h-px w-[220px] origin-top-left rotate-90 blur-[0.7px]"
+          />
 
           {/* Left Half: Without Euler cards — strip at 80% (Figma 1:1519), so the
               black cards blend toward the navy gradient instead of flat black */}
@@ -182,8 +200,14 @@ export default function CompareSection() {
             aria-hidden
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                "linear-gradient(241.11deg, #0E2F6D 138.16%, #1D6FFF 87.019%), linear-gradient(164.22deg, #0E2F6D 0%, #114399 71.429%)",
+              /* measured from the Figma mobile render (1:4771): a bright blue
+                 card — stops solve the composite under the 20% gray png wash
+                 to land on the render's ~#175AC4 left → #275EBE right (same
+                 family as the desktop promo's measured #0C5DEC → #2365D7), so
+                 the #121212 button keeps its Figma contrast. The old navy
+                 stops (#0E2F6D → #114399) made the card — and with it the
+                 button — read far darker than the design */
+              backgroundImage: "linear-gradient(90deg, #1266F5 0%, #2365D7 100%)",
             }}
           />
           <Image
@@ -304,14 +328,18 @@ export default function CompareSection() {
           />
         </div>
 
-        {/* divider Line 93 — (719.92, 201.57), 598.5px tall, on the centre line */}
+        {/* divider Line 93 — (719.92, 201.57), 598.5px tall, on the centre line.
+            The asset is horizontal with the gradient along its length, so it
+            renders at natural aspect rotated 90°: faint at the ends, glowing
+            centre — squeezing it into a 1px box instead flattens the gradient
+            into a uniform white line */}
         <Image
           src="/assets/compare/divider-h.svg"
           alt=""
-          width={2}
-          height={599}
+          width={599}
+          height={3}
           aria-hidden
-          className="pointer-events-none absolute left-[719.92px] top-[-13px] h-[598.535px] w-px"
+          className="pointer-events-none absolute left-[721.17px] top-[-13px] h-[2.5px] w-[598.535px] origin-top-left rotate-90 blur-[1.5px]"
         />
 
         {/* Neo promo — 722×91, r16, p20, gap 82 (Figma 1:1587: left-1/2

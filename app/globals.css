@@ -97,30 +97,6 @@ button {
   display: none;
 }
 
-/* CustomerReviews wide-screen tier — from 1760px (SocialWall parity) the row
-   stops being a snap carousel and centers: spacers hide, cards shrink to a
-   1700px track so the band can never clip (full size returns at 1920px).
-   Plain unlayered CSS so it beats the lg: utilities regardless of Tailwind's
-   variant ordering, and overflow-x:visible makes scroll residue impossible. */
-@media (min-width: 1760px) {
-  .snap-row.center-wide {
-    overflow-x: visible;
-    justify-content: center;
-    gap: 20px;
-  }
-  .snap-row.center-wide .desktop-spacer {
-    display: none;
-  }
-  .snap-row.center-wide > article {
-    height: 432px;
-  }
-}
-@media (min-width: 1920px) {
-  .snap-row.center-wide > article {
-    height: 485.645px;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

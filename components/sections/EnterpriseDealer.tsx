@@ -16,10 +16,11 @@ const BULLETS = [
 export default function EnterpriseDealer() {
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
-      {/* Figma 1:1908 grid: 800 + 20 gap + 460 = 1280px — widened a bit to the
-          1360px container; the pair keeps its Figma ratio via flex-[800]/flex-[460]
-          so both cards grow with the page grid */}
-      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:gap-5 lg:px-0 lg:pt-0 lg:pb-[19px]">
+      {/* container matches PromoCard's shared spacing pattern exactly: 20px
+          sides in a max-w-[1440px] frame, 30px sides inside the widened
+          1600px container on desktop. Figma 1:1908 ratio 800 + 20 gap + 460
+          via flex-[800]/flex-[460] so both cards grow with the page grid */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-2 px-5 pb-3 pt-2 lg:max-w-[1600px] lg:flex-row lg:gap-5 lg:px-[30px] lg:pt-0 lg:pb-[19px]">
         {/* Enterprise card — 800×510 on #041231 (Figma 1:1909) */}
         <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-auto lg:flex-[800] lg:rounded-2xl">
           {/* Ellipse 3427 — container 603.078×927.122 at (468.49, -395.37),
@@ -49,15 +50,48 @@ export default function EnterpriseDealer() {
               </div>
             </div>
           </div>
-          {/* mobile concentric rings */}
-          <div aria-hidden className="absolute -right-16 -top-10 size-[380px] rounded-full border border-white/25 opacity-25 lg:hidden" />
-          <div aria-hidden className="absolute -right-6 top-0 size-[290px] rounded-full border border-white/30 opacity-25 lg:hidden" />
+          {/* mobile glow — measured pixel-by-pixel from the Figma render of
+              1:4966: the blurred #1D6FFF Ellipse 3427 reads as an elliptical
+              wash entering from the top-right, peak α .95 at the corner fading
+              to nothing ~250px left / ~350px down (the node's own coordinates
+              keep the blob off-canvas, so the gradient reproduces its rendered
+              result directly) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 lg:hidden"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse 250px 350px at 370px 30px, rgba(29,111,255,0.95) 0%, rgba(29,111,255,0.84) 20%, rgba(29,111,255,0.66) 40%, rgba(29,111,255,0.45) 55%, rgba(29,111,255,0.28) 70%, rgba(29,111,255,0.13) 85%, rgba(29,111,255,0) 100%)",
+            }}
+          />
+          {/* mobile concentric ellipses (Figma 1:4967-71) — four hairline ring
+              svgs (203.1 / 321.7 / 463.3 / 599.1) entering the card from the
+              top-right. Single pass at Figma's 6.525px blur: the render
+              measures the bands at just +5–9/255 over the wash — subtle
+              ripples, not dominant rings */}
+          <div
+            aria-hidden
+            className="absolute left-[126.95px] right-[-353.05px] top-[calc(50%_-_239.07px)] h-[599.105px] -translate-y-1/2 blur-[6.525px] lg:hidden"
+          >
+            <div className="absolute left-0 top-0 size-[599.105px]">
+              <Image src="/assets/enterprise/ellipse-66.svg" alt="" fill sizes="599px" className="pointer-events-none" />
+            </div>
+            <div className="absolute left-[67.92px] top-[67.92px] size-[463.273px]">
+              <Image src="/assets/enterprise/ellipse-65.svg" alt="" fill sizes="463px" className="pointer-events-none" />
+            </div>
+            <div className="absolute left-[138.7px] top-[138.7px] size-[321.717px]">
+              <Image src="/assets/enterprise/ellipse-64.svg" alt="" fill sizes="322px" className="pointer-events-none" />
+            </div>
+            <div className="absolute left-[198px] top-[198px] size-[203.104px]">
+              <Image src="/assets/enterprise/ellipse-62.svg" alt="" fill sizes="203px" className="pointer-events-none" />
+            </div>
+          </div>
 
           {/* content — (36, 43.27) 727×408, justify-between (Figma 1:1916) */}
           <div className="flex flex-col justify-center gap-[26px] p-6 lg:absolute lg:left-[36px] lg:top-[43.27px] lg:h-[408px] lg:w-[727px] lg:justify-between lg:gap-0 lg:p-0">
             <div className="flex flex-col gap-4 lg:gap-5">
               <Eyebrow label="Enterprise" dark />
-              <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-1.04px] text-white lg:text-[52px]">
+              <h2 className="font-display text-[32px] font-semibold leading-[40px] tracking-[-0.64px] text-white lg:leading-[1.15] lg:tracking-[-1.04px] lg:text-[52px]">
                 Need 50+ trucks?
               </h2>
               <p className="max-w-[260px] text-[12px] leading-snug text-white lg:max-w-[359px] lg:text-[16px] lg:leading-normal">
@@ -65,9 +99,11 @@ export default function EnterpriseDealer() {
               </p>
             </div>
 
-            {/* desktop: button + bullets, gap 24 (Figma 1:1924) */}
+            {/* desktop: button + bullets, gap 24 (Figma 1:1924) — self-start
+                keeps the button at its intrinsic ~208px width (1:1926) instead
+                of stretching to the 727px column */}
             <div className="hidden lg:flex lg:flex-col lg:gap-6">
-              <Button variant="white" arrow="ink" className="text-ink">
+              <Button variant="white" arrow="ink" className="self-start text-ink">
                 Talk to our team
               </Button>
               <div className="flex gap-[26px]">
@@ -125,10 +161,14 @@ export default function EnterpriseDealer() {
           </div>
 
           {/* content — mobile (20, 19.67) w-313, gaps 12/16/12 (Figma 1:5007) ·
-              desktop (24, 40.27) w-412, gaps 12/10/20 (Figma 1:1953) */}
-          <div className="absolute inset-x-5 top-[19.67px] flex flex-col lg:inset-x-auto lg:left-[24px] lg:top-[40.27px] lg:w-[412px]">
+              desktop (24, 40.27) capped at the 412px Figma width (1:1953) and
+              inset 24px both sides so it shrinks, not clips, on narrow cards */}
+          <div className="absolute inset-x-5 top-[19.67px] flex flex-col lg:inset-x-[24px] lg:top-[40.27px] lg:max-w-[412px]">
             <Eyebrow label="38 cities open" />
-            <h2 className="mt-3 w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink lg:w-full">
+            {/* mobile width breaks the heading after "become" (line 1 measures
+                256.9px · "Want to become a" would need 286px, so 264 lands
+                between them) — Figma 1:5007 two-line wrap */}
+            <h2 className="mt-3 w-[264px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink lg:w-full">
               Want to become a dealer?
             </h2>
             <p className="mt-4 w-[248px] text-[12px] leading-4 text-ink lg:mt-2.5 lg:w-full lg:text-[16px] lg:leading-[21.33px]">

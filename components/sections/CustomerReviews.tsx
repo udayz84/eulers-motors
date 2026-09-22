@@ -17,12 +17,12 @@ const STORY_IMAGES = [
 export default function CustomerReviews() {
   return (
     <section className="bg-white overflow-hidden" aria-label="Customer reviews">
-      {/* Figma 1:1669 anchors at x=80 — moved to 40px (lg:pl-10) to match the
-          widened 1360px page grid; the row bleeds off the right edge (carousel).
-          From 1920px up (cards ≈1901px at gap-5 fit) the row centers instead,
-          matching the SocialWall behaviour */}
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[62px]">
-        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-10 lg:text-left">
+      {/* Figma 1:1669: heading block sits at the wrapper's content edge, aligned
+          with every other section's container (max-w-[1440px] px-5 · lg widened
+          to 1600px with 30px sides) · 42px gap to the cards (lg:pb-[42px]) ·
+          heading stack gap 16px (lg:gap-4) */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:items-start lg:max-w-[1600px] lg:px-[30px] lg:pb-[42px] lg:pt-[62px]">
+        <div className="flex w-full max-w-[1280px] flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
           <Eyebrow label="Customers" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             Customer reviews
@@ -33,16 +33,28 @@ export default function CustomerReviews() {
         </div>
       </div>
 
-      {/* cards — mobile snap scroller; desktop row anchored at x=80, bleeding right
+      {/* cards — mobile snap scroller; desktop row per Figma 1:1678:
+          h-485.645, gap-24, bleeding off the right edge (carousel).
+          First card starts under the heading at x=60 (shifted left from
+          Figma's x=80 per review)
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[18px] lg:pb-[62px]">
-        <div className="snap-row snap-center-mobile center-wide gap-[13px] lg:gap-6">
-          {/* Spacers for alignment — .center-wide (globals.css) hides the
-              desktop one from 1760px and centers the row, cards sized to a
-              1700px track so that band can never clip */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="desktop-spacer hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
+        <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+          {/* Spacers for alignment — they mirror the header's content edge so
+              the first card starts under the heading. Desktop: container
+              offset + a constant 6px (30px gutter minus the row's 24px gap —
+              spacers are flex children, the gap follows them). Mobile
+              (Figma 1:4836): 20px gutter minus the 13px gap */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
+          <div
+            aria-hidden
+            className="desktop-spacer hidden shrink-0 lg:block"
+            style={{
+              width:
+                "calc(max(0px, (100vw - 1600px) / 2) + 6px)",
+            }}
+          />
         {STORY_IMAGES.map((story, i) => (
             <article
               key={i}
@@ -115,9 +127,17 @@ export default function CustomerReviews() {
               </button>
             </article>
           ))}
-          {/* Spacers for right bleed padding */}
-          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="desktop-spacer hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
+          {/* Spacers for right bleed padding — same widths as the left ones,
+              keeping scroll-end padding symmetric with the start gutter */}
+          <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
+          <div
+            aria-hidden
+            className="desktop-spacer hidden shrink-0 lg:block"
+            style={{
+              width:
+                "calc(max(0px, (100vw - 1600px) / 2) + 6px)",
+            }}
+          />
           </div>
         </div>
     </section>
