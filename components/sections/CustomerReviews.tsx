@@ -18,8 +18,9 @@ export default function CustomerReviews() {
   return (
     <section className="bg-white overflow-hidden" aria-label="Customer reviews">
       {/* Figma 1:1669 anchors at x=80 — moved to 40px (lg:pl-10) to match the
-          widened 1360px page grid; the heading stays anchored to the cards' left
-          edge at every desktop width; the row bleeds off the right edge (carousel) */}
+          widened 1360px page grid; the row bleeds off the right edge (carousel).
+          From 1920px up (cards ≈1901px at gap-5 fit) the row centers instead,
+          matching the SocialWall behaviour */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[62px]">
         <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-10 lg:text-left">
           <Eyebrow label="Customers" />
@@ -36,10 +37,12 @@ export default function CustomerReviews() {
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[18px] lg:pb-[62px]">
-        <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
-          {/* Spacers for alignment */}
+        <div className="snap-row snap-center-mobile center-wide gap-[13px] lg:gap-6">
+          {/* Spacers for alignment — .center-wide (globals.css) hides the
+              desktop one from 1760px and centers the row, cards sized to a
+              1700px track so that band can never clip */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
+          <div aria-hidden className="desktop-spacer hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
         {STORY_IMAGES.map((story, i) => (
             <article
               key={i}
@@ -114,7 +117,7 @@ export default function CustomerReviews() {
           ))}
           {/* Spacers for right bleed padding */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
+          <div aria-hidden className="desktop-spacer hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 40px)" }} />
           </div>
         </div>
     </section>

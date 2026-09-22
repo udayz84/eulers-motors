@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
@@ -56,31 +56,53 @@ const ICON_SIZE: Record<string, [number, number]> = {
  * "What changes when you switch?" (desktop 1:1498 · mobile 1:4703).
  * Split Without/With Euler carousels over a navy→blue gradient.
  */
+/** one card + one gap — the marquee's repeat period (Figma 291.776 + 42) */
+const MARQUEE_PERIOD = 291.776 + 42;
+
 export default function CompareSection() {
   const [activeTab, setActiveTab] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const mobileFrameRef = useRef<HTMLDivElement>(null);
+  const rightTracks = useRef<(HTMLDivElement | null)[]>([]);
+
+  // The two strips animate with the same phase but anchor at different x
+  // (left track starts at the screen edge, right track at the divider), so
+  // their card edges never line up in columns — the right row reads as
+  // "delayed". Shift the right tracks by (half-window mod period) so both
+  // sit on one shared lattice: card edges flow through the divider as one
+  // continuous conveyor. marginLeft is used because the marquee keyframes
+  // own `transform`; a static margin doesn't affect the seamless loop.
+  useLayoutEffect(() => {
+    const align = (track: HTMLDivElement | null, half: number) => {
+      if (!track) return;
+      const scale = track.getBoundingClientRect().width / track.offsetWidth || 1;
+      track.style.marginLeft = `${(half / scale) % MARQUEE_PERIOD}px`;
+    };
+    const run = () => {
+      align(rightTracks.current[0], (mobileFrameRef.current?.clientWidth ?? 0) / 2);
+      align(rightTracks.current[1], (sectionRef.current?.clientWidth ?? 0) / 2);
+    };
+    run();
+    window.addEventListener("resize", run);
+    return () => window.removeEventListener("resize", run);
+  }, []);
 
   return (
     <section
-      className="relative overflow-clip"
+      ref={sectionRef}
+      className="group relative overflow-clip"
       style={{
+        /* colors measured from the Figma render (1:1498): the 40% black wash
+           in the fills list does not dim the render — actual stops are
+           #0E2F6D (right) → #114399 (left plateau) */
         backgroundImage:
-          "linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.4) 100%), linear-gradient(-87.02deg, #0E2F6D 63.511%, #1D6FFF 87.226%), linear-gradient(90deg, #E9EDF3 0%, #E9EDF3 100%)",
+          "linear-gradient(-87.02deg, #0E2F6D 63.511%, #114399 87.226%), linear-gradient(90deg, #E9EDF3 0%, #E9EDF3 100%)",
       }}
       aria-label="Why Euler"
     >
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 21px)); }
-        }
-        .animate-marquee {
-          animation: marquee 35s linear infinite;
-        }
-      `}} />
-      
       {/* ── mobile: composed Figma 1:4703 frame (393×612) — title block at
           y31.3 · flat visual render (1:4704) at y94 · Neo promo at y459 ── */}
-      <div className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
+      <div ref={mobileFrameRef} className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
         {/* title container — (19.32, 31.3), gap 14, pills h-32 (1:4753) */}
         <div className="absolute inset-x-[19.32px] top-[31.3px] z-10 flex flex-col items-center gap-[14px]">
           <Eyebrow label="Why Euler" dark />
@@ -109,10 +131,11 @@ export default function CompareSection() {
           {/* Vertical divider */}
           <div className="absolute left-1/2 top-[-40px] h-[220px] w-px -translate-x-1/2 bg-white/20" />
 
-          {/* Left Half: Without Euler cards */}
-          <div className="absolute left-0 top-0 h-[125px] w-1/2 overflow-hidden group">
+          {/* Left Half: Without Euler cards — strip at 80% (Figma 1:1519), so the
+              black cards blend toward the navy gradient instead of flat black */}
+          <div className="absolute left-0 top-0 h-[125px] w-1/2 overflow-hidden opacity-80 group">
             <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
-              <div className="flex gap-[42px] animate-marquee group-active:[animation-play-state:paused]">
+              <div className="flex gap-[42px] animate-marquee [--marquee-gap:42px] group-active:[animation-play-state:paused]">
                 {WITHOUT_DESK.map((c, i) => (
                   <DeskCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
                 ))}
@@ -126,7 +149,7 @@ export default function CompareSection() {
           {/* Right Half: With Euler cards */}
           <div className="absolute left-1/2 top-0 h-[125px] w-1/2 overflow-hidden group">
             <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
-              <div className="flex gap-[42px] animate-marquee group-active:[animation-play-state:paused]">
+              <div ref={(el) => { rightTracks.current[0] = el; }} className="flex gap-[42px] animate-marquee [--marquee-gap:42px] group-active:[animation-play-state:paused]">
                 {WITH_DESK.map((c, i) => (
                   <DeskCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
                 ))}
@@ -238,8 +261,8 @@ export default function CompareSection() {
             keep the Figma 1:1520/1:1552 look: static cropped rows, not a marquee.
             Left half "Without" (80% opacity), right half "With", split at the
             section's centre line like the design's 720/740 split. */}
-      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
-        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee group-hover:[animation-play-state:paused]">
+      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block group">
+        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
           {/* First set of 8 cards */}
           {WITHOUT_DESK.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="black" chip="red" />
@@ -251,7 +274,7 @@ export default function CompareSection() {
         </div>
       </div>
       <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
-        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee group-hover:[animation-play-state:paused]">
+        <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
           {/* First set of 8 cards */}
           {WITH_DESK.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="glass" chip="green" />
@@ -291,14 +314,18 @@ export default function CompareSection() {
           className="pointer-events-none absolute left-[719.92px] top-[-13px] h-[598.535px] w-px"
         />
 
-        {/* Neo promo — (359,679) 722×91, r16, p20, gap 82 (Figma 1:1587) */}
-        <div className="absolute left-[359px] top-[464.43px] flex h-[91px] w-[722px] items-center gap-[82px] overflow-clip rounded-[16px] p-5">
+        {/* Neo promo — 722×91, r16, p20, gap 82 (Figma 1:1587: left-1/2
+            -translate-x-1/2 at top 679 — the old fixed left-359px only
+            centered at exactly 1440px and stuck right of center below it) */}
+        <div className="absolute left-1/2 top-[464.43px] flex h-[91px] w-[722px] -translate-x-1/2 items-center gap-[82px] overflow-clip rounded-[16px] p-5">
           <div
             aria-hidden
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                "linear-gradient(211.23deg, #0E2F6D 138.16%, #1D6FFF 87.019%), linear-gradient(174.6deg, #0E2F6D 0%, #114399 71.429%)",
+              /* measured from the Figma render (1:1587): gentle left→right
+                 drift; stops inverted through the 20% image wash so the
+                 composite lands on the design's #1657c9 → #285db8 */
+              backgroundImage: "linear-gradient(90deg, #0C5DEC 0%, #2365D7 100%)",
             }}
           />
           <Image

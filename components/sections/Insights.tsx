@@ -37,8 +37,10 @@ const ARTICLES = [
 export default function Insights() {
   return (
     <section className="bg-white" aria-label="Insights">
-      {/* Figma 1:1853: content spans 80→1360 inside the 1440 frame (1280px) */}
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:gap-8 lg:px-0 lg:pb-14">
+      {/* Figma 1:1853: content spans 80→1360 inside the 1440 frame (1280px) —
+          widened to the 1360px page grid so it matches the other card sections
+          and spreads wider on large screens */}
+      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:gap-8 lg:px-0 lg:pb-14">
         {/* header — centered on mobile (Figma 1:4925), left on desktop; title
             stays on one line (1:1862) */}
         <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between">

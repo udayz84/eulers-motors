@@ -97,6 +97,30 @@ button {
   display: none;
 }
 
+/* CustomerReviews wide-screen tier — from 1760px (SocialWall parity) the row
+   stops being a snap carousel and centers: spacers hide, cards shrink to a
+   1700px track so the band can never clip (full size returns at 1920px).
+   Plain unlayered CSS so it beats the lg: utilities regardless of Tailwind's
+   variant ordering, and overflow-x:visible makes scroll residue impossible. */
+@media (min-width: 1760px) {
+  .snap-row.center-wide {
+    overflow-x: visible;
+    justify-content: center;
+    gap: 20px;
+  }
+  .snap-row.center-wide .desktop-spacer {
+    display: none;
+  }
+  .snap-row.center-wide > article {
+    height: 432px;
+  }
+}
+@media (min-width: 1920px) {
+  .snap-row.center-wide > article {
+    height: 485.645px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -110,6 +134,30 @@ button {
 
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* CompareSection card strips — seamless leftward loop. The track renders two
+   identical card sets in one flex row; one period = one set + one gap, i.e.
+   exactly half the track width plus half the flex gap (a bare -50% is short
+   by half a gap and visibly jumps each cycle). [--marquee-gap:…] is set on
+   the animated element next to the matching gap-* utility. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - var(--marquee-gap, 0px) / 2));
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
 
 

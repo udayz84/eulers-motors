@@ -16,8 +16,8 @@ export default function SocialWall() {
   return (
     <section className="bg-white overflow-hidden" aria-label="From the road">
       {/* Figma 1:2008 anchors at x=80 — expanded left-side only to 24px
-          (lg:pl-6) per review; the heading stays anchored to the cards' left
-          edge at every desktop width; the row bleeds off the right edge (carousel) */}
+          (lg:pl-6) per review; the row bleeds off the right edge (carousel).
+          On wide screens (≥1760px, all 4 cards fit) the row centers instead */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[20px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[60px]">
         <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-6 lg:text-left">
           <Eyebrow label="From the road" />
@@ -33,10 +33,12 @@ export default function SocialWall() {
       {/* desktop row anchored at x=80, bleeding right — offset on a wrapper so
           the snap scroller doesn't consume it as initial scroll */}
       <div className="w-full pb-5 lg:pb-[60px]">
-        <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px]">
-          {/* Spacers for alignment */}
+        <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[1760px]:justify-center">
+          {/* Spacers for alignment — the desktop spacer anchors the row to the
+              page grid; once the viewport fits all 4 cards (≥1760px) it hides
+              and the row centers instead (justify-center on the snap-row) */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
           {POSTS.map((post, i) => {
             const last = i === POSTS.length - 1;
             return (
@@ -111,7 +113,7 @@ export default function SocialWall() {
           })}
           {/* Spacers for right bleed padding */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc((100vw - 300px) / 2)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
           </div>
         </div>
     </section>
