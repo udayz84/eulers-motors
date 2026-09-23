@@ -58,6 +58,45 @@ button {
   cursor: pointer;
 }
 
+/* Dark CTA hairline border. Figma strokes every dark button with a 0.5px
+   LINEAR-GRADIENT stroke (white → transparent, running LEFT → RIGHT with a
+   slight downward tilt — nodes 1:1300, 1:1375, 1:1462 …; verified against
+   the Figma render's edge pixels), not a solid border. CSS can't gradient
+   a border, so the gradient becomes a border-box background layer under
+   the opaque ink fill. */
+@utility gradient-border-dark {
+  border: 0.5px solid transparent;
+  background-image:
+    linear-gradient(var(--color-ink), var(--color-ink)),
+    linear-gradient(93.7deg, #ffffff 0%, rgb(153 153 153 / 0) 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* Mobile hero CTA (Figma 1:4528): same gradient, but it fades to white/10. */
+@utility gradient-border-dark-soft {
+  border: 0.475px solid transparent;
+  background-image:
+    linear-gradient(var(--color-ink), var(--color-ink)),
+    linear-gradient(93.7deg, #ffffff 0%, rgb(255 255 255 / 0.1) 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* Quick-action rail icon buttons (FloatingWidget, Figma 1:2506…1:2510): each
+   50px circle carries a GLASS effect (radius 100) — a ~1px specular rim
+   hugging the edge with NO outer spread. Angular profile sampled from the
+   Figma render (added white over base): two bright diagonal arcs — top-left
+   ≈0.53, bottom-right ≈0.46 — medium at the four cardinal points ≈0.33, dim
+   between them ≈0.12. Layered as a uniform ring (the floor/cardinals) plus a
+   TL crescent and a slightly softer BR crescent. */
+@utility glass-rim {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.2),
+    inset 1px 1px 2px -0.5px rgb(255 255 255 / 0.32),
+    inset -1px -1px 2px -0.5px rgb(255 255 255 / 0.28);
+}
+
 ::selection {
   background: #1d6fff;
   color: #fff;

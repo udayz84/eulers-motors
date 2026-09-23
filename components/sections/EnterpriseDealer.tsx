@@ -16,13 +16,15 @@ const BULLETS = [
 export default function EnterpriseDealer() {
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
-      {/* container matches PromoCard's shared spacing pattern exactly: 20px
-          sides in a max-w-[1440px] frame, 30px sides inside the widened
-          1600px container on desktop. Figma 1:1908 ratio 800 + 20 gap + 460
-          via flex-[800]/flex-[460] so both cards grow with the page grid */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-2 px-5 pb-3 pt-2 lg:max-w-[1600px] lg:flex-row lg:gap-5 lg:px-[30px] lg:pt-0 lg:pb-[19px]">
+      {/* Figma 1:1908 root — align-self stretch (max-w-1440) · padding 0 60px
+          19px 60px · flex row · gap 20 · justify/align center. Cards cap at
+          Figma's fixed 800/460 widths: at a 1440 viewport the 1280px row
+          centers in the 1320px content box (20px sides), matching the frame
+          exactly; below ~1420px the cards shrink proportionally instead of
+          overflowing. Mobile (1:4965) keeps its own 20px gutters */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:items-center lg:justify-center lg:gap-5 lg:px-[60px] lg:pt-0 lg:pb-[19px]">
         {/* Enterprise card — 800×510 on #041231 (Figma 1:1909) */}
-        <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-auto lg:flex-[800] lg:rounded-2xl">
+        <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-auto lg:max-w-[800px] lg:flex-[800] lg:rounded-2xl">
           {/* Ellipse 3427 — container 603.078×927.122 at (468.49, -395.37),
               rotated 61.22° · scale-y .92 · skew-x 23.46° (Figma 1:1910) */}
           <div aria-hidden className="absolute left-[468.49px] top-[-395.37px] hidden h-[927.122px] w-[603.078px] items-center justify-center lg:flex">
@@ -137,7 +139,7 @@ export default function EnterpriseDealer() {
         </div>
 
         {/* Dealer card — desktop 460×510 (Figma 1:1951) · mobile 353×430 (Figma 1:5005) */}
-        <div className="relative h-[430px] w-full overflow-clip rounded-lg bg-[linear-gradient(175.22deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)] lg:h-[510px] lg:w-auto lg:flex-[460] lg:rounded-2xl lg:bg-[linear-gradient(175.65deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
+        <div className="relative h-[430px] w-full overflow-clip rounded-lg bg-[linear-gradient(175.22deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)] lg:h-[510px] lg:w-auto lg:max-w-[460px] lg:flex-[460] lg:rounded-2xl lg:bg-[linear-gradient(175.65deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
           {/* mobile photo — window 312×249 at (50, 221.67), img h 125.24% (Figma 1:5006) */}
           <div className="absolute left-[50px] top-[221.67px] h-[249px] w-[312px] overflow-hidden lg:hidden">
             <Image

@@ -90,7 +90,7 @@ export default function CompareSection() {
   return (
     <section
       ref={sectionRef}
-      className="group relative overflow-clip"
+      className="group relative overflow-clip lg:h-[800px]"
       style={{
         /* colors measured from the Figma render (1:1498): the 40% black wash
            in the fills list does not dim the render — actual stops are
@@ -255,10 +255,10 @@ export default function CompareSection() {
       </div>
 
       {/* header — desktop only; the mobile frame 1:4703 has its own title block */}
-      <div className="relative mx-auto hidden w-full max-w-[1360px] flex-col items-center gap-[24px] px-5 pt-[62px] lg:flex">
-        <div className="flex flex-col items-center gap-4">
+      <div className="relative mx-auto hidden w-full max-w-[1360px] flex-col items-center gap-[24px] pt-[62.21px] lg:flex">
+        <div className="flex h-[86.36px] flex-col items-center gap-4">
           <Eyebrow label="Why Euler" dark />
-          <h2 className="text-center font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px] text-white">
+          <h2 className="text-center font-display text-[42px] font-semibold leading-[50px] tracking-[-0.84px] text-white">
             What changes when you switch?
           </h2>
         </div>

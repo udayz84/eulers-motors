@@ -135,7 +135,7 @@ export default function ProductShowcase() {
       </div>
       <div
         aria-hidden
-        className="absolute left-[calc(50%_-_25px)] top-[-170.73px] hidden h-[432px] w-[2160px] -translate-x-1/2 bg-surface blur-[86.6px] lg:block"
+        className="absolute left-[calc(50%_-_25px)] top-[-170.73px] hidden h-[432px] w-[2160px] -translate-x-1/2 bg-surface blur-[173.2px] lg:block"
       />
       {/* mobile scene (1:4605, 393×852 at top -41.34): #a3aaba base ·
           environment (mobile-bg-1) · white/50 wash · truck cutout
@@ -164,7 +164,7 @@ export default function ProductShowcase() {
       {/* mobile blurred band (Figma 1:4607): 1874.7×374.9 at (50%+19.5, -73.34) */}
       <div
         aria-hidden
-        className="absolute left-[calc(50%+19.5px)] top-[-73.34px] h-[374.945px] w-[1874.727px] -translate-x-1/2 bg-surface blur-[86.6px] lg:hidden"
+        className="absolute left-[calc(50%+19.5px)] top-[-73.34px] h-[374.945px] w-[1874.727px] -translate-x-1/2 bg-surface blur-[173.2px] lg:hidden"
       />
 
       {/* Figma 1:1317 grid: content spans 80→1360 inside the 1440 frame (1280px)
@@ -176,16 +176,17 @@ export default function ProductShowcase() {
           {/* mobile (Figma 1:4608): gap 14 · title 28px/-0.56 wrapping at 322px */}
           <div className="flex flex-col gap-[14px] lg:max-w-[480px] lg:gap-3">
             <Eyebrow label="Choose your truck" />
-            <h2 className="w-[322px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:w-auto sm:text-[36px] lg:text-[42px] lg:leading-[1.12] lg:tracking-[-0.84px]">
+            <h2 className="w-[322px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:w-auto sm:text-[36px] lg:text-[42px] lg:leading-[1.15] lg:tracking-[-0.84px]">
               Pick the vehicle
               <br className="hidden lg:block" />{" "}
               that fits your work.
             </h2>
           </div>
 
-          {/* Right: 4 vehicle cards — clickable, sync with the arrows */}
+          {/* Right: 4 vehicle cards — clickable, sync with the arrows.
+              Desktop (Figma 1:1328): w 723, space-between (no gap), items-center */}
           <div
-            className="no-scrollbar flex items-center justify-between gap-2 overflow-x-auto sm:gap-4 lg:gap-8 lg:overflow-visible"
+            className="no-scrollbar flex items-center justify-between gap-2 overflow-x-auto sm:gap-4 lg:w-[723px] lg:gap-0 lg:overflow-visible"
             role="tablist"
             aria-label="Vehicle models"
           >
@@ -198,10 +199,10 @@ export default function ProductShowcase() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(index)}
-                  className={`group flex h-[73.215px] shrink-0 cursor-pointer flex-col items-center justify-between transition-all duration-200 lg:h-auto lg:justify-start lg:gap-2 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-85"
+                  className={`group flex h-[73.215px] shrink-0 cursor-pointer flex-col items-center justify-between transition-all duration-200 lg:h-auto lg:w-[100.075px] lg:justify-start lg:gap-[10.868px] ${isActive ? "opacity-100" : "opacity-40 hover:opacity-85"
                     }`}
                 >
-                  <span className="relative flex h-[52px] w-[54.986px] items-center justify-center overflow-hidden rounded-[9.621px] bg-transparent transition-transform group-hover:scale-105 sm:h-[64px] sm:w-[72px] lg:h-[80px] lg:w-[94px] lg:rounded-[12px]">
+                  <span className="relative flex h-[52px] w-[54.986px] items-center justify-center overflow-hidden rounded-[9.621px] bg-transparent transition-transform group-hover:scale-105 sm:h-[64px] sm:w-[72px] lg:h-[94.642px] lg:w-[100.075px] lg:rounded-[14.491px]">
                     <span
                       className="absolute"
                       style={{
@@ -221,7 +222,7 @@ export default function ProductShowcase() {
                       />
                     </span>
                   </span>
-                  <span className="whitespace-nowrap text-center text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-ink lg:text-[14px] lg:tracking-normal">
+                  <span className="whitespace-nowrap text-center text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-ink lg:text-[16px] lg:tracking-[-0.32px]">
                     {vehicle.tabLabel}
                   </span>
                 </button>

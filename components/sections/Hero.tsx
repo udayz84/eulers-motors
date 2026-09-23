@@ -23,9 +23,12 @@ const HERO_SLIDES = [
 const SLIDES = HERO_SLIDES.length;
 
 /**
- * Hero V3 (Figma 1:1283). Desktop 1440×800 · mobile 393×762.
- * Background: /images/hero_desktop.png (1600×888) on lg+, /images/hero_mobile.png
- * (393×762) below — both match the Figma frame aspect, full-bleed object-cover.
+ * Hero V3 (Figma 1:1283). Desktop frame 1440×800 · mobile frame 393×762.
+ * The section keeps each frame's aspect ratio and scales with viewport width,
+ * so the hero always shows the full Figma frame (never a cover-crop).
+ * Background: /images/hero_desktop_resize.png (2880×1598 — 2× export of the
+ * Figma "Background" image fill, node 1:1285) from sm up, /images/
+ * hero_mobile.png (393×762) below — both edge-to-edge.
  */
 export default function Hero() {
   const [active, setActive] = useState(1); // Figma shows the 2nd dot active
@@ -33,24 +36,30 @@ export default function Hero() {
   const go = (dir: 1 | -1) => setActive((i) => (i + dir + SLIDES) % SLIDES);
 
   return (
-    <section id="hero" className="relative h-[852px] overflow-clip lg:h-[900px]" aria-label="Featured vehicle">
-      {/* hero backgrounds — desktop 1440×800 / mobile 393×762 (Figma 1:1283 / 1:4523);
-          both sources match the frame aspect, so object-cover fits edge-to-edge */}
+    <section
+      id="hero"
+      className="relative aspect-[393/762] overflow-clip sm:aspect-[1440/800]"
+      aria-label="Featured vehicle"
+    >
+      {/* hero backgrounds — desktop 1440×800 / mobile 393×762 (Figma 1:1283 /
+          1:4523). The section carries each frame's aspect ratio, so at any
+          window width the hero IS the Figma frame scaled — never a crop. The
+          mobile frame is portrait, so it only serves real phone widths (<sm). */}
       <Image
         src="/images/hero_mobile.png"
         alt="Euler Turbo EV 1000 electric truck"
         fill
         priority
         sizes="100vw"
-        className="pointer-events-none object-cover lg:hidden"
+        className="pointer-events-none object-cover sm:hidden"
       />
       <Image
-        src="/images/hero_desktop.png"
+        src="/images/hero_desktop_resize.png"
         alt="Euler Turbo EV 1000 electric truck"
         fill
         priority
         sizes="100vw"
-        className="pointer-events-none object-cover max-lg:hidden"
+        className="pointer-events-none object-cover max-sm:hidden"
       />
 
       {/* carousel arrows (desktop only) */}
@@ -58,7 +67,7 @@ export default function Hero() {
         type="button"
         aria-label="Previous slide"
         onClick={() => go(-1)}
-        className="absolute left-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer hover:scale-110 transition-transform z-20"
+        className="absolute left-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer rounded-[10px] bg-white/25 backdrop-blur-[100px] backdrop-saturate-100 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),inset_1px_0_1px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(255,255,255,0.1),0_0_14px_rgba(255,255,255,0.15)] hover:scale-110 transition-transform z-20"
       >
         <Image
           src="/assets/hero/arrow-left.svg"
@@ -72,7 +81,7 @@ export default function Hero() {
         type="button"
         aria-label="Next slide"
         onClick={() => go(1)}
-        className="absolute right-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer hover:scale-110 transition-transform z-20"
+        className="absolute right-10 top-1/2 hidden -translate-y-[calc(50%+90px)] lg:block cursor-pointer rounded-[10px] bg-white/25 backdrop-blur-[100px] backdrop-saturate-100 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),inset_1px_0_1px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(255,255,255,0.1),0_0_14px_rgba(255,255,255,0.15)] hover:scale-110 transition-transform z-20"
       >
         <Image
           src="/assets/hero/arrow-right.svg"
@@ -92,7 +101,7 @@ export default function Hero() {
         <Button
           variant="dark"
           arrow="white"
-          className="h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
+          className="max-lg:gradient-border-dark-soft h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
         >
           Explore our Vehicles
         </Button>

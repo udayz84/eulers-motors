@@ -17,11 +17,14 @@ const STORY_IMAGES = [
 export default function CustomerReviews() {
   return (
     <section className="bg-white overflow-hidden" aria-label="Customer reviews">
-      {/* Figma 1:1669: heading block sits at the wrapper's content edge, aligned
-          with every other section's container (max-w-[1440px] px-5 · lg widened
-          to 1600px with 30px sides) · 42px gap to the cards (lg:pb-[42px]) ·
-          heading stack gap 16px (lg:gap-4) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:items-start lg:max-w-[1600px] lg:px-[30px] lg:pb-[42px] lg:pt-[62px]">
+      {/* Figma 1:1669 root — width 1440 · padding 62px 60px · flex-col ·
+          items-center · justify-center · gap 42px. The 42px gap and 62px bottom
+          padding live on the cards wrapper below (the cards row spans the full
+          viewport for the bleed carousel). Heading row (1:1670) is w-1280,
+          centered in the 1320px content box → text starts at x=80 on desktop.
+          Heading stack gap 16px (lg:gap-4). Mobile (1:4828) keeps px-5 ·
+          pt-10 · pb-24. */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:justify-center lg:px-[60px] lg:pb-[42px] lg:pt-[62px]">
         <div className="flex w-full max-w-[1280px] flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
           <Eyebrow label="Customers" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
@@ -35,24 +38,27 @@ export default function CustomerReviews() {
 
       {/* cards — mobile snap scroller; desktop row per Figma 1:1678:
           h-485.645, gap-24, bleeding off the right edge (carousel).
-          First card starts under the heading at x=60 (shifted left from
-          Figma's x=80 per review)
+          First card starts at the Figma row's left edge: x=80 on a 1440
+          viewport (60px padding + 20px centering offset of the w-1280 row
+          inside the 1320px content box), staying aligned under the heading
+          at every width
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[18px] lg:pb-[62px]">
         <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
-          {/* Spacers for alignment — they mirror the header's content edge so
-              the first card starts under the heading. Desktop: container
-              offset + a constant 6px (30px gutter minus the row's 24px gap —
-              spacers are flex children, the gap follows them). Mobile
-              (Figma 1:4836): 20px gutter minus the 13px gap */}
+          {/* Spacers for alignment — they mirror the header row's left edge so
+              the first card starts under the heading. Desktop: centered
+              container offset (≥1440) + the 1280 row's centering offset
+              (≥1400) + 60px padding − the row's 24px gap (spacers are flex
+              children, the gap follows them). Mobile (Figma 1:4836): 20px
+              gutter minus the 13px gap */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
           <div
             aria-hidden
             className="desktop-spacer hidden shrink-0 lg:block"
             style={{
               width:
-                "calc(max(0px, (100vw - 1600px) / 2) + 6px)",
+                "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)",
             }}
           />
         {STORY_IMAGES.map((story, i) => (
@@ -135,7 +141,7 @@ export default function CustomerReviews() {
             className="desktop-spacer hidden shrink-0 lg:block"
             style={{
               width:
-                "calc(max(0px, (100vw - 1600px) / 2) + 6px)",
+                "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)",
             }}
           />
           </div>

@@ -5,6 +5,7 @@ const POSTS = [
   { imgs: ["/assets/social/post-c.png"], user: "variant-a" },
   { imgs: ["/assets/social/post-d.png"], user: "variant-a" },
   { imgs: ["/assets/social/post-e.png"], user: "variant-a" },
+  { imgs: ["/assets/social/post-b.jpg"], user: "variant-a" },
   { imgs: ["/assets/social/post-a.jpg"], user: "variant-b" },
 ] as const;
 
@@ -15,15 +16,16 @@ const POSTS = [
 export default function SocialWall() {
   return (
     <section className="bg-white overflow-hidden" aria-label="From the road">
-      {/* Figma 1:2008 anchors at x=80 — expanded left-side only to 24px per
-          review; the row bleeds off the right edge (carousel). The heading
-          starts on the first card's line (Figma: header and first post both at
-          x=80): card left = 24px anchor + 30.663px row gap. On wide screens
-          (≥1760px, all 4 cards fit) the row centers instead, so the heading
-          block shifts to follow the first card (constant -106px off the
-          1440 frame: 50vw − 826px card group centering) */}
+      {/* Figma 1:2008: 1440 frame · padding 60px 60px 20px · column ·
+          items-center · gap 42. Header and post row are both 1280 wide inside
+          the 1320 content box, so they center and start at x = 60 + 20 = 80.
+          The row bleeds off the right edge (carousel), so it lives outside
+          this padded container; its spacer anchors the first card on the same
+          x=80 line as the heading. On wide screens (≥2233px, all 5 cards fit)
+          the row centers instead, and the heading follows the first card
+          (constant −396.33px = −316.33px group offset (2072.65−1440)/2 − 80px anchor) */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[20px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[60px]">
-        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-[54.663px] min-[1760px]:-ml-[160.658px] lg:text-left">
+        <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-[80px] min-[2233px]:-ml-[396.326px] lg:text-left">
           <Eyebrow label="From the road" />
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             See the trucks in action.
@@ -35,23 +37,26 @@ export default function SocialWall() {
       </div>
 
       {/* desktop row anchored at x=80, bleeding right — offset on a wrapper so
-          the snap scroller doesn't consume it as initial scroll */}
-      <div className="w-full pb-5 lg:pb-[60px]">
-        <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[1760px]:justify-center">
-          {/* Spacers for alignment — the desktop spacer anchors the row to the
-              page grid; once the viewport fits all 4 cards (≥1760px) it hides
-              and the row centers instead (justify-center on the snap-row).
-              Mobile mirrors Customer Reviews: 20px gutter (the heading's px-5
-              content edge) minus the row's 12px gap, so the first card starts
-              at exactly the same 20px as the reviews cards */}
+          the snap scroller doesn't consume it as initial scroll. Wrapper pb is
+          the Figma container's 20px bottom padding (1:2008), nudged up a bit
+          for breathing room below the cards */}
+      <div className="w-full pb-[28px] lg:pb-[32px]">
+        <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center">
+          {/* Spacers for alignment — the desktop spacer anchors the first card
+              at x=80 on the 1440 frame (Figma 1:2008): frame margin + 49.337px
+              spacer + 30.663px row gap = margin + 80px. Once the viewport fits
+              all 5 cards (≥2233px) it hides and the row centers instead
+              (justify-center on the snap-row). Mobile mirrors Customer
+              Reviews: 20px gutter (the heading's px-5 content edge) minus the
+              row's 12px gap, so the first card starts at exactly 20px */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block min-[2233px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }} />
           {POSTS.map((post, i) => {
             const last = i === POSTS.length - 1;
             return (
               <article
                 key={i}
-                className="relative h-[400px] w-[300px] shrink-0 overflow-clip rounded-2xl lg:h-[485.6px] lg:w-[390px] lg:rounded-[20.442px]"
+                className="relative h-[400px] w-[300px] shrink-0 overflow-clip rounded-2xl lg:h-[519.574px] lg:w-[390px] lg:rounded-[20.442px]"
               >
                 <Image src={post.imgs[0]} alt="Euler trucks in action" fill sizes="400px" className="object-cover" />
                 <div aria-hidden className="absolute -bottom-[152px] left-1/2 h-[316px] w-[604px] -translate-x-1/2 bg-black/20 blur-[130.5px]" />
@@ -121,7 +126,7 @@ export default function SocialWall() {
           {/* Spacers for right bleed padding — same width as the left one,
               keeping scroll-end padding symmetric with the start gutter */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
-          <div aria-hidden className="hidden shrink-0 lg:block min-[1760px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 24px)" }} />
+          <div aria-hidden className="hidden shrink-0 lg:block min-[2233px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }} />
           </div>
         </div>
     </section>

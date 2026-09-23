@@ -13,9 +13,10 @@ type ButtonProps = {
 };
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  // bg #121212 · radius 4 · 0.5px white border on desktop only (Figma mobile
-  // button nodes — e.g. 1:5019, 1:4956 — have no border)
-  dark: "bg-ink text-white lg:border-[0.5px] lg:border-solid lg:border-white",
+  // bg #121212 · radius 4 · desktop borders use a 0.5px white→transparent
+  // gradient stroke — see .gradient-border-dark in globals.css. Figma mobile
+  // button nodes — e.g. 1:5019, 1:4956 — have no border
+  dark: "bg-ink text-white lg:gradient-border-dark",
   white: "bg-white border border-transparent",
   outline: "bg-surface border border-ink/50 text-ink",
 };

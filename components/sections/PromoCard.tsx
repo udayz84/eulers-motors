@@ -18,6 +18,9 @@ type PromoCardProps = {
   bigText?: boolean;
   /** desktop card height (Figma: Neo 413 · Talk 450; 480 per review) */
   cardH?: "413" | "450" | "470" | "480" | "500";
+  /** desktop section frame (Figma): "neo" 80px sides / 48px top-bottom (1:1442) ·
+      "talk" 60px sides / 58px top-bottom (1:1472) — both inside a 1440px container */
+  frame?: "neo" | "talk";
   /** desktop photo placement: [left%, top%, width%, height%] of the card (Figma crop) */
   crop?: [number, number, number, number];
   /** mobile photo placement (Figma mobile crop, e.g. Neo 1:4671) */
@@ -46,6 +49,7 @@ export default function PromoCard({
   icon = "arrow",
   bigText = false,
   cardH = "413",
+  frame = "neo",
   crop,
   cropMobile,
   mobileLayers,
@@ -65,12 +69,15 @@ export default function PromoCard({
     : undefined;
   return (
     <section className="bg-white" aria-label={title}>
-      {/* Shared section spacing — both promo cards (Neo 1:1442 · Talk
-          1:1472) use one grid: 20px sides / 40px top-bottom on mobile,
-          30px sides / 48px top-bottom inside a widened 1600px container
-          on desktop. Figma's per-card 80px/60px grids were overridden for
-          uniform outer alignment. */}
-      <div className="mx-auto w-full max-w-[1440px] px-5 py-10 lg:max-w-[1600px] lg:px-[30px] lg:py-[48px]">
+      {/* Section frame — mobile: 20px sides / 40px top-bottom (reviewed);
+          desktop is per-card Figma: Neo (1:1442) 80px sides / 48px top-bottom,
+          Talk (1:1472) 60px sides / 58px top-bottom, both inside a 1440px
+          container → cards 1280px (Neo) and 1320px (Talk) wide. */}
+      <div
+        className={`mx-auto w-full max-w-[1440px] px-5 py-10 ${
+          frame === "talk" ? "lg:px-[60px] lg:py-[58px]" : "lg:px-[80px] lg:py-[48px]"
+        }`}
+      >
         <div
           className={`relative h-[420px] w-full overflow-clip rounded-[18px] lg:rounded-[20px] ${
             cardH === "450"

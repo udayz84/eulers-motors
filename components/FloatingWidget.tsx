@@ -24,8 +24,12 @@ const ACTIONS = [
 export default function FloatingWidget() {
   const [open, setOpen] = useState(false);
 
+  // desktop: rail hangs 30px off the right edge so its black right pad is
+  // cropped (Figma 1:2258 — rail spans x 1372–1470 in the 1440px frame);
+  // vertically at 50% — Figma's y=400 of the 800px hero frame — so it stays
+  // proportional when the hero scales with viewport width
   return (
-    <div className="absolute bottom-[72px] right-[-29.53px] z-40 lg:bottom-auto lg:right-0 lg:top-[400px]">
+    <div className="absolute bottom-[72px] right-[-29.53px] z-40 lg:bottom-auto lg:right-[-30px] lg:top-1/2">
       <div className="relative flex items-end gap-[19px]">
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside
@@ -61,7 +65,7 @@ export default function FloatingWidget() {
                 key={a.label}
                 type="button"
                 aria-label={a.label}
-                className="flex size-[50px] items-center justify-center rounded-full border border-white/10 bg-white/[0.12]"
+                className="glass-rim flex size-[50px] items-center justify-center rounded-full border border-white/10 bg-white/[0.12]"
               >
                 <Image
                   src={a.icon}
@@ -80,7 +84,7 @@ export default function FloatingWidget() {
           <button
             type="button"
             aria-label="Chat on WhatsApp"
-            className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[2px] shadow-sm"
+            className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[2px]"
           >
             <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
               <Image

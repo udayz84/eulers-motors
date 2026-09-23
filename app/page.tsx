@@ -31,6 +31,7 @@ export default function Home() {
           imageAlt="Neo by Euler three-wheelers"
           wash="blue"
           cardH="470"
+          frame="neo"
           /* Figma 1:1443 crop: left -14.13% · top -52.08% · 114.13% × 178.14% */
           crop={[-14.13, -52.08, 114.13, 178.14]}
           /* Figma 1:4671 mobile crop: left -116.95% · top 14.1% · 243.08% × 102.25% */
@@ -49,6 +50,7 @@ export default function Home() {
           icon="phone"
           bigText
           cardH="480"
+          frame="talk"
           /* Figma 1:1473 crop: left -5.58% · top -11.78% · 76.19% × 126% */
           crop={[-5.58, -11.78, 76.19, 126]}
           /* Figma 1:4691 mobile layers: desktop-bg low + talk-3 on top */

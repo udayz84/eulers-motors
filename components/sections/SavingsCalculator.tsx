@@ -108,50 +108,39 @@ export default function SavingsCalculator() {
 
   return (
     <section className="bg-deep py-[42px] lg:pt-[52px] lg:pb-[48px]" aria-label="Savings calculator">
-      {/* container matches PromoCard's shared spacing pattern exactly: 20px
-          sides in a max-w-[1440px] frame, 30px sides inside the widened
-          1600px container on desktop. The chart column flexes to fill (its
-          w-full svg scales responsively) so the row spans the full card
-          width while the controls column keeps its designed 512px */}
-      {/* desktop grid: heading row spans both columns (title left, "Select
-          Vehicle" right over the controls column), then chart | controls
-          below with bottoms aligned; mobile keeps the stacked flex-col */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[34px] px-5 lg:max-w-[1600px] lg:grid lg:grid-cols-[1fr_560px] lg:gap-8 lg:px-[30px] lg:pt-0">
-        {/* heading row — title and "Select Vehicle" share one row, the label
-            aligned over the 512px controls column (Figma 1:2391) */}
-        <div className="flex flex-col gap-[14px] lg:col-span-2 lg:flex-row lg:items-end lg:justify-between lg:pt-[14px]">
-          <div className="flex flex-col gap-[14px] lg:gap-3">
-            <Eyebrow label="Savings calculator" dark />
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:text-[28px]">
+      {/* container frame (Figma 1:1471/1:2381): 1440px wide, padding
+          52px top · 89px right · 48px bottom · 71px left → a 1280px content
+          row split 736 + 32 gap + 512 (1:2382–1:2391), columns bottom-aligned
+          (items-end). Mobile: 20px sides, stacked flex-col. */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[34px] px-5 lg:grid lg:grid-cols-[minmax(0,736px)_512px] lg:items-end lg:gap-8 lg:pl-[71px] lg:pr-[89px]">
+        {/* left column (Figma 1:2383): 736px, flex-col gap 36 — title
+            container (gap 12, pt 14) above the 736×496 chart (Component30);
+            on mobile only the title renders here */}
+        <div className="lg:flex lg:min-w-0 lg:flex-col lg:gap-[36px]">
+          <div className="flex flex-col gap-[14px] lg:gap-3 lg:pt-[14px]">
+            {/* Figma 1:2385: navy #0E2F6D badge marks with white text on the dark section */}
+            <Eyebrow label="Savings calculator" dark icons="navy" />
+            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
               Calculate your savings
             </h2>
           </div>
-          <p className="hidden text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white lg:block lg:w-[560px] lg:text-[20px] lg:tracking-[-0.4px]">
-            Select Vehicle
-          </p>
+          <div className="hidden lg:block">
+            <Image
+              src="/assets/calculator/chart.svg"
+              alt="Savings comparison chart between diesel and Euler vehicles"
+              width={736}
+              height={496}
+              className="h-auto w-full"
+            />
+          </div>
         </div>
 
-        {/* chart cell — wrapper hidden on mobile so the stacked order keeps
-            its single 34px gap; capped near the 736px Figma width (1:2382),
-            eased to 880px so the widened columns fill the container without
-            a dead center gap; self-end keeps its bottom on the sliders' baseline */}
-        <div className="hidden lg:block lg:max-w-[880px] lg:min-w-0 lg:self-end">
-          <Image
-            src="/assets/calculator/chart.svg"
-            alt="Savings comparison chart between diesel and Euler vehicles"
-            width={736}
-            height={496}
-            className="h-auto w-full"
-          />
-        </div>
-
-        {/* right cell: vehicle selector + sliders — the 512px grid column
-            (Figma 1:2391) stretched full-height; justify-between keeps the
-            chips right under the heading-row label and the sliders bottom-aligned
-            with the chart. Mobile-only label sits back above the chips */}
-        <div className="flex flex-1 flex-col gap-6 lg:min-w-0 lg:gap-[48px] lg:justify-between">
+        {/* right column (Figma 1:2391): 512px, flex-col gap 42 — the
+            vehicle-selector block (gap 20) above the sliders panel; on
+            mobile it stacks full-width below the title */}
+        <div className="flex flex-1 flex-col gap-6 lg:min-w-0 lg:gap-[42px]">
           <div className="flex flex-col gap-3 lg:gap-5">
-            <p className="text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white lg:hidden">
+            <p className="text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white lg:text-[20px] lg:tracking-[-0.4px]">
               Select Vehicle
             </p>
 
@@ -159,7 +148,7 @@ export default function SavingsCalculator() {
                r6, 42px thumbs) · desktop: 2×2 grid two per row */}
             <div
               ref={chipsRef}
-              className="-mx-5 flex gap-2 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-[24px] lg:overflow-visible lg:px-0"
+              className="-mx-5 flex gap-2 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-[18px] lg:overflow-visible lg:px-0"
             >
               {VEHICLES.map((v, i) => (
                 <button
@@ -206,9 +195,9 @@ export default function SavingsCalculator() {
             </div>
           </div>
 
-          {/* sliders panel — mobile p12/r8/gap12 (Figma); desktop p24 sides,
-              vertical padding eased to 56px for a taller card */}
-          <div className="flex flex-col gap-3 rounded-lg bg-deeper p-3 lg:gap-8 lg:rounded-2xl lg:px-6 lg:py-[56px]">
+          {/* sliders panel (Figma 1:2421): #030d1e, r16, p24, gap 32 —
+              mobile p12/r8/gap12 per its own frame */}
+          <div className="flex flex-col gap-3 rounded-lg bg-deeper p-3 lg:gap-8 lg:rounded-2xl lg:p-6">
             <SliderBlock
               label="How many kilometres driven per day?"
               value={km}

@@ -37,14 +37,12 @@ const ARTICLES = [
 export default function Insights() {
   return (
     <section className="bg-white" aria-label="Insights">
-      {/* Figma 1:1853: content spans 80→1360 inside the 1440 frame (1280px) —
-          container matches the Promo Card (Neo 1:1442): px-5 mobile ·
-          max-w 1600px + px-[30px] desktop, so the cards share the card's
-          content boundaries */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:max-w-[1600px] lg:gap-8 lg:px-[30px] lg:pb-14">
+      {/* Figma 1:1853: 1440 frame, padding 42px 80px 56px, column, items-center,
+          gap 32 — header 1280×96.36 · highlights 1280×407 (3× 413.33 + 2×20) */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-8 pt-[42px] lg:items-center lg:gap-8 lg:px-[80px] lg:pb-14">
         {/* header — centered on mobile (Figma 1:4925), left on desktop; title
             stays on one line (1:1862) */}
-        <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex w-full flex-col items-center lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
             <Eyebrow label="insights" />
             <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
@@ -60,7 +58,7 @@ export default function Insights() {
           </div>
         </div>
 
-        <div className="snap-row snap-center-mobile -mx-5 gap-[13px] lg:mx-0 lg:gap-5">
+        <div className="snap-row snap-center-mobile -mx-5 w-full gap-[13px] lg:mx-0 lg:gap-5">
           {/* Mobile spacer — same system as Customer Reviews: the row bleeds
               to the viewport edge (-mx-5), so 20px gutter minus the 13px gap
               starts the first card at the container's 20px (px-5) content edge */}

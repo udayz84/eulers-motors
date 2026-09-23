@@ -18,7 +18,7 @@ const FEATURES = [
  */
 export default function PrimeBanner() {
   return (
-    <section className="relative h-[620px] overflow-clip bg-black lg:h-[650px] lg:bg-white" aria-label="Euler Prime">
+    <section className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         {/* mobile background (Figma 1:4894) — bg-3 only, bottom half of the section */}
         <div className="absolute inset-0 overflow-hidden lg:hidden">
@@ -74,13 +74,12 @@ export default function PrimeBanner() {
         <div className="absolute inset-0 bg-black/20 backdrop-blur-[16px]" />
       </div>
 
-      {/* desktop column per Figma 1:1821: vertically centered, left-anchored
-          on the shared section grid — the same starting line as every other
-          section (max-w-[1440px] px-5 · lg widened to 1600px with 30px sides)
-          measured against the full-bleed banner. The bg art scales with the
-          viewport, so the text keeps its position in the composition at every
-          width. Mobile stays top-left as before */}
-      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(636px+max(0px,(100vw-1600px)/2))] lg:justify-center lg:gap-[25px] lg:pl-[calc(max(0px,(100vw-1600px)/2)+30px)] lg:pt-0">
+      {/* desktop column per Figma 1:1821: left 80px inside the 1440px frame,
+          vertically centered, w 636. The anchor tracks the centered 1440px
+          frame on wider viewports (50vw-640px = frame left + 80px), floored
+          at 80px below it; the bg art scales with the viewport. Mobile stays
+          top-left as before */}
+      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(max(80px,calc(50vw-640px))+636px)] lg:justify-center lg:gap-[25px] lg:px-0 lg:pl-[max(80px,calc(50vw-640px))] lg:pt-0">
         <Eyebrow label="Euler Prime" dark />
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[52px] lg:tracking-[-1.04px]">
           Get free check-up at your depot with Prime

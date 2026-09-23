@@ -12,13 +12,12 @@ import Button from "../ui/Button";
 export default function Technology() {
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
-      {/* container matches PromoCard's shared spacing system: 20px sides in a
-          1440px frame on mobile, 30px sides in a widened 1600px frame on lg —
-          the cards' outer edges align with the promo cards at every width */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:max-w-[1600px] lg:gap-[42px] lg:px-[30px] lg:pb-12 lg:pt-12">
+      {/* container — Figma 1:1618: 1440×1036, padding 48/80, column, items-start,
+          gap 42 (header 1280×100 → cards 1280×798: rows 431 + 20 + 343) */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:h-[1036px] lg:items-start lg:gap-[42px] lg:px-[80px] lg:pb-12 lg:pt-12">
         {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-col gap-[14px]">
+        <div className="flex w-full flex-col gap-5 lg:h-[100px] lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-[14px] lg:self-start">
             <Eyebrow label="Built for the job" />
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
               Built for Indian roads.
@@ -35,10 +34,10 @@ export default function Technology() {
 
         {/* cards — mobile 12px apart, rows 20px apart on lg (Figma 1:1639) ·
             mobile CTA 24px below the cards, centered (Figma 1:4818) */}
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-3 lg:gap-5">
+        <div className="flex w-full flex-col gap-6">
+          <div className="flex w-full flex-col gap-3 lg:gap-5">
             {/* row 1 */}
-            <div className="flex flex-col gap-3 lg:flex-row lg:gap-5">
+            <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
               <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] md:h-[360px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
                 {/* desktop card art — both Figma CARD fills (1:1641), bottom-anchored */}
                 <Image src="/assets/technology/card-battery.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
@@ -106,7 +105,7 @@ export default function Technology() {
             </div>
 
             {/* row 2 */}
-            <div className="flex flex-col gap-3 lg:flex-row lg:gap-5">
+            <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
               <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] md:h-[330px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
                 {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
                 <Image

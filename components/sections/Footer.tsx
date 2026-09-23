@@ -53,23 +53,27 @@ export default function Footer() {
         width={1588}
         height={991}
         aria-hidden
-        className="absolute bottom-0 left-[-3.12%] h-[33.36%] w-[103.12%] max-w-none object-cover lg:left-0 lg:h-auto lg:w-full"
+        className="absolute bottom-0 left-[-3.12%] h-[33.36%] w-[103.12%] max-w-none object-cover lg:bottom-auto lg:left-[-2.39%] lg:top-[0.04%] lg:h-full lg:w-[103.33%]"
         priority={false}
       />
       {/* mobile wash — Figma 1:5129: white blur rect 726.216×155.082 at top 607.15, centered */}
       <div aria-hidden className="absolute left-1/2 top-[607.15px] h-[155.082px] w-[726.216px] -translate-x-1/2 bg-white blur-[44.6px] lg:hidden" />
-      <div aria-hidden className="absolute inset-x-0 top-0 hidden h-[48%] bg-white/90 blur-[168px] lg:block" />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 hidden h-[45%] bg-black/25 blur-[102px] lg:block" />
+      {/* desktop washes — Figma 1:2176 white 3971×848 at (-1519, -351.73),
+          blur 168.25 · Figma 1:2175 black 2509.121×754.59, centered, bottom
+          -816.08, blur 102.15 (only its blurred tail rises into the frame) */}
+      <div aria-hidden className="absolute left-[-1519px] top-[-351.73px] hidden h-[848px] w-[3971px] bg-white blur-[168.25px] lg:block" />
+      <div aria-hidden className="absolute bottom-[-816.08px] left-[calc(50%-77.4px)] hidden h-[754.59px] w-[2509.121px] bg-black/20 blur-[102.15px] lg:block" />
 
-      {/* container follows the PromoCard grid — max-w-[1440px] px-5 on
-          mobile/tablet, lg:max-w-[1600px] lg:px-[30px] on desktop — so all
-          footer content (header row, columns, bottom bar) starts and ends on
-          the promo cards' content boundaries */}
-      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-auto lg:max-w-[1600px] lg:min-h-[927px] lg:gap-0 lg:px-[30px] lg:pb-[38px] lg:pt-[39px]">
+      {/* Figma 1:2174 — 1440×927 frame; the three content rows (header,
+          columns, bottom bar) are w-1280 centered → 80px sides via px-[80px].
+          Row anchors: header top 39.12 · links 42.93 below it · bottom bar
+          38.05 above the frame bottom. Mobile (1:5128) keeps its own 1006px
+          accordion layout */}
+      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-[927px] lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[39.12px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">
-            <div className="flex items-center gap-[13.272px]">
+            <div className="flex items-center gap-[13.272px] lg:gap-4">
               <Image src="/assets/footer/logo-dark.svg" alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
               <Image src="/assets/footer/icon-audio.svg" alt="" width={24} height={24} aria-hidden className="size-5 lg:size-[24.111px]" />
             </div>

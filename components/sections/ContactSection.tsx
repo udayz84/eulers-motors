@@ -15,32 +15,23 @@ const CONTACTS = [
 export default function ContactSection() {
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-6 pt-6 lg:max-w-[1600px] lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:px-[30px] lg:pb-[42px] lg:pt-16">
+      {/* Figma 1:1974 — width 1440 · padding 64px 80px 42px 80px ·
+          justify-between · items-center (columns 613 + 150 gap + 517 = 1280) */}
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-center lg:justify-between lg:px-[80px] lg:pb-[42px] lg:pt-[64px]">
         {/* left column — heading top · contacts bottom of the 683px column (Figma 1:1975) */}
         <div className="relative flex flex-col gap-6 lg:h-[683.477px] lg:justify-between lg:gap-0">
-          {/* photo wash — Figma 630.733×441 at (-8, 139.55), scaled up to
-              800×559.45 to fill the widened 1600px-grid column; four white
-              fades (right/left/top/bottom) per Figma 1:1976.
-              Blur removed per review — the truck renders sharp. */}
-          <div aria-hidden className="absolute left-[-8px] top-[95px] hidden h-[559.45px] w-[800px] lg:block">
-            <div className="absolute inset-0 overflow-hidden">
-              <Image
-                src="/assets/enterprise/truck-photo.png"
-                alt=""
-                width={800}
-                height={560}
-                className="absolute max-w-none object-cover"
-                style={{ left: "-0.09%", top: "-3.49%", width: "100.19%", height: "103.49%" }}
-              />
-            </div>
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, rgba(255,255,255,0) 65.285%, rgb(255,255,255) 100%), linear-gradient(-90deg, rgba(255,255,255,0) 71.138%, rgb(255,255,255) 100%), linear-gradient(0deg, rgba(255,255,255,0) 69.07%, rgb(255,255,255) 100%), linear-gradient(179.86deg, rgba(255,255,255,0) 51.97%, rgb(255,255,255) 99.827%)",
-              }}
-            />
-          </div>
+          {/* photo wash — Figma 1:1976 exact box: 630.733×441 at (-8, 139.55).
+              Asset is Figma's own composited export of that node (photo, four
+              white fades and 30.83px blur baked in) so the wash renders exactly
+              as designed instead of approximating the gradients in CSS. */}
+          <Image
+            aria-hidden
+            src="/assets/enterprise/truck-wash.png"
+            alt=""
+            width={630}
+            height={441}
+            className="absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[630.733px] object-cover lg:block"
+          />
 
           <div className="relative flex flex-col gap-4">
             <Eyebrow label="Next step" />
@@ -101,9 +92,9 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* form card — desktop variant (Figma 517px; widened to 640px to fill
-            the 1600px Promo Card grid and close the center gap) */}
-        <div className="hidden w-[640px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
+        {/* form card — desktop variant, Figma 1:2006/1:2007 exact:
+            517 × 683.477 · p-32 · gap-32 · radius 16 */}
+        <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex lg:h-[683.477px]">
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
               Book a test drive
@@ -149,11 +140,10 @@ export default function ContactSection() {
 
 function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: string }) {
   return (
-    /* Figma fixes all three rows at ~301px wide (1:1988/1:1994/1:2000) —
-       widened to 390px to fill the 1600px Promo Card grid · mobile rows
-       (1:5040/1:5046/1:5052) pad 8px — the 42px icon sits at x=8, y=8 in the
-       58px-tall row */
-    <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-2 lg:w-[390px] lg:gap-6 lg:p-5">
+    /* Figma sizes each row by content — 301/301/302px wide (1:1988/1:1994/1:2000),
+       98px tall: p-20 + 58px icon · mobile rows (1:5040/1:5046/1:5052) pad 8px —
+       the 42px icon sits at x=8, y=8 in the 58px-tall row */
+    <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-2 lg:gap-6 lg:p-5">
       <span className="flex size-[52px] shrink-0 items-center justify-center rounded-[7px] bg-deep-card lg:size-[58px] lg:rounded-[8.12px]">
         <Image src={icon} alt="" width={28} height={28} aria-hidden className="size-7 brightness-0 invert lg:size-6" />
       </span>
