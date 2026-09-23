@@ -36,7 +36,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-lr-200",
     tabLabel: "Strom EV LR 200",
     title: "Storm EV LongRange 200",
-    image: "/assets/products/vehicle-storm-lr200.png",
+    image: "/vehicles/stormev.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
     specs: {
       range: "200 km",
@@ -48,7 +48,7 @@ const VEHICLES: VehicleData[] = [
     id: "turbo-ev-1000",
     tabLabel: "Turbo EV 1000",
     title: "Turbo EV 1000",
-    image: "/assets/products/vehicle-turbo-1000.png",
+    image: "/vehicles/Turboev1000.png",
     crop: [-2.9, -6.56, 322.07, 228],
     specs: {
       range: "180 km",
@@ -100,11 +100,12 @@ export default function ProductShowcase() {
           arrows/tabs cycle the selected vehicle's specs, not the truck. */}
       <div aria-hidden className="absolute inset-0 hidden pointer-events-none lg:block">
         <Image
-          src="/assets/products/main-bg.png"
+          src="/images/vehicel images.png"
           alt=""
           fill
           sizes="100vw"
-          className="object-cover object-bottom opacity-50"
+          className="object-cover object-bottom"
+          quality={100}
         />
       </div>
       {/* Scene box (1:1319, Figma 1440×874, bottom-anchored): the default
@@ -114,28 +115,23 @@ export default function ProductShowcase() {
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
-        {current.id === "storm-ev-lr-200" ? (
+        <div
+          key={current.id}
+          className={`animate-fadeIn absolute ${
+            ["turbo-ev-1000", "storm-ev-lr-200"].includes(current.id)
+              ? "left-1/2 top-[10%] h-[80%] w-[90%] -translate-x-1/2"
+              : "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
+          }`}
+        >
           <Image
-            src="/assets/products/scene.png"
+            src={current.image}
             alt=""
             fill
-            sizes="(min-width: 1440px) 1440px, 100vw"
-            className="object-fill"
+            sizes="(min-width: 1440px) 620px, 42vw"
+            className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+            quality={100}
           />
-        ) : (
-          <div
-            key={current.id}
-            className="animate-fadeIn absolute left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
-          >
-            <Image
-              src={current.image}
-              alt=""
-              fill
-              sizes="(min-width: 1440px) 620px, 42vw"
-              className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
-            />
-          </div>
-        )}
+        </div>
       </div>
       <div
         aria-hidden
@@ -221,6 +217,7 @@ export default function ProductShowcase() {
                         fill
                         sizes="120px"
                         className="object-cover"
+                        quality={100}
                       />
                     </span>
                   </span>
