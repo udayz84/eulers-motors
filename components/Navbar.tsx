@@ -21,6 +21,42 @@ const DROPDOWNS = {
 
 type DropdownKey = keyof typeof DROPDOWNS;
 
+/** Product mega-menu data (Figma "Property 1=Component 4" variant of Component 20) */
+const MEGA_4W = [
+  { name: "Strom EV LR 200", payload: "1,200 kg", img: "/assets/products/vehicle-storm-lr200.png" },
+  { name: "Storm EV T1500", payload: "1,500 kg", img: "/assets/products/vehicle-storm-t1500.png" },
+  { name: "Turbo EV 1000", payload: "1,000 kg", img: "/assets/products/vehicle-turbo-1000.png" },
+];
+const MEGA_3W = [{ name: "HiLoad EV", payload: "688 kg", img: "/assets/products/vehicle-hiload-ev.png" }];
+
+/** Figma card: 200×267, #F3F4F5, radius 16; image 180×180 white/radius 12; ink arrow FAB */
+function ProductCard({ name, payload, img }: { name: string; payload: string; img: string }) {
+  return (
+    <Link
+      href="#"
+      className="group relative block h-[267px] w-[200px] rounded-2xl bg-[#F3F4F5] p-[10px] pb-6"
+    >
+      <div className="flex h-[180px] w-[180px] items-center justify-center rounded-xl bg-white p-2">
+        <Image src={img} alt={name} width={164} height={164} className="h-[164px] w-[164px] rounded-lg object-cover" />
+      </div>
+      <div className="mt-[15px] pl-[14px]">
+        <p className="text-[16px] font-bold leading-[18px] text-ink">{name}</p>
+        <p className="mt-[6px] text-[12px] font-medium leading-[14px] text-ink">{payload}</p>
+      </div>
+      <span className="absolute right-[10px] top-5 flex size-12 items-center justify-center rounded-full bg-ink">
+        <Image
+          src="/assets/nav/arrow-right-white.svg"
+          alt=""
+          width={12}
+          height={17}
+          aria-hidden
+          className="h-[17px] w-[11.5px] rotate-90"
+        />
+      </span>
+    </Link>
+  );
+}
+
 /**
  * Sticky glass navbar (Figma "Component 20" / mobile "Component 26").
  * Top gradient strip: linear 90deg #1D6FFF → #4A8CFF 50% → #347EFF 75% → #4A8CFF.
@@ -62,7 +98,7 @@ export default function Navbar() {
       width={9.3}
       height={4}
       aria-hidden
-      className={`mt-[3px] h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      className={`mt-[8px] h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
     />
   );
 
@@ -99,7 +135,7 @@ export default function Navbar() {
 
       <div ref={navRef}>
         <nav
-          className="relative flex items-center justify-between border-b border-white/30 bg-black/40 pl-5 pr-0 lg:pl-10 lg:pr-3 backdrop-blur-[15px]"
+          className="relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
           aria-label="Main navigation"
         >
           {/* mobile: hamburger */}
@@ -170,7 +206,7 @@ export default function Navbar() {
                       {chevron(openDropdown === key)}
                     </button>
 
-                    {openDropdown === key && (
+                    {openDropdown === key && key !== "Product" && (
                       <ul
                         role="menu"
                         aria-label={key}
@@ -204,7 +240,7 @@ export default function Navbar() {
           </div>
 
           {/* right cluster — desktop search + CTA / mobile CTA */}
-          <div className="flex items-center lg:h-12 lg:gap-12">
+          <div className="flex items-center lg:h-12 lg:gap-12 lg:pr-[3px]">
             <form
               role="search"
               action="/"
@@ -240,6 +276,82 @@ export default function Navbar() {
             </Link>
           </div>
         </nav>
+
+        {/* Product mega-menu (Figma "Property 1=Component 4"): full-width glass
+            panel, 420px tall, 80px side padding, vehicle cards + Neo promo */}
+        {openDropdown === "Product" && (
+          <div className="hidden bg-black/40 backdrop-blur-[30px] lg:block">
+            <div className="flex items-start px-20 py-8">
+              <div className="flex w-[632px] flex-col gap-[26px]">
+                <p className="text-[16px] font-bold leading-[22px] text-white">
+                  4 WHEEL GOODS VEHICLES
+                </p>
+                <div className="flex gap-4">
+                  {MEGA_4W.map((p) => (
+                    <ProductCard key={p.name} {...p} />
+                  ))}
+                </div>
+              </div>
+
+              <div aria-hidden className="ml-[29px] mr-[30px] w-px self-stretch bg-[#CCC]/20" />
+
+              <div className="flex w-[226px] flex-col gap-[26px]">
+                <p className="whitespace-nowrap text-[16px] font-bold leading-[22px] text-white">
+                  3 WHEEL GOODS VEHICLES
+                </p>
+                {MEGA_3W.map((p) => (
+                  <ProductCard key={p.name} {...p} />
+                ))}
+              </div>
+
+              <div aria-hidden className="ml-[28px] mr-[29px] w-px self-stretch bg-[#CCC]/20" />
+
+              {/* Neo promo card (Figma Frame 1984080912): 305×355, navy→blue
+                  gradient, blurred concentric rings, Explore Neo CTA, duo shot */}
+              <div className="relative h-[355px] w-[305px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] px-5 pt-6">
+                <Image
+                  src="/assets/products/concentric.svg"
+                  alt=""
+                  width={367}
+                  height={367}
+                  aria-hidden
+                  className="absolute left-[127px] top-[-194px] h-[367px] w-[367px]"
+                />
+                <div className="relative flex h-5 items-center">
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 left-[-22px] w-[149px] rounded-sm bg-gradient-to-r from-white/0 to-white/20"
+                  />
+                  <span aria-hidden className="h-5 w-[19px] bg-white" />
+                  <span className="ml-[6px] text-[14px] font-bold leading-none text-white">
+                    Neo by Euler
+                  </span>
+                </div>
+                <p className="relative mt-3 font-display text-[28px] font-semibold leading-[32px] text-white">
+                  HiRange and HiCity
+                </p>
+                <p className="relative mt-3 w-[265px] text-[12px] font-medium leading-[17px] text-white">
+                  Smaller vehicles for city delivery. Built for owner drivers and
+                  delivery partners.
+                </p>
+                <Link
+                  href="#neo"
+                  className="relative mt-3 flex h-8 w-fit items-center gap-2 rounded bg-ink px-3 font-display text-[12px] font-semibold leading-none text-white"
+                >
+                  Explore Neo
+                  <Arrow color="white" className="h-[11px] w-[18px]" />
+                </Link>
+                <Image
+                  src="/assets/neo/product.png"
+                  alt="Neo by Euler HiRange and HiCity electric 3-wheelers"
+                  width={438}
+                  height={225}
+                  className="absolute left-[-31px] top-[171px] h-[225px] w-[438px] object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* mobile menu dropdown */}
         {menuOpen && (
