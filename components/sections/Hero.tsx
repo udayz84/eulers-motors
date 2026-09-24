@@ -41,26 +41,47 @@ export default function Hero() {
       className="relative aspect-[393/762] overflow-clip sm:aspect-[1440/800]"
       aria-label="Featured vehicle"
     >
-      {/* hero backgrounds — desktop 1440×800 / mobile 393×762 (Figma 1:1283 /
-          1:4523). The section carries each frame's aspect ratio, so at any
-          window width the hero IS the Figma frame scaled — never a crop. The
-          mobile frame is portrait, so it only serves real phone widths (<sm). */}
-      <Image
-        src="/images/hero_mobile.png"
-        alt="Euler Turbo EV 1000 electric truck"
-        fill
-        priority
-        sizes="100vw"
-        className="pointer-events-none object-cover sm:hidden"
-      />
-      <Image
-        src="/images/hero_desktop_resize.png"
-        alt="Euler Turbo EV 1000 electric truck"
-        fill
-        priority
-        sizes="100vw"
-        className="pointer-events-none object-cover max-sm:hidden"
-      />
+      {/* Slider Track */}
+      <div 
+        className="absolute inset-0 flex transition-transform duration-500 ease-in-out"
+        style={{ transform: `translateX(-${active * 100}%)` }}
+      >
+        {HERO_SLIDES.map((slide, i) => (
+          <div key={i} className="relative h-full w-full shrink-0">
+            {/* Backgrounds */}
+            <Image
+              src="/images/hero_mobile.png"
+              alt="Euler Turbo EV 1000 electric truck"
+              fill
+              priority
+              sizes="100vw"
+              className="pointer-events-none object-cover sm:hidden"
+            />
+            <Image
+              src="/images/hero_desktop_resize.png"
+              alt="Euler Turbo EV 1000 electric truck"
+              fill
+              priority
+              sizes="100vw"
+              className="pointer-events-none object-cover max-sm:hidden"
+            />
+            
+            {/* Content (Text + CTA) */}
+            <div className="absolute inset-x-0 bottom-[62px] flex flex-col items-start gap-3 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-6">
+              <h1 className="max-w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:max-w-[788.543px] lg:text-center lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px]">
+                {slide.headline}
+              </h1>
+              <Button
+                variant="dark"
+                arrow="white"
+                className="max-lg:gradient-border-dark-soft h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
+              >
+                Explore our Vehicles
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* carousel arrows (desktop only) */}
       <button
@@ -92,22 +113,9 @@ export default function Hero() {
         />
       </button>
 
-      {/* headline block — Figma 1:4526 (mobile): bottom 24, container w 353, items-start,
-          gap 12 · Figma 1:1297 (desktop): bottom 60.52, centered, gap 24 */}
-      <div className="absolute inset-x-0 bottom-6 flex flex-col items-start gap-3 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-6">
-        <h1 className="max-w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:max-w-[788.543px] lg:text-center lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px] transition-opacity duration-300">
-          {HERO_SLIDES[active].headline}
-        </h1>
-        <Button
-          variant="dark"
-          arrow="white"
-          className="max-lg:gradient-border-dark-soft h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
-        >
-          Explore our Vehicles
-        </Button>
-
-        {/* mobile dots — in-flow under the CTA, left-aligned (Figma 1:4537) */}
-        <div className="flex items-center gap-[7px] p-2.5 lg:hidden" role="tablist" aria-label="Hero slides">
+      {/* Mobile dots */}
+      <div className="absolute inset-x-0 bottom-6 flex px-5 lg:hidden">
+        <div className="flex items-center gap-[7px] p-2.5" role="tablist" aria-label="Hero slides">
           {Array.from({ length: SLIDES }).map((_, i) => (
             <button
               key={i}
@@ -122,7 +130,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* carousel dots */}
+      {/* Desktop dots */}
       <div className="absolute inset-x-0 bottom-[27px] hidden justify-center lg:flex" role="tablist" aria-label="Hero slides">
         <div className="flex items-center gap-[7px] p-2.5">
           {Array.from({ length: SLIDES }).map((_, i) => (

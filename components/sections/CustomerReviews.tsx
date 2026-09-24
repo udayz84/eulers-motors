@@ -70,20 +70,29 @@ export default function CustomerReviews() {
               {story.overlay && (
                 <Image src={story.overlay} alt="" fill sizes="400px" className="object-cover" />
               )}
-              {/* corner darkening (Figma blurred black rects) */}
-              <div aria-hidden className="absolute -bottom-[152px] left-1/2 h-[316px] w-[604px] -translate-x-1/2 bg-black/20 blur-[130px]" />
-              <div aria-hidden className="absolute -left-[490px] -top-[209px] h-[316px] w-[604px] bg-black/20 blur-[130px]" />
-
-              {/* savings chip */}
-              <div className="absolute left-4 top-[54px] flex h-[25.5px] items-center gap-[6.5px] rounded-[20.442px] border border-chip-green bg-chip-green/25 py-[7.7px] pl-[6.5px] pr-[15.3px] backdrop-blur-[12.8px] lg:top-[62px] lg:h-[25.553px]">
-                <Image src="/assets/reviews/icon-chat.svg" alt="" width={15} height={15} aria-hidden className="h-[15.332px] w-[15.332px]" />
-                <span className="whitespace-nowrap text-[12.776px] font-bold leading-[1.15] tracking-[-0.2555px] text-white">
-                  ₹41,000 saved a month
-                </span>
+              {/* graded frost — Figma 1:1679 Rectangle 40789: black@20% +
+                  background-blur 41px, Gaussian-smeared by a 261px layer blur
+                  (σ≈130) from a center at the card's bottom edge ⇒ blur and
+                  tint strongest at the bottom, decaying to ~0 mid-card.
+                  Bottom band only (top gradient removed on request).
+                  Progressive backdrop-blur stack + graded tint. */}
+              <div aria-hidden className="pointer-events-none absolute inset-0">
+                <div className="absolute inset-x-0 bottom-0 h-[50%] backdrop-blur-[8px] [mask-image:linear-gradient(to_top,black,transparent)]" />
+                <div className="absolute inset-x-0 bottom-0 h-[33%] backdrop-blur-[20px] [mask-image:linear-gradient(to_top,black,transparent)]" />
+                <div className="absolute inset-x-0 bottom-0 h-[16%] backdrop-blur-[38px] [mask-image:linear-gradient(to_top,black,transparent)]" />
+                <div className="absolute inset-x-0 bottom-0 h-[53%] bg-gradient-to-t from-black/20 to-transparent" />
               </div>
 
-              {/* quote + author */}
+              {/* quote + author — Figma 1:1679 bottom panel (Frame 1984080840
+                  at y=324): savings chip → 16px gap → quote → author */}
               <div className="absolute inset-x-4 bottom-4 flex flex-col gap-[16.6px] lg:inset-x-4 lg:bottom-4">
+                {/* savings chip — first element of the bottom panel, above the quote */}
+                <div className="flex h-[25.5px] w-fit items-center gap-[6.5px] rounded-[20.442px] border border-chip-green bg-chip-green/25 py-[7.7px] pl-[6.5px] pr-[15.3px] backdrop-blur-[12.8px] lg:h-[25.553px]">
+                  <Image src="/assets/reviews/icon-chat.svg" alt="" width={15} height={15} aria-hidden className="h-[15.332px] w-[15.332px]" />
+                  <span className="whitespace-nowrap text-[12.776px] font-bold leading-[1.15] tracking-[-0.2555px] text-white">
+                    ₹41,000 saved a month
+                  </span>
+                </div>
                 <p className="text-[15.2px] font-bold leading-normal tracking-[-0.3577px] text-white lg:text-[17.887px]">
                   &quot;14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.&quot;
                 </p>
@@ -106,9 +115,7 @@ export default function CustomerReviews() {
                         {[0, 1, 2, 3].map((s) => (
                           <Image key={s} src="/assets/reviews/star.svg" alt="" width={12} height={12} aria-hidden className="size-3" />
                         ))}
-                        <span className="block h-3 w-1.5 overflow-hidden">
-                          <Image src="/assets/reviews/star-half.svg" alt="" width={12} height={12} aria-hidden className="size-3" />
-                        </span>
+                        <Image src="/assets/reviews/star-half.svg" alt="" width={12} height={12} aria-hidden className="size-3" />
                       </span>
                       <span className="font-inter text-[13px] font-medium leading-none tracking-[-0.5px] text-white lg:text-[10px]">4.9</span>
                     </div>
@@ -118,7 +125,7 @@ export default function CustomerReviews() {
 
               {/* time chip */}
               <div className="absolute left-4 top-4 rounded-full bg-white px-2.5 py-1">
-                <span className="text-[13px] font-semibold leading-none text-black lg:text-[14px]">02:32</span>
+                <span className="text-[13px] font-bold leading-none text-black lg:text-[14px]">02:32</span>
               </div>
 
               {/* play button — user's Figma export of node 1:1705 (52×52 PNG) */}

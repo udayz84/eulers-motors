@@ -15,7 +15,6 @@ type PromoCardProps = {
   wash?: "blue" | "white" | "mobile-blue";
   icon?: "arrow" | "phone";
   /** bigger text variant (Talk card): title 30/56 · body 13/18 · lg content column 470px */
-  bigText?: boolean;
   /** desktop card height (Figma: Neo 413 · Talk 450; 480 per review) */
   cardH?: "413" | "450" | "470" | "480" | "500";
   /** desktop section frame (Figma): "neo" 80px sides / 48px top-bottom (1:1442) ·
@@ -47,7 +46,6 @@ export default function PromoCard({
   imageAlt,
   wash = "blue",
   icon = "arrow",
-  bigText = false,
   cardH = "413",
   frame = "neo",
   crop,
@@ -201,22 +199,18 @@ export default function PromoCard({
             } ${right ? "lg:pl-15 lg:pr-[69.57px]" : "lg:pl-15 lg:pr-15"}`}
           >
             <div
-              className={`flex w-[312px] flex-col items-center gap-[14px] text-center ${bigText ? "lg:w-[470px]" : "lg:w-[414.434px]"} lg:gap-4 ${
+              className={`flex w-[312px] flex-col items-center gap-[14px] text-center lg:w-[414.434px] lg:gap-4 ${
                 right ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left lg:-translate-y-[34.81px]"
               }`}
             >
               {eyebrow && <Eyebrow label={eyebrow} />}
               <h2
-                className={`whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-1.04px] text-ink ${
-                  bigText ? "text-[30px] lg:text-[56px]" : "text-[28px] lg:text-[52px]"
-                }`}
+                className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]"
               >
                 {title}
               </h2>
               <p
-                className={`leading-snug text-ink ${
-                  bigText ? "text-[13px] lg:text-[18px] lg:leading-[25px]" : "text-[12px] lg:text-[16px] lg:leading-[22px]"
-                }`}
+                className="text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-[22px]"
               >
                 {body}
               </p>

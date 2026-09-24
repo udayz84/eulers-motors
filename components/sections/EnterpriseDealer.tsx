@@ -195,8 +195,8 @@ export default function EnterpriseDealer() {
 
 function Bullet({ text }: { text: string }) {
   return (
-    <span className="flex items-center gap-1.5">
-      <Image src="/assets/enterprise/icon-check.svg" alt="" width={20} height={20} aria-hidden className="size-5 shrink-0" />
+    <span className="flex items-center gap-1.5 lg:gap-2">
+      <Image src="/assets/enterprise/icon-check.svg" alt="" width={10} height={10} aria-hidden className="size-[8px] shrink-0 lg:size-[10px]" />
       <span className="whitespace-nowrap font-display text-[12px] font-medium leading-[1.15] tracking-[-0.32px] text-[#f3f4f5] lg:text-[16px] lg:font-bold">
         {text}
       </span>

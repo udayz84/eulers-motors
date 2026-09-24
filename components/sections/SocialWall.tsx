@@ -63,8 +63,8 @@ export default function SocialWall() {
                 <div aria-hidden className="absolute -left-[490px] -top-[209px] h-[316px] w-[604px] bg-black/20 blur-[130.5px]" />
 
                 {/* instagram chip */}
-                <span className="absolute right-[26px] top-6 flex size-[30.2px] items-center justify-center rounded-[7.6px] bg-white/20 max-lg:size-[41px] max-lg:rounded-[10.2px]">
-                  <Image src="/assets/social/icon-instagram2.svg" alt="" width={18} height={18} aria-hidden className="size-[17px] max-lg:size-[23px]" />
+                <span className="absolute right-4 top-4 flex size-[30.2px] items-center justify-center rounded-[7.6px] border border-white/20 bg-white/20 backdrop-blur-[10px] lg:right-[26px] lg:top-6 lg:size-[41px] lg:rounded-[10.2px]">
+                  <Image src="/assets/social/icon-instagram2.svg" alt="" width={23} height={23} aria-hidden className="size-[17px] lg:size-[23px]" />
                 </span>
 
                 {/* time chip */}
@@ -75,10 +75,10 @@ export default function SocialWall() {
                 {/* play button */}
                 <button type="button" aria-label="Play video" className="absolute left-1/2 top-[calc(50%-20px)] -translate-x-1/2">
                   <Image
-                    src="/assets/social/play-button.svg"
+                    src="/assets/reviews/play-figma.png"
                     alt=""
-                    width={70}
-                    height={70}
+                    width={52}
+                    height={52}
                     className="size-[42px] lg:size-[70.27px]"
                   />
                 </button>
@@ -114,7 +114,7 @@ export default function SocialWall() {
                         <span aria-hidden className="size-[5.1px] rounded-full bg-white/50" />
                         <span className="text-[12px] font-bold text-white">2 days ago</span>
                       </div>
-                      <span className="flex h-[28px] items-center justify-center rounded-[8.6px] border border-white/50 bg-surface/20 px-[7.4px] backdrop-blur-[10px] lg:h-9 lg:rounded-[14px] lg:px-3">
+                      <span className="flex h-[28px] items-center justify-center rounded-[8.6px] border border-white/50 bg-surface/20 px-[7.4px] backdrop-blur-[10px] lg:h-9 lg:w-fit lg:self-start lg:rounded-[14px] lg:px-3">
                         <span className="font-display text-[10px] font-semibold text-white lg:text-[14px]">View on Instagram</span>
                       </span>
                     </div>

@@ -47,24 +47,25 @@ export default function PrimeBanner() {
               style={{ left: "-4.68%", top: "-37.93%", width: "119.36%", height: "175.86%" }}
             />
           </div>
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgb(0,0,0) 0%, rgb(0,0,0) 100%), linear-gradient(90deg, rgba(0,0,0,0.2) 24.792%, rgba(0,0,0,0) 54.063%)",
-            }}
-          />
           <div className="absolute inset-0 overflow-hidden">
-            {/* bg-3 — top layer, h 106.74% at (0.02, 0), w 103.32% */}
+            {/* bg-3 — top layer, scaled up slightly (105%) to hide any right-edge export artifacts */}
             <Image
               src="/assets/prime/bg-3.png"
               alt=""
               width={2186}
               height={941}
               className="absolute max-w-none"
-              style={{ left: "0.02%", top: 0, width: "103.32%", height: "106.74%" }}
+              style={{ left: "-1%", top: "-1%", width: "105%", height: "108%" }}
             />
           </div>
+          {/* left whitish edge wash to blend the left side softly */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 15%, rgba(0,0,0,0) 100%)",
+            }}
+          />
         </div>
       </div>
       {/* Container Background (Figma 1:1820) — frosted-glass panel over the
@@ -86,8 +87,10 @@ export default function PrimeBanner() {
         </h2>
 
         {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
-            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14) */}
-        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 lg:max-w-none lg:flex-row lg:items-center lg:gap-5 lg:rounded-[10px] lg:p-5">
+            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).
+            Figma 1:1827 fill = rgb(14,47,109)@35% + GLASS effect (blur 4, light
+            -45°, intensity 0.8) → backdrop-blur + the shared glass-rim utility */}
+        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 lg:max-w-none lg:flex-row lg:items-center lg:gap-5 lg:rounded-[10px] lg:backdrop-blur-[4px] lg:glass-rim lg:p-5">
           {FEATURES.map((f, i) => (
             <Fragment key={f.value}>
               <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">
@@ -96,7 +99,7 @@ export default function PrimeBanner() {
                 </span>
                 {/* mobile separator — sits between value and label (Figma 1:4905) */}
                 <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
-                <span className="text-[12px] leading-normal text-[#ccc] lg:text-[16px]">{f.label}</span>
+                <span className="text-[12px] leading-normal text-[#ccc] lg:text-[16px] lg:whitespace-nowrap">{f.label}</span>
               </div>
               {i < FEATURES.length - 1 && (
                 /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) */

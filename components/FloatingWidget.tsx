@@ -65,7 +65,7 @@ export default function FloatingWidget() {
                 key={a.label}
                 type="button"
                 aria-label={a.label}
-                className="glass-rim flex size-[50px] items-center justify-center rounded-full border border-white/10 bg-white/[0.12]"
+                className="glass-shine flex size-[50px] items-center justify-center rounded-full bg-white/[0.12] backdrop-blur-[20px]"
               >
                 <Image
                   src={a.icon}

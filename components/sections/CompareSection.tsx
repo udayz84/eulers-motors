@@ -15,28 +15,25 @@ type DeskCard = {
 };
 
 const WITHOUT_DESK: DeskCard[] = [
-  { icon: "/assets/compare/icon-fuel.svg", text: "Diesel cost goes up every month" },
-  /* Breakdowns crop retuned for the uniform 82px window (was a 69.534px one):
-     same rendered image rect in card coords, window just grows upward */
   { photo: { crop: [-4.16, -78.36, 196.07, 185.93] }, text: "Breakdowns stop your work" },
   { photo: { crop: [-108.78, 0, 199.78, 189.44] }, text: "Fewer trips, less earning" },
-  { icon: "/assets/compare/icon-swap.svg", text: "No easy way to compare vehicles" },
-  { icon: "/assets/compare/icon-fuel.svg", text: "Diesel cost goes up every month" },
-  { icon: "/assets/compare/icon-cancel.svg", text: "Breakdowns stop your work" },
-  { icon: "/assets/compare/icon-chart-down.svg", text: "Fewer trips, less earning" },
-  { icon: "/assets/compare/icon-swap.svg", text: "No easy way to compare vehicles" },
+  { photo: { crop: [-4.16, -78.36, 196.07, 185.93] }, text: "Breakdowns stop your work" },
+  { photo: { crop: [-108.78, 0, 199.78, 189.44] }, text: "Fewer trips, less earning" },
+  { photo: { crop: [-4.16, -78.36, 196.07, 185.93] }, text: "Breakdowns stop your work" },
+  { photo: { crop: [-108.78, 0, 199.78, 189.44] }, text: "Fewer trips, less earning" },
+  { photo: { crop: [-4.16, -78.36, 196.07, 185.93] }, text: "Breakdowns stop your work" },
+  { photo: { crop: [-108.78, 0, 199.78, 189.44] }, text: "Fewer trips, less earning" },
 ];
 
 const WITH_DESK: DeskCard[] = [
-  /* Figma sets explicit line breaks (whitespace-pre-wrap) on the two-line texts */
-  { icon: "/assets/compare/icon-cash.svg", text: "Running cost \n₹1.05 per km" },
   { photo: { crop: [-117.95, -100, 210.91, 200] }, text: "Service done in \n48 hours" },
   { photo: { crop: [0, 0, 210.91, 200] }, text: "More trips, \nmore earning" },
-  { icon: "/assets/compare/icon-truck.svg", text: "See your whole fleet on your phone" },
-  { icon: "/assets/compare/icon-cash.svg", text: "Running cost \n₹1.05 per km" },
-  { icon: "/assets/compare/icon-clock.svg", text: "Service done in \n48 hours" },
-  { icon: "/assets/compare/icon-chart-up.svg", text: "More trips, \nmore earning" },
-  { icon: "/assets/compare/icon-truck.svg", text: "See your whole fleet on your phone" },
+  { photo: { crop: [-117.95, -100, 210.91, 200] }, text: "Service done in \n48 hours" },
+  { photo: { crop: [0, 0, 210.91, 200] }, text: "More trips, \nmore earning" },
+  { photo: { crop: [-117.95, -100, 210.91, 200] }, text: "Service done in \n48 hours" },
+  { photo: { crop: [0, 0, 210.91, 200] }, text: "More trips, \nmore earning" },
+  { photo: { crop: [-117.95, -100, 210.91, 200] }, text: "Service done in \n48 hours" },
+  { photo: { crop: [0, 0, 210.91, 200] }, text: "More trips, \nmore earning" },
 ];
 
 const AUDIENCE = ["Fleet owner", "Transport company", "Small business", "Driver", "Dealer"];
@@ -193,9 +190,9 @@ export default function CompareSection() {
             <Image
               src="/assets/compare/logo-small.svg"
               alt="Euler"
-              width={60}
-              height={10}
-              className="h-[10px] w-[60px]"
+              width={108}
+              height={18}
+              className="h-[18px] w-[108px]"
             />
           </div>
         </div>

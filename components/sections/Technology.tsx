@@ -17,7 +17,7 @@ export default function Technology() {
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:h-[1036px] lg:items-start lg:gap-[42px] lg:px-[80px] lg:pb-12 lg:pt-12">
         {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
         <div className="flex w-full flex-col gap-5 lg:h-[100px] lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-col gap-[14px] lg:gap-4 lg:self-start">
+          <div className="flex flex-col gap-4 lg:self-start">
             <Eyebrow label="Built for the job" />
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
               Built for Indian roads.

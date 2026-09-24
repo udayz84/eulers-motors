@@ -5,8 +5,41 @@ import Image from "next/image";
 import Link from "next/link";
 import Arrow from "./ui/Arrow";
 
-/** Dropdown data grounded in the Figma file's own link columns (footer) */
+/**
+ * Dropdown content — Figma "Component 20" Company-open state (panel 1:2826)
+ * and the parked Support column draft. Items are label + description pairs
+ * laid out in a horizontal row with white/40 hairline dividers.
+ */
 const DROPDOWNS = {
+  Product: {
+    heading: "EULER MOTORS",
+    items: [],
+  },
+  Company: {
+    heading: "EULER MOTORS",
+    items: [
+      { label: "About us", desc: "EV Revolution for India" },
+      { label: "Leadership", desc: "Founders and board" },
+      { label: "Careers", desc: "Find the right role for you." },
+      { label: "In press", desc: "News and media kit" },
+    ],
+  },
+  Support: {
+    heading: "HELP AND SERVICE",
+    items: [
+      { label: "Find a dealer", desc: "112 dealers, 24 states" },
+      { label: "Service centres", desc: "On the spot repair" },
+      { label: "Charging stations", desc: "1,412 points on the app" },
+      { label: "Media Kit", desc: "Brochure and manuals" },
+      { label: "FAQs", desc: "Common questions" },
+    ],
+  },
+} as const;
+
+type DropdownKey = keyof typeof DROPDOWNS;
+
+/** Mobile accordion list (labels only) */
+const MOBILE_ITEMS: Record<DropdownKey, readonly string[]> = {
   Product: [
     "Storm EV LongRange 200",
     "Storm EV T1500",
@@ -15,11 +48,9 @@ const DROPDOWNS = {
     "Neo HiRange",
     "Neo HiCity",
   ],
-  Company: ["About us", "Careers", "Sitemap"],
-  Support: ["Dealer Locator", "Service Centres", "Charging Stations Locator", "Downloads"],
-} as const;
-
-type DropdownKey = keyof typeof DROPDOWNS;
+  Company: DROPDOWNS.Company.items.map((i) => i.label),
+  Support: DROPDOWNS.Support.items.map((i) => i.label),
+};
 
 /** Product mega-menu data (Figma "Property 1=Component 4" variant of Component 20) */
 const MEGA_4W = [
@@ -37,20 +68,98 @@ function ProductCard({ name, payload, img }: { name: string; payload: string; im
       className="group relative block h-[267px] w-[200px] rounded-2xl bg-[#F3F4F5] p-[10px] pb-6"
     >
       <div className="flex h-[180px] w-[180px] items-center justify-center rounded-xl bg-white p-2">
-        <Image src={img} alt={name} width={164} height={164} className="h-[164px] w-[164px] rounded-lg object-cover" />
+        <Image src={img} alt={name} width={164} height={164} className="h-[164px] w-[164px] rounded-lg object-contain" />
       </div>
       <div className="mt-[15px] pl-[14px]">
         <p className="text-[16px] font-bold leading-[18px] text-ink">{name}</p>
         <p className="mt-[6px] text-[12px] font-medium leading-[14px] text-ink">{payload}</p>
       </div>
-      <span className="absolute right-[10px] top-5 flex size-12 items-center justify-center rounded-full bg-ink">
+    </Link>
+  );
+}
+
+/**
+ * Full-width glass dropdown panel (Figma 1:2602/1:2606): bg-black/40 + blur
+ * 15px, border-b white/32, px-80/py-32; uppercase Manrope Bold 16 heading
+ * (tracking 0.8px), then a row of white #F3F4F5 cards (radius 16, p-24,
+ * 20px apart) — label/desc in ink #121212 (Manrope Bold 16 / Medium 12) with
+ * a 48px ink circle holding the white arrow icon (Figma transform: -rotate-90
+ * -scale-x-100).
+ */
+function MenuPanel({
+  heading,
+  items,
+}: {
+  heading: string;
+  items: readonly { label: string; desc: string }[];
+}) {
+  return (
+    <div className="hidden border-b border-white/[0.32] bg-black/40 px-20 py-8 backdrop-blur-[15px] lg:block">
+      <div className="flex gap-[60px] xl:gap-[100px]">
+        {/* First Section */}
+        <div className="flex flex-col items-start gap-[26px]">
+          <p className="text-[16px] font-bold uppercase leading-[22px] tracking-[0.8px] text-white">
+            {heading}
+          </p>
+          <div className="flex items-center gap-5">
+            {items.map((item) => (
+              heading === "HELP AND SERVICE" ? (
+                <SupportMenuCard key={item.label} item={item} />
+              ) : (
+                <MenuCard key={item.label} item={item} />
+              )
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SupportMenuCard({ item }: { item: { label: string; desc: string } }) {
+  return (
+    <Link
+      href="#"
+      className="flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
+    >
+      <div className="flex w-full justify-end">
+        <span className="flex size-[48px] shrink-0 items-center justify-center rounded-full bg-ink transition-transform duration-200 group-hover:scale-110">
+          <Image
+            src="/assets/nav/arrow-right-white.svg"
+            alt=""
+            width={12}
+            height={17}
+            aria-hidden
+            className="h-[17px] w-[11.5px] -rotate-90"
+          />
+        </span>
+      </div>
+      <span className="flex flex-col gap-[4px] whitespace-nowrap leading-[1.15] text-ink">
+        <span className="text-[18px] font-bold tracking-[-0.32px]">{item.label}</span>
+        <span className="text-[13px] font-medium tracking-[-0.24px] text-ink/80">{item.desc}</span>
+      </span>
+    </Link>
+  );
+}
+
+function MenuCard({ item }: { item: { label: string; desc: string } }) {
+  return (
+    <Link
+      href="#"
+      className="group flex h-[160px] w-[220px] items-center justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
+    >
+      <span className="flex flex-col gap-[6px] whitespace-nowrap leading-[1.15] text-ink">
+        <span className="text-[16px] font-bold tracking-[-0.32px]">{item.label}</span>
+        <span className="text-[12px] font-medium tracking-[-0.24px]">{item.desc}</span>
+      </span>
+      <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ink transition-transform duration-200 group-hover:scale-110">
         <Image
           src="/assets/nav/arrow-right-white.svg"
           alt=""
           width={12}
           height={17}
           aria-hidden
-          className="h-[17px] w-[11.5px] rotate-90"
+          className="h-[17px] w-[11.5px] -rotate-90"
         />
       </span>
     </Link>
@@ -98,7 +207,7 @@ export default function Navbar() {
       width={9.3}
       height={4}
       aria-hidden
-      className={`mt-[8px] h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      className={`h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "" : "rotate-180"}`}
     />
   );
 
@@ -133,7 +242,7 @@ export default function Navbar() {
         </div>
       )}
 
-      <div ref={navRef}>
+      <div ref={navRef} onMouseLeave={() => setOpenDropdown(null)}>
         <nav
           className="relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
           aria-label="Main navigation"
@@ -182,7 +291,11 @@ export default function Navbar() {
             <div className="flex items-center">
               <ul className="flex items-center gap-12 px-2.5">
                 {(Object.keys(DROPDOWNS) as DropdownKey[]).map((key) => (
-                  <li key={key} className="relative">
+                  <li 
+                    key={key} 
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(key)}
+                  >
                     <button
                       type="button"
                       aria-haspopup="menu"
@@ -190,41 +303,9 @@ export default function Navbar() {
                       onClick={() => toggleDropdown(key)}
                       className="flex items-center gap-2.5 text-[14px] font-semibold text-white"
                     >
-                      {key === "Support" && (
-                        <span className="flex h-[23.28px] w-[23.086px] items-center justify-center">
-                          <Image
-                            src="/assets/nav/phone-white.svg"
-                            alt=""
-                            width={17.5}
-                            height={17.3}
-                            aria-hidden
-                            className="h-[17.315px] w-[17.459px]"
-                          />
-                        </span>
-                      )}
                       {key}
                       {chevron(openDropdown === key)}
                     </button>
-
-                    {openDropdown === key && key !== "Product" && (
-                      <ul
-                        role="menu"
-                        aria-label={key}
-                        className="absolute left-0 top-[calc(100%+12px)] w-56 overflow-hidden rounded-lg border border-white/10 bg-black/70 py-2 backdrop-blur-[15px]"
-                      >
-                        {DROPDOWNS[key].map((item) => (
-                          <li key={item} role="none">
-                            <Link
-                              role="menuitem"
-                              href="#"
-                              className="block px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10 focus-visible:bg-white/10 focus:outline-none"
-                            >
-                              {item}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </li>
                 ))}
                 <li>
@@ -252,7 +333,7 @@ export default function Navbar() {
                 width={14}
                 height={14}
                 aria-hidden
-                className="h-3.5 w-3.5"
+                className="h-3.5 w-3.5 scale-x-[-1]"
               />
               <label htmlFor="nav-search" className="sr-only">
                 Search
@@ -276,6 +357,14 @@ export default function Navbar() {
             </Link>
           </div>
         </nav>
+
+        {/* Company / Support dropdown panels (Figma 1:2826) */}
+        {openDropdown && openDropdown !== "Product" && (
+          <MenuPanel 
+            heading={DROPDOWNS[openDropdown].heading} 
+            items={DROPDOWNS[openDropdown].items} 
+          />
+        )}
 
         {/* Product mega-menu (Figma "Property 1=Component 4"): full-width glass
             panel, 420px tall, 80px side padding, vehicle cards + Neo promo */}
@@ -306,8 +395,9 @@ export default function Navbar() {
 
               <div aria-hidden className="ml-[28px] mr-[29px] w-px self-stretch bg-[#CCC]/20" />
 
-              {/* Neo promo card (Figma Frame 1984080912): 305×355, navy→blue
-                  gradient, blurred concentric rings, Explore Neo CTA, duo shot */}
+              {/* Neo promo card (Figma 305×355): navy→blue gradient, blurred
+                  concentric rings, badge strip, 2-line heading, duo shot
+                  bleeding off the bottom — no CTA in the design */}
               <div className="relative h-[355px] w-[305px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] px-5 pt-6">
                 <Image
                   src="/assets/products/concentric.svg"
@@ -320,27 +410,20 @@ export default function Navbar() {
                 <div className="relative flex h-5 items-center">
                   <span
                     aria-hidden
-                    className="absolute inset-y-0 left-[-22px] w-[149px] rounded-sm bg-gradient-to-r from-white/0 to-white/20"
+                    className="absolute inset-y-0 left-[-3px] w-[130px] bg-gradient-to-r from-white/0 to-white/20"
                   />
                   <span aria-hidden className="h-5 w-[19px] bg-white" />
                   <span className="ml-[6px] text-[14px] font-bold leading-none text-white">
                     Neo by Euler
                   </span>
                 </div>
-                <p className="relative mt-3 font-display text-[28px] font-semibold leading-[32px] text-white">
+                <p className="relative mt-[10px] max-w-[200px] font-display text-[28px] font-semibold leading-[32px] text-white">
                   HiRange and HiCity
                 </p>
-                <p className="relative mt-3 w-[265px] text-[12px] font-medium leading-[17px] text-white">
+                <p className="relative mt-3 w-[263px] text-[12px] font-medium leading-[17px] text-white">
                   Smaller vehicles for city delivery. Built for owner drivers and
                   delivery partners.
                 </p>
-                <Link
-                  href="#neo"
-                  className="relative mt-3 flex h-8 w-fit items-center gap-2 rounded bg-ink px-3 font-display text-[12px] font-semibold leading-none text-white"
-                >
-                  Explore Neo
-                  <Arrow color="white" className="h-[11px] w-[18px]" />
-                </Link>
                 <Image
                   src="/assets/neo/product.png"
                   alt="Neo by Euler HiRange and HiCity electric 3-wheelers"
@@ -373,7 +456,7 @@ export default function Navbar() {
                   </button>
                   {openDropdown === key && (
                     <ul className="pb-2 pl-3">
-                      {DROPDOWNS[key].map((item) => (
+                      {MOBILE_ITEMS[key].map((item) => (
                         <li key={item}>
                           <Link
                             href="#"
