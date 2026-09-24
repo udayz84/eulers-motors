@@ -121,26 +121,15 @@ export default function CustomerReviews() {
                 <span className="text-[13px] font-semibold leading-none text-black lg:text-[14px]">02:32</span>
               </div>
 
-              {/* play button — Figma 1:1705: 52×52, white @12% disc, white
-                  triangle, dead-center of the card (mobile 37). Inlined SVG so
-                  no asset/optimizer/cache step can alter it. */}
-              <button
-                type="button"
-                aria-label="Play customer story"
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              >
-                <svg
-                  viewBox="0 0 52 52"
-                  fill="none"
-                  aria-hidden
-                  className="block size-[37px] lg:size-[52px]"
-                >
-                  <rect width="52" height="52" rx="26" fill="white" fillOpacity="0.12" />
-                  <path
-                    d="M34.281 24.8967C35.1303 25.387 35.1303 26.613 34.281 27.1033L22.815 33.7232C21.9657 34.2136 20.904 33.6006 20.904 32.6199L20.904 19.3801C20.904 18.3994 21.9657 17.7864 22.815 18.2768L34.281 24.8967Z"
-                    fill="white"
-                  />
-                </svg>
+              {/* play button — user's Figma export of node 1:1705 (52×52 PNG) */}
+              <button type="button" aria-label="Play customer story" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Image
+                  src="/assets/reviews/play-figma.png"
+                  alt=""
+                  width={52}
+                  height={52}
+                  className="size-[37px] lg:size-[52px]"
+                />
               </button>
             </article>
           ))}
