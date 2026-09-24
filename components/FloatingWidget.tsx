@@ -27,9 +27,10 @@ export default function FloatingWidget() {
   // desktop: rail hangs 30px off the right edge so its black right pad is
   // cropped (Figma 1:2258 — rail spans x 1372–1470 in the 1440px frame);
   // vertically at 50% — Figma's y=400 of the 800px hero frame — so it stays
-  // proportional when the hero scales with viewport width
+  // proportional when the hero scales with viewport width.
+  // Mobile: hidden — the mobile hero frame (Figma 1:4524) has no rail
   return (
-    <div className="absolute bottom-[72px] right-[-29.53px] z-40 lg:bottom-auto lg:right-[-30px] lg:top-1/2">
+    <div className="absolute right-[-30px] top-1/2 z-40 hidden lg:block">
       <div className="relative flex items-end gap-[19px]">
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside

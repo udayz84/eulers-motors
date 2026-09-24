@@ -26,9 +26,10 @@ const SLIDES = HERO_SLIDES.length;
  * Hero V3 (Figma 1:1283). Desktop frame 1440×800 · mobile frame 393×762.
  * The section keeps each frame's aspect ratio and scales with viewport width,
  * so the hero always shows the full Figma frame (never a cover-crop).
- * Background: /images/hero_desktop_resize.png (2880×1598 — 2× export of the
- * Figma "Background" image fill, node 1:1285) from sm up, /images/
- * hero_mobile.png (393×762) below — both edge-to-edge.
+ * Background: /images/hero_desktop_clean.png (2880×1598, bottom scrim
+ * removed per user request — was hero_desktop_resize.png) from sm up, /images/
+ * hero_mobile_clean.png (393×762, bottom scrim removed) below — both
+ * edge-to-edge.
  */
 export default function Hero() {
   const [active, setActive] = useState(1); // Figma shows the 2nd dot active
@@ -50,20 +51,32 @@ export default function Hero() {
           <div key={i} className="relative h-full w-full shrink-0">
             {/* Backgrounds */}
             <Image
-              src="/images/hero_mobile.png"
+              src="/images/hero_mobile_clean.png"
               alt="Euler Turbo EV 1000 electric truck"
               fill
               priority
               sizes="100vw"
               className="pointer-events-none object-cover sm:hidden"
             />
+
             <Image
-              src="/images/hero_desktop_resize.png"
+              src="/images/hero_desktop_clean.png"
               alt="Euler Turbo EV 1000 electric truck"
               fill
               priority
               sizes="100vw"
               className="pointer-events-none object-cover max-sm:hidden"
+            />
+
+            {/* Mobile scrim (Figma 1:4525 "Overlay" at reduced strength —
+                user preference): black 15% + backdrop blur 32 over the
+                bottom 41% (y 449.65→762 of the 393×762 frame), feathered at
+                the top by a mask (scale-free stand-in for Figma's 204.3px
+                layer blur). Kept fully in-bounds — WebKit smears
+                backdrop-filter on rects that overhang the viewport */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-[59.01%] bottom-0 bg-black/15 backdrop-blur-[32px] [mask-image:linear-gradient(to_bottom,transparent,black_30%)] sm:hidden"
             />
             
             {/* Content (Text + CTA) */}
@@ -149,12 +162,6 @@ export default function Hero() {
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
       <FloatingWidget />
 
-      {/* Seamless blend: smoothly fade the bottom of the Hero image into the StatsBanner's dark navy background to eliminate any hard seams or image gradient artifacts */}
-      <div 
-        aria-hidden 
-        className="absolute inset-x-0 bottom-0 h-[120px] pointer-events-none z-30"
-        style={{ backgroundImage: "linear-gradient(to bottom, rgba(4,18,49,0) 0%, #041231 100%)" }}
-      />
     </section>
   );
 }

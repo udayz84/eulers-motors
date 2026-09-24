@@ -170,6 +170,18 @@ button {
     inset -1px -1px 2px -0.5px rgb(255 255 255 / 0.28);
 }
 
+/* Spec card GLASS rim (Figma 1:1341 desktop · 1:4629 mobile — identical
+   GLASS r100, light -45°, intensity 0.8). Sampled from Figma's own render:
+   a bright near-white specular hairline on every side, a stronger glow band
+   top/left (~235) and a softer one bottom/right (~224) over the ~218
+   white/20 interior — visibly brighter than glass-rim. */
+@utility glass-rim-card {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.6),
+    inset 2px 2px 5px -1px rgb(255 255 255 / 0.45),
+    inset -1px -1px 4px -1px rgb(255 255 255 / 0.25);
+}
+
 /* FloatingWidget circles (Figma 1:2506–1:2510): GLASS r=100 with light from
    -45° at 0.8 intensity — a bright specular rim catching the top-left, soft
    counter-light bottom-right, and a faint inner glow. Stronger than
@@ -185,6 +197,25 @@ button {
 ::selection {
   background: #1d6fff;
   color: #fff;
+}
+
+/* CompareSection background — mobile (1:4703): black 40% wash over a
+   horizontal blue→navy run (stops fit from the Figma render: near-full blue
+   at the left edge, still mid-blend at the right — the gradient handle
+   overshoots the frame, hence the out-of-range stop positions); desktop
+   (1:1498): the horizontal blend + mist base */
+.compare-bg {
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #1d6fff -3.2%, #0e2f6d 170.8%);
+}
+@media (min-width: 1024px) {
+  .compare-bg {
+    background-image:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+      linear-gradient(92.98deg, #0e2f6d 63.51%, #1d6fff 87.23%),
+      linear-gradient(90deg, #e9edf3 0%, #e9edf3 100%);
+  }
 }
 
 /* Horizontal snap scrollers used by the carousels (mobile design shows

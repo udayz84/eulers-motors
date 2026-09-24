@@ -128,7 +128,7 @@ export default function Footer() {
             {COLUMNS.map((col) => {
               const isOpen = open === col.title;
               return (
-                <div key={col.title} className={`overflow-clip rounded-lg bg-surface ${isOpen ? "flex flex-col gap-3 p-3" : ""}`}>
+                <div key={col.title} className={`overflow-clip rounded-[8px] bg-surface ${isOpen ? "flex flex-col gap-3 p-3" : ""}`}>
                   <button
                     type="button"
                     aria-expanded={isOpen}

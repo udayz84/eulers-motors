@@ -208,14 +208,7 @@ export default function SavingsCalculator() {
               maxLabel="200 km"
               onChange={setKm}
             />
-            <Image
-              src="/assets/calculator/divider.svg"
-              alt=""
-              width={2}
-              height={2}
-              aria-hidden
-              className="h-px w-full rotate-180"
-            />
+            <div className="h-px w-full shrink-0 bg-white/20" aria-hidden />
             <SliderBlock
               label="Ownership period (years)"
               value={years}

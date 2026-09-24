@@ -87,10 +87,8 @@ export default function PrimeBanner() {
         </h2>
 
         {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
-            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).
-            Figma 1:1827 fill = rgb(14,47,109)@35% + GLASS effect (blur 4, light
-            -45°, intensity 0.8) → backdrop-blur + the shared glass-rim utility */}
-        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 lg:max-w-none lg:flex-row lg:items-center lg:gap-5 lg:rounded-[10px] lg:backdrop-blur-[4px] lg:glass-rim lg:p-5">
+            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14). */}
+        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:items-center lg:gap-5 lg:rounded-[10px] lg:p-5">
           {FEATURES.map((f, i) => (
             <Fragment key={f.value}>
               <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">

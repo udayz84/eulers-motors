@@ -44,7 +44,7 @@ export default function CustomerReviews() {
           at every width
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
-      <div className="w-full pb-[18px] lg:pb-[62px]">
+      <div className="w-full pb-[42px] lg:pb-[62px]">
         <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
@@ -124,8 +124,8 @@ export default function CustomerReviews() {
               </div>
 
               {/* time chip */}
-              <div className="absolute left-4 top-4 rounded-full bg-white px-2.5 py-1">
-                <span className="text-[13px] font-bold leading-none text-black lg:text-[14px]">02:32</span>
+              <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
+                <span className="text-[12px] font-semibold leading-none text-black lg:text-[14px]">02:32</span>
               </div>
 
               {/* play button — user's Figma export of node 1:1705 (52×52 PNG) */}

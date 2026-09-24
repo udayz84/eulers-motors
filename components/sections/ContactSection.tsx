@@ -108,13 +108,13 @@ export default function ContactSection() {
                 <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
               </div>
               <div className="flex w-full gap-2">
-                <span className="flex flex-1 items-center justify-center rounded-[32px] bg-deep-card px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-white whitespace-nowrap">
+                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] bg-deep-card px-1 font-display text-[12px] font-semibold leading-none text-white whitespace-nowrap">
                   Test drive
                 </span>
-                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
+                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
                   Price Enquiry
                 </span>
-                <span className="flex flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 py-[12px] font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
+                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
                   Fleet
                 </span>
               </div>
@@ -215,9 +215,9 @@ function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: s
     /* Figma sizes each row by content — 301/301/302px wide (1:1988/1:1994/1:2000),
        98px tall: p-20 + 58px icon · mobile rows (1:5040/1:5046/1:5052) pad 8px —
        the 42px icon sits at x=8, y=8 in the 58px-tall row */
-    <div className="flex w-full items-center gap-2.5 rounded-2xl bg-surface p-2 lg:gap-6 lg:p-5">
-      <span className="flex size-[52px] shrink-0 items-center justify-center rounded-[7px] bg-deep-card lg:size-[58px] lg:rounded-[8.12px] lg:bg-white">
-        <Image src={icon} alt="" width={28} height={28} aria-hidden className="size-7 brightness-0 invert lg:hidden" />
+    <div className="flex w-full items-center gap-2.5 rounded-[8px] bg-surface p-2 lg:w-auto lg:gap-6 lg:rounded-2xl lg:p-5">
+      <span className="flex size-[42px] shrink-0 items-center justify-center rounded-[6px] bg-deep-card lg:size-[58px] lg:rounded-[8.12px] lg:bg-white">
+        <Image src={icon} alt="" width={16} height={16} aria-hidden className="size-4 brightness-0 invert lg:hidden" />
         <Image src={icon} alt="" width={24} height={24} aria-hidden className="hidden size-6 lg:block" />
       </span>
       <span className="flex flex-col gap-[6px] leading-[1.15]">
@@ -260,7 +260,7 @@ function Field({ label, placeholder, mobile = false }: { label: string; placehol
   const invalid = isPhone && touched && value.length !== 10;
 
   const base = mobile
-    ? "h-9 w-full rounded-lg px-4"
+    ? "h-9 w-full rounded-[8px] px-4"
     : "h-[46px] w-full rounded-[13px] px-4";
 
   return (

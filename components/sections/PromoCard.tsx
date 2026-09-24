@@ -67,12 +67,12 @@ export default function PromoCard({
     : undefined;
   return (
     <section className="bg-white" aria-label={title}>
-      {/* Section frame — mobile: 20px sides / 40px top-bottom (reviewed);
+      {/* Section frame — mobile (1:4670): 20px sides / 20px top-bottom;
           desktop is per-card Figma: Neo (1:1442) 80px sides / 48px top-bottom,
           Talk (1:1472) 60px sides / 58px top-bottom, both inside a 1440px
           container → cards 1280px (Neo) and 1320px (Talk) wide. */}
       <div
-        className={`mx-auto w-full max-w-[1440px] px-5 py-10 ${
+        className={`mx-auto w-full max-w-[1440px] px-5 py-5 ${
           frame === "talk" ? "lg:px-[60px] lg:py-[58px]" : "lg:px-[80px] lg:py-[48px]"
         }`}
       >
@@ -205,16 +205,18 @@ export default function PromoCard({
             >
               {eyebrow && <Eyebrow label={eyebrow} />}
               <h2
-                className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]"
+                className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]"
               >
                 {title}
               </h2>
               <p
-                className="text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-[22px]"
+                className="text-[12px] font-normal leading-normal text-ink lg:text-[16px] lg:leading-[22px]"
               >
                 {body}
               </p>
-              <Button variant="dark" arrow={icon === "phone" ? "none" : "white"} className="max-lg:px-3">
+              {/* mobile CTA (Figma 1:4680): h44 · px-20 · Archia Bold 12 ·
+                  gap 8 — Button base already carries the sizing */}
+              <Button variant="dark" arrow={icon === "phone" ? "none" : "white"} className="max-lg:font-bold">
                 <span className="inline-flex items-center gap-2">
                   {cta}
                   {icon === "phone" && (

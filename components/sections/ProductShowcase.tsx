@@ -105,7 +105,7 @@ export default function ProductShowcase() {
 
   return (
     <section
-      className="relative overflow-hidden bg-white pb-[134px] pt-[41px] lg:pb-9 lg:pt-[66px]"
+      className="relative overflow-hidden bg-white pb-[33.34px] pt-[41px] lg:pb-9 lg:pt-[66px]"
       aria-label="Choose your truck"
       onWheel={handleWheel}
     >
@@ -299,8 +299,9 @@ export default function ProductShowcase() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           {/* Specs Card — desktop (1:1341): white/20 + GLASS r=100 (heavy
               background blur darkens/mutes what shows through), 757px, r18 ·
-              mobile (1:4629): white/20 glass, r12, p16 */}
-          <div className="glass-rim w-full rounded-[12px] bg-white/20 p-4 backdrop-blur-[100px] sm:p-5 lg:w-[757px] lg:rounded-[18px] lg:p-6">
+              mobile (1:4629): white/20 glass, r12, p16 — glass-rim-card is
+              the sampled GLASS rim (bright hairline all round, TL brighter) */}
+          <div className="glass-rim-card w-full rounded-[12px] bg-white/20 p-4 backdrop-blur-[100px] sm:p-5 lg:w-[757px] lg:rounded-[18px] lg:p-6">
             <h3 className="mb-6 font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.48px] text-ink lg:mb-[27px] lg:text-[28px] lg:tracking-[-0.56px]">
               {current.title}
             </h3>
@@ -395,7 +396,7 @@ export default function ProductShowcase() {
           <div className="flex w-full items-center gap-3 self-stretch lg:w-auto lg:self-end">
             <button
               type="button"
-              className="inline-flex h-[50px] flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] border border-ink/50 bg-[#F3F4F5] px-6 font-display text-[16px] font-semibold leading-none text-ink transition-all cursor-pointer hover:bg-white"
+              className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] border border-ink/50 bg-[#F3F4F5] px-6 font-display text-[16px] font-semibold leading-none text-ink transition-all cursor-pointer hover:bg-white lg:h-[50px]"
             >
               <Image
                 src="/assets/products/icon-compare.svg"
@@ -411,9 +412,9 @@ export default function ProductShowcase() {
             </button>
             <button
               type="button"
-              className="inline-flex h-[50px] flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] bg-ink px-6 font-display text-[16px] font-semibold leading-none text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all cursor-pointer hover:bg-black"
+              className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] bg-ink px-6 font-display text-[16px] font-semibold leading-none text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all cursor-pointer hover:bg-black lg:h-[50px]"
             >
-              <span>View Variants</span>
+              <span className="whitespace-nowrap">View Variants</span>
               <Arrow color="white" />
             </button>
           </div>

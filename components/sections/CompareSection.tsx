@@ -57,6 +57,8 @@ const ICON_SIZE: Record<string, [number, number]> = {
  */
 /** one card + one gap — the marquee's repeat period (Figma 291.776 + 42) */
 const MARQUEE_PERIOD = 291.776 + 42;
+/** mobile period: 136px card + 8px gap (Figma 1:4706) */
+const MARQUEE_PERIOD_MOBILE = 136 + 8;
 
 export default function CompareSection() {
   const [activeTab, setActiveTab] = useState(0);
@@ -72,14 +74,14 @@ export default function CompareSection() {
   // continuous conveyor. marginLeft is used because the marquee keyframes
   // own `transform`; a static margin doesn't affect the seamless loop.
   useLayoutEffect(() => {
-    const align = (track: HTMLDivElement | null, half: number) => {
+    const align = (track: HTMLDivElement | null, half: number, period: number) => {
       if (!track) return;
       const scale = track.getBoundingClientRect().width / track.offsetWidth || 1;
-      track.style.marginLeft = `${(half / scale) % MARQUEE_PERIOD}px`;
+      track.style.marginLeft = `${(half / scale) % period}px`;
     };
     const run = () => {
-      align(rightTracks.current[0], (mobileFrameRef.current?.clientWidth ?? 0) / 2);
-      align(rightTracks.current[1], (sectionRef.current?.clientWidth ?? 0) / 2);
+      align(rightTracks.current[0], (mobileFrameRef.current?.clientWidth ?? 0) / 2, MARQUEE_PERIOD_MOBILE);
+      align(rightTracks.current[1], (sectionRef.current?.clientWidth ?? 0) / 2, MARQUEE_PERIOD);
     };
     run();
     window.addEventListener("resize", run);
@@ -89,23 +91,27 @@ export default function CompareSection() {
   return (
     <section
       ref={sectionRef}
-      className="group relative overflow-clip lg:h-[800px]"
-      style={{
-        /* exact Figma fills (1:1498), pixel-verified against the render: a
-           uniform 40% black wash over the navy→blue gradient whose first
-           stop sits OUTSIDE the box (-63.51%), so the blend runs across
-           the whole width — right edge lands on #0C2C67, the left plateau
-           on #114399 (= #1D6FFF under the wash). A stop at +63.511% would
-           flatten the right two-thirds into solid navy, which the render
-           does not show */
-        backgroundImage:
-          "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272.98deg, #0E2F6D -63.51%, #1D6FFF 87.23%), linear-gradient(90deg, #E9EDF3 0%, #E9EDF3 100%)",
-      }}
+      /* exact Figma fills — mobile 1:4703 (near-vertical -88.94° blend) ·
+         desktop 1:1498 (272.98° horizontal blend + mist base, pixel-verified:
+         first stop outside the box so the blend runs across the whole width) */
+      className="compare-bg group relative overflow-clip lg:h-[800px]"
       aria-label="Why Euler"
     >
       {/* ── mobile: composed Figma 1:4703 frame (393×612) — title block at
-          y31.3 · flat visual render (1:4704) at y94 · Neo promo at y459 ── */}
+          y31.3 · strips at y248.67 · labels at y374.25 · divider 178.67→458.5
+          (touching the promo top) · truck art right half · Neo promo y459 ── */}
       <div ref={mobileFrameRef} className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
+        {/* truck outline art (1:4718, 319×443) — right half, bleeding past the
+            bottom, behind everything */}
+        <Image
+          src="/assets/compare/mobile-truck.svg"
+          alt=""
+          width={319}
+          height={443}
+          aria-hidden
+          className="pointer-events-none absolute left-[196.81px] top-[150px] h-[443px] w-[319px]"
+        />
+
         {/* title container — (19.32, 31.3), gap 14, pills h-32 (1:4753) */}
         <div className="absolute inset-x-[19.32px] top-[31.3px] z-10 flex flex-col items-center gap-[14px]">
           <Eyebrow label="Why Euler" dark />
@@ -139,63 +145,72 @@ export default function CompareSection() {
           </div>
         </div>
 
-        {/* mobile functional carousels & labels (replacing mobile-top.png) */}
-        <div className="absolute left-0 top-[220px] h-[220px] w-full">
-          {/* Vertical divider — Line 93's gradient asset rotated 90° (1px at
-              mobile scale): fades at the ends, brightest at the centre */}
-          <Image
-            src="/assets/compare/divider-h.svg"
-            alt=""
-            width={220}
-            height={1}
-            aria-hidden
-            className="pointer-events-none absolute left-[calc(50%_-_1px)] top-[-40px] h-px w-[220px] origin-top-left rotate-90"
-          />
-
-          {/* Left Half: Without Euler cards — strip at 80% (Figma 1:1519), so the
-              black cards blend toward the navy gradient instead of flat black */}
-          <div className="absolute left-0 top-0 h-[125px] w-1/2 overflow-hidden opacity-80 group">
-            <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
-              <div className="flex gap-[42px] animate-marquee [--marquee-gap:42px] group-active:[animation-play-state:paused]">
+        {/* card strips (1:4705/1:4728, y248.67 · h102): mobile cards are
+            136×102 r12 (NOT scaled desktop cards) */}
+        <div className="absolute left-0 top-[248.67px] h-[102px] w-full">
+          {/* Left Half: Without Euler — window bleeds 48px past the left edge */}
+          <div className="absolute left-0 top-0 h-full w-1/2 overflow-hidden group">
+            <div className="absolute left-[-48px] top-0">
+              <div className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
                 {WITHOUT_DESK.map((c, i) => (
-                  <DeskCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
+                  <MobileCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
                 ))}
                 {WITHOUT_DESK.map((c, i) => (
-                  <DeskCardView key={`w2m-${i}`} c={c} tone="black" chip="red" />
+                  <MobileCardView key={`w2m-${i}`} c={c} tone="black" chip="red" />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right Half: With Euler cards */}
-          <div className="absolute left-1/2 top-0 h-[125px] w-1/2 overflow-hidden group">
-            <div className="absolute left-[5%] top-0 origin-top-left scale-[0.55]">
-              <div ref={(el) => { rightTracks.current[0] = el; }} className="flex gap-[42px] animate-marquee [--marquee-gap:42px] group-active:[animation-play-state:paused]">
-                {WITH_DESK.map((c, i) => (
-                  <DeskCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
-                ))}
-                {WITH_DESK.map((c, i) => (
-                  <DeskCardView key={`w2m-${i}`} c={c} tone="glass" chip="green" />
-                ))}
-              </div>
+          {/* Right Half: With Euler */}
+          <div className="absolute left-1/2 top-0 h-full w-1/2 overflow-hidden group">
+            <div ref={(el) => { rightTracks.current[0] = el; }} className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
+              {WITH_DESK.map((c, i) => (
+                <MobileCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
+              ))}
+              {WITH_DESK.map((c, i) => (
+                <MobileCardView key={`w2m-${i}`} c={c} tone="glass" chip="green" />
+              ))}
             </div>
           </div>
 
-          {/* Labels below cards */}
-          <p className="absolute top-[150px] left-0 w-1/2 text-center font-display text-[16px] font-semibold leading-[normal] tracking-[-0.32px] text-[#ccc]">
+          {/* Labels (1:4715/1:4740, y374.25): Archia SemiBold 14 · Without at
+              80% opacity · With + 60.37×10 logo */}
+          <p className="absolute top-[125.58px] left-0 w-1/2 text-center font-display text-[14px] font-semibold leading-[normal] tracking-[-0.28px] text-white/80">
             Without Euler
           </p>
-          <div className="absolute top-[150px] left-1/2 flex w-1/2 items-center justify-center gap-2">
-            <p className="font-display text-[16px] font-semibold leading-[normal] tracking-[-0.32px] text-white">With</p>
+          <div className="absolute top-[125.58px] left-1/2 flex w-1/2 items-center justify-center gap-2">
+            <p className="font-display text-[14px] font-semibold leading-[normal] tracking-[-0.28px] text-white">With</p>
             <Image
               src="/assets/compare/logo-small.svg"
               alt="Euler"
-              width={108}
-              height={18}
-              className="h-[18px] w-[108px]"
+              width={60}
+              height={10}
+              className="h-[10px] w-[60.37px]"
             />
           </div>
         </div>
+
+        {/* Line 93 divider (1:4727): 279.83 long, centered — top y178.67 so
+            the bottom lands on 458.5, touching the promo card's top edge */}
+        <Image
+          src="/assets/compare/divider-h.svg"
+          alt=""
+          width={280}
+          height={1}
+          aria-hidden
+          className="pointer-events-none absolute left-[calc(50%_-_0.106px)] top-[178.67px] h-[0.212px] w-[279.83px] origin-top-left rotate-90"
+        />
+        {/* Line Container shine (1:4725): soft glow hugging the divider's
+            right side, same vertical span */}
+        <Image
+          src="/assets/compare/line-shine.svg"
+          alt=""
+          width={90}
+          height={280}
+          aria-hidden
+          className="pointer-events-none absolute left-[197px] top-[178.67px] h-[279.83px] w-[90px] object-fill"
+        />
 
         {/* Neo promo — (20, 459) 353×133, r8, p16, stacked centered (1:4771) */}
         <div className="absolute left-1/2 top-[459px] z-10 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-lg p-4">
@@ -292,7 +307,7 @@ export default function CompareSection() {
             Left half "Without" (80% opacity), right half "With", split at the
             section's centre line like the design's 720/740 split. */}
       <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block group">
-        <div className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
+        <div className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
           {/* First set of 8 cards */}
           {WITHOUT_DESK.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="black" chip="red" />
@@ -304,7 +319,7 @@ export default function CompareSection() {
         </div>
       </div>
       <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
-        <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
+        <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
           {/* First set of 8 cards */}
           {WITH_DESK.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="glass" chip="green" />
@@ -436,5 +451,52 @@ function DeskCardView({ c, tone, chip }: { c: DeskCard; tone: "black" | "glass";
   );
 }
 
-/** Mobile card (mobile node 1:4703) — the mobile UI ships as the flat render
-    of the composed frame, so no per-card mobile markup is needed. */
+/** Mobile card (Figma 1:4706/1:4730): 136×102 · r12 · p-[11.273] · gap 7.515 ·
+    Manrope Bold 12 text. Without = flat black; With = white/8 + GLASS rim
+    (glass-rim-card). Chips: 32px bare icon (Without) · 39.455px solid
+    #6fcf97 (With); photo window 33.204×32 reusing the sprite crops (%) */
+function MobileCardView({ c, tone, chip }: { c: DeskCard; tone: "black" | "glass"; chip: "red" | "green" }) {
+  const [iconW, iconH] = c.icon ? (ICON_SIZE[c.icon] ?? [24, 24]) : [24, 24];
+  return (
+    <div
+      className={`flex h-[102px] w-[136px] shrink-0 flex-col items-start justify-center gap-[7.515px] rounded-[12px] p-[11.273px] ${
+        tone === "black" ? "bg-black" : "glass-rim-card bg-white/[0.08]"
+      }`}
+    >
+      {c.icon && (
+        <span
+          className={`flex items-center justify-center ${
+            chip === "red" ? "size-8 rounded-[7.515px]" : "size-[39.455px] rounded-[7.515px] bg-chip-green"
+          }`}
+        >
+          <Image
+            src={c.icon}
+            alt=""
+            width={iconW}
+            height={iconH}
+            aria-hidden
+            className={chip === "red" ? "size-4" : "size-[18.788px]"}
+          />
+        </span>
+      )}
+      {c.photo && (
+        <span className="relative block h-[32px] w-[33.204px] shrink-0 overflow-hidden">
+          <Image
+            src="/assets/compare/truck-side.png"
+            alt=""
+            width={170}
+            height={140}
+            className="absolute max-w-none"
+            style={{
+              left: `${c.photo.crop[0]}%`,
+              top: `${c.photo.crop[1]}%`,
+              width: `${c.photo.crop[2]}%`,
+              height: `${c.photo.crop[3]}%`,
+            }}
+          />
+        </span>
+      )}
+      <p className="whitespace-pre-line font-sans text-[12px] font-bold leading-normal text-white">{c.text}</p>
+    </div>
+  );
+}

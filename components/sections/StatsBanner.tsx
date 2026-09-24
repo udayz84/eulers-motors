@@ -150,9 +150,7 @@ function MobileCard({ stat }: { stat: Stat }) {
   return (
     <div className="flex h-[115px] w-[162px] flex-col items-center justify-center gap-[2.8px] overflow-clip rounded-[16.8px] px-[1.4px] py-3">
       <StatValue value={stat.valueMobile ?? stat.value} unit={stat.unitMobile ?? stat.unit} />
-      {/* 15px (Figma 16): at ≤393px viewports the two cards squeeze to ~152px and
-          the 16px "Trucks up & running" wraps — 15px keeps every label one line */}
-      <p className="text-center text-[15px] font-bold leading-normal text-white">{stat.label}</p>
+      <p className="text-center text-[16px] font-bold leading-normal text-white">{stat.label}</p>
     </div>
   );
 }

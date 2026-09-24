@@ -80,7 +80,7 @@ export default function Technology() {
                   width={1909}
                   height={1040}
                   sizes="240px"
-                  className="pointer-events-none absolute bottom-0 right-[-15px] w-[78%] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
+                  className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
                 />
                 {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
                 <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
@@ -160,7 +160,7 @@ export default function Technology() {
                       <Image src="/assets/technology/playstore.svg" alt="" width={12} height={13} aria-hidden className="h-[13px] w-[12px] lg:h-[25.2px] lg:w-[22.05px]" />
                       <span className="flex flex-col gap-[1.7px] whitespace-nowrap text-white lg:gap-[3.15px]">
                         <span className="text-[5.5px] uppercase leading-none lg:text-[10.5px]">GET IT ON</span>
-                        <Image src="/assets/technology/play-wordmark.svg" alt="Google Play" width={78} height={16} className="-scale-y-100 w-[20px] lg:w-[77.7px]" />
+                        <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">Google Play</span>
                       </span>
                     </span>
                   </div>

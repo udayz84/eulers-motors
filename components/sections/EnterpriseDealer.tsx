@@ -22,9 +22,9 @@ export default function EnterpriseDealer() {
           centers in the 1320px content box (20px sides), matching the frame
           exactly; below ~1420px the cards shrink proportionally instead of
           overflowing. Mobile (1:4965) keeps its own 20px gutters */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-2 px-5 pb-3 pt-2 lg:flex-row lg:items-center lg:justify-center lg:gap-5 lg:px-[60px] lg:pt-0 lg:pb-[19px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-5 pb-5 pt-2 lg:flex-row lg:items-center lg:justify-center lg:gap-5 lg:px-[60px] lg:pt-0 lg:pb-[19px]">
         {/* Enterprise card — 800×510 on #041231 (Figma 1:1909) */}
-        <div className="relative h-[419px] w-full overflow-clip rounded-lg bg-deep lg:h-[510px] lg:w-auto lg:max-w-[800px] lg:flex-[800] lg:rounded-2xl">
+        <div className="relative h-[419px] w-full overflow-clip rounded-[8px] bg-deep lg:h-[510px] lg:w-auto lg:max-w-[800px] lg:flex-[800] lg:rounded-[24px]">
           {/* Ellipse 3427 — container 603.078×927.122 at (468.49, -395.37),
               rotated 61.22° · scale-y .92 · skew-x 23.46° (Figma 1:1910) */}
           <div aria-hidden className="absolute left-[468.49px] top-[-395.37px] hidden h-[927.122px] w-[603.078px] items-center justify-center lg:flex">
@@ -90,7 +90,7 @@ export default function EnterpriseDealer() {
           </div>
 
           {/* content — (36, 43.27) 727×408, justify-between (Figma 1:1916) */}
-          <div className="flex flex-col justify-center gap-[26px] p-6 lg:absolute lg:left-[36px] lg:top-[43.27px] lg:h-[408px] lg:w-[727px] lg:justify-between lg:gap-0 lg:p-0">
+          <div className="relative z-10 flex h-full flex-col justify-between p-6 py-8 lg:absolute lg:left-[36px] lg:top-[43.27px] lg:h-[408px] lg:w-[727px] lg:p-0">
             <div className="flex flex-col gap-4 lg:gap-5">
               <Eyebrow label="Enterprise" dark />
               <h2 className="font-display text-[32px] font-semibold leading-[40px] tracking-[-0.64px] text-white lg:leading-[1.15] lg:tracking-[-1.04px] lg:text-[52px]">
@@ -123,7 +123,7 @@ export default function EnterpriseDealer() {
             </div>
 
             {/* mobile bullets + CTA inline */}
-            <ul className="flex flex-col gap-1.5 lg:hidden">
+            <ul className="mt-8 flex flex-col gap-1.5 lg:hidden">
               {BULLETS.map((b) => (
                 <li key={b}>
                   <Bullet text={b} />
@@ -139,7 +139,7 @@ export default function EnterpriseDealer() {
         </div>
 
         {/* Dealer card — desktop 460×510 (Figma 1:1951) · mobile 353×430 (Figma 1:5005) */}
-        <div className="relative h-[430px] w-full overflow-clip rounded-lg bg-[linear-gradient(175.22deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)] lg:h-[510px] lg:w-auto lg:max-w-[460px] lg:flex-[460] lg:rounded-2xl lg:bg-[linear-gradient(175.65deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
+        <div className="relative h-[430px] w-full overflow-clip rounded-[8px] bg-[linear-gradient(175.22deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)] lg:h-[510px] lg:w-auto lg:max-w-[460px] lg:flex-[460] lg:rounded-[24px] lg:bg-[linear-gradient(175.65deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
           {/* mobile photo — window 312×249 at (50, 221.67), img h 125.24% (Figma 1:5006) */}
           <div className="absolute left-[50px] top-[221.67px] h-[249px] w-[312px] overflow-hidden lg:hidden">
             <Image

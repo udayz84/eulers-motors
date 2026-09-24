@@ -58,7 +58,7 @@ export default function Insights() {
           </div>
         </div>
 
-        <div className="snap-row snap-center-mobile -mx-5 w-full gap-[13px] lg:mx-0 lg:gap-5">
+        <div className="snap-row snap-center-mobile -mx-5 w-[calc(100%+40px)] gap-[13px] lg:mx-0 lg:w-full lg:gap-5">
           {/* Mobile spacer — same system as Customer Reviews: the row bleeds
               to the viewport edge (-mx-5), so 20px gutter minus the 13px gap
               starts the first card at the container's 20px (px-5) content edge */}

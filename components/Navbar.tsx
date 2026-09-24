@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Arrow from "./ui/Arrow";
+import Button from "./ui/Button";
 
 /**
  * Dropdown content — Figma "Component 20" Company-open state (panel 1:2826)
@@ -38,19 +39,15 @@ const DROPDOWNS = {
 
 type DropdownKey = keyof typeof DROPDOWNS;
 
-/** Mobile accordion list (labels only) */
-const MOBILE_ITEMS: Record<DropdownKey, readonly string[]> = {
-  Product: [
-    "Storm EV LongRange 200",
-    "Storm EV T1500",
-    "HiLoad EV",
-    "Turbo EV 1000",
-    "Neo HiRange",
-    "Neo HiCity",
-  ],
-  Company: DROPDOWNS.Company.items.map((i) => i.label),
-  Support: DROPDOWNS.Support.items.map((i) => i.label),
-};
+/** Mobile Products menu cards — payloads from the Figma mega-menu data */
+const PRODUCT_MOBILE: readonly { label: string; desc?: string }[] = [
+  { label: "Storm EV LongRange 200", desc: "1,200 kg" },
+  { label: "Storm EV T1500", desc: "1,500 kg" },
+  { label: "HiLoad EV", desc: "688 kg" },
+  { label: "Turbo EV 1000", desc: "1,000 kg" },
+  { label: "Neo HiRange" },
+  { label: "Neo HiCity" },
+];
 
 /** Product mega-menu data (Figma "Property 1=Component 4" variant of Component 20) */
 const MEGA_4W = [
@@ -146,22 +143,68 @@ function MenuCard({ item }: { item: { label: string; desc: string } }) {
   return (
     <Link
       href="#"
-      className="group flex h-[160px] w-[220px] items-center justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
+      className="group flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
     >
-      <span className="flex flex-col gap-[6px] whitespace-nowrap leading-[1.15] text-ink">
+      <div className="flex w-full justify-end">
+        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ink transition-transform duration-200 group-hover:scale-110">
+          <Image
+            src="/assets/nav/arrow-right-white.svg"
+            alt=""
+            width={12}
+            height={17}
+            aria-hidden
+            className="h-[17px] w-[11.5px] -rotate-90"
+          />
+        </span>
+      </div>
+      <span className="flex flex-col gap-[4px] whitespace-nowrap leading-[1.15] text-ink">
         <span className="text-[16px] font-bold tracking-[-0.32px]">{item.label}</span>
         <span className="text-[12px] font-medium tracking-[-0.24px]">{item.desc}</span>
       </span>
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ink transition-transform duration-200 group-hover:scale-110">
-        <Image
-          src="/assets/nav/arrow-right-white.svg"
-          alt=""
-          width={12}
-          height={17}
-          aria-hidden
-          className="h-[17px] w-[11.5px] -rotate-90"
-        />
-      </span>
+    </Link>
+  );
+}
+
+/** Mobile menu accordion row — uppercase heading, 1px white/25 hairline below,
+    thin plus/minus toggle (vertical bar collapses when open) */
+function MenuRow({
+  label,
+  open,
+  onToggle,
+  children,
+}: {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={onToggle}
+        className="flex h-[52px] w-full items-center justify-between border-b border-white/25"
+      >
+        <span className="text-[18px] font-bold uppercase tracking-[0.5px] text-white">{label}</span>
+        <span aria-hidden className="relative block h-[20px] w-[20px]">
+          <span className="absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 bg-white" />
+          <span
+            className={`absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 bg-white transition-transform duration-200 ${open ? "scale-y-0" : ""}`}
+          />
+        </span>
+      </button>
+      {open && <div className="pt-4">{children}</div>}
+    </div>
+  );
+}
+
+/** Mobile menu card — white, r10, 15px semibold title + 13px gray subtitle */
+function MenuCardLink({ item }: { item: { label: string; desc?: string } }) {
+  return (
+    <Link href="#" className="flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3">
+      <span className="text-[15px] font-semibold leading-[1.2] text-ink">{item.label}</span>
+      {item.desc && <span className="text-[13px] leading-[1.3] text-ink-3">{item.desc}</span>}
     </Link>
   );
 }
@@ -242,12 +285,13 @@ export default function Navbar() {
         </div>
       )}
 
-      <div ref={navRef} onMouseLeave={() => setOpenDropdown(null)}>
+      <div ref={navRef} onMouseLeave={() => { if (!menuOpen) setOpenDropdown(null); }}>
         <nav
           className="relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
           aria-label="Main navigation"
         >
-          {/* mobile: hamburger */}
+          {/* mobile: hamburger — Figma "menu-01" icon (1:5204): 13.6×12.1
+              white bars, 1.64 stroke, round caps, inset in an 18×18 button */}
           <div className="flex items-center py-[13px] lg:hidden">
             <button
               type="button"
@@ -255,11 +299,25 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex h-[18px] w-[18px] flex-col justify-between"
+              className="flex h-[18px] w-[18px] items-center justify-center"
             >
-              <span className="block h-[2px] w-full bg-white" />
-              <span className="block h-[2px] w-full bg-white" />
-              <span className="block h-[2px] w-full bg-white" />
+              {menuOpen ? (
+                /* X state — two thin white bars crossing (same 1.64 stroke
+                   as the menu-01 icon) */
+                <span aria-hidden className="relative block h-[14px] w-[14px]">
+                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 rotate-45 bg-white" />
+                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 -rotate-45 bg-white" />
+                </span>
+              ) : (
+                <Image
+                  src="/assets/nav/menu.svg"
+                  alt=""
+                  width={14}
+                  height={12}
+                  aria-hidden
+                  className="h-[12.136px] w-[13.636px]"
+                />
+              )}
             </button>
           </div>
 
@@ -395,19 +453,17 @@ export default function Navbar() {
 
               <div aria-hidden className="ml-[28px] mr-[29px] w-px self-stretch bg-[#CCC]/20" />
 
-              {/* Neo promo card (Figma 305×355): navy→blue gradient, blurred
-                  concentric rings, badge strip, 2-line heading, duo shot
-                  bleeding off the bottom — no CTA in the design */}
-              <div className="relative h-[355px] w-[305px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] px-5 pt-6">
+              {/* Neo promo card — using the new image as full background */}
+              <div className="relative h-[355px] w-[305px] overflow-hidden rounded-2xl px-5 pt-6 bg-[#1b62cd]">
                 <Image
-                  src="/assets/products/concentric.svg"
+                  src="/assets/neo/neo-card-image.png"
                   alt=""
-                  width={367}
-                  height={367}
-                  aria-hidden
-                  className="absolute left-[127px] top-[-194px] h-[367px] w-[367px]"
+                  fill
+                  sizes="305px"
+                  className="absolute inset-0 object-cover object-bottom"
+                  priority
                 />
-                <div className="relative flex h-5 items-center">
+                <div className="relative z-10 flex h-5 items-center">
                   <span
                     aria-hidden
                     className="absolute inset-y-0 left-[-3px] w-[130px] bg-gradient-to-r from-white/0 to-white/20"
@@ -417,68 +473,96 @@ export default function Navbar() {
                     Neo by Euler
                   </span>
                 </div>
-                <p className="relative mt-[10px] max-w-[200px] font-display text-[28px] font-semibold leading-[32px] text-white">
+                <p className="relative z-10 mt-[10px] max-w-[200px] font-display text-[28px] font-semibold leading-[32px] text-white">
                   HiRange and HiCity
                 </p>
-                <p className="relative mt-3 w-[263px] text-[12px] font-medium leading-[17px] text-white">
+                <p className="relative z-10 mt-3 w-[263px] text-[12px] font-medium leading-[17px] text-white">
                   Smaller vehicles for city delivery. Built for owner drivers and
                   delivery partners.
                 </p>
-                <Image
-                  src="/assets/neo/product.png"
-                  alt="Neo by Euler HiRange and HiCity electric 3-wheelers"
-                  width={438}
-                  height={225}
-                  className="absolute left-[-31px] top-[171px] h-[225px] w-[438px] object-cover"
-                />
               </div>
             </div>
           </div>
         )}
 
-        {/* mobile menu dropdown */}
+        {/* mobile menu overlay — per design screenshot: full-screen blurred
+            backdrop under the navbar, uppercase 18px heading rows (~52px)
+            split by 1px white/25 hairlines, +/− accordion toggles on the
+            three dropdown sections, expanded content as a 2-col grid of
+            white cards (title + subtitle), and the Neo promo card at the
+            bottom (same lockup/headline/trucks as the Product mega-menu) */}
         {menuOpen && (
           <div
             id="mobile-menu"
-            className="border-b border-white/30 bg-black/70 backdrop-blur-[15px] lg:hidden"
+            className="flex flex-col overflow-hidden bg-black/40 backdrop-blur-[24px] lg:hidden"
+            style={{ height: `calc(100dvh - ${bannerOpen ? 71 : 47}px)` }}
           >
-            <ul className="flex flex-col gap-1 px-5 py-4">
-              {(Object.keys(DROPDOWNS) as DropdownKey[]).map((key) => (
-                <li key={key}>
-                  <button
-                    type="button"
-                    aria-expanded={openDropdown === key}
-                    onClick={() => toggleDropdown(key)}
-                    className="flex w-full items-center justify-between py-2 text-[14px] font-semibold text-white"
-                  >
-                    {key}
-                    {chevron(openDropdown === key)}
-                  </button>
-                  {openDropdown === key && (
-                    <ul className="pb-2 pl-3">
-                      {MOBILE_ITEMS[key].map((item) => (
-                        <li key={item}>
-                          <Link
-                            href="#"
-                            className="block py-2 text-[14px] font-medium text-white/80"
-                          >
-                            {item}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/#technology"
-                  className="block py-2 text-[14px] font-semibold text-white"
-                >
-                  Technology
-                </Link>
-              </li>
-            </ul>
+            <div className="no-scrollbar flex flex-1 flex-col overflow-y-auto">
+            <div className="flex flex-col border-t border-white/25 px-5 pb-6">
+              {/* PRODUCTS */}
+              <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")}>
+                <div className="grid grid-cols-2 gap-2.5 pb-4">
+                  {PRODUCT_MOBILE.map((item) => (
+                    <MenuCardLink key={item.label} item={item} />
+                  ))}
+                </div>
+                {/* Neo promo card — now properly inside the Products accordion */}
+                <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 h-[300px] bg-[#1b62cd]">
+                  <Image
+                    src="/assets/neo/neo-card-image.png"
+                    alt=""
+                    fill
+                    sizes="(max-width: 1023px) 100vw"
+                    className="absolute inset-0 object-cover object-bottom"
+                  />
+                  <div className="relative z-10 flex h-5 items-center">
+                    <span aria-hidden className="h-5 w-[19px] bg-white" />
+                    <span className="ml-[6px] text-[14px] font-bold leading-none text-white">Neo by Euler</span>
+                  </div>
+                  <p className="relative z-10 mt-[10px] max-w-[65%] font-display text-[28px] font-semibold leading-[32px] text-white">
+                    HiRange and HiCity
+                  </p>
+                  <p className="relative z-10 mt-2 max-w-[65%] text-[13px] font-medium leading-[1.4] text-white">
+                    Smaller vehicles for city delivery. Built for owner drivers and
+                    delivery partners.
+                  </p>
+                  <Button variant="dark" arrow="white" className="relative z-10 mt-4">
+                    Explore Neo
+                  </Button>
+                </div>
+              </MenuRow>
+              {/* TECHNOLOGY — plain link row */}
+              <Link
+                href="/#technology"
+                className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+              >
+                Technology
+              </Link>
+              {/* RESOURCES — plain link row */}
+              <Link
+                href="#"
+                className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+              >
+                Resources
+              </Link>
+              {/* COMPANY */}
+              <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")}>
+                <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                  {DROPDOWNS.Company.items.map((item) => (
+                    <MenuCardLink key={item.label} item={item} />
+                  ))}
+                </div>
+              </MenuRow>
+              {/* SUPPORT */}
+              <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")}>
+                <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                  {DROPDOWNS.Support.items.map((item) => (
+                    <MenuCardLink key={item.label} item={item} />
+                  ))}
+                </div>
+              </MenuRow>
+            </div>
+            </div>
           </div>
         )}
       </div>
