@@ -32,19 +32,17 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
 }
 
 /**
- * Dark stats band (desktop 1:1317 top · mobile 1:4542).
- * Desktop: single row with rotated hairline dividers + concentric-circle art.
- * Mobile: flat 2×2 + 1 grid (162×115 stat cells) with glow ellipses rising
- * from the bottom edge and ring art entering from the right.
+ * Dark stats band — desktop 1:1384/1:1385 · mobile 1:4542.
+ * Rebuilt from the Figma structure: the section itself is one flat solid
+ * #041231 (the file's gradient + photo layers sit fully under a solid fill
+ * and contribute nothing). Decorative rings/glows are SVG layers above it.
+ * Desktop: 1322 row (gap-24 around zero-width divider slots → 48px between
+ * the five 226×167 r24 cells), cells justify-center py-32 gap-20,
+ * value 44.167×1.15 + label 22 → 42/42 padding = 251 band.
  */
 export default function StatsBanner() {
   return (
-    <section className="relative z-10 -mt-[2px] overflow-clip" aria-label="Euler Motors in numbers">
-      {/* background (Figma 1:1384): flat solid #041231 — the file also stacks a
-          brand gradient + photo under this fill, fully covered, contributing
-          nothing. The glows/rings below are separate SVG layers ABOVE the fill. */}
-      <div aria-hidden className="absolute inset-0 bg-[#041231]" />
-
+    <section className="relative z-10 -mt-[2px] overflow-clip bg-[#041231]" aria-label="Euler Motors in numbers">
       {/* mobile glows (Figma 1:4543/1:4544 — Ellipse 3426 white · 3427 blue):
           438.233×325.137 and 602.244×446.821, anchored left calc(50% + 23.84px),
           tops 347.23 / 365.55 — clipped by the band so light rises off the bottom edge */}
@@ -95,7 +93,7 @@ export default function StatsBanner() {
         </div>
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[14px] px-5 py-6 lg:justify-center lg:gap-10 lg:px-[60px] lg:py-[42px]">
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[14px] px-5 py-6 lg:justify-center lg:px-[60px] lg:py-[42px]">
         {/* mobile grid: centered rows of two flat stat cells split by hairlines, last cell alone */}
         <div className="flex w-full flex-col gap-[14px] lg:hidden">
           {[
@@ -113,15 +111,13 @@ export default function StatsBanner() {
           </div>
         </div>
 
-        {/* desktop row — Figma 1:1385: 1322 wide centered in the 1440 band
-            (x 59), five 226×167 cells (r24), 48px card-to-card. gap-6 around
-            zero-width divider slots (1:1395) yields exactly 48 between cells.
-            Cell internals: pt 33 · value (44.167×1.15 ≈ 51) · gap 20.2 ·
-            label h 30 · pb 33 → 167 tall, padding 42/42 → 251 band */}
+        {/* desktop row — Figma 1:1385: 1322 wide, gap-24 around zero-width divider
+            slots yields 48px between the five flex-1 (226 @ 1440) cells; the row's
+            items-center puts each 62px divider's center at 52.5 of the 167 cells */}
         <div className="hidden w-full items-center gap-6 lg:flex">
           {STATS.map((stat, i) => (
             <Fragment key={stat.label}>
-              <div className="flex h-[167px] flex-1 flex-col items-center gap-[20.2px] overflow-clip rounded-[24px] px-[2px] py-[33px]">
+              <div className="flex h-[167px] flex-1 flex-col items-center justify-center gap-5 overflow-clip rounded-[24px] px-[2px] py-8">
                 <StatValue value={stat.value} unit={stat.unit} />
                 <p className="font-sans text-center text-[22px] font-bold leading-[normal] text-white min-[1366px]:whitespace-nowrap">
                   {stat.label}
@@ -162,12 +158,10 @@ function MobileCard({ stat }: { stat: Stat }) {
 }
 
 /** desktop hairline — Line 86 (62×1) rotated 90° inside a zero-width slot
- *  (Figma 1:1395 `w-0`), so it never eats into the stat cell widths.
- *  Figma centers the rotated line at y 52.5 of the 167 row (upper-biased),
- *  not at the row's vertical middle — hence self-start + mt 21.5 */
+ *  (Figma 1:1395 `w-0`); row items-center → line center lands at y 52.5 */
 function DesktopDivider() {
   return (
-    <span aria-hidden className="mt-[21.5px] flex h-[62px] w-0 shrink-0 self-start items-center justify-center">
+    <span aria-hidden className="flex h-[62px] w-0 shrink-0 items-center justify-center">
       <Image
         src="/assets/products/stat-divider.svg"
         alt=""
