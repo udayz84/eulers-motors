@@ -39,27 +39,11 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
  */
 export default function StatsBanner() {
   return (
-    <section className="relative overflow-clip bg-deep" aria-label="Euler Motors in numbers">
-      {/* background stack (Figma 1:1384, bottom → top): brand gradient + photo @20%,
-          both covered by the solid #041231 layer — the band renders flat deep */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(219.98deg, rgb(14,47,109) 138.16%, rgb(29,111,255) 87.019%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
-          }}
-        />
-        <Image
-          src="/assets/products/banner-img.png"
-          alt=""
-          fill
-          sizes="100vw"
-          aria-hidden
-          className="object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-[#041231]" />
-      </div>
+    <section className="relative z-10 -mt-[2px] overflow-clip" aria-label="Euler Motors in numbers">
+      {/* background (Figma 1:1384): flat solid #041231 — the file also stacks a
+          brand gradient + photo under this fill, fully covered, contributing
+          nothing. The glows/rings below are separate SVG layers ABOVE the fill. */}
+      <div aria-hidden className="absolute inset-0 bg-[#041231]" />
 
       {/* mobile glows (Figma 1:4543/1:4544 — Ellipse 3426 white · 3427 blue):
           438.233×325.137 and 602.244×446.821, anchored left calc(50% + 23.84px),
