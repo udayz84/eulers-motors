@@ -148,6 +148,13 @@ export default function Hero() {
       </div>
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
       <FloatingWidget />
+
+      {/* Seamless blend: smoothly fade the bottom of the Hero image into the StatsBanner's dark navy background to eliminate any hard seams or image gradient artifacts */}
+      <div 
+        aria-hidden 
+        className="absolute inset-x-0 bottom-0 h-[120px] pointer-events-none z-30"
+        style={{ backgroundImage: "linear-gradient(to bottom, rgba(4,18,49,0) 0%, #041231 100%)" }}
+      />
     </section>
   );
 }

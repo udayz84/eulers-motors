@@ -42,7 +42,7 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
  */
 export default function StatsBanner() {
   return (
-    <section className="relative z-10 -mt-[2px] overflow-clip bg-[#041231]" aria-label="Euler Motors in numbers">
+    <section className="relative z-10 -mt-[6px] overflow-clip bg-[#041231]" aria-label="Euler Motors in numbers">
       {/* mobile glows (Figma 1:4543/1:4544 — Ellipse 3426 white · 3427 blue):
           438.233×325.137 and 602.244×446.821, anchored left calc(50% + 23.84px),
           tops 347.23 / 365.55 — clipped by the band so light rises off the bottom edge */}
