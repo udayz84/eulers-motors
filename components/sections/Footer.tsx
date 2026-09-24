@@ -190,7 +190,7 @@ export default function Footer() {
 function CraftedBy() {
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[12px] leading-[1.3] text-white">Carefully crafted by</span>
+      <span className="font-inter text-[12px] leading-[1.3] text-white">Carefully crafted by</span>
       <span className="inline-flex items-center">
         <Image src="/assets/footer/crafted-1.svg" alt="" width={8} height={11} aria-hidden className="h-[11px] w-[8px]" />
         <Image src="/assets/footer/crafted-2.svg" alt="" width={43} height={12} aria-hidden className="ml-2.5 h-[12px] w-[43px]" />

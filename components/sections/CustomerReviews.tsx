@@ -110,7 +110,7 @@ export default function CustomerReviews() {
                           <Image src="/assets/reviews/star-half.svg" alt="" width={12} height={12} aria-hidden className="size-3" />
                         </span>
                       </span>
-                      <span className="text-[13px] font-semibold leading-none tracking-[-0.5px] text-white lg:text-[10px]">4.9</span>
+                      <span className="font-inter text-[13px] font-medium leading-none tracking-[-0.5px] text-white lg:text-[10px]">4.9</span>
                     </div>
                   </div>
                 </div>

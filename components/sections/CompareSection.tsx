@@ -225,7 +225,7 @@ export default function CompareSection() {
             className="object-cover opacity-20"
           />
           <div className="relative flex flex-col items-center gap-0.5 whitespace-nowrap text-center">
-            <p className="text-[18px] font-semibold leading-[1.25] tracking-[-0.27px] text-white">
+            <p className="font-outfit text-[18px] font-semibold leading-[1.25] tracking-[-0.27px] text-white">
               Which vehicle fits your work?
             </p>
             <p className="text-[12px] font-normal leading-[1.5] text-on-dark-2">
@@ -376,7 +376,7 @@ export default function CompareSection() {
             className="object-cover opacity-20"
           />
           <div className="relative flex flex-col gap-1.5 whitespace-nowrap">
-            <p className="text-[20px] font-semibold leading-[1.25] tracking-[-0.3px] text-white">
+            <p className="font-outfit text-[20px] font-semibold leading-[1.25] tracking-[-0.3px] text-white">
               Which vehicle fits your work?
             </p>
             <p className="text-[13px] font-normal leading-[1.5] text-on-dark-2">

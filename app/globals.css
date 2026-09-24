@@ -13,10 +13,60 @@
   font-display: swap;
 }
 
+/* Archia SemiBold (600) + Bold (700) — the Figma display weights (headings,
+   CTAs, stat numbers). Commercial cuts (A Type Of Foundry web license);
+   drop the purchased woff2 files at these exact paths and they activate
+   with no code change. Until then the browser falls back to Archia Regular
+   + synthetic bold. Tip: grab Archia Medium too — EnterpriseDealer's chip
+   uses font-display font-medium. */
+@font-face {
+  font-family: "Archia";
+  src: url("/fonts/archia/archia-semibold-webfont.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url("/fonts/archia/archia-bold-webfont.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* One-off accent families from the Figma file (served locally — no
+   build-time Google Fonts fetch, which broke Coolify builds before). */
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/outfit/Outfit-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/Inter-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/Inter-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   /* Typography */
   --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Archia", var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: "Outfit", var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "Inter", var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
   /* Brand palette (Figma) */
   --color-ink: #121212;            /* var(--ink) */
