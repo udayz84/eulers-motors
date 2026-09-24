@@ -139,7 +139,7 @@ export default function StatsBanner() {
             <Fragment key={stat.label}>
               <div className="flex h-[167px] flex-1 flex-col items-center gap-[20.2px] overflow-clip rounded-[24px] px-[2px] py-[33px]">
                 <StatValue value={stat.value} unit={stat.unit} />
-                <p className="text-center text-[22px] font-bold leading-[30px] text-white min-[1366px]:whitespace-nowrap">
+                <p className="font-sans text-center text-[22px] font-bold leading-[normal] text-white min-[1366px]:whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
