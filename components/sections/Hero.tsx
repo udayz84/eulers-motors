@@ -79,6 +79,12 @@ export default function Hero() {
               className="absolute inset-x-0 top-[59.01%] bottom-0 bg-black/15 backdrop-blur-[32px] [mask-image:linear-gradient(to_bottom,transparent,black_30%)] sm:hidden"
             />
             
+            {/* Desktop black gradient overlay */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none max-sm:hidden"
+            />
+            
             {/* Content (Text + CTA) */}
             <div className="absolute inset-x-0 bottom-[62px] flex flex-col items-start gap-3 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-6">
               <h1 className="max-w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:max-w-[788.543px] lg:text-center lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px]">

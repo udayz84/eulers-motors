@@ -507,22 +507,22 @@ export default function Navbar() {
                   ))}
                 </div>
                 {/* Neo promo card — now properly inside the Products accordion */}
-                <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 h-[300px] bg-[#1b62cd]">
+                <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 min-h-[360px] bg-[#1b62cd]">
                   <Image
                     src="/assets/neo/neo-card-image.png"
                     alt=""
-                    fill
-                    sizes="(max-width: 1023px) 100vw"
-                    className="absolute inset-0 object-cover object-bottom"
+                    width={400}
+                    height={400}
+                    className="absolute -bottom-2 -right-4 w-[90%] max-w-[340px] object-contain"
                   />
                   <div className="relative z-10 flex h-5 items-center">
                     <span aria-hidden className="h-5 w-[19px] bg-white" />
                     <span className="ml-[6px] text-[14px] font-bold leading-none text-white">Neo by Euler</span>
                   </div>
-                  <p className="relative z-10 mt-[10px] max-w-[65%] font-display text-[28px] font-semibold leading-[32px] text-white">
+                  <p className="relative z-10 mt-[10px] max-w-[200px] font-display text-[26px] font-semibold leading-[30px] text-white">
                     HiRange and HiCity
                   </p>
-                  <p className="relative z-10 mt-2 max-w-[65%] text-[13px] font-medium leading-[1.4] text-white">
+                  <p className="relative z-10 mt-2 max-w-[220px] text-[13px] font-medium leading-[1.4] text-white">
                     Smaller vehicles for city delivery. Built for owner drivers and
                     delivery partners.
                   </p>
