@@ -70,25 +70,26 @@ export default function CustomerReviews() {
               {story.overlay && (
                 <Image src={story.overlay} alt="" fill sizes="400px" className="object-cover" />
               )}
-              {/* graded frost — Figma 1:1679 Rectangle 40789: black@20% +
-                  background-blur 41px, Gaussian-smeared by a 261px layer blur
-                  (σ≈130) from a center at the card's bottom edge ⇒ blur and
-                  tint strongest at the bottom, decaying to ~0 mid-card.
-                  Bottom band only (top gradient removed on request).
-                  Progressive backdrop-blur stack + graded tint. */}
-              <div aria-hidden className="pointer-events-none absolute inset-0">
-                <div className="absolute inset-x-0 bottom-0 h-[50%] backdrop-blur-[8px] [mask-image:linear-gradient(to_top,black,transparent)]" />
-                <div className="absolute inset-x-0 bottom-0 h-[33%] backdrop-blur-[20px] [mask-image:linear-gradient(to_top,black,transparent)]" />
-                <div className="absolute inset-x-0 bottom-0 h-[16%] backdrop-blur-[38px] [mask-image:linear-gradient(to_top,black,transparent)]" />
-                <div className="absolute inset-x-0 bottom-0 h-[53%] bg-gradient-to-t from-black/20 to-transparent" />
-              </div>
+              {/* graded frost — Figma 1:1680 only (bottom): a 604×316 rect of
+                  tint@20% + backdrop-blur 20.442px, Gaussian-smeared by a
+                  130.511px layer blur centered on the card's bottom edge. No
+                  direct CSS equivalent (filter on an ancestor kills
+                  backdrop-filter), so one layer with the Figma blur+tint is
+                  masked by a gradient approximating the σ=130.5 falloff —
+                  mask fades tint and blur together, like the layer blur. Tint
+                  is white (designer request; Figma uses black). Height 80% ≈
+                  the 2.5σ visible range on the 485.645px card. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[80%] bg-white/20 backdrop-blur-[20.442px] [mask-image:linear-gradient(to_top,black_0%,rgba(0,0,0,0.88)_17%,rgba(0,0,0,0.61)_33%,rgba(0,0,0,0.32)_50%,rgba(0,0,0,0.14)_67%,transparent_83%)]"
+              />
 
               {/* quote + author — Figma 1:1679 bottom panel (Frame 1984080840
                   at y=324): savings chip → 16px gap → quote → author */}
               <div className="absolute inset-x-4 bottom-4 flex flex-col gap-[16.6px] lg:inset-x-4 lg:bottom-4">
                 {/* savings chip — first element of the bottom panel, above the quote */}
                 <div className="flex h-[25.5px] w-fit items-center gap-[6.5px] rounded-[20.442px] border border-chip-green bg-chip-green/25 py-[7.7px] pl-[6.5px] pr-[15.3px] backdrop-blur-[12.8px] lg:h-[25.553px]">
-                  <Image src="/assets/reviews/icon-chat.svg" alt="" width={15} height={15} aria-hidden className="h-[15.332px] w-[15.332px]" />
+                  <Image src="/assets/reviews/icon-chat.svg" alt="" width={14} height={9} aria-hidden className="h-[8.688px] w-[13.799px] -scale-y-100" />
                   <span className="whitespace-nowrap text-[12.776px] font-bold leading-[1.15] tracking-[-0.2555px] text-white">
                     ₹41,000 saved a month
                   </span>
@@ -125,7 +126,7 @@ export default function CustomerReviews() {
 
               {/* time chip */}
               <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
-                <span className="text-[12px] font-semibold leading-none text-black lg:text-[14px]">02:32</span>
+                <span className="text-[12px] font-bold leading-normal text-black lg:text-[14px]">02:32</span>
               </div>
 
               {/* play button — user's Figma export of node 1:1705 (52×52 PNG) */}

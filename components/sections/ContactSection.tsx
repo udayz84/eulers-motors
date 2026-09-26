@@ -107,23 +107,14 @@ export default function ContactSection() {
                 <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">Book a test drive</h3>
                 <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
               </div>
-              <div className="flex w-full gap-2">
-                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] bg-deep-card px-1 font-display text-[12px] font-semibold leading-none text-white whitespace-nowrap">
-                  Test drive
-                </span>
-                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
-                  Price Enquiry
-                </span>
-                <span className="flex h-8 flex-1 items-center justify-center rounded-[32px] border border-white/50 bg-white/80 px-1 font-display text-[12px] font-semibold leading-none text-ink backdrop-blur-[10px] whitespace-nowrap">
-                  Fleet
-                </span>
-              </div>
+              <FormTabs active={tab} onSelect={setTab} mobile />
               <div className="flex gap-1.5">
-                <Field label="Name *" placeholder="Full name" mobile />
-                <Field label="Mobile number *" placeholder="10 digit" mobile />
+                {FORMS[tab].fields.map(([label, ph]) => (
+                  <Field key={label} label={label} placeholder={ph} mobile />
+                ))}
               </div>
               <Button variant="dark" arrow="white" className="w-full">
-                Continue
+                {FORMS[tab].cta}
               </Button>
               <p className="text-center text-[12px] font-medium text-ink">
                 We never share your number with anyone else. No spam calls.
@@ -228,9 +219,17 @@ function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: s
   );
 }
 
-function FormTabs({ active, onSelect }: { active: Tab; onSelect: (t: Tab) => void }) {
+function FormTabs({
+  active,
+  onSelect,
+  mobile = false,
+}: {
+  active: Tab;
+  onSelect: (t: Tab) => void;
+  mobile?: boolean;
+}) {
   return (
-    <div className="flex gap-3" role="tablist" aria-label="Enquiry type">
+    <div className={mobile ? "flex w-full gap-2" : "flex gap-3"} role="tablist" aria-label="Enquiry type">
       {TABS.map((t) => {
         const on = t === active;
         return (
@@ -240,7 +239,9 @@ function FormTabs({ active, onSelect }: { active: Tab; onSelect: (t: Tab) => voi
             role="tab"
             aria-selected={on}
             onClick={() => onSelect(t)}
-            className={`flex h-[42px] flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display text-[16px] font-semibold leading-none ${
+            className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none ${
+              mobile ? "h-8 text-[12px]" : "h-[42px] text-[16px]"
+            } ${
               on ? "bg-deep-card text-white" : "border border-white/50 bg-white/80 text-ink backdrop-blur-[10px]"
             }`}
           >
@@ -254,6 +255,9 @@ function FormTabs({ active, onSelect }: { active: Tab; onSelect: (t: Tab) => voi
 
 function Field({ label, placeholder, mobile = false }: { label: string; placeholder: string; mobile?: boolean }) {
   const isPhone = label.startsWith("Mobile");
+  /* City: letters + spaces only · count fields (km/quantity/fleet): digits only */
+  const isAlpha = label.startsWith("City");
+  const isNum = /Kilometres|Quantity|Fleet size/.test(label);
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
   /* Indian mobile: 10 digits, first digit 6-9 — anything else is stripped */
@@ -268,14 +272,18 @@ function Field({ label, placeholder, mobile = false }: { label: string; placehol
       <span className="text-[12px] font-medium text-[#212125]">{label}</span>
       <input
         type={isPhone ? "tel" : "text"}
-        inputMode={isPhone ? "numeric" : undefined}
+        inputMode={isPhone || isNum ? "numeric" : undefined}
         placeholder={placeholder}
         value={value}
         maxLength={isPhone ? 10 : undefined}
         onChange={(e) => {
-          if (!isPhone) return setValue(e.target.value);
-          const d = e.target.value.replace(/\D/g, "").replace(/^[0-5]+/, "").slice(0, 10);
-          setValue(d);
+          if (isPhone) {
+            const d = e.target.value.replace(/\D/g, "").replace(/^[0-5]+/, "").slice(0, 10);
+            return setValue(d);
+          }
+          if (isAlpha) return setValue(e.target.value.replace(/[^A-Za-z\s]/g, ""));
+          if (isNum) return setValue(e.target.value.replace(/\D/g, ""));
+          setValue(e.target.value);
         }}
         onBlur={() => isPhone && setTouched(true)}
         className={`${base} border bg-white text-[12px] font-medium backdrop-blur-[8.15px] outline-none ${

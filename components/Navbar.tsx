@@ -348,9 +348,11 @@ export default function Navbar() {
             </Link>
             <div className="flex items-center">
               <ul className="flex items-center gap-12 px-2.5">
-                {(Object.keys(DROPDOWNS) as DropdownKey[]).map((key) => (
-                  <li 
-                    key={key} 
+                {/* Figma 1:2259 link order: Product · Company · Technology ·
+                    Support — Support carries the Iconex/Light/Call phone icon */}
+                {(["Product", "Company"] as DropdownKey[]).map((key) => (
+                  <li
+                    key={key}
                     className="relative"
                     onMouseEnter={() => setOpenDropdown(key)}
                   >
@@ -373,6 +375,27 @@ export default function Navbar() {
                   >
                     Technology
                   </Link>
+                </li>
+                <li className="relative" onMouseEnter={() => setOpenDropdown("Support")}>
+                  <button
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded={openDropdown === "Support"}
+                    onClick={() => toggleDropdown("Support")}
+                    className="flex items-center gap-2.5 text-[14px] font-semibold text-white"
+                  >
+                    {/* Iconex/Light/Call — 17.46×17.31 in a 23×23.28 box (Figma) */}
+                    <Image
+                      src="/assets/nav/phone-white.svg"
+                      alt=""
+                      width={18}
+                      height={18}
+                      aria-hidden
+                      className="h-[17.31px] w-[17.46px]"
+                    />
+                    Support
+                    {chevron(openDropdown === "Support")}
+                  </button>
                 </li>
               </ul>
             </div>

@@ -68,16 +68,25 @@ export default function Hero() {
               className="pointer-events-none object-cover max-sm:hidden"
             />
 
-            {/* Mobile scrim (Figma 1:4525 "Overlay" at reduced strength —
-                user preference): black 15% + backdrop blur 32 over the
-                bottom 41% (y 449.65→762 of the 393×762 frame), feathered at
-                the top by a mask (scale-free stand-in for Figma's 204.3px
-                layer blur). Kept fully in-bounds — WebKit smears
-                backdrop-filter on rects that overhang the viewport */}
-            <div
-              aria-hidden
-              className="absolute inset-x-0 top-[59.01%] bottom-0 bg-black/15 backdrop-blur-[32px] [mask-image:linear-gradient(to_bottom,transparent,black_30%)] sm:hidden"
-            />
+            {/* Mobile scrim — Figma 1:4525 rebuilt exactly: a 783.13×448.36
+                plate of black 40% + backdrop-blur 16px at y 449.65 (top
+                59.01% of the 393×762 frame), bleeding past all frame edges,
+                Gaussian-smeared by a 102.15px layer blur. CSS filter would
+                kill backdrop-filter, so the blur's edge profile is split:
+                (a) masked backdrop-blur ramping to full at 65% of the band
+                (≈2σ of 102.15px over the 312px on-frame band) and (b) a
+                plain tint gradient with the same ramp — separate layer so
+                the tint shows even where mask+backdrop-filter combos fail
+                (WebKit). Plate bleeds horizontally off-frame, so no side
+                feathering is visible — inset-x-0 covers it. */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[59.01%] bottom-0 sm:hidden">
+              <div className="absolute inset-0 backdrop-blur-[16px] [mask-image:linear-gradient(to_bottom,transparent,black_65%)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% to-black/40 to-65%" />
+              {/* white edge — rim light at the glass plate's top boundary
+                  (Figma's hard plate edge smeared by the layer blur reads as
+                  a bright line where blurred backdrop meets sharp photo) */}
+              <div className="absolute inset-x-0 top-0 h-[8px] bg-gradient-to-b from-white/25 to-transparent" />
+            </div>
             
             {/* Desktop black gradient overlay */}
             <div

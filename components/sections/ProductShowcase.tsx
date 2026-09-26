@@ -184,9 +184,10 @@ export default function ProductShowcase() {
         className="absolute left-[calc(50%+19.5px)] top-[-73.34px] h-[374.945px] w-[1874.727px] -translate-x-1/2 bg-surface blur-[173.2px] pointer-events-none lg:hidden"
       />
 
-      {/* Figma 1:1317 grid: content spans 80→1360 inside the 1440 frame (1280px)
-          — widened a bit to 1360px (40px margins) per review */}
-      <div className="relative mx-auto flex w-full max-w-[1360px] flex-col px-5 sm:px-6 lg:px-0">
+      {/* Figma 1:1321 header spans 77→1363 inside the 1440 frame — use the
+          centered max-w-1440 frame with 80px gutters (like StatsBanner's 60px)
+          so both sections track the same content box on wide viewports */}
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col px-5 sm:px-6 lg:px-[80px]">
         {/* Top Header Row: Eyebrow + Heading on Left, Vehicle Selector Tabs on Right */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           {/* Left: Eyebrow badge + Main heading */}
@@ -202,11 +203,12 @@ export default function ProductShowcase() {
 
           {/* Right: 4 vehicle cards — clickable, sync with the arrows.
               Desktop (Figma 1:1328): w 723, space-between (no gap), items-center */}
-          <div
-            className="no-scrollbar flex items-center justify-between gap-2 overflow-x-auto sm:gap-4 lg:w-[723px] lg:gap-0 lg:overflow-visible"
-            role="tablist"
-            aria-label="Vehicle models"
-          >
+          <div className="no-scrollbar -mx-5 overflow-x-auto px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:overflow-visible lg:px-0">
+            <div
+              className="flex min-w-full w-max items-center justify-between gap-3 sm:gap-4 lg:w-[723px] lg:gap-0"
+              role="tablist"
+              aria-label="Vehicle models"
+            >
             {VEHICLES.map((vehicle, index) => {
               const isActive = index === active;
               return (
@@ -245,6 +247,7 @@ export default function ProductShowcase() {
                 </button>
               );
             })}
+            </div>
           </div>
         </div>
 
