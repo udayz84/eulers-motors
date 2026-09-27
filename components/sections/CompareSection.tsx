@@ -109,7 +109,7 @@ export default function CompareSection() {
           width={319}
           height={443}
           aria-hidden
-          className="pointer-events-none absolute left-[196.81px] top-[150px] h-[443px] w-[319px]"
+          className="pointer-events-none absolute left-1/2 top-[150px] h-[443px] w-[319px]"
         />
 
         {/* title container — (19.32, 31.3), gap 14, pills h-32 (1:4753) */}
@@ -196,10 +196,10 @@ export default function CompareSection() {
         <Image
           src="/assets/compare/divider-h.svg"
           alt=""
-          width={280}
-          height={1}
+          width={310}
+          height={3}
           aria-hidden
-          className="pointer-events-none absolute left-[calc(50%_-_0.106px)] top-[178.67px] h-[0.212px] w-[279.83px] origin-top-left rotate-90"
+          className="pointer-events-none absolute left-[calc(50%_+_1.25px)] top-[178.67px] h-[2.5px] w-[310px] origin-top-left rotate-90"
         />
         {/* Line Container shine (1:4725): soft glow hugging the divider's
             right side, same vertical span */}
@@ -207,13 +207,13 @@ export default function CompareSection() {
           src="/assets/compare/line-shine.svg"
           alt=""
           width={90}
-          height={280}
+          height={310}
           aria-hidden
-          className="pointer-events-none absolute left-[197px] top-[178.67px] h-[279.83px] w-[90px] object-fill"
+          className="pointer-events-none absolute left-[calc(50%_+_1.25px)] top-[178.67px] h-[310px] w-[90px] object-fill"
         />
 
         {/* Neo promo — (20, 459) 353×133, r8, p16, stacked centered (1:4771) */}
-        <div className="absolute left-1/2 top-[459px] z-10 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-lg p-4">
+        <div className="absolute left-1/2 top-[459px] z-10 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-[8px] p-4">
           <div
             aria-hidden
             className="absolute inset-0"

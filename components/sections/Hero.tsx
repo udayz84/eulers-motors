@@ -80,12 +80,8 @@ export default function Hero() {
                 (WebKit). Plate bleeds horizontally off-frame, so no side
                 feathering is visible — inset-x-0 covers it. */}
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[59.01%] bottom-0 sm:hidden">
-              <div className="absolute inset-0 backdrop-blur-[16px] [mask-image:linear-gradient(to_bottom,transparent,black_65%)]" />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% to-black/40 to-65%" />
-              {/* white edge — rim light at the glass plate's top boundary
-                  (Figma's hard plate edge smeared by the layer blur reads as
-                  a bright line where blurred backdrop meets sharp photo) */}
-              <div className="absolute inset-x-0 top-0 h-[8px] bg-gradient-to-b from-white/25 to-transparent" />
+              <div className="absolute inset-0 backdrop-blur-[8px] [mask-image:linear-gradient(to_bottom,transparent,black_65%)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% to-black/15 to-65%" />
             </div>
             
             {/* Desktop black gradient overlay */}
