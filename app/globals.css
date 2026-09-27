@@ -112,7 +112,25 @@
   /* Radii (Figma --r-md / --r-lg) */
   --radius-md: 16px;
   --radius-lg: 24px;
+
+  /* Tablet plan: `lg` (the mobile→desktop boundary) moves down to 768px so
+     tablets render the desktop layout; the tablet-only `html` zoom below
+     scales it to fit. Phones (<768) and desktops (≥1024) match the exact
+     same declarations as before — pixel-identical. sm/md are re-declared
+     with identical values so all three emit as one ordered family — an
+     overridden lg alone lands BEFORE the sm/md blocks in the built CSS,
+     which would let sm:/md: rules beat lg: rules at desktop widths
+     (e.g. Technology's sm:h-[290px] md:h-[330px] lg:h-[343px] ladders). */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 768px;
 }
+
+/* Tablet scale-to-fit (768–1023.98px) is applied by an inline script in
+   app/layout.tsx, NOT here: Chrome silently drops calc() inside the zoom
+   property, so zoom:calc(100vw/1440) never applied. The script assigns a
+   plain numeric zoom (innerWidth/1440) before first paint — verified in
+   headless Chrome to fit the 1440px design exactly at every tablet width. */
 
 html {
   scroll-behavior: smooth;
@@ -209,7 +227,7 @@ button {
     linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
     linear-gradient(90deg, #1d6fff -3.2%, #0e2f6d 170.8%);
 }
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .compare-bg {
     background-image:
       linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
@@ -237,7 +255,7 @@ button {
 .snap-row.snap-center-mobile > :not([aria-hidden]) {
   scroll-snap-align: center;
 }
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .snap-row.snap-center-mobile > :not([aria-hidden]) {
     scroll-snap-align: start;
   }
@@ -292,7 +310,7 @@ button {
 }
 
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .carousel-pad-reviews {
     padding-left: calc(max(0px, (100vw - 1440px) / 2) + 40px);
     padding-right: calc(max(0px, (100vw - 1440px) / 2) + 40px);

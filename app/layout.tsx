@@ -23,6 +23,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={manrope.variable}>
       <body className="font-sans antialiased">
+        {/* Tablet scale-to-fit — set BEFORE first paint (no flash): in the
+            768–1023.98px band, render the desktop design at its native 1440px
+            canvas, scaled to the exact viewport width. Must be a JS-assigned
+            number: Chrome silently drops calc() inside the zoom property, so
+            the CSS calc version never applied. innerWidth is unaffected by
+            root zoom (verified) and the band guard stays stable — no
+            oscillation. Phones (<768) and desktops (≥1024): zoom removed. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){function z(){var m=matchMedia("(min-width:768px) and (max-width:1023.98px)");document.documentElement.style.zoom=m.matches?window.innerWidth/1440:""}z();addEventListener("resize",z)})();`,
+          }}
+        />
         {children}
       </body>
     </html>

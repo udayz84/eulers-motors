@@ -38,7 +38,7 @@ export default function Technology() {
           <div className="flex w-full flex-col gap-3 lg:gap-5">
             {/* row 1 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] md:h-[360px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
                 {/* desktop card art — both Figma CARD fills (1:1641), bottom-anchored */}
                 <Image src="/assets/technology/card-battery.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
                 <Image src="/assets/technology/card-battery2.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
@@ -58,7 +58,7 @@ export default function Technology() {
                   desc="Batteries lose range above 40 degrees. The Euler battery is water cooled, maintaining range year-round."
                 />
               </article>
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] md:h-[360px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
                 {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
                 <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
                 {/* mobile: the truck split from its background — the card base
@@ -106,7 +106,7 @@ export default function Technology() {
 
             {/* row 2 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] md:h-[330px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
                 {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
                 <Image
                   src="/assets/technology/app-photo.png"
@@ -166,7 +166,7 @@ export default function Technology() {
                   </div>
                 </div>
               </article>
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] md:h-[330px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
+              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
                 {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
                     top-right — this flex-1 card runs wider than Figma's 588px, and a
                     filling object-cover would zoom the truck down over the heading.
