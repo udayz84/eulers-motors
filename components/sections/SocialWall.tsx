@@ -59,7 +59,10 @@ export default function SocialWall() {
                 className="relative h-[400px] w-[300px] shrink-0 overflow-clip rounded-2xl lg:h-[519.574px] lg:w-[390px] lg:rounded-[20.442px]"
               >
                 <Image src={post.imgs[0]} alt="Euler trucks in action" fill sizes="400px" className="object-cover" />
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+                {/* scrim — mobile Figma (1:5068 bitmap): top-only darkening;
+                    the bottom has NO scrim so the photo reads through the
+                    white/20 panel (verified: figma panel px = photo×0.8+51) */}
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent lg:to-black/60" />
 
                 {/* instagram chip */}
                 <span className="absolute right-[13.5px] top-[13.5px] flex size-[30.2px] items-center justify-center rounded-[7.6px] border border-white/20 bg-white/20 backdrop-blur-[10px] lg:right-[26px] lg:top-6 lg:size-[41px] lg:rounded-[10.2px]">
@@ -82,9 +85,10 @@ export default function SocialWall() {
                   />
                 </button>
 
-                {/* post info panel */}
-                {/* post info panel */}
-                <div className="absolute inset-x-[13.5px] bottom-3 rounded-[8px] bg-[rgba(255,255,255,0.2)] p-[8px] backdrop-blur-[12px] lg:inset-x-4 lg:bottom-4 lg:rounded-[18px] lg:border lg:border-white/20 lg:p-4 lg:bg-white/20">
+                {/* post info panel — Figma mobile (1:5068 bitmap): frosted
+                    glass with a white veil graduating lighter toward the
+                    bottom, strengthened per review (white/12 → white/38) */}
+                <div className="absolute inset-x-[13.5px] bottom-3 rounded-[8px] bg-gradient-to-b from-white/[0.12] to-white/[0.38] p-[8px] backdrop-blur-[8px] lg:inset-x-4 lg:bottom-4 lg:rounded-[18px] lg:border lg:border-white/20 lg:p-4 lg:bg-none lg:bg-white/20 lg:backdrop-blur-[12px]">
                   {last ? (
                     <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
                       <div className="flex items-center gap-[5.5px] lg:gap-[8.9px]">
