@@ -124,12 +124,14 @@ export default function SavingsCalculator() {
               Calculate your savings
             </h2>
           </div>
+          {/* chart (Figma 1:2270, updated variant 1:2261): rounded 737×495
+              panel with the ₹ bar comparison — petrol / diesel / CNG / Euler EV */}
           <div className="hidden lg:block">
             <Image
-              src="/assets/calculator/chart.svg"
-              alt="Savings comparison chart between diesel and Euler vehicles"
-              width={736}
-              height={496}
+              src="/assets/calculator/chart-v2.webp"
+              alt="Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV — ₹23,000 more profit per month with Euler EV"
+              width={1474}
+              height={990}
               className="h-auto w-full"
             />
           </div>

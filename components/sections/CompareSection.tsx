@@ -66,21 +66,23 @@ export default function CompareSection() {
   const mobileFrameRef = useRef<HTMLDivElement>(null);
   const rightTracks = useRef<(HTMLDivElement | null)[]>([]);
 
-  // The two strips animate with the same phase but anchor at different x
-  // (left track starts at the screen edge, right track at the divider), so
-  // their card edges never line up in columns — the right row reads as
-  // "delayed". Shift the right tracks by (half-window mod period) so both
-  // sit on one shared lattice: card edges flow through the divider as one
-  // continuous conveyor. marginLeft is used because the marquee keyframes
-  // own `transform`; a static margin doesn't affect the seamless loop.
+  // The two strips animate in lockstep but anchor at different x (left track
+  // starts at its window edge, right track at the divider), so their card
+  // edges only line up if both sit on one shared lattice. Shift the right
+  // track by −offset mod period so its card edges are congruent with the
+  // left track's and the rows read as one conveyor flowing through the
+  // divider. offset = distance between the two tracks' origins (the left
+  // mobile track starts at −48px, its Figma bleed). marginLeft because the
+  // marquee keyframes own `transform`; a static margin doesn't affect the
+  // seamless loop. Layout px throughout — congruence survives the tablet
+  // zoom, which scales both tracks equally.
   useLayoutEffect(() => {
-    const align = (track: HTMLDivElement | null, half: number, period: number) => {
+    const align = (track: HTMLDivElement | null, offset: number, period: number) => {
       if (!track) return;
-      const scale = track.getBoundingClientRect().width / track.offsetWidth || 1;
-      track.style.marginLeft = `${(half / scale) % period}px`;
+      track.style.marginLeft = `${((period - (offset % period)) % period).toFixed(3)}px`;
     };
     const run = () => {
-      align(rightTracks.current[0], (mobileFrameRef.current?.clientWidth ?? 0) / 2, MARQUEE_PERIOD_MOBILE);
+      align(rightTracks.current[0], (mobileFrameRef.current?.clientWidth ?? 0) / 2 + 48, MARQUEE_PERIOD_MOBILE);
       align(rightTracks.current[1], (sectionRef.current?.clientWidth ?? 0) / 2, MARQUEE_PERIOD);
     };
     run();

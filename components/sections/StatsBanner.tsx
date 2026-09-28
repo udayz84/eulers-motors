@@ -43,6 +43,17 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
 export default function StatsBanner() {
   return (
     <section className="relative z-10 -mt-[6px] overflow-clip bg-[#041231]" aria-label="Euler Motors in numbers">
+      {/* desktop bg card — the exported 1440×251 "Banner image" fill: gradient +
+          concentric rings + ellipse glows all baked in, so it replaces the flat
+          #041231 (kept as fallback) and the separately-positioned SVG layers */}
+      <Image
+        src="/assets/products/banner-image.png"
+        alt=""
+        fill
+        sizes="1440px"
+        className="pointer-events-none hidden object-cover lg:block"
+      />
+
       {/* mobile glows (Figma 1:4543/1:4544 — Ellipse 3426 white · 3427 blue):
           438.233×325.137 and 602.244×446.821, anchored left calc(50% + 23.84px),
           tops 347.23 / 365.55 — clipped by the band so light rises off the bottom edge */}
@@ -72,24 +83,6 @@ export default function StatsBanner() {
             sizes="837px"
             className="pointer-events-none"
           />
-        </div>
-      </div>
-
-      {/* concentric rings — 1335.635² at (-423.63, -484.38), svg inset -1.73% (Figma 1:1435) */}
-      <div aria-hidden className="absolute -right-[423.63px] -top-[484.38px] hidden size-[1335.635px] lg:block">
-        <div className="absolute inset-[-1.73%]">
-          <Image src="/assets/products/concentric.svg" alt="" fill sizes="1382px" className="pointer-events-none" />
-        </div>
-      </div>
-      {/* ellipse glows (Figma 1:1440/1:1441) */}
-      <div aria-hidden className="absolute left-1/2 top-[269px] hidden h-[197.726px] w-[1014.71px] -translate-x-1/2 lg:block">
-        <div className="absolute inset-[-107.22%_-20.89%]">
-          <Image src="/assets/products/ellipse-1.svg" alt="" fill sizes="1439px" className="pointer-events-none" />
-        </div>
-      </div>
-      <div aria-hidden className="absolute left-1/2 top-[195px] hidden h-[271.726px] w-[1394.471px] -translate-x-1/2 lg:block">
-        <div className="absolute inset-[-78.02%_-15.2%]">
-          <Image src="/assets/products/ellipse-2.svg" alt="" fill sizes="1818px" className="pointer-events-none" />
         </div>
       </div>
 

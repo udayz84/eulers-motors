@@ -29,3 +29,6 @@ next-env.d.ts
 
 # design working notes (not part of the shipped app)
 /.design-notes/
+
+# figma reference screenshots (scratch)
+.figma-ref/
