@@ -92,6 +92,7 @@ export default function SavingsCalculator() {
   const [vehicle, setVehicle] = useState(0);
   const [km, setKm] = useState(60);
   const [years, setYears] = useState(5);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const chipsRef = useRef<HTMLDivElement>(null);
 
   // start the mobile chip row scrolled so the active chip leads with a ~33px
@@ -126,14 +127,35 @@ export default function SavingsCalculator() {
           </div>
           {/* chart (Figma 1:2270, updated variant 1:2261): rounded 737×495
               panel with the ₹ bar comparison — petrol / diesel / CNG / Euler EV */}
-          <div className="hidden lg:block">
-            <Image
-              src="/assets/calculator/chart-v2.webp"
-              alt="Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV — ₹23,000 more profit per month with Euler EV"
-              width={1474}
-              height={990}
-              className="h-auto w-full"
-            />
+          <div 
+            className="hidden lg:block cursor-pointer"
+            onClick={() => setHasInteracted(!hasInteracted)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setHasInteracted(!hasInteracted); }}
+          >
+            {!hasInteracted ? (
+              <div className="flex aspect-[1474/990] w-full flex-col justify-between rounded-[24px] bg-[#071120] p-[4%]">
+                <div className="flex flex-col gap-3 pl-2 pt-2">
+                  <div className="h-6 w-32 rounded-lg bg-[#121c2e] lg:h-8 lg:w-48"></div>
+                  <div className="h-3 w-20 rounded-md bg-[#121c2e] lg:h-4 lg:w-32"></div>
+                </div>
+                <div className="flex h-[75%] items-end justify-between px-[10%]">
+                  <div className="h-[55%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
+                  <div className="h-[75%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
+                  <div className="h-[40%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
+                  <div className="h-[95%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
+                </div>
+              </div>
+            ) : (
+              <Image
+                src="/assets/calculator/chart-v2.webp"
+                alt="Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV — ₹23,000 more profit per month with Euler EV"
+                width={1474}
+                height={990}
+                className="h-auto w-full animate-fadeIn"
+              />
+            )}
           </div>
         </div>
 
@@ -157,7 +179,10 @@ export default function SavingsCalculator() {
                   key={v.name}
                   type="button"
                   data-active={i === vehicle}
-                  onClick={() => setVehicle(i)}
+                  onClick={() => {
+                    setVehicle(i);
+                    setHasInteracted(true);
+                  }}
                   aria-pressed={i === vehicle}
                   className={`${MOBILE_ORDER[i]} flex h-[56px] w-auto shrink-0 items-center gap-[15px] rounded-[6px] border border-brand/50 py-[6px] pl-[6px] pr-[10px] text-left transition-opacity lg:order-none lg:h-[70px] lg:w-full lg:rounded-2xl lg:p-[6px] ${
                     i === vehicle ? "bg-brand/20" : "bg-brand/10 opacity-60"
@@ -208,7 +233,10 @@ export default function SavingsCalculator() {
               max={200}
               minLabel="0 km"
               maxLabel="200 km"
-              onChange={setKm}
+              onChange={(v) => {
+                setKm(v);
+                setHasInteracted(true);
+              }}
             />
             <div className="h-px w-full shrink-0 bg-white/20" aria-hidden />
             <SliderBlock
@@ -219,7 +247,10 @@ export default function SavingsCalculator() {
               max={10}
               minLabel="1 year"
               maxLabel="10 year"
-              onChange={setYears}
+              onChange={(v) => {
+                setYears(v);
+                setHasInteracted(true);
+              }}
             />
           </div>
 
