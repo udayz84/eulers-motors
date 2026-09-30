@@ -441,9 +441,9 @@ export default function Navbar() {
 
         {/* Company / Support dropdown panels (Figma 1:2826) */}
         {openDropdown && openDropdown !== "Product" && (
-          <MenuPanel 
-            heading={DROPDOWNS[openDropdown].heading} 
-            items={DROPDOWNS[openDropdown].items} 
+          <MenuPanel
+            heading={DROPDOWNS[openDropdown].heading}
+            items={DROPDOWNS[openDropdown].items}
           />
         )}
 
@@ -454,7 +454,7 @@ export default function Navbar() {
             <div className="flex items-start px-20 py-8">
               <div className="flex w-[632px] flex-col gap-[26px]">
                 <p className="text-[16px] font-bold leading-[22px] text-white">
-                  4 WHEEL GOODS VEHICLES
+                  4 WHEELER GOODS VEHICLES
                 </p>
                 <div className="flex gap-4">
                   {MEGA_4W.map((p) => (
@@ -467,7 +467,7 @@ export default function Navbar() {
 
               <div className="flex w-[226px] flex-col gap-[26px]">
                 <p className="whitespace-nowrap text-[16px] font-bold leading-[22px] text-white">
-                  3 WHEEL GOODS VEHICLES
+                  3 WHEELER GOODS VEHICLES
                 </p>
                 {MEGA_3W.map((p) => (
                   <ProductCard key={p.name} {...p} />
@@ -491,7 +491,15 @@ export default function Navbar() {
                     aria-hidden
                     className="absolute inset-y-0 left-[-3px] w-[130px] bg-gradient-to-r from-white/0 to-white/20"
                   />
-                  <span aria-hidden className="h-5 w-[19px] bg-white" />
+                  {/* white Neo mark icon — Figma "Rectangle 42110" (1:1604) */}
+                  <Image
+                    src="/assets/nav/neo-mark-white.svg"
+                    alt=""
+                    width={18.22}
+                    height={20.36}
+                    aria-hidden
+                    className="h-5 w-auto"
+                  />
                   <span className="ml-[6px] text-[14px] font-bold leading-none text-white">
                     Neo by Euler
                   </span>
@@ -521,70 +529,78 @@ export default function Navbar() {
             style={{ height: `calc(100dvh - ${bannerOpen ? 71 : 47}px)` }}
           >
             <div className="no-scrollbar flex flex-1 flex-col overflow-y-auto">
-            <div className="flex flex-col border-t border-white/25 px-5 pb-6">
-              {/* PRODUCTS */}
-              <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")}>
-                <div className="grid grid-cols-2 gap-2.5 pb-4">
-                  {PRODUCT_MOBILE.map((item) => (
-                    <MenuCardLink key={item.label} item={item} />
-                  ))}
-                </div>
-                {/* Neo promo card — now properly inside the Products accordion */}
-                <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 min-h-[360px] bg-[#1b62cd]">
-                  <Image
-                    src="/assets/neo/neo-card-image.png"
-                    alt=""
-                    width={400}
-                    height={400}
-                    className="absolute -bottom-2 -right-4 w-[90%] max-w-[340px] object-contain"
-                  />
-                  <div className="relative z-10 flex h-5 items-center">
-                    <span aria-hidden className="h-5 w-[19px] bg-white" />
-                    <span className="ml-[6px] text-[14px] font-bold leading-none text-white">Neo by Euler</span>
+              <div className="flex flex-col border-t border-white/25 px-5 pb-6">
+                {/* PRODUCTS */}
+                <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")}>
+                  <div className="grid grid-cols-2 gap-2.5 pb-4">
+                    {PRODUCT_MOBILE.map((item) => (
+                      <MenuCardLink key={item.label} item={item} />
+                    ))}
                   </div>
-                  <p className="relative z-10 mt-[10px] max-w-[200px] font-display text-[26px] font-semibold leading-[30px] text-white">
-                    HiRange and HiCity
-                  </p>
-                  <p className="relative z-10 mt-2 max-w-[220px] text-[13px] font-medium leading-[1.4] text-white">
-                    Smaller vehicles for city delivery. Built for owner drivers and
-                    delivery partners.
-                  </p>
-                  <Button variant="dark" arrow="white" className="relative z-10 mt-4">
-                    Explore Neo
-                  </Button>
-                </div>
-              </MenuRow>
-              {/* TECHNOLOGY — plain link row */}
-              <Link
-                href="/#technology"
-                className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
-              >
-                Technology
-              </Link>
-              {/* RESOURCES — plain link row */}
-              <Link
-                href="#"
-                className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
-              >
-                Resources
-              </Link>
-              {/* COMPANY */}
-              <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")}>
-                <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
-                  {DROPDOWNS.Company.items.map((item) => (
-                    <MenuCardLink key={item.label} item={item} />
-                  ))}
-                </div>
-              </MenuRow>
-              {/* SUPPORT */}
-              <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")}>
-                <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
-                  {DROPDOWNS.Support.items.map((item) => (
-                    <MenuCardLink key={item.label} item={item} />
-                  ))}
-                </div>
-              </MenuRow>
-            </div>
+                  {/* Neo promo card — now properly inside the Products accordion */}
+                  <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 min-h-[360px] bg-[#1b62cd]">
+                    <Image
+                      src="/assets/neo/neo-card-image.png"
+                      alt=""
+                      width={400}
+                      height={400}
+                      className="absolute -bottom-2 -right-4 w-[90%] max-w-[340px] object-contain"
+                    />
+                    <div className="relative z-10 flex h-5 items-center">
+                      {/* white Neo mark icon — Figma "Rectangle 42110" (1:1604), same as the desktop mega-menu card */}
+                      <Image
+                        src="/assets/nav/neo-mark-white.svg"
+                        alt=""
+                        width={18.22}
+                        height={20.36}
+                        aria-hidden
+                        className="h-5 w-auto"
+                      />
+                      <span className="ml-[6px] text-[14px] font-bold leading-none text-white">Neo by Euler</span>
+                    </div>
+                    <p className="relative z-10 mt-[10px] max-w-[200px] font-display text-[26px] font-semibold leading-[30px] text-white">
+                      HiRange and HiCity
+                    </p>
+                    <p className="relative z-10 mt-2 max-w-[220px] text-[13px] font-medium leading-[1.4] text-white">
+                      Smaller vehicles for city delivery. Built for owner drivers and
+                      delivery partners.
+                    </p>
+                    <Button variant="dark" arrow="white" className="relative z-10 mt-4">
+                      Explore Neo
+                    </Button>
+                  </div>
+                </MenuRow>
+                {/* TECHNOLOGY — plain link row */}
+                <Link
+                  href="/#technology"
+                  className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+                >
+                  Technology
+                </Link>
+                {/* RESOURCES — plain link row */}
+                <Link
+                  href="#"
+                  className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+                >
+                  Resources
+                </Link>
+                {/* COMPANY */}
+                <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")}>
+                  <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                    {DROPDOWNS.Company.items.map((item) => (
+                      <MenuCardLink key={item.label} item={item} />
+                    ))}
+                  </div>
+                </MenuRow>
+                {/* SUPPORT */}
+                <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")}>
+                  <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                    {DROPDOWNS.Support.items.map((item) => (
+                      <MenuCardLink key={item.label} item={item} />
+                    ))}
+                  </div>
+                </MenuRow>
+              </div>
             </div>
           </div>
         )}

@@ -79,31 +79,36 @@ export default function PrimeBanner() {
           vertically centered, w 636. The anchor tracks the centered 1440px
           frame on wider viewports (50vw-640px = frame left + 80px), floored
           at 80px below it; the bg art scales with the viewport. Mobile stays
-          top-left as before */}
-      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(max(80px,calc(50vw-640px))+636px)] lg:justify-center lg:gap-[25px] lg:px-0 lg:pl-[max(80px,calc(50vw-640px))] lg:pt-0">
+          top-left as before. Below 1440px the truck (bg-3, 105vw wide) slides
+          left under the fixed 80px anchor, so the column is capped at 39vw
+          and the text scales down to keep clear of the vehicle; min-[1440px]
+          restores the exact Figma values. */}
+      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)] lg:justify-center lg:gap-[18px] min-[1440px]:gap-[25px] lg:px-0 lg:pl-[max(80px,calc(50vw-640px))] lg:pt-0">
         <Eyebrow label="Euler Prime" dark />
-        <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[52px] lg:tracking-[-1.04px]">
+        <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
           Get free check-up at your depot with Prime
         </h2>
 
         {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
-            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14). */}
-        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:items-center lg:gap-5 lg:rounded-[10px] lg:p-5">
+            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).
+            Below 1440px the row wraps without the dots so the scaled-down text
+            never runs under the truck. */}
+        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5 lg:rounded-[10px] lg:p-4 min-[1440px]:p-5">
           {FEATURES.map((f, i) => (
             <Fragment key={f.value}>
               <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">
-                <span className="whitespace-nowrap font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[24px] lg:tracking-[-0.48px]">
+                <span className="whitespace-nowrap font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[19px] lg:tracking-[-0.38px] min-[1440px]:text-[24px] min-[1440px]:tracking-[-0.48px]">
                   {f.value}
                 </span>
                 {/* mobile separator — sits between value and label (Figma 1:4905) */}
                 <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
-                <span className="text-[12px] leading-normal text-[#ccc] lg:text-[16px] lg:whitespace-nowrap">{f.label}</span>
+                <span className="text-[12px] leading-normal text-[#ccc] lg:text-[14px] lg:whitespace-nowrap min-[1440px]:text-[16px]">{f.label}</span>
               </div>
               {i < FEATURES.length - 1 && (
-                /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) */
+                /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) — 1440px+ only */
                 <span
                   aria-hidden
-                  className={`hidden rounded-full bg-white/50 lg:block ${i === 0 ? "size-2" : "h-2 w-[9px]"}`}
+                  className={`hidden rounded-full bg-white/50 min-[1440px]:block ${i === 0 ? "size-2" : "h-2 w-[9px]"}`}
                 />
               )}
             </Fragment>

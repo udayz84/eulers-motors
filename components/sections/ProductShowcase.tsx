@@ -144,8 +144,11 @@ export default function ProductShowcase() {
             src={current.image}
             alt=""
             fill
-            sizes="(min-width: 1440px) 620px, 42vw"
-            className="object-contain [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]"
+            /* real swap-box widths (turbo up to 90% of the 1440 scene, LR 200
+               65%) — a smaller sizes made the optimizer serve ~74px-wide
+               files for 600–1300px boxes, which read as blur */
+            sizes="(min-width: 1440px) 1296px, 90vw"
+            className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]"
             quality={100}
           />
         </div>
@@ -235,7 +238,10 @@ export default function ProductShowcase() {
                         src="/assets/products/product.png"
                         alt=""
                         fill
-                        sizes="120px"
+                        /* crop windows are 322–416px wide inside the 100px
+                           card (mobile 228 / sm 299) — sizes="120px" made the
+                           optimizer serve a 119px sprite for ~4x upscale */
+                        sizes="(min-width: 1024px) 420px, (min-width: 640px) 300px, 230px"
                         className="object-cover"
                         quality={100}
                       />
@@ -261,7 +267,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous vehicle"
-            className="absolute left-6 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute left-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -281,7 +287,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handleNext}
             aria-label="Next vehicle"
-            className="absolute right-6 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute right-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"

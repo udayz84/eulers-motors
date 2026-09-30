@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
+import CarouselArrows from "../ui/CarouselArrows";
 
 const POSTS = [
   { imgs: ["/assets/social/post-c.png"], user: "variant-a" },
@@ -41,7 +42,8 @@ export default function SocialWall() {
           the Figma container's 20px bottom padding (1:2008), nudged up a bit
           for breathing room below the cards */}
       <div className="w-full pb-[28px] lg:pb-[32px]">
-        <div className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center">
+        <div className="relative">
+          <div id="social-snap-row" className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center">
           {/* Spacers for alignment — the desktop spacer anchors the first card
               at x=80 on the 1440 frame (Figma 1:2008): frame margin + 49.337px
               spacer + 30.663px row gap = margin + 80px. Once the viewport fits
@@ -134,6 +136,10 @@ export default function SocialWall() {
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
           <div aria-hidden className="hidden shrink-0 lg:block min-[2233px]:hidden" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }} />
           </div>
+          {/* arrows drive the snap row above — hidden ≥2233px where all five
+              cards fit and the row centers (nothing to scroll) */}
+          <CarouselArrows rowId="social-snap-row" label="videos" className="min-[2233px]:hidden" />
+        </div>
         </div>
     </section>
   );

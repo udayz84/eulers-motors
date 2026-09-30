@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
+import CarouselArrows from "../ui/CarouselArrows";
 
 /** All five Figma cards repeat the same testimonial (Figma 1:1679-1:1791) */
 const STORY_IMAGES = [
@@ -45,7 +46,8 @@ export default function CustomerReviews() {
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
-        <div className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+        <div className="relative">
+          <div id="reviews-snap-row" className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
               container offset (≥1440) + the 1280 row's centering offset
@@ -153,6 +155,9 @@ export default function CustomerReviews() {
             }}
           />
           </div>
+          {/* arrows drive the snap row above (overlay lets card clicks through) */}
+          <CarouselArrows rowId="reviews-snap-row" label="customer reviews" />
+        </div>
         </div>
     </section>
   );

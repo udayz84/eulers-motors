@@ -115,7 +115,7 @@
 
   /* Tablet plan: `lg` (the mobile→desktop boundary) moves down to 768px so
      tablets render the desktop layout; the tablet-only `html` zoom below
-     scales it to fit. Phones (<768) and desktops (≥1024) match the exact
+     scales it to fit. Phones (<768) and desktops (≥1280) match the exact
      same declarations as before — pixel-identical. sm/md are re-declared
      with identical values so all three emit as one ordered family — an
      overridden lg alone lands BEFORE the sm/md blocks in the built CSS,
@@ -126,7 +126,7 @@
   --breakpoint-lg: 768px;
 }
 
-/* Tablet scale-to-fit (768–1023.98px) is applied by an inline script in
+/* Tablet scale-to-fit (768–1279.98px) is applied by an inline script in
    app/layout.tsx, NOT here: Chrome silently drops calc() inside the zoom
    property, so zoom:calc(100vw/1440) never applied. The script assigns a
    plain numeric zoom (innerWidth/1440) before first paint — verified in

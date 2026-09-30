@@ -39,6 +39,16 @@ const SOCIALS = [
 export default function Footer() {
   const [open, setOpen] = useState<string | null>(COLUMNS[0].title);
 
+  /* logo + speaker control — click speaks "Euler" via the browser's
+     built-in TTS (no audio asset needed, works on desktop and mobile) */
+  const speakEuler = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const u = new SpeechSynthesisUtterance("Euler");
+    u.lang = "en-US";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  };
+
   return (
     <footer className="relative overflow-clip">
       {/* background sized to just cover the screen edges — full width,
@@ -73,10 +83,31 @@ export default function Footer() {
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">
-            <div className="flex items-center gap-[13.272px] lg:gap-4">
+            <button
+              type="button"
+              onClick={speakEuler}
+              aria-label="Euler Motors — listen to pronunciation"
+              className="group flex w-fit cursor-pointer items-center gap-[13.272px] lg:gap-4"
+            >
               <Image src="/assets/footer/logo-dark.svg" alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
-              <Image src="/assets/footer/icon-audio.svg" alt="" width={24} height={24} aria-hidden className="size-5 lg:size-[24.111px]" />
-            </div>
+              <span className="flex items-center gap-1.5 text-[12px] font-medium leading-none text-ink">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  className="size-5 lg:size-[24.111px]"
+                >
+                  <path d="M11 5 6 9H3v6h3l5 4V5z" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+                </svg>
+                <span className="group-hover:underline">Listen to pronunciation</span>
+              </span>
+            </button>
             <p className="whitespace-pre-line font-display text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink lg:text-[32px] lg:leading-[1.15] lg:tracking-[-0.64px]">
               {`Electric goods vehicles, \nIndia ke liye.  `}
             </p>
