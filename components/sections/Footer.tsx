@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const COLUMNS = [
   {
@@ -142,9 +143,12 @@ export default function Footer() {
               <ul className="flex flex-col gap-3">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="text-[14px] leading-none text-ink hover:underline">
+                    <Link
+                      href={l === "Dealer Locator" ? "/dealer-locator" : "#"}
+                      className="text-[14px] leading-none text-ink hover:underline"
+                    >
                       {l}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -184,9 +188,12 @@ export default function Footer() {
                       <ul className="flex flex-col gap-3">
                         {col.links.map((l) => (
                           <li key={l}>
-                            <a href="#" className="text-[12px] font-medium text-ink">
+                            <Link
+                              href={l === "Dealer Locator" ? "/dealer-locator" : "#"}
+                              className="text-[12px] font-medium text-ink hover:underline"
+                            >
                               {l}
-                            </a>
+                            </Link>
                           </li>
                         ))}
                       </ul>

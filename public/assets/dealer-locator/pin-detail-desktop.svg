@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="88.2466" height="91.194" viewBox="0 0 88.2466 91.194" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 2147239389">
+<path id="Vector 176" d="M59.8695 82.7573L44.6429 84.7183L0 33.1547L42.8146 1.87729e-07L88.2466 25.8873L59.8695 82.7573Z" fill="url(#paint0_radial_0_18)"/>
+<g id="Frame 2147239385">
+<rect x="45.0723" y="75.944" width="14.5" height="14.5" rx="7.25" fill="#1D6FFF"/>
+<rect x="45.0723" y="75.944" width="14.5" height="14.5" rx="7.25" stroke="white" stroke-width="1.5"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_18" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(51.5634 83.5648) rotate(-98.2652) scale(51.7552 77.6328)">
+<stop stop-color="#1D6FFF" stop-opacity="0.5"/>
+<stop offset="1" stop-color="#1D6FFF" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

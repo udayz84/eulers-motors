@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="691.148" height="69" viewBox="0 0 691.148 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-52" y="-52" width="795.148" height="173"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(26px);clip-path:url(#bgblur_0_0_32_clip_path);height:100%;width:100%"></div></foreignObject><g id="Rectangle 42188" data-figma-bg-blur-radius="52">
+<path d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z" fill="white" fill-opacity="0.5"/>
+<mask id="stroke0_0_32" fill="white">
+<path d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z"/>
+</mask>
+<path d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z" stroke-width="2" stroke="url(#paint0_linear_0_32)" mask="url(#stroke0_0_32)"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_32_clip_path" transform="translate(52 52)"><path d="M690.386 0.5L671.931 42.9463C665.184 58.4632 649.875 68.5 632.955 68.5H58.1924C41.2724 68.4998 25.9644 58.463 19.2178 42.9463L0.762695 0.5H690.386Z"/>
+</clipPath><linearGradient id="paint0_linear_0_32" x1="345.574" y1="0" x2="345.574" y2="69" gradientUnits="userSpaceOnUse">
+<stop stop-color="#121212" stop-opacity="0"/>
+<stop offset="1" stop-opacity="0.1"/>
+</linearGradient>
+</defs>
+</svg>

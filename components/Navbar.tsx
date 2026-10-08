@@ -114,9 +114,13 @@ function MenuPanel({
 }
 
 function SupportMenuCard({ item }: { item: { label: string; desc: string } }) {
+  const href =
+    item.label === "Find a dealer" || item.label === "Dealer Locator"
+      ? "/dealer-locator"
+      : "#";
   return (
     <Link
-      href="#"
+      href={href}
       className="flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
     >
       <div className="flex w-full justify-end">
@@ -201,8 +205,12 @@ function MenuRow({
 
 /** Mobile menu card — white, r10, 15px semibold title + 13px gray subtitle */
 function MenuCardLink({ item }: { item: { label: string; desc?: string } }) {
+  const href =
+    item.label === "Find a dealer" || item.label === "Dealer Locator"
+      ? "/dealer-locator"
+      : "#";
   return (
-    <Link href="#" className="flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3">
+    <Link href={href} className="flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3">
       <span className="text-[15px] font-semibold leading-[1.2] text-ink">{item.label}</span>
       {item.desc && <span className="text-[13px] leading-[1.3] text-ink-3">{item.desc}</span>}
     </Link>
