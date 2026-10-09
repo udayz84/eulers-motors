@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Arrow from "./ui/Arrow";
 import Button from "./ui/Button";
 
@@ -86,24 +87,38 @@ function ProductCard({ name, payload, img }: { name: string; payload: string; im
 function MenuPanel({
   heading,
   items,
+  isHome,
 }: {
   heading: string;
   items: readonly { label: string; desc: string }[];
+  isHome: boolean;
 }) {
   return (
-    <div className="hidden border-b border-white/[0.32] bg-black/40 px-20 py-8 backdrop-blur-[15px] lg:block">
+    <div
+      className={
+        isHome
+          ? "hidden border-b border-white/[0.32] bg-black/40 px-20 py-8 backdrop-blur-[15px] lg:block"
+          : "hidden border-b border-[#EAECEF] bg-white px-20 py-8 backdrop-blur-[15px] lg:block"
+      }
+    >
       <div className="flex gap-[60px] xl:gap-[100px]">
         {/* First Section */}
         <div className="flex flex-col items-start gap-[26px]">
-          <p className="text-[16px] font-bold uppercase leading-[22px] tracking-[0.8px] text-white">
+          <p
+            className={
+              isHome
+                ? "text-[16px] font-bold uppercase leading-[22px] tracking-[0.8px] text-white"
+                : "text-[16px] font-bold uppercase leading-[22px] tracking-[0.8px] text-ink"
+            }
+          >
             {heading}
           </p>
           <div className="flex items-center gap-5">
             {items.map((item) => (
               heading === "HELP AND SERVICE" ? (
-                <SupportMenuCard key={item.label} item={item} />
+                <SupportMenuCard key={item.label} item={item} isHome={isHome} />
               ) : (
-                <MenuCard key={item.label} item={item} />
+                <MenuCard key={item.label} item={item} isHome={isHome} />
               )
             ))}
           </div>
@@ -113,10 +128,12 @@ function MenuPanel({
   );
 }
 
-function SupportMenuCard({ item }: { item: { label: string; desc: string } }) {
+function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
   const href =
     item.label === "Find a dealer" || item.label === "Dealer Locator"
       ? "/dealer-locator"
+      : item.label === "Charging stations"
+        ? "/charging-stations"
       : "#";
   return (
     <Link
@@ -143,7 +160,7 @@ function SupportMenuCard({ item }: { item: { label: string; desc: string } }) {
   );
 }
 
-function MenuCard({ item }: { item: { label: string; desc: string } }) {
+function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
   return (
     <Link
       href="#"
@@ -176,11 +193,13 @@ function MenuRow({
   open,
   onToggle,
   children,
+  isHome,
 }: {
   label: string;
   open: boolean;
   onToggle: () => void;
   children?: React.ReactNode;
+  isHome: boolean;
 }) {
   return (
     <div>
@@ -188,13 +207,17 @@ function MenuRow({
         type="button"
         aria-expanded={open}
         onClick={onToggle}
-        className="flex h-[52px] w-full items-center justify-between border-b border-white/25"
+        className={
+          isHome
+            ? "flex h-[52px] w-full items-center justify-between border-b border-white/25"
+            : "flex h-[52px] w-full items-center justify-between border-b border-[#EAECEF]"
+        }
       >
-        <span className="text-[18px] font-bold uppercase tracking-[0.5px] text-white">{label}</span>
+        <span className={isHome ? "text-[18px] font-bold uppercase tracking-[0.5px] text-white" : "text-[18px] font-bold uppercase tracking-[0.5px] text-ink"}>{label}</span>
         <span aria-hidden className="relative block h-[20px] w-[20px]">
-          <span className="absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 bg-white" />
+          <span className={`absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 ${isHome ? "bg-white" : "bg-ink"}`} />
           <span
-            className={`absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 bg-white transition-transform duration-200 ${open ? "scale-y-0" : ""}`}
+            className={`absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 transition-transform duration-200 ${isHome ? "bg-white" : "bg-ink"} ${open ? "scale-y-0" : ""}`}
           />
         </span>
       </button>
@@ -204,13 +227,22 @@ function MenuRow({
 }
 
 /** Mobile menu card — white, r10, 15px semibold title + 13px gray subtitle */
-function MenuCardLink({ item }: { item: { label: string; desc?: string } }) {
+function MenuCardLink({ item, isHome }: { item: { label: string; desc?: string }; isHome: boolean }) {
   const href =
     item.label === "Find a dealer" || item.label === "Dealer Locator"
       ? "/dealer-locator"
+      : item.label === "Charging stations"
+        ? "/charging-stations"
       : "#";
   return (
-    <Link href={href} className="flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3">
+    <Link
+      href={href}
+      className={
+        isHome
+          ? "flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3"
+          : "flex flex-col gap-1 rounded-[10px] border border-[#EAECEF] bg-white px-3.5 py-3"
+      }
+    >
       <span className="text-[15px] font-semibold leading-[1.2] text-ink">{item.label}</span>
       {item.desc && <span className="text-[13px] leading-[1.3] text-ink-3">{item.desc}</span>}
     </Link>
@@ -222,6 +254,8 @@ function MenuCardLink({ item }: { item: { label: string; desc?: string } }) {
  * Top gradient strip: linear 90deg #1D6FFF → #4A8CFF 50% → #347EFF 75% → #4A8CFF.
  */
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
@@ -251,14 +285,14 @@ export default function Navbar() {
   const toggleDropdown = (key: DropdownKey) =>
     setOpenDropdown((cur) => (cur === key ? null : key));
 
-  const chevron = (open: boolean) => (
+  const chevron = (open: boolean, isHomeNav: boolean) => (
     <Image
       src="/assets/nav/chevron-down.svg"
       alt=""
       width={9.3}
       height={4}
       aria-hidden
-      className={`h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "" : "rotate-180"}`}
+      className={`h-[4px] w-[9.333px] transition-transform duration-200 ${open ? "" : "rotate-180"} ${isHomeNav ? "" : "brightness-0"}`}
     />
   );
 
@@ -295,7 +329,11 @@ export default function Navbar() {
 
       <div ref={navRef} onMouseLeave={() => { if (!menuOpen) setOpenDropdown(null); }}>
         <nav
-          className="relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
+          className={
+            isHome
+              ? "relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
+              : "relative flex items-center justify-between border-b border-[#EAECEF] bg-white pl-5 pr-0 shadow-[0_2px_16px_rgba(15,23,42,0.06)] lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
+          }
           aria-label="Main navigation"
         >
           {/* mobile: hamburger — Figma "menu-01" icon (1:5204): 13.6×12.1
@@ -307,14 +345,14 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex h-[18px] w-[18px] items-center justify-center"
+              className={`flex h-[18px] w-[18px] items-center justify-center ${isHome ? "text-white" : "text-ink"}`}
             >
               {menuOpen ? (
                 /* X state — two thin white bars crossing (same 1.64 stroke
                    as the menu-01 icon) */
                 <span aria-hidden className="relative block h-[14px] w-[14px]">
-                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 rotate-45 bg-white" />
-                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 -rotate-45 bg-white" />
+                  <span className={`absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 rotate-45 ${isHome ? "bg-white" : "bg-ink"}`} />
+                  <span className={`absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 -rotate-45 ${isHome ? "bg-white" : "bg-ink"}`} />
                 </span>
               ) : (
                 <Image
@@ -323,7 +361,7 @@ export default function Navbar() {
                   width={14}
                   height={12}
                   aria-hidden
-                  className="h-[12.136px] w-[13.636px]"
+                  className={`h-[12.136px] w-[13.636px] ${isHome ? "" : "brightness-0"}`}
                 />
               )}
             </button>
@@ -337,7 +375,7 @@ export default function Navbar() {
                 alt="Euler Motors"
                 width={121}
                 height={20}
-                className="h-5 w-[120.7px]"
+                className={`h-5 w-[120.7px] ${isHome ? "" : "brightness-0"}`}
               />
             </Link>
           </div>
@@ -350,7 +388,7 @@ export default function Navbar() {
                 alt="Euler Motors"
                 width={145}
                 height={24}
-                className="h-6 w-[144.889px]"
+                className={`h-6 w-[144.889px] ${isHome ? "" : "brightness-0"}`}
                 priority
               />
             </Link>
@@ -369,17 +407,17 @@ export default function Navbar() {
                       aria-haspopup="menu"
                       aria-expanded={openDropdown === key}
                       onClick={() => toggleDropdown(key)}
-                      className="flex items-center gap-2.5 text-[14px] font-semibold text-white"
+                      className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
                     >
                       {key}
-                      {chevron(openDropdown === key)}
+                      {chevron(openDropdown === key, isHome)}
                     </button>
                   </li>
                 ))}
                 <li>
                   <Link
                     href="/#technology"
-                    className="text-[14px] font-semibold text-white hover:text-white/80"
+                    className={`text-[14px] font-semibold ${isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"}`}
                   >
                     Technology
                   </Link>
@@ -390,7 +428,7 @@ export default function Navbar() {
                     aria-haspopup="menu"
                     aria-expanded={openDropdown === "Support"}
                     onClick={() => toggleDropdown("Support")}
-                    className="flex items-center gap-2.5 text-[14px] font-semibold text-white"
+                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
                   >
                     {/* Iconex/Light/Call — 17.46×17.31 in a 23×23.28 box (Figma) */}
                     <Image
@@ -399,10 +437,10 @@ export default function Navbar() {
                       width={18}
                       height={18}
                       aria-hidden
-                      className="h-[17.31px] w-[17.46px]"
+                      className={`h-[17.31px] w-[17.46px] ${isHome ? "" : "brightness-0"}`}
                     />
                     Support
-                    {chevron(openDropdown === "Support")}
+                    {chevron(openDropdown === "Support", isHome)}
                   </button>
                 </li>
               </ul>
@@ -414,7 +452,7 @@ export default function Navbar() {
             <form
               role="search"
               action="/"
-              className="hidden items-center gap-1 border-b border-white/80 pb-1.5 pr-10 lg:flex"
+              className={`hidden items-center gap-1 border-b pb-1.5 pr-10 lg:flex ${isHome ? "border-white/80" : "border-ink/40"}`}
             >
               <Image
                 src="/assets/nav/search.svg"
@@ -422,7 +460,7 @@ export default function Navbar() {
                 width={14}
                 height={14}
                 aria-hidden
-                className="h-3.5 w-3.5 scale-x-[-1]"
+                className={`h-3.5 w-3.5 scale-x-[-1] ${isHome ? "" : "brightness-0"}`}
               />
               <label htmlFor="nav-search" className="sr-only">
                 Search
@@ -432,17 +470,17 @@ export default function Navbar() {
                 type="search"
                 name="q"
                 placeholder="Search here..."
-                className="w-[110px] bg-transparent text-[14px] font-semibold text-white placeholder:text-white/80 focus:outline-none"
+                className={`w-[110px] bg-transparent text-[14px] font-semibold focus:outline-none ${isHome ? "text-white placeholder:text-white/80" : "text-ink placeholder:text-ink/60"}`}
               />
             </form>
             <Link
               href="#book-test-drive"
-              className="flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none bg-white px-3 lg:gap-2 lg:px-8"
+              className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isHome ? "bg-white text-ink" : "bg-ink text-white"}`}
             >
-              <span className="font-display text-[12px] font-semibold leading-none text-ink lg:text-[16px]">
+              <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isHome ? "text-ink" : "text-white"}`}>
                 Book a Test Drive
               </span>
-              <Arrow color="ink" />
+              <Arrow color={isHome ? "ink" : "white"} />
             </Link>
           </div>
         </nav>
@@ -452,16 +490,17 @@ export default function Navbar() {
           <MenuPanel
             heading={DROPDOWNS[openDropdown].heading}
             items={DROPDOWNS[openDropdown].items}
+            isHome={isHome}
           />
         )}
 
         {/* Product mega-menu (Figma "Property 1=Component 4"): full-width glass
             panel, 420px tall, 80px side padding, vehicle cards + Neo promo */}
         {openDropdown === "Product" && (
-          <div className="hidden bg-black/40 backdrop-blur-[30px] lg:block">
+          <div className={isHome ? "hidden bg-black/40 backdrop-blur-[30px] lg:block" : "hidden bg-white backdrop-blur-[30px] lg:block"}>
             <div className="flex items-start px-20 py-8">
               <div className="flex w-[632px] flex-col gap-[26px]">
-                <p className="text-[16px] font-bold leading-[22px] text-white">
+                <p className={isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}>
                   4 WHEELER GOODS VEHICLES
                 </p>
                 <div className="flex gap-4">
@@ -474,7 +513,7 @@ export default function Navbar() {
               <div aria-hidden className="ml-[29px] mr-[30px] w-px self-stretch bg-[#CCC]/20" />
 
               <div className="flex w-[226px] flex-col gap-[26px]">
-                <p className="whitespace-nowrap text-[16px] font-bold leading-[22px] text-white">
+                <p className={isHome ? "whitespace-nowrap text-[16px] font-bold leading-[22px] text-white" : "whitespace-nowrap text-[16px] font-bold leading-[22px] text-ink"}>
                   3 WHEELER GOODS VEHICLES
                 </p>
                 {MEGA_3W.map((p) => (
@@ -533,16 +572,16 @@ export default function Navbar() {
         {menuOpen && (
           <div
             id="mobile-menu"
-            className="flex flex-col overflow-hidden bg-black/40 backdrop-blur-[24px] lg:hidden"
+            className={`flex flex-col overflow-hidden ${isHome ? "bg-black/40" : "bg-white"} backdrop-blur-[24px] lg:hidden`}
             style={{ height: `calc(100dvh - ${bannerOpen ? 71 : 47}px)` }}
           >
             <div className="no-scrollbar flex flex-1 flex-col overflow-y-auto">
-              <div className="flex flex-col border-t border-white/25 px-5 pb-6">
+              <div className={`flex flex-col border-t px-5 pb-6 ${isHome ? "border-white/25" : "border-[#EAECEF]"}`}>
                 {/* PRODUCTS */}
-                <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")}>
+                <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")} isHome={isHome}>
                   <div className="grid grid-cols-2 gap-2.5 pb-4">
                     {PRODUCT_MOBILE.map((item) => (
-                      <MenuCardLink key={item.label} item={item} />
+                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
                     ))}
                   </div>
                   {/* Neo promo card — now properly inside the Products accordion */}
@@ -581,30 +620,30 @@ export default function Navbar() {
                 {/* TECHNOLOGY — plain link row */}
                 <Link
                   href="/#technology"
-                  className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+                  className={`flex h-[52px] items-center border-b text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "border-white/25 text-white" : "border-[#EAECEF] text-ink"}`}
                 >
                   Technology
                 </Link>
                 {/* RESOURCES — plain link row */}
                 <Link
                   href="#"
-                  className="flex h-[52px] items-center border-b border-white/25 text-[18px] font-bold uppercase tracking-[0.5px] text-white"
+                  className={`flex h-[52px] items-center border-b text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "border-white/25 text-white" : "border-[#EAECEF] text-ink"}`}
                 >
                   Resources
                 </Link>
                 {/* COMPANY */}
-                <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")}>
-                  <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")} isHome={isHome}>
+                  <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
                     {DROPDOWNS.Company.items.map((item) => (
-                      <MenuCardLink key={item.label} item={item} />
+                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
                     ))}
                   </div>
                 </MenuRow>
                 {/* SUPPORT */}
-                <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")}>
-                  <div className="grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4">
+                <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")} isHome={isHome}>
+                  <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
                     {DROPDOWNS.Support.items.map((item) => (
-                      <MenuCardLink key={item.label} item={item} />
+                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
                     ))}
                   </div>
                 </MenuRow>

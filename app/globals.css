@@ -281,8 +281,24 @@ button {
   animation: marquee 40s linear infinite;
 }
 
+/* The Partners and Investors strip contains three identical logo groups.
+   Moving by one third of the track lands exactly on the next group. */
+@keyframes partners-logo-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333333%);
+  }
+}
+
+.partners-logo-loop {
+  animation: partners-logo-loop 40s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
+  .animate-marquee,
+  .partners-logo-loop {
     animation: none;
   }
 }

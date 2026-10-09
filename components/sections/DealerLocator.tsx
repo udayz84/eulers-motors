@@ -13,6 +13,16 @@ interface Dealer {
   phone: string;
 }
 
+interface ChargingStation {
+  id: string;
+  name: string;
+  address: string;
+  hours: string;
+  distance: string;
+  badges: string[];
+  phone: string;
+}
+
 const DEALERS: Dealer[] = [
   {
     id: "kandivali",
@@ -48,6 +58,45 @@ const DEALERS: Dealer[] = [
     address: "Ambattur Industrial Estate, Chennai 600058",
     hours: "Open until 7 pm",
     distance: "1,338",
+    phone: "1800 000 0000",
+  },
+];
+
+const CHARGING_STATIONS: ChargingStation[] = [
+  {
+    id: "fast-charge-andheri",
+    name: "Euler Fast Charge, Andheri MIDC",
+    address: "Marol MIDC, opposite Gate 2, Andheri East",
+    hours: "Open 24 hours",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    distance: "13",
+    phone: "1800 000 0000",
+  },
+  {
+    id: "partner-hub-bhiwandi",
+    name: "Partner Hub, Bhiwandi",
+    address: "Marol MIDC, opposite Gate 2, Andheri East",
+    hours: "Open 24 hours",
+    badges: ["CCS2", "11 of 14 free"],
+    distance: "18.9",
+    phone: "1800 000 0000",
+  },
+  {
+    id: "depot-charge-vashi",
+    name: "Euler Depot Charge, Vashi",
+    address: "Marol MIDC, opposite Gate 2, Andheri East",
+    hours: "Open 24 hours",
+    badges: ["CCS2", "Depot", "6 of 8 free"],
+    distance: "22.5",
+    phone: "1800 000 0000",
+  },
+  {
+    id: "fast-charge-andheri-east",
+    name: "Euler Fast Charge, Andheri MIDC",
+    address: "Marol MIDC, opposite Gate 2, Andheri East",
+    hours: "Open 24 hours",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    distance: "13",
     phone: "1800 000 0000",
   },
 ];
@@ -180,12 +229,123 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
   );
 }
 
-export default function DealerLocator() {
+function ChargingStationCard({ station }: { station: ChargingStation }) {
+  const directionsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${station.name} ${station.address}`)}`;
+
+  return (
+    <article className="flex h-[180px] w-[300px] shrink-0 flex-col justify-between rounded-[12px] bg-white p-[14px] lg:h-[204px] lg:w-[400px] lg:p-5">
+      <div className="flex flex-col items-start gap-3">
+        <div className="flex h-6 items-center gap-[10px]">
+          {station.badges.map((badge) => (
+            <span
+              key={badge}
+              className="rounded-[50px] bg-[#d4dbec] px-[10px] py-1 font-sans text-[12px] font-bold leading-4 text-black"
+            >
+              {badge}
+            </span>
+          ))}
+        </div>
+        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px]">
+          {station.name}
+        </h3>
+        <p className="font-sans text-[12px] font-medium leading-none text-[#121212]">
+          {station.address}
+        </p>
+        <div className="flex items-center gap-[10px] font-sans text-[12px] font-medium leading-none text-[rgba(18,18,18,0.6)]">
+          <span>{station.hours}</span>
+        </div>
+      </div>
+
+      <div className="flex h-8 items-center justify-between lg:h-[42px]">
+        <p className="whitespace-nowrap font-sans text-[0px] font-semibold leading-[0] tracking-[-0.4px] text-[#121212]">
+          <span className="font-bold text-[22px] leading-none tracking-[-0.44px]">{station.distance}</span>
+          <span className="text-[22px] leading-none tracking-[-0.44px]">{" "}</span>
+          <span className="text-[18px] font-normal leading-none tracking-[-0.36px]">km</span>
+        </p>
+        <div className="flex items-center gap-2">
+          <a
+            href={directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
+          >
+            Get Directions
+            <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
+              <Image
+                src={`${ASSET}directions-desktop.svg`}
+                alt=""
+                width={14.3438}
+                height={16.7851}
+                aria-hidden="true"
+                className="max-w-none"
+              />
+            </span>
+            <span className="flex size-[14px] shrink-0 items-center justify-center lg:hidden">
+              <Image
+                src={`${ASSET}directions-mobile.svg`}
+                alt=""
+                width={10.0938}
+                height={11.8496}
+                aria-hidden="true"
+                className="max-w-none"
+              />
+            </span>
+          </a>
+          <a
+            href={`tel:${station.phone.replaceAll(" ", "")}`}
+            aria-label={`Call ${station.name}`}
+            className="flex size-8 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] lg:size-[42px]"
+          >
+            <span className="hidden size-5 items-center justify-center lg:flex">
+              <Image
+                src={`${ASSET}call-desktop.svg`}
+                alt=""
+                width={18.6677}
+                height={18.6677}
+                aria-hidden="true"
+                className="max-w-none"
+              />
+            </span>
+            <span className="flex size-[14px] items-center justify-center lg:hidden">
+              <Image
+                src={`${ASSET}call-mobile.svg`}
+                alt=""
+                width={13.1674}
+                height={13.1674}
+                aria-hidden="true"
+                className="max-w-none"
+              />
+            </span>
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function DealerLocator({
+  variant = "dealer",
+  searchLabel = "Search dealers by area",
+}: {
+  variant?: "dealer" | "charging";
+  searchLabel?: string;
+}) {
+  const charging = variant === "charging";
   const [selectedCity, setSelectedCity] = useState("Mumbai");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cityRowScrollRef = useRef<HTMLDivElement>(null);
+
+  const filteredDealers = DEALERS.filter((dealer) =>
+    `${dealer.name} ${dealer.address}`.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const filteredStations = CHARGING_STATIONS.filter((station) =>
+    `${station.name} ${station.address} ${station.badges.join(" ")}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+  const resultCount = charging ? filteredStations.length : filteredDealers.length;
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 1023px)").matches && cityRowScrollRef.current) {
@@ -198,9 +358,8 @@ export default function DealerLocator() {
     if (!container) return;
     const maxScroll = container.scrollWidth - container.clientWidth;
     if (maxScroll > 0) {
-      setActiveCardIndex(
-        Math.min(DEALERS.length - 1, Math.max(0, Math.round((container.scrollLeft / maxScroll) * (DEALERS.length - 1))))
-      );
+      const lastIndex = Math.max(0, resultCount - 1);
+      setActiveCardIndex(Math.min(lastIndex, Math.max(0, Math.round((container.scrollLeft / maxScroll) * lastIndex))));
     }
   };
 
@@ -221,13 +380,9 @@ export default function DealerLocator() {
     }
   };
 
-  const filteredDealers = DEALERS.filter((dealer) =>
-    `${dealer.name} ${dealer.address}`.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <section
-      aria-label="Dealer locator"
+      aria-label={charging ? "Charging station locator" : "Dealer locator"}
       className="relative mx-auto h-[794px] w-[calc(100%-16px)] max-w-[1400px] overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.1)] bg-white lg:h-[815px] lg:w-full lg:rounded-[20px]"
     >
       <Image
@@ -321,7 +476,7 @@ export default function DealerLocator() {
                 />
               </span>
               <input
-                aria-label="Search dealers by area"
+                aria-label={searchLabel}
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search here..."
@@ -445,33 +600,39 @@ export default function DealerLocator() {
       />
 
       <div className="absolute left-3 top-[536px] z-10 flex w-[calc(100%-24px)] flex-col gap-3 lg:bottom-[39px] lg:left-[39px] lg:top-auto lg:w-[calc(100%-39px)] lg:gap-[21px]">
-        <h2 className="font-display text-[16px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
-          04 Dealers Found
-        </h2>
-        <div
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          onWheel={handleCardWheel}
-          onKeyDown={handleCardKeyDown}
-          tabIndex={0}
-          role="region"
-          aria-label="Dealer locations"
-          className="no-scrollbar flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto overscroll-x-contain touch-pan-x lg:gap-5"
-        >
-          {filteredDealers.map((dealer) => (
-            <div key={dealer.id} className="shrink-0 snap-start">
-              <DealerCard dealer={dealer} />
-            </div>
-          ))}
+          <h2 className="font-display text-[16px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
+            {charging ? "12 Charging Points" : `${String(resultCount).padStart(2, "0")} Dealers Found`}
+          </h2>
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            onWheel={handleCardWheel}
+            onKeyDown={handleCardKeyDown}
+            tabIndex={0}
+            role="region"
+            aria-label={charging ? "Charging station locations" : "Dealer locations"}
+            className="no-scrollbar flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto overscroll-x-contain touch-pan-x lg:gap-5"
+          >
+            {charging
+              ? filteredStations.map((station) => (
+                  <div key={station.id} className="shrink-0 snap-start">
+                    <ChargingStationCard station={station} />
+                  </div>
+                ))
+              : filteredDealers.map((dealer) => (
+                  <div key={dealer.id} className="shrink-0 snap-start">
+                    <DealerCard dealer={dealer} />
+                  </div>
+                ))}
+          </div>
         </div>
-      </div>
 
       <div className="absolute left-1/2 top-[758px] flex h-5 w-[116px] -translate-x-1/2 items-center rounded-[14px] bg-white p-1 lg:hidden">
-        <div
-          className="h-3 w-[30px] rounded-full bg-[#121212] transition-transform duration-200"
-          style={{ transform: `translateX(${activeCardIndex * 18}px)` }}
-        />
-      </div>
+          <div
+            className="h-3 w-[30px] rounded-full bg-[#121212] transition-transform duration-200"
+            style={{ transform: `translateX(${activeCardIndex * 18}px)` }}
+          />
+        </div>
     </section>
   );
 }
