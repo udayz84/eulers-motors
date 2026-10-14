@@ -21,10 +21,12 @@ function SupportBadge() {
   );
 }
 
-function SupportTabs({ active = "dealer" }: { active?: "dealer" | "charging" }) {
+function SupportTabs({ active = "dealer", responsive = false }: { active?: "dealer" | "charging"; responsive?: boolean }) {
+  const pad = responsive ? "px-3 max-[359px]:px-2" : "px-3";
+  const text = responsive ? "text-xs max-[359px]:text-[11px]" : "text-xs";
   return (
     <div
-      className="relative flex h-9 w-[353px] items-center rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 lg:h-[46px] lg:w-[473px] lg:p-0.5"
+      className={`relative flex h-9 w-[353px] items-center rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 lg:h-[46px] lg:w-[473px] lg:p-0.5 ${responsive ? "max-w-full" : ""}`}
     >
       <span
         aria-hidden="true"
@@ -44,20 +46,20 @@ function SupportTabs({ active = "dealer" }: { active?: "dealer" | "charging" }) 
       <Link
         href="/dealer-locator"
         aria-current={active === "dealer" ? "page" : undefined}
-        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-[500px] px-3 font-sans text-xs font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "dealer" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
+        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-[500px] ${pad} font-sans ${text} font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "dealer" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
       >
         Dealer Locator
       </Link>
       <Link
         href="/charging-stations"
         aria-current={active === "charging" ? "page" : undefined}
-        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-sans text-xs font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "charging" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
+        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "charging" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
       >
         Charging Stations
       </Link>
       <span
         aria-disabled="true"
-        className="flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-sans text-xs font-semibold leading-none text-white lg:h-[42px] lg:px-4 lg:text-base"
+        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none text-white lg:h-[42px] lg:px-4 lg:text-base`}
       >
         Service Centers
       </span>
@@ -70,7 +72,7 @@ export default function DealerLocatorHero({ variant = "dealer" }: { variant?: "d
   return (
     <section
       aria-label={charging ? "Find a charging point" : "Find your nearest dealer"}
-      className={`relative mx-auto isolate h-[1166px] w-full max-w-[393px] self-stretch overflow-hidden bg-[#1d6fff] lg:mx-0 lg:h-[1265px] lg:max-w-none ${charging ? "mb-5" : ""}`}
+      className={`relative isolate h-[1166px] w-full self-stretch overflow-hidden bg-[#1d6fff] lg:h-[1265px] ${charging ? "mb-5" : ""}`}
       style={{
         backgroundColor: "lightgray",
         backgroundImage: "linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)",
@@ -97,9 +99,9 @@ export default function DealerLocatorHero({ variant = "dealer" }: { variant?: "d
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className="absolute left-1/2 top-[120px] z-10 flex w-[353px] -translate-x-1/2 flex-col items-center gap-3 lg:top-[151px] lg:w-[846px] lg:gap-6">
+      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${charging ? "w-full max-w-[353px]" : "w-[353px]"}`}>
         <SupportBadge />
-        <SupportTabs active={charging ? "charging" : "dealer"} />
+        <SupportTabs active={charging ? "charging" : "dealer"} responsive={charging} />
         <h1 className="w-[246px] text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">{charging ? "Find a charging point." : "Find your nearest dealer."}</h1>
         <p className="whitespace-nowrap text-center font-sans text-xs leading-normal text-white lg:text-base">
           {charging ? "1,412 points across India, with live status on each one." : "Every dealer brings the vehicle to you for a test drive."}
@@ -112,7 +114,7 @@ export default function DealerLocatorHero({ variant = "dealer" }: { variant?: "d
           searchLabel={charging ? "Search charging points by area" : "Search dealers by area"}
         />
       </div>
-      <FloatingWidget mobileOnly />
+      <FloatingWidget />
     </section>
   );
 }

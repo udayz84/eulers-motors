@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="15.413" height="13" viewBox="0 0 15.413 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Arrow Container">
+<g id="Vector 145" filter="url(#filter0_f_0_7)">
+<path d="M5.83399 11.1667L9.38774 7.02064C9.64453 6.72105 9.64453 6.27897 9.38774 5.97938L5.83399 1.83334" stroke="#121212" stroke-linecap="round"/>
+</g>
+<path id="Vector 140" opacity="0.1" d="M0.500009 10.8636L4.05375 6.71758C4.31055 6.41799 4.31055 5.97591 4.05375 5.67632L0.500009 1.53028" stroke="#121212" stroke-linecap="round"/>
+<path id="Vector 141" opacity="0.2" d="M3.16668 10.8636L6.72042 6.71758C6.97721 6.41799 6.97721 5.97591 6.72042 5.67632L3.16668 1.53028" stroke="#121212" stroke-linecap="round"/>
+<path id="Vector 142" d="M5.83334 10.8636L9.38709 6.71758C9.64388 6.41799 9.64388 5.97591 9.38709 5.67632L5.83334 1.53028" stroke="#121212" stroke-linecap="round"/>
+<path id="Vector 143" opacity="0.2" d="M8.50001 10.8636L12.0538 6.71758C12.3105 6.41799 12.3105 5.97591 12.0538 5.67632L8.50001 1.53028" stroke="#121212" stroke-linecap="round"/>
+<path id="Vector 144" opacity="0.1" d="M11.1667 10.8636L14.7204 6.71758C14.9772 6.41799 14.9772 5.97591 14.7204 5.67632L11.1667 1.53028" stroke="#121212" stroke-linecap="round"/>
+</g>
+<defs>
+<filter id="filter0_f_0_7" x="4.00065" y="-2.98023e-08" width="7.41301" height="13" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="0.666667" result="effect1_foregroundBlur_0_7"/>
+</filter>
+</defs>
+</svg>

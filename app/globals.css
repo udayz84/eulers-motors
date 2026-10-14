@@ -214,6 +214,23 @@ button {
   }
 }
 
+/* ESG section background (Figma 3537:18846 · 2937:15792): a 40% black wash
+   over the navy→blue diagonal run. The gradient angle differs slightly per
+   breakpoint (-89.362° mobile · -87.543° desktop), matching the file. */
+.esg-bg {
+  background-color: #041231;
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(-89.362deg, #0e2f6d 63.511%, #1d6fff 87.226%);
+}
+@media (min-width: 768px) {
+  .esg-bg {
+    background-image:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+      linear-gradient(-87.543deg, #0e2f6d 63.511%, #1d6fff 87.226%);
+  }
+}
+
 /* Horizontal snap scrollers used by the carousels (mobile design shows
    overflowing card rows — implemented as snap scroll containers). */
 .snap-row {
@@ -277,8 +294,47 @@ button {
   }
 }
 
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(calc(-50% - var(--marquee-gap, 0px) / 2));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes logo-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes logo-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .animate-marquee {
   animation: marquee 40s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 40s linear infinite;
+}
+
+.animate-logo-scroll-left {
+  animation: logo-scroll-left 30s linear infinite;
+}
+
+.animate-logo-scroll-right {
+  animation: logo-scroll-right 30s linear infinite;
 }
 
 /* The Partners and Investors strip contains three identical logo groups.

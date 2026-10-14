@@ -161,9 +161,10 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
 }
 
 function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
+  const href = item.label === "About us" ? "/about" : "#";
   return (
     <Link
-      href="#"
+      href={href}
       className="group flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
     >
       <div className="flex w-full justify-end">
@@ -233,6 +234,8 @@ function MenuCardLink({ item, isHome }: { item: { label: string; desc?: string }
       ? "/dealer-locator"
       : item.label === "Charging stations"
         ? "/charging-stations"
+      : item.label === "About us"
+        ? "/about"
       : "#";
   return (
     <Link
@@ -329,11 +332,11 @@ export default function Navbar() {
 
       <div ref={navRef} onMouseLeave={() => { if (!menuOpen) setOpenDropdown(null); }}>
         <nav
-          className={
+          className={`relative flex items-center justify-between border-b py-0.5 pl-5 pr-0.5 lg:py-0 lg:pl-20 lg:pr-0 ${
             isHome
-              ? "relative flex items-center justify-between border-b border-white/[0.32] bg-black/40 pl-5 pr-0 lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
-              : "relative flex items-center justify-between border-b border-[#EAECEF] bg-white pl-5 pr-0 shadow-[0_2px_16px_rgba(15,23,42,0.06)] lg:pl-20 lg:pr-0 backdrop-blur-[30px]"
-          }
+              ? "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:bg-black/40 lg:backdrop-blur-[30px]"
+              : "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:border-[#EAECEF] lg:bg-white lg:shadow-[0_2px_16px_rgba(15,23,42,0.06)] lg:backdrop-blur-[30px]"
+          }`}
           aria-label="Main navigation"
         >
           {/* mobile: hamburger — Figma "menu-01" icon (1:5204): 13.6×12.1
@@ -345,14 +348,14 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               onClick={() => setMenuOpen((v) => !v)}
-              className={`flex h-[18px] w-[18px] items-center justify-center ${isHome ? "text-white" : "text-ink"}`}
+              className="flex h-[18px] w-[18px] items-center justify-center text-white"
             >
               {menuOpen ? (
                 /* X state — two thin white bars crossing (same 1.64 stroke
                    as the menu-01 icon) */
                 <span aria-hidden className="relative block h-[14px] w-[14px]">
-                  <span className={`absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 rotate-45 ${isHome ? "bg-white" : "bg-ink"}`} />
-                  <span className={`absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 -rotate-45 ${isHome ? "bg-white" : "bg-ink"}`} />
+                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 rotate-45 bg-white" />
+                  <span className="absolute left-0 top-1/2 h-[1.64px] w-full -translate-y-1/2 -rotate-45 bg-white" />
                 </span>
               ) : (
                 <Image
@@ -361,7 +364,7 @@ export default function Navbar() {
                   width={14}
                   height={12}
                   aria-hidden
-                  className={`h-[12.136px] w-[13.636px] ${isHome ? "" : "brightness-0"}`}
+                  className="h-[12.136px] w-[13.636px]"
                 />
               )}
             </button>
@@ -375,7 +378,7 @@ export default function Navbar() {
                 alt="Euler Motors"
                 width={121}
                 height={20}
-                className={`h-5 w-[120.7px] ${isHome ? "" : "brightness-0"}`}
+                className="h-5 w-[120.7px]"
               />
             </Link>
           </div>
@@ -475,12 +478,19 @@ export default function Navbar() {
             </form>
             <Link
               href="#book-test-drive"
-              className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isHome ? "bg-white text-ink" : "bg-ink text-white"}`}
+              className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isHome ? "bg-white text-ink" : "bg-white text-ink lg:bg-ink lg:text-white"}`}
             >
-              <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isHome ? "text-ink" : "text-white"}`}>
+              <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isHome ? "text-ink" : "text-ink lg:text-white"}`}>
                 Book a Test Drive
               </span>
-              <Arrow color={isHome ? "ink" : "white"} />
+              {isHome ? (
+                <Arrow color="ink" />
+              ) : (
+                <>
+                  <Arrow color="ink" className="lg:hidden" />
+                  <Arrow color="white" className="hidden lg:block" />
+                </>
+              )}
             </Link>
           </div>
         </nav>

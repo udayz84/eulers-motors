@@ -430,7 +430,7 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <div className="absolute left-3 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] -translate-x-0 flex-col items-center gap-3 lg:left-1/2 lg:top-[36px] lg:w-[846px] lg:max-w-none lg:-translate-x-1/2 lg:gap-5">
+      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-3 lg:top-[36px] lg:w-[846px] lg:max-w-none lg:gap-5">
         <p className="w-full text-center font-display text-[12px] font-semibold leading-[1.15] tracking-[-0.24px] text-[rgba(18,18,18,0.8)] lg:text-[16px] lg:tracking-[-0.32px]">
           Search by an area
         </p>
@@ -596,7 +596,7 @@ export default function DealerLocator({
         width={353}
         height={1}
         aria-hidden="true"
-        className="absolute left-3 top-[520px] h-px w-[353px] max-w-none lg:hidden"
+        className="absolute left-1/2 top-[520px] h-px w-[353px] max-w-none -translate-x-1/2 lg:hidden"
       />
 
       <div className="absolute left-3 top-[536px] z-10 flex w-[calc(100%-24px)] flex-col gap-3 lg:bottom-[39px] lg:left-[39px] lg:top-auto lg:w-[calc(100%-39px)] lg:gap-[21px]">

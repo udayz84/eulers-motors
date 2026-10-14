@@ -67,16 +67,17 @@ export default function ChargingStationFaq() {
   return (
     <section
       aria-labelledby="charging-faq-title"
-      className="mx-auto flex h-[702px] w-full max-w-[1440px] items-end justify-between bg-white px-20 py-[62px] max-[767px]:h-auto max-[767px]:items-stretch max-[767px]:px-6 max-[767px]:py-10"
+      className="mx-auto flex h-[702px] w-full max-w-[1440px] items-end justify-between bg-white px-20 py-[62px] max-[767px]:p-0 max-[767px]:h-auto max-[767px]:items-stretch max-[767px]:flex-col max-[767px]:gap-8"
     >
-      <div className="flex h-[578px] w-full items-stretch gap-[41px] max-[767px]:h-auto max-[767px]:flex-col max-[767px]:gap-8">
+      {/* Desktop Layout */}
+      <div className="flex h-[578px] w-full items-stretch gap-[41px] max-[767px]:hidden">
         <div className="flex min-w-0 flex-[1_0_0] flex-col items-start gap-5 self-stretch">
           <div className="flex w-full flex-col items-start">
             <FaqBadge />
             <div className="mt-4 flex flex-col gap-4 text-[#121212]">
               <h2
                 id="charging-faq-title"
-                className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] max-[767px]:text-[32px] max-[767px]:tracking-[-0.64px]"
+                className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px]"
               >
                 Frequently asked questions
               </h2>
@@ -140,19 +141,19 @@ export default function ChargingStationFaq() {
           </div>
         </div>
 
-        <div className="flex h-full w-[652px] shrink-0 self-stretch items-stretch gap-3 max-[767px]:h-[540px] max-[767px]:w-full">
+        <div className="flex h-full w-[652px] shrink-0 self-stretch items-stretch gap-3 max-[767px]:hidden">
           <div
             ref={listRef}
             className="no-scrollbar flex h-full min-h-0 flex-1 flex-col gap-4 overflow-y-auto"
             aria-label="Frequently asked questions"
           >
-            {visibleQuestions.map(({ question }, index) => {
+            {visibleQuestions.map((faq, index) => {
               const expanded = openQuestion === index;
               const icon = expanded ? "icon-minus.svg" : "icon-plus.svg";
 
               return (
                 <article
-                  key={question}
+                  key={index}
                   className={`shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] p-5 ${
                     expanded ? "flex flex-col gap-6" : "flex min-h-[68px] items-center"
                   }`}
@@ -164,7 +165,7 @@ export default function ChargingStationFaq() {
                     className="flex w-full items-center gap-6 text-left"
                   >
                     <span className="min-w-0 flex-1 font-sans text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-[#121212]">
-                      {question}
+                      {faq.question}
                     </span>
                     <Image
                       src={`/assets/charging-station-faq/${icon}`}
@@ -226,6 +227,111 @@ export default function ChargingStationFaq() {
               </span>
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Layout - Figma Design */}
+      <div className="hidden max-[767px]:flex bg-white relative mx-auto" style={{ width: '393px', padding: '32px 20px', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+        <div className="content-stretch flex flex-col gap-[14px] items-start justify-center relative shrink-0 w-full">
+          <div className="content-stretch flex gap-[4px] items-center justify-center relative shrink-0">
+            <div className="h-[16px] relative shrink-0 w-[14.794px] overflow-hidden">
+              <Image
+                src="/assets/charging-station-faq/badge-mark.svg"
+                alt=""
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute h-[16px] left-0 top-0 w-[116.978px] overflow-hidden">
+              <Image
+                src="/assets/charging-station-faq/badge-underline.svg"
+                alt=""
+                fill
+                className="object-cover"
+              />
+            </div>
+            <p className="font-sans font-bold leading-normal relative shrink-0 text-[#0e2f6d] text-[12px] tracking-[0.6px] uppercase whitespace-nowrap">
+              FAQ
+            </p>
+          </div>
+          <p className="font-display text-[28px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] min-w-full w-[min-content]">
+            Frequently asked questions
+          </p>
+          <p className="font-sans font-normal leading-normal relative shrink-0 text-[#121212] text-[12px] min-w-full w-[min-content]">
+            Find answers to the most common questions about our vehicles, charging, service, warranty and more.
+          </p>
+          <div className="content-stretch flex gap-[8px] h-[32px] items-center relative shrink-0 w-full overflow-x-auto no-scrollbar">
+            {categories.map((category) => {
+              const selected = selectedCategory === category.label;
+              return (
+                <button
+                  key={category.label}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => selectCategory(category.label)}
+                  className={`content-stretch flex gap-[6.4px] h-[32px] items-center justify-center px-[12px] relative rounded-[400px] shrink-0 ${
+                    selected
+                      ? "border-[0.4px] border-solid border-white"
+                      : "bg-[rgba(204,204,204,0.32)]"
+                  }`}
+                  style={
+                    selected
+                      ? {
+                          backgroundImage:
+                            "linear-gradient(246.81105819928138deg, rgb(14, 47, 109) 138.16%, rgb(29, 111, 255) 87.019%), linear-gradient(246.81105819928138deg, rgb(14, 47, 109) 138.16%, rgb(29, 111, 255) 87.019%), linear-gradient(90deg, rgb(18, 18, 18) 0%, rgb(18, 18, 18) 100%)",
+                        }
+                      : undefined
+                  }
+                >
+                  <p className={`font-sans leading-none relative shrink-0 whitespace-nowrap ${selected ? "font-semibold text-[12px] text-white" : "font-semibold text-[12px] text-[#121212]"}`}>
+                    {category.label}
+                  </p>
+                  <div className={`relative rounded-[393.12px] shrink-0 size-[3.145px] ${selected ? "bg-[rgba(255,255,255,0.5)]" : "bg-[rgba(0,0,0,0.5)]"}`} />
+                  <p className={`font-sans leading-none relative shrink-0 whitespace-nowrap ${selected ? "font-normal text-[10px] text-white" : "font-normal text-[10px] text-[#121212]"}`}>
+                    {category.count}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+          <div className="absolute h-[49.664px] right-[-20px] top-[145.71px] w-[54.598px]" style={{ backgroundImage: "linear-gradient(-89.9999956537512deg, rgb(255, 255, 255) 13.618%, rgba(255, 255, 255, 0) 100%)" }} />
+        </div>
+        <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-[353px]">
+          {visibleQuestions.map((faq, index) => {
+            const expanded = openQuestion === index;
+            const icon = expanded ? "icon-minus.svg" : "icon-plus.svg";
+
+            return (
+              <article
+                key={index}
+                className="shrink-0 relative"
+                style={{ display: 'flex', padding: '21px 12px', justifyContent: 'center', alignItems: 'center', gap: '10px', alignSelf: 'stretch', borderRadius: '16px', background: '#F3F4F5', ...(expanded ? { flexDirection: 'column' } : {}) }}
+              >
+                <button
+                  type="button"
+                  aria-expanded={expanded}
+                  onClick={() => setOpenQuestion(expanded ? -1 : index)}
+                  className="flex w-full items-center gap-10 text-left"
+                >
+                  <span className="min-w-px flex-[1_0_0] font-sans font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] text-[16px]">
+                    {faq.question}
+                  </span>
+                  <Image
+                    src={`/assets/charging-station-faq/${icon}`}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 shrink-0"
+                  />
+                </button>
+                {expanded && (
+                  <p className="font-sans text-[12px] leading-[1.4] text-[rgba(18,18,18,0.8)]">
+                    {answer}
+                  </p>
+                )}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
