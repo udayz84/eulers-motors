@@ -9,7 +9,7 @@ import FloatingWidget from "@/components/FloatingWidget";
 export default function AboutHero() {
   return (
     <section
-      className="relative aspect-[393/762] overflow-hidden sm:aspect-[1440/800]"
+      className="relative aspect-[393/762] w-full overflow-hidden sm:aspect-[9/5] sm:h-[800px] sm:w-full"
       aria-label="About Euler Motors"
     >
       {/* Mobile Background Image */}
@@ -34,31 +34,15 @@ export default function AboutHero() {
         <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(188.67740589081268deg, rgba(0, 0, 0, 0) 56.444%, rgba(0, 0, 0, 0.8) 99.952%)" }} />
       </div>
 
-      {/* Desktop Background Image */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none max-sm:hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/assets/about-euler/desktop-bg-new.png"
-            alt=""
-            fill
-            sizes="100vw"
-            className="h-[103.16%] left-[0.02%] top-[-3.21%] w-[99.98%]"
-          />
-        </div>
-        {/* Desktop Gradient Overlay - matching Figma's 180.94654736470403deg gradient */}
-        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(180.94654736470403deg, rgba(0, 0, 0, 0) 56.693%, rgba(0, 0, 0, 0.8) 93.409%)" }} />
-      </div>
-
-      {/* Mobile Blur Overlay */}
+      {/* Desktop Background — gradient + image per Figma
+          (182deg · image 0.219px -25.662px / 99.985% 103.164%) */}
       <div
         aria-hidden
-        className="absolute left-[-56.16px] top-[399.14px] h-[285.986px] w-[534.271px] bg-black/60 backdrop-blur-[16px] sm:hidden"
-      />
-
-      {/* Desktop Blur Overlay */}
-      <div
-        aria-hidden
-        className="absolute left-[452.1px] top-[570.17px] h-[245.218px] w-[561.904px] bg-black/20 backdrop-blur-[119.3px] blur-[60.85px] max-sm:hidden"
+        className="absolute inset-0 pointer-events-none max-sm:hidden"
+        style={{
+          background:
+            "linear-gradient(182deg, rgba(0, 0, 0, 0) 56.69%, rgba(0, 0, 0, 0.80) 93.41%), url('/assets/about-euler/desktop-bg-new.png') lightgray 0 -25.662px / 100% 103.164% no-repeat",
+        }}
       />
 
       {/* Mobile Content */}

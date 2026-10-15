@@ -258,7 +258,7 @@ function MenuCardLink({ item, isHome }: { item: { label: string; desc?: string }
  */
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/about";
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);

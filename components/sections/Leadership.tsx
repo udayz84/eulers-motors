@@ -8,8 +8,7 @@ export default function Leadership() {
   return (
     <section className="bg-[#f3f4f5] relative overflow-hidden" aria-label="Leadership">
       {/* Mobile Layout */}
-      <div className="px-[20px] py-[24px] sm:hidden">
-        <div className="flex flex-col gap-[24px] items-center">
+      <div className="mx-auto flex w-full max-w-[393px] flex-col items-center gap-[24px] px-5 py-[24px] sm:hidden">
           {/* Header */}
           <div className="flex flex-col gap-[14px] items-start w-full">
             <div className="flex gap-[4px] items-center relative shrink-0 w-full">
@@ -179,12 +178,10 @@ export default function Leadership() {
               </div>
             </div>
           </div>
-        </div>
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden sm:block px-[80px] py-[60px]">
-        <div className="flex flex-col gap-[55px] items-start w-full">
+      <div className="mx-auto hidden w-full max-w-[1440px] flex-col items-start gap-[55px] px-[80px] py-[60px] sm:flex">
           {/* Header */}
           <div className="flex items-end justify-between w-full">
             <div className="flex flex-[1_0_0] items-end justify-center min-w-px">
@@ -314,7 +311,6 @@ export default function Leadership() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </section>
   );
