@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 const categories = [
   { label: "All", count: "78" },
@@ -54,9 +54,71 @@ export default function ChargingStationFaq() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [openQuestion, setOpenQuestion] = useState(1);
   const listRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ startY: number; startScroll: number; trackH: number } | null>(null);
+  const [bar, setBar] = useState({ top: 0, height: 100, atTop: true, atBottom: true });
   const visibleQuestions = selectedCategory === "All"
     ? questions
     : questions.filter(({ categories: questionCategories }) => questionCategories.includes(selectedCategory));
+
+  /* Thumb geometry follows the list's scroll metrics (Figma shows a slim
+     scrollbar beside the list; it used to be a hardcoded, inert block). */
+  function syncBar() {
+    const el = listRef.current;
+    if (!el) return;
+    const total = el.scrollHeight;
+    const client = el.clientHeight;
+    const max = total - client;
+    const scrollable = max > 1;
+    setBar({
+      top: total > 0 ? (el.scrollTop / total) * 100 : 0,
+      height: total > 0 ? Math.min((client / total) * 100, 100) : 100,
+      atTop: !scrollable || el.scrollTop <= 1,
+      atBottom: !scrollable || el.scrollTop >= max - 1,
+    });
+  }
+
+  useEffect(() => {
+    syncBar();
+    window.addEventListener("resize", syncBar);
+    if (typeof document !== "undefined" && "fonts" in document) {
+      document.fonts.ready.then(syncBar).catch(() => {});
+    }
+    return () => window.removeEventListener("resize", syncBar);
+  }, []);
+
+  useEffect(() => {
+    syncBar();
+  }, [openQuestion, selectedCategory]);
+
+  function scrollListBy(top: number) {
+    listRef.current?.scrollBy({ top, behavior: "smooth" });
+  }
+
+  function startThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    const el = listRef.current;
+    const track = trackRef.current;
+    if (!el || !track || el.scrollHeight <= el.clientHeight) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = { startY: event.clientY, startScroll: el.scrollTop, trackH: track.clientHeight };
+  }
+
+  function moveThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    const el = listRef.current;
+    if (!drag || !el || drag.trackH === 0) return;
+    const travelled = event.clientY - drag.startY;
+    const max = el.scrollHeight - el.clientHeight;
+    const next = drag.startScroll + (travelled / drag.trackH) * el.scrollHeight;
+    el.scrollTop = Math.min(Math.max(next, 0), max);
+  }
+
+  function endThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    dragRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }
 
   function selectCategory(category: string) {
     setSelectedCategory(category);
@@ -144,6 +206,7 @@ export default function ChargingStationFaq() {
         <div className="flex h-full w-[652px] shrink-0 self-stretch items-stretch gap-3 max-[767px]:hidden">
           <div
             ref={listRef}
+            onScroll={syncBar}
             className="no-scrollbar flex h-full min-h-0 flex-1 flex-col gap-4 overflow-y-auto"
             aria-label="Frequently asked questions"
           >
@@ -194,8 +257,9 @@ export default function ChargingStationFaq() {
             <button
               type="button"
               aria-label="Scroll FAQ list up"
-              onClick={() => listRef.current?.scrollBy({ top: -150, behavior: "smooth" })}
-              className="flex h-[6px] w-[14px] items-center justify-center"
+              disabled={bar.atTop}
+              onClick={() => scrollListBy(-150)}
+              className="flex h-[6px] w-[14px] cursor-pointer items-center justify-center disabled:cursor-default disabled:opacity-40"
             >
               <span className="relative block h-[6px] w-[14px] shrink-0">
                 <Image
@@ -207,14 +271,26 @@ export default function ChargingStationFaq() {
                 />
               </span>
             </button>
-            <div className="relative my-3 w-4 flex-1 overflow-hidden rounded-[2px] bg-[#f3f4f5]">
-              <div className="absolute left-0 top-[17px] h-[99px] w-4 rounded-[2px] bg-[#112750]" />
+            <div
+              ref={trackRef}
+              className="relative my-3 w-4 flex-1 overflow-hidden rounded-[2px] bg-[#f3f4f5]"
+            >
+              <div
+                aria-hidden="true"
+                onPointerDown={startThumbDrag}
+                onPointerMove={moveThumbDrag}
+                onPointerUp={endThumbDrag}
+                onPointerCancel={endThumbDrag}
+                className="absolute left-0 w-4 cursor-grab touch-none rounded-[2px] bg-[#112750] active:cursor-grabbing"
+                style={{ top: `${bar.top}%`, height: `${bar.height}%` }}
+              />
             </div>
             <button
               type="button"
               aria-label="Scroll FAQ list down"
-              onClick={() => listRef.current?.scrollBy({ top: 150, behavior: "smooth" })}
-              className="flex h-[6px] w-[14px] items-center justify-center"
+              disabled={bar.atBottom}
+              onClick={() => scrollListBy(150)}
+              className="flex h-[6px] w-[14px] cursor-pointer items-center justify-center disabled:cursor-default disabled:opacity-40"
             >
               <span className="relative block h-[6px] w-[14px] shrink-0">
                 <Image
