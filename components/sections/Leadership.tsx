@@ -46,12 +46,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-1-new.png"
-                        alt=""
-                        fill
-                        className="h-[125.84%] left-[-8.15%] top-0 w-[116.3%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "125.84%", left: "-8.15%", top: 0, width: "116.3%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-1-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -64,12 +64,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-2-new.png"
-                        alt=""
-                        fill
-                        className="h-[144.42%] left-[-7.98%] top-[3.51%] w-[110.03%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "144.42%", left: "-7.98%", top: "3.51%", width: "110.03%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-2-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -82,12 +82,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-3-new.png"
-                        alt=""
-                        fill
-                        className="h-[165.77%] left-[-22.13%] top-[-10.38%] w-[138.33%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "165.77%", left: "-22.13%", top: "-10.38%", width: "138.33%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-3-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -103,12 +103,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-4-new.png"
-                        alt=""
-                        fill
-                        className="h-[194.8%] left-[-9.6%] top-[-7.28%] w-[127.22%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "194.8%", left: "-9.6%", top: "-4.16%", width: "127.22%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-4-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -121,12 +121,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-5-new.png"
-                        alt=""
-                        fill
-                        className="h-[182.27%] left-[-14.86%] top-[-4.68%] w-[119.03%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "182.27%", left: "-14.86%", top: "-4.68%", width: "119.03%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-5-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -139,12 +139,12 @@ export default function Leadership() {
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                      <Image
-                        src="/assets/about-euler/leader-1-new.png"
-                        alt=""
-                        fill
-                        className="h-[125.84%] left-[-8.15%] top-0 w-[116.3%]"
-                      />
+                      <div
+                        className="absolute"
+                        style={{ height: "125.84%", left: "-8.15%", top: 0, width: "116.3%" }}
+                      >
+                        <Image src="/assets/about-euler/leader-1-new.png" alt="" fill />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -162,12 +162,12 @@ export default function Leadership() {
                       <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                         <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                         <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                          <Image
-                            src="/assets/about-euler/leader-3-new.png"
-                            alt=""
-                            fill
-                            className="h-[165.77%] left-[-22.13%] top-[-10.38%] w-[138.33%]"
-                          />
+                          <div
+                            className="absolute"
+                            style={{ height: "165.77%", left: "-22.13%", top: "-10.38%", width: "138.33%" }}
+                          >
+                            <Image src="/assets/about-euler/leader-3-new.png" alt="" fill />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -226,7 +226,7 @@ export default function Leadership() {
                   className="h-[265px] self-stretch rounded-[12px]"
                   style={{
                     background:
-                      "url('/assets/about-euler/leader-desktop-1.png') 32.443px 0px / 78.637% 135.194% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
+                      "url('/assets/about-euler/leader-desktop-1.png') 32.443px 0px / 78.637% 111.46% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
                   }}
                 />
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[28px] text-center tracking-[1.4px] uppercase w-full">
@@ -238,7 +238,7 @@ export default function Leadership() {
                   className="h-[265px] self-stretch rounded-[12px]"
                   style={{
                     background:
-                      "url('/assets/about-euler/leader-desktop-2.png') 32.443px 0px / 78.637% 135.194% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
+                      "url('/assets/about-euler/leader-desktop-2.png') 32.443px -15px / 78.637% 123.44% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
                   }}
                 />
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[28px] text-center tracking-[1.4px] uppercase w-full">
@@ -289,7 +289,7 @@ export default function Leadership() {
                   className="h-[265px] self-stretch rounded-[12px]"
                   style={{
                     background:
-                      "url('/assets/about-euler/leader-desktop-6.png') 32.443px 0px / 78.637% 135.194% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
+                      "url('/assets/about-euler/leader-desktop-6.png') 32.443px 0px / 78.637% 111.46% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
                   }}
                 />
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[28px] text-center tracking-[1.4px] uppercase w-full">
@@ -301,7 +301,7 @@ export default function Leadership() {
                   className="h-[265px] self-stretch rounded-[12px]"
                   style={{
                     background:
-                      "url('/assets/about-euler/leader-desktop-7.png') 32.443px 0px / 78.637% 135.194% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
+                      "url('/assets/about-euler/leader-desktop-7.png') 32.443px -15px / 78.637% 123.44% no-repeat, radial-gradient(117.41% 117.41% at 50% 135.3%, #9BBFFD 0%, #D9E1EB 100%) lightgray",
                   }}
                 />
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[28px] text-center tracking-[1.4px] uppercase w-full">

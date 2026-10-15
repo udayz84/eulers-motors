@@ -131,8 +131,8 @@ export default function AboutEsG() {
 
         {/* Impact cards — desktop row of 3 · mobile snap row of 2 + indicator */}
         <div className="flex flex-col gap-4 lg:gap-0">
-          <div className="snap-row -mx-5 gap-2.5 px-5 lg:mx-0 lg:gap-5 lg:items-center lg:overflow-visible lg:px-0">
-            {CARDS.map((card) => (
+          <div className="snap-row -mx-5 gap-2.5 px-5 lg:mx-0 lg:gap-5 lg:items-stretch lg:overflow-visible lg:px-0">
+            {CARDS.map((card, i) => (
               <article
                 key={card.num}
                 className="w-[247px] shrink-0 rounded-[6px] bg-white/8 p-5 lg:flex lg:min-w-px lg:w-auto lg:flex-[1_0_0] lg:items-center lg:p-6"
@@ -141,7 +141,13 @@ export default function AboutEsG() {
                   <p className="bg-gradient-to-b from-[rgba(255,255,255,0.8)] to-[rgba(255,255,255,0.02)] bg-clip-text text-[24px] font-bold leading-none text-transparent lg:text-[32px]">
                     {card.num}
                   </p>
-                  <p className="text-[16px] font-bold text-white lg:text-[22px]">{card.title}</p>
+                  <p
+                    className={`text-[16px] font-bold text-white lg:text-[22px] ${
+                      i === 2 ? "lg:tracking-[-0.44px]" : ""
+                    }`}
+                  >
+                    {card.title}
+                  </p>
                   <p className="text-[12px] font-normal text-white lg:text-[16px]">{card.body}</p>
                 </div>
               </article>

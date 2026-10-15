@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 const AWARDS = [
   { year: "2024", title: "Commercial EV of the year" },
@@ -16,13 +16,73 @@ const AWARD_DETAIL =
 
 /**
  * Recognition/Awards section (Figma desktop: 3536:18588, mobile: 2937:15335).
- * Awards and recognition with a single-open accordion and a side pagination bar.
+ * Awards and recognition with a single-open accordion and a side scroll bar.
  */
 export default function Recognition() {
   const [openAward, setOpenAward] = useState(2);
-  const active = openAward < 0 ? 0 : openAward;
-  const goTo = (index: number) =>
-    setOpenAward(Math.min(Math.max(index, 0), AWARDS.length - 1));
+  const listRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ startY: number; startScroll: number; trackH: number } | null>(null);
+  const [bar, setBar] = useState({ top: 0, height: 100, atTop: true, atBottom: true });
+
+  /* Thumb geometry follows the awards list's scroll metrics (Figma shows a
+     slim bar beside the list; it used to be a hardcoded, inert block). */
+  function syncBar() {
+    const el = listRef.current;
+    if (!el) return;
+    const total = el.scrollHeight;
+    const client = el.clientHeight;
+    const max = total - client;
+    const scrollable = max > 1;
+    setBar({
+      top: total > 0 ? (el.scrollTop / total) * 100 : 0,
+      height: total > 0 ? Math.min((client / total) * 100, 100) : 100,
+      atTop: !scrollable || el.scrollTop <= 1,
+      atBottom: !scrollable || el.scrollTop >= max - 1,
+    });
+  }
+
+  useEffect(() => {
+    syncBar();
+    window.addEventListener("resize", syncBar);
+    if (typeof document !== "undefined" && "fonts" in document) {
+      document.fonts.ready.then(syncBar).catch(() => {});
+    }
+    return () => window.removeEventListener("resize", syncBar);
+  }, []);
+
+  useEffect(() => {
+    syncBar();
+  }, [openAward]);
+
+  function scrollListBy(top: number) {
+    listRef.current?.scrollBy({ top, behavior: "smooth" });
+  }
+
+  function startThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    const el = listRef.current;
+    const track = trackRef.current;
+    if (!el || !track || el.scrollHeight <= el.clientHeight) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = { startY: event.clientY, startScroll: el.scrollTop, trackH: track.clientHeight };
+  }
+
+  function moveThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    const el = listRef.current;
+    if (!drag || !el || drag.trackH === 0) return;
+    const travelled = event.clientY - drag.startY;
+    const max = el.scrollHeight - el.clientHeight;
+    const next = drag.startScroll + (travelled / drag.trackH) * el.scrollHeight;
+    el.scrollTop = Math.min(Math.max(next, 0), max);
+  }
+
+  function endThumbDrag(event: PointerEvent<HTMLDivElement>) {
+    dragRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }
 
   return (
     <section className="bg-white relative overflow-hidden" aria-label="Awards and Recognition">
@@ -206,7 +266,7 @@ export default function Recognition() {
               </div>
             </div>
             <div
-              className="flex-1 min-h-[320px] lg:min-h-[420px] w-full self-stretch rounded-[20.655px]"
+              className="w-full shrink-0 lg:h-[420px] rounded-[20.655px]"
               style={{
                 backgroundImage: "url('/assets/awards/desktop-bg.png')",
                 backgroundPosition: "50% 50%",
@@ -217,7 +277,11 @@ export default function Recognition() {
           </div>
 
           <div className="flex w-full flex-col gap-[55px] lg:w-auto lg:shrink-0 lg:flex-row lg:items-start lg:gap-[6px]">
-            <div className="flex w-full max-w-[568px] flex-col gap-[10px] lg:w-[568px] lg:shrink-0">
+            <div
+              ref={listRef}
+              onScroll={syncBar}
+              className="no-scrollbar flex w-full max-w-[568px] flex-col gap-[10px] lg:h-[525px] lg:w-[568px] lg:shrink-0 lg:min-h-0 lg:overflow-y-auto"
+            >
               {AWARDS.map((award, index) => {
                 const expanded = openAward === index;
                 return (
@@ -277,10 +341,10 @@ export default function Recognition() {
             <div className="hidden w-fit shrink-0 flex-col items-center gap-[6px] self-stretch lg:flex">
               <button
                 type="button"
-                aria-label="Previous award"
-                onClick={() => goTo(active - 1)}
-                disabled={active === 0}
-                className="flex shrink-0 items-center justify-center p-[6px] cursor-pointer disabled:cursor-default disabled:opacity-40"
+                aria-label="Scroll awards list up"
+                disabled={bar.atTop}
+                onClick={() => scrollListBy(-150)}
+                className="flex shrink-0 cursor-pointer items-center justify-center p-[6px] disabled:cursor-default disabled:opacity-40"
               >
                 <span className="relative block shrink-0 w-[15.5px] h-[7.12px]">
                   <Image
@@ -291,26 +355,25 @@ export default function Recognition() {
                   />
                 </span>
               </button>
-              <div
-                aria-hidden="true"
-                className="relative w-[20px] flex-1 overflow-hidden rounded-[14.4px] bg-[#f3f4f5] p-[4px]"
-              >
-                <div
-                  className="absolute rounded-[23.04px] bg-[#112750] transition-all duration-300 ease-out"
-                  style={{
-                    left: 4,
-                    right: 4,
-                    height: `calc((100% - 8px) / ${AWARDS.length})`,
-                    top: `calc(4px + ${active} * (100% - 8px) / ${AWARDS.length})`,
-                  }}
-                />
+              <div className="relative w-[20px] flex-1 overflow-hidden rounded-[14.4px] bg-[#f3f4f5]">
+                <div ref={trackRef} className="absolute inset-[4px] overflow-hidden rounded-[10px]">
+                  <div
+                    aria-hidden="true"
+                    onPointerDown={startThumbDrag}
+                    onPointerMove={moveThumbDrag}
+                    onPointerUp={endThumbDrag}
+                    onPointerCancel={endThumbDrag}
+                    className="absolute left-0 right-0 cursor-grab touch-none rounded-[23.04px] bg-[#112750] active:cursor-grabbing"
+                    style={{ top: `${bar.top}%`, height: `${bar.height}%` }}
+                  />
+                </div>
               </div>
               <button
                 type="button"
-                aria-label="Next award"
-                onClick={() => goTo(active + 1)}
-                disabled={active === AWARDS.length - 1}
-                className="flex shrink-0 items-center justify-center p-[6px] cursor-pointer disabled:cursor-default disabled:opacity-40"
+                aria-label="Scroll awards list down"
+                disabled={bar.atBottom}
+                onClick={() => scrollListBy(150)}
+                className="flex shrink-0 cursor-pointer items-center justify-center p-[6px] disabled:cursor-default disabled:opacity-40"
               >
                 <span className="relative block shrink-0 w-[15.5px] h-[7.12px] rotate-180">
                   <Image
