@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import DealerLocator from "@/components/sections/DealerLocator";
 import FloatingWidget from "@/components/FloatingWidget";
 
@@ -21,12 +23,26 @@ function SupportBadge() {
   );
 }
 
-function SupportTabs({ active = "dealer", responsive = false }: { active?: "dealer" | "charging"; responsive?: boolean }) {
-  const pad = responsive ? "px-3 max-[359px]:px-2" : "px-3";
-  const text = responsive ? "text-xs max-[359px]:text-[11px]" : "text-xs";
+export type SupportTabType = "dealer" | "charging" | "service";
+
+function SupportTabs({
+  active = "dealer",
+  onTabChange,
+  responsive = false,
+}: {
+  active?: SupportTabType;
+  onTabChange?: (tab: SupportTabType) => void;
+  responsive?: boolean;
+}) {
+  const pad = responsive ? "px-2.5 sm:px-3.5 max-[359px]:px-2" : "px-2.5 sm:px-3.5";
+  const text = responsive ? "text-xs sm:text-[13px] max-[359px]:text-[11px]" : "text-xs sm:text-[13px]";
   return (
     <div
-      className={`relative flex h-9 w-[353px] items-center rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 lg:h-[46px] lg:w-[473px] lg:p-0.5 ${responsive ? "max-w-full" : ""}`}
+      role="tablist"
+      aria-label="Support navigation"
+      className={`relative flex h-9 sm:h-10 w-[353px] sm:w-[420px] items-center justify-between rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 lg:h-[46px] lg:w-[488px] lg:p-0.5 ${
+        responsive ? "max-w-full" : ""
+      }`}
     >
       <span
         aria-hidden="true"
@@ -43,36 +59,85 @@ function SupportTabs({ active = "dealer", responsive = false }: { active?: "deal
         aria-hidden="true"
         className="pointer-events-none absolute bottom-[-0.5px] left-[18px] right-[18px] z-20 h-[0.5px] rounded-full bg-gradient-to-r from-white/20 to-white/85 lg:left-[23px] lg:right-[23px]"
       />
-      <Link
-        href="/dealer-locator"
-        aria-current={active === "dealer" ? "page" : undefined}
-        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-[500px] ${pad} font-sans ${text} font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "dealer" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active === "dealer"}
+        onClick={() => onTabChange?.("dealer")}
+        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-[500px] ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+          active === "dealer"
+            ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
+            : "text-white hover:text-white/80"
+        }`}
       >
         Dealer Locator
-      </Link>
-      <Link
-        href="/charging-stations"
-        aria-current={active === "charging" ? "page" : undefined}
-        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none lg:h-[42px] lg:px-4 lg:text-base ${active === "charging" ? "border-[0.5px] border-solid border-white bg-white text-[#121212]" : "text-white"}`}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active === "charging"}
+        onClick={() => onTabChange?.("charging")}
+        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+          active === "charging"
+            ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
+            : "text-white hover:text-white/80"
+        }`}
       >
         Charging Stations
-      </Link>
-      <span
-        aria-disabled="true"
-        className={`flex h-8 shrink-0 items-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none text-white lg:h-[42px] lg:px-4 lg:text-base`}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active === "service"}
+        onClick={() => onTabChange?.("service")}
+        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+          active === "service"
+            ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
+            : "text-white hover:text-white/80"
+        }`}
       >
         Service Centers
-      </span>
+      </button>
     </div>
   );
 }
 
-export default function DealerLocatorHero({ variant = "dealer" }: { variant?: "dealer" | "charging" }) {
-  const charging = variant === "charging";
+const tabContent = {
+  dealer: {
+    title: "Find your nearest dealer.",
+    subtitle: "Every dealer brings the vehicle to you for a test drive.",
+    searchLabel: "Search dealers by area",
+  },
+  charging: {
+    title: "Find a charging point.",
+    subtitle: "1,412 points across India, with live status on each one.",
+    searchLabel: "Search charging points by area",
+  },
+  service: {
+    title: "Find a service center.",
+    subtitle: "Authorized Euler service centers with genuine parts and certified experts.",
+    searchLabel: "Search service centers by area",
+  },
+};
+
+export default function DealerLocatorHero({
+  variant = "dealer",
+}: {
+  variant?: SupportTabType;
+}) {
+  const [activeTab, setActiveTab] = useState<SupportTabType>(variant);
+
+  useEffect(() => {
+    setActiveTab(variant);
+  }, [variant]);
+
+  const currentContent = tabContent[activeTab];
+  const isCharging = activeTab === "charging";
+
   return (
     <section
-      aria-label={charging ? "Find a charging point" : "Find your nearest dealer"}
-      className={`relative isolate h-[1166px] w-full self-stretch overflow-hidden bg-[#1d6fff] lg:h-[1265px] ${charging ? "mb-5" : ""}`}
+      aria-label={currentContent.title}
+      className={`relative isolate h-[1166px] w-full self-stretch overflow-hidden bg-[#1d6fff] lg:h-[1265px] ${isCharging ? "mb-5" : ""}`}
       style={{
         backgroundColor: "lightgray",
         backgroundImage: "linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)",
@@ -99,19 +164,25 @@ export default function DealerLocatorHero({ variant = "dealer" }: { variant?: "d
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${charging ? "w-full max-w-[353px]" : "w-[353px]"}`}>
+      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-[353px] sm:w-[500px]"}`}>
         <SupportBadge />
-        <SupportTabs active={charging ? "charging" : "dealer"} responsive={charging} />
-        <h1 className="w-[246px] text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">{charging ? "Find a charging point." : "Find your nearest dealer."}</h1>
-        <p className="whitespace-nowrap text-center font-sans text-xs leading-normal text-white lg:text-base">
-          {charging ? "1,412 points across India, with live status on each one." : "Every dealer brings the vehicle to you for a test drive."}
+        <SupportTabs
+          active={activeTab}
+          onTabChange={setActiveTab}
+          responsive={isCharging}
+        />
+        <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
+          {currentContent.title}
+        </h1>
+        <p className="whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base">
+          {currentContent.subtitle}
         </p>
       </div>
 
       <div className="absolute left-1/2 top-[330.66px] z-10 w-full -translate-x-1/2 lg:top-[450px]">
         <DealerLocator
-          variant={variant}
-          searchLabel={charging ? "Search charging points by area" : "Search dealers by area"}
+          variant={activeTab}
+          searchLabel={currentContent.searchLabel}
         />
       </div>
       <FloatingWidget />

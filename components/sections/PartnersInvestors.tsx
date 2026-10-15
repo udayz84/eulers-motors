@@ -28,19 +28,19 @@ export default function PartnersInvestors() {
   return (
     <section
       aria-labelledby="partners-investors-title"
-      className="relative h-[329px] overflow-hidden text-white max-[767px]:h-[300px] max-[767px]:px-[20px] max-[767px]:py-[42px]"
+      className="relative h-[300px] overflow-hidden text-white px-5 py-[42px] sm:px-8 lg:h-[329px] lg:p-0"
       style={{
         background:
           "linear-gradient(0deg, #041231 0%, #041231 100%), url('/assets/partners-investors/background.png') center / cover no-repeat, linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #FFF",
       }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute right-[-423.63px] top-[-484.38px] size-[1335.635px] max-[767px]:hidden">
+        <div className="absolute right-[-423.63px] top-[-484.38px] size-[1335.635px] hidden lg:block">
           <div className="absolute inset-[-1.73%]">
             <img src="/assets/partners-investors/orbit.svg" alt="" className="block size-full max-w-none" />
           </div>
         </div>
-        <div className="absolute left-1/2 top-[255px] h-[482.379px] w-[2475.52px] -translate-x-1/2 max-[767px]:hidden">
+        <div className="absolute left-1/2 top-[255px] h-[482.379px] w-[2475.52px] -translate-x-1/2 hidden lg:block">
           <div className="absolute inset-y-[-43.95%] inset-x-[-8.56%]">
             <img src="/assets/partners-investors/blue-glow.svg" alt="" className="block size-full max-w-none" />
           </div>
@@ -48,7 +48,7 @@ export default function PartnersInvestors() {
       </div>
 
       {/* Desktop Layout */}
-      <header className="absolute left-1/2 top-[50px] flex w-max -translate-x-1/2 flex-col items-center gap-4 max-[767px]:hidden">
+      <header className="absolute left-1/2 top-[50px] hidden w-max -translate-x-1/2 flex-col items-center gap-4 lg:flex">
         <div className="relative flex h-[20.355px] items-center gap-[6px] whitespace-nowrap">
           <img
             src="/assets/partners-investors/underline.svg"
@@ -74,7 +74,7 @@ export default function PartnersInvestors() {
 
       <div
         aria-label="Our partners and investors"
-        className="partners-logo-loop absolute left-[-548px] top-[178px] flex w-max max-[767px]:hidden"
+        className="partners-logo-loop absolute left-[-548px] top-[178px] hidden w-max lg:flex"
       >
         <PartnerLogos />
         <PartnerLogos duplicate />
@@ -82,7 +82,7 @@ export default function PartnersInvestors() {
       </div>
 
       {/* Mobile Layout - Figma Design */}
-      <div className="lg:hidden absolute content-stretch flex flex-col gap-[14px] items-start left-[20.5px] top-[42.33px] w-[353px]">
+      <div className="lg:hidden absolute flex flex-col gap-[14px] items-start left-5 sm:left-8 top-[42.33px] w-[calc(100%-40px)] sm:w-[calc(100%-64px)] max-w-[500px]">
         <div className="flex gap-[4px] items-center relative shrink-0 w-full">
           <div className="absolute h-[16px] left-[3.43px] top-[0.33px] w-[116.978px] overflow-hidden">
             <img
@@ -102,7 +102,7 @@ export default function PartnersInvestors() {
             Partners and investors
           </p>
         </div>
-        <p className="font-display text-[28px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.56px] whitespace-nowrap">
+        <p className="font-display text-[28px] sm:text-[34px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.56px] whitespace-nowrap">
           Trusted network partners
         </p>
       </div>

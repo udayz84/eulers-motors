@@ -103,15 +103,17 @@ export default function CompareSection() {
           y31.3 · strips at y248.67 · labels at y374.25 · divider 178.67→458.5
           (touching the promo top) · truck art right half · Neo promo y459 ── */}
       <div ref={mobileFrameRef} className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
-        {/* truck outline art (1:4718, 319×443) — right half, bleeding past the
-            bottom, behind everything */}
+        {/* rings + blue glow art (1:4718, native 319×443, arcs centered on
+            the divider) — scaled 1.294× about its arc center (197.74, 368.38)
+            so the outer arcs span y≈122→612 like the taller divider, per
+            review; box 413×573.5 at (196.14, 85.66) */}
         <Image
           src="/assets/compare/mobile-truck.svg"
           alt=""
-          width={319}
-          height={443}
+          width={413}
+          height={574}
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[150px] h-[443px] w-[319px]"
+          className="pointer-events-none absolute left-[196.14px] top-[85.66px] h-[573.5px] w-[413px]"
         />
 
         {/* title container — (19.32, 31.3), gap 14, pills h-32 (1:4753) */}
@@ -193,25 +195,25 @@ export default function CompareSection() {
           </div>
         </div>
 
-        {/* Line 93 divider (1:4727): 279.83 long, centered — top y178.67 so
-            the bottom lands on 458.5, touching the promo card's top edge */}
-        <Image
-          src="/assets/compare/divider-h.svg"
-          alt=""
-          width={310}
-          height={3}
+        {/* Line 93 divider — per review: uniform full-brightness stroke, no
+            end fades, spanning desktop-like margins (desktop line runs
+            23.5%→98% of its 800px section; mirrored here on the 612px frame
+            → y144→601). x-center 50%+1.11px per Figma 1:4727; passes behind
+            the promo */}
+        <div
           aria-hidden
-          className="pointer-events-none absolute left-[calc(50%_+_1.25px)] top-[178.67px] h-[2.5px] w-[310px] origin-top-left rotate-90"
+          className="pointer-events-none absolute left-[calc(50%_+_1.11px)] top-[144px] h-[457px] w-[2.5px] -translate-x-1/2 bg-white"
         />
-        {/* Line Container shine (1:4725): soft glow hugging the divider's
-            right side, same vertical span */}
+        {/* Line Container shine — the 90×509 art (glow occupies its bottom
+            353px) stretched 1.294× so the glow covers the full line span
+            (144→601): box top −57.96, height 659 */}
         <Image
           src="/assets/compare/line-shine.svg"
           alt=""
           width={90}
-          height={310}
+          height={659}
           aria-hidden
-          className="pointer-events-none absolute left-[calc(50%_+_1.25px)] top-[178.67px] h-[310px] w-[90px] object-fill"
+          className="pointer-events-none absolute left-1/2 top-[-57.96px] h-[659px] w-[90px] object-fill"
         />
 
         {/* Neo promo — (20, 459) 353×133, r8, p16, stacked centered (1:4771) */}

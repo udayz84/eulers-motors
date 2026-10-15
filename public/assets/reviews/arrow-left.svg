@@ -1,0 +1,11 @@
+<svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="55" height="55" rx="8" fill="#212121"/>
+  <rect width="55" height="55" rx="8" fill="url(#blue_grad_left)"/>
+  <path d="M30.3097 34.5L24.9791 28.2809C24.5939 27.8316 24.5939 27.1684 24.9791 26.7191L30.3097 20.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="blue_grad_left" x1="132.207" y1="-70.111" x2="-11.187" y2="-40.3038" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E2F6D"/>
+      <stop offset="1" stop-color="#1D6FFF"/>
+    </linearGradient>
+  </defs>
+</svg>

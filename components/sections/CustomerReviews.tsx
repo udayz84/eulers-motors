@@ -155,10 +155,15 @@ export default function CustomerReviews() {
             }}
           />
           </div>
-          {/* arrows drive the snap row above (overlay lets card clicks through) */}
-          <CarouselArrows rowId="reviews-snap-row" label="customer reviews" />
+          {/* Right edge fade gradient (Figma 3321:13208) */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[180px] bg-gradient-to-l from-white to-transparent lg:block xl:w-[210px]"
+          />
+          {/* arrows drive the snap row above (overlay lets card clicks through) — Figma 3321:13434 / 3321:13436 */}
+          <CarouselArrows rowId="reviews-snap-row" label="customer reviews" variant="blue" />
         </div>
-        </div>
+      </div>
     </section>
   );
 }
