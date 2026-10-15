@@ -3,7 +3,7 @@ import Image from "next/image";
 export type ArrowColor = "white" | "ink" | "navy";
 
 const SRC: Record<ArrowColor, string> = {
-  white: "/assets/hero/btn-arrow.svg",
+  white: "/assets/hero/btn-arrow-new.svg",
   ink: "/assets/nav/btn-arrow-dark.svg",
   navy: "/assets/prime/btn-arrow.svg",
 };

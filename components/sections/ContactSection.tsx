@@ -16,9 +16,9 @@ const VEHICLES = [
 ];
 
 const CONTACTS = [
-  { icon: "/assets/contact/icon-call.svg", title: "1800 000 0000", sub: "9 am to 8 pm Monday to Saturday" },
-  { icon: "/assets/contact/icon-mail.svg", title: "fleet@eulermotors.com", sub: "For fleets over 50 vehicles" },
-  { icon: "/assets/contact/icon-pin.svg", title: "Find your nearest dealer", sub: "112 locations, 24 states" },
+  { icon: "/assets/contact/icon-call-new.svg", title: "1800 000 0000", sub: "9 am to 8 pm Monday to Saturday" },
+  { icon: "/assets/contact/icon-mail-new.svg", title: "fleet@eulermotors.com", sub: "For fleets over 50 vehicles" },
+  { icon: "/assets/contact/icon-pin-new.svg", title: "Find your nearest dealer", sub: "112 locations, 24 states" },
 ];
 
 /**
@@ -61,6 +61,11 @@ const THIRD_FIELD: Record<Tab, [string, string]> = {
   "Test drive": ["Kilometres per day *", "150"],
   "Price Enquiry": ["Quantity of vehicles *", "5"],
   Fleet: ["Fleet size *", "Number of vehicles"],
+};
+const VEHICLE_SELECT: Record<Tab, [string, string]> = {
+  "Test drive": ["Which vehicle *", "Not sure, please suggest one"],
+  "Price Enquiry": ["Which vehicle *", "Not sure, please suggest one"],
+  Fleet: ["Which vehicle *", "Not sure, please suggest one"],
 };
 
 export default function ContactSection() {
@@ -114,7 +119,7 @@ export default function ContactSection() {
                 ))}
               </div>
               <Button variant="dark" arrow="white" className="w-full">
-                {FORMS[tab].cta}
+                Continue
               </Button>
               <p className="text-center text-[12px] font-medium text-ink">
                 We never share your number with anyone else. No spam calls.
@@ -148,14 +153,14 @@ export default function ContactSection() {
             ))}
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[12px] font-medium text-[#212125]">Which vehicle *</span>
+            <span className="text-[12px] font-medium text-[#212125]">{VEHICLE_SELECT[tab][0]}</span>
             <div className="relative">
               <select
                 defaultValue=""
                 className="h-[46px] w-full appearance-none rounded-[13px] border border-hairline bg-white px-4 text-[12px] font-medium text-ink backdrop-blur-[8.15px] outline-none"
               >
                 <option value="" disabled>
-                  Not sure, please suggest one
+                  {VEHICLE_SELECT[tab][1]}
                 </option>
                 {VEHICLES.map((v) => (
                   <option key={v} value={v}>
@@ -164,7 +169,7 @@ export default function ContactSection() {
                 ))}
               </select>
               <Image
-                src="/assets/contact/chevron.svg"
+                src="/assets/contact/chevron-new.svg"
                 alt=""
                 width={14}
                 height={6}

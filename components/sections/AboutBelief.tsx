@@ -74,8 +74,12 @@ export default function AboutBelief() {
         {/* Header — mobile: stacked, 14px gaps · desktop: title left, copy bottom-aligned right */}
         <div className="flex w-full flex-col gap-[14px] lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-[14px] lg:gap-4">
-            <Eyebrow label="Our Belief" className="lg:hidden" />
-            <Eyebrow label="Customers" className="hidden lg:inline-flex" />
+            <div className="lg:hidden">
+              <Eyebrow label="Our Belief" />
+            </div>
+            <div className="hidden lg:block">
+              <Eyebrow label="Customers" />
+            </div>
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[623.898px] lg:text-[52px] lg:tracking-[-1.04px]">
               Building More Than Electric Vehicles
             </h2>

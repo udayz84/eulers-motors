@@ -7,19 +7,14 @@ import Image from "next/image";
 export default function Factory() {
   return (
     <section className="relative overflow-hidden" aria-label="Factory">
-      {/* Mobile Layout */}
-      <div className="relative h-[800px] sm:hidden">
-        <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(90deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} />
-          <div className="absolute inset-0 overflow-hidden">
-            <Image
-              src="/assets/factory/mobile-bg.png"
-              alt=""
-              fill
-              className="h-full left-[-87.08%] w-[283.97%]"
-            />
-          </div>
-        </div>
+      {/* Mobile Layout (Figma 2929:14988 — 393×620 frame) */}
+      <div
+        className="relative h-[620px] w-full lg:hidden"
+        style={{
+          background:
+            "url('/assets/factory/mobile-bg.png') -342.233px 0px / 283.969% 100% no-repeat, linear-gradient(0deg, #041231 0%, #041231 100%) #fff",
+        }}
+      >
         <div className="absolute blur-[102.15px] h-[285.986px] left-[-66.16px] top-[409.47px] w-[534.271px]">
           <div aria-hidden className="absolute backdrop-blur-[16px] bg-[rgba(0,0,0,0.6)] inset-0 pointer-events-none" />
         </div>
@@ -78,7 +73,7 @@ export default function Factory() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden sm:block bg-white">
+      <div className="hidden lg:block bg-white">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-start gap-[55px] px-5 py-[60px] lg:px-[80px]">
           <div className="relative h-[680px] w-full overflow-hidden rounded-[20px]">
             <div aria-hidden className="absolute inset-0 pointer-events-none">

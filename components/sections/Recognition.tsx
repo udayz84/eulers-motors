@@ -27,7 +27,7 @@ export default function Recognition() {
   return (
     <section className="bg-white relative overflow-hidden" aria-label="Awards and Recognition">
       {/* Mobile Layout */}
-      <div className="bg-white content-stretch flex flex-col gap-[20px] items-center px-[20px] py-[32px] relative size-full sm:hidden">
+      <div className="bg-white content-stretch flex flex-col gap-[20px] items-center px-[20px] py-[32px] relative size-full lg:hidden">
         <div className="content-stretch flex flex-col gap-[14px] items-start justify-center relative shrink-0 w-full">
           <div className="content-stretch flex gap-[4px] items-center justify-center relative shrink-0">
             <div className="h-[16px] relative shrink-0 w-[14.794px]">
@@ -174,7 +174,7 @@ export default function Recognition() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden sm:block bg-white px-5 sm:px-8 lg:px-20 py-[40px] lg:py-[60px] relative">
+      <div className="hidden lg:block bg-white px-5 lg:px-20 py-[40px] lg:py-[60px] relative">
         <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-[55px] lg:flex-row lg:items-start">
           <div className="flex flex-1 min-w-0 flex-col gap-[20px] items-start self-stretch">
             <div className="flex flex-col gap-[16px] items-start relative w-full">
@@ -216,110 +216,112 @@ export default function Recognition() {
             />
           </div>
 
-          <div className="flex w-full max-w-[568px] flex-col gap-[10px] lg:w-[568px] lg:shrink-0">
-            {AWARDS.map((award, index) => {
-              const expanded = openAward === index;
-              return (
-                <article
-                  key={index}
-                  className={`bg-[#f3f4f5] overflow-clip rounded-[16px] p-[20px] w-full shrink-0 ${
-                    expanded ? "flex flex-col gap-[24px]" : ""
-                  }`}
-                >
-                  <button
-                    type="button"
-                    aria-expanded={expanded}
-                    onClick={() => setOpenAward(expanded ? -1 : index)}
-                    className="content-stretch flex w-full items-center gap-[24px] text-left cursor-pointer"
+          <div className="flex w-full flex-col gap-[55px] lg:w-auto lg:shrink-0 lg:flex-row lg:items-start lg:gap-[6px]">
+            <div className="flex w-full max-w-[568px] flex-col gap-[10px] lg:w-[568px] lg:shrink-0">
+              {AWARDS.map((award, index) => {
+                const expanded = openAward === index;
+                return (
+                  <article
+                    key={index}
+                    className={`bg-[#f3f4f5] overflow-clip rounded-[16px] p-[20px] w-full shrink-0 ${
+                      expanded ? "flex flex-col gap-[24px]" : ""
+                    }`}
                   >
-                    <span className="flex-[1_0_0] min-w-px">
-                      <span className="block font-sans font-extrabold text-[#1d6fff] text-[16px] tracking-[-0.32px]">
-                        {award.year}
+                    <button
+                      type="button"
+                      aria-expanded={expanded}
+                      onClick={() => setOpenAward(expanded ? -1 : index)}
+                      className="content-stretch flex w-full items-center gap-[24px] text-left cursor-pointer"
+                    >
+                      <span className="flex-[1_0_0] min-w-px">
+                        <span className="block font-sans font-extrabold text-[#1d6fff] text-[16px] tracking-[-0.32px]">
+                          {award.year}
+                        </span>
+                        <span className="block font-sans font-semibold text-[#121212] text-[20px] tracking-[-0.4px]">
+                          {award.title}
+                        </span>
                       </span>
-                      <span className="block font-sans font-semibold text-[#121212] text-[20px] tracking-[-0.4px]">
-                        {award.title}
-                      </span>
-                    </span>
-                    <span className="relative shrink-0 size-[24px]">
-                      <Image
-                        src={
-                          expanded
-                            ? "/assets/awards/desktop-icon-2.svg"
-                            : "/assets/awards/desktop-icon.svg"
-                        }
-                        alt=""
-                        fill
-                        className="object-cover"
-                      />
-                    </span>
-                  </button>
-                  {expanded && (
-                    <div className="content-stretch flex w-full gap-[10px] items-end">
-                      <span className="relative shrink-0 size-[96.936px]">
+                      <span className="relative shrink-0 size-[24px]">
                         <Image
-                          src="/assets/awards/desktop-bg-2.png"
+                          src={
+                            expanded
+                              ? "/assets/awards/desktop-icon-2.svg"
+                              : "/assets/awards/desktop-icon.svg"
+                          }
                           alt=""
                           fill
                           className="object-cover"
                         />
                       </span>
-                      <p className="font-sans font-normal leading-[1.4] min-w-px text-[16px] text-[rgba(18,18,18,0.8)]">
-                        {AWARD_DETAIL}
-                      </p>
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-
-          <div className="hidden w-[55px] shrink-0 flex-col items-center gap-[12px] self-stretch lg:flex">
-            <button
-              type="button"
-              aria-label="Previous award"
-              onClick={() => goTo(active - 1)}
-              disabled={active === 0}
-              className="flex size-[55px] shrink-0 items-center justify-center rounded-[8px] bg-[#f3f4f5] cursor-pointer disabled:cursor-default disabled:opacity-40"
-            >
-              <span className="relative block shrink-0 w-[15.5px] h-[7.12px]">
-                <Image
-                  src="/assets/awards/desktop-arrow-1.svg"
-                  alt=""
-                  fill
-                  className="object-contain"
-                />
-              </span>
-            </button>
-            <div
-              aria-hidden="true"
-              className="relative w-[20px] flex-1 overflow-hidden rounded-[14.4px] bg-[#f3f4f5] p-[4px]"
-            >
-              <div
-                className="absolute rounded-[23.04px] bg-[#112750] transition-all duration-300 ease-out"
-                style={{
-                  left: 4,
-                  right: 4,
-                  height: `calc((100% - 8px) / ${AWARDS.length})`,
-                  top: `calc(4px + ${active} * (100% - 8px) / ${AWARDS.length})`,
-                }}
-              />
+                    </button>
+                    {expanded && (
+                      <div className="content-stretch flex w-full gap-[10px] items-end">
+                        <span className="relative shrink-0 size-[96.936px]">
+                          <Image
+                            src="/assets/awards/desktop-bg-2.png"
+                            alt=""
+                            fill
+                            className="object-cover"
+                          />
+                        </span>
+                        <p className="font-sans font-normal leading-[1.4] min-w-px text-[16px] text-[rgba(18,18,18,0.8)]">
+                          {AWARD_DETAIL}
+                        </p>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
-            <button
-              type="button"
-              aria-label="Next award"
-              onClick={() => goTo(active + 1)}
-              disabled={active === AWARDS.length - 1}
-              className="flex size-[55px] shrink-0 items-center justify-center rounded-[8px] bg-[#f3f4f5] cursor-pointer disabled:cursor-default disabled:opacity-40"
-            >
-              <span className="relative block shrink-0 w-[15.5px] h-[7.12px] rotate-180">
-                <Image
-                  src="/assets/awards/desktop-arrow-2.svg"
-                  alt=""
-                  fill
-                  className="object-contain"
+
+            <div className="hidden w-fit shrink-0 flex-col items-center gap-[6px] self-stretch lg:flex">
+              <button
+                type="button"
+                aria-label="Previous award"
+                onClick={() => goTo(active - 1)}
+                disabled={active === 0}
+                className="flex shrink-0 items-center justify-center p-[6px] cursor-pointer disabled:cursor-default disabled:opacity-40"
+              >
+                <span className="relative block shrink-0 w-[15.5px] h-[7.12px]">
+                  <Image
+                    src="/assets/awards/desktop-arrow-1.svg"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </span>
+              </button>
+              <div
+                aria-hidden="true"
+                className="relative w-[20px] flex-1 overflow-hidden rounded-[14.4px] bg-[#f3f4f5] p-[4px]"
+              >
+                <div
+                  className="absolute rounded-[23.04px] bg-[#112750] transition-all duration-300 ease-out"
+                  style={{
+                    left: 4,
+                    right: 4,
+                    height: `calc((100% - 8px) / ${AWARDS.length})`,
+                    top: `calc(4px + ${active} * (100% - 8px) / ${AWARDS.length})`,
+                  }}
                 />
-              </span>
-            </button>
+              </div>
+              <button
+                type="button"
+                aria-label="Next award"
+                onClick={() => goTo(active + 1)}
+                disabled={active === AWARDS.length - 1}
+                className="flex shrink-0 items-center justify-center p-[6px] cursor-pointer disabled:cursor-default disabled:opacity-40"
+              >
+                <span className="relative block shrink-0 w-[15.5px] h-[7.12px] rotate-180">
+                  <Image
+                    src="/assets/awards/desktop-arrow-2.svg"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

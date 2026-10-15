@@ -19,8 +19,8 @@ type EyebrowProps = {
  */
 export default function Eyebrow({ label, dark = false, icons, className = "" }: EyebrowProps) {
   const tone = icons ?? (dark ? "white" : "navy");
-  const line = tone === "white" ? "/assets/products/badge-line-white.svg" : "/assets/products/badge-line.svg";
-  const cap = tone === "white" ? "/assets/products/badge-cap-white.svg" : "/assets/products/badge-cap.svg";
+  const line = tone === "white" ? "/assets/products/badge-line-white.svg" : "/assets/products/badge-line-new.svg";
+  const cap = tone === "white" ? "/assets/products/badge-cap-white.svg" : "/assets/products/badge-cap-new.svg";
   return (
     <span className={`relative inline-flex items-center gap-[4px] lg:gap-[6px] ${className}`}>
       <Image

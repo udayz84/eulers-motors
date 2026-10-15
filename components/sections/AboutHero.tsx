@@ -9,30 +9,18 @@ import FloatingWidget from "@/components/FloatingWidget";
 export default function AboutHero() {
   return (
     <section
-      className="relative aspect-[393/762] w-full overflow-hidden sm:aspect-[9/5] sm:h-[800px] sm:w-full"
+      className="relative aspect-[393/594] w-full overflow-visible sm:aspect-[9/5] sm:h-[800px] sm:overflow-hidden sm:w-full"
       aria-label="About Euler Motors"
     >
-      {/* Mobile Background Image */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none sm:hidden">
-        <Image
-          src="/assets/about-euler/mobile-bg-new.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-bottom"
-        />
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/assets/about-euler/mobile-overlay-new.png"
-            alt=""
-            fill
-            sizes="100vw"
-            className="h-[103.55%] left-[-2.05%] top-[-3.59%] w-[104.1%]"
-          />
-        </div>
-        {/* Mobile Gradient Overlay - matching Figma's 188.67740589081268deg gradient */}
-        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(188.67740589081268deg, rgba(0, 0, 0, 0) 56.444%, rgba(0, 0, 0, 0.8) 99.952%)" }} />
-      </div>
+      {/* Mobile Background Image (Figma 2894:10628) */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none sm:hidden"
+        style={{
+          background:
+            "linear-gradient(186deg, rgba(0, 0, 0, 0.00) 56.44%, rgba(0, 0, 0, 0.80) 99.95%), url('/assets/about-euler/mobile-overlay-new.png') -8.049px -21.316px / 104.096% 103.547% no-repeat, url('/assets/about-euler/mobile-bg-new.png') lightgray -0.067px 0px / 100.034% 100% no-repeat",
+        }}
+      />
 
       {/* Desktop Background — gradient + image per Figma
           (182deg · image 0.219px -25.662px / 99.985% 103.164%) */}
@@ -41,7 +29,7 @@ export default function AboutHero() {
         className="absolute inset-0 pointer-events-none max-sm:hidden"
         style={{
           background:
-            "linear-gradient(182deg, rgba(0, 0, 0, 0) 56.69%, rgba(0, 0, 0, 0.80) 93.41%), url('/assets/about-euler/desktop-bg-new.png') lightgray 0 -25.662px / 100% 103.164% no-repeat",
+            "linear-gradient(182deg, rgba(0, 0, 0, 0) 56.69%, rgba(0, 0, 0, 0.80) 93.41%), url('/assets/about-euler/desktop-bg-new.png') lightgray 0.219px -25.662px / 99.985% 103.164% no-repeat",
         }}
       />
 
@@ -109,8 +97,8 @@ export default function AboutHero() {
         </p>
       </div>
 
-      {/* quick-action rail — scoped to the hero (same as the home hero) */}
-      <FloatingWidget />
+      {/* quick-action rail — on mobile it is centred on the hero / About-Euler seam */}
+      <FloatingWidget boundary />
     </section>
   );
 }

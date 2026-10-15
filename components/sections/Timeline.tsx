@@ -61,10 +61,12 @@ export default function Timeline() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [maxOffset, setMaxOffset] = useState(0);
   const [cardStep, setCardStep] = useState(1015.59);
+  const [mobileProgress, setMobileProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileCardsRef = useRef<HTMLDivElement>(null);
 
   const milestone = MILESTONES[selectedYear as keyof typeof MILESTONES];
 
@@ -108,6 +110,13 @@ export default function Timeline() {
     });
   };
 
+  const onMobileCardsScroll = () => {
+    const el = mobileCardsRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setMobileProgress(max > 0 ? el.scrollLeft / max : 0);
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -115,7 +124,7 @@ export default function Timeline() {
       aria-label="Timeline"
     >
       {/* Mobile Layout */}
-      <div className="relative px-[20px] py-[42px] sm:hidden" style={{ backgroundImage: "linear-gradient(90deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%)" }}>
+      <div className="relative px-[20px] py-[42px] lg:hidden" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
         <div className="flex flex-col gap-[31px] items-start">
           {/* Header */}
           <div className="flex flex-col gap-[14px] w-[353px]">
@@ -141,91 +150,105 @@ export default function Timeline() {
                 Timeline
               </p>
             </div>
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white whitespace-nowrap">
-              Milestones That Shaped Euler
+            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white w-[353px]">
+              Milestones That
+              <br />
+              Shaped Euler
             </h2>
             <p className="font-sans font-normal leading-normal text-[12px] text-white">
               Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
             </p>
           </div>
 
-          {/* Year Buttons */}
-          <div className="h-[32px] relative w-full">
-            <div className="absolute content-stretch flex gap-[12px] items-center justify-end left-0 top-0">
-              {YEARS.map((year) => (
-                <button
-                  key={year}
-                  type="button"
-                  onClick={() => setSelectedYear(year)}
-                  className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] items-center justify-center px-[14px] relative rounded-[24.381px] shrink-0 ${
-                    selectedYear === year
-                      ? "bg-white border-[rgba(18,18,18,0.5)]"
-                      : "bg-black border-[rgba(255,255,255,0.1)]"
-                  }`}
-                >
-                  <span className="font-display text-[12px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
-                    {year}
-                  </span>
-                </button>
-              ))}
-            </div>
+          {/* Year Buttons — moveable (horizontal scroll) */}
+          <div className="snap-row -mx-[20px] w-[calc(100%+40px)] gap-[12px] px-[20px] scroll-pl-[20px]">
+            {YEARS.map((year) => (
+              <button
+                key={year}
+                type="button"
+                onClick={() => setSelectedYear(year)}
+                className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] items-center justify-center px-[14px] relative rounded-[24.381px] shrink-0 ${
+                  selectedYear === year
+                    ? "bg-white border-[rgba(18,18,18,0.5)]"
+                    : "bg-black border-[rgba(255,255,255,0.1)]"
+                }`}
+              >
+                <span className="font-display text-[12px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
+                  {year}
+                </span>
+              </button>
+            ))}
           </div>
 
-          {/* Card */}
-          <div className="bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] px-[12px] relative rounded-[12px] shrink-0 w-[353px]">
-            <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
-              <p className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
-                {milestone.year}
-              </p>
-              <p className="font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px] text-white whitespace-nowrap">
-                One thousand vehicles at work.
-              </p>
-              <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] text-white w-[min-content]">
-                <p className="leading-[normal] mb-0">Enough data from enough routes to design the</p>
-                <p className="leading-[normal]">next one with confidence.</p>
-              </div>
-              <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                  <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                    <p className="leading-[normal]">CCS2</p>
+          {/* Cards — moveable (horizontal scroll carousel) */}
+          <div
+            ref={mobileCardsRef}
+            onScroll={onMobileCardsScroll}
+            className="snap-row -mx-[20px] w-[calc(100%+40px)] gap-[12px] px-[20px] scroll-pl-[20px]"
+          >
+            {TIMELINE_CARDS.map((card) => (
+              <div
+                key={card.id}
+                className="bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] px-[12px] relative rounded-[12px] shrink-0 w-[353px]"
+              >
+                <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
+                  <p className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
+                    {milestone.year}
+                  </p>
+                  <p className="font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px] text-white whitespace-nowrap">
+                    One thousand vehicles at work.
+                  </p>
+                  <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] text-white w-[min-content]">
+                    <p className="leading-[normal] mb-0">Enough data from enough routes to design the</p>
+                    <p className="leading-[normal]">next one with confidence.</p>
+                  </div>
+                  <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                        <p className="leading-[normal]">CCS2</p>
+                      </div>
+                    </div>
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                        <p className="leading-[normal]">60 kW</p>
+                      </div>
+                    </div>
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                        <p className="leading-[normal]">4 of 6 free</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                  <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                    <p className="leading-[normal]">60 kW</p>
-                  </div>
-                </div>
-                <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                  <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                    <p className="leading-[normal]">4 of 6 free</p>
+                <div className="absolute h-[235.284px] left-0 top-0 w-[353px]">
+                  <div aria-hidden className="absolute inset-0 pointer-events-none">
+                    <div className="absolute bg-[#d9d9d9] inset-0" />
+                    <div className="absolute inset-0 overflow-hidden">
+                      <Image
+                        src="/assets/timeline/mobile-timeline-1.png"
+                        alt=""
+                        fill
+                        className="h-[234.09%] left-[0.02%] top-[-53.68%] w-[99.95%]"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="absolute h-[235.284px] left-0 top-0 w-[353px]">
-              <div aria-hidden className="absolute inset-0 pointer-events-none">
-                <div className="absolute bg-[#d9d9d9] inset-0" />
-                <div className="absolute inset-0 overflow-hidden">
-                  <Image
-                    src="/assets/timeline/mobile-timeline-1.png"
-                    alt=""
-                    fill
-                    className="h-[234.09%] left-[0.02%] top-[-53.68%] w-[99.95%]"
-                  />
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Pagination Dots */}
-          <div className="bg-[rgba(204,204,204,0.2)] content-stretch flex flex-col h-[20px] items-start justify-center p-[4px] relative rounded-[14.4px] shrink-0 w-[116.199px]">
-            <div className="bg-white flex-[1_0_0] min-h-px relative rounded-[23.04px] w-[29.891px]" />
+          <div className="bg-[rgba(204,204,204,0.2)] content-stretch flex flex-col h-[20px] items-start justify-center p-[4px] relative rounded-[14.4px] self-center shrink-0 w-[116.199px]">
+            <div
+              className="bg-white relative h-[12px] w-[29.891px] rounded-[23.04px]"
+              style={{ transform: `translateX(${mobileProgress * 78.308}px)` }}
+            />
           </div>
         </div>
       </div>
 
       {/* Desktop Layout — outer frame: 1440 → padding 60/80, centered column */}
-      <div className="relative hidden sm:block" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
+      <div className="relative hidden lg:block" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
         <div ref={wrapperRef} className="content-stretch relative mx-auto flex w-full max-w-[1440px] flex-col gap-[52px] items-center px-[80px] py-[60px]">
           {/* Header Row */}
           <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
@@ -373,7 +396,7 @@ export default function Timeline() {
             type="button"
             aria-label="Next milestones"
             onClick={() => changeSlide(1)}
-            className="absolute right-[49.818px] bottom-[281.766px] size-[55px] cursor-pointer"
+            className="absolute right-[49.818px] bottom-[281.766px] z-10 size-[55px] cursor-pointer"
           >
             <Image
               src="/assets/about-euler/timeline-arrow-right.svg"

@@ -7,17 +7,17 @@ const TABS = ["Test drive", "Price Enquiry", "Fleet"] as const;
 
 const CONTACTS = [
   {
-    icon: "/assets/about-euler/next-step-phone.svg",
+    icon: "/assets/about-euler/next-step-phone-new.svg",
     title: "1800 000 0000",
     subtitle: "9 am to 8 pm Monday to Saturday",
   },
   {
-    icon: "/assets/about-euler/next-step-email.svg",
+    icon: "/assets/about-euler/next-step-email-new.svg",
     title: "fleet@eulermotors.com",
     subtitle: "For fleets over 50 vehicles",
   },
   {
-    icon: "/assets/about-euler/next-step-location.svg",
+    icon: "/assets/about-euler/next-step-location-new.svg",
     title: "Find your nearest dealer",
     subtitle: "112 locations, 24 states",
   },
@@ -39,7 +39,7 @@ export default function NextStepMobile() {
           <div className="flex gap-[4px] items-center relative shrink-0 w-full">
             <div className="absolute h-[16px] left-[3.43px] top-0 w-[116.978px] overflow-hidden">
               <Image
-                src="/assets/about-euler/next-step-rect-1.svg"
+                src="/assets/about-euler/next-step-rect-1-new.svg"
                 alt=""
                 fill
                 className="object-cover"
@@ -47,7 +47,7 @@ export default function NextStepMobile() {
             </div>
             <div className="h-[16px] relative shrink-0 w-[14.794px] overflow-hidden">
               <Image
-                src="/assets/about-euler/next-step-rect-2.svg"
+                src="/assets/about-euler/next-step-rect-2-new.svg"
                 alt=""
                 fill
                 className="object-cover"
@@ -150,7 +150,7 @@ export default function NextStepMobile() {
                   </p>
                   <div className="h-[12px] relative shrink-0 w-[18.857px] overflow-hidden">
                     <Image
-                      src="/assets/about-euler/next-step-arrow.svg"
+                      src="/assets/about-euler/next-step-arrow-new.svg"
                       alt=""
                       fill
                       className="object-cover"

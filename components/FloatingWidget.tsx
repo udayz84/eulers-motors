@@ -21,16 +21,24 @@ const ACTIONS = [
  * Rendered inside the Hero section, so it only exists while the hero is on
  * screen (Figma places it in the hero frame).
  */
-export default function FloatingWidget({ mobileOnly = false }: { mobileOnly?: boolean }) {
+export default function FloatingWidget({
+  mobileOnly = false,
+  boundary = false,
+}: {
+  mobileOnly?: boolean;
+  boundary?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   // desktop: rail hangs 30px off the right edge so its black right pad is
   // cropped (Figma 1:2258 — rail spans x 1372–1470 in the 1440px frame);
   // vertically at 50% — Figma's y=400 of the 800px hero frame — so it stays
   // proportional when the hero scales with viewport width.
-  // Mobile: collapsed — the mobile hero frame (Figma 1:4524) has no rail
+  // Mobile: collapsed — the mobile hero frame (Figma 1:4524) has no rail.
+  // boundary: on mobile the rail is centred on the bottom edge of its relative
+  // parent (the hero/next-section seam) instead of the vertical middle.
   return (
-    <div className={`absolute right-[-29.5px] top-1/2 z-40 -translate-y-1/2 lg:right-[-30px] lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"}`}>
+    <div className={`absolute right-[-29.5px] ${boundary ? "top-full" : "top-1/2"} z-40 -translate-y-1/2 lg:right-[-30px] lg:top-1/2 lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"}`}>
       <div className="relative flex items-end gap-[19px]">
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside

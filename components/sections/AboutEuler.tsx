@@ -72,9 +72,9 @@ export default function AboutEuler() {
   return (
     <section className="relative overflow-hidden" aria-label="About Euler">
       {/* Mobile Background */}
-      <div className="absolute inset-0 lg:hidden" style={{ backgroundImage: "linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(-88.83846224415066deg, rgb(14, 47, 109) 63.511%, rgb(29, 111, 255) 87.226%)" }} />
+      <div className="absolute inset-0 lg:hidden" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)" }} />
       {/* Desktop Background */}
-      <div className="absolute inset-0 max-sm:hidden" style={{ background: "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)" }} />
+      <div className="absolute inset-0 max-lg:hidden" style={{ background: "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)" }} />
 
       {/* 1440 frame — arrows are positioned against this */}
       <div className="relative mx-auto w-full max-w-[1440px]">
@@ -82,7 +82,7 @@ export default function AboutEuler() {
         <div className="flex w-full flex-col items-center px-[19px] py-[26px] lg:gap-[42px] lg:px-[80px] lg:py-[62px]">
         {/* Header */}
         <div className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-full">
-          <div className="content-stretch flex gap-[4px] items-center relative shrink-0 sm:hidden">
+          <div className="content-stretch flex gap-[4px] items-center relative shrink-0 lg:hidden">
             <div className="absolute h-[16px] left-[3.43px] top-0 w-[116.978px] overflow-hidden">
               <Image
                 src="/assets/about-euler/mobile-rect-1.svg"
@@ -103,7 +103,7 @@ export default function AboutEuler() {
               About Euler
             </p>
           </div>
-          <div className="content-stretch flex gap-[6px] items-center relative shrink-0 max-sm:hidden">
+          <div className="content-stretch flex gap-[6px] items-center relative shrink-0 max-lg:hidden">
             <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
               <Image
                 src="/assets/about-euler/desktop-rect-1.svg"
@@ -137,23 +137,23 @@ export default function AboutEuler() {
             {CARDS.map((card, index) => (
               <article
                 key={card.id}
-                className="relative h-[420px] w-[324px] shrink-0 overflow-hidden rounded-[12px] sm:h-[485px] sm:w-[720px] sm:rounded-[20px]"
+                className="relative h-[420px] w-[324px] shrink-0 overflow-hidden rounded-[12px] lg:h-[485px] lg:w-[720px] lg:rounded-[20px]"
               >
                 {/* Background Image */}
-                <div className="absolute inset-0 overflow-hidden rounded-[12px] sm:rounded-[20px]">
+                <div className="absolute inset-0 overflow-hidden rounded-[12px] lg:rounded-[20px]">
                   <Image
                     src={card.mobileImage}
                     alt=""
                     fill
                     sizes="324px"
-                    className="object-cover sm:hidden"
+                    className="object-cover lg:hidden"
                   />
                 </div>
 
                 {/* Desktop Background — gradient + image (Figma 3223:16874) */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 max-sm:hidden"
+                  className="absolute inset-0 max-lg:hidden"
                   style={{
                     background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 68.87%, rgba(0, 0, 0, 0.60) 90.7%), url('${card.desktopImage}') lightgray 0px -106.086px / 100% 149.608% no-repeat`,
                   }}
@@ -162,31 +162,31 @@ export default function AboutEuler() {
                 {/* Gradient Overlay (mobile only) */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] sm:hidden"
+                  className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
                 />
 
                 {/* Info Card */}
-                <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[308px] rounded-[8px] bg-white/20 p-[12px] backdrop-blur-[9.134px] sm:bottom-[20.36px] sm:left-[20px] sm:translate-x-0 sm:w-[388px] sm:rounded-[10px] sm:p-[16px]">
+                <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[308px] rounded-[8px] bg-white/20 p-[12px] backdrop-blur-[9.134px] lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:rounded-[10px] lg:p-[16px]">
                   {/* Badge */}
-                  <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] sm:mb-[12px]">
-                    <span className="text-[12px] font-bold leading-normal text-black sm:text-[12px]">
+                  <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] lg:mb-[12px]">
+                    <span className="text-[12px] font-bold leading-normal text-black lg:text-[12px]">
                       {card.badge}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="mb-[6px] text-[16px] font-bold leading-normal tracking-[-0.32px] text-white sm:mb-[12px] sm:text-[20px] sm:tracking-[-0.4px]">
+                  <h3 className="mb-[6px] text-[16px] font-bold leading-normal tracking-[-0.32px] text-white lg:mb-[12px] lg:text-[20px] lg:tracking-[-0.4px]">
                     {card.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mb-[6px] h-[36px] overflow-hidden text-ellipsis text-[12px] font-normal leading-[1.5] text-white sm:mb-[12px] sm:h-[48px] sm:text-[14px]">
+                  <p className="mb-[6px] h-[36px] overflow-hidden text-ellipsis text-[12px] font-normal leading-[1.5] text-white lg:mb-[12px] lg:h-[48px] lg:text-[14px]">
                     {card.description}
                   </p>
 
                   {/* Stat Badge */}
-                  <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] sm:rounded-[14.614px] sm:border-[0.913px] sm:px-[6.51px] sm:py-[4.34px]">
-                    <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white sm:text-[12px]">
+                  <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] lg:rounded-[14.614px] lg:border-[0.913px] lg:px-[6.51px] lg:py-[4.34px]">
+                    <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white lg:text-[12px]">
                       {card.stat}
                     </span>
                   </div>
@@ -196,7 +196,7 @@ export default function AboutEuler() {
           </div>
 
           {/* Scroll indicator — desktop sits 42px below the cards, 62px above the section's bottom edge */}
-          <div className="bg-[rgba(204,204,204,0.2)] content-stretch absolute bottom-0 left-1/2 z-10 flex h-[20px] w-[116.199px] shrink-0 -translate-x-1/2 translate-y-1/2 flex-col items-start justify-center rounded-[14.4px] p-[4px] lg:static lg:mx-auto lg:mt-[42px] lg:translate-x-0 lg:translate-y-0">
+          <div className="bg-[rgba(204,204,204,0.2)] content-stretch z-10 mx-auto mt-[26px] flex h-[20px] w-[116.199px] shrink-0 flex-col items-start justify-center rounded-[14.4px] p-[4px] lg:mt-[42px]">
             <div
               className="h-full rounded-[23.04px] bg-white transition-transform duration-300 ease-out"
               style={{ width: `${100 / CARDS.length}%`, transform: `translateX(${active * 100}%)` }}

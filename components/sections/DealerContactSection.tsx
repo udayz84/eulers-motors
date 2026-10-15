@@ -1,6 +1,56 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 const ASSET = "/assets/dealer-contact/";
+
+const VEHICLES = [
+  "Storm EV LongRange 200",
+  "Storm EV T1500",
+  "HiLoad EV",
+  "Turbo EV 1000",
+  "Neo HiRange",
+  "Neo HiCity",
+];
+
+const TABS = ["Test drive", "Price Enquiry", "Fleet"] as const;
+type Tab = (typeof TABS)[number];
+
+/** Per-tab form fields (desktop skeleton: 2 + select + 2 + consent + CTA) */
+const FORMS: Record<Tab, { fields: [string, string][]; cta: string }> = {
+  "Test drive": {
+    fields: [
+      ["Name *", "Full name"],
+      ["Mobile number *", "10 digit"],
+    ],
+    cta: "Confirm test drive",
+  },
+  "Price Enquiry": {
+    fields: [
+      ["Name *", "Full name"],
+      ["Mobile number *", "10 digit"],
+    ],
+    cta: "Get price list",
+  },
+  Fleet: {
+    fields: [
+      ["Company name *", "Company"],
+      ["Mobile number *", "10 digit"],
+    ],
+    cta: "Talk to our fleet team",
+  },
+};
+const SECOND_ROW: Record<Tab, [string, string]> = {
+  "Test drive": ["City *", "Mumbai"],
+  "Price Enquiry": ["City *", "Mumbai"],
+  Fleet: ["City *", "Mumbai"],
+};
+const THIRD_FIELD: Record<Tab, [string, string]> = {
+  "Test drive": ["Kilometres per day*", "150"],
+  "Price Enquiry": ["Quantity of vehicles *", "5"],
+  Fleet: ["Fleet size *", "Number of vehicles"],
+};
 
 function ContactCard({ icon, title, detail, mobileOrder }: { icon: string; title: string; detail: string; mobileOrder: string }) {
   return (
@@ -17,19 +67,70 @@ function ContactCard({ icon, title, detail, mobileOrder }: { icon: string; title
   );
 }
 
-function FormField({ label, value, dropdown = false }: { label: string; value: string; dropdown?: boolean }) {
+function Field({ label, placeholder }: { label: string; placeholder: string }) {
+  const isPhone = label.startsWith("Mobile");
+  const [value, setValue] = useState("");
+  const [touched, setTouched] = useState(false);
+  /* Indian mobile: 10 digits, first digit 6-9 — anything else is stripped */
+  const invalid = isPhone && touched && value.length !== 10;
+
   return (
     <label className="block min-w-0 font-sans text-xs leading-[1.15] text-[#121212]">
       <span className="mb-1 block">{label}</span>
-      <span className="flex h-[36px] items-center justify-between rounded-[8px] border border-[#ededed] bg-white px-4 text-xs text-[#9ca3af] backdrop-blur-[8.15px] lg:h-[46px] lg:rounded-[13px]">
-        <span className="truncate">{value}</span>
-        {dropdown && <Image src={`${ASSET}chevron.svg`} alt="" width={12} height={7} aria-hidden="true" />}
+      <input
+        type={isPhone ? "tel" : "text"}
+        inputMode={isPhone ? "numeric" : undefined}
+        placeholder={placeholder}
+        value={value}
+        maxLength={isPhone ? 10 : undefined}
+        onChange={(e) => {
+          if (isPhone) {
+            const d = e.target.value.replace(/\D/g, "").replace(/^[0-5]+/, "").slice(0, 10);
+            return setValue(d);
+          }
+          setValue(e.target.value);
+        }}
+        onBlur={() => isPhone && setTouched(true)}
+        className={`h-[36px] w-full rounded-[8px] border bg-white px-4 font-sans text-xs leading-[1.15] backdrop-blur-[8.15px] outline-none lg:h-[46px] lg:rounded-[13px] ${
+          value ? "text-[#121212]" : "text-[#9ca3af]"
+        } ${invalid ? "border-chip-red" : "border-[#ededed]"}`}
+      />
+      {invalid && (
+        <span className="mt-1 block font-sans text-[10px] font-medium text-chip-red">
+          Enter a 10-digit mobile number starting with 6, 7, 8 or 9
+        </span>
+      )}
+    </label>
+  );
+}
+
+function SelectField({ label, placeholder, options }: { label: string; placeholder: string; options: string[] }) {
+  return (
+    <label className="block min-w-0 font-sans text-xs leading-[1.15] text-[#121212]">
+      <span className="mb-1 block">{label}</span>
+      <span className="relative block">
+        <select
+          defaultValue=""
+          className="h-[36px] w-full appearance-none rounded-[8px] border border-[#ededed] bg-white px-4 font-sans text-xs leading-[1.15] text-[#121212] backdrop-blur-[8.15px] outline-none lg:h-[46px] lg:rounded-[13px]"
+        >
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+        <Image src={`${ASSET}chevron.svg`} alt="" width={12} height={7} aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" />
       </span>
     </label>
   );
 }
 
 export default function DealerContactSection() {
+  const [tab, setTab] = useState<Tab>("Test drive");
+
   return (
     <section className="relative isolate mx-auto flex min-h-[678px] w-full overflow-hidden bg-white px-5 py-6 sm:px-8 lg:min-h-[789.477px] lg:w-[1440px] lg:max-w-full lg:items-center lg:justify-between lg:px-20 lg:pt-16 lg:pb-[42px]">
       <div className="pointer-events-none absolute left-[72px] top-[203.55px] -z-10 hidden h-[441px] w-[631px] max-w-[55vw] lg:block" aria-hidden="true">
@@ -60,34 +161,49 @@ export default function DealerContactSection() {
           </div>
         </div>
 
-        <div className="order-2 mb-2.5 flex h-[294px] w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 lg:order-none lg:mb-0 lg:h-[683.477px] lg:min-h-0 lg:w-[517px] lg:shrink-0 lg:justify-center lg:gap-8 lg:rounded-2xl lg:p-8">
-          <div className="flex flex-col gap-1.5 lg:gap-3">
+        <div className="order-2 mb-2.5 flex h-[294px] w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 lg:order-none lg:mb-0 lg:h-[683.477px] lg:min-h-0 lg:w-[517px] lg:shrink-0 lg:items-center lg:justify-center lg:gap-8 lg:rounded-2xl lg:p-8">
+          <div className="flex w-full flex-col gap-1.5 lg:gap-3">
             <h3 className="font-sans text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-[#121212] lg:font-display lg:text-[32px] lg:font-semibold lg:tracking-[-0.64px]">Book a test drive</h3>
             <p className="font-sans text-xs leading-normal text-[#121212] lg:text-base">Two steps. We call you within one working day.</p>
           </div>
-          <div className="flex gap-3" role="tablist" aria-label="Enquiry type">
-            <button type="button" className="h-[34px] flex-1 rounded-full bg-[#0c2c66] px-2 font-display text-xs font-semibold text-white lg:h-[42px] lg:px-3 lg:text-base">Test drive</button>
-            <button type="button" className="h-[34px] flex-1 rounded-full border border-white/50 bg-white/80 px-2 font-display text-xs font-semibold text-[#121212] backdrop-blur-[10px] lg:h-[42px] lg:px-2 lg:text-base">Price Enquiry</button>
-            <button type="button" className="h-[34px] flex-1 rounded-full border border-white/50 bg-white/80 px-2 font-display text-xs font-semibold text-[#121212] backdrop-blur-[10px] lg:h-[42px] lg:px-3 lg:text-base">Fleet</button>
+          <div className="flex w-full gap-3" role="tablist" aria-label="Enquiry type">
+            {TABS.map((t) => {
+              const on = t === tab;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => setTab(t)}
+                  className={`h-[34px] flex-1 rounded-full px-2 font-display text-xs font-semibold lg:h-[42px] lg:px-3 lg:text-base ${
+                    on ? "bg-[#0c2c66] text-white" : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px]"
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
           </div>
 
           <form className="contents">
-            <div className="grid grid-cols-2 gap-1.5 lg:gap-3">
-              <FormField label="Name *" value="Full name" />
-              <FormField label="Mobile number *" value="10 digit" />
+            <div className="grid w-full grid-cols-2 gap-1.5 lg:gap-3">
+              {FORMS[tab].fields.map(([label, ph]) => (
+                <Field key={label} label={label} placeholder={ph} />
+              ))}
             </div>
-            <div className="hidden lg:block"><FormField label="Which vehicle *" value="Not sure, please suggest one" dropdown /></div>
-            <div className="hidden grid-cols-2 gap-3 lg:grid">
-              <FormField label="City *" value="Mumbai" />
-              <FormField label="Kilometres per day*" value="150" />
+            <div className="hidden w-full lg:block"><SelectField label="Which vehicle *" placeholder="Not sure, please suggest one" options={VEHICLES} /></div>
+            <div className="hidden w-full grid-cols-2 gap-3 lg:grid">
+              <Field label={SECOND_ROW[tab][0]} placeholder={SECOND_ROW[tab][1]} />
+              <Field label={THIRD_FIELD[tab][0]} placeholder={THIRD_FIELD[tab][1]} />
             </div>
-            <label className="hidden items-start gap-2.5 font-sans text-sm leading-[1.4] text-[#121212] lg:flex">
+            <label className="hidden w-full items-start gap-2.5 font-sans text-sm leading-[1.4] text-[#121212] lg:flex">
               <input type="checkbox" className="mt-0.5 size-5 shrink-0 appearance-none rounded-full border border-[#0c1530] bg-[rgba(12,21,48,0.04)] checked:bg-[#0c2c66]" />
               <span>Euler Motors and its dealers may contact me about this enquiry. <span className="underline">Privacy policy.</span></span>
             </label>
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex w-full flex-col items-center gap-3">
               <button type="button" className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-fit lg:px-6 lg:text-base lg:font-semibold">
-                <span className="lg:hidden">Continue</span><span className="hidden lg:inline">Confirm test drive</span>
+                <span className="lg:hidden">Continue</span><span className="hidden lg:inline">{FORMS[tab].cta}</span>
                 <Image src={`${ASSET}arrow-mobile.svg`} alt="" width={19} height={13} aria-hidden="true" className="lg:hidden" />
                 <Image src={`${ASSET}arrow.svg`} alt="" width={22} height={14} aria-hidden="true" className="hidden lg:block" />
               </button>
@@ -99,8 +215,3 @@ export default function DealerContactSection() {
     </section>
   );
 }
-
-
-
-
-

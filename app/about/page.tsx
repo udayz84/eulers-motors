@@ -10,7 +10,7 @@ import Recognition from "@/components/sections/Recognition";
 import AboutEsG from "@/components/sections/AboutEsG";
 import AboutReports from "@/components/sections/AboutReports";
 import Hiring from "@/components/sections/Hiring";
-import AboutInvestors from "@/components/sections/AboutInvestors";
+import ContactSection from "@/components/sections/ContactSection";
 import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
 import Footer from "@/components/sections/Footer";
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
         <AboutEsG />
         <AboutReports />
         <Hiring />
-        <AboutInvestors />
+        <ContactSection />
         <ChargingStationFaq />
       </main>
       <Footer />

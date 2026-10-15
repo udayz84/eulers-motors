@@ -131,13 +131,13 @@ export default function AboutEsG() {
 
         {/* Impact cards — desktop row of 3 · mobile snap row of 2 + indicator */}
         <div className="flex flex-col gap-4 lg:gap-0">
-          <div className="snap-row -mx-5 gap-2.5 px-5 lg:mx-0 lg:gap-5 lg:overflow-visible lg:px-0">
+          <div className="snap-row -mx-5 gap-2.5 px-5 lg:mx-0 lg:gap-5 lg:items-center lg:overflow-visible lg:px-0">
             {CARDS.map((card) => (
               <article
                 key={card.num}
-                className="w-[247px] shrink-0 rounded-[6px] bg-white/8 p-5 lg:w-auto lg:flex-1 lg:p-6"
+                className="w-[247px] shrink-0 rounded-[6px] bg-white/8 p-5 lg:flex lg:min-w-px lg:w-auto lg:flex-[1_0_0] lg:items-center lg:p-6"
               >
-                <div className="flex flex-col gap-2 lg:gap-3">
+                <div className="flex flex-col gap-2 lg:min-w-0 lg:flex-1 lg:gap-3">
                   <p className="bg-gradient-to-b from-[rgba(255,255,255,0.8)] to-[rgba(255,255,255,0.02)] bg-clip-text text-[24px] font-bold leading-none text-transparent lg:text-[32px]">
                     {card.num}
                   </p>
@@ -149,7 +149,7 @@ export default function AboutEsG() {
           </div>
           {/* Mobile pill indicator (2937:3329:13511) */}
           <div aria-hidden className="mx-auto flex h-5 w-[116.199px] items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1 lg:hidden">
-            <div className="h-full w-[29.891px] flex-1 rounded-[23.04px] bg-white" />
+            <div className="h-full w-[29.891px] shrink-0 rounded-[23.04px] bg-white" />
           </div>
         </div>
       </div>
@@ -157,19 +157,12 @@ export default function AboutEsG() {
   );
 }
 
-/* 65px white hairline, rotated vertical between the stats (Figma Line 107) */
+/* 1px white hairline between the stats (Figma Line 107) */
 function StatDivider() {
   return (
-    <span aria-hidden className="flex w-0 items-center self-stretch justify-center">
-      <span className="relative block h-0 w-[65px] rotate-90">
-        <Image
-          src="/assets/about-euler/esg-divider.svg"
-          alt=""
-          width={65}
-          height={1}
-          className="absolute inset-[-1px_0_0_0] size-full !max-w-none"
-        />
-      </span>
-    </span>
+    <span
+      aria-hidden
+      className="mr-4 block h-[65px] w-px shrink-0 bg-white opacity-50"
+    />
   );
 }

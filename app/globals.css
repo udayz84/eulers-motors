@@ -215,20 +215,15 @@ button {
 }
 
 /* ESG section background (Figma 3537:18846 · 2937:15792): a 40% black wash
-   over the navy→blue diagonal run. The gradient angle differs slightly per
-   breakpoint (-89.362° mobile · -87.543° desktop), matching the file. */
+   over the navy→blue diagonal run on a #041231 base. */
 .esg-bg {
   background-color: #041231;
   background-image:
     linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
-    linear-gradient(-89.362deg, #0e2f6d 63.511%, #1d6fff 87.226%);
-}
-@media (min-width: 768px) {
-  .esg-bg {
-    background-image:
-      linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
-      linear-gradient(-87.543deg, #0e2f6d 63.511%, #1d6fff 87.226%);
-  }
+    linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%),
+    linear-gradient(0deg, #041231 0%, #041231 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%);
 }
 
 /* Horizontal snap scrollers used by the carousels (mobile design shows
