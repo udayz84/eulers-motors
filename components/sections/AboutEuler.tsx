@@ -132,7 +132,7 @@ export default function AboutEuler() {
             id="about-euler-snap-row"
             ref={rowRef}
             onScroll={handleScroll}
-            className="snap-row snap-center-mobile gap-[20px] lg:overflow-x-auto"
+            className="snap-row snap-center-mobile -mx-[19px] w-[calc(100%+38px)] px-[19px] gap-[20px] lg:relative lg:left-1/2 lg:w-[max(calc(100%+160px),100vw)] lg:-translate-x-1/2 lg:scroll-pl-[max(80px,calc(50vw-640px))] lg:overflow-x-auto lg:px-[max(80px,calc(50vw-640px))] lg:mx-0"
           >
             {CARDS.map((card, index) => (
               <article
@@ -205,19 +205,8 @@ export default function AboutEuler() {
         </div>
         </div>
 
-        {/* Right-edge fade (Figma 3223:16874) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-[63.316px] z-[5] hidden h-[606.722px] w-[210.811px] lg:block"
-          style={{
-            background:
-              "linear-gradient(270deg, #0D2D68 0%, rgba(13, 49, 112, 0.00) 100%)",
-            backdropFilter: "blur(0px)",
-          }}
-        />
-
-        {/* Navigation Arrows — positioned against the 1440 frame (Figma 3223:16874) */}
-        <button
+      {/* Navigation Arrows — positioned against the 1440 frame (Figma 3223:16874) */}
+      <button
           type="button"
           aria-label="Previous card"
           className="absolute left-[50px] bottom-[339px] z-10 hidden size-[55px] lg:block"
@@ -234,6 +223,17 @@ export default function AboutEuler() {
           <Image src="/assets/about-euler/arrow-right.svg" alt="" fill className="object-cover" />
         </button>
       </div>
+
+      {/* Right-edge fade (Figma 3223:16874) — anchored to the section's right edge */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-[63.316px] z-[5] hidden h-[606.722px] w-[210.811px] lg:block"
+        style={{
+          background:
+            "linear-gradient(270deg, #0D2D68 0%, rgba(13, 49, 112, 0.00) 100%)",
+          backdropFilter: "blur(0px)",
+        }}
+      />
     </section>
   );
 }

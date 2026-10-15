@@ -206,7 +206,7 @@ export default function Recognition() {
               </div>
             </div>
             <div
-              className="flex-1 min-h-[320px] lg:min-h-[420px] w-full self-stretch rounded-[20.655px]"
+              className="w-full shrink-0 lg:h-[420px] rounded-[20.655px]"
               style={{
                 backgroundImage: "url('/assets/awards/desktop-bg.png')",
                 backgroundPosition: "50% 50%",
@@ -217,7 +217,7 @@ export default function Recognition() {
           </div>
 
           <div className="flex w-full flex-col gap-[55px] lg:w-auto lg:shrink-0 lg:flex-row lg:items-start lg:gap-[6px]">
-            <div className="flex w-full max-w-[568px] flex-col gap-[10px] lg:w-[568px] lg:shrink-0">
+            <div className="flex w-full max-w-[568px] flex-col gap-[10px] lg:h-[525px] lg:w-[568px] lg:shrink-0 lg:min-h-0 lg:overflow-y-auto">
               {AWARDS.map((award, index) => {
                 const expanded = openAward === index;
                 return (

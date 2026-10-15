@@ -83,13 +83,12 @@ export default function Timeline() {
       const firstCard = track.firstElementChild as HTMLElement | null;
       const lastCard = track.lastElementChild as HTMLElement | null;
       const step = firstCard ? firstCard.offsetWidth + 20 : 1015.59;
-      const wrapperRect = wrapper.getBoundingClientRect();
       const wrapperStyle = getComputedStyle(wrapper);
-      const contentLeft =
-        wrapperRect.left + parseFloat(wrapperStyle.paddingLeft || "0");
-      const contentRight =
-        wrapperRect.right - parseFloat(wrapperStyle.paddingRight || "0");
-      const visibleWidth = contentRight - contentLeft;
+      // clientWidth/padding are CSS px (rects are scaled by the tablet html zoom)
+      const visibleWidth =
+        wrapper.clientWidth -
+        parseFloat(wrapperStyle.paddingLeft || "0") -
+        parseFloat(wrapperStyle.paddingRight || "0");
       const contentWidth = lastCard
         ? lastCard.offsetLeft + lastCard.offsetWidth
         : track.scrollWidth;
@@ -306,7 +305,7 @@ export default function Timeline() {
           </div>
 
           {/* Cards Row — clipped to the content area like About Euler */}
-          <div className="relative w-full shrink-0 overflow-hidden">
+          <div className="relative w-full shrink-0 overflow-hidden lg:w-[max(calc(100%+160px),100vw)] lg:px-[max(80px,calc(50vw-640px))]">
             <div
               ref={trackRef}
               className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full transition-transform duration-500 ease-out"
@@ -363,17 +362,6 @@ export default function Timeline() {
             />
           </div>
 
-          {/* Right-edge fade (matches AboutEuler) */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute right-0 bottom-[96px] z-[5] h-[442.531px] w-[210.811px]"
-            style={{
-              background:
-                "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0.00) 100%)",
-              backdropFilter: "blur(0px)",
-            }}
-          />
-
           {/* Navigation Arrows — vertically centered on the cards */}
           <button
             type="button"
@@ -407,6 +395,17 @@ export default function Timeline() {
           </button>
 
         </div>
+
+        {/* Right-edge fade (matches AboutEuler) — anchored to the section's right edge */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-0 bottom-[96px] z-[5] h-[442.531px] w-[210.811px]"
+          style={{
+            background:
+              "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0.00) 100%)",
+            backdropFilter: "blur(0px)",
+          }}
+        />
       </div>
     </section>
   );
