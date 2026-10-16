@@ -9,10 +9,9 @@ export default function Hiring() {
     <section className="relative overflow-hidden" aria-label="Hiring">
       {/* Mobile Layout */}
       <div
-        className="flex flex-col items-center lg:hidden"
+        className="flex flex-col items-center px-5 sm:px-8 py-8 sm:py-12 pb-[302px] sm:pb-[340px] lg:hidden"
         style={{
           minHeight: "530px",
-          padding: "32px 20px 302px 20px",
           backgroundColor: "#000",
           backgroundImage: "url('/assets/hiring/mobile-bg-new.png')",
           backgroundPosition: "-45.675px -238.97px",
@@ -20,7 +19,7 @@ export default function Hiring() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="flex w-full flex-col items-start gap-[14px]">
+        <div className="flex w-full max-w-[680px] flex-col items-start gap-[14px] sm:gap-4">
           <div className="relative flex w-full items-center gap-[4px]">
             <div className="absolute left-[3.43px] top-[0.33px] h-[16px] w-[116.978px] overflow-hidden">
               <Image
@@ -38,23 +37,23 @@ export default function Hiring() {
                 className="object-cover"
               />
             </div>
-            <p className="relative shrink-0 font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-white whitespace-nowrap">
+            <p className="relative shrink-0 font-sans text-[12px] sm:text-[13px] font-bold uppercase leading-normal tracking-[0.6px] text-white whitespace-nowrap">
               Join the journey
             </p>
           </div>
-          <div className="relative shrink-0 font-display font-semibold text-[28px] not-italic leading-[0] tracking-[-0.56px] text-white whitespace-nowrap">
+          <div className="relative shrink-0 font-display font-semibold text-[28px] sm:text-[36px] not-italic leading-[0] tracking-[-0.56px] text-white whitespace-nowrap">
             <p className="mb-0 leading-[1.15]">We are hiring, and we</p>
             <p className="leading-[1.15]">are selling.</p>
           </div>
-          <p className="relative w-full shrink-0 font-sans text-[12px] font-normal leading-normal text-white">
+          <p className="relative w-full shrink-0 font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-white">
             Either way, the same question applies. Does the work help somebody
             earn more than they did yesterday?
           </p>
-          <div className="relative flex h-[42px] shrink-0 items-center justify-center gap-[5.333px] rounded-[2px] bg-white px-[12px] py-[10.667px]">
-            <p className="relative shrink-0 font-display text-[12px] font-semibold not-italic leading-none text-[#121212] whitespace-nowrap">
+          <div className="relative flex h-[42px] sm:h-[48px] shrink-0 items-center justify-center gap-[5.333px] sm:gap-2 rounded-[2px] sm:rounded-[4px] bg-white px-[12px] sm:px-[18px] py-[10.667px]">
+            <p className="relative shrink-0 font-display text-[12px] sm:text-[14px] font-semibold not-italic leading-none text-[#121212] whitespace-nowrap">
               View Job openings
             </p>
-            <div className="relative h-[9.333px] w-[14.667px] shrink-0">
+            <div className="relative h-[9.333px] sm:h-[11px] w-[14.667px] sm:w-[17px] shrink-0">
               <div className="absolute inset-[-16.39%_-1.68%_-22.9%_-3.41%]">
                 <Image
                   src="/assets/hiring/mobile-arrow-new.svg"

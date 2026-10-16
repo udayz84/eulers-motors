@@ -18,11 +18,11 @@ const REPORTS = [
 export default function AboutReports() {
   return (
     <section className="bg-white py-8 lg:py-[60px]" aria-label="ESG reports and policies">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-5 px-5 lg:gap-[55px] lg:px-20">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-5 sm:gap-8 px-5 sm:px-8 lg:gap-[55px] lg:px-20">
         {/* Header — left on mobile · centered on desktop */}
         <div className="relative flex w-full flex-col items-start gap-[14px] lg:items-center lg:gap-4">
           <Eyebrow label="Reports and disclosures" />
-          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:whitespace-nowrap lg:text-[52px] lg:tracking-[-1.04px]">
+          <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:whitespace-nowrap lg:text-[52px] lg:tracking-[-1.04px]">
             ESG Reports &amp; Policies
           </h2>
           {/* Soft white fade over the header's right edge (2937:15457) */}
@@ -47,11 +47,11 @@ export default function AboutReports() {
             />
           </div>
 
-          <div className="w-full overflow-clip rounded-[12px] border border-[#bfbfbf] bg-[#fafafa] lg:h-[535.369px] lg:w-[569.233px] lg:border-[1.613px]">
+          <div className="w-full max-w-[680px] overflow-clip rounded-[12px] border border-[#bfbfbf] bg-[#fafafa] lg:max-w-none lg:h-[535.369px] lg:w-[569.233px] lg:border-[1.613px]">
             {REPORTS.map((report) => (
               <div
                 key={report.name}
-                className="flex h-[83px] items-center justify-between border-b border-[rgba(38,51,73,0.2)] bg-[#fafafa] p-4 lg:h-[133.842px] lg:border-b-[1.613px] lg:p-[25.801px]"
+                className="flex h-[83px] sm:h-[96px] items-center justify-between border-b border-[rgba(38,51,73,0.2)] bg-[#fafafa] p-4 sm:p-5 lg:h-[133.842px] lg:border-b-[1.613px] lg:p-[25.801px]"
               >
                 <div className="flex items-center gap-4 lg:gap-[25.801px]">
                   <Image
@@ -73,10 +73,10 @@ export default function AboutReports() {
                     className="hidden h-[51.602px] w-[45.152px] shrink-0 lg:block"
                   />
                   <div className="flex flex-col gap-1 lg:gap-[6.45px]">
-                    <p className="whitespace-nowrap text-[16px] font-semibold tracking-[-0.32px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">
+                    <p className="whitespace-nowrap text-[16px] sm:text-[18px] font-semibold tracking-[-0.32px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">
                       {report.name}
                     </p>
-                    <p className="whitespace-pre text-[12px] font-normal text-[rgba(18,18,18,0.8)] lg:text-[18px]">
+                    <p className="whitespace-pre text-[12px] sm:text-[14px] font-normal text-[rgba(18,18,18,0.8)] lg:text-[18px]">
                       {`File size: ${report.size}  MB`}
                     </p>
                   </div>
@@ -85,7 +85,7 @@ export default function AboutReports() {
                   <button
                     type="button"
                     aria-label={`Download ${report.name}`}
-                    className="flex size-8 items-center justify-center rounded-[4px] bg-ink lg:size-[50px] lg:rounded-[6px]"
+                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] bg-ink lg:size-[50px] lg:rounded-[6px]"
                   >
                     <span className="relative block size-4 overflow-clip lg:size-[25.801px]">
                       <span className="absolute inset-[18.75%_16.67%]">
@@ -109,7 +109,7 @@ export default function AboutReports() {
                   <button
                     type="button"
                     aria-label={`View ${report.name}`}
-                    className="flex size-8 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface lg:size-[50px] lg:rounded-[6px] lg:border-[1.613px]"
+                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface lg:size-[50px] lg:rounded-[6px] lg:border-[1.613px]"
                   >
                     <span className="relative block size-4 overflow-clip lg:size-[25.801px]">
                       <span className="absolute inset-[12.5%_8.33%]">
@@ -139,9 +139,9 @@ export default function AboutReports() {
         {/* View All — mobile only */}
         <button
           type="button"
-          className="flex h-8 shrink-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface px-5 lg:hidden"
+          className="flex h-8 sm:h-9 shrink-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface px-5 sm:px-7 lg:hidden"
         >
-          <span className="font-display text-[12px] font-bold leading-none text-ink">
+          <span className="font-display text-[12px] sm:text-[14px] font-bold leading-none text-ink">
             View All
           </span>
         </button>

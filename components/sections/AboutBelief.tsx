@@ -70,9 +70,9 @@ const CARDS = [
 export default function AboutBelief() {
   return (
     <section className="bg-white py-6 lg:py-[60px]" aria-label="Our belief">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 lg:gap-[55px] lg:px-[80px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 sm:gap-10 px-5 sm:px-8 lg:gap-[55px] lg:px-[80px]">
         {/* Header — mobile: stacked, 14px gaps · desktop: title left, copy bottom-aligned right */}
-        <div className="flex w-full flex-col gap-[14px] lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex w-full flex-col gap-[14px] sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-[14px] lg:gap-4">
             <div className="lg:hidden">
               <Eyebrow label="Our Belief" />
@@ -80,11 +80,11 @@ export default function AboutBelief() {
             <div className="hidden lg:block">
               <Eyebrow label="Customers" />
             </div>
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[623.898px] lg:text-[52px] lg:tracking-[-1.04px]">
+            <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[623.898px] lg:text-[52px] lg:tracking-[-1.04px]">
               Building More Than Electric Vehicles
             </h2>
           </div>
-          <p className="text-[12px] font-normal leading-[1.4] text-ink lg:w-[481.935px] lg:text-[16px] lg:leading-[1.40625]">
+          <p className="text-[12px] sm:text-[14px] font-normal leading-[1.4] text-ink lg:w-[481.935px] lg:text-[16px] lg:leading-[1.40625]">
             At Euler Motors, we believe a commercial vehicle should do more
             than move goods. It should help businesses grow, reduce running
             costs and make every working day more productive. That&apos;s why
@@ -93,12 +93,12 @@ export default function AboutBelief() {
           </p>
         </div>
 
-        {/* Cards — mobile: 12px-apart stack · desktop: centered 10px-gap row */}
-        <div className="flex w-full flex-col gap-3 lg:flex-row lg:justify-center lg:gap-[10px]">
+        {/* Cards — mobile: 12px-apart stack, sm: 2x2 grid, desktop: centered 10px-gap row */}
+        <div className="flex w-full flex-col gap-3 sm:grid sm:grid-cols-2 sm:gap-4 lg:flex lg:flex-row lg:justify-center lg:gap-[10px]">
           {CARDS.map((card) => (
             <article
               key={card.title}
-              className="relative h-[200px] w-full shrink-0 overflow-clip rounded-[12px] bg-[#d9e1eb] lg:h-[284px] lg:w-[311px]"
+              className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-clip rounded-[12px] bg-[#d9e1eb] lg:h-[284px] lg:w-[311px]"
             >
               <Image
                 src={card.image}
@@ -127,7 +127,7 @@ export default function AboutBelief() {
                 />
               )}
               <h3
-                className={`absolute bg-clip-text font-display text-[18px] font-bold leading-[1.15] tracking-[-0.36px] text-transparent lg:text-[20px] lg:font-semibold lg:tracking-[-0.4px] ${card.titleCls} ${card.gradient}`}
+                className={`absolute bg-clip-text font-display text-[18px] sm:text-[20px] font-bold leading-[1.15] tracking-[-0.36px] text-transparent lg:text-[20px] lg:font-semibold lg:tracking-[-0.4px] ${card.titleCls} ${card.gradient}`}
               >
                 {card.title}
               </h3>

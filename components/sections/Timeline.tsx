@@ -123,10 +123,10 @@ export default function Timeline() {
       aria-label="Timeline"
     >
       {/* Mobile Layout */}
-      <div className="relative px-[20px] py-[42px] lg:hidden" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
-        <div className="flex flex-col gap-[31px] items-start">
+      <div className="relative px-5 sm:px-8 py-[42px] sm:py-[52px] lg:hidden" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
+        <div className="mx-auto flex w-full max-w-[680px] flex-col gap-[31px] items-start">
           {/* Header */}
-          <div className="flex flex-col gap-[14px] w-[353px]">
+          <div className="flex flex-col gap-[14px] w-full max-w-[680px]">
             {/* Eyebrow */}
             <div className="content-stretch flex gap-[4px] items-center relative shrink-0 w-full">
               <div className="absolute h-[16px] left-[3.43px] top-[0.33px] w-[116.978px] overflow-hidden">
@@ -149,30 +149,30 @@ export default function Timeline() {
                 Timeline
               </p>
             </div>
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white w-[353px]">
+            <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-white w-full">
               Milestones That
               <br />
               Shaped Euler
             </h2>
-            <p className="font-sans font-normal leading-normal text-[12px] text-white">
+            <p className="font-sans font-normal leading-normal text-[12px] sm:text-[14px] text-white">
               Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
             </p>
           </div>
 
           {/* Year Buttons — moveable (horizontal scroll) */}
-          <div className="snap-row -mx-[20px] w-[calc(100%+40px)] gap-[12px] px-[20px] scroll-pl-[20px]">
+          <div className="snap-row -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] px-5 sm:px-8 scroll-pl-5 sm:scroll-pl-8">
             {YEARS.map((year) => (
               <button
                 key={year}
                 type="button"
                 onClick={() => setSelectedYear(year)}
-                className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] items-center justify-center px-[14px] relative rounded-[24.381px] shrink-0 ${
+                className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] sm:h-[36px] items-center justify-center px-[14px] sm:px-[18px] relative rounded-[24.381px] shrink-0 ${
                   selectedYear === year
                     ? "bg-white border-[rgba(18,18,18,0.5)]"
                     : "bg-black border-[rgba(255,255,255,0.1)]"
                 }`}
               >
-                <span className="font-display text-[12px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
+                <span className="font-display text-[12px] sm:text-[14px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
                   {year}
                 </span>
               </button>
@@ -183,43 +183,43 @@ export default function Timeline() {
           <div
             ref={mobileCardsRef}
             onScroll={onMobileCardsScroll}
-            className="snap-row -mx-[20px] w-[calc(100%+40px)] gap-[12px] px-[20px] scroll-pl-[20px]"
+            className="snap-row -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] sm:gap-[16px] px-5 sm:px-8 scroll-pl-5 sm:scroll-pl-8"
           >
             {TIMELINE_CARDS.map((card) => (
               <div
                 key={card.id}
-                className="bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] px-[12px] relative rounded-[12px] shrink-0 w-[353px]"
+                className="bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] sm:pt-[295px] px-[12px] sm:px-[16px] relative rounded-[12px] shrink-0 w-[353px] sm:w-[420px]"
               >
                 <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
-                  <p className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
+                  <p className="font-display text-[42px] sm:text-[48px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
                     {milestone.year}
                   </p>
-                  <p className="font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px] text-white whitespace-nowrap">
+                  <p className="font-display text-[18px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.36px] text-white whitespace-nowrap">
                     One thousand vehicles at work.
                   </p>
-                  <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] text-white w-[min-content]">
+                  <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] sm:text-[14px] text-white w-[min-content]">
                     <p className="leading-[normal] mb-0">Enough data from enough routes to design the</p>
                     <p className="leading-[normal]">next one with confidence.</p>
                   </div>
                   <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
                         <p className="leading-[normal]">CCS2</p>
                       </div>
                     </div>
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
                         <p className="leading-[normal]">60 kW</p>
                       </div>
                     </div>
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
+                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
                         <p className="leading-[normal]">4 of 6 free</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute h-[235.284px] left-0 top-0 w-[353px]">
+                <div className="absolute h-[235.284px] sm:h-[280px] left-0 top-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none">
                     <div className="absolute bg-[#d9d9d9] inset-0" />
                     <div className="absolute inset-0 overflow-hidden">

@@ -87,7 +87,7 @@ export default function Recognition() {
   return (
     <section className="bg-white relative overflow-hidden" aria-label="Awards and Recognition">
       {/* Mobile Layout */}
-      <div className="bg-white content-stretch flex flex-col gap-[20px] items-center px-[20px] py-[32px] relative size-full lg:hidden">
+      <div className="mx-auto bg-white content-stretch flex flex-col gap-[20px] items-center px-5 sm:px-8 py-[32px] sm:py-[48px] relative w-full max-w-[680px] lg:hidden">
         <div className="content-stretch flex flex-col gap-[14px] items-start justify-center relative shrink-0 w-full">
           <div className="content-stretch flex gap-[4px] items-center justify-center relative shrink-0">
             <div className="h-[16px] relative shrink-0 w-[14.794px]">
@@ -114,18 +114,18 @@ export default function Recognition() {
               Recognition
             </p>
           </div>
-          <p className="font-display text-[28px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] w-full">
+          <p className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] w-full">
             Awards and recognition.
           </p>
           <div className="absolute h-[49.664px] right-[-19.99px] top-[145.71px] w-[54.598px]" style={{ backgroundImage: "linear-gradient(-89.9999956537512deg, rgb(255, 255, 255) 13.618%, rgba(255, 255, 255, 0) 100%)" }} />
         </div>
         <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] py-[21px] relative rounded-[16px] shrink-0 w-full">
+          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
             <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] tracking-[-0.24px] w-full">
+              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
                 2024
               </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] tracking-[-0.32px] w-full">
+              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
                 Commercial EV of the year
               </div>
             </div>
@@ -138,12 +138,12 @@ export default function Recognition() {
               />
             </div>
           </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] py-[21px] relative rounded-[16px] shrink-0 w-full">
+          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
             <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] tracking-[-0.24px] w-full">
+              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
                 2024
               </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] tracking-[-0.32px] w-full">
+              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
                 Design award, commercial vehicles
               </div>
             </div>
@@ -156,14 +156,14 @@ export default function Recognition() {
               />
             </div>
           </div>
-          <div className="bg-[#f3f4f5] content-stretch flex flex-col gap-[10px] items-center justify-center overflow-clip px-[12px] py-[21px] relative rounded-[16px] shrink-0 w-full">
+          <div className="bg-[#f3f4f5] content-stretch flex flex-col gap-[10px] items-center justify-center overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
             <div className="relative shrink-0 w-full">
               <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
                 <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start justify-center min-w-px relative">
-                  <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] tracking-[-0.24px] w-full">
+                  <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
                     2023
                   </div>
-                  <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] tracking-[-0.32px] w-full">
+                  <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
                     Startup of the year, mobility
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export default function Recognition() {
             </div>
             <div className="relative shrink-0 w-full">
               <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[10px] items-end relative size-full">
-                <div className="relative shrink-0 size-[68.185px]">
+                <div className="relative shrink-0 size-[68.185px] sm:size-[80px]">
                   <Image
                     src="/assets/awards/mobile-bg.png"
                     alt=""
@@ -187,19 +187,19 @@ export default function Recognition() {
                     className="object-cover"
                   />
                 </div>
-                <div className="font-sans font-normal leading-[1.4] min-w-px relative text-[12px] text-[rgba(18,18,18,0.8)]">
+                <div className="font-sans font-normal leading-[1.4] min-w-px relative text-[12px] sm:text-[14px] text-[rgba(18,18,18,0.8)]">
                   <p className="leading-[1.4] mb-0">For moving from one product to a network of</p>
                   <p className="leading-[1.4]">dealers and service centres.</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] py-[21px] relative rounded-[16px] shrink-0 w-full">
+          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
             <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] tracking-[-0.24px] w-full">
+              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
                 2022
               </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] tracking-[-0.32px] w-full">
+              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
                 Innovation in battery engineering
               </div>
             </div>
@@ -212,12 +212,12 @@ export default function Recognition() {
               />
             </div>
           </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] py-[21px] relative rounded-[16px] shrink-0 w-full">
+          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
             <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] tracking-[-0.24px] w-full">
+              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
                 2021
               </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] tracking-[-0.32px] w-full">
+              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
                 Best last mile vehicle
               </div>
             </div>

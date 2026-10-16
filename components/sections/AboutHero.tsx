@@ -9,13 +9,13 @@ import FloatingWidget from "@/components/FloatingWidget";
 export default function AboutHero() {
   return (
     <section
-      className="relative aspect-[393/594] w-full overflow-visible sm:aspect-[9/5] sm:h-[800px] sm:overflow-hidden sm:w-full"
+      className="relative aspect-[393/594] w-full overflow-hidden sm:aspect-[16/11] lg:aspect-[9/5] lg:h-[800px]"
       aria-label="About Euler Motors"
     >
       {/* Mobile Background Image (Figma 2894:10628) */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none sm:hidden"
+        className="absolute inset-0 pointer-events-none lg:hidden"
         style={{
           background:
             "linear-gradient(186deg, rgba(0, 0, 0, 0.00) 56.44%, rgba(0, 0, 0, 0.80) 99.95%), url('/assets/about-euler/mobile-overlay-new.png') -8.049px -21.316px / 104.096% 103.547% no-repeat, url('/assets/about-euler/mobile-bg-new.png') lightgray -0.067px 0px / 100.034% 100% no-repeat",
@@ -26,7 +26,7 @@ export default function AboutHero() {
           (182deg · image 0.219px -25.662px / 99.985% 103.164%) */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none max-sm:hidden"
+        className="absolute inset-0 pointer-events-none hidden lg:block"
         style={{
           background:
             "linear-gradient(182deg, rgba(0, 0, 0, 0) 56.69%, rgba(0, 0, 0, 0.80) 93.41%), url('/assets/about-euler/desktop-bg-new.png') lightgray 0.219px -25.662px / 99.985% 103.164% no-repeat",
@@ -34,7 +34,7 @@ export default function AboutHero() {
       />
 
       {/* Mobile Content */}
-      <div className="absolute bottom-[28.67px] left-1/2 -translate-x-1/2 w-[353px] flex flex-col gap-[12px] items-start justify-center sm:hidden">
+      <div className="absolute bottom-[28.67px] sm:bottom-[40px] left-1/2 -translate-x-1/2 w-[353px] sm:w-[540px] flex flex-col gap-[12px] sm:gap-4 items-start justify-center lg:hidden">
         {/* Mobile Eyebrow */}
         <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
           <div className="absolute h-[16px] left-[3.43px] top-[0.33px] w-[116.978px] overflow-hidden">
@@ -57,16 +57,16 @@ export default function AboutHero() {
             About Euler Motors
           </p>
         </div>
-        <h1 className="w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white">
+        <h1 className="w-[289px] sm:w-auto font-display text-[32px] sm:text-[42px] font-semibold leading-[1.15] tracking-[-0.64px] text-white">
           Driving India's Electric Future
         </h1>
-        <p className="w-[316px] text-[12px] font-normal leading-normal text-white">
+        <p className="w-[316px] sm:w-[480px] text-[12px] sm:text-[14px] font-normal leading-normal text-white">
           Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
         </p>
       </div>
 
       {/* Desktop Content */}
-      <div className="absolute bottom-[60.52px] left-1/2 -translate-x-1/2 hidden sm:flex sm:flex-col sm:gap-[20px] sm:items-center">
+      <div className="absolute bottom-[60.52px] left-1/2 -translate-x-1/2 hidden lg:flex lg:flex-col lg:gap-[20px] lg:items-center">
         {/* Desktop Eyebrow */}
         <div className="content-stretch flex gap-[6px] items-center relative shrink-0">
           <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">

@@ -79,7 +79,7 @@ export default function AboutEuler() {
       {/* 1440 frame — arrows are positioned against this */}
       <div className="relative mx-auto w-full max-w-[1440px]">
         {/* padded content — desktop 62px 80px, column, gap 42 */}
-        <div className="flex w-full flex-col items-center px-[19px] py-[26px] lg:gap-[42px] lg:px-[80px] lg:py-[62px]">
+        <div className="flex w-full flex-col items-center px-5 py-[26px] sm:px-8 sm:py-9 lg:gap-[42px] lg:px-[80px] lg:py-[62px]">
         {/* Header */}
         <div className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-full">
           <div className="content-stretch flex gap-[4px] items-center relative shrink-0 lg:hidden">
@@ -99,7 +99,7 @@ export default function AboutEuler() {
                 className="object-cover"
               />
             </div>
-            <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
+            <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] sm:text-[13px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
               About Euler
             </p>
           </div>
@@ -132,20 +132,20 @@ export default function AboutEuler() {
             id="about-euler-snap-row"
             ref={rowRef}
             onScroll={handleScroll}
-            className="snap-row snap-center-mobile -mx-[19px] w-[calc(100%+38px)] px-[19px] gap-[20px] lg:relative lg:left-1/2 lg:w-[max(calc(100%+160px),100vw)] lg:-translate-x-1/2 lg:scroll-pl-[max(80px,calc(50vw-640px))] lg:overflow-x-auto lg:px-[max(80px,calc(50vw-640px))] lg:mx-0"
+            className="snap-row snap-center-mobile -mx-5 w-[calc(100%+40px)] px-5 sm:-mx-8 sm:w-[calc(100%+64px)] sm:px-8 gap-[20px] lg:relative lg:left-1/2 lg:w-[max(calc(100%+160px),100vw)] lg:-translate-x-1/2 lg:scroll-pl-[max(80px,calc(50vw-640px))] lg:overflow-x-auto lg:px-[max(80px,calc(50vw-640px))] lg:mx-0"
           >
-            {CARDS.map((card, index) => (
+            {CARDS.map((card) => (
               <article
                 key={card.id}
-                className="relative h-[420px] w-[324px] shrink-0 overflow-hidden rounded-[12px] lg:h-[485px] lg:w-[720px] lg:rounded-[20px]"
+                className="relative h-[420px] w-[324px] sm:h-[460px] sm:w-[480px] shrink-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:h-[485px] lg:w-[720px] lg:rounded-[20px]"
               >
                 {/* Background Image */}
-                <div className="absolute inset-0 overflow-hidden rounded-[12px] lg:rounded-[20px]">
+                <div className="absolute inset-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:rounded-[20px]">
                   <Image
                     src={card.mobileImage}
                     alt=""
                     fill
-                    sizes="324px"
+                    sizes="(min-width: 640px) 480px, 324px"
                     className="object-cover lg:hidden"
                   />
                 </div>
@@ -162,11 +162,11 @@ export default function AboutEuler() {
                 {/* Gradient Overlay (mobile only) */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
+                  className="absolute inset-0 rounded-[12px] sm:rounded-[18px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
                 />
 
                 {/* Info Card */}
-                <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[308px] rounded-[8px] bg-white/20 p-[12px] backdrop-blur-[9.134px] lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:rounded-[10px] lg:p-[16px]">
+                <div className="absolute bottom-[8px] sm:bottom-4 left-1/2 -translate-x-1/2 w-[308px] sm:w-[calc(100%-32px)] rounded-[8px] sm:rounded-xl bg-white/20 p-[12px] sm:p-4 backdrop-blur-[9.134px] lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:rounded-[10px] lg:p-[16px]">
                   {/* Badge */}
                   <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] lg:mb-[12px]">
                     <span className="text-[12px] font-bold leading-normal text-black lg:text-[12px]">
@@ -175,12 +175,12 @@ export default function AboutEuler() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="mb-[6px] text-[16px] font-bold leading-normal tracking-[-0.32px] text-white lg:mb-[12px] lg:text-[20px] lg:tracking-[-0.4px]">
+                  <h3 className="mb-[6px] text-[16px] sm:text-[18px] font-bold leading-normal tracking-[-0.32px] text-white lg:mb-[12px] lg:text-[20px] lg:tracking-[-0.4px]">
                     {card.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mb-[6px] h-[36px] overflow-hidden text-ellipsis text-[12px] font-normal leading-[1.5] text-white lg:mb-[12px] lg:h-[48px] lg:text-[14px]">
+                  <p className="mb-[6px] h-[36px] sm:h-[42px] overflow-hidden text-ellipsis text-[12px] sm:text-[13px] font-normal leading-[1.5] text-white lg:mb-[12px] lg:h-[48px] lg:text-[14px]">
                     {card.description}
                   </p>
 

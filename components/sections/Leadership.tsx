@@ -8,7 +8,7 @@ export default function Leadership() {
   return (
     <section className="bg-[#f3f4f5] relative overflow-hidden" aria-label="Leadership">
       {/* Mobile Layout */}
-      <div className="mx-auto flex w-full max-w-[393px] flex-col items-center gap-[24px] px-5 py-[24px] lg:hidden">
+      <div className="mx-auto flex w-full max-w-[680px] flex-col items-center gap-[24px] sm:gap-[32px] px-5 sm:px-8 py-[24px] sm:py-[40px] lg:hidden">
           {/* Header */}
           <div className="flex flex-col gap-[14px] items-start w-full">
             <div className="flex gap-[4px] items-center relative shrink-0 w-full">
@@ -32,17 +32,17 @@ export default function Leadership() {
                 OUR LEADERSHIP
               </p>
             </div>
-            <p className="font-display text-[28px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] w-full">
-              The People Building What's Next
+            <p className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] w-full">
+              The People Building What&apos;s Next
             </p>
           </div>
 
           {/* Cards Grid */}
-          <div className="flex flex-col gap-[8px] items-start w-full">
+          <div className="flex flex-col gap-[8px] sm:gap-[16px] items-start w-full">
             {/* Row 1: Tarun, Swapnil, Ravneet */}
-            <div className="flex gap-[8px] items-center w-full">
-              <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px]">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+            <div className="flex gap-[8px] sm:gap-[16px] items-center w-full">
+              <div className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px]">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -55,12 +55,12 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Tarun
                 </p>
               </div>
-              <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px]">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+              <div className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px]">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -73,12 +73,12 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Swapnil
                 </p>
               </div>
-              <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px]">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+              <div className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px]">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -91,15 +91,15 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Ravneet
                 </p>
               </div>
             </div>
             {/* Row 2: Sohil, Harendra, Sanjeev K. */}
-            <div className="flex gap-[8px] items-center w-full">
-              <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px]">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+            <div className="flex gap-[8px] sm:gap-[16px] items-center w-full">
+              <div className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px]">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -112,12 +112,12 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Sohil
                 </p>
               </div>
-              <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px]">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+              <div className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px]">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -130,12 +130,12 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Harendra
                 </p>
               </div>
-              <button className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] shrink-0 w-[112px] cursor-pointer">
-                <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
+              <button className="bg-white flex flex-1 min-w-0 flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px] cursor-pointer">
+                <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
                   <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
                     <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
                     <div className="absolute inset-0 overflow-hidden rounded-[8px]">
@@ -148,35 +148,31 @@ export default function Leadership() {
                     </div>
                   </div>
                 </div>
-                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">
+                <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
                   Sanjeev K.
                 </p>
               </button>
             </div>
-            {/* Row 3: Milind (centered) */}
+            {/* Row 3: Milind */}
             <div className="flex items-center w-full">
-              <div className="flex items-center justify-center relative shrink-0">
-                <div className="-scale-y-100 flex-none rotate-180">
-                  <div className="bg-white flex flex-col gap-[6px] items-center pb-[4px] relative rounded-[12px] w-[112px]">
-                    <div className="h-[128px] relative rounded-[8px] shrink-0 w-full">
-                      <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
-                        <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
-                        <div className="absolute inset-0 overflow-hidden rounded-[8px]">
-                          <div
-                            className="absolute"
-                            style={{ height: "165.77%", left: "-22.13%", top: "-10.38%", width: "138.33%" }}
-                          >
-                            <Image src="/assets/about-euler/leader-3-new.png" alt="" fill />
-                          </div>
+              <div className="w-[calc((100%-16px)/3)] sm:w-[calc((100%-32px)/3)]">
+                <div className="bg-white flex flex-col gap-[6px] sm:gap-[10px] items-center pb-[4px] sm:pb-[8px] relative rounded-[12px] w-full">
+                  <div className="h-[128px] sm:h-[180px] relative rounded-[8px] shrink-0 w-full">
+                    <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[8px]">
+                      <div className="absolute inset-0 rounded-[8px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(155,191,253,1) 0%, rgba(217,225,235,1) 100%)" }} />
+                      <div className="absolute inset-0 overflow-hidden rounded-[8px]">
+                        <div
+                          className="absolute"
+                          style={{ height: "165.77%", left: "-22.13%", top: "-10.38%", width: "138.33%" }}
+                        >
+                          <Image src="/assets/about-euler/leader-3-new.png" alt="" fill />
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-center relative shrink-0 w-full">
-                      <div className="-scale-y-100 flex-none rotate-180 w-full">
-                        <p className="font-sans font-bold leading-normal relative text-[#121212] text-[12px] text-center tracking-[0.6px] uppercase w-full">Milind</p>
-                      </div>
-                    </div>
                   </div>
+                  <p className="font-sans font-bold leading-normal relative shrink-0 text-[#121212] text-[12px] sm:text-[14px] text-center tracking-[0.6px] uppercase w-full">
+                    Milind
+                  </p>
                 </div>
               </div>
             </div>
