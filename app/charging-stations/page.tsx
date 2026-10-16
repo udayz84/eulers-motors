@@ -11,7 +11,7 @@ export default function ChargingStationsPage() {
       <Navbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="charging" />
-        <PartnersInvestors />
+        <PartnersInvestors title="Trusted network partners" />
         <ChargingStationFaq />
         <ChargingStationNextStep />
       </main>

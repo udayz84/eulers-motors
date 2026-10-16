@@ -42,7 +42,7 @@ export default function Hiring() {
               Join the journey
             </p>
           </div>
-          <div className="relative shrink-0 font-display text-[28px] not-italic leading-[0] tracking-[-0.56px] text-white whitespace-nowrap">
+          <div className="relative shrink-0 font-display font-semibold text-[28px] not-italic leading-[0] tracking-[-0.56px] text-white whitespace-nowrap">
             <p className="mb-0 leading-[1.15]">We are hiring, and we</p>
             <p className="leading-[1.15]">are selling.</p>
           </div>
@@ -100,7 +100,7 @@ export default function Hiring() {
               Join the journey
             </p>
           </div>
-          <div className="relative w-[575.92px] shrink-0 font-display text-[52px] not-italic leading-[0] tracking-[-1.04px] text-white">
+          <div className="relative w-[575.92px] shrink-0 font-display font-semibold text-[52px] not-italic leading-[0] tracking-[-1.04px] text-white">
             <p className="mb-0 leading-[1.15]">We are hiring, and we</p>
             <p className="leading-[1.15]">are selling.</p>
           </div>

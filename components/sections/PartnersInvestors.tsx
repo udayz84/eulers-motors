@@ -24,31 +24,41 @@ function PartnerLogos({ duplicate = false }: { duplicate?: boolean }) {
   );
 }
 
-export default function PartnersInvestors() {
+interface PartnersInvestorsProps {
+  title?: string;
+}
+
+export default function PartnersInvestors({
+  title = "Trusted by investors.",
+}: PartnersInvestorsProps) {
   return (
     <section
       aria-labelledby="partners-investors-title"
-      className="relative h-[300px] overflow-hidden text-white px-5 py-[42px] sm:px-8 lg:h-[329px] lg:p-0"
+      className="relative h-[300px] overflow-hidden text-white px-5 py-[42px] sm:px-8 lg:h-[370px] lg:p-0"
       style={{
-        background:
-          "linear-gradient(0deg, #041231 0%, #041231 100%), url('/assets/partners-investors/background.png') center / cover no-repeat, linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #FFF",
+        backgroundImage:
+          "linear-gradient(90deg, #041231 0%, #041231 100%), linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(-83.58deg, #0E2F6D 63.51%, #1D6FFF 87.23%)",
+        backgroundColor: "#041231",
       }}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute right-[-423.63px] top-[-484.38px] size-[1335.635px] hidden lg:block">
-          <div className="absolute inset-[-1.73%]">
-            <img src="/assets/partners-investors/orbit.svg" alt="" className="block size-full max-w-none" />
-          </div>
-        </div>
-        <div className="absolute left-1/2 top-[255px] h-[482.379px] w-[2475.52px] -translate-x-1/2 hidden lg:block">
-          <div className="absolute inset-y-[-43.95%] inset-x-[-8.56%]">
-            <img src="/assets/partners-investors/blue-glow.svg" alt="" className="block size-full max-w-none" />
-          </div>
-        </div>
-      </div>
+      {/* Edge gradient masks to fade logos cleanly into the #041231 background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 inset-y-0 z-10 w-[80px] lg:w-[260px]"
+        style={{
+          background: "linear-gradient(90deg, #041231 0%, rgba(4, 18, 49, 0) 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 inset-y-0 z-10 w-[80px] lg:w-[260px]"
+        style={{
+          background: "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0) 100%)",
+        }}
+      />
 
       {/* Desktop Layout */}
-      <header className="absolute left-1/2 top-[50px] hidden w-max -translate-x-1/2 flex-col items-center gap-4 lg:flex">
+      <header className="absolute left-1/2 top-[60px] hidden w-max -translate-x-1/2 flex-col items-center gap-4 lg:flex">
         <div className="relative flex h-[20.355px] items-center gap-[6px] whitespace-nowrap">
           <img
             src="/assets/partners-investors/underline.svg"
@@ -66,15 +76,15 @@ export default function PartnersInvestors() {
         </div>
         <h2
           id="partners-investors-title"
-          className="whitespace-nowrap font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px]"
+          className="whitespace-nowrap font-display text-[42px] lg:text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]"
         >
-          Trusted network partners
+          {title}
         </h2>
       </header>
 
       <div
         aria-label="Our partners and investors"
-        className="partners-logo-loop absolute left-[-548px] top-[178px] hidden w-max lg:flex"
+        className="partners-logo-loop absolute left-[-548px] top-[217px] hidden w-max opacity-60 lg:flex"
       >
         <PartnerLogos />
         <PartnerLogos duplicate />
@@ -103,7 +113,7 @@ export default function PartnersInvestors() {
           </p>
         </div>
         <p className="font-display text-[28px] sm:text-[34px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.56px] whitespace-nowrap">
-          Trusted network partners
+          {title}
         </p>
       </div>
 
@@ -199,13 +209,6 @@ export default function PartnersInvestors() {
             style={{ width: `${partner.width}px` }}
           />
         ))}
-      </div>
-
-      <div className="lg:hidden absolute bg-gradient-to-l from-[rgba(4,18,49,0)] h-[131.062px] left-0 to-[#041231] top-[124.38px] w-[49.404px]" />
-      <div className="lg:hidden absolute flex h-[131.062px] items-center justify-center right-0 top-[124.38px] w-[49.404px]">
-        <div className="-scale-y-100 flex-none rotate-180">
-          <div className="bg-gradient-to-l from-[rgba(4,18,49,0)] h-[131.062px] relative to-[#041231] w-[49.404px]" />
-        </div>
       </div>
     </section>
   );

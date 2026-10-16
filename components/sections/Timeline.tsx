@@ -274,7 +274,7 @@ export default function Timeline() {
                   Timeline
                 </p>
               </div>
-              <div className="font-display leading-[0] not-italic relative shrink-0 text-[52px] text-white tracking-[-1.04px] w-[575.92px] whitespace-pre-wrap">
+              <div className="font-display font-semibold leading-[0] not-italic relative shrink-0 text-[52px] text-white tracking-[-1.04px] w-[575.92px] whitespace-pre-wrap">
                 <p className="leading-[1.15] mb-0">Milestones That </p>
                 <p className="leading-[1.15]">Shaped Euler</p>
               </div>
