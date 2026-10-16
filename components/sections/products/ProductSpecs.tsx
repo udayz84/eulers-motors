@@ -72,12 +72,15 @@ export default function ProductSpecs() {
                   type="button"
                   className={
                     active
-                      ? "flex h-[42px] shrink-0 items-center justify-center rounded-full border-[0.5px] border-solid border-white px-4 font-sans text-[16px] font-semibold leading-none text-white"
+                      ? "flex h-[42px] shrink-0 items-center justify-center rounded-[500px] border-[0.5px] border-solid border-white px-4 font-sans text-[16px] font-semibold leading-none text-white"
                       : "flex h-[42px] shrink-0 items-center justify-center rounded-full px-4 font-sans text-[16px] font-semibold leading-none text-ink"
                   }
                   style={
                     active
-                      ? { backgroundImage: "linear-gradient(243.67deg, #0e2f6d 138.16%, #1d6fff 87.02%)" }
+                      ? {
+                          background:
+                            "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #121212",
+                        }
                       : undefined
                   }
                 >
@@ -87,7 +90,7 @@ export default function ProductSpecs() {
             })}
           </div>
 
-          <div className="flex min-w-px flex-1 flex-col gap-3">
+          <div className="flex min-w-px flex-1 flex-col gap-3 xl:pt-3">
             {FEATURES.map((f, i) => (
               <div
                 key={f.label}

@@ -62,17 +62,18 @@ export default function CarouselArrows({
               strokeLinecap="round"
             />
             <defs>
-              <linearGradient
-                id="blue_grad_left"
-                x1="132.207"
-                y1="-70.111"
-                x2="-11.187"
-                y2="-40.3038"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#0E2F6D" />
-                <stop offset="1" stopColor="#1D6FFF" />
-              </linearGradient>
+               <linearGradient
+                 id="blue_grad_left"
+                 x1="0%"
+                 y1="0%"
+                 x2="100%"
+                 y2="100%"
+                 gradientUnits="objectBoundingBox"
+                 gradientTransform="rotate(258 0.5 0.5)"
+               >
+                 <stop stopColor="#0E2F6D" />
+                 <stop offset="1" stopColor="#1D6FFF" />
+               </linearGradient>
             </defs>
           </svg>
         </button>
@@ -98,17 +99,18 @@ export default function CarouselArrows({
               strokeLinecap="round"
             />
             <defs>
-              <linearGradient
-                id="blue_grad_right"
-                x1="132.207"
-                y1="-70.111"
-                x2="-11.187"
-                y2="-40.3038"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#0E2F6D" />
-                <stop offset="1" stopColor="#1D6FFF" />
-              </linearGradient>
+               <linearGradient
+                 id="blue_grad_right"
+                 x1="0%"
+                 y1="0%"
+                 x2="100%"
+                 y2="100%"
+                 gradientUnits="objectBoundingBox"
+                 gradientTransform="rotate(258 0.5 0.5)"
+               >
+                 <stop stopColor="#0E2F6D" />
+                 <stop offset="1" stopColor="#1D6FFF" />
+               </linearGradient>
             </defs>
           </svg>
         </button>

@@ -119,8 +119,8 @@ export default function SavingsCalculator() {
             on mobile only the title renders here */}
         <div className="lg:flex lg:min-w-0 lg:flex-col lg:gap-[36px]">
           <div className="flex flex-col gap-[14px] lg:gap-3 lg:pt-[14px]">
-            {/* Figma 1:2385: navy #0E2F6D badge marks with white text on the dark section */}
-            <Eyebrow label="Savings calculator" dark icons="navy" />
+            {/* white badge marks + white text on the dark section */}
+            <Eyebrow label="Savings calculator" dark icons="white" />
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
               Calculate your savings
             </h2>

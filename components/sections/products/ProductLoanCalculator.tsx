@@ -111,10 +111,10 @@ export default function ProductLoanCalculator() {
       <div className="mx-auto flex w-full max-w-[1440px] px-5 xl:px-[42px]">
         {/* Main Card with Figma Gradient (Figma 2732:7773) */}
         <div
-          className="relative flex w-full flex-col gap-10 overflow-hidden rounded-[16px] px-6 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
+          className="relative flex w-full flex-col gap-10 overflow-hidden rounded-[12px] px-6 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
           style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(-85.91deg, rgb(14, 47, 109) 63.51%, rgb(29, 111, 255) 87.23%), linear-gradient(90deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%)",
+            background:
+              "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #041231",
           }}
         >
           {/* Left Column: Heading, Description, Bank Partners & EMI Box (Figma 2732:7774) */}
