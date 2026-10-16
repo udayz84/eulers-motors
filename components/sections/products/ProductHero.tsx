@@ -94,16 +94,18 @@ function VariantsPanel() {
 
 /**
  * /products hero — Figma 2862:10040 (1440×800 frame; fixed navbar overlays top 71px).
- * Uses high-resolution scene background covering the full viewport cleanly on desktop and mobile,
- * eliminating ghost double-truck artifacts and right-edge cutoff seams.
+ * Background is hero-bg-desktop.png (2880×1600, 16:9) — an exact fit for the
+ * desktop box (1440×800, no crop). On mobile the portrait box crops it
+ * full-bleed, so it is centered on the vehicle (object-center) to keep the
+ * truck in frame.
  */
 export default function ProductHero() {
   return (
     <section aria-label="Storm EV LR 200 Base" className="relative w-full overflow-hidden bg-white max-xl:min-h-[740px] xl:h-[800px]">
-      {/* Background — single high-res scene composite covering full viewport smoothly without ghosting */}
+      {/* Background — hero-bg-desktop.png; desktop 16:9 exact fit, mobile full-bleed cover centered on the vehicle */}
       <div aria-hidden className="absolute inset-0">
         <Image
-          src={`${ASSET}hero-bg.png`}
+          src={`${ASSET}hero-bg-desktop.png`}
           alt="Storm EV LR 200 electric three-wheeler on a city road"
           fill
           priority

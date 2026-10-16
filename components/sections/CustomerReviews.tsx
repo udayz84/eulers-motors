@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import CarouselArrows from "../ui/CarouselArrows";
@@ -16,6 +19,21 @@ const STORY_IMAGES = [
  * Instagram-story shaped testimonial cards (300/400 aspect) with play buttons.
  */
 export default function CustomerReviews() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    const row = scrollRef.current;
+    if (!row) return;
+    const cards = row.querySelectorAll<HTMLElement>("article");
+    if (!cards.length) return;
+    let index = 0;
+    cards.forEach((card, i) => {
+      if (row.scrollLeft >= card.offsetLeft - card.offsetWidth / 2) index = i;
+    });
+    setActiveIndex(index);
+  };
+
   return (
     <section className="bg-white overflow-hidden" aria-label="Customer reviews">
       {/* Figma 1:1669 root — width 1440 · padding 62px 60px · flex-col ·
@@ -47,7 +65,7 @@ export default function CustomerReviews() {
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
         <div className="relative">
-          <div id="reviews-snap-row" className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
               container offset (≥1440) + the 1280 row's centering offset
@@ -162,6 +180,18 @@ export default function CustomerReviews() {
           />
           {/* arrows drive the snap row above (overlay lets card clicks through) — Figma 3321:13434 / 3321:13436 */}
           <CarouselArrows rowId="reviews-snap-row" label="customer reviews" variant="blue" />
+        </div>
+        {/* Progress Indicator Pill — same as the Overview section (Figma 3324:13476) */}
+        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8">
+          <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
+            <div
+              className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
+              style={{
+                width: `${100 / STORY_IMAGES.length}%`,
+                transform: `translateX(${activeIndex * 100}%)`,
+              }}
+            />
+          </div>
         </div>
       </div>
     </section>

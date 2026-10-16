@@ -81,44 +81,47 @@ export default function ProductOtherVehicles() {
   return (
     <section
       aria-label="Other vehicles"
-      className="relative w-full overflow-hidden bg-white pb-12 pt-16 lg:pb-16 lg:pt-[62px]"
+      className="relative w-full overflow-hidden bg-white pb-12 pt-16 lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
     >
-      {/* Header Row (Figma 2862:10483) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-start justify-between gap-6 px-5 pb-[42px] sm:px-8 lg:flex-row lg:items-end lg:px-[80px]">
-        <div className="flex flex-col items-start gap-4">
-          <Eyebrow label="Other vehicles" icons="navy" />
-          <h2 className="font-display text-[32px] font-semibold not-italic leading-[1.15] tracking-[-0.64px] text-ink sm:text-[42px] lg:text-[52px] lg:tracking-[-1.04px]">
-            Also worth a look.
-          </h2>
-        </div>
+      {/* Header Row (Figma 2862:10483) — desktop outer frame supplies padding 62/80/32/80 + gap 42 */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-[42px] px-5 pb-[42px] sm:px-8 lg:max-w-[1280px] lg:px-0 lg:pb-0">
+        <div className="flex w-full flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+          <div className="flex flex-col items-start gap-4">
+            <Eyebrow label="Other vehicles" icons="navy" />
+            <h2 className="font-display text-[32px] font-semibold not-italic leading-[1.15] tracking-[-0.64px] text-ink sm:text-[42px] lg:text-[52px] lg:tracking-[-1.04px]">
+              Also worth a look.
+            </h2>
+          </div>
 
-        <Button variant="dark" arrow="white" className="h-[50.48px] px-6">
-          See all vehicles
-        </Button>
+          <Button variant="dark" arrow="white" className="h-[50.48px] px-6">
+            See all vehicles
+          </Button>
+        </div>
       </div>
 
-      {/* Carousel Container — Full-Bleed across viewport (Figma 2862:10499) */}
-      <div className="relative w-full">
+      {/* Carousel Container — Full-Bleed across viewport (Figma 2862:10499).
+          Desktop cancels the outer frame's 80px side padding to stay edge-to-edge. */}
+      <div className="relative w-full lg:mx-[calc(50%_-_50vw)] lg:w-[100vw]">
         {/* Scrollable Track */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex w-full gap-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+          className="flex w-full gap-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory lg:gap-6"
         >
           {/* Left Alignment Spacers — ensures first card is always aligned under the header */}
           <div
             aria-hidden
-            className="hidden shrink-0 lg:block"
-            style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 80px)" }}
+            className="hidden shrink-0 snap-start lg:block"
+            style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
           />
           <div
             aria-hidden
-            className="hidden shrink-0 sm:block lg:hidden"
+            className="hidden shrink-0 snap-start sm:block lg:hidden"
             style={{ width: "32px" }}
           />
           <div
             aria-hidden
-            className="shrink-0 sm:hidden"
+            className="shrink-0 snap-start sm:hidden"
             style={{ width: "20px" }}
           />
 
@@ -182,17 +185,17 @@ export default function ProductOtherVehicles() {
           {/* Right Padding Spacers */}
           <div
             aria-hidden
-            className="hidden shrink-0 lg:block"
-            style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 80px)" }}
+            className="hidden shrink-0 snap-start lg:block"
+            style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
           />
           <div
             aria-hidden
-            className="hidden shrink-0 sm:block lg:hidden"
+            className="hidden shrink-0 snap-start sm:block lg:hidden"
             style={{ width: "32px" }}
           />
           <div
             aria-hidden
-            className="shrink-0 sm:hidden"
+            className="shrink-0 snap-start sm:hidden"
             style={{ width: "20px" }}
           />
         </div>

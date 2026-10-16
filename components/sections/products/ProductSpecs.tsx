@@ -96,8 +96,8 @@ export default function ProductSpecs() {
                 key={f.label}
                 className={
                   i > 0
-                    ? "flex h-8 w-full items-center justify-between overflow-clip border-t border-solid border-[#ccc]/60 px-0.5 py-1"
-                    : "flex h-8 w-full items-center justify-between overflow-clip px-0.5 py-1"
+                    ? "flex h-8 w-full items-center justify-between overflow-clip border-t border-solid border-[#ccc]/60 px-0.5 py-1 xl:h-auto xl:pt-3"
+                    : "flex h-8 w-full items-center justify-between overflow-clip px-0.5 py-1 xl:h-auto xl:pt-3"
                 }
               >
                 <div className="flex items-center gap-2">
@@ -114,13 +114,13 @@ export default function ProductSpecs() {
           <div aria-hidden className="w-px shrink-0 self-stretch bg-[#ccc]/60 max-xl:hidden" />
 
           <div className="w-[557px] shrink-0 self-stretch max-xl:w-full">
-            <div className="w-full overflow-hidden rounded-[12px]">
+            <div className="relative w-full overflow-hidden rounded-[12px] xl:h-full">
               <Image
                 src={`${ASSET}spec-image.png`}
                 alt="Storm EV LR 200 cabin and controls"
                 width={557}
                 height={424}
-                className="h-[424px] w-full object-cover max-xl:h-auto"
+                className="h-[424px] w-full object-cover max-xl:h-auto xl:absolute xl:inset-0 xl:h-full"
               />
             </div>
           </div>

@@ -51,21 +51,19 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-clip">
-      {/* background sized to just cover the screen edges — full width,
-          aspect-true, BOTTOM-anchored so the lower part of the picture shows
-          and any excess is cropped from the top by the footer's clip */}
+    <footer className="relative overflow-clip lg:aspect-[1440/850] lg:[background:url('/assets/footer/bg.png')_lightgray_-34.444px_0.375px_/_103.326%_100%_no-repeat]">
+      {/* desktop bg is a CSS background on <footer> (Figma 1:2174:
+          url(bg.png) lightgray -34.444px 0.375px / 103.326% 100% no-repeat) */}
       {/* mobile bg — whole image scaled to the full width (no crop),
           bottom-anchored; its top cloud/sky edge fades into the white
-          background above via a mask · desktop keeps the aspect-true
-          full-width cover fill */}
+          background above via a mask */}
       <Image
         src="/assets/footer/bg.png"
         alt=""
         width={1588}
         height={991}
         aria-hidden
-        className="absolute bottom-0 left-0 h-auto w-full max-w-none object-cover max-lg:[mask-image:linear-gradient(to_bottom,transparent,black_22%)] max-lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%)] lg:bottom-auto lg:left-[-2.39%] lg:top-[5%] lg:h-full lg:w-[103.33%]"
+        className="absolute bottom-0 left-0 h-auto w-full max-w-none object-cover lg:hidden max-lg:[mask-image:linear-gradient(to_bottom,transparent,black_22%)] max-lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
         priority={false}
       />
       {/* desktop washes — Figma 1:2176 white 3971×848 at (-1519, -351.73),
@@ -73,13 +71,15 @@ export default function Footer() {
           -816.08, blur 102.15 (only its blurred tail rises into the frame) */}
       <div aria-hidden className="absolute left-[-1519px] top-[-351.73px] hidden h-[848px] w-[3971px] bg-white blur-[168.25px] lg:block" />
       <div aria-hidden className="absolute bottom-[-816.08px] left-[calc(50%-77.4px)] hidden h-[754.59px] w-[2509.121px] bg-black/20 blur-[102.15px] lg:block" />
+      {/* bright-white fade from the footer top down to the middle of the image */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block lg:[background:linear-gradient(to_bottom,rgba(255,255,255,0)_0%,#fff_35%,rgba(255,255,255,0)_68%)]" />
 
       {/* Figma 1:2174 — 1440×927 frame; the three content rows (header,
           columns, bottom bar) are w-1280 centered → 80px sides via px-[80px].
           Row anchors: header top 39.12 · links 42.93 below it · bottom bar
           38.05 above the frame bottom. Mobile (1:5128) keeps its own 1006px
           accordion layout */}
-      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-[927px] lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[39.12px]">
+      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-full lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[135.12px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">
@@ -135,7 +135,7 @@ export default function Footer() {
 
         {/* link columns — desktop grid / mobile accordion.
             Figma 1:2174: links start at y218.16, 42.93px below the header block. */}
-        <div className="hidden justify-between pt-[42.93px] lg:flex">
+        <div className="hidden justify-between pt-[42.93px] lg:flex lg:w-[1280px] lg:items-start">
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title} className="flex flex-col gap-6">
               <h3 className="text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">{col.title}</h3>

@@ -77,10 +77,10 @@ export default function ProductVariantsCompare() {
         {/* Heading + Action Buttons (Figma 2861:7716) */}
         <div className="flex w-full flex-col items-start justify-between gap-6 xl:flex-row xl:items-end">
           <div className="flex flex-col items-start gap-4">
+            <Eyebrow label="VARIANTS" icons="navy" />
             <h2 className="w-full max-w-[539px] font-display text-[32px] font-semibold not-italic leading-[1.15] tracking-[-0.64px] text-ink sm:text-[42px] xl:text-[52px] xl:tracking-[-1.04px]">
               Compare variants side by side.
             </h2>
-            <Eyebrow label="VARIANTS" icons="navy" />
           </div>
 
           <div className="flex flex-wrap items-center gap-3">

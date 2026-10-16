@@ -20,8 +20,8 @@ export default function ProductsPage() {
         <SavingsCalculator />
         <ProductVariantsCompare />
         <ProductLoanCalculator />
-        <ProductOverview />
         <CustomerReviews />
+        <ProductOverview />
         <ProductOtherVehicles />
         <ContactSection />
       </main>

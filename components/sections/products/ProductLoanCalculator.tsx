@@ -132,29 +132,29 @@ export default function ProductLoanCalculator() {
               {/* Partners Row (Figma 2732:7782) */}
               <div className="mt-2 flex flex-col items-start gap-3">
                 <p className="font-sans text-[14px] font-semibold text-white">Partners</p>
-                <div className="flex flex-wrap items-center gap-6 sm:gap-8">
+                <div className="flex flex-wrap items-center justify-center gap-8">
                   {/* HDFC Bank */}
-                  <div className="relative h-4 w-[88px] shrink-0 brightness-200">
+                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-200">
                     <Image
                       src="/assets/loan/bank-hdfc.png"
                       alt="HDFC Bank"
                       fill
-                      sizes="88px"
+                      sizes="70px"
                       className="object-contain"
                     />
                   </div>
                   {/* Mahindra Finance */}
-                  <div className="relative h-4 w-[54px] shrink-0 brightness-150">
+                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-150">
                     <Image
                       src="/assets/loan/bank-mahindra.png"
                       alt="Mahindra Finance"
                       fill
-                      sizes="54px"
+                      sizes="70px"
                       className="object-contain"
                     />
                   </div>
                   {/* Tata Capital */}
-                  <div className="relative h-4 w-[70px] shrink-0 brightness-150">
+                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-150">
                     <Image
                       src="/assets/loan/bank-tata.png"
                       alt="Tata Capital"
@@ -164,7 +164,7 @@ export default function ProductLoanCalculator() {
                     />
                   </div>
                   {/* Shriram Finance */}
-                  <div className="relative flex h-5 w-[56px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
+                  <div className="relative flex h-[16.401px] w-[70.322px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
                     <Image
                       src="/assets/loan/bank-shriram.png"
                       alt="Shriram Finance"

@@ -4,9 +4,7 @@ type EyebrowProps = {
   label: string;
   /** `dark` renders the white variant for dark backgrounds */
   dark?: boolean;
-  /** icon marks color — defaults to white on dark, navy otherwise. The
-      * savings calculator (Figma 1:2385) keeps the navy #0E2F6D marks even
-      * on its dark section, pairing them with white text */
+  /** icon marks color — defaults to white on dark, navy otherwise */
   icons?: "navy" | "white";
   className?: string;
 };
