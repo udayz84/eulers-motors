@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
@@ -9,6 +9,7 @@ type VehicleCard = {
   id: string;
   name: string;
   image: string;
+  ground: string;
   stats: {
     label: string;
     value: string;
@@ -21,6 +22,7 @@ const VEHICLES: VehicleCard[] = [
     id: "turbo-ev-1000",
     name: "TURBO EV 1000",
     image: "/assets/other-vehicles/turbo-ev-1000.png",
+    ground: "#4B423F",
     stats: [
       { label: "on one charge", value: "200", unit: "km" },
       { label: "Load capacity", value: "1,200", unit: "kg" },
@@ -32,6 +34,7 @@ const VEHICLES: VehicleCard[] = [
     id: "hiload-ev",
     name: "HiLoad EV",
     image: "/assets/other-vehicles/hiload-ev.png",
+    ground: "#524F56",
     stats: [
       { label: "on one charge", value: "200", unit: "km" },
       { label: "Load capacity", value: "1,200", unit: "kg" },
@@ -43,6 +46,7 @@ const VEHICLES: VehicleCard[] = [
     id: "storm-ev-t1500",
     name: "Storm EV T1500",
     image: "/assets/other-vehicles/turbo-ev-1000.png",
+    ground: "#4B423F",
     stats: [
       { label: "on one charge", value: "200", unit: "km" },
       { label: "Load capacity", value: "1,500", unit: "kg" },
@@ -81,22 +85,20 @@ export default function ProductOtherVehicles() {
   return (
     <section
       aria-label="Other vehicles"
-      className="relative w-full overflow-hidden bg-white pb-12 pt-16 lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
+      className="relative flex w-full flex-col items-start justify-center gap-6 overflow-hidden bg-white px-5 py-[42px] lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
     >
       {/* Header Row (Figma 2862:10483) — desktop outer frame supplies padding 62/80/32/80 + gap 42 */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-[42px] px-5 pb-[42px] sm:px-8 lg:max-w-[1280px] lg:px-0 lg:pb-0">
-        <div className="flex w-full flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-          <div className="flex flex-col items-start gap-4">
-            <Eyebrow label="Other vehicles" icons="navy" />
-            <h2 className="font-display text-[32px] font-semibold not-italic leading-[1.15] tracking-[-0.64px] text-ink sm:text-[42px] lg:text-[52px] lg:tracking-[-1.04px]">
-              Also worth a look.
-            </h2>
-          </div>
-
-          <Button variant="dark" arrow="white" className="h-[50.48px] px-6">
-            See all vehicles
-          </Button>
+      <div className="flex w-full flex-col items-start justify-center gap-6 lg:mx-auto lg:max-w-[1280px] lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:px-0 lg:pb-0">
+        <div className="flex w-full flex-col items-start gap-6 lg:w-auto lg:gap-4">
+          <Eyebrow label="Other vehicles" icons="navy" />
+          <h2 className="w-full text-left font-display text-[28px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink sm:text-[42px] lg:text-left lg:text-[52px] lg:tracking-[-1.04px]">
+            Also worth a look.
+          </h2>
         </div>
+
+        <Button variant="dark" arrow="white" className="max-lg:hidden h-[50.48px] px-6">
+          See all vehicles
+        </Button>
       </div>
 
       {/* Carousel Container — Full-Bleed across viewport (Figma 2862:10499).
@@ -119,24 +121,28 @@ export default function ProductOtherVehicles() {
             className="hidden shrink-0 snap-start sm:block lg:hidden"
             style={{ width: "32px" }}
           />
-          <div
-            aria-hidden
-            className="shrink-0 snap-start sm:hidden"
-            style={{ width: "20px" }}
-          />
 
           {VEHICLES.map((vehicle) => (
             <article
               key={vehicle.id}
-              className="relative h-[485px] w-[88vw] max-w-[720px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:w-[720px]"
+              className="relative h-[353px] w-[320px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:h-[485px] sm:w-[720px]"
             >
+              {/* Mobile card background — two Figma image layers */}
+              <div
+                aria-hidden
+                className="absolute inset-0 lg:hidden"
+                style={{
+                  background: `url('${vehicle.image}') center top / 100% 64% no-repeat, ${vehicle.ground}`,
+                }}
+              />
+
               {/* Background base image */}
               <Image
                 src="/assets/other-vehicles/card-bg.png"
                 alt=""
                 fill
                 sizes="720px"
-                className="object-cover object-bottom"
+                className="max-lg:hidden object-cover object-bottom"
               />
 
               {/* Vehicle photo render */}
@@ -145,17 +151,55 @@ export default function ProductOtherVehicles() {
                 alt={vehicle.name}
                 fill
                 sizes="720px"
-                className="object-cover object-center"
+                className="max-lg:hidden object-cover object-center"
                 priority
               />
 
               {/* Vehicle Title Top-Left (Figma 2736:8062) */}
-              <h3 className="absolute left-6 top-[23px] z-10 font-display text-[24px] font-bold leading-[1.15] tracking-[-0.54px] text-[#121212] sm:text-[27px]">
+              <h3 className="absolute left-4 top-[14px] z-10 font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#121212] sm:left-6 sm:top-[23px] sm:text-[27px] sm:tracking-[-0.54px]">
                 {vehicle.name}
               </h3>
 
+              {/* Mobile Stats — 2×2 subcards */}
+              <div className="absolute bottom-[9px] left-1/2 z-10 flex w-[300px] max-w-[calc(100%-20px)] -translate-x-1/2 flex-col items-start gap-3 rounded-[8px] bg-white/80 p-3 backdrop-blur-[10px] sm:hidden">
+                {[0, 1].map((row) => (
+                  <Fragment key={`stat-row-${row}`}>
+                    {row > 0 && (
+                      <div aria-hidden className="h-px w-full bg-[#ccc]/80" />
+                    )}
+                    <div className="flex w-full items-center gap-3">
+                      {[0, 1].map((col) => {
+                        const stat = vehicle.stats[row * 2 + col];
+                        if (!stat) return null;
+                        return (
+                          <Fragment key={stat.label}>
+                            {col > 0 && (
+                              <div
+                                aria-hidden
+                                className="h-[37px] w-px shrink-0 bg-[#ccc]/80"
+                              />
+                            )}
+                            <div className="flex min-w-0 flex-1 flex-col items-center gap-1 text-center">
+                              <p className="font-sans text-[12px] font-medium leading-[1.15] tracking-[-0.24px] text-[#121212]">
+                                {stat.label}
+                              </p>
+                              <p className="font-sans text-[12px] font-medium leading-[1.15] tracking-[-0.24px] text-[#121212]">
+                                <span className="font-display text-[20px] font-bold tracking-[-0.4px]">
+                                  {stat.value}{" "}
+                                </span>
+                                {stat.unit}
+                              </p>
+                            </div>
+                          </Fragment>
+                        );
+                      })}
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+
               {/* Bottom Stats Pill Bar (Figma 2736:7884) */}
-              <div className="absolute bottom-[9px] left-1/2 z-10 flex w-[calc(100%-18px)] -translate-x-1/2 items-center justify-between rounded-[8px] bg-white/80 p-3.5 backdrop-blur-[10px] sm:p-4">
+              <div className="absolute bottom-[9px] left-1/2 z-10 hidden w-[calc(100%-18px)] -translate-x-1/2 items-center justify-between rounded-[8px] bg-white/80 p-3.5 backdrop-blur-[10px] sm:flex sm:p-4">
                 {vehicle.stats.map((stat, i) => (
                   <div key={stat.label} className="flex items-center">
                     <div className="flex flex-col gap-1 sm:gap-2.5">
@@ -193,11 +237,6 @@ export default function ProductOtherVehicles() {
             className="hidden shrink-0 snap-start sm:block lg:hidden"
             style={{ width: "32px" }}
           />
-          <div
-            aria-hidden
-            className="shrink-0 snap-start sm:hidden"
-            style={{ width: "20px" }}
-          />
         </div>
 
         {/* Right Edge Bleed Fade (Figma 3321:13262) */}
@@ -211,7 +250,7 @@ export default function ProductOtherVehicles() {
           type="button"
           aria-label="Previous vehicle"
           onClick={() => scroll(-1)}
-          className="absolute top-1/2 z-20 flex size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] left-4 sm:left-6 lg:left-[calc(max(0px,(100vw-1440px)/2)+50px)]"
+          className="absolute top-1/2 z-20 hidden size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] left-4 sm:left-6 lg:left-[calc(max(0px,(100vw-1440px)/2)+50px)] lg:flex"
         >
           <svg
             viewBox="0 0 55 55"
@@ -248,7 +287,7 @@ export default function ProductOtherVehicles() {
           type="button"
           aria-label="Next vehicle"
           onClick={() => scroll(1)}
-          className="absolute top-1/2 z-20 flex size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] right-4 sm:right-6 lg:right-[calc(max(0px,(100vw-1440px)/2)+50px)]"
+          className="absolute top-1/2 z-20 hidden size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] right-4 sm:right-6 lg:right-[calc(max(0px,(100vw-1440px)/2)+50px)] lg:flex"
         >
           <svg
             viewBox="0 0 55 55"
@@ -282,8 +321,24 @@ export default function ProductOtherVehicles() {
         </button>
       </div>
 
+      {/* Bottom row (mobile): pager left · button right */}
+      <div className="flex w-full items-center justify-between lg:hidden">
+        <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
+          <div
+            className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
+            style={{
+              width: `${100 / VEHICLES.length}%`,
+              transform: `translateX(${activeIndex * 100}%)`,
+            }}
+          />
+        </div>
+        <Button variant="dark" arrow="white">
+          See all vehicles
+        </Button>
+      </div>
+
       {/* Carousel Progress Indicator Pill (Figma 3321:13258) */}
-      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8 pb-2">
+      <div className="mx-auto hidden w-full max-w-[1440px] items-center justify-center pt-8 pb-2 lg:flex">
         <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"

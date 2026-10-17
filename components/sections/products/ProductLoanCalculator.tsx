@@ -12,14 +12,14 @@ type VehicleOption = {
 };
 
 const VEHICLES: VehicleOption[] = [
-  { name: "Strom EV LR 200", price: 1150000, thumb: "/assets/products/vehicle-storm-lr200.png" },
+  { name: "Strom EV LR 200", price: 1149000, thumb: "/assets/products/vehicle-storm-lr200.png" },
   { name: "Storm EV T1500", price: 1280000, thumb: "/assets/products/vehicle-storm-t1500.png" },
   { name: "Turbo EV 1000", price: 980000, thumb: "/assets/products/vehicle-turbo-1000.png" },
   { name: "HiLoad EV", price: 750000, thumb: "/assets/products/vehicle-hiload-ev.png" },
 ];
 
 /**
- * Interactive RangeSlider matching Figma design (2732:7812 & 2732:7828)
+ * Interactive RangeSlider matching Figma design (ruler tick track + glow pill + 3-grip thumb)
  */
 function LoanRangeSlider({
   value,
@@ -36,40 +36,47 @@ function LoanRangeSlider({
   onChange: (v: number) => void;
   ariaLabel: string;
 }) {
-  const pct = ((value - min) / (max - min)) * 100;
+  const pct = Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+
   return (
-    <div className="group relative h-3 w-full">
+    <div className="group relative flex h-4 w-full items-center">
       {/* Tick track */}
-      <Image
-        src="/assets/calculator/slider-line.svg"
-        alt=""
-        aria-hidden
-        width={628}
-        height={21}
-        className="absolute left-0 top-1/2 h-[12.25px] w-full -translate-y-1/2 lg:h-[21.43px]"
-      />
+      <div className="pointer-events-none absolute left-0 top-1/2 h-[12px] w-full -translate-y-1/2 overflow-hidden lg:h-[18px]">
+        <Image
+          src="/assets/calculator/slider-line.svg"
+          alt=""
+          aria-hidden
+          width={464}
+          height={20}
+          className="h-full w-full object-fill opacity-80"
+        />
+      </div>
+
       {/* Gradient fill */}
       <div
-        className="absolute left-0 top-1/2 h-[12px] -translate-y-1/2 overflow-clip lg:h-[21px]"
+        className="pointer-events-none absolute left-0 top-1/2 h-[10px] -translate-y-1/2 overflow-hidden rounded-l-full lg:h-[14px]"
         style={{ width: `${pct}%` }}
       >
         <div
-          className="absolute inset-y-0 left-0 w-[calc(100%+11px)] lg:w-[calc(100%+19px)]"
+          className="absolute inset-y-0 left-0 w-[calc(100%+12px)]"
           style={{ background: "linear-gradient(to right, #091c3d, #1d6fff)" }}
         />
-        <div className="absolute -top-[4.32px] right-[5.71px] h-[22.07px] w-[16.75px] rounded-bl-[22px] rounded-tl-[21px] bg-[#1d6fff] blur-[3.17px] lg:-top-[7.56px] lg:right-[10px] lg:h-[38.63px] lg:w-[29.31px] lg:blur-[5.55px]" />
-        <div className="absolute right-[6.7px] top-0 h-[13.43px] w-[10.19px] rounded-bl-[22px] rounded-tl-[21px] bg-white blur-[3.17px] lg:right-[8px] lg:h-[23.51px] lg:w-[17.84px] lg:blur-[5.55px]" />
+        <div className="absolute -top-[3px] right-[2px] h-[16px] w-[12px] rounded-bl-[16px] rounded-tl-[16px] bg-[#1d6fff] blur-[2.5px] lg:h-[22px] lg:w-[16px]" />
+        <div className="absolute right-[3px] top-0 h-[10px] w-[8px] rounded-bl-[16px] rounded-tl-[16px] bg-white blur-[2px] lg:h-[14px] lg:w-[10px]" />
       </div>
+
       {/* Thumb with 3 grips */}
       <div
         aria-hidden
-        className="absolute top-1/2 flex h-[18.29px] w-[24.38px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-[1.83px] overflow-clip rounded-[18.29px] border-b-[0.46px] border-r-[0.46px] border-solid border-[#1d6fff] bg-white shadow-[inset_0.91px_0.91px_3.66px_rgba(0,0,0,0.25)] lg:h-[32px] lg:w-[43px] lg:gap-[3.2px] lg:rounded-[32px] lg:border-b-[0.8px] lg:border-r-[0.8px] lg:shadow-[inset_1.6px_1.6px_6.4px_rgba(0,0,0,0.25)] group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-white/40"
+        className="pointer-events-none absolute top-1/2 flex h-[18px] w-[24px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-[1.5px] rounded-[18px] border-b-[0.5px] border-r-[0.5px] border-solid border-[#1d6fff] bg-white shadow-[inset_1px_1px_3px_rgba(0,0,0,0.25)] lg:h-[26px] lg:w-[34px] lg:gap-[2.5px]"
         style={{ left: `${pct}%` }}
       >
-        <span className="h-[8px] w-[0.91px] rounded-[18px] bg-[#f3f4f5] lg:h-[14px] lg:w-[1.6px] lg:rounded-[32px]" />
-        <span className="h-[8px] w-[0.91px] rounded-[18px] bg-[#f3f4f5] lg:h-[14px] lg:w-[1.6px] lg:rounded-[32px]" />
-        <span className="h-[8px] w-[0.91px] rounded-[18px] bg-[#f3f4f5] lg:h-[14px] lg:w-[1.6px] lg:rounded-[32px]" />
+        <span className="h-[8px] w-[1px] rounded-full bg-[#cbd5e1] lg:h-[12px] lg:w-[1.5px]" />
+        <span className="h-[8px] w-[1px] rounded-full bg-[#cbd5e1] lg:h-[12px] lg:w-[1.5px]" />
+        <span className="h-[8px] w-[1px] rounded-full bg-[#cbd5e1] lg:h-[12px] lg:w-[1.5px]" />
       </div>
+
+      {/* Real range input on top for interaction */}
       <input
         type="range"
         min={min}
@@ -78,16 +85,15 @@ function LoanRangeSlider({
         value={value}
         aria-label={ariaLabel}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="absolute inset-0 h-full w-full cursor-grab appearance-none bg-transparent opacity-0"
+        className="relative z-10 h-7 w-full cursor-pointer appearance-none bg-transparent opacity-0 touch-none"
       />
     </div>
   );
 }
 
 /**
- * Loan Calculator Section — Figma node 2732:7773
- * Recreates the loan approval feature container, bank partner row,
- * interactive down-payment/tenure sliders, and dynamic EMI calculation.
+ * Loans Section / EMI Calculator
+ * Sourced directly from Figma mobile specs & desktop responsiveness.
  */
 export default function ProductLoanCalculator() {
   const [selectedVehicle, setSelectedVehicle] = useState(0);
@@ -107,84 +113,98 @@ export default function ProductLoanCalculator() {
   );
 
   return (
-    <section aria-label="Loan calculator" className="w-full bg-white py-12 lg:py-16">
-      <div className="mx-auto flex w-full max-w-[1440px] px-5 xl:px-[42px]">
-        {/* Main Card with Figma Gradient (Figma 2732:7773) */}
+    <section aria-label="Loan calculator" className="w-full bg-white py-8 lg:py-16">
+      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center px-4 sm:px-6 lg:px-[42px]">
+        {/* Main Card with Figma Gradient */}
         <div
-          className="relative flex w-full flex-col gap-10 overflow-hidden rounded-[12px] px-6 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
+          className="relative flex w-full max-w-[393px] flex-col items-start gap-[24px] overflow-hidden rounded-[16px] px-[10px] py-[32px] sm:px-5 lg:max-w-full lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
           style={{
             background:
               "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #041231",
           }}
         >
-          {/* Left Column: Heading, Description, Bank Partners & EMI Box (Figma 2732:7774) */}
-          <div className="flex w-full flex-col justify-between gap-8 lg:min-h-[430px] lg:w-[492px] lg:shrink-0">
-            <div className="flex flex-col items-start gap-3">
-              <Eyebrow label="LOAN" dark icons="white" />
-              <h2 className="w-full max-w-[430px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[42px] xl:text-[52px] xl:tracking-[-1.04px]">
-                Loan approved in 48 hours.
+          {/* Left Column (Header + Partners + Desktop EMI Box) */}
+          <div className="flex w-full flex-col items-start gap-[14px] self-stretch lg:min-h-[430px] lg:w-[492px] lg:shrink-0 lg:justify-between lg:gap-8">
+            <div className="flex w-full flex-col items-start gap-[14px] self-stretch">
+              {/* Heading / Eyebrow */}
+              <div className="flex w-full items-center gap-[4px] self-stretch font-sans text-[12px] font-bold uppercase tracking-[0.6px] text-white">
+                <Eyebrow label="LOAN" dark icons="white" />
+              </div>
+
+              {/* Subheading */}
+              <h2 className="w-full self-stretch font-display text-[28px] font-semibold leading-[115%] tracking-[-0.56px] text-white lg:max-w-[430px] lg:text-[42px] xl:text-[52px] xl:tracking-[-1.04px]">
+                Loan approved in <br className="lg:hidden" />48 hours.
               </h2>
-              <p className="w-full max-w-[484px] font-sans text-[16px] font-normal leading-normal text-[#c3c3c3]">
-                We work with 14 banks and finance companies. There is a separate desk for you. Move
-                the slider to see your EMI.
+
+              {/* Body Text */}
+              <p className="w-full font-sans text-[12px] font-normal leading-normal text-[#C3C3C3] lg:max-w-[484px] lg:text-[16px]">
+                We work with 14 banks and finance companies. There is a separate desk for you. Move the
+                slider to see your EMI.
               </p>
 
-              {/* Partners Row (Figma 2732:7782) */}
-              <div className="mt-2 flex flex-col items-start gap-3">
-                <p className="font-sans text-[14px] font-semibold text-white">Partners</p>
-                <div className="flex flex-wrap items-center justify-center gap-8">
+              {/* Partner element */}
+              <div className="mt-1 flex w-full flex-col items-start gap-[12px] self-stretch font-sans text-[12px] font-semibold text-white">
+                <span>Partners</span>
+                <div className="flex w-full items-center justify-between gap-2 overflow-x-auto sm:justify-start sm:gap-6">
                   {/* HDFC Bank */}
-                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-200">
+                  <div className="relative h-[16.4px] w-[68px] shrink-0">
                     <Image
                       src="/assets/loan/bank-hdfc.png"
                       alt="HDFC Bank"
                       fill
-                      sizes="70px"
+                      sizes="68px"
                       className="object-contain"
                     />
                   </div>
                   {/* Mahindra Finance */}
-                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-150">
+                  <div className="relative h-[16.4px] w-[68px] shrink-0">
                     <Image
                       src="/assets/loan/bank-mahindra.png"
                       alt="Mahindra Finance"
                       fill
-                      sizes="70px"
+                      sizes="68px"
                       className="object-contain"
                     />
                   </div>
                   {/* Tata Capital */}
-                  <div className="relative h-[16.401px] w-[70.322px] shrink-0 brightness-150">
+                  <div className="relative h-[24px] w-[80px] shrink-0 lg:h-[16.4px] lg:w-[68px]">
                     <Image
                       src="/assets/loan/bank-tata.png"
                       alt="Tata Capital"
                       fill
-                      sizes="70px"
+                      sizes="68px"
                       className="object-contain"
                     />
                   </div>
                   {/* Shriram Finance */}
-                  <div className="relative flex h-[16.401px] w-[70.322px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
+                  <div className="relative flex h-[16.4px] w-[56px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
                     <Image
                       src="/assets/loan/bank-shriram.png"
                       alt="Shriram Finance"
-                      width={52}
-                      height={16}
+                      fill
+                      sizes="56px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Arrow Indicator */}
+                  {/* Partner Arrow: 14x6 rotated 90deg scaleX(-1) */}
                   <svg
-                    width="6"
-                    height="14"
-                    viewBox="0 0 6 14"
+                    width="14"
+                    height="6"
+                    viewBox="0 0 14 6"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0 text-white/60"
+                    className="shrink-0 rotate-[-90deg] -scale-x-100 stroke-white lg:rotate-[90deg] lg:-scale-x-100"
+                    style={{
+                      width: "14px",
+                      height: "6px",
+                      aspectRatio: "7/3",
+                      strokeWidth: "1.5px",
+                      stroke: "#FFF",
+                    }}
                   >
                     <path
-                      d="M1 1L5 7L1 13"
-                      stroke="currentColor"
+                      d="M1 1L7 5L13 1"
+                      stroke="#FFF"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -194,45 +214,59 @@ export default function ProductLoanCalculator() {
               </div>
             </div>
 
-            {/* EMI Display Box (Figma 2732:7790) */}
-            <div className="flex h-[125px] w-full items-center gap-[15px] rounded-[12px] border border-white/10 bg-black/50 p-4">
+            {/* Desktop-only EMI Display Box */}
+            <div className="hidden h-[125px] w-full items-center gap-[15px] rounded-[12px] border border-white/10 bg-[#071838] p-4 lg:flex">
               <p className="font-display text-[44px] font-semibold leading-[1.15] tracking-[-2px] text-white sm:text-[54px] xl:text-[62px] xl:tracking-[-3.72px]">
                 ₹{emi.toLocaleString("en-IN")}
               </p>
-              <div className="font-sans text-[16px] leading-[1.2] tracking-[-0.48px] text-white/40">
+              <div className="font-sans text-[16px] leading-[1.2] tracking-[-0.48px] text-[#c3c3c3]">
                 <p>per month</p>
                 <p>
-                  <span className="text-white">at 10.5%</span> interest
+                  <strong className="font-semibold text-white">at 10.5%</strong> interest
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Calculator Controls Glass Card (Figma 2732:7793) */}
-          <div className="flex w-full flex-1 flex-col gap-5 rounded-[16px] border border-white/10 bg-[#030d1e]/60 p-6 backdrop-blur-[15px] xl:max-w-[660px]">
-            {/* Vehicle Selector (Figma 2732:7794) */}
-            <div className="relative flex flex-col gap-3 py-2">
-              <div className="flex items-center justify-between text-white">
-                <p className="font-sans text-[20px] font-medium tracking-[-0.4px]">Vehicle</p>
-              </div>
+          {/* Mobile-only EMI Display Box (sits directly under partners on mobile) */}
+          <div className="flex w-full items-center justify-start gap-3 rounded-[12px] border border-white/10 bg-[#071838] px-5 py-4 sm:gap-4 lg:hidden">
+            <p className="font-display text-[36px] font-semibold leading-none tracking-[-1.5px] text-white sm:text-[40px]">
+              ₹{emi.toLocaleString("en-IN")}
+            </p>
+            <div className="flex flex-col items-start font-sans text-[12px] leading-tight text-[#c3c3c3]">
+              <span>per month</span>
+              <span>
+                <strong className="font-semibold text-white">at 10.5%</strong> interest
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column: Calculator Controls Card */}
+          <div className="flex w-full flex-col gap-4 rounded-[14px] border border-white/10 bg-[#020b18] p-4 sm:p-5 lg:flex-1 lg:gap-5 lg:rounded-[16px] lg:p-6 xl:max-w-[660px]">
+            {/* Vehicle Selector */}
+            <div className="relative flex flex-col gap-2">
+              <label className="font-sans text-[13px] font-medium text-white sm:text-[14px] lg:text-[18px]">
+                Vehicle
+              </label>
               <button
                 type="button"
                 onClick={() => setDropdownOpen((v) => !v)}
-                className="flex w-full items-center justify-between rounded-[12px] border border-white/10 bg-[#29313f]/50 py-1.5 pl-1.5 pr-4 transition-colors hover:border-white/30"
+                aria-expanded={dropdownOpen}
+                className="flex w-full items-center justify-between rounded-[8px] border border-white/15 bg-[#0b182d] p-1.5 pr-3 transition-colors hover:border-white/30 sm:rounded-[12px] sm:py-2 sm:pl-2 sm:pr-4"
               >
-                <div className="flex items-center gap-2">
-                  <div className="relative flex size-[42px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-white p-1">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex size-[36px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-white p-0.5 sm:size-[42px]">
                     <Image
                       src={vehicle.thumb}
                       alt={vehicle.name}
-                      width={38}
-                      height={38}
+                      width={34}
+                      height={34}
                       className="object-contain"
                     />
                   </div>
-                  <p className="font-sans text-[16px] font-bold tracking-[-0.32px] text-white">
+                  <span className="font-sans text-[14px] font-semibold tracking-[-0.2px] text-white sm:text-[16px]">
                     {vehicle.name}
-                  </p>
+                  </span>
                 </div>
                 {/* Chevron */}
                 <svg
@@ -241,7 +275,9 @@ export default function ProductLoanCalculator() {
                   viewBox="0 0 14 8"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`text-white transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                  className={`text-white transition-transform duration-200 ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
                 >
                   <path
                     d="M1 1L7 7L13 1"
@@ -255,7 +291,7 @@ export default function ProductLoanCalculator() {
 
               {/* Dropdown Menu */}
               {dropdownOpen && (
-                <div className="absolute top-[96px] z-20 flex w-full flex-col overflow-hidden rounded-[12px] border border-white/20 bg-[#0c182c] shadow-xl">
+                <div className="absolute top-[68px] z-30 flex w-full flex-col overflow-hidden rounded-[10px] border border-white/20 bg-[#0c182c] shadow-2xl sm:top-[78px]">
                   {VEHICLES.map((v, i) => (
                     <button
                       key={v.name}
@@ -264,23 +300,34 @@ export default function ProductLoanCalculator() {
                         setSelectedVehicle(i);
                         setDropdownOpen(false);
                       }}
-                      className={`flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/10 ${i === selectedVehicle ? "bg-white/15" : ""}`}
+                      className={`flex items-center justify-between px-3 py-2.5 text-left transition-colors hover:bg-white/10 ${
+                        i === selectedVehicle ? "bg-white/15" : ""
+                      }`}
                     >
-                      <div className="relative flex size-8 shrink-0 items-center justify-center rounded bg-white p-0.5">
-                        <Image src={v.thumb} alt={v.name} width={28} height={28} className="object-contain" />
+                      <div className="flex items-center gap-3">
+                        <div className="relative flex size-7 shrink-0 items-center justify-center rounded bg-white p-0.5">
+                          <Image src={v.thumb} alt={v.name} width={24} height={24} className="object-contain" />
+                        </div>
+                        <span className="font-sans text-[13px] font-semibold text-white">{v.name}</span>
                       </div>
-                      <span className="font-sans text-[15px] font-semibold text-white">{v.name}</span>
+                      <span className="font-sans text-[11px] text-white/50">
+                        ₹{(v.price / 100000).toFixed(2)} Lakh
+                      </span>
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Down Payment Slider (Figma 2732:7808) */}
-            <div className="flex flex-col gap-5 py-2">
-              <div className="flex items-center justify-between text-white">
-                <p className="font-sans text-[20px] font-medium tracking-[-0.4px]">Down payment</p>
-                <p className="font-sans text-[24px] font-bold tracking-[-0.48px]">{downPaymentPct}%</p>
+            {/* Down Payment Slider */}
+            <div className="flex flex-col gap-2.5 sm:gap-3">
+              <div className="flex items-center justify-between font-sans text-white">
+                <span className="text-[13px] font-medium text-white sm:text-[16px] lg:text-[18px]">
+                  Down payment
+                </span>
+                <span className="font-display text-[18px] font-bold tracking-tight text-white sm:text-[22px]">
+                  {downPaymentPct}%
+                </span>
               </div>
               <LoanRangeSlider
                 value={downPaymentPct}
@@ -292,11 +339,15 @@ export default function ProductLoanCalculator() {
               />
             </div>
 
-            {/* Number of Months Slider (Figma 2732:7824) */}
-            <div className="flex flex-col gap-5 py-2">
-              <div className="flex items-center justify-between text-white">
-                <p className="font-sans text-[20px] font-medium tracking-[-0.4px]">Number of months</p>
-                <p className="font-sans text-[24px] font-bold tracking-[-0.48px]">{months} months</p>
+            {/* Number of Months Slider */}
+            <div className="flex flex-col gap-2.5 sm:gap-3">
+              <div className="flex items-center justify-between font-sans text-white">
+                <span className="text-[13px] font-medium text-white sm:text-[16px] lg:text-[18px]">
+                  Number of months
+                </span>
+                <span className="font-display text-[18px] font-bold tracking-tight text-white sm:text-[22px]">
+                  {months} months
+                </span>
               </div>
               <LoanRangeSlider
                 value={months}
@@ -308,16 +359,17 @@ export default function ProductLoanCalculator() {
               />
             </div>
 
-            {/* Bottom Row: CTA Button + Disclaimer (Figma 2732:7840) */}
-            <div className="mt-2 flex flex-col items-start gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+            {/* CTA Button + Disclaimer */}
+            <div className="mt-1 flex flex-col gap-3 pt-1">
               <button
                 type="button"
-                className="flex h-[50.48px] shrink-0 items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#f2f2f2] px-6 font-display text-[16px] font-semibold text-ink transition-transform hover:scale-[1.02] hover:bg-white"
+                className="flex h-[46px] w-full items-center justify-center gap-2 rounded-[6px] bg-white font-sans text-[14px] font-semibold text-[#041231] shadow-md transition-all hover:bg-[#f3f4f5] active:scale-[0.99] lg:h-[50px] lg:text-[16px]"
               >
                 <span>Check Eligibility</span>
                 <Arrow color="ink" />
               </button>
-              <p className="flex-1 font-sans text-[15px] font-normal leading-snug text-[#c3c3c3] sm:text-[16px]">
+
+              <p className="font-sans text-[11px] leading-[1.35] text-[#8E9BAE] sm:text-[12px]">
                 This is an estimate. Asli rate aapke credit aur bank par depend karta hai.
               </p>
             </div>

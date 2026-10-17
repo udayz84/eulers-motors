@@ -79,12 +79,12 @@ export default function ProductOverview() {
   return (
     <section
       aria-label="Vehicle Overview"
-      className="relative w-full overflow-hidden bg-white pb-12 pt-16 lg:pb-16 lg:pt-[62px]"
+      className="relative flex w-full flex-col gap-6 overflow-hidden bg-white px-5 py-[42px] lg:gap-0 lg:px-0 lg:pb-16 lg:pt-[62px]"
     >
       {/* Centered Header Row (Figma 2728:7445) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-4 px-5 pb-[36px] text-center sm:px-8 lg:px-[80px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-start justify-center gap-6 px-0 text-left lg:items-center lg:gap-4 lg:px-[80px] lg:pb-[36px] lg:text-center">
         <Eyebrow label="Overview" icons="navy" />
-        <h2 className="font-display text-[32px] font-semibold not-italic leading-[1.15] tracking-[-0.64px] text-ink sm:text-[42px] lg:text-[52px] lg:tracking-[-1.04px]">
+        <h2 className="font-display text-[28px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
           What this vehicle is good at.
         </h2>
       </div>
@@ -94,7 +94,7 @@ export default function ProductOverview() {
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex w-full gap-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+          className="flex w-full flex-col gap-6 scrollbar-none lg:flex-row lg:gap-5 lg:overflow-x-auto lg:px-0 lg:pb-4 lg:snap-x lg:snap-mandatory"
         >
           {/* Left Alignment Spacer */}
           <div
@@ -102,43 +102,27 @@ export default function ProductOverview() {
             className="hidden shrink-0 lg:block"
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 80px)" }}
           />
-          <div
-            aria-hidden
-            className="hidden shrink-0 sm:block lg:hidden"
-            style={{ width: "32px" }}
-          />
-          <div
-            aria-hidden
-            className="shrink-0 sm:hidden"
-            style={{ width: "20px" }}
-          />
 
           {CARDS.map((card) => (
             <article
               key={card.id}
-              className="flex h-[257px] w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[12px] bg-gradient-to-b from-[#ccd8e8] to-[#cfdef6] p-8 transition-transform hover:-translate-y-1 sm:w-[412px]"
+              className="flex w-full shrink-0 snap-start flex-col justify-end gap-3 overflow-hidden rounded-[12px] bg-gradient-to-b from-[#ccd8e8] to-[#cfdef6] p-[16px_14px] transition-transform hover:-translate-y-1 lg:h-[257px] lg:w-[412px] lg:justify-between lg:gap-0 lg:p-8"
             >
-              <div className="relative h-[75px] w-auto">
+              <div className="relative h-[52px] w-[52px] shrink-0 lg:h-[75px] lg:w-auto">
                 <Image
                   src={card.icon}
                   alt=""
                   width={card.iconWidth}
                   height={card.iconHeight}
-                  className="h-full w-auto object-contain object-left"
+                  className="h-full w-full object-cover object-left lg:w-auto lg:object-contain"
                 />
               </div>
 
               <div className="flex flex-col gap-3">
-                <h3
-                  className="bg-clip-text font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.78px] text-transparent sm:text-[26px]"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(110deg, rgb(29, 111, 255) 24%, rgb(14, 47, 109) 93%)",
-                  }}
-                >
+                <h3 className="font-display text-[18px] font-bold not-italic leading-[1.15] tracking-[-0.36px] text-ink lg:bg-clip-text lg:text-[26px] lg:font-semibold lg:tracking-[-0.78px] lg:text-transparent lg:[background-image:linear-gradient(110deg,rgb(29,111,255)_24%,rgb(14,47,109)_93%)]">
                   {card.title}
                 </h3>
-                <p className="font-sans text-[15px] font-normal leading-normal text-ink sm:text-[16px]">
+                <p className="font-sans text-[12px] font-normal leading-normal text-ink lg:text-[16px]">
                   {card.description}
                 </p>
               </div>
@@ -151,16 +135,6 @@ export default function ProductOverview() {
             className="hidden shrink-0 lg:block"
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 80px)" }}
           />
-          <div
-            aria-hidden
-            className="hidden shrink-0 sm:block lg:hidden"
-            style={{ width: "32px" }}
-          />
-          <div
-            aria-hidden
-            className="shrink-0 sm:hidden"
-            style={{ width: "20px" }}
-          />
         </div>
 
         {/* Right Edge Fade Overlay */}
@@ -171,7 +145,7 @@ export default function ProductOverview() {
       </div>
 
       {/* Progress Indicator Pill (Figma 3324:13476) */}
-      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8">
+      <div className="mx-auto hidden w-full max-w-[1440px] items-center justify-center pt-8 lg:flex">
         <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
