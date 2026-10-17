@@ -1,0 +1,132 @@
+import Eyebrow from "@/components/ui/Eyebrow";
+import Button from "@/components/ui/Button";
+import FloatingWidget from "@/components/FloatingWidget";
+import PagerBar from "@/components/ui/PagerBar";
+
+const A = "/assets/technology-page";
+
+/**
+ * TECHNOLOGY page — hero (Figma 2968:6673) + philosophy (2977:7348),
+ * composed inside frame 2977:7419 (393×1315).
+ */
+export default function TechHero() {
+  return (
+    <section className="relative overflow-clip bg-[#041231]" aria-label="Technology">
+      <div className="relative mx-auto w-full max-w-[393px]">
+        {/* hero — 393×762 */}
+        <div className="relative h-[762px] w-full">
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <img src={`${A}/hero__imgEulerUiMobile.png`} alt="" className="absolute inset-0 size-full max-w-none object-bottom" />
+            <div className="absolute inset-0 overflow-hidden">
+              <img src={`${A}/hero__imgEulerUiMobile1.png`} alt="" className="absolute left-[-2.05%] top-[-3.59%] h-[103.55%] w-[104.1%] max-w-none" />
+            </div>
+            <div className="absolute inset-0 overflow-hidden">
+              <img src={`${A}/hero__imgEulerUiMobile2.png`} alt="" className="absolute left-[-17.9%] top-[-9.1%] h-[109.05%] w-[135.8%] max-w-none" />
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(180deg, rgba(4,18,49,0) 60.466%, rgb(4,18,49) 90.795%), linear-gradient(191.077deg, rgba(0,0,0,0) 56.444%, rgba(0,0,0,0.8) 99.952%), linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%)",
+              }}
+            />
+          </div>
+
+          <div className="absolute bottom-[28.93px] left-1/2 flex w-[353px] -translate-x-1/2 flex-col items-start justify-center gap-3">
+            <Eyebrow label="Technology" dark />
+            <h1 className="w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white">
+              Built Smarter.
+              <br />
+              Built for Business.
+            </h1>
+            <p className="w-[316px] font-sans text-[12px] font-normal leading-normal text-white">
+              Every innovation is designed for everyday business.
+            </p>
+            <Button variant="white" arrow="white" href="#book-test-drive" className="w-full">
+              Book a test drive
+            </Button>
+          </div>
+
+          {/* uptime ribbon — straddles the hero/philosophy seam */}
+          <div className="absolute left-5 top-[746.74px] z-20 w-[353px] rounded-[8px] bg-gradient-to-b from-white/45 via-white/12 to-white/5 p-px">
+            <div className="relative flex w-full flex-col gap-[10px] overflow-clip rounded-[7px] bg-[rgba(255,255,255,0.04)] px-[11px] pb-[13px] pt-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[4px]">
+              <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
+              <div className="absolute bottom-0 left-0 h-1 w-1/2 bg-white" />
+              <div className="flex items-center justify-center gap-[10px] text-white">
+                <p className="shrink-0 font-display font-semibold leading-[1.15] tracking-[-0.84px]">
+                  <span className="text-[36px]">96.4</span>
+                  <span className="text-[24px]">%</span>
+                </p>
+                <p className="min-w-px flex-1 font-display leading-[1.15] tracking-[-0.28px] text-[14px]">
+                  Fleet uptime last year, across 15,000 vehicles
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* quick-action rail — scoped to the hero (Figma places it in the hero frame);
+              on mobile it sits low on the right, level with the heading/subheading */}
+          <FloatingWidget mobileClassName="bottom-[80px]" />
+        </div>
+
+        {/* philosophy — 393×553 */}
+        <div className="relative z-10 flex h-[553px] flex-col items-center justify-center gap-[42px] overflow-clip bg-[#041231] px-5 pb-[52px] pt-[117px]">
+          <div className="flex w-full flex-col items-start gap-[14px]">
+            <Eyebrow label="Philosophy" dark />
+            <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
+              Technology That Helps You Earn More
+            </h2>
+            <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
+              A commercial vehicle is part of your business. That&apos;s why every technology we
+              build is designed to reduce costs.
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col items-center gap-5">
+            <div
+              id="philosophy-scroll-row"
+              className="no-scrollbar flex w-full items-center gap-[10px] overflow-x-auto"
+            >
+              {PHILOSOPHY.map((c) => (
+                <div
+                  key={c.title}
+                  className="flex w-[282px] shrink-0 flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.45),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.45),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.25)]"
+                >
+                  <div className="relative h-[62px] w-[64.333px] shrink-0">
+                    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                      <img src={`${A}/hero__imgChatGptHero.png`} alt="" className="absolute max-w-none" style={c.crop} />
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-col items-start gap-2 leading-normal text-white">
+                    <p className="w-full text-[16px] font-bold">{c.title}</p>
+                    <p className="w-full text-[12px]">{c.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <PagerBar rowId="philosophy-scroll-row" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const PHILOSOPHY = [
+  {
+    title: "Lower Running Cost",
+    desc: "Spend less on every kilometre you drive.",
+    crop: { height: "149.02%", left: "-9.53%", top: "-16.08%", width: "342.77%" },
+  },
+  {
+    title: "Less Downtime",
+    desc: "Built for reliable everyday performance.",
+    crop: { height: "157.37%", left: "-130.98%", top: "-20.61%", width: "361.96%" },
+  },
+  {
+    title: "Easy to Service",
+    desc: "Quick repairs and readily available support.",
+    crop: { height: "149.02%", left: "-232.17%", top: "-16.08%", width: "342.77%" },
+  },
+];

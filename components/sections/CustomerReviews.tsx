@@ -84,7 +84,7 @@ export default function CustomerReviews() {
         {STORY_IMAGES.map((story, i) => (
             <article
               key={i}
-              className="relative aspect-[300/400] h-[400px] w-[300px] overflow-clip rounded-[14.6px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
+              className="relative aspect-[300/400] h-[466.667px] w-[350px] overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
             >
               <Image src={story.base} alt="Customer story" fill sizes="400px" className="object-cover" />
               {story.overlay && (
@@ -145,8 +145,8 @@ export default function CustomerReviews() {
               </div>
 
               {/* time chip */}
-              <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
-                <span className="text-[12px] font-bold leading-normal text-black lg:text-[14px]">02:32</span>
+              <div className="absolute left-4 top-4 flex items-center justify-center rounded-[54.247px] bg-white px-[6.51px] py-[2.17px] lg:rounded-full lg:px-2.5 lg:py-1">
+                <span className="font-sans text-[13.019px] font-semibold leading-normal text-black lg:text-[14px] lg:font-bold">02:32</span>
               </div>
 
               {/* play button — user's Figma export of node 1:1705 (52×52 PNG) */}

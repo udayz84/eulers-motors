@@ -419,7 +419,7 @@ export default function Navbar() {
                 ))}
                 <li>
                   <Link
-                    href="/#technology"
+                    href="/technology"
                     className={`text-[14px] font-semibold ${isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"}`}
                   >
                     Technology
@@ -629,7 +629,7 @@ export default function Navbar() {
                 </MenuRow>
                 {/* TECHNOLOGY — plain link row */}
                 <Link
-                  href="/#technology"
+                  href="/technology"
                   className={`flex h-[52px] items-center border-b text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "border-white/25 text-white" : "border-[#EAECEF] text-ink"}`}
                 >
                   Technology

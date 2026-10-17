@@ -24,9 +24,12 @@ const ACTIONS = [
 export default function FloatingWidget({
   mobileOnly = false,
   boundary = false,
+  mobileClassName,
 }: {
   mobileOnly?: boolean;
   boundary?: boolean;
+  /** Mobile-only vertical placement override; desktop keeps the lg: position. */
+  mobileClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -37,8 +40,10 @@ export default function FloatingWidget({
   // Mobile: collapsed — the mobile hero frame (Figma 1:4524) has no rail.
   // boundary: on mobile the rail is centred on the bottom edge of its relative
   // parent (the hero/next-section seam) instead of the vertical middle.
+  const mobilePos =
+    mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
   return (
-    <div className={`absolute right-[-29.5px] z-40 ${boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2"} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"}`}>
+    <div className={`absolute right-[-29.5px] z-40 ${mobilePos} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"}`}>
       <div className="relative flex items-end gap-[19px]">
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside

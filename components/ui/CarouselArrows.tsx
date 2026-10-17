@@ -36,7 +36,7 @@ export default function CarouselArrows({
 
   if (variant === "blue") {
     const blueButton =
-      "pointer-events-auto absolute top-1/2 flex size-[45px] sm:size-[55px] -translate-y-1/2 items-center justify-center rounded-[8px] cursor-pointer shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95";
+      "pointer-events-auto absolute top-1/2 hidden size-[45px] sm:size-[55px] -translate-y-1/2 items-center justify-center rounded-[8px] cursor-pointer shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 lg:flex";
 
     return (
       <div aria-hidden={false} className={`pointer-events-none absolute inset-0 z-10 ${className}`}>
