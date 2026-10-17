@@ -44,14 +44,14 @@ export default function PartnersInvestors({
       {/* Edge gradient masks to fade logos cleanly into the #041231 background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 inset-y-0 z-10 w-[80px] lg:w-[260px]"
+        className="pointer-events-none absolute left-0 top-[130px] bottom-0 z-10 w-[80px] lg:inset-y-0 lg:w-[260px]"
         style={{
           background: "linear-gradient(90deg, #041231 0%, rgba(4, 18, 49, 0) 100%)",
         }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute right-0 inset-y-0 z-10 w-[80px] lg:w-[260px]"
+        className="pointer-events-none absolute right-0 top-[130px] bottom-0 z-10 w-[80px] lg:inset-y-0 lg:w-[260px]"
         style={{
           background: "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0) 100%)",
         }}

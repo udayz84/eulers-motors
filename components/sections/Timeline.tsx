@@ -188,7 +188,7 @@ export default function Timeline() {
             {TIMELINE_CARDS.map((card) => (
               <div
                 key={card.id}
-                className="bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] sm:pt-[295px] px-[12px] sm:px-[16px] relative rounded-[12px] shrink-0 w-[353px] sm:w-[420px]"
+                className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] sm:pt-[295px] px-[12px] sm:px-[16px] relative rounded-[12px] shrink-0 w-[353px] sm:w-[420px]"
               >
                 <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
                   <p className="font-display text-[42px] sm:text-[48px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
@@ -312,7 +312,7 @@ export default function Timeline() {
               style={{ transform: `translateX(-${offset}px)` }}
             >
               {TIMELINE_CARDS.map((card) => (
-                <div key={card.id} className="bg-[rgba(255,255,255,0.04)] content-stretch flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0">
+                <div key={card.id} className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0">
                   <div
                     aria-hidden
                     className="h-[354.531px] shrink-0 w-[642.09px] rounded-l-[12px]"

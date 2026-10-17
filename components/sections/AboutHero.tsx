@@ -8,6 +8,7 @@ import FloatingWidget from "@/components/FloatingWidget";
  */
 export default function AboutHero() {
   return (
+    <div className="relative">
     <section
       className="relative aspect-[393/594] w-full overflow-hidden sm:aspect-[16/11] lg:aspect-[9/5] lg:h-[800px]"
       aria-label="About Euler Motors"
@@ -96,9 +97,10 @@ export default function AboutHero() {
           Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
         </p>
       </div>
+    </section>
 
       {/* quick-action rail — on mobile it is centred on the hero / About-Euler seam */}
       <FloatingWidget boundary />
-    </section>
+    </div>
   );
 }

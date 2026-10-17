@@ -166,7 +166,7 @@ export default function AboutEuler() {
                 />
 
                 {/* Info Card */}
-                <div className="absolute bottom-[8px] sm:bottom-4 left-1/2 -translate-x-1/2 w-[308px] sm:w-[calc(100%-32px)] rounded-[8px] sm:rounded-xl bg-white/20 p-[12px] sm:p-4 backdrop-blur-[9.134px] lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:rounded-[10px] lg:p-[16px]">
+                <div className="absolute bottom-[8px] sm:bottom-4 left-1/2 -translate-x-1/2 w-[308px] sm:w-[calc(100%-32px)] rounded-[10px] border border-white/35 bg-white/20 p-[12px] sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[40px] lg:border-white/25 lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:p-[16px]">
                   {/* Badge */}
                   <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] lg:mb-[12px]">
                     <span className="text-[12px] font-bold leading-normal text-black lg:text-[12px]">

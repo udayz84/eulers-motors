@@ -271,7 +271,7 @@ export default function ChargingStationFaq() {
                       selected
                         ? {
                             backgroundImage:
-                              "linear-gradient(247.68deg, rgb(14, 47, 109) 138.16%, rgb(29, 111, 255) 87.02%), linear-gradient(247.68deg, rgb(14, 47, 109) 138.16%, rgb(29, 111, 255) 87.02%), linear-gradient(90deg, rgb(18, 18, 18) 0%, rgb(18, 18, 18) 100%)",
+                              "linear-gradient(258deg, rgb(14, 47, 109) -138.16%, rgb(29, 111, 255) 87.02%), linear-gradient(258deg, rgb(14, 47, 109) -138.16%, rgb(29, 111, 255) 87.02%), linear-gradient(0deg, rgb(18, 18, 18) 0%, rgb(18, 18, 18) 100%)",
                           }
                         : undefined
                     }

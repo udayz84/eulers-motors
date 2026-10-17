@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 
@@ -110,8 +110,12 @@ export default function AboutEsG() {
             </div>
             <div className="flex items-center justify-between">
               {STATS.map((s, i) => (
-                <div key={s.label} className="flex items-center self-stretch">
-                  {i > 0 && <StatDivider />}
+                <Fragment key={s.label}>
+                  {i > 0 && (
+                    <div className="flex flex-1 items-center justify-center px-4">
+                      <span aria-hidden className="block h-[65px] w-px bg-white opacity-50" />
+                    </div>
+                  )}
                   <div className="flex flex-col gap-[2px] text-white">
                     <p className="font-display text-[24px] sm:text-[28px] font-semibold leading-[1.15] tracking-[-0.48px] lg:text-[36px] lg:tracking-[-0.72px]">
                       {s.value}{" "}
@@ -123,7 +127,7 @@ export default function AboutEsG() {
                     </p>
                     <p className="text-[12px] sm:text-[13px] font-normal leading-[normal] lg:text-[16px]">{s.label}</p>
                   </div>
-                </div>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -135,7 +139,7 @@ export default function AboutEsG() {
             {CARDS.map((card, i) => (
               <article
                 key={card.num}
-                className="w-[247px] sm:w-[280px] shrink-0 rounded-[6px] bg-white/8 p-5 sm:p-6 lg:flex lg:min-w-px lg:w-auto lg:flex-[1_0_0] lg:items-center lg:p-6"
+                className="w-[247px] sm:w-[280px] shrink-0 rounded-[6px] border border-white/20 bg-white/8 p-5 sm:p-6 lg:flex lg:min-w-px lg:w-auto lg:flex-[1_0_0] lg:items-center lg:p-6"
               >
                 <div className="flex flex-col gap-2 lg:min-w-0 lg:flex-1 lg:gap-3">
                   <p className="bg-gradient-to-b from-[rgba(255,255,255,0.8)] to-[rgba(255,255,255,0.02)] bg-clip-text text-[24px] font-bold leading-none text-transparent lg:text-[32px]">
@@ -160,15 +164,5 @@ export default function AboutEsG() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* 1px white hairline between the stats (Figma Line 107) */
-function StatDivider() {
-  return (
-    <span
-      aria-hidden
-      className="mr-4 block h-[65px] w-px shrink-0 bg-white opacity-50"
-    />
   );
 }

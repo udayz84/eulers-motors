@@ -15,7 +15,7 @@ const CARDS = [
     desktop: { left: -38.73, top: 89.79, width: 388.46, height: 194.23 },
     // mobile-only melt of the cutout's left edge into the card fill (2925:14101 overlay)
     fade: true,
-    titleCls: "left-3 top-3 w-[205.816px]",
+    titleCls: "left-3 top-3 w-[205.816px] lg:left-6 lg:top-6",
     gradient:
       "bg-[linear-gradient(-71.442deg,#1d6fff_23.585%,#0e2f6d_93.088%)] lg:bg-[linear-gradient(-72.958deg,#1d6fff_23.585%,#0e2f6d_93.088%)]",
   },
