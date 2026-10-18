@@ -113,7 +113,7 @@ export default function SavingsCalculator() {
           52px top · 89px right · 48px bottom · 71px left → a 1280px content
           row split 736 + 32 gap + 512 (1:2382–1:2391), columns bottom-aligned
           (items-end). Mobile: 20px sides, stacked flex-col. */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[34px] px-5 lg:grid lg:grid-cols-[minmax(0,736px)_512px] lg:items-end lg:gap-8 lg:pl-[71px] lg:pr-[89px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[34px] px-5 sm:px-8 lg:grid lg:grid-cols-[minmax(0,736px)_512px] lg:items-end lg:gap-8 lg:pl-[71px] lg:pr-[89px]">
         {/* left column (Figma 1:2383): 736px, flex-col gap 36 — title
             container (gap 12, pt 14) above the 736×496 chart (Component30);
             on mobile only the title renders here */}
@@ -121,7 +121,7 @@ export default function SavingsCalculator() {
           <div className="flex flex-col gap-[14px] lg:gap-3 lg:pt-[14px]">
             {/* white badge marks + white text on the dark section */}
             <Eyebrow label="Savings calculator" dark icons="white" />
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
+            <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:text-[52px] lg:tracking-[-1.04px]">
               Calculate your savings
             </h2>
           </div>

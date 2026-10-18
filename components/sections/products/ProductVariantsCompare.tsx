@@ -87,11 +87,11 @@ export default function ProductVariantsCompare() {
       className="w-full bg-surface lg:bg-gradient-to-b lg:from-[#f3f4f5] lg:to-white"
     >
       {/* ===== Mobile ===== */}
-      <div className="flex flex-col items-center gap-5 px-5 py-[42px] lg:hidden">
+      <div className="mx-auto flex w-full max-w-[680px] flex-col items-center gap-5 px-5 sm:px-8 py-[42px] sm:py-[50px] lg:hidden">
         {/* Header */}
         <div className="flex w-full flex-col items-start gap-[14px]">
           <Eyebrow label="VARIANTS" icons="navy" />
-          <h2 className="w-full font-display text-[28px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink">
+          <h2 className="w-full font-display text-[28px] sm:text-[38px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink">
             Compare variants
             <br />
             side by side.
@@ -99,7 +99,7 @@ export default function ProductVariantsCompare() {
         </div>
 
         {/* Comparison card */}
-        <div className="-mx-5 w-[calc(100%+40px)] overflow-x-auto px-5 pb-1 scrollbar-none">
+        <div className="-mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] overflow-x-auto px-5 sm:px-8 pb-1 scrollbar-none">
           <div className="relative w-[488.801px] shrink-0">
             {/* Truck renders */}
             <div className="relative mb-3 h-[47.389px] w-full">
@@ -192,13 +192,13 @@ export default function ProductVariantsCompare() {
         <div className="flex w-full items-start gap-3">
           <button
             type="button"
-            className="flex h-[44px] flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.50)] bg-[#F3F4F5] font-display text-[12px] font-bold leading-none text-[#121212]"
+            className="flex h-[44px] sm:h-[48px] flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.50)] bg-[#F3F4F5] font-display text-[12px] sm:text-[14px] font-bold leading-none text-[#121212]"
           >
             Get Price Quote
           </button>
           <button
             type="button"
-            className="flex h-[44px] flex-1 items-center justify-center gap-2 rounded-[4px] bg-[#121212] font-display text-[12px] font-bold leading-none text-white"
+            className="flex h-[44px] sm:h-[48px] flex-1 items-center justify-center gap-2 rounded-[4px] bg-[#121212] font-display text-[12px] sm:text-[14px] font-bold leading-none text-white"
           >
             Talk to an expert
           </button>

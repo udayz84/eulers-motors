@@ -67,14 +67,16 @@ export default function ProductOtherVehicles() {
 
   const scroll = (direction: -1 | 1) => {
     if (!scrollRef.current) return;
-    const cardWidth = 740; // 720px card + 20px gap
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const cardWidth = isMobile ? 340 : 740;
     scrollRef.current.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
   };
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const scrollLeft = scrollRef.current.scrollLeft;
-    const cardWidth = 740;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const cardWidth = isMobile ? 340 : 740;
     const newIndex = Math.min(
       VEHICLES.length - 1,
       Math.max(0, Math.round(scrollLeft / cardWidth))
@@ -85,13 +87,13 @@ export default function ProductOtherVehicles() {
   return (
     <section
       aria-label="Other vehicles"
-      className="relative flex w-full flex-col items-start justify-center gap-6 overflow-hidden bg-white px-5 py-[42px] lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
+      className="relative flex w-full flex-col items-start justify-center gap-6 overflow-hidden bg-white px-5 sm:px-8 py-[42px] sm:py-[50px] lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
     >
       {/* Header Row (Figma 2862:10483) — desktop outer frame supplies padding 62/80/32/80 + gap 42 */}
       <div className="flex w-full flex-col items-start justify-center gap-6 lg:mx-auto lg:max-w-[1280px] lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:px-0 lg:pb-0">
         <div className="flex w-full flex-col items-start gap-6 lg:w-auto lg:gap-4">
           <Eyebrow label="Other vehicles" icons="navy" />
-          <h2 className="w-full text-left font-display text-[28px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink sm:text-[42px] lg:text-left lg:text-[52px] lg:tracking-[-1.04px]">
+          <h2 className="w-full text-left font-display text-[28px] sm:text-[38px] font-semibold not-italic leading-[1.15] tracking-[-0.56px] text-ink lg:text-left lg:text-[52px] lg:tracking-[-1.04px]">
             Also worth a look.
           </h2>
         </div>
@@ -102,24 +104,19 @@ export default function ProductOtherVehicles() {
       </div>
 
       {/* Carousel Container — Full-Bleed across viewport (Figma 2862:10499).
-          Desktop cancels the outer frame's 80px side padding to stay edge-to-edge. */}
-      <div className="relative w-full lg:mx-[calc(50%_-_50vw)] lg:w-[100vw]">
+          Breaks out of section side padding on mobile, tablet, and desktop to stay edge-to-edge. */}
+      <div className="relative -mx-5 w-[calc(100%+40px)] sm:-mx-8 sm:w-[calc(100%+64px)] lg:mx-[calc(50%_-_50vw)] lg:w-[100vw]">
         {/* Scrollable Track */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex w-full gap-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory lg:gap-6"
+          className="flex w-full gap-5 overflow-x-auto px-5 sm:px-8 pb-4 scrollbar-none snap-x snap-mandatory scroll-pl-5 sm:scroll-pl-8 lg:gap-6 lg:px-0 lg:scroll-pl-0"
         >
-          {/* Left Alignment Spacers — ensures first card is always aligned under the header */}
+          {/* Left Alignment Spacers — ensures first card is always aligned under the header on desktop */}
           <div
             aria-hidden
             className="hidden shrink-0 snap-start lg:block"
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
-          />
-          <div
-            aria-hidden
-            className="hidden shrink-0 snap-start sm:block lg:hidden"
-            style={{ width: "32px" }}
           />
 
           {VEHICLES.map((vehicle) => (
@@ -226,16 +223,11 @@ export default function ProductOtherVehicles() {
             </article>
           ))}
 
-          {/* Right Padding Spacers */}
+          {/* Right Padding Spacers — desktop uses spacer for end clearance */}
           <div
             aria-hidden
             className="hidden shrink-0 snap-start lg:block"
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
-          />
-          <div
-            aria-hidden
-            className="hidden shrink-0 snap-start sm:block lg:hidden"
-            style={{ width: "32px" }}
           />
         </div>
 

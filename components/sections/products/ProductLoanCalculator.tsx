@@ -117,7 +117,7 @@ export default function ProductLoanCalculator() {
       <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center px-4 sm:px-6 lg:px-[42px]">
         {/* Main Card with Figma Gradient */}
         <div
-          className="relative flex w-full max-w-[393px] flex-col items-start gap-[24px] overflow-hidden rounded-[16px] px-[10px] py-[32px] sm:px-5 lg:max-w-full lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
+          className="relative flex w-full max-w-[393px] sm:max-w-[680px] flex-col items-start gap-[24px] overflow-hidden rounded-[16px] px-[10px] sm:px-8 py-[32px] sm:py-10 lg:max-w-full lg:flex-row lg:items-center lg:justify-between lg:gap-[60px] lg:px-[42px] lg:py-[53px] xl:gap-[120px]"
           style={{
             background:
               "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #041231",
@@ -132,12 +132,12 @@ export default function ProductLoanCalculator() {
               </div>
 
               {/* Subheading */}
-              <h2 className="w-full self-stretch font-display text-[28px] font-semibold leading-[115%] tracking-[-0.56px] text-white lg:max-w-[430px] lg:text-[42px] xl:text-[52px] xl:tracking-[-1.04px]">
+              <h2 className="w-full self-stretch font-display text-[28px] sm:text-[38px] font-semibold leading-[115%] tracking-[-0.56px] text-white lg:max-w-[430px] lg:text-[42px] xl:text-[52px] xl:tracking-[-1.04px]">
                 Loan approved in <br className="lg:hidden" />48 hours.
               </h2>
 
               {/* Body Text */}
-              <p className="w-full font-sans text-[12px] font-normal leading-normal text-[#C3C3C3] lg:max-w-[484px] lg:text-[16px]">
+              <p className="w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#C3C3C3] lg:max-w-[484px] lg:text-[16px]">
                 We work with 14 banks and finance companies. There is a separate desk for you. Move the
                 slider to see your EMI.
               </p>

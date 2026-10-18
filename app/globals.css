@@ -365,3 +365,12 @@ button {
     padding-right: calc(max(0px, (100vw - 1440px) / 2) + 24px);
   }
 }
+
+@media (min-width: 1024px) {
+  .carousel-pad-overview {
+    padding-left: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+    padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+    scroll-padding-left: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+    scroll-padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+  }
+}

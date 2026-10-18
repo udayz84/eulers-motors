@@ -43,13 +43,13 @@ export default function CustomerReviews() {
           centered in the 1320px content box → text starts at x=80 on desktop.
           Heading stack gap 16px (lg:gap-4). Mobile (1:4828) keeps px-5 ·
           pt-10 · pb-24. */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pb-[24px] pt-10 lg:justify-center lg:px-[60px] lg:pb-[42px] lg:pt-[62px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 sm:px-8 pb-[24px] pt-10 sm:pt-12 lg:justify-center lg:px-[60px] lg:pb-[42px] lg:pt-[62px]">
         <div className="flex w-full max-w-[1280px] flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
           <Eyebrow label="Customers" />
-          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
+          <h2 className="font-display text-[28px] sm:text-[38px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
             Customer reviews
           </h2>
-          <p className="text-[12px] text-ink lg:text-[16px] lg:leading-normal">
+          <p className="text-[12px] sm:text-[14px] text-ink lg:text-[16px] lg:leading-normal">
             Watch real customers share their experience with Euler Motors.
           </p>
         </div>

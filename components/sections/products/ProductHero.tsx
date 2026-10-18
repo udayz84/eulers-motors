@@ -262,10 +262,10 @@ export default function ProductHero() {
   return (
     <section
       aria-label="Storm EV LR 200 Base"
-      className="relative w-full overflow-hidden bg-white max-xl:h-[762px] max-xl:w-full xl:h-[800px]"
+      className="relative w-full overflow-hidden bg-white max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
       {/* Mobile background portrait crop */}
-      <div aria-hidden className="absolute inset-0 xl:hidden">
+      <div aria-hidden className="absolute inset-0 lg:hidden">
         <Image
           src={`${ASSET}mobile-hero.png`}
           alt="Storm EV LR 200 electric vehicle on a city road"
@@ -293,7 +293,7 @@ export default function ProductHero() {
       </div>
 
       {/* Desktop background landscape */}
-      <div aria-hidden className="absolute inset-0 hidden xl:block">
+      <div aria-hidden className="absolute inset-0 hidden lg:block">
         <Image
           src={`${ASSET}hero-bg-desktop.png`}
           alt="Storm EV LR 200 electric vehicle on a city road"
@@ -304,19 +304,19 @@ export default function ProductHero() {
         />
       </div>
 
-      {/* Mobile layout container (393px × 762px) */}
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-[393px] flex-col justify-between px-4 pb-4 pt-[90px] xl:hidden">
+      {/* Mobile layout container (393px phone, fluid up to 560px on small tablets) */}
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[393px] sm:max-w-[560px] flex-col justify-between px-4 sm:px-6 pb-4 sm:pb-6 pt-[90px] sm:pt-[100px] lg:hidden">
         {/* Header container */}
-        <div className="flex w-[302.801px] max-w-full flex-col items-start justify-center gap-[12px]">
-          <h1 className="self-stretch font-display text-[28px] font-semibold leading-[115%] tracking-[-0.56px] text-[#121212]">
+        <div className="flex w-[302.801px] sm:w-[420px] max-w-full flex-col items-start justify-center gap-[12px]">
+          <h1 className="self-stretch font-display text-[28px] sm:text-[36px] font-semibold leading-[115%] tracking-[-0.56px] text-[#121212]">
             Storm EV LR 200 Base
           </h1>
-          <p className="w-[308.685px] max-w-full font-sans text-[12px] font-normal leading-normal text-[#121212]">
+          <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
             Built for long city and highway runs. Carries a full load all day and charges overnight at your depot.
           </p>
           <button
             type="button"
-            className="flex h-[44px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] font-sans text-[14px] font-semibold text-white transition-transform active:scale-[0.98]"
+            className="flex h-[44px] sm:h-[48px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] sm:px-[24px] font-sans text-[14px] sm:text-[15px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
             <span>Download Brochure</span>
             <Arrow color="white" />
@@ -336,8 +336,8 @@ export default function ProductHero() {
         </div>
       </div>
 
-      {/* Desktop layout container (>= xl) */}
-      <div className="relative z-10 mx-auto hidden h-full max-w-[1440px] xl:block">
+      {/* Desktop layout container (>= lg: 768px with zoom) */}
+      <div className="relative z-10 mx-auto hidden h-full max-w-[1440px] lg:block">
         {/* Left header */}
         <div className="absolute left-20 top-[130px] flex w-[303px] flex-col items-start gap-4">
           <h1 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink">
