@@ -169,7 +169,7 @@ function MapPin({ className = "" }: { className?: string }) {
       aria-hidden="true"
       className={`absolute flex size-[37.43px] items-center justify-center rounded-full border border-white bg-[rgba(0,0,0,0.12)] p-1 backdrop-blur-[10.4px] ${className}`}
     >
-      <div className="relative flex size-[27.43px] shrink-0 items-center justify-center rounded-full bg-[linear-gradient(-40deg,#0e2f6d_6.55%,#1d6fff_98.52%)]">
+      <div className="relative flex size-[27.429px] shrink-0 flex-col items-center justify-center gap-[22.857px] rounded-[11428.57px] bg-[linear-gradient(0deg,#000_0%,#000_100%)] bg-white p-[9.143px] lg:bg-[linear-gradient(-40deg,#0e2f6d_6.55%,#1d6fff_98.52%)]">
         <Image
           src={`${ASSET}pin-logo-desktop.svg`}
           alt=""

@@ -302,7 +302,7 @@ export default function ChargingStationNextStep() {
 
   return (
     <section className="relative isolate mx-auto flex h-auto w-full max-w-[1440px] flex-col items-stretch overflow-hidden bg-white p-0 lg:h-[611px] lg:flex-row lg:items-end lg:justify-between lg:px-20 lg:pt-16 lg:pb-[42px]">
-      <div className="pointer-events-none absolute left-[72px] top-[179.55px] -z-10 hidden h-[441px] w-[631px] lg:block" aria-hidden="true">
+      <div className="pointer-events-none absolute left-[72px] top-[189.55px] -z-10 hidden h-[441px] w-[631px] lg:block" aria-hidden="true">
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src={`${asset}background.png`}
@@ -317,6 +317,13 @@ export default function ChargingStationNextStep() {
           style={{
             backgroundImage:
               "linear-gradient(90deg, transparent 65.285%, white 100%), linear-gradient(270deg, transparent 71.138%, white 100%), linear-gradient(0deg, transparent 69.07%, white 100%), linear-gradient(180deg, transparent 51.97%, white 99.827%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 backdrop-blur-[8px]"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent 30%, black 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 30%, black 100%)",
           }}
         />
       </div>
@@ -347,7 +354,7 @@ export default function ChargingStationNextStep() {
       </div>
 
       {/* Desktop Form */}
-      <div className="relative z-10 hidden w-[517px] shrink-0 flex-col justify-center gap-8 rounded-2xl bg-[#f3f4f5] p-8 lg:flex">
+      <div className="relative z-10 hidden w-[517px] shrink-0 flex-col justify-center gap-8 rounded-2xl bg-[#f3f4f5] p-8 lg:flex lg:h-[465.47px]">
         <div className="flex flex-col gap-3 text-[#121212]">
           <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px]">
             Book a test drive

@@ -88,8 +88,6 @@ export default function ChargingStationFaq() {
   const [thumbTop, setThumbTop] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(true);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartRef = useRef<{ startY: number; startScrollTop: number } | null>(null);
 
   const visibleQuestions =
     selectedCategory === "All"
@@ -111,20 +109,13 @@ export default function ChargingStationFaq() {
     setCanScrollUp(scrollTop > 2);
     setCanScrollDown(scrollTop < maxScroll - 2);
 
+    const computedThumbHeight = Math.min(60, trackHeight);
+    setThumbHeight(computedThumbHeight);
+
     if (maxScroll <= 0) {
-      setThumbHeight(trackHeight);
       setThumbTop(0);
       return;
     }
-
-    const minThumbHeight = 40;
-    const maxThumbHeight = Math.max(minThumbHeight, trackHeight * 0.85);
-    const rawThumbHeight = (clientHeight / scrollHeight) * trackHeight;
-    const computedThumbHeight = Math.min(
-      maxThumbHeight,
-      Math.max(minThumbHeight, rawThumbHeight)
-    );
-    setThumbHeight(computedThumbHeight);
 
     const maxThumbTop = trackHeight - computedThumbHeight;
     const scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScroll));
@@ -164,69 +155,23 @@ export default function ChargingStationFaq() {
     }
   }
 
+  // One arrow press = one question-sized step (thumb slides a little each time)
+  const getScrollStep = () => {
+    const list = listRef.current;
+    if (!list) return 0;
+    const maxScroll = list.scrollHeight - list.clientHeight;
+    if (maxScroll <= 0) return 0;
+    return maxScroll / Math.max(1, visibleQuestions.length);
+  };
+
   const handleScrollUp = () => {
     if (!listRef.current) return;
-    listRef.current.scrollBy({ top: -140, behavior: "smooth" });
+    listRef.current.scrollBy({ top: -getScrollStep(), behavior: "smooth" });
   };
 
   const handleScrollDown = () => {
     if (!listRef.current) return;
-    listRef.current.scrollBy({ top: 140, behavior: "smooth" });
-  };
-
-  const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!trackRef.current || !listRef.current) return;
-    const trackRect = trackRef.current.getBoundingClientRect();
-    const clickY = e.clientY - trackRect.top;
-    const trackHeight = trackRef.current.clientHeight;
-    const maxThumbTop = trackHeight - thumbHeight;
-    if (maxThumbTop <= 0) return;
-
-    const targetThumbTop = clickY - thumbHeight / 2;
-    const fraction = Math.max(0, Math.min(1, targetThumbTop / maxThumbTop));
-    const maxScroll = listRef.current.scrollHeight - listRef.current.clientHeight;
-    if (maxScroll <= 0) return;
-
-    listRef.current.scrollTo({
-      top: fraction * maxScroll,
-      behavior: "smooth",
-    });
-  };
-
-  const handleThumbPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-    dragStartRef.current = {
-      startY: e.clientY,
-      startScrollTop: listRef.current?.scrollTop || 0,
-    };
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const handleThumbPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging || !dragStartRef.current || !listRef.current || !trackRef.current) return;
-    e.preventDefault();
-    const deltaY = e.clientY - dragStartRef.current.startY;
-    const trackHeight = trackRef.current.clientHeight;
-    const maxThumbTop = trackHeight - thumbHeight;
-    if (maxThumbTop <= 0) return;
-
-    const maxScroll = listRef.current.scrollHeight - listRef.current.clientHeight;
-    if (maxScroll <= 0) return;
-
-    const scrollDelta = (deltaY / maxThumbTop) * maxScroll;
-    listRef.current.scrollTop = dragStartRef.current.startScrollTop + scrollDelta;
-  };
-
-  const handleThumbPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      setIsDragging(false);
-      dragStartRef.current = null;
-      try {
-        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-      } catch {}
-    }
+    listRef.current.scrollBy({ top: getScrollStep(), behavior: "smooth" });
   };
 
   return (
@@ -236,7 +181,7 @@ export default function ChargingStationFaq() {
     >
       <div className="flex w-full flex-col items-stretch gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-8 xl:gap-[41px]">
         {/* Left Column: Heading, Categories & Map */}
-        <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[580px] self-stretch">
+        <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
           <div className="flex w-full flex-col items-start">
             <FaqBadge />
             <div className="mt-4 flex flex-col gap-3 text-[#121212] sm:gap-4">
@@ -312,7 +257,7 @@ export default function ChargingStationFaq() {
           <div
             role="img"
             aria-label="Euler charging station location network map"
-            className="w-full flex-none self-stretch rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px]"
+            className="w-full flex-none self-stretch rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
             style={{
               backgroundImage: "url('/assets/charging-station-faq/location-map.png')",
               backgroundPosition: "50% 50%",
@@ -378,7 +323,7 @@ export default function ChargingStationFaq() {
           </div>
 
           {/* Custom Interactive Scrollbar Track & Chevrons */}
-          <div className="flex w-3.5 sm:w-4 shrink-0 flex-col items-center py-1 select-none">
+          <div className="hidden w-3.5 sm:flex sm:w-4 shrink-0 flex-col items-center py-1 select-none">
             {/* Scroll Up Button */}
             <button
               type="button"
@@ -399,24 +344,15 @@ export default function ChargingStationFaq() {
             {/* Scroll Track */}
             <div
               ref={trackRef}
-              onClick={handleTrackClick}
-              className="relative my-2 sm:my-2.5 w-3.5 sm:w-4 flex-1 cursor-pointer rounded-full bg-[#f3f4f5]"
+              className="relative my-2 sm:my-2.5 w-3.5 sm:w-4 flex-1 rounded-[8px] bg-[#f3f4f5]"
             >
-              {/* Draggable Thumb */}
+              {/* Thumb (position follows the list scroll) */}
               <div
-                onPointerDown={handleThumbPointerDown}
-                onPointerMove={handleThumbPointerMove}
-                onPointerUp={handleThumbPointerUp}
-                onPointerCancel={handleThumbPointerUp}
                 style={{
                   height: `${thumbHeight}px`,
                   transform: `translateY(${thumbTop}px)`,
                 }}
-                className={`absolute left-0 top-0 w-full rounded-full bg-[#0e2f6d] shadow-sm transition-[height] duration-150 touch-none ${
-                  isDragging
-                    ? "cursor-grabbing bg-[#0a2352]"
-                    : "cursor-grab hover:bg-[#113a85]"
-                }`}
+                className="absolute left-0 top-0 w-full rounded-[8px] bg-[#0e2f6d] shadow-sm transition-[height] duration-150"
               />
             </div>
 

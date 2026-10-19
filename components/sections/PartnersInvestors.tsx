@@ -16,7 +16,7 @@ function PartnerLogos({ duplicate = false }: { duplicate?: boolean }) {
           alt={duplicate ? "" : partner.alt}
           width={partner.desktopWidth}
           height={100}
-          className="h-[100px] shrink-0 object-cover"
+          className="h-[100px] shrink-0 object-contain"
           style={{ width: `${partner.desktopWidth}px` }}
         />
       ))}
@@ -36,11 +36,24 @@ export default function PartnersInvestors({
       aria-labelledby="partners-investors-title"
       className="relative h-[300px] overflow-hidden text-white px-5 py-[42px] sm:px-8 lg:h-[370px] lg:p-0"
       style={{
-        backgroundImage:
-          "linear-gradient(90deg, #041231 0%, #041231 100%), linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(-83.58deg, #0E2F6D 63.51%, #1D6FFF 87.23%)",
-        backgroundColor: "#041231",
+        background:
+          "linear-gradient(180deg, #041231 0%, #041231 45%, rgba(4, 18, 49, 0) 100%), linear-gradient(0deg, rgba(29, 111, 255, 0.55) -20%, rgba(14, 47, 109, 0) 55%), linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)",
       }}
     >
+      {/* Decorative orbit ring + blue glow from Figma, layered above the background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute right-[-423.63px] top-[-484.38px] size-[1335.635px]">
+          <div className="absolute inset-[-1.73%]">
+            <img src="/assets/partners-investors/orbit.svg" alt="" className="block size-full max-w-none" />
+          </div>
+        </div>
+        <div className="absolute left-1/2 top-[255px] h-[482.379px] w-[2475.52px] -translate-x-1/2 opacity-75">
+          <div className="absolute inset-y-[-43.95%] inset-x-[-8.56%]">
+            <img src="/assets/partners-investors/blue-glow.svg" alt="" className="block size-full max-w-none" />
+          </div>
+        </div>
+      </div>
+
       {/* Edge gradient masks to fade logos cleanly into the #041231 background */}
       <div
         aria-hidden="true"
@@ -76,7 +89,7 @@ export default function PartnersInvestors({
         </div>
         <h2
           id="partners-investors-title"
-          className="whitespace-nowrap font-display text-[42px] lg:text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]"
+          className="whitespace-nowrap font-display text-[42px] font-semibold not-italic leading-normal tracking-[-0.84px] text-white"
         >
           {title}
         </h2>
@@ -84,7 +97,7 @@ export default function PartnersInvestors({
 
       <div
         aria-label="Our partners and investors"
-        className="partners-logo-loop absolute left-[-548px] top-[217px] hidden w-max opacity-60 lg:flex"
+        className="partners-logo-loop absolute left-[-548px] top-[217px] hidden w-max lg:flex"
       >
         <PartnerLogos />
         <PartnerLogos duplicate />
@@ -117,7 +130,7 @@ export default function PartnersInvestors({
         </p>
       </div>
 
-      <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-276px] opacity-60 top-[138.15px] animate-logo-scroll-right w-max">
+      <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-276px] top-[138.15px] animate-logo-scroll-right w-max">
         {partners.map((partner) => (
           <img
             key={partner.alt}
@@ -164,7 +177,7 @@ export default function PartnersInvestors({
         ))}
       </div>
 
-      <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-116px] opacity-60 top-[198.15px] animate-logo-scroll-left w-max">
+      <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-116px] top-[198.15px] animate-logo-scroll-left w-max">
         {partners.map((partner) => (
           <img
             key={`${partner.alt}-row2`}

@@ -28,21 +28,17 @@ export type SupportTabType = "dealer" | "charging" | "service";
 function SupportTabs({
   active = "dealer",
   onTabChange,
-  responsive = false,
 }: {
   active?: SupportTabType;
   onTabChange?: (tab: SupportTabType) => void;
-  responsive?: boolean;
 }) {
-  const pad = responsive ? "px-2.5 sm:px-3.5 max-[359px]:px-2" : "px-2.5 sm:px-3.5";
-  const text = responsive ? "text-xs sm:text-[13px] max-[359px]:text-[11px]" : "text-xs sm:text-[13px]";
+  const pad = "px-2 max-[359px]:px-1.5 sm:px-3.5";
+  const text = "text-[11px] max-[359px]:text-[10px] sm:text-[13px]";
   return (
     <div
       role="tablist"
       aria-label="Support navigation"
-      className={`relative flex h-9 sm:h-10 w-[353px] sm:w-[420px] items-center justify-between rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 lg:h-[46px] lg:w-[488px] lg:p-0.5 ${
-        responsive ? "max-w-full" : ""
-      }`}
+      className="relative flex h-9 w-full max-w-[353px] items-center justify-between rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 sm:h-10 sm:w-[420px] sm:max-w-[420px] lg:h-[46px] lg:w-[488px] lg:max-w-[488px] lg:p-0.5"
     >
       <span
         aria-hidden="true"
@@ -164,12 +160,11 @@ export default function DealerLocatorHero({
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-[353px] sm:w-[500px]"}`}>
+      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
         <SupportBadge />
         <SupportTabs
           active={activeTab}
           onTabChange={setActiveTab}
-          responsive={isCharging}
         />
         <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
           {currentContent.title}
