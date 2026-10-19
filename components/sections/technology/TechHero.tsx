@@ -12,7 +12,7 @@ const A = "/assets/technology-page";
 export default function TechHero() {
   return (
     <section className="relative overflow-clip bg-[#041231]" aria-label="Technology">
-      <div className="relative mx-auto w-full max-w-[393px]">
+      <div className="relative mx-auto w-full max-w-[393px] lg:hidden">
         {/* hero — 393×762 */}
         <div className="relative h-[762px] w-full">
           <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -107,6 +107,98 @@ export default function TechHero() {
 
             <PagerBar rowId="philosophy-scroll-row" />
           </div>
+        </div>
+      </div>
+
+      <div className="relative hidden h-[800px] w-full overflow-clip lg:block">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 overflow-hidden">
+            <img src={`${A}/hero__imgRectangle42158.png`} alt="" className="absolute left-[0.05%] top-[-36.82%] h-[181.34%] w-[99.94%] max-w-none" />
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, rgba(4,18,49,0) 60.47%, #041231 90.8%), linear-gradient(186deg, rgba(0,0,0,0) 56.44%, rgba(0,0,0,0.8) 99.95%), linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%), linear-gradient(182deg, rgba(0,0,0,0) 56.69%, rgba(0,0,0,0.8) 93.41%)",
+            }}
+          />
+        </div>
+
+        <div className="absolute left-1/2 top-[537px] flex w-[1280px] -translate-x-1/2 items-end justify-between">
+          <div className="flex w-[450px] flex-col items-start justify-center gap-5 text-white">
+            <Eyebrow label="Technology" dark />
+            <h1 className="w-[788.543px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]">
+              Built Smarter.<br />Built for Business.
+            </h1>
+            <p className="w-[604.962px] font-sans text-[16px] leading-normal">
+              Every innovation is designed for everyday business.
+            </p>
+          </div>
+
+          <div className="flex w-[386px] flex-col items-start gap-5">
+            <div className="relative w-full overflow-clip rounded-lg bg-white/[0.04] p-6">
+              <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
+              <div className="absolute bottom-0 left-0 h-1 w-[178px] bg-white" />
+              <div className="flex w-full items-center gap-4 text-white">
+                <p className="shrink-0 whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-0.84px]">
+                  <span className="text-[42px]">96.4</span><span className="text-[26px]">%</span>
+                </p>
+                <p className="min-w-0 flex-1 font-display text-[16px] leading-[1.4] tracking-[-0.32px]">
+                  Fleet uptime last year, across 15,000 vehicles
+                </p>
+              </div>
+            </div>
+            <Button variant="white" arrow="navy" href="#book-test-drive" className="w-full">
+              Book a test drive
+            </Button>
+          </div>
+        </div>
+
+        <FloatingWidget />
+      </div>
+
+      <div
+        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] px-20 pb-[42px] pt-6 bg-[#041231] lg:flex"
+      >
+        <button
+          type="button"
+          aria-label="Previous philosophy"
+          className="absolute left-[49.818px] bottom-[340.5px] size-[55px] cursor-pointer"
+        >
+          <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none rotate-180" />
+        </button>
+        <button
+          type="button"
+          aria-label="Next philosophy"
+          className="absolute right-[49.818px] bottom-[340.5px] size-[55px] cursor-pointer"
+        >
+          <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
+        </button>
+
+        <div className="flex w-full flex-col items-center gap-6">
+          <div className="flex w-[900px] flex-col items-center gap-4">
+            <Eyebrow label="Philosophy" dark />
+            <h2 className="whitespace-nowrap text-center font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px] text-white">
+              Technology That Helps You Earn More
+            </h2>
+          </div>
+          <p className="w-[493.137px] text-center font-sans text-[16px] leading-normal text-white">
+            A commercial vehicle is part of your business. That&apos;s why every technology we build is designed to reduce costs.
+          </p>
+        </div>
+
+        <div className="flex w-full items-center gap-[10px]">
+          {PHILOSOPHY.map((card) => (
+            <article key={card.title} className="flex min-w-0 flex-1 flex-col items-start justify-center gap-8 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-8">
+              <div className="relative h-[72px] w-[74.709px] shrink-0 overflow-hidden">
+                <img src={`${A}/hero__imgChatGptHero.png`} alt="" className="absolute max-w-none" style={card.crop} />
+              </div>
+              <div className="flex w-full flex-col items-start gap-2 text-white">
+                <h3 className="w-full font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.78px]">{card.title}</h3>
+                <p className="w-full font-sans text-[16px] leading-normal">{card.desc}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

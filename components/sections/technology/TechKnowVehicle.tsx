@@ -98,8 +98,8 @@ function Chip({ label, icon, active, kind }: (typeof CHIPS)[number]) {
 /** TECHNOLOGY page — "The parts / Know Your Vehicle Better" (Figma 3006:10290, 393×743). */
 export default function TechKnowVehicle() {
   return (
-    <section className="bg-[#041231]" aria-label="Know your vehicle better">
-      <div className="relative mx-auto h-[743px] w-full max-w-[393px] overflow-clip">
+    <section className="relative overflow-clip bg-[#041231]" aria-label="Know your vehicle better">
+      <div className="relative mx-auto h-[743px] w-full max-w-[393px] overflow-clip lg:hidden">
         <div className="absolute left-[19.49px] right-[20.51px] top-[42.06px] flex flex-col items-start gap-[14px]">
           <Eyebrow label="The parts" dark />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
@@ -159,6 +159,108 @@ export default function TechKnowVehicle() {
           </div>
         </div>
       </div>
+
+      <div className="relative mx-auto hidden h-[644px] w-full max-w-[1440px] overflow-clip text-white lg:block">
+        <div className="absolute left-20 top-[62px] flex flex-col items-start gap-6">
+          <div className="flex w-[700px] flex-col items-start gap-4">
+            <Eyebrow label="The parts" dark />
+            <h2 className="whitespace-nowrap font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px]">
+              Know Your Vehicle Better
+            </h2>
+          </div>
+          <p className="whitespace-nowrap font-sans text-[16px] leading-normal">
+            Understand what each key part does and how it helps you on every trip.
+          </p>
+        </div>
+
+        <div className="absolute left-[98.82px] top-[238.51px] h-[372.979px] w-[608.464px] mix-blend-lighten">
+          <img src={`${A}/kv__imgChatGpt1.png`} alt="Euler electric vehicle with motor highlighted" className="absolute inset-0 size-full max-w-none object-cover" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 29.85% 75.96%, rgba(4,18,49,0) 0%, #041231 95.733%), linear-gradient(90deg, rgba(4,18,49,0.2), rgba(4,18,49,0.2))",
+              opacity: 0.2,
+            }}
+          />
+        </div>
+        <p className="absolute left-[109px] top-[309.77px] -translate-x-1/2 whitespace-nowrap text-center font-sans text-[20px] font-bold leading-normal">Motor</p>
+        <div className="absolute left-[109.5px] top-[344.34px] h-[175.228px] w-[153.635px]">
+          <img src={`${A}/kv__imgVector174.svg`} alt="" className="absolute inset-0 size-full max-w-none" />
+        </div>
+
+        <div className="no-scrollbar absolute left-[764.2px] right-0 top-[95.78px] flex items-center gap-[9.6px] overflow-x-auto pb-1">
+          {CHIPS.map((chip, i) => <DesktopChip key={`${chip.label}-${i}`} {...chip} />)}
+        </div>
+
+        <div className="absolute right-20 top-[257px] w-[596px] rounded-lg border border-[rgba(204,204,204,0.12)] bg-[linear-gradient(180deg,rgba(18,18,18,0.2)_41.677%,rgba(0,0,0,0.2)_100%)] p-3">
+          <div className="flex flex-col items-start gap-5">
+            <h3 className="w-full font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px]">Full loads, from standstill.</h3>
+            <div className="flex w-full flex-col items-start gap-1.5">
+              {DETAIL.map((detail) => (
+                <div key={detail.label} className="flex w-full flex-col items-start gap-2 rounded-lg bg-black p-3">
+                  <p className="whitespace-nowrap font-sans text-[18px] font-bold leading-[1.15] tracking-[-0.36px]" style={{ color: detail.accent ? "#1d6fff" : "#ccc" }}>{detail.label}</p>
+                  <p className="w-full font-sans text-[16px] leading-[1.4] tracking-[-0.32px] text-[#ccc] opacity-80">{detail.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+  );
+}
+
+function DesktopChip({ label, icon, active, kind }: (typeof CHIPS)[number]) {
+  const glow = (
+    <div aria-hidden="true" className="pointer-events-none absolute left-[40.52px] top-[37.73px] h-[38.076px] w-[30.091px]">
+      <div className="absolute inset-[-137.09%_-173.47%]">
+        <img src={`${A}/kv__imgEllipse3429.svg`} alt="" className="block size-full max-w-none" />
+      </div>
+    </div>
+  );
+
+  if (active) {
+    return (
+      <div className="flex w-[135.6px] shrink-0 flex-col items-center justify-center gap-[14.4px] rounded-[7.2px] border-[1.2px] border-[#256dec] px-[19.2px] py-[7.2px]" style={{ backgroundImage: "linear-gradient(-31.352deg,#0e2f6d 10.379%,#1d6fff 90.974%),linear-gradient(90deg,#121212 0%,#121212 100%)" }}>
+        <img src={icon} alt="" className="size-[62.4px] shrink-0 object-cover" />
+        <p className="w-full text-center font-sans text-[16px] font-bold leading-normal">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "cropped") {
+    return (
+      <div className="relative flex h-[109.6px] w-[135.6px] shrink-0 flex-col items-center justify-between overflow-clip rounded-[7.2px] border-[1.2px] border-[rgba(204,204,204,0.12)] bg-[#121212] px-[19.2px] pb-[7.2px] pt-[14.4px] opacity-80">
+        {glow}
+        <img src={icon} alt="" className="relative h-[56.263px] w-[85.476px] shrink-0 object-cover opacity-50" />
+        <p className="relative w-full text-center font-sans text-[16px] font-bold leading-normal text-[#ccc] opacity-50">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "blurred") {
+    return (
+      <div className="relative flex h-[109.6px] w-[135.6px] shrink-0 flex-col items-center justify-end gap-[14.4px] overflow-clip rounded-[7.2px] border-[1.2px] border-[rgba(204,204,204,0.12)] bg-[#121212] px-[19.2px] py-[7.2px] opacity-80">
+        {glow}
+        <p className="relative w-full text-center font-sans text-[16px] font-bold leading-normal text-[#ccc] opacity-50">{label}</p>
+        <div className="absolute left-[31.75px] top-[17.41px] flex h-[105.084px] w-[87.429px] items-center justify-center">
+          <div className="flex-none rotate-[-19.47deg]">
+            <div className="relative h-[89.912px] w-[60.94px] overflow-hidden blur-[4.56px] opacity-50">
+              <img src={icon} alt="" className="absolute left-0 top-[-6.78%] h-[108.02%] w-full max-w-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative flex w-[135.6px] shrink-0 flex-col items-center gap-[14.4px] rounded-[7.2px] border-[1.2px] border-[rgba(204,204,204,0.12)] bg-[#121212] px-[19.2px] py-[7.2px] opacity-80">
+      {glow}
+      <img src={icon} alt="" className="relative size-[62.4px] shrink-0 object-cover opacity-50" />
+      <p className="relative w-full text-center font-sans text-[16px] font-bold leading-normal text-[#ccc] opacity-50">{label}</p>
+    </div>
   );
 }

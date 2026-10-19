@@ -20,8 +20,8 @@ const DONTS = [
  */
 export default function TechCharging() {
   return (
-    <section className="bg-white py-6" aria-label="Charging">
-      <div className="relative mx-auto w-full max-w-[393px] overflow-hidden">
+    <section className="bg-white py-6 lg:py-0" aria-label="Charging">
+      <div className="relative mx-auto w-full max-w-[393px] overflow-hidden lg:hidden">
         {/* Header container */}
         <div className="flex flex-col items-start gap-[14px] px-5 pt-2">
           <Eyebrow label="Charging" />
@@ -206,6 +206,78 @@ export default function TechCharging() {
           </div>
         </div>
       </div>
+
+      {/* Desktop charging guide (Figma 3572:26411). */}
+      <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-[62px] px-[80px] py-[101px] lg:flex">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex w-[534px] flex-col items-start justify-center gap-4">
+            <div className="relative flex h-[21px] items-center gap-[6px]">
+              <img src={`${A}/charging-eyebrow-mark.svg`} alt="" className="relative z-10" />
+              <img src={`${A}/charging-eyebrow-line.svg`} alt="" className="absolute left-[3.43px] top-0" />
+              <span className="relative z-10 text-[14px] font-bold uppercase tracking-[0.7px] text-navy">Charging</span>
+            </div>
+            <h2 className="whitespace-nowrap font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink">
+              Where Will I Charge?
+            </h2>
+          </div>
+          <div className="flex flex-col items-end justify-end gap-5">
+            <p className="w-[405px] text-[16px] leading-normal text-ink">
+              Different businesses have different needs. Choose the charging setup that works best for your operations.
+            </p>
+            <div className="flex items-center gap-3" role="group" aria-label="Charging setup">
+              <button type="button" className="flex h-[42px] w-[100px] items-center justify-center rounded-full bg-[#f3f4f5] px-4 text-[16px] font-semibold leading-none text-ink">
+                Home
+              </button>
+              <button type="button" aria-pressed="true" className="flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] px-4 text-[16px] font-semibold leading-none text-white">
+                Public
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex w-full items-center justify-center gap-[27px] rounded-[12px] bg-[#f3f4f5] p-[42px]">
+          <div className="flex shrink-0 flex-col items-start justify-center gap-5">
+            <div className="relative h-[243px] w-[452px] overflow-hidden">
+              <img src={`${A}/charge__imgRectangle1618873364.png`} alt="Public charging station" className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain" />
+            </div>
+            <div className="flex h-[50px] items-center gap-[119px] rounded-[8px] bg-white py-1 pl-3 pr-1">
+              <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">How it works</span>
+              <a href="#technology-app" className="flex h-[42px] items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-5 font-display text-[16px] font-bold leading-none text-ink">
+                Find it on the app
+              </a>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-start gap-5">
+            <ChargingList title="Do's" kind="do" items={DOS} />
+            <ChargingList title="Don'ts" kind="dont" items={DONTS} />
+          </div>
+        </div>
+      </div>
     </section>
+  );
+}
+
+function ChargingList({ title, kind, items }: { title: string; kind: "do" | "dont"; items: string[] }) {
+  return (
+    <div className="flex w-[323px] flex-col items-start gap-[11px]">
+      <div className="relative flex h-[32px] w-full items-center px-5">
+        <img aria-hidden src={`${A}/charging-${kind === "do" ? "dos" : "donts"}-tab.svg`} alt="" className="absolute left-[10px] top-[-5.53px]" />
+        <span className="relative z-10 text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-white">{title}</span>
+      </div>
+      <div className="flex w-full flex-col gap-[14px] rounded-[12px] bg-white p-4">
+        {items.map((item, index) => (
+          <Fragment key={item}>
+            {index > 0 && <img aria-hidden src={`${A}/charging-divider.svg`} alt="" className="block" />}
+            <div className="flex w-full items-center gap-3">
+              <span className={`flex size-[42px] shrink-0 items-center justify-center rounded-[20px] p-[6px] ${kind === "do" ? "bg-[rgba(212,219,236,0.4)]" : "bg-[rgba(240,6,6,0.1)]"}`}>
+                <img aria-hidden src={`${A}/charging-${kind === "do" ? "check" : "cross"}.svg`} alt="" />
+              </span>
+              <p className="min-w-0 flex-1 text-[14px] font-semibold leading-[1.4] tracking-[-0.28px] text-ink">{item}</p>
+            </div>
+          </Fragment>
+        ))}
+      </div>
+    </div>
   );
 }

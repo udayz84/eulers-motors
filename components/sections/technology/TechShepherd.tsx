@@ -1,4 +1,5 @@
 import Eyebrow from "@/components/ui/Eyebrow";
+import PagerBar from "@/components/ui/PagerBar";
 
 const A = "/assets/technology-page";
 
@@ -14,8 +15,61 @@ const FEATURES = [
 /** TECHNOLOGY page — "Shepherd app / Manage Everything in One Place" (Figma 3008:10799, 393×663). */
 export default function TechShepherd() {
   return (
-    <section className="bg-[#f3f4f5]" aria-label="Shepherd app">
-      <div className="relative mx-auto h-[663px] w-full max-w-[393px] overflow-clip">
+    <section className="relative bg-[#f3f4f5]" aria-label="Shepherd app">
+      <div className="relative mx-auto hidden h-[668px] w-full max-w-[1440px] overflow-clip lg:block">
+        <div className="absolute left-[calc(25%+336.51px)] top-[-41.75px] h-[529.435px] w-[642.52px] overflow-hidden rounded-lg">
+          <img
+            src={`${A}/shep__imgImage749.png`}
+            alt="Shepherd app dashboard"
+            className="absolute left-0 top-[-5.82%] h-[105.79%] w-full max-w-none object-cover"
+          />
+        </div>
+        <div aria-hidden="true" className="absolute left-[20.49px] top-[333.21px] h-[252.152px] w-[1645.513px] bg-[#f3f4f5] blur-[47.1px]" />
+
+        <div className="absolute left-[80px] top-[100.85px] flex w-[534px] flex-col items-start justify-center gap-4">
+          <Eyebrow label="Shepherd app" />
+          <h2 className="w-[550px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink">
+            Manage Everything in One Place
+          </h2>
+          <p className="w-[405.5px] font-sans text-[16px] font-normal leading-normal text-ink">
+            Track your vehicles, battery, trips, charging and service updates from one simple dashboard.
+          </p>
+          <div className="flex items-center gap-3">
+            <button type="button" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-6">
+              <span className="whitespace-nowrap font-display text-[16px] font-semibold leading-none text-ink">Download the app</span>
+              <span className="flex size-6 shrink-0 items-center justify-center">
+                <img src={`${A}/shep__imgElements6.svg`} alt="" className="h-[15.1px] w-4 object-contain" />
+              </span>
+            </button>
+            <button type="button" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6">
+              <span className="whitespace-nowrap font-display text-[16px] font-semibold leading-none text-white">See how it connects</span>
+              <img src={`${A}/shep__imgContainer.svg`} alt="" className="h-[14px] w-[22px] shrink-0 object-contain" />
+            </button>
+          </div>
+        </div>
+
+        <PagerBar
+          rowId="shepherd-features-row"
+          className="absolute left-1/2 top-[593.86px] -translate-x-1/2 bg-[rgba(204,204,204,0.5)] [&>div]:bg-[#121212]"
+        />
+      </div>
+      <div
+        id="shepherd-features-row"
+        className="no-scrollbar absolute left-0 top-[418.69px] hidden w-full items-center gap-3 overflow-x-auto lg:flex"
+      >
+        {FEATURES.map((feature) => (
+          <article key={feature.title} className="flex h-[138.8px] w-[420px] shrink-0 flex-col items-start gap-3 overflow-clip rounded-lg bg-white p-5">
+            <div className="flex w-full items-center gap-2">
+              <div className="flex size-[42px] shrink-0 items-center justify-center rounded-[5.25px] bg-[#eff3f8] p-[7px]">
+                <img src={feature.icon} alt="" className="size-5 object-contain" />
+              </div>
+              <h3 className="whitespace-nowrap font-sans text-[20px] font-bold capitalize leading-normal text-ink">{feature.title}</h3>
+            </div>
+            <p className="pl-10 font-sans text-[16px] leading-[1.4] text-[rgba(18,18,18,0.8)]">{feature.body}</p>
+          </article>
+        ))}
+      </div>
+      <div className="relative mx-auto h-[663px] w-full max-w-[393px] overflow-clip lg:hidden">
         <div className="absolute left-5 top-[44px] flex w-[353px] flex-col items-start gap-[14px]">
           <Eyebrow label="Shepherd app" />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink">

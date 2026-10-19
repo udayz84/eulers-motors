@@ -51,7 +51,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-clip lg:aspect-[1440/850] lg:[background:url('/assets/footer/bg.png')_lightgray_-34.444px_0.375px_/_103.326%_100%_no-repeat]">
+    <footer className="relative overflow-clip lg:aspect-[1440/927] lg:[background:url('/assets/footer/bg.png')_lightgray_-34.444px_0.375px_/_103.326%_100%_no-repeat]">
       {/* desktop bg is a CSS background on <footer> (Figma 1:2174:
           url(bg.png) lightgray -34.444px 0.375px / 103.326% 100% no-repeat) */}
       {/* mobile bg — whole image scaled to the full width (no crop),

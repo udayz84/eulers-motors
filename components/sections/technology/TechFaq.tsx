@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 
 const A = "/assets/charging-station-faq";
@@ -63,6 +63,8 @@ const QUESTIONS: {
 export default function TechFaq() {
   const [selected, setSelected] = useState("All");
   const [open, setOpen] = useState<number | null>(1);
+  const desktopListRef = useRef<HTMLDivElement>(null);
+  const [desktopThumbTop, setDesktopThumbTop] = useState(0);
 
   const visible =
     selected === "All"
@@ -75,8 +77,8 @@ export default function TechFaq() {
   }
 
   return (
-    <section className="bg-white" aria-labelledby="tech-faq-title">
-      <div className="relative mx-auto flex w-full max-w-[393px] flex-col items-center gap-5 px-5 py-8">
+    <section className="bg-white" aria-label="Frequently asked questions">
+      <div className="relative mx-auto flex w-full max-w-[393px] flex-col items-center gap-5 px-5 py-8 lg:hidden">
         <div className="relative flex w-full flex-col items-start gap-[14px]">
           <Eyebrow label="FAQ" />
           <h2
@@ -180,6 +182,109 @@ export default function TechFaq() {
               </article>
             );
           })}
+        </div>
+      </div>
+
+      {/* Desktop FAQ panel (Figma 3572:26644). */}
+      <div className="mx-auto hidden min-h-[702px] w-full max-w-[1440px] px-[80px] py-[62px] lg:flex">
+        <div className="flex w-full items-center gap-[41px]">
+          <div className="flex h-[578px] min-w-0 flex-1 flex-col gap-5">
+            <div className="flex w-full flex-col items-start gap-4">
+              <Eyebrow label="FAQ" />
+              <div className="flex flex-col items-start gap-4 text-ink">
+                <h2 className="whitespace-nowrap font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px]">
+                  Frequently asked questions
+                </h2>
+                <p className="max-w-[474px] text-[16px] leading-normal">
+                  Find answers to the most common questions about our vehicles, charging, service, warranty and more.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative w-full overflow-hidden">
+              <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto" aria-label="FAQ categories">
+                {CATEGORIES.map((category) => {
+                  const isSelected = selected === category.label;
+                  return (
+                    <button
+                      key={category.label}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => {
+                        setSelected(category.label);
+                        setOpen(null);
+                      }}
+                      className={`flex shrink-0 items-center justify-center gap-[6.4px] rounded-full border-[0.4px] border-solid px-4 py-[13px] ${
+                        isSelected
+                          ? "border-white bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] text-white"
+                          : "border-transparent bg-[rgba(204,204,204,0.32)] text-ink"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap text-[16px] font-semibold leading-none">{category.label}</span>
+                      <span aria-hidden className={`size-[3.145px] shrink-0 rounded-full ${isSelected ? "bg-white/50" : "bg-black/50"}`} />
+                      <span className="whitespace-nowrap text-[14px] leading-none">{category.count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div aria-hidden className="pointer-events-none absolute right-0 top-0 h-full w-[49px] bg-gradient-to-l from-white to-transparent" />
+            </div>
+
+            <div className="min-h-0 w-full flex-1 overflow-hidden rounded-[20px]">
+              <img
+                src="/assets/charging-station-faq/location-map.png"
+                alt="Customer support team member helping with a vehicle question"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="flex h-[578px] w-[652px] shrink-0 items-stretch gap-3">
+            <div
+              ref={desktopListRef}
+              onScroll={(event) => {
+                const list = event.currentTarget;
+                const maxScroll = list.scrollHeight - list.clientHeight;
+                setDesktopThumbTop(maxScroll > 0 ? (list.scrollTop / maxScroll) * 421 : 0);
+              }}
+              className="no-scrollbar flex h-full w-[624px] flex-col gap-4 overflow-y-auto"
+              aria-label="Frequently asked questions"
+            >
+              {visible.map((faq, index) => {
+                const expanded = open === index;
+                return (
+                  <article key={faq.question} className="shrink-0 overflow-hidden rounded-[16px] bg-[#f3f4f5] p-5">
+                    <button
+                      type="button"
+                      aria-expanded={expanded}
+                      onClick={() => setOpen(expanded ? null : index)}
+                      className="flex w-full items-center justify-between gap-6 text-left"
+                    >
+                      <span className="min-w-0 flex-1 text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink">{faq.question}</span>
+                      <img
+                        src={`${A}/${expanded ? "icon-minus.svg" : "icon-plus.svg"}`}
+                        alt=""
+                        className="size-6 shrink-0"
+                      />
+                    </button>
+                    {expanded && <p className="mt-5 text-[16px] leading-[1.4] text-black/80">{faq.answer}</p>}
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="flex w-4 shrink-0 flex-col items-center justify-between py-0.5">
+              <button type="button" aria-label="Scroll FAQ list up" onClick={() => desktopListRef.current?.scrollBy({ top: -100, behavior: "smooth" })}>
+                <img src={`${A}/scroll-up.svg`} alt="" className="h-[6px] w-[14px]" />
+              </button>
+              <div className="relative my-2 w-4 flex-1 overflow-hidden rounded-[2px] bg-[#f3f4f5]">
+                <div className="absolute left-0 top-0 h-[99px] w-4 rounded-[2px] bg-[#112750] transition-transform" style={{ transform: `translateY(${desktopThumbTop}px)` }} />
+              </div>
+              <button type="button" aria-label="Scroll FAQ list down" onClick={() => desktopListRef.current?.scrollBy({ top: 100, behavior: "smooth" })}>
+                <img src={`${A}/scroll-down.svg`} alt="" className="h-[6px] w-[14px]" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
