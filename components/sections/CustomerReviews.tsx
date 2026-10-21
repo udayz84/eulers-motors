@@ -21,6 +21,7 @@ const STORY_IMAGES = [
 export default function CustomerReviews() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const visibleRef = useRef(false);
   const interactionPausedRef = useRef(false);
   const resumeTimerRef = useRef<number | null>(null);
@@ -29,7 +30,8 @@ export default function CustomerReviews() {
   useEffect(() => {
     const section = sectionRef.current;
     const row = scrollRef.current;
-    if (!section || !row) return;
+    const track = trackRef.current;
+    if (!section || !row || !track) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(([entry]) => {
@@ -38,14 +40,15 @@ export default function CustomerReviews() {
     observer.observe(section);
 
     let frame = 0;
+    let offset = 0;
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-review-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-review-index='0']");
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
+      if (!reducedMotion && visibleRef.current && duplicate && first) {
         const loopDistance = duplicate.offsetLeft - first.offsetLeft;
         if (loopDistance > 0) {
-          row.scrollLeft += 0.35;
-          if (row.scrollLeft >= loopDistance) row.scrollLeft -= loopDistance;
+          offset = (offset + 0.35) % loopDistance;
+          track.style.transform = `translate3d(${-offset}px, 0, 0)`;
         }
       }
       frame = window.requestAnimationFrame(tick);
@@ -114,7 +117,7 @@ export default function CustomerReviews() {
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
         <div className="relative" onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction}>
-          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction} onPointerCancel={resumeAfterInteraction} onWheel={pauseForInteraction} className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction} onPointerCancel={resumeAfterInteraction} onWheel={pauseForInteraction} className="snap-row snap-center-mobile gap-[13px] lg:gap-6" style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}>
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
               container offset (≥1440) + the 1280 row's centering offset
@@ -130,6 +133,7 @@ export default function CustomerReviews() {
                 "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)",
             }}
           />
+        <div ref={trackRef} className="flex w-max shrink-0 gap-[13px] lg:gap-6" style={{ willChange: "transform" }}>
         {[...STORY_IMAGES, ...STORY_IMAGES].map((story, i) => (
             <article
               key={`${i}-${story.base}`}
@@ -138,9 +142,9 @@ export default function CustomerReviews() {
               aria-hidden={i >= STORY_IMAGES.length ? true : undefined}
               className="relative aspect-[300/400] h-[466.667px] w-[350px] overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
             >
-              <Image src={story.base} alt="Customer story" fill sizes="400px" className="object-cover" />
+              <Image src={story.base} alt="Customer story" fill sizes="400px" loading={i >= STORY_IMAGES.length ? "eager" : "lazy"} className="object-cover" />
               {story.overlay && (
-                <Image src={story.overlay} alt="" fill sizes="400px" className="object-cover" />
+                <Image src={story.overlay} alt="" fill sizes="400px" loading={i >= STORY_IMAGES.length ? "eager" : "lazy"} className="object-cover" />
               )}
               {/* graded frost — Figma 1:1680 only (bottom): a 604×316 rect of
                   tint@20% + backdrop-blur 20.442px, Gaussian-smeared by a
@@ -213,6 +217,7 @@ export default function CustomerReviews() {
               </button>
             </article>
           ))}
+          </div>
           {/* Spacers for right bleed padding — same widths as the left ones,
               keeping scroll-end padding symmetric with the start gutter */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />

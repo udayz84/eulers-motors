@@ -19,11 +19,11 @@ export default function TechLoad() {
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)]"
       aria-label="Load"
     >
-      <div className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] pb-[62px] pt-0 lg:flex">
+      <div className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-[42px] pb-[62px] pt-0 lg:flex">
         <div
           id="load-carousel-desktop"
           ref={desktopCarousel}
-          className="snap-row relative left-1/2 w-screen -translate-x-1/2 items-center gap-5"
+          className="snap-row w-full items-center gap-5"
         >
           {/* Customer Reviews aligns its first card at x=80px on a 1440px viewport.
               This spacer accounts for the 20px track gap so the card itself lands
@@ -42,14 +42,13 @@ export default function TechLoad() {
         </div>
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-0 z-10 hidden h-[532px] w-[180px] bg-gradient-to-l from-[#041231]/60 via-[#041231]/20 to-transparent backdrop-blur-[5px] lg:block"
-          style={{ right: "min(0px, calc((1440px - 100vw) / 2))" }}
+          className="pointer-events-none absolute bottom-[101.97px] right-0 z-10 hidden h-[532.06px] w-[210.811px] bg-[rgba(0,0,0,0.01)] backdrop-blur-[4px] lg:block"
         />
         <button
           type="button"
           aria-label="Previous load features"
           onClick={() => scrollLoad(-1)}
-          className="absolute left-[49.82px] top-[216.5px] z-10 size-[55px] rotate-180"
+          className="absolute bottom-[340.5px] left-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] z-10 flex h-[55px] w-[55px] -scale-x-100 items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-6"
         >
           <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none" />
         </button>
@@ -57,7 +56,7 @@ export default function TechLoad() {
           type="button"
           aria-label="Next load features"
           onClick={() => scrollLoad(1)}
-          className="absolute right-[49.82px] top-[216.5px] z-10 size-[55px]"
+          className="absolute right-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] bottom-[340.5px] z-10 flex h-[55px] w-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-6"
         >
           <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
         </button>
@@ -138,9 +137,13 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
     : "Payload, range and gradient are quoted loaded. Empty numbers help nobody.";
 
   return (
-    <article data-carousel-card className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-8 pb-8 pt-[252px]">
+    <article data-carousel-card className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-8 pb-8 pt-[252px]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
-        <img src={LOAD_CARD_IMAGES[variant]} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
+        <img
+          src={LOAD_CARD_IMAGES[variant]}
+          alt=""
+          className="absolute left-[0.117px] top-[-32.237px] h-[106.547%] w-[99.951%] max-w-none rounded-[12px] object-cover"
+        />
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
 
@@ -154,7 +157,7 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
         <p className="max-w-[340px] font-sans text-[16px] leading-[1.4]">{body}</p>
       </div>
 
-      <div className="relative flex w-[184px] shrink-0 flex-col items-start gap-[10px] overflow-clip rounded-[8px] bg-white/[0.04] p-3 text-white">
+      <div className="relative flex w-[184px] shrink-0 flex-col items-start gap-[10px] overflow-clip rounded-[8px] border border-white/25 bg-white/[0.04] p-3 text-white">
         <p className="whitespace-nowrap font-display text-[0px] leading-[1.15] tracking-[-0.84px]">
           <span className="text-[42px] font-semibold">1,500 </span>
           <span className="text-[20px]">kg</span>

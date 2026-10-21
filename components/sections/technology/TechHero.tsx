@@ -9,7 +9,7 @@ const A = "/assets/technology-page";
  * TECHNOLOGY page — hero (Figma 2968:6673) + philosophy (2977:7348),
  * composed inside frame 2977:7419 (393×1315).
  */
-export default function TechHero() {
+export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: boolean }) {
   return (
     <section className="relative overflow-clip bg-[#041231]" aria-label="Technology">
       <div className="relative mx-auto w-full max-w-[393px] lg:hidden">
@@ -69,7 +69,8 @@ export default function TechHero() {
           <FloatingWidget mobileClassName="bottom-[80px]" />
         </div>
 
-        {/* philosophy — 393×553 */}
+        {showPhilosophy && (
+        /* philosophy — 393×553 */
         <div className="relative z-10 flex h-[553px] flex-col items-center justify-center gap-[42px] overflow-clip bg-[#041231] px-5 pb-[52px] pt-[117px]">
           <div className="flex w-full flex-col items-start gap-[14px]">
             <Eyebrow label="Philosophy" dark />
@@ -86,8 +87,9 @@ export default function TechHero() {
             <div className="relative -mx-5 w-[calc(100%+40px)]">
               <div
                 id="philosophy-scroll-row"
-                className="snap-row snap-center-mobile gap-[10px] pl-5 pr-0"
+                className="snap-row snap-center-mobile gap-[10px]"
               >
+                <div aria-hidden="true" className="shrink-0" style={{ width: "calc(20px - 10px)" }} />
                 {PHILOSOPHY.map((c) => (
                   <article
                     key={c.title}
@@ -106,15 +108,12 @@ export default function TechHero() {
                   </article>
                 ))}
               </div>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[58px] bg-gradient-to-l from-[#041231] via-[#041231]/80 to-transparent backdrop-blur-[5px]"
-              />
             </div>
 
             <PagerBar rowId="philosophy-scroll-row" />
           </div>
         </div>
+        )}
       </div>
 
       <div className="relative hidden h-[800px] w-full overflow-clip lg:block">
@@ -164,8 +163,13 @@ export default function TechHero() {
         <FloatingWidget />
       </div>
 
+      {showPhilosophy && (
       <div
-        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] px-20 pb-[42px] pt-6 bg-[#041231] lg:flex"
+        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-[42px] px-20 pb-[62px] pt-6 lg:flex"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, #041231 43.98%, #05173F 63.46%, #0C3797 100%), linear-gradient(0deg, #041231 0%, #041231 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #E9EDF3",
+        }}
       >
         <div className="flex w-full flex-col items-center gap-6">
           <div className="flex w-[900px] flex-col items-center gap-4">
@@ -179,20 +183,27 @@ export default function TechHero() {
           </p>
         </div>
 
-        <div className="flex w-full items-center gap-[10px]">
-          {PHILOSOPHY.map((card) => (
-            <article key={card.title} className="flex min-w-0 flex-1 flex-col items-start justify-center gap-8 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-8">
-              <div className="relative h-[72px] w-[74.709px] shrink-0 overflow-hidden">
-                <img src={`${A}/philosophy-icons-exact.png`} alt="" className="absolute max-w-none" style={card.crop} />
-              </div>
-              <div className="flex w-full flex-col items-start gap-2 text-white">
-                <h3 className="w-full font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.78px]">{card.title}</h3>
-                <p className="w-full font-sans text-[16px] leading-normal">{card.desc}</p>
-              </div>
-            </article>
-          ))}
+        <div className="relative w-full">
+          <div className="snap-row snap-center-mobile w-full items-center gap-[10px]">
+            {PHILOSOPHY.map((card) => (
+              <article key={card.title} className="flex h-[228px] w-[420px] min-w-0 flex-[1_0_0] flex-col items-start justify-center gap-8 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-8">
+                <div className="relative h-[72px] w-[74.709px] shrink-0 overflow-hidden">
+                  <img src={`${A}/philosophy-icons-exact.png`} alt="" className="absolute max-w-none" style={card.crop} />
+                </div>
+                <div className="flex w-full flex-col items-start gap-2 text-white">
+                  <h3 className="w-full font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.78px]">{card.title}</h3>
+                  <p className="w-full font-sans text-[16px] leading-normal">{card.desc}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[120px] bg-gradient-to-l from-[#05173f]/85 via-[#05173f]/35 to-transparent blur-[0.5px]"
+          />
         </div>
       </div>
+      )}
     </section>
   );
 }

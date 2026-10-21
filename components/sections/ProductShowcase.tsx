@@ -24,7 +24,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-t1500",
     tabLabel: "Storm EV T1500",
     title: "Storm EV T1500",
-    image: "/assets/products/vehicle-storm-t1500.png",
+    image: "/assets/products/vehicle-storm-t1500-clean.png",
     crop: [-228.13, -145.73, 335.27, 237.35],
     specs: {
       range: "200 km",
@@ -36,7 +36,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-lr-200",
     tabLabel: "Strom EV LR 200",
     title: "Storm EV LongRange 200",
-    image: "/vehicles/stormev.png",
+    image: "/assets/products/vehicle-storm-t1500-clean.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
     specs: {
       range: "200 km",
@@ -60,7 +60,7 @@ const VEHICLES: VehicleData[] = [
     id: "hiload-ev",
     tabLabel: "HiLoad EV",
     title: "HiLoad EV",
-    image: "/assets/products/vehicle-hiload-ev.png",
+    image: "/assets/products/vehicle-hiload-ev-hq.png",
     crop: [-295.3, -19.56, 415.35, 294.03],
     specs: {
       range: "170 km",
@@ -135,8 +135,8 @@ export default function ProductShowcase() {
           className={`animate-fadeIn absolute ${
             current.id === "turbo-ev-1000"
               ? "left-[53%] top-[10%] h-[80%] w-[90%] -translate-x-1/2"
-              : current.id === "storm-ev-lr-200"
-              ? "left-1/2 top-[20%] h-[60%] w-[65%] -translate-x-1/2"
+              : current.id === "storm-ev-lr-200" || current.id === "storm-ev-t1500"
+              ? "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
               : "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
           }`}
         >
@@ -148,7 +148,7 @@ export default function ProductShowcase() {
                65%) — a smaller sizes made the optimizer serve ~74px-wide
                files for 600–1300px boxes, which read as blur */
             sizes="(min-width: 1440px) 1296px, 90vw"
-            className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]"
+            className="object-contain"
             quality={100}
           />
         </div>

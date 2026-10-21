@@ -167,13 +167,13 @@ export default function ProductLoanCalculator() {
                     />
                   </div>
                   {/* Tata Capital */}
-                  <div className="relative h-[24px] w-[80px] shrink-0 lg:h-[16.4px] lg:w-[68px]">
+                  <div className="relative h-[16.4px] w-[68px] shrink-0">
                     <Image
                       src="/assets/loan/bank-tata.png"
                       alt="Tata Capital"
                       fill
                       sizes="68px"
-                      className="object-contain"
+                      className="object-cover object-top"
                     />
                   </div>
                   {/* Shriram Finance */}
@@ -193,7 +193,7 @@ export default function ProductLoanCalculator() {
                     viewBox="0 0 14 6"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0 rotate-[-90deg] -scale-x-100 stroke-white lg:rotate-[90deg] lg:-scale-x-100"
+                    className="shrink-0 rotate-[-90deg] -scale-x-100 stroke-white"
                     style={{
                       width: "14px",
                       height: "6px",

@@ -64,6 +64,7 @@ const CARDS: OverviewCard[] = [
 export default function ProductOverview() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const visibleRef = useRef(false);
   const interactionPausedRef = useRef(false);
   const resumeTimerRef = useRef<number | null>(null);
@@ -72,7 +73,8 @@ export default function ProductOverview() {
   useEffect(() => {
     const section = sectionRef.current;
     const row = scrollRef.current;
-    if (!section || !row) return;
+    const track = trackRef.current;
+    if (!section || !row || !track) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(([entry]) => {
@@ -81,14 +83,15 @@ export default function ProductOverview() {
     observer.observe(section);
 
     let frame = 0;
+    let offset = 0;
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-overview-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-overview-index='0']");
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
+      if (!reducedMotion && visibleRef.current && duplicate && first) {
         const loopDistance = duplicate.offsetLeft - first.offsetLeft;
         if (loopDistance > 0) {
-          row.scrollLeft += 0.35;
-          if (row.scrollLeft >= loopDistance) row.scrollLeft -= loopDistance;
+          offset = (offset + 0.35) % loopDistance;
+          track.style.transform = `translate3d(${-offset}px, 0, 0)`;
         }
       }
       frame = window.requestAnimationFrame(tick);
@@ -149,14 +152,16 @@ export default function ProductOverview() {
           onPointerCancel={resumeAfterInteraction}
           onWheel={pauseForInteraction}
           className="carousel-pad-overview mx-auto flex w-full max-w-[680px] flex-col gap-4 sm:grid sm:grid-cols-2 sm:gap-4 lg:mx-0 lg:max-w-none lg:flex lg:flex-row lg:gap-5 lg:overflow-x-auto lg:pb-4 lg:snap-x lg:snap-mandatory scrollbar-none"
+          style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
         >
+          <div ref={trackRef} className="contents lg:flex lg:w-max lg:shrink-0 lg:gap-5" style={{ willChange: "transform" }}>
           {[...CARDS, ...CARDS].map((card, index) => (
             <article
               key={`${card.id}-${index}`}
               data-overview-index={index % CARDS.length}
               data-overview-copy={index >= CARDS.length ? "true" : undefined}
               aria-hidden={index >= CARDS.length ? true : undefined}
-              className="flex w-full shrink-0 snap-start flex-col justify-end gap-3 overflow-hidden rounded-[12px] bg-gradient-to-b from-[#ccd8e8] to-[#cfdef6] p-[16px_14px] transition-transform hover:-translate-y-1 sm:h-[230px] sm:justify-between lg:h-[257px] lg:w-[412px] lg:justify-between lg:gap-0 lg:p-8"
+              className={`flex w-full shrink-0 snap-start flex-col justify-end gap-3 overflow-hidden rounded-[12px] bg-gradient-to-b from-[#ccd8e8] to-[#cfdef6] p-[16px_14px] transition-transform hover:-translate-y-1 sm:h-[230px] sm:justify-between lg:h-[257px] lg:w-[412px] lg:justify-between lg:gap-0 lg:p-8 ${index >= CARDS.length ? "hidden lg:flex" : ""}`}
             >
               <div className="relative h-[52px] w-[52px] shrink-0 lg:h-[75px] lg:w-auto">
                 <Image
@@ -164,6 +169,7 @@ export default function ProductOverview() {
                   alt=""
                   width={card.iconWidth}
                   height={card.iconHeight}
+                  loading={index >= CARDS.length ? "eager" : "lazy"}
                   className="h-full w-full object-cover object-left lg:w-auto lg:object-contain"
                 />
               </div>
@@ -178,6 +184,7 @@ export default function ProductOverview() {
               </div>
             </article>
           ))}
+          </div>
         </div>
 
         {/* Right Edge Fade Overlay */}

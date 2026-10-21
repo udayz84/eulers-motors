@@ -25,11 +25,14 @@ export default function FloatingWidget({
   mobileOnly = false,
   boundary = false,
   mobileClassName,
+  desktopClassName,
 }: {
   mobileOnly?: boolean;
   boundary?: boolean;
   /** Mobile-only vertical placement override; desktop keeps the lg: position. */
   mobileClassName?: string;
+  /** Desktop-only placement override for page-specific hero alignment. */
+  desktopClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -43,12 +46,22 @@ export default function FloatingWidget({
   const mobilePos =
     mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
   return (
-    <div className={`absolute right-[-29.5px] z-40 ${mobilePos} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"}`}>
+    <div className={`group/floating-widget absolute right-[-24px] z-40 ${mobilePos} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
       <div className="relative flex items-end gap-[19px]">
+        {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
+        <div
+          aria-hidden
+          className="pointer-events-none hidden h-[278px] w-[138px] shrink-0 flex-col items-end justify-between pb-[80px] pt-[24px] text-right text-[14px] font-medium leading-none text-white opacity-0 transition-opacity duration-200 group-hover/floating-widget:opacity-100 group-focus-within/floating-widget:opacity-100 lg:flex"
+        >
+          {ACTIONS.map((action) => (
+            <span key={action.label}>{action.label}</span>
+          ))}
+        </div>
+
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside
           aria-label="Quick actions"
-          className="flex w-[98px] flex-col overflow-clip rounded-l-[32px] bg-black/80 py-[6px] pl-[6px] pr-[42px]"
+          className="flex w-[82px] flex-col overflow-clip rounded-l-[26px] bg-black/80 py-[5px] pl-[5px] pr-[35px] lg:w-[98px] lg:rounded-l-[32px] lg:py-[6px] lg:pl-[6px] lg:pr-[42px]"
         >
           {/* expand/collapse toggle — mobile only; chevron flips when open */}
           <button
@@ -57,14 +70,14 @@ export default function FloatingWidget({
             aria-expanded={open}
             aria-controls="floating-actions"
             aria-label={open ? "Hide quick actions" : "Show quick actions"}
-            className="mb-[4px] lg:hidden"
+            className="group mb-[3px] lg:mb-[4px] lg:hidden"
           >
             <Image
               src="/assets/widget/icon-chevron.svg"
               alt=""
               width={50}
               height={50}
-              className={`size-[50px] transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+              className={`size-[42px] transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${open ? "rotate-180" : ""} lg:size-[50px]`}
             />
           </button>
 
@@ -79,7 +92,7 @@ export default function FloatingWidget({
                 key={a.label}
                 type="button"
                 aria-label={a.label}
-                className="glass-shine flex size-[50px] items-center justify-center rounded-full bg-white/[0.12] backdrop-blur-[20px]"
+                className="glass-shine flex size-[42px] items-center justify-center rounded-full bg-white/[0.12] backdrop-blur-[20px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96] lg:size-[50px]"
               >
                 <Image
                   src={a.icon}
@@ -98,7 +111,7 @@ export default function FloatingWidget({
           <button
             type="button"
             aria-label="Chat on WhatsApp"
-            className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[2px]"
+            className="group flex size-[42px] shrink-0 items-center justify-center rounded-full bg-white p-[2px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96] lg:size-[50px]"
           >
             <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
               <Image
@@ -106,7 +119,7 @@ export default function FloatingWidget({
                 alt="WhatsApp"
                 width={46}
                 height={46}
-                className="h-full w-full scale-[1.24] object-cover"
+                className="h-full w-full scale-[1.24] object-cover transition-transform duration-200 group-hover:scale-[1.3]"
               />
             </div>
           </button>

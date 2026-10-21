@@ -48,21 +48,26 @@ export default function TechCharging() {
               className="absolute inset-[0_2.36%] h-full w-auto rotate-180"
             />
           </div>
-          <div className="relative z-10 flex h-8 w-[170px] translate-y-[7px] items-center">
+          <div className="relative z-20 flex h-8 w-[170px] translate-y-[7px] items-center">
             <button
               type="button"
+              aria-label="Charge at home"
               aria-pressed={chargingMode === "home"}
               onClick={() => setChargingMode("home")}
-              className={`flex h-full w-[77px] items-center justify-center rounded-full px-3 transition-colors ${chargingMode === "home" ? "bg-white shadow-sm" : ""}`}
+              data-active={chargingMode === "home"}
+              className={`pointer-events-auto flex h-full w-[77px] touch-manipulation items-center justify-center rounded-full border-[0.5px] border-white px-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1d6fff] ${chargingMode === "home" ? "text-white shadow-sm" : "bg-transparent text-ink"}`}
+              style={chargingMode === "home" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}
             >
-              <span className="text-[12px] font-semibold leading-none text-ink">Home</span>
+              <span className={`text-[12px] font-semibold leading-none ${chargingMode === "home" ? "text-white" : "text-ink"}`}>Home</span>
             </button>
             <button
               type="button"
+              aria-label="Charge in public"
               aria-pressed={chargingMode === "public"}
               onClick={() => setChargingMode("public")}
-              className={`flex h-full flex-1 items-center justify-center rounded-full border-[0.4px] border-white px-3 transition-colors ${chargingMode === "public" ? "shadow-sm" : "bg-transparent"}`}
-              style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(90deg, #121212 0%, #121212 100%)" } : undefined}
+              data-active={chargingMode === "public"}
+              className={`pointer-events-auto flex h-full flex-1 touch-manipulation items-center justify-center rounded-full border-[0.4px] border-white px-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1d6fff] ${chargingMode === "public" ? "shadow-sm" : "bg-transparent"}`}
+              style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}
             >
               <span className={`text-[12px] font-semibold leading-none ${chargingMode === "public" ? "text-white" : "text-ink"}`}>Public</span>
             </button>
@@ -75,7 +80,7 @@ export default function TechCharging() {
           <div className="relative h-[190px] w-full overflow-hidden">
             <img
               src={`${A}/charge__imgRectangle1618873364.png`}
-              alt="Charging station preview"
+              alt={`${chargingMode === "home" ? "Home" : "Public"} charging station preview`}
               className="absolute left-[14.5%] top-[12%] h-[88%] w-[71%] object-contain"
             />
           </div>
@@ -96,14 +101,14 @@ export default function TechCharging() {
               {/* RECOMMENDED DO'S CARD */}
               <div className="flex w-full flex-col items-start">
                 {/* Slanted blue tab */}
-                <div className="relative z-10 -mb-px ml-3 flex h-[34px] w-fit items-center justify-center pl-2 pr-6">
+                <div className="relative z-10 -mb-px ml-3 flex h-[34px] w-[80px] items-center justify-start pl-3">
                   <svg
                     width="184"
                     height="34"
-                    viewBox="0 0 184 48"
+                    viewBox="0 0 184 48.328"
                     preserveAspectRatio="none"
                     fill="none"
-                    className="absolute inset-0"
+                    className="absolute inset-0 size-full"
                   >
                     <defs>
                       <linearGradient id="dos_grad" x1="0" y1="0" x2="184" y2="48" gradientUnits="userSpaceOnUse">
@@ -116,8 +121,8 @@ export default function TechCharging() {
                       fill="url(#dos_grad)"
                     />
                   </svg>
-                  <span className="relative z-10 whitespace-nowrap font-sans text-[14px] font-bold uppercase leading-none tracking-[0.7px] text-white">
-                    Recommended Do&apos;s
+                  <span className="relative z-10 whitespace-nowrap text-left font-sans text-[14px] font-bold uppercase leading-none tracking-[0.7px] text-white">
+                    Do&apos;s
                   </span>
                 </div>
 
@@ -156,14 +161,14 @@ export default function TechCharging() {
               {/* AVOID DON'TS CARD */}
               <div className="flex w-full flex-col items-end">
                 {/* Slanted red tab on the right */}
-                <div className="relative z-10 -mb-px mr-3 flex h-[34px] w-fit items-center justify-center px-6">
+                <div className="relative z-10 -mb-px mr-3 flex h-[34px] w-[92px] items-center justify-end pr-3">
                   <svg
                     width="135"
                     height="34"
-                    viewBox="0 0 135 48"
+                    viewBox="0 0 135 48.328"
                     preserveAspectRatio="none"
                     fill="none"
-                    className="absolute inset-0 scale-x-[-1]"
+                    className="absolute inset-0 size-full scale-x-[-1]"
                   >
                     <defs>
                       <linearGradient id="donts_grad" x1="0" y1="0" x2="135" y2="48" gradientUnits="userSpaceOnUse">
@@ -176,8 +181,8 @@ export default function TechCharging() {
                       fill="url(#donts_grad)"
                     />
                   </svg>
-                  <span className="relative z-10 whitespace-nowrap font-sans text-[14px] font-bold uppercase leading-none tracking-[0.7px] text-white">
-                    Avoid Don&apos;ts
+                  <span className="relative z-10 whitespace-nowrap text-right font-sans text-[14px] font-bold uppercase leading-none tracking-[0.7px] text-white">
+                    Don&apos;ts
                   </span>
                 </div>
 
@@ -234,10 +239,10 @@ export default function TechCharging() {
               Different businesses have different needs. Choose the charging setup that works best for your operations.
             </p>
             <div className="flex items-center gap-3" role="group" aria-label="Charging setup">
-              <button type="button" aria-pressed={chargingMode === "home"} onClick={() => setChargingMode("home")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full px-4 text-[16px] font-semibold leading-none text-ink ${chargingMode === "home" ? "bg-white shadow-sm" : "bg-[#f3f4f5]"}`}>
+              <button type="button" aria-pressed={chargingMode === "home"} data-active={chargingMode === "home"} onClick={() => setChargingMode("home")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "home" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink"}`} style={chargingMode === "home" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}>
                 Home
               </button>
-              <button type="button" aria-pressed={chargingMode === "public"} onClick={() => setChargingMode("public")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "public" ? "bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] text-white" : "bg-[#f3f4f5] text-ink"}`}>
+              <button type="button" aria-pressed={chargingMode === "public"} data-active={chargingMode === "public"} onClick={() => setChargingMode("public")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "public" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink"}`} style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}>
                 Public
               </button>
             </div>

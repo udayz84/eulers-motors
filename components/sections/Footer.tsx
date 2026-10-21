@@ -44,7 +44,9 @@ export default function Footer() {
      built-in TTS (no audio asset needed, works on desktop and mobile) */
   const speakEuler = () => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance("Euler");
+    // Spell the brand phonetically so browser TTS consistently says "oy-ler"
+    // instead of guessing the pronunciation of the written word "Euler".
+    const u = new SpeechSynthesisUtterance("oy-ler");
     u.lang = "en-US";
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
@@ -63,7 +65,7 @@ export default function Footer() {
         width={1588}
         height={991}
         aria-hidden
-        className="absolute bottom-0 left-0 h-auto w-full max-w-none object-cover lg:hidden max-lg:[mask-image:linear-gradient(to_bottom,transparent,black_22%)] max-lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
+        className="pointer-events-none absolute bottom-0 left-0 z-0 h-auto w-full max-w-none object-cover lg:hidden max-lg:[mask-image:linear-gradient(to_bottom,transparent,black_22%)] max-lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
         priority={false}
       />
       {/* desktop washes — Figma 1:2176 white 3971×848 at (-1519, -351.73),
@@ -79,7 +81,7 @@ export default function Footer() {
           Row anchors: header top 39.12 · links 42.93 below it · bottom bar
           38.05 above the frame bottom. Mobile (1:5128) keeps its own 1006px
           accordion layout */}
-      <div className="relative mx-auto flex h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pt-[42px] lg:h-full lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[135.12px]">
+      <div className="relative z-10 mx-auto flex min-h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pb-[260px] pt-[42px] lg:h-full lg:min-h-0 lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[135.12px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">

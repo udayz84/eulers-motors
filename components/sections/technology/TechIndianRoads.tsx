@@ -1,3 +1,6 @@
+"use client";
+
+import { Fragment, useEffect, useRef } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
 
@@ -53,9 +56,59 @@ const CARDS = [
 
 /** TECHNOLOGY page — "Built for Indian roads." banner (Figma 2990:12839, 393×442). */
 export default function TechIndianRoads() {
+  const desktopRowRef = useRef<HTMLDivElement>(null);
+  const mobileRowRef = useRef<HTMLDivElement>(null);
+  const desktopTrackRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sections = [
+      { row: desktopRowRef.current, track: desktopTrackRef.current },
+      { row: mobileRowRef.current, track: mobileTrackRef.current },
+    ].filter(
+      (item): item is { row: HTMLDivElement; track: HTMLDivElement } => Boolean(item.row && item.track),
+    );
+    if (!sections.length) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const visible = new Set<HTMLDivElement>();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const row = entry.target as HTMLDivElement;
+        if (entry.isIntersecting) visible.add(row);
+        else visible.delete(row);
+      });
+    }, { threshold: 0.15 });
+    sections.forEach(({ row }) => observer.observe(row));
+
+    let animationFrame = 0;
+
+    const animate = (time: number) => {
+      if (!reducedMotion) sections.forEach(({ row, track }) => {
+        const firstCard = track.querySelector<HTMLElement>('[data-carousel-copy="0"]');
+        const repeatedCard = track.querySelector<HTMLElement>('[data-carousel-copy="1"]');
+        const loopDistance = firstCard && repeatedCard ? repeatedCard.offsetLeft - firstCard.offsetLeft : 0;
+        if (!visible.has(row) || loopDistance <= 0) return;
+
+        const offset = Number(track.dataset.carouselOffset ?? "0");
+        const nextOffset = (offset + 0.35) % loopDistance;
+        track.dataset.carouselOffset = String(nextOffset);
+        track.style.transform = `translate3d(${-nextOffset}px, 0, 0)`;
+      });
+
+      animationFrame = window.requestAnimationFrame(animate);
+    };
+
+    animationFrame = window.requestAnimationFrame(animate);
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
   return (
     <section className="overflow-x-clip bg-[#d4dbec]" aria-label="Built for Indian roads">
-      <div className="mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-9 px-20 py-[42px] lg:flex">
+      <div className="mx-auto hidden w-full max-w-none flex-col items-center justify-center gap-9 px-0 py-[42px] lg:flex">
         <div className="flex w-full flex-col items-center gap-6">
           <div className="flex w-[700px] flex-col items-center gap-4">
             <Eyebrow label="Built for here" />
@@ -68,11 +121,14 @@ export default function TechIndianRoads() {
           </p>
         </div>
 
-        <div className="relative left-1/2 w-screen -translate-x-1/2">
-          <div id="indian-roads-row" className="snap-row h-[254px] items-start gap-6">
-            <div aria-hidden="true" className="shrink-0" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }} />
-            {CARDS.map((c) => (
-              <article key={c.label} data-carousel-card className="relative h-[254px] w-[353px] shrink-0 snap-start">
+        <div className="relative m-0 w-full overflow-visible bg-[#d4dbec] p-0">
+          <div ref={desktopRowRef} id="indian-roads-row" className="snap-row snap-center-mobile m-0 h-[254px] w-full items-start gap-6 bg-[#d4dbec] p-0" style={{ scrollSnapType: "none", overflowAnchor: "none" }}>
+            <div aria-hidden="true" className="shrink-0" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)" }} />
+            <div ref={desktopTrackRef} className="flex w-max shrink-0 gap-6" style={{ willChange: "transform" }}>
+              {[0, 1].map((copy) => (
+                <Fragment key={`desktop-copy-${copy}`}>
+                {CARDS.map((c) => (
+                  <article key={`${copy}-${c.label}`} aria-hidden={copy === 1} data-carousel-copy={copy} data-carousel-card className="relative h-[254px] w-[353px] shrink-0 snap-start">
               <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
                 <div className="absolute left-[-13px] top-[-5.53px] h-[48.328px]" style={{ width: c.pillW }}>
                   <img src={c.pill} alt="" className="absolute inset-0 size-full max-w-none" />
@@ -95,14 +151,12 @@ export default function TechIndianRoads() {
                   <p className="text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">{c.euler.join(" ")}</p>
                 </div>
               </div>
-              </article>
-            ))}
+                  </article>
+                ))}
+                </Fragment>
+              ))}
+            </div>
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 z-10 hidden w-[120px] bg-gradient-to-l from-[#d4dbec]/70 via-[#d4dbec]/25 to-transparent backdrop-blur-[5px] lg:block"
-            style={{ right: "min(0px, calc((1440px - 100vw) / 2))" }}
-          />
         </div>
         <PagerBar rowId="indian-roads-row" className="bg-white/50 [&>div]:bg-ink" />
       </div>
@@ -119,11 +173,15 @@ export default function TechIndianRoads() {
           </p>
         </div>
 
-        <div className="relative -mx-5 w-[calc(100%+40px)]">
+        <div className="relative left-1/2 m-0 w-screen -translate-x-1/2 p-0">
           <div className="relative">
-          <div className="snap-row gap-2 pl-5 pr-0">
-            {CARDS.map((c) => (
-            <article key={c.label} data-carousel-card className="relative h-[202.13px] w-[353px] shrink-0 snap-start">
+          <div ref={mobileRowRef} className="snap-row snap-center-mobile m-0 gap-2 p-0" style={{ scrollSnapType: "none", overflowAnchor: "none" }}>
+            <div aria-hidden="true" className="shrink-0" style={{ width: "calc(20px - 8px)" }} />
+            <div ref={mobileTrackRef} className="flex w-max shrink-0 gap-2" style={{ willChange: "transform" }}>
+              {[0, 1].map((copy) => (
+                <Fragment key={`mobile-copy-${copy}`}>
+                {CARDS.map((c) => (
+                  <article key={`${copy}-${c.label}`} aria-hidden={copy === 1} data-carousel-copy={copy} data-carousel-card className="relative h-[202.13px] w-[353px] shrink-0 snap-start">
               <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
                 <div className="absolute left-[-13px] top-[-5.53px] h-[48.328px]" style={{ width: c.pillW }}>
                   <img src={c.pill} alt="" className="absolute inset-0 size-full max-w-none" />
@@ -171,10 +229,12 @@ export default function TechIndianRoads() {
                   </p>
                 </div>
               </div>
-            </article>
-            ))}
+                  </article>
+                ))}
+                </Fragment>
+              ))}
+            </div>
           </div>
-          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[58px] bg-gradient-to-l from-[#d4dbec]/75 via-[#d4dbec]/25 to-transparent backdrop-blur-[4px]" />
         </div>
       </div>
       </div>

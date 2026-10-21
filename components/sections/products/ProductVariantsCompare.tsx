@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Eyebrow from "@/components/ui/Eyebrow";
+import { calculateMonthlyEmi } from "@/components/data/vehicle-finance";
 
 const TRUCK_IMG = "/assets/products/variant-compare-truck.png";
 
 type VariantData = {
   name: string;
   pillBg: string;
+  price: number;
   bodyType: string;
-  emi: string;
   payload: string;
   range: string;
   runningCost: string;
@@ -18,37 +19,37 @@ type VariantData = {
 
 const VARIANTS: VariantData[] = [
   {
-    name: "Base Variant",
+    name: "LR 200",
     pillBg: "bg-white lg:shadow-[0_1px_3px_rgba(0,0,0,0.06)]",
-    bodyType: "Flatbed",
-    emi: "₹19,800",
+    price: 1149000,
+    bodyType: "3-wheel cargo EV",
     payload: "1,200 kg",
     range: "200 km",
-    runningCost: "₹1.05/km",
+    runningCost: "\u20B91.05/km",
     fullCharge: "90 min",
     cargoSpace: "2.9 m loading deck",
   },
   {
-    name: "Cargo Variant",
+    name: "T1500",
     pillBg: "bg-[#f3f4f5]",
-    bodyType: "3 wheel",
-    emi: "688 kg",
-    payload: "151 km",
-    range: "Rs 0.84",
-    runningCost: "75 min",
-    fullCharge: "18%",
-    cargoSpace: "Rs 4.29 L",
+    price: 1280000,
+    bodyType: "3-wheel cargo EV",
+    payload: "1,500 kg",
+    range: "200 km",
+    runningCost: "Not published",
+    fullCharge: "90 min",
+    cargoSpace: "Not published",
   },
   {
-    name: "XL Variant",
+    name: "Turbo 1000",
     pillBg: "bg-[#f3f4f5]",
-    bodyType: "3 wheel",
-    emi: "688 kg",
-    payload: "151 km",
-    range: "Rs 0.84",
-    runningCost: "75 min",
-    fullCharge: "18%",
-    cargoSpace: "Rs 4.29 L",
+    price: 980000,
+    bodyType: "3-wheel cargo EV",
+    payload: "1,000 kg",
+    range: "180 km",
+    runningCost: "Not published",
+    fullCharge: "90 min",
+    cargoSpace: "Not published",
   },
 ];
 
@@ -62,9 +63,13 @@ const LABELS = [
   "Cargo space",
 ];
 
+const formatEmi = (price: number) => {
+  return `\u20B9${calculateMonthlyEmi(price).toLocaleString("en-IN")}/month`;
+};
+
 const VALUES = (v: VariantData) => [
   v.bodyType,
-  v.emi,
+  formatEmi(v.price),
   v.payload,
   v.range,
   v.runningCost,

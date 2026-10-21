@@ -40,7 +40,11 @@ function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, 
           aria-pressed={index === selectedIndex}
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-[5px] bg-[#d9d9d9]">
-            <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-cover" />
+            {variant.name === "Base" ? (
+              <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden width={97.11} height={64.97} className="absolute left-[-65.46px] top-[-38.28px] h-[64.97px] w-[97.11px] max-w-none" />
+            ) : (
+              <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-contain p-0.5" />
+            )}
           </span>
           <span className="min-w-0">
             <span className="block truncate font-sans text-[13px] font-bold leading-tight text-[#0E2F6D]">{variant.name}</span>
@@ -130,23 +134,21 @@ function Thumbs({ className = "" }: { className?: string }) {
 function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+    <div onClick={onToggle} className="relative flex w-full cursor-pointer flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
       <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         VARIANTS
       </span>
 
-      <button type="button" onClick={onToggle} aria-expanded={expanded} aria-controls="mobile-variant-options" className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm">
+      <button type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }} aria-expanded={expanded} aria-controls="mobile-variant-options" className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm">
         <div className="flex items-center gap-2">
           {/* Sized vehicle icon container */}
           <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
-            <Image
-              src={`${ASSET}${selected.image}`}
-              alt={`${selected.name} variant`}
-              width={97.11}
-              height={64.97}
-              className="absolute left-[-65.446px] top-[-38.282px] h-[64.97px] w-[97.11px] max-w-none"
-            />
+            {selected.name === "Base" ? (
+              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} width={97.11} height={64.97} className="absolute left-[-65.446px] top-[-38.282px] h-[64.97px] w-[97.11px] max-w-none" />
+            ) : (
+              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
+            )}
           </div>
 
           <div className="flex flex-col justify-center items-start gap-[2px]">
@@ -180,7 +182,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
         </svg>
       </button>
       </div>
-      <div id="mobile-variant-options" className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100 pt-2" : "grid-rows-[0fr] opacity-0"}`}>
+      <div id="mobile-variant-options" onClick={(event) => event.stopPropagation()} className={`absolute left-0 right-0 top-full z-50 mt-2 grid max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px] transition-[opacity,transform] duration-300 ease-out ${expanded ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"}`}>
         <div className="min-h-0 overflow-hidden">
           <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
         </div>
@@ -260,21 +262,18 @@ function SpecsGrid() {
 function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div className="relative z-30 flex w-[251px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
+    <div onClick={onToggle} className="relative z-30 flex w-[251px] cursor-pointer flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
-      <button type="button" onClick={onToggle} aria-expanded={expanded} aria-controls="desktop-variant-options" className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm">
+      <button type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }} aria-expanded={expanded} aria-controls="desktop-variant-options" className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm">
         <div className="flex items-center gap-2">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
-            <Image
-              src={`${ASSET}${selected.image}`}
-              alt=""
-              aria-hidden
-              width={97.11}
-              height={64.97}
-              className="absolute left-[-65.46px] top-[-38.28px] h-[64.97px] w-[97.11px] max-w-none"
-            />
+            {selected.name === "Base" ? (
+              <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden width={97.11} height={64.97} className="absolute left-[-65.46px] top-[-38.28px] h-[64.97px] w-[97.11px] max-w-none" />
+            ) : (
+              <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
+            )}
           </div>
           <div className="flex flex-col justify-center gap-1">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
@@ -300,7 +299,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           className={`h-[7.12px] w-[15.5px] transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
         />
       </button>
-      <div id="desktop-variant-options" className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+      <div id="desktop-variant-options" onClick={(event) => event.stopPropagation()} className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
         <div className="min-h-0 overflow-y-auto">
           <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
         </div>
@@ -325,7 +324,7 @@ export default function ProductHero() {
   return (
     <section
       aria-label="Storm EV LR 200 Base"
-      className="relative w-full overflow-hidden bg-white max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
+      className="relative w-full overflow-hidden bg-white max-lg:overflow-visible max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
       {/* Mobile background portrait crop */}
       <div aria-hidden className="absolute inset-0 lg:hidden">

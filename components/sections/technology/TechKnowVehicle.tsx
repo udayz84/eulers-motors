@@ -62,7 +62,7 @@ function Chip({ label, icon, active, kind, onSelect }: (typeof CHIPS)[number] & 
             "linear-gradient(-30.732deg,#0e2f6d 10.379%,#1d6fff 90.974%), linear-gradient(90deg,#121212 0%,#121212 100%)",
         }}
       >
-        <img src={icon} alt="" className="size-[52px] shrink-0 object-cover" />
+        <img src={icon} alt="" className="size-[52px] shrink-0 object-contain" />
         <p className="w-full text-center text-[12px] font-bold leading-normal text-white">{label}</p>
       </button>
     );
@@ -249,7 +249,7 @@ function DesktopChip({ label, icon, active, kind, onSelect }: (typeof CHIPS)[num
   if (active) {
     return (
       <button type="button" aria-pressed="true" onClick={onSelect} className="flex w-[135.6px] shrink-0 flex-col items-center justify-center gap-[14.4px] rounded-[7.2px] border-[1.2px] border-[#256dec] px-[19.2px] py-[7.2px]" style={{ backgroundImage: "linear-gradient(-31.352deg,#0e2f6d 10.379%,#1d6fff 90.974%),linear-gradient(90deg,#121212 0%,#121212 100%)" }}>
-        <img src={icon} alt="" className="size-[62.4px] shrink-0 object-cover" />
+        <img src={icon} alt="" className="size-[62.4px] shrink-0 object-contain" />
         <p className="w-full text-center font-sans text-[16px] font-bold leading-normal">{label}</p>
       </button>
     );

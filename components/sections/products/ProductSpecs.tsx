@@ -172,8 +172,8 @@ export default function ProductSpecs() {
                 key={f.label}
                 className={
                   i > 0
-                    ? "flex min-h-8 w-full items-center justify-between overflow-visible border-t border-solid border-[#ccc]/60 px-0.5 py-1 lg:min-h-8 lg:h-auto lg:pt-3"
-                    : "flex min-h-8 w-full items-center justify-between overflow-visible px-0.5 py-1 lg:min-h-8 lg:h-auto lg:pt-3"
+                    ? "flex min-h-8 w-full items-center justify-between overflow-visible border-t border-solid border-[#ccc]/60 py-1 lg:min-h-8 lg:h-auto lg:pt-3"
+                    : "flex min-h-8 w-full items-center justify-between overflow-visible py-1 lg:min-h-8 lg:h-auto lg:pt-3"
                 }
               >
                 <div className="flex min-w-0 items-center gap-2">
@@ -182,7 +182,7 @@ export default function ProductSpecs() {
                   </span>
                   <p className="min-w-0 whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.label}</p>
                 </div>
-                <p className="max-w-[45%] whitespace-normal break-words text-right font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
+                <p className="max-w-[45%] whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
               </div>
             ))}
           </div>
