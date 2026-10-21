@@ -6,11 +6,13 @@ import Button from "@/components/ui/Button";
 
 const ASSET = "/assets/products/";
 
-/** Spec tabs — Figma 3241:17171; only the Features state exists in the design */
+/** Spec tabs — the card keeps the Features layout for every state. */
 const TABS = ["Battery", "Dimensions", "Performance", "Features", "Safety", "Comfort"];
 
+type SpecRow = { icon: string; label: string; value: string };
+
 /** Features tab rows — Figma 3241:17072 */
-const FEATURES = [
+const FEATURES: SpecRow[] = [
   { icon: "spec-ic-phone.svg", label: "Telematics", value: "Shepherd app, included" },
   { icon: "spec-ic-location.svg", label: "Live location", value: "Yes" },
   { icon: "spec-ic-charge.svg", label: "State of charge on phone", value: "Yes" },
@@ -21,6 +23,65 @@ const FEATURES = [
   { icon: "spec-ic-doc.svg", label: "Fleet API", value: "On request" },
 ];
 
+const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+  Battery: {
+    rows: [
+      { icon: "spec-ic-charge.svg", label: "State of charge on phone", value: "Yes" },
+      { icon: "spec-ic-clock.svg", label: "Full charge time", value: "90 min" },
+      { icon: "spec-ic-target.svg", label: "Range per charge", value: "200 km" },
+      { icon: "spec-ic-bell.svg", label: "Service alerts", value: "Predictive" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Storm EV LR 200 cabin and controls",
+  },
+  Dimensions: {
+    rows: [
+      { icon: "spec-ic-doc.svg", label: "Loading deck", value: "2.9 m" },
+      { icon: "spec-ic-target.svg", label: "Load capacity", value: "1,200 kg" },
+      { icon: "spec-ic-location.svg", label: "Vehicle type", value: "Electric cargo" },
+      { icon: "spec-ic-analytics.svg", label: "Fleet use", value: "10 vehicles and up" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Storm EV LR 200 cabin and controls",
+  },
+  Performance: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Telematics", value: "200+ km" },
+      { icon: "spec-ic-charge.svg", label: "RealRange™ on one charge", value: "Eco and Thunder" },
+      { icon: "spec-ic-target.svg", label: "Hill Assist", value: "Yes" },
+      { icon: "spec-ic-analytics.svg", label: "Top speed", value: "to be confirmed" },
+      { icon: "spec-ic-location.svg", label: "Gradeability", value: "to be confirmed" },
+    ],
+    image: "/assets/technology-page/hero__imgRectangle42158.png",
+    imageAlt: "Euler Motors vehicle on an Indian road",
+  },
+  Features: {
+    rows: FEATURES,
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Storm EV LR 200 cabin and controls",
+  },
+  Safety: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Hill Assist", value: "Yes" },
+      { icon: "spec-ic-bell.svg", label: "Service alerts", value: "Predictive" },
+      { icon: "spec-ic-location.svg", label: "Live location", value: "Yes" },
+      { icon: "spec-ic-doc.svg", label: "Fleet API", value: "On request" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Storm EV LR 200 cabin and controls",
+  },
+  Comfort: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Shepherd app", value: "Included" },
+      { icon: "spec-ic-clock.svg", label: "Trip history", value: "12 months" },
+      { icon: "spec-ic-analytics.svg", label: "Driver score", value: "Yes" },
+      { icon: "spec-ic-charge.svg", label: "State of charge on phone", value: "Yes" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Storm EV LR 200 cabin and controls",
+  },
+};
+
 /**
  * /products specifications — Figma 3245:17543. Section px-79/py-48, header row
  * (badge + h2 / spec-sheet CTA), then a rounded-12 #e5ebf3/60 panel with the
@@ -29,6 +90,14 @@ const FEATURES = [
  */
 export default function ProductSpecs() {
   const [activeTab, setActiveTab] = useState("Features");
+  const currentSpec = SPEC_CONTENT[activeTab];
+  const activeTabIndex = TABS.indexOf(activeTab);
+  const currentImage = activeTabIndex % 2 === 0
+    ? `${ASSET}spec-image.png`
+    : "/assets/technology-page/hero__imgRectangle42158.png";
+  const currentImageAlt = activeTabIndex % 2 === 0
+    ? "Storm EV LR 200 cabin and controls"
+    : "Euler Motors vehicle on an Indian road";
 
   return (
     <section aria-label="Specifications" className="flex w-full flex-col items-center gap-5 bg-surface px-5 sm:px-8 py-[42px] sm:py-12 lg:bg-white lg:px-0 lg:py-12">
@@ -44,7 +113,7 @@ export default function ProductSpecs() {
               Know Your Vehicle Better
             </h2>
           </div>
-          <Button className="max-lg:hidden">Download Spec sheet</Button>
+          <Button href="#book-test-drive" className="max-lg:hidden">Download Spec sheet</Button>
         </div>
 
         {/* Tab pills + spec content — mobile: scrolling pill row on the surface,
@@ -97,34 +166,34 @@ export default function ProductSpecs() {
             </svg>
           </div>
 
-          <div className="flex min-w-px flex-1 flex-col gap-1.5 max-lg:relative max-lg:z-10 max-lg:order-2 max-lg:-mt-16 lg:gap-3 lg:pt-3">
-            {FEATURES.map((f, i) => (
+          <div className="flex min-w-px flex-1 flex-col gap-1.5 max-lg:relative max-lg:z-10 max-lg:order-2 max-lg:-mt-16 lg:h-[424px] lg:gap-3 lg:pt-3">
+            {currentSpec.rows.map((f, i) => (
               <div
                 key={f.label}
                 className={
                   i > 0
-                    ? "flex h-8 w-full items-center justify-between overflow-clip border-t border-solid border-[#ccc]/60 px-0.5 py-1 lg:h-auto lg:pt-3"
-                    : "flex h-8 w-full items-center justify-between overflow-clip px-0.5 py-1 lg:h-auto lg:pt-3"
+                    ? "flex min-h-8 w-full items-center justify-between overflow-visible border-t border-solid border-[#ccc]/60 px-0.5 py-1 lg:min-h-8 lg:h-auto lg:pt-3"
+                    : "flex min-h-8 w-full items-center justify-between overflow-visible px-0.5 py-1 lg:min-h-8 lg:h-auto lg:pt-3"
                 }
               >
-                <div className="flex items-center gap-2">
+                <div className="flex min-w-0 items-center gap-2">
                   <span className="flex size-[26px] shrink-0 items-center justify-center rounded-[3.25px] bg-[#eff3f8] lg:size-8 lg:rounded-[4px]">
                     <Image src={`${ASSET}${f.icon}`} alt="" aria-hidden width={20} height={20} />
                   </span>
-                  <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.label}</p>
+                  <p className="min-w-0 whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.label}</p>
                 </div>
-                <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
+                <p className="max-w-[45%] whitespace-normal break-words text-right font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
               </div>
             ))}
           </div>
 
           <div aria-hidden className="w-px shrink-0 self-stretch bg-[#ccc]/60 max-lg:hidden" />
 
-          <div className="w-[557px] shrink-0 self-stretch max-lg:order-1 max-lg:w-full">
+          <div className="w-[557px] shrink-0 self-stretch max-lg:order-1 max-lg:w-full lg:h-[424px]">
             <div className="relative aspect-[353/320.99] w-full overflow-hidden rounded-[12px] lg:aspect-auto lg:h-full">
-              <Image
-                src={`${ASSET}spec-image.png`}
-                alt="Storm EV LR 200 cabin and controls"
+                <Image
+                src={currentImage}
+                alt={currentImageAlt}
                 width={557}
                 height={424}
                 className="h-full w-full object-cover max-lg:[mask-image:linear-gradient(180deg,black_35%,rgba(0,0,0,0.65)_60%,transparent_82%)] lg:absolute lg:inset-0"
@@ -134,7 +203,7 @@ export default function ProductSpecs() {
           </div>
         </div>
 
-        <Button className="lg:hidden max-lg:h-11 max-lg:w-auto max-lg:px-5">Download Spec sheet</Button>
+        <Button href="#book-test-drive" className="lg:hidden max-lg:h-11 max-lg:w-auto max-lg:px-5">Download Spec sheet</Button>
       </div>
     </section>
   );

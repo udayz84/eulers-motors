@@ -218,10 +218,10 @@ export default function ProductVariantsCompare() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <Button variant="outline" arrow="none" className="h-[50.48px] px-6">
+              <Button href="#book-test-drive" variant="outline" arrow="none" className="h-[50.48px] px-6">
                 Get Price Quote
               </Button>
-              <Button variant="dark" arrow="white" className="h-[50.48px] px-6">
+              <Button href="#book-test-drive" variant="dark" arrow="white" className="h-[50.48px] px-6">
                 Talk to an expert
               </Button>
             </div>

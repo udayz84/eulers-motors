@@ -83,26 +83,33 @@ export default function TechHero() {
           </div>
 
           <div className="flex w-full flex-col items-center gap-5">
-            <div
-              id="philosophy-scroll-row"
-              className="no-scrollbar flex w-full items-center gap-[10px] overflow-x-auto"
-            >
-              {PHILOSOPHY.map((c) => (
-                <div
-                  key={c.title}
-                  className="flex w-[282px] shrink-0 flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.45),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.45),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.25)]"
-                >
+            <div className="relative -mx-5 w-[calc(100%+40px)]">
+              <div
+                id="philosophy-scroll-row"
+                className="snap-row snap-center-mobile gap-[10px] pl-5 pr-0"
+              >
+                {PHILOSOPHY.map((c) => (
+                  <article
+                    key={c.title}
+                    data-carousel-card
+                    className="flex w-[282px] shrink-0 snap-start flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.45),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.45),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.25)]"
+                  >
                   <div className="relative h-[62px] w-[64.333px] shrink-0">
                     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                      <img src={`${A}/hero__imgChatGptHero.png`} alt="" className="absolute max-w-none" style={c.crop} />
+                      <img src={`${A}/philosophy-icons-exact.png`} alt="" className="absolute max-w-none" style={c.crop} />
                     </div>
                   </div>
                   <div className="flex w-full flex-col items-start gap-2 leading-normal text-white">
                     <p className="w-full text-[16px] font-bold">{c.title}</p>
                     <p className="w-full text-[12px]">{c.desc}</p>
                   </div>
-                </div>
-              ))}
+                  </article>
+                ))}
+              </div>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[58px] bg-gradient-to-l from-[#041231] via-[#041231]/80 to-transparent backdrop-blur-[5px]"
+              />
             </div>
 
             <PagerBar rowId="philosophy-scroll-row" />
@@ -160,21 +167,6 @@ export default function TechHero() {
       <div
         className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] px-20 pb-[42px] pt-6 bg-[#041231] lg:flex"
       >
-        <button
-          type="button"
-          aria-label="Previous philosophy"
-          className="absolute left-[49.818px] bottom-[340.5px] size-[55px] cursor-pointer"
-        >
-          <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none rotate-180" />
-        </button>
-        <button
-          type="button"
-          aria-label="Next philosophy"
-          className="absolute right-[49.818px] bottom-[340.5px] size-[55px] cursor-pointer"
-        >
-          <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
-        </button>
-
         <div className="flex w-full flex-col items-center gap-6">
           <div className="flex w-[900px] flex-col items-center gap-4">
             <Eyebrow label="Philosophy" dark />
@@ -191,7 +183,7 @@ export default function TechHero() {
           {PHILOSOPHY.map((card) => (
             <article key={card.title} className="flex min-w-0 flex-1 flex-col items-start justify-center gap-8 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-8">
               <div className="relative h-[72px] w-[74.709px] shrink-0 overflow-hidden">
-                <img src={`${A}/hero__imgChatGptHero.png`} alt="" className="absolute max-w-none" style={card.crop} />
+                <img src={`${A}/philosophy-icons-exact.png`} alt="" className="absolute max-w-none" style={card.crop} />
               </div>
               <div className="flex w-full flex-col items-start gap-2 text-white">
                 <h3 className="w-full font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.78px]">{card.title}</h3>

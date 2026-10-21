@@ -11,15 +11,15 @@ const STATS = [
 ];
 
 /** TECHNOLOGY page — "Proof / Why businesses trust Euler." (Figma 2991:13086, 393×396). */
+const PROOF_BACKGROUND =
+  "linear-gradient(180deg, #041231 0%, #041231 45%, rgba(4, 18, 49, 0) 100%), linear-gradient(0deg, rgba(29, 111, 255, 0.55) -20%, rgba(14, 47, 109, 0) 55%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #FFF";
+
 export default function TechProof() {
   return (
-    <section className="relative overflow-clip bg-[#041231]" aria-label="Proof">
+    <section className="relative overflow-clip bg-[#041231]" style={{ background: PROOF_BACKGROUND }} aria-label="Proof">
       <div
         className="relative mx-auto hidden h-[359px] w-full max-w-[1440px] overflow-clip lg:block"
-        style={{
-          background:
-            "linear-gradient(180deg, #041231 0%, #041231 45%, rgba(4, 18, 49, 0) 100%), linear-gradient(0deg, rgba(29, 111, 255, 0.55) -20%, rgba(14, 47, 109, 0) 55%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #FFF",
-        }}
+        style={{ background: "transparent" }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute -right-[423.63px] -top-[484.67px] h-[1381.96px] w-[1381.96px]">

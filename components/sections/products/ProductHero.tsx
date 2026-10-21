@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useState } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 
@@ -12,14 +14,52 @@ const STATS = [
   { value: "90", unit: "min", label: "Full Charge Time" },
 ];
 
+const VARIANTS = [
+  { name: "Base", range: "200 km", price: "₹11.49 L", image: "variant-thumb.png" },
+  { name: "T1500", range: "200 km", price: "₹12.8 L", image: "vehicle-storm-t1500.png" },
+  { name: "Turbo", range: "180 km", price: "₹9.8 L", image: "vehicle-turbo-1000.png" },
+  { name: "HiLoad", range: "170 km", price: "₹7.5 L", image: "vehicle-hiload-ev.png" },
+];
+
+type VariantSelectorProps = {
+  selectedIndex: number;
+  expanded: boolean;
+  onToggle: () => void;
+  onSelect: (index: number) => void;
+};
+
+function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, "selectedIndex" | "onSelect">) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      {VARIANTS.map((variant, index) => (
+        <button
+          key={variant.name}
+          type="button"
+          onClick={() => onSelect(index)}
+          className={`flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-left transition-colors ${index === selectedIndex ? "bg-[#eaf1ff]" : "hover:bg-[#f4f7fb]"}`}
+          aria-pressed={index === selectedIndex}
+        >
+          <span className="relative size-9 shrink-0 overflow-hidden rounded-[5px] bg-[#d9d9d9]">
+            <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-cover" />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate font-sans text-[13px] font-bold leading-tight text-[#0E2F6D]">{variant.name}</span>
+            <span className="block truncate font-sans text-[11px] font-medium leading-tight text-[#0E2F6D]">{variant.range} · {variant.price}</span>
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 /**
  * 3 elements: Image gallery thumbnails (42x42, rounded-4px)
  */
 function Thumbs({ className = "" }: { className?: string }) {
   return (
-    <div className={`inline-flex items-end justify-start gap-[10px] ${className}`}>
+    <div className={`inline-flex items-end justify-start gap-[10px] lg:gap-2 ${className}`}>
       {/* Thumb 1 */}
-      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm">
+      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm lg:size-[62px]">
         <Image
           src={`${ASSET}thumb-1.png`}
           alt="Storm EV LR 200 Base thumb 1"
@@ -30,7 +70,7 @@ function Thumbs({ className = "" }: { className?: string }) {
       </div>
 
       {/* Thumb 2 */}
-      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm">
+      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm lg:size-[62px]">
         <Image
           src={`${ASSET}thumb-base.png`}
           alt=""
@@ -58,7 +98,7 @@ function Thumbs({ className = "" }: { className?: string }) {
       </div>
 
       {/* Thumb 3 (+5 overlay) */}
-      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm">
+      <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm lg:size-[62px]">
         <Image
           src={`${ASSET}thumb-base.png`}
           alt=""
@@ -87,20 +127,22 @@ function Thumbs({ className = "" }: { className?: string }) {
 /**
  * Variants tab pill
  */
-function VariantsTab() {
+function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
+  const selected = VARIANTS[selectedIndex];
   return (
-    <div className="flex w-full items-center justify-between rounded-[8px] bg-white/20 p-1.5 backdrop-blur-[12px] border border-white/40 shadow-sm">
+    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+      <div className="flex w-full items-center justify-between">
       <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         VARIANTS
       </span>
 
-      <div className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] shadow-sm">
+      <button type="button" onClick={onToggle} aria-expanded={expanded} aria-controls="mobile-variant-options" className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm">
         <div className="flex items-center gap-2">
           {/* Sized vehicle icon container */}
           <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
             <Image
-              src={`${ASSET}variant-thumb.png`}
-              alt="Base variant"
+              src={`${ASSET}${selected.image}`}
+              alt={`${selected.name} variant`}
               width={97.11}
               height={64.97}
               className="absolute left-[-65.446px] top-[-38.282px] h-[64.97px] w-[97.11px] max-w-none"
@@ -109,12 +151,12 @@ function VariantsTab() {
 
           <div className="flex flex-col justify-center items-start gap-[2px]">
             <span className="font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
-              Base
+              {selected.name}
             </span>
             <div className="flex items-center gap-1 font-sans text-[12px] font-medium leading-[115%] tracking-[-0.24px] text-[#0E2F6D]">
-              <span>200 km</span>
+              <span>{selected.range}</span>
               <span className="size-[3px] rounded-full bg-[#0E2F6D]/40" />
-              <span>₹11.49 L</span>
+              <span>{selected.price}</span>
             </div>
           </div>
         </div>
@@ -126,7 +168,7 @@ function VariantsTab() {
           viewBox="0 0 14 8"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="shrink-0 text-[#121212]"
+          className={`shrink-0 text-[#121212] transition-transform ${expanded ? "rotate-180" : ""}`}
         >
           <path
             d="M1 1L7 7L13 1"
@@ -136,6 +178,12 @@ function VariantsTab() {
             strokeLinejoin="round"
           />
         </svg>
+      </button>
+      </div>
+      <div id="mobile-variant-options" className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100 pt-2" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="min-h-0 overflow-hidden">
+          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
+        </div>
       </div>
     </div>
   );
@@ -209,17 +257,18 @@ function SpecsGrid() {
 /**
  * Desktop Variants Panel
  */
-function DesktopVariantsPanel() {
+function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
+  const selected = VARIANTS[selectedIndex];
   return (
-    <div className="flex w-[251px] flex-col gap-3 rounded-lg bg-white/20 p-[14px] backdrop-blur-[12px] border border-white/30 shadow-sm">
+    <div className="relative z-30 flex w-[251px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
-      <div className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 shadow-sm">
+      <button type="button" onClick={onToggle} aria-expanded={expanded} aria-controls="desktop-variant-options" className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm">
         <div className="flex items-center gap-2">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
             <Image
-              src={`${ASSET}variant-thumb.png`}
+              src={`${ASSET}${selected.image}`}
               alt=""
               aria-hidden
               width={97.11}
@@ -229,15 +278,15 @@ function DesktopVariantsPanel() {
           </div>
           <div className="flex flex-col justify-center gap-1">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
-              Base
+              {selected.name}
             </p>
             <div className="flex items-center gap-1">
               <p className="whitespace-nowrap font-sans text-[12px] font-medium leading-[1.15] tracking-[-0.24px] text-[#0E2F6D]">
-                200 km
+                {selected.range}
               </p>
               <span className="size-[4px] shrink-0 rounded-full bg-[#0E2F6D]/20" />
               <p className="whitespace-nowrap font-sans text-[12px] font-medium leading-[1.15] tracking-[-0.24px] text-[#0E2F6D]">
-                ₹11.49 L
+                {selected.price}
               </p>
             </div>
           </div>
@@ -248,8 +297,13 @@ function DesktopVariantsPanel() {
           aria-hidden
           width={15.5}
           height={7.12}
-          className="h-[7.12px] w-[15.5px] -scale-y-100"
+          className={`h-[7.12px] w-[15.5px] transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
         />
+      </button>
+      <div id="desktop-variant-options" className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="min-h-0 overflow-y-auto">
+          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
+        </div>
       </div>
     </div>
   );
@@ -259,6 +313,15 @@ function DesktopVariantsPanel() {
  * Product Hero Section
  */
 export default function ProductHero() {
+  const [selectedVariant, setSelectedVariant] = useState(0);
+  const [variantsExpanded, setVariantsExpanded] = useState(false);
+
+  const toggleVariants = () => setVariantsExpanded((expanded) => !expanded);
+  const selectVariant = (index: number) => {
+    setSelectedVariant(index);
+    setVariantsExpanded(false);
+  };
+
   return (
     <section
       aria-label="Storm EV LR 200 Base"
@@ -314,13 +377,13 @@ export default function ProductHero() {
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
             Built for long city and highway runs. Carries a full load all day and charges overnight at your depot.
           </p>
-          <button
-            type="button"
+          <a
+            href="#book-test-drive"
             className="flex h-[44px] sm:h-[48px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] sm:px-[24px] font-sans text-[14px] sm:text-[15px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
             <span>Download Brochure</span>
             <Arrow color="white" />
-          </button>
+          </a>
         </div>
 
         {/* Bottom group */}
@@ -329,7 +392,7 @@ export default function ProductHero() {
           <Thumbs />
 
           {/* Variants tab pill */}
-          <VariantsTab />
+          <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
 
           {/* 2x2 Specs element */}
           <SpecsGrid />
@@ -346,18 +409,18 @@ export default function ProductHero() {
           <p className="w-[308.7px] font-sans text-[16px] leading-normal text-ink">
             Built for long city and highway runs. Carries a full load all day and charges overnight at your depot.
           </p>
-          <button
-            type="button"
-            className="flex h-[44px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] font-sans text-[14px] font-semibold text-white transition-transform active:scale-[0.98]"
+          <a
+            href="#book-test-drive"
+            className="flex h-[50.477px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[24px] font-display text-[16px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
             <span>Download Brochure</span>
             <Arrow color="white" />
-          </button>
+          </a>
         </div>
 
         {/* Right variants */}
-        <div className="absolute right-20 top-[130px]">
-          <DesktopVariantsPanel />
+        <div className="absolute right-0 top-[130px]">
+          <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
         </div>
 
         {/* Bottom-left thumbnails */}

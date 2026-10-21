@@ -361,13 +361,13 @@ export default function ProductLoanCalculator() {
 
             {/* CTA Button + Disclaimer */}
             <div className="mt-1 flex flex-col gap-3 pt-1">
-              <button
-                type="button"
+              <a
+                href="#book-test-drive"
                 className="flex h-[46px] w-full items-center justify-center gap-2 rounded-[6px] bg-white font-sans text-[14px] font-semibold text-[#041231] shadow-md transition-all hover:bg-[#f3f4f5] active:scale-[0.99] lg:h-[50px] lg:text-[16px]"
               >
                 <span>Check Eligibility</span>
                 <Arrow color="ink" />
-              </button>
+              </a>
 
               <p className="font-sans text-[11px] leading-[1.35] text-[#8E9BAE] sm:text-[12px]">
                 This is an estimate. Asli rate aapke credit aur bank par depend karta hai.

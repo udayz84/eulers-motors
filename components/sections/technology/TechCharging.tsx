@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 
 const A = "/assets/technology-page";
@@ -19,6 +21,8 @@ const DONTS = [
  * TECHNOLOGY page — "Charging / Where Will I Charge?" (Figma 3009:11504, 393px width).
  */
 export default function TechCharging() {
+  const [chargingMode, setChargingMode] = useState<"home" | "public">("public");
+
   return (
     <section className="bg-white py-6 lg:py-0" aria-label="Charging">
       <div className="relative mx-auto w-full max-w-[393px] overflow-hidden lg:hidden">
@@ -45,18 +49,23 @@ export default function TechCharging() {
             />
           </div>
           <div className="relative z-10 flex h-8 w-[170px] translate-y-[7px] items-center">
-            <div className="flex h-full w-[77px] items-center justify-center rounded-full px-3">
-              <span className="text-[12px] font-semibold leading-none text-ink">Home</span>
-            </div>
-            <div
-              className="flex h-full flex-1 items-center justify-center rounded-full border-[0.4px] border-white px-3 shadow-sm"
-              style={{
-                backgroundImage:
-                  "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(90deg, #121212 0%, #121212 100%)",
-              }}
+            <button
+              type="button"
+              aria-pressed={chargingMode === "home"}
+              onClick={() => setChargingMode("home")}
+              className={`flex h-full w-[77px] items-center justify-center rounded-full px-3 transition-colors ${chargingMode === "home" ? "bg-white shadow-sm" : ""}`}
             >
-              <span className="text-[12px] font-semibold leading-none text-white">Public</span>
-            </div>
+              <span className="text-[12px] font-semibold leading-none text-ink">Home</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={chargingMode === "public"}
+              onClick={() => setChargingMode("public")}
+              className={`flex h-full flex-1 items-center justify-center rounded-full border-[0.4px] border-white px-3 transition-colors ${chargingMode === "public" ? "shadow-sm" : "bg-transparent"}`}
+              style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(90deg, #121212 0%, #121212 100%)" } : undefined}
+            >
+              <span className={`text-[12px] font-semibold leading-none ${chargingMode === "public" ? "text-white" : "text-ink"}`}>Public</span>
+            </button>
           </div>
         </div>
 
@@ -225,10 +234,10 @@ export default function TechCharging() {
               Different businesses have different needs. Choose the charging setup that works best for your operations.
             </p>
             <div className="flex items-center gap-3" role="group" aria-label="Charging setup">
-              <button type="button" className="flex h-[42px] w-[100px] items-center justify-center rounded-full bg-[#f3f4f5] px-4 text-[16px] font-semibold leading-none text-ink">
+              <button type="button" aria-pressed={chargingMode === "home"} onClick={() => setChargingMode("home")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full px-4 text-[16px] font-semibold leading-none text-ink ${chargingMode === "home" ? "bg-white shadow-sm" : "bg-[#f3f4f5]"}`}>
                 Home
               </button>
-              <button type="button" aria-pressed="true" className="flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] px-4 text-[16px] font-semibold leading-none text-white">
+              <button type="button" aria-pressed={chargingMode === "public"} onClick={() => setChargingMode("public")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "public" ? "bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] text-white" : "bg-[#f3f4f5] text-ink"}`}>
                 Public
               </button>
             </div>

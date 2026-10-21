@@ -5,6 +5,10 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
 
 const A = "/assets/technology-page";
+const LOAD_CARD_IMAGES = {
+  load: `${A}/load-card-drive-exact.png`,
+  payload: `${A}/load-card-payload-exact.png`,
+} as const;
 
 /** TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885, 393×601). */
 export default function TechLoad() {
@@ -15,17 +19,36 @@ export default function TechLoad() {
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)]"
       aria-label="Load"
     >
-      <div className="mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] px-20 pb-[62px] pt-[41px] lg:flex">
-        <div id="load-carousel-desktop" ref={desktopCarousel} className="no-scrollbar flex w-full items-center gap-5 overflow-x-auto">
+      <div className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center gap-[42px] pb-[62px] pt-0 lg:flex">
+        <div
+          id="load-carousel-desktop"
+          ref={desktopCarousel}
+          className="snap-row relative left-1/2 w-screen -translate-x-1/2 items-center gap-5"
+        >
+          {/* Customer Reviews aligns its first card at x=80px on a 1440px viewport.
+              This spacer accounts for the 20px track gap so the card itself lands
+              on the same x-position, while remaining responsive above 1440px. */}
+          <div
+            aria-hidden="true"
+            className="shrink-0"
+            style={{
+              width:
+                "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 40px)",
+            }}
+          />
           <DesktopLoadCard variant="load" />
           <DesktopLoadCard variant="payload" />
           <DesktopLoadCard variant="load" />
         </div>
-        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 hidden h-[532px] w-[211px] bg-black/[0.01] backdrop-blur-[0px] lg:block" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 z-10 hidden h-[532px] w-[180px] bg-gradient-to-l from-[#041231]/60 via-[#041231]/20 to-transparent backdrop-blur-[5px] lg:block"
+          style={{ right: "min(0px, calc((1440px - 100vw) / 2))" }}
+        />
         <button
           type="button"
           aria-label="Previous load features"
-          onClick={() => desktopCarousel.current?.scrollBy({ left: -640, behavior: "smooth" })}
+          onClick={() => scrollLoad(-1)}
           className="absolute left-[49.82px] top-[216.5px] z-10 size-[55px] rotate-180"
         >
           <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none" />
@@ -33,7 +56,7 @@ export default function TechLoad() {
         <button
           type="button"
           aria-label="Next load features"
-          onClick={() => desktopCarousel.current?.scrollBy({ left: 640, behavior: "smooth" })}
+          onClick={() => scrollLoad(1)}
           className="absolute right-[49.82px] top-[216.5px] z-10 size-[55px]"
         >
           <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
@@ -42,15 +65,26 @@ export default function TechLoad() {
       </div>
 
       <div className="mx-auto flex w-full max-w-[393px] flex-col items-center justify-center gap-6 px-5 py-[35px] lg:hidden">
-        <div id="load-carousel-mobile" className="no-scrollbar flex w-full items-center gap-3 overflow-x-auto">
+        <div className="relative -mx-5 w-[calc(100%+40px)]">
+        <div id="load-carousel-mobile" className="snap-row gap-3 px-5">
           <MobileLoadCard variant="load" />
           <MobileLoadCard variant="payload" />
+          <MobileLoadCard variant="load" />
+        </div>
         </div>
 
         <PagerBar rowId="load-carousel-mobile" />
       </div>
     </section>
   );
+}
+
+function scrollLoad(direction: -1 | 1) {
+  const row = document.getElementById("load-carousel-desktop");
+  const card = row?.querySelector<HTMLElement>("[data-carousel-card]");
+  if (!row || !card) return;
+  const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+  row.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: "smooth" });
 }
 
 function MobileLoadCard({ variant }: { variant: "load" | "payload" }) {
@@ -70,10 +104,7 @@ function MobileLoadCard({ variant }: { variant: "load" | "payload" }) {
     <div className="relative flex h-[488px] w-full shrink-0 flex-col items-center justify-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-3 pb-3 pt-[252px]">
       <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[12px]">
         <div className="absolute inset-0 overflow-hidden rounded-[12px]">
-          <img src={`${A}/load__imgFrame1984081153.png`} alt="" className="absolute left-[-0.05%] top-[-10.55%] h-[85.66%] w-[100.1%] max-w-none" />
-          {payload && (
-            <img src={`${A}/load__imgFrame2147239381.png`} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover" />
-          )}
+          <img src={LOAD_CARD_IMAGES[variant]} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
         </div>
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
@@ -107,12 +138,9 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
     : "Payload, range and gradient are quoted loaded. Empty numbers help nobody.";
 
   return (
-    <article className="relative flex h-[488px] w-[620px] shrink-0 items-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-8 pb-8 pt-[252px]">
+    <article data-carousel-card className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-8 pb-8 pt-[252px]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
-        <div className="absolute inset-0 overflow-hidden rounded-[12px]">
-          <img src={`${A}/load__imgFrame1984081153.png`} alt="" className="absolute left-[0.02%] top-[-6.61%] h-[106.55%] w-[99.95%] max-w-none" />
-        </div>
-        {payload && <img src={`${A}/load__imgFrame2147239381.png`} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover" />}
+        <img src={LOAD_CARD_IMAGES[variant]} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
 

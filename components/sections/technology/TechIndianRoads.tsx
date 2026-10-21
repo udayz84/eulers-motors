@@ -54,7 +54,7 @@ const CARDS = [
 /** TECHNOLOGY page — "Built for Indian roads." banner (Figma 2990:12839, 393×442). */
 export default function TechIndianRoads() {
   return (
-    <section className="bg-[#d4dbec]" aria-label="Built for Indian roads">
+    <section className="overflow-x-clip bg-[#d4dbec]" aria-label="Built for Indian roads">
       <div className="mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-9 px-20 py-[42px] lg:flex">
         <div className="flex w-full flex-col items-center gap-6">
           <div className="flex w-[700px] flex-col items-center gap-4">
@@ -68,9 +68,11 @@ export default function TechIndianRoads() {
           </p>
         </div>
 
-        <div id="indian-roads-row" className="no-scrollbar flex h-[254px] w-full items-start gap-6 overflow-x-auto">
-          {CARDS.map((c) => (
-            <article key={c.label} className="relative h-[254px] w-[353px] shrink-0">
+        <div className="relative left-1/2 w-screen -translate-x-1/2">
+          <div id="indian-roads-row" className="snap-row h-[254px] items-start gap-6">
+            <div aria-hidden="true" className="shrink-0" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }} />
+            {CARDS.map((c) => (
+              <article key={c.label} data-carousel-card className="relative h-[254px] w-[353px] shrink-0 snap-start">
               <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
                 <div className="absolute left-[-13px] top-[-5.53px] h-[48.328px]" style={{ width: c.pillW }}>
                   <img src={c.pill} alt="" className="absolute inset-0 size-full max-w-none" />
@@ -93,8 +95,14 @@ export default function TechIndianRoads() {
                   <p className="text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">{c.euler.join(" ")}</p>
                 </div>
               </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 z-10 hidden w-[120px] bg-gradient-to-l from-[#d4dbec]/70 via-[#d4dbec]/25 to-transparent backdrop-blur-[5px] lg:block"
+            style={{ right: "min(0px, calc((1440px - 100vw) / 2))" }}
+          />
         </div>
         <PagerBar rowId="indian-roads-row" className="bg-white/50 [&>div]:bg-ink" />
       </div>
@@ -111,9 +119,11 @@ export default function TechIndianRoads() {
           </p>
         </div>
 
-        <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto">
-          {CARDS.map((c) => (
-            <article key={c.label} className="relative h-[202.13px] w-[353px] shrink-0">
+        <div className="relative -mx-5 w-[calc(100%+40px)]">
+          <div className="relative">
+          <div className="snap-row gap-2 pl-5 pr-0">
+            {CARDS.map((c) => (
+            <article key={c.label} data-carousel-card className="relative h-[202.13px] w-[353px] shrink-0 snap-start">
               <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
                 <div className="absolute left-[-13px] top-[-5.53px] h-[48.328px]" style={{ width: c.pillW }}>
                   <img src={c.pill} alt="" className="absolute inset-0 size-full max-w-none" />
@@ -162,8 +172,11 @@ export default function TechIndianRoads() {
                 </div>
               </div>
             </article>
-          ))}
+            ))}
+          </div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[58px] bg-gradient-to-l from-[#d4dbec]/75 via-[#d4dbec]/25 to-transparent backdrop-blur-[4px]" />
         </div>
+      </div>
       </div>
     </section>
   );

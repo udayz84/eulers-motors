@@ -77,7 +77,7 @@ export default function TechFaq() {
   }
 
   return (
-    <section className="bg-white" aria-label="Frequently asked questions">
+    <section className="overflow-x-clip bg-white" aria-label="Frequently asked questions">
       <div className="relative mx-auto flex w-full max-w-[393px] flex-col items-center gap-5 px-5 py-8 lg:hidden">
         <div className="relative flex w-full flex-col items-start gap-[14px]">
           <Eyebrow label="FAQ" />
@@ -192,7 +192,7 @@ export default function TechFaq() {
             <div className="flex w-full flex-col items-start gap-4">
               <Eyebrow label="FAQ" />
               <div className="flex flex-col items-start gap-4 text-ink">
-                <h2 className="whitespace-nowrap font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px]">
+                <h2 className="text-[clamp(28px,3.3vw,42px)] font-display font-semibold leading-[1.15] tracking-[-0.84px] lg:whitespace-normal xl:whitespace-nowrap">
                   Frequently asked questions
                 </h2>
                 <p className="max-w-[474px] text-[16px] leading-normal">
@@ -239,7 +239,7 @@ export default function TechFaq() {
             </div>
           </div>
 
-          <div className="flex h-[578px] w-[652px] shrink-0 items-stretch gap-3">
+          <div className="flex h-[578px] w-[min(652px,48%)] shrink-0 items-stretch gap-3">
             <div
               ref={desktopListRef}
               onScroll={(event) => {
@@ -247,7 +247,7 @@ export default function TechFaq() {
                 const maxScroll = list.scrollHeight - list.clientHeight;
                 setDesktopThumbTop(maxScroll > 0 ? (list.scrollTop / maxScroll) * 421 : 0);
               }}
-              className="no-scrollbar flex h-full w-[624px] flex-col gap-4 overflow-y-auto"
+              className="no-scrollbar flex h-full w-[calc(100%-28px)] flex-col gap-4 overflow-y-auto"
               aria-label="Frequently asked questions"
             >
               {visible.map((faq, index) => {

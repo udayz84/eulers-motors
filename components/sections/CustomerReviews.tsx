@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import CarouselArrows from "../ui/CarouselArrows";
@@ -19,8 +19,57 @@ const STORY_IMAGES = [
  * Instagram-story shaped testimonial cards (300/400 aspect) with play buttons.
  */
 export default function CustomerReviews() {
+  const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const visibleRef = useRef(false);
+  const interactionPausedRef = useRef(false);
+  const resumeTimerRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const row = scrollRef.current;
+    if (!section || !row) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const observer = new IntersectionObserver(([entry]) => {
+      visibleRef.current = entry.isIntersecting;
+    }, { threshold: 0.15 });
+    observer.observe(section);
+
+    let frame = 0;
+    const tick = () => {
+      const duplicate = row.querySelector<HTMLElement>("[data-review-copy='true']");
+      const first = row.querySelector<HTMLElement>("[data-review-index='0']");
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
+        const loopDistance = duplicate.offsetLeft - first.offsetLeft;
+        if (loopDistance > 0) {
+          row.scrollLeft += 0.35;
+          if (row.scrollLeft >= loopDistance) row.scrollLeft -= loopDistance;
+        }
+      }
+      frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+      if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
+  const pauseForInteraction = () => {
+    interactionPausedRef.current = true;
+    if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
+  };
+
+  const resumeAfterInteraction = () => {
+    if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = window.setTimeout(() => {
+      interactionPausedRef.current = false;
+    }, 2200);
+  };
 
   const handleScroll = () => {
     const row = scrollRef.current;
@@ -29,13 +78,13 @@ export default function CustomerReviews() {
     if (!cards.length) return;
     let index = 0;
     cards.forEach((card, i) => {
-      if (row.scrollLeft >= card.offsetLeft - card.offsetWidth / 2) index = i;
+      if (row.scrollLeft >= card.offsetLeft - card.offsetWidth / 2) index = i % STORY_IMAGES.length;
     });
     setActiveIndex(index);
   };
 
   return (
-    <section className="bg-white overflow-hidden" aria-label="Customer reviews">
+    <section ref={sectionRef} className="bg-white overflow-hidden" aria-label="Customer reviews">
       {/* Figma 1:1669 root — width 1440 · padding 62px 60px · flex-col ·
           items-center · justify-center · gap 42px. The 42px gap and 62px bottom
           padding live on the cards wrapper below (the cards row spans the full
@@ -64,8 +113,8 @@ export default function CustomerReviews() {
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
-        <div className="relative">
-          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
+        <div className="relative" onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction}>
+          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction} onPointerCancel={resumeAfterInteraction} onWheel={pauseForInteraction} className="snap-row snap-center-mobile gap-[13px] lg:gap-6">
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
               container offset (≥1440) + the 1280 row's centering offset
@@ -81,9 +130,12 @@ export default function CustomerReviews() {
                 "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)",
             }}
           />
-        {STORY_IMAGES.map((story, i) => (
+        {[...STORY_IMAGES, ...STORY_IMAGES].map((story, i) => (
             <article
-              key={i}
+              key={`${i}-${story.base}`}
+              data-review-index={i % STORY_IMAGES.length}
+              data-review-copy={i >= STORY_IMAGES.length ? "true" : undefined}
+              aria-hidden={i >= STORY_IMAGES.length ? true : undefined}
               className="relative aspect-[300/400] h-[466.667px] w-[350px] overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
             >
               <Image src={story.base} alt="Customer story" fill sizes="400px" className="object-cover" />

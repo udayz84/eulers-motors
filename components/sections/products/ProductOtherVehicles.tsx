@@ -98,7 +98,7 @@ export default function ProductOtherVehicles() {
           </h2>
         </div>
 
-        <Button variant="dark" arrow="white" className="max-lg:hidden h-[50.48px] px-6">
+        <Button href="/products" variant="dark" arrow="white" className="max-lg:hidden h-[50.48px] px-6">
           See all vehicles
         </Button>
       </div>
@@ -324,7 +324,7 @@ export default function ProductOtherVehicles() {
             }}
           />
         </div>
-        <Button variant="dark" arrow="white">
+        <Button href="/products" variant="dark" arrow="white">
           See all vehicles
         </Button>
       </div>

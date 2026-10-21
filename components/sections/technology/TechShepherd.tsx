@@ -15,7 +15,7 @@ const FEATURES = [
 /** TECHNOLOGY page — "Shepherd app / Manage Everything in One Place" (Figma 3008:10799, 393×663). */
 export default function TechShepherd() {
   return (
-    <section className="relative bg-[#f3f4f5]" aria-label="Shepherd app">
+    <section id="technology-app" className="relative bg-[#f3f4f5]" aria-label="Shepherd app">
       <div className="relative mx-auto hidden h-[668px] w-full max-w-[1440px] overflow-clip lg:block">
         <div className="absolute left-[calc(25%+336.51px)] top-[-41.75px] h-[529.435px] w-[642.52px] overflow-hidden rounded-lg">
           <img
@@ -55,10 +55,11 @@ export default function TechShepherd() {
       </div>
       <div
         id="shepherd-features-row"
-        className="no-scrollbar absolute left-0 top-[418.69px] hidden w-full items-center gap-3 overflow-x-auto lg:flex"
+        className="snap-row absolute left-0 top-[418.69px] hidden w-full items-center gap-3 lg:flex"
       >
+        <div aria-hidden="true" className="shrink-0" style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }} />
         {FEATURES.map((feature) => (
-          <article key={feature.title} className="flex h-[138.8px] w-[420px] shrink-0 flex-col items-start gap-3 overflow-clip rounded-lg bg-white p-5">
+          <article key={feature.title} data-carousel-card className="flex h-[138.8px] w-[420px] shrink-0 snap-start flex-col items-start gap-3 overflow-clip rounded-lg bg-white p-5">
             <div className="flex w-full items-center gap-2">
               <div className="flex size-[42px] shrink-0 items-center justify-center rounded-[5.25px] bg-[#eff3f8] p-[7px]">
                 <img src={feature.icon} alt="" className="size-5 object-contain" />
@@ -69,6 +70,7 @@ export default function TechShepherd() {
           </article>
         ))}
       </div>
+      <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[418.69px] z-[1] hidden h-[138.8px] w-[88px] bg-gradient-to-l from-[#f3f4f5] to-transparent lg:block" />
       <div className="relative mx-auto h-[663px] w-full max-w-[393px] overflow-clip lg:hidden">
         <div className="absolute left-5 top-[44px] flex w-[353px] flex-col items-start gap-[14px]">
           <Eyebrow label="Shepherd app" />
@@ -92,9 +94,10 @@ export default function TechShepherd() {
           <div aria-hidden className="absolute left-[-581.19px] top-[294.79px] h-[233.914px] w-[1526.493px] bg-[#f3f4f5] blur-[47.1px]" />
         </div>
 
-        <div className="no-scrollbar absolute left-5 right-0 top-[466px] flex items-center gap-3 overflow-x-auto">
+        <div className="absolute left-0 right-0 top-[466px]">
+        <div className="snap-row gap-3 px-5">
           {FEATURES.map((f) => (
-            <div key={f.title} className="flex w-[280px] shrink-0 flex-col items-start gap-2 overflow-clip rounded-[8px] bg-white p-[14px]">
+            <article key={f.title} data-carousel-card className="flex w-[280px] shrink-0 snap-start flex-col items-start gap-2 overflow-clip rounded-[8px] bg-white p-[14px]">
               <div className="flex w-full items-center gap-2">
                 <div className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#eff3f8]">
                   <img src={f.icon} alt="" className="size-5 object-contain" />
@@ -104,8 +107,10 @@ export default function TechShepherd() {
               <div className="flex w-full items-center justify-center pl-10">
                 <p className="min-w-px flex-1 text-[12px] leading-[1.4] text-[rgba(18,18,18,0.8)]">{f.body}</p>
               </div>
-            </div>
+            </article>
           ))}
+        </div>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-[54px] bg-gradient-to-l from-[#f3f4f5] to-transparent" />
         </div>
 
         <div className="absolute left-1/2 top-[585px] flex w-[353px] -translate-x-1/2 items-start gap-2">
