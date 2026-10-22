@@ -20,7 +20,7 @@ export default function ProductsPage() {
         <SavingsCalculator />
         <ProductVariantsCompare />
         <ProductLoanCalculator />
-        <CustomerReviews />
+        <CustomerReviews autoScrollOnMobile={false} />
         <ProductOverview />
         <ProductOtherVehicles />
         <ContactSection />

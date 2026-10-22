@@ -4,9 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const COLUMNS = [
+type FooterColumn = {
+  title: string;
+  links: string[];
+  openOnMobile: boolean;
+};
+
+const COLUMNS: FooterColumn[] = [
   {
-    title: "Euler MOTOR",
+    title: "Euler Motor",
     links: ["Storm EV LongRange 200", "Storm EV T1500", "HiLoad EV", "Turbo EV 1000"],
     openOnMobile: true,
   },

@@ -257,14 +257,17 @@ export default function ChargingStationFaq() {
           <div
             role="img"
             aria-label="Euler charging station location network map"
-            className="w-full flex-none self-stretch rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
-            style={{
-              backgroundImage: "url('/assets/charging-station-faq/location-map.png')",
-              backgroundPosition: "50% 50%",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          />
+            className="relative w-full flex-none self-stretch overflow-hidden rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
+          >
+            <Image
+              src="/assets/charging-station-faq/location-map-hq.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 587px, (min-width: 768px) calc(100vw - 64px), (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)"
+              quality={90}
+              className="object-cover object-center"
+            />
+          </div>
         </div>
 
         {/* Right Column: FAQ List & Custom Responsive Scrollbar */}

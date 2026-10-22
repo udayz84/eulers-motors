@@ -31,7 +31,7 @@ export default function TechnologyPage() {
         <TechFaq />
         <TechShepherd />
         <TechProof />
-        <CustomerReviews />
+        <CustomerReviews autoScrollOnMobile={false} />
         <ContactSection />
       </main>
       <Footer />

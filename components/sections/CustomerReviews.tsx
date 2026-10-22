@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
-import CarouselArrows from "../ui/CarouselArrows";
 
 /** All five Figma cards repeat the same testimonial (Figma 1:1679-1:1791) */
 const STORY_IMAGES = [
@@ -17,8 +16,16 @@ const STORY_IMAGES = [
 /**
  * Customer reviews (desktop 1:1669 · mobile 1:4828).
  * Instagram-story shaped testimonial cards (300/400 aspect) with play buttons.
+ *
+ * `autoScrollOnMobile` — the row is a transform-driven auto-scroll by
+ * default. The technology and products pages turn that off below the `lg`
+ * breakpoint (768px) so the mobile cards stay put and are swiped by hand.
  */
-export default function CustomerReviews() {
+export default function CustomerReviews({
+  autoScrollOnMobile = true,
+}: {
+  autoScrollOnMobile?: boolean;
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -39,8 +46,15 @@ export default function CustomerReviews() {
     }, { threshold: 0.15 });
     observer.observe(section);
 
+    // The auto-scroll is desktop-only when the mobile row is meant to be
+    // swiped by hand (`autoScrollOnMobile` off).
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    const shouldAutoScroll = () => desktopQuery.matches || autoScrollOnMobile;
+
     let frame = 0;
     let offset = 0;
+    let running = false;
+
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-review-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-review-index='0']");
@@ -65,14 +79,40 @@ export default function CustomerReviews() {
       }
       frame = window.requestAnimationFrame(tick);
     };
-    frame = window.requestAnimationFrame(tick);
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      if (running) {
+        running = false;
+        window.cancelAnimationFrame(frame);
+      }
+      track.style.transform = "";
+      offset = 0;
+    };
+
+    const sync = () => {
+      if (shouldAutoScroll()) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
+    desktopQuery.addEventListener("change", sync);
+    sync();
 
     return () => {
       observer.disconnect();
-      window.cancelAnimationFrame(frame);
+      desktopQuery.removeEventListener("change", sync);
+      stop();
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     };
-  }, []);
+  }, [autoScrollOnMobile]);
 
   const pauseForInteraction = () => {
     interactionPausedRef.current = true;
@@ -93,6 +133,8 @@ export default function CustomerReviews() {
     if (!cards.length) return;
     let index = 0;
     cards.forEach((card, i) => {
+      // the repeated copies are hidden on mobile when the auto-scroll is off
+      if (card.offsetWidth === 0) return;
       if (row.scrollLeft >= card.offsetLeft - card.offsetWidth / 2) index = i % STORY_IMAGES.length;
     });
     setActiveIndex(index);
@@ -158,7 +200,7 @@ export default function CustomerReviews() {
               data-review-index={i % STORY_IMAGES.length}
               data-review-copy={i >= STORY_IMAGES.length ? "true" : undefined}
               aria-hidden={i >= STORY_IMAGES.length ? true : undefined}
-              className="relative aspect-[300/400] h-[466.667px] w-[350px] overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
+              className={`relative aspect-[300/400] h-[466.667px] w-[350px] overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px] ${i >= STORY_IMAGES.length && !autoScrollOnMobile ? "hidden lg:block" : ""}`}
             >
               <Image src={story.base} alt="Customer story" fill sizes="400px" loading={i >= STORY_IMAGES.length ? "eager" : "lazy"} className="object-cover" />
               {story.overlay && (
@@ -253,8 +295,6 @@ export default function CustomerReviews() {
             aria-hidden
             className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[180px] bg-gradient-to-l from-white to-transparent lg:block xl:w-[210px]"
           />
-          {/* arrows drive the snap row above (overlay lets card clicks through) — Figma 3321:13434 / 3321:13436 */}
-          <CarouselArrows rowId="reviews-snap-row" label="customer reviews" variant="blue" />
         </div>
         {/* Progress Indicator Pill — same as the Overview section (Figma 3324:13476) */}
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8">

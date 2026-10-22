@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
 
 const A = "/assets/technology-page";
@@ -75,7 +76,7 @@ export default function TechCharging() {
         </div>
 
         {/* How it works card */}
-        <div className="relative z-10 mx-auto mt-4 w-[353px] overflow-hidden rounded-[16px] bg-[#f3f4f5] pb-6 pt-0 shadow-sm border border-black/5">
+        <div className="relative z-10 mx-auto mt-4 w-[353px] overflow-hidden rounded-[16px] bg-[#f3f4f5] pb-6 pt-0 shadow-sm border border-[#E4E6EA]">
           {/* Top image */}
           <div className="relative h-[190px] w-full overflow-hidden">
             <img
@@ -86,13 +87,29 @@ export default function TechCharging() {
           </div>
 
           <div className="flex flex-col items-center gap-5 px-3.5">
-            {/* "How it works" pill row */}
-            <div className="flex w-full items-center justify-between rounded-[8px] bg-white py-1.5 pl-3 pr-1.5 shadow-sm">
-              <span className="text-[12px] font-semibold text-ink">How it works</span>
-              <div className="flex h-7 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.3)] bg-[#f3f4f5] px-4">
-                <span className="font-display text-[11px] font-bold text-ink">
-                  Find it on the app
-                </span>
+            {/* Two cards — each holds its heading + its own button */}
+            <div className="flex w-full items-stretch gap-2">
+              <div className="flex flex-1 flex-col items-start gap-1 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
+                <span className="whitespace-nowrap text-[12px] font-semibold text-ink">How it works</span>
+                <Link
+                  href="/products"
+                  className="flex h-7 w-full items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.3)] bg-[#f3f4f5] px-2 transition-colors hover:bg-white"
+                >
+                  <span className="whitespace-nowrap font-display text-[11px] font-bold text-ink">
+                    Find it on the app
+                  </span>
+                </Link>
+              </div>
+              <div className="flex flex-1 flex-col items-start gap-1 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
+                <span className="whitespace-nowrap text-[12px] font-semibold text-ink">Charging stations</span>
+                <Link
+                  href="/charging-stations"
+                  className="flex h-7 w-full items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.3)] bg-[#f3f4f5] px-2 transition-colors hover:bg-white"
+                >
+                  <span className="whitespace-nowrap font-display text-[11px] font-bold text-ink">
+                    Find a charging point
+                  </span>
+                </Link>
               </div>
             </div>
 
@@ -127,7 +144,7 @@ export default function TechCharging() {
                 </div>
 
                 {/* White card */}
-                <div className="relative w-full rounded-[14px] rounded-tl-none bg-white p-4 shadow-sm flex flex-col gap-3.5 border border-black/5">
+                <div className="relative w-full rounded-[14px] rounded-tl-none bg-white p-4 shadow-sm flex flex-col gap-3.5 border border-[#E4E6EA]">
                   {DOS.map((text, idx) => (
                     <Fragment key={text}>
                       {idx > 0 && <div className="h-[1px] w-full bg-[#EAECEF]" />}
@@ -187,7 +204,7 @@ export default function TechCharging() {
                 </div>
 
                 {/* White card */}
-                <div className="relative w-full rounded-[14px] rounded-tr-none bg-white p-4 shadow-sm flex flex-col gap-3.5 border border-black/5">
+                <div className="relative w-full rounded-[14px] rounded-tr-none bg-white p-4 shadow-sm flex flex-col gap-3.5 border border-[#E4E6EA]">
                   {DONTS.map((text, idx) => (
                     <Fragment key={text}>
                       {idx > 0 && <div className="h-[1px] w-full bg-[#EAECEF]" />}
@@ -249,16 +266,28 @@ export default function TechCharging() {
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center gap-[27px] rounded-[12px] bg-[#f3f4f5] p-[42px]">
+        <div className="flex w-full items-center justify-center gap-[27px] rounded-[12px] border border-[#E4E6EA] bg-[#f3f4f5] p-[42px] shadow-sm">
           <div className="flex shrink-0 flex-col items-start justify-center gap-5">
             <div className="relative h-[243px] w-[452px] overflow-hidden">
               <img src={`${A}/charge__imgRectangle1618873364.png`} alt="Public charging station" className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain" />
             </div>
-            <div className="flex h-[50px] items-center gap-[119px] rounded-[8px] bg-white py-1 pl-3 pr-1">
-              <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">How it works</span>
-              <a href="/products" className="flex h-[42px] items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-5 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors">
-                Find it on the app
-              </a>
+            {/* Two cards — each holds its heading + its own button */}
+            <div className="flex w-full items-stretch gap-2">
+              <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
+                <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">How it works</span>
+                <a href="/products" className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors">
+                  Find it on the app
+                </a>
+              </div>
+              <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
+                <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">Charging stations</span>
+                <Link
+                  href="/charging-stations"
+                  className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors"
+                >
+                  Find a charging point
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -279,7 +308,7 @@ function ChargingList({ title, kind, items }: { title: string; kind: "do" | "don
         <img aria-hidden src={`${A}/charging-${kind === "do" ? "dos" : "donts"}-tab.svg`} alt="" className="absolute left-[10px] top-[-5.53px]" />
         <span className="relative z-10 text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-white">{title}</span>
       </div>
-      <div className="flex w-full flex-col gap-[14px] rounded-[12px] bg-white p-4">
+      <div className="flex w-full flex-col gap-[14px] rounded-[12px] border border-[#E4E6EA] bg-white p-4 shadow-sm">
         {items.map((item, index) => (
           <Fragment key={item}>
             {index > 0 && <img aria-hidden src={`${A}/charging-divider.svg`} alt="" className="block" />}

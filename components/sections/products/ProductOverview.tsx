@@ -82,8 +82,15 @@ export default function ProductOverview() {
     }, { threshold: 0.15 });
     observer.observe(section);
 
+    // The cards only turn into a horizontal carousel from the `lg`
+    // breakpoint (768px) up — below it they stack, so the auto-scroll is
+    // desktop-only and the mobile layout never moves on its own.
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+
     let frame = 0;
     let offset = 0;
+    let running = false;
+
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-overview-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-overview-index='0']");
@@ -103,11 +110,37 @@ export default function ProductOverview() {
       }
       frame = window.requestAnimationFrame(tick);
     };
-    frame = window.requestAnimationFrame(tick);
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      if (running) {
+        running = false;
+        window.cancelAnimationFrame(frame);
+      }
+      track.style.transform = "";
+      offset = 0;
+    };
+
+    const sync = () => {
+      if (desktopQuery.matches) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
+    desktopQuery.addEventListener("change", sync);
+    sync();
 
     return () => {
       observer.disconnect();
-      window.cancelAnimationFrame(frame);
+      desktopQuery.removeEventListener("change", sync);
+      stop();
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     };
   }, []);

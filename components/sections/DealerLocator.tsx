@@ -163,6 +163,23 @@ const CITIES = ["Hyderabad", "Delhi NCR", "Bengaluru", "Mumbai", "Ahmedabad", "K
 
 const ASSET = "/assets/dealer-locator/";
 
+/**
+ * The map is the background of the locator. It is a 1400x815 artwork that is
+ * scaled with `object-cover`, so the size the browser has to download is driven
+ * by the *height* of the frame, not by its width:
+ *
+ * - mobile  (< 768px): the frame is 794px tall, so the artwork is scaled to
+ *   815 -> 794px and the visible image is 1400 * 794/815 = ~1364px wide.
+ * - desktop (>= 768px): the frame is 815px tall and the artwork is 1400x815, so
+ *   the visible image is 1400px wide (or the frame width, whichever is bigger).
+ *
+ * `sizes` therefore has to describe that scaled width. Using the frame width
+ * instead made the browser download a ~400px wide image which it then had to
+ * stretch, which is what made the map look blurry.
+ */
+const MAP_SIZES =
+  "(min-width: 1640px) 1600px, (min-width: 1440px) calc(100vw - 40px), (min-width: 768px) 1400px, 1364px";
+
 function MapPin({ className = "" }: { className?: string }) {
   return (
     <div
@@ -486,6 +503,16 @@ export default function DealerLocator({
 }) {
   const charging = variant === "charging";
   const isService = variant === "service";
+  /**
+   * Figma frames the charging locator's map higher than the dealer one: on
+   * mobile the artwork is lifted ~150px so the "MUMBAI" label (source y
+   * 375-402 on the 1400x815 art -> y 365-392 in the 794px-tall frame) sits at
+   * y 215-242, level with the top half of the floating quick-action rail,
+   * whose collapsed height sits at y 211-294 of the frame. The cropped top edge
+   * is clipped by the frame's `overflow-hidden`; the 150px this leaves free at
+   * the bottom sits under the bottom blur ellipse, so it is not visible.
+   */
+  const mobileMapShift = charging ? "max-lg:-translate-y-[150px]" : "";
   const [selectedCity, setSelectedCity] = useState("Mumbai");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -560,26 +587,16 @@ export default function DealerLocator({
       aria-label={charging ? "Charging station locator" : "Dealer locator"}
       className="relative mx-auto h-[794px] w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-40px)] max-w-[1600px] overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.1)] bg-white lg:h-[815px] lg:rounded-[20px]"
     >
-      <div className="absolute inset-0 size-full overflow-hidden hidden lg:block">
+      <div className="absolute inset-0 size-full overflow-hidden">
         <Image
-          src={`${ASSET}map-desktop.png`}
+          src={`${ASSET}map-hq.png`}
           alt=""
           fill
           priority
-          sizes="(max-width: 1024px) 100vw, 1600px"
+          sizes={MAP_SIZES}
+          quality={90}
           aria-hidden="true"
-          className="object-cover object-center pointer-events-none"
-        />
-      </div>
-      <div className="absolute inset-0 size-full overflow-hidden lg:hidden">
-        <Image
-          src={`${ASSET}map-mobile.png`}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          aria-hidden="true"
-          className="object-cover object-center pointer-events-none"
+          className={`object-cover object-center pointer-events-none ${mobileMapShift}`}
         />
       </div>
       <div className="absolute bottom-[-151px] left-[-593px] h-[491px] w-[1551px] rounded-full bg-[#d4dbec] blur-[81px] lg:hidden" />
@@ -740,8 +757,8 @@ export default function DealerLocator({
           <MapPin className="left-[calc(50%-210px)] top-[324px] hidden lg:flex" />
           <MapPin className="left-[calc(50%+56px)] top-[489px] hidden lg:flex" />
 
-          <MapPin className="left-[28px] top-[306.67px] lg:hidden" />
-          <MapPin className="left-[calc(66.67%+39px)] top-[175.67px] lg:hidden" />
+          <MapPin className="left-[50px] top-[306.67px] lg:hidden" />
+          <MapPin className="left-[calc(66.67%+49px)] top-[165.67px] lg:hidden" />
           <MapPin className="left-[calc(66.67%+43.76px)] top-[471.67px] lg:hidden" />
           <div className="absolute left-[calc(33.33%+24.68px)] top-[331.36px] h-[65.31px] w-[88.25px] lg:left-[calc(50%-88px)] lg:top-[348.69px]">
             <Image
@@ -766,7 +783,7 @@ export default function DealerLocator({
       )}
 
       {/* Map / List toggle buttons */}
-      <div className="absolute left-[68px] top-[117px] z-30 flex -translate-x-1/2 items-center gap-[6px] rounded-[4px] bg-[#f3f4f5] p-1 shadow-sm lg:left-1/2 lg:top-[215px]">
+      <div className="absolute left-[68px] top-[117px] z-30 flex -translate-x-1/2 items-center gap-[6px] rounded-[4px] bg-[#f3f4f5] p-1 shadow-sm lg:hidden">
         <button
           type="button"
           aria-label="Map view"

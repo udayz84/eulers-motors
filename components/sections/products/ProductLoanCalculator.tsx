@@ -142,42 +142,55 @@ export default function ProductLoanCalculator() {
                 slider to see your EMI.
               </p>
 
-              {/* Partner element */}
+              {/* Partner element — the "Partners" heading sits above the logo row,
+                  and the row is left-aligned so the logos start on the same level
+                  as the heading does. */}
               <div className="mt-1 flex w-full flex-col items-start gap-[12px] self-stretch font-sans text-[12px] font-semibold text-white">
                 <span>Partners</span>
-                <div className="flex w-full items-center justify-between gap-2 overflow-x-auto sm:justify-start sm:gap-6">
-                  {/* HDFC Bank */}
-                  <div className="relative h-[16.4px] w-[68px] shrink-0">
+                {/* Partner logos — Figma: flex row, 32px gap. Every logo sits on
+                    the 16.401px line height (Shriram is 20px on its white plate).
+                    The row is `items-start` so the wordmarks keep one shared
+                    baseline — the Tata lockup is taller, so centring the row
+                    would float it above the other logos. */}
+                <div className="no-scrollbar flex w-full items-start justify-between gap-2 overflow-x-auto sm:justify-start sm:gap-8">
+                  {/* HDFC Bank — 87.82 × 16.401 */}
+                  <div className="relative h-[16.4px] w-[87.82px] shrink-0">
                     <Image
                       src="/assets/loan/bank-hdfc.png"
                       alt="HDFC Bank"
                       fill
-                      sizes="68px"
+                      sizes="88px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Mahindra Finance */}
-                  <div className="relative h-[16.4px] w-[68px] shrink-0">
+                  {/* Mahindra Finance — 54.01 × 16.401 */}
+                  <div className="relative h-[16.4px] w-[54.01px] shrink-0">
                     <Image
                       src="/assets/loan/bank-mahindra.png"
                       alt="Mahindra Finance"
                       fill
-                      sizes="68px"
+                      sizes="54px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Tata Capital */}
-                  <div className="relative h-[16.4px] w-[68px] shrink-0">
+                  {/* Tata Capital — unlike the other banks (single-line wordmarks,
+                      ~4-6:1), this asset is a stacked lockup: the "tata capital"
+                      wordmark (382×173) over the brand's underline bar (382×57)
+                      inside a 384×327 canvas, i.e. 1.2:1. It therefore needs its
+                      own taller box — sized to the artwork's aspect so
+                      `object-contain` renders the whole lockup uncropped — with
+                      the wordmark kept on the same 16.401px line as the rest. */}
+                  <div className="relative h-[30px] w-[36.4px] shrink-0">
                     <Image
                       src="/assets/loan/bank-tata.png"
                       alt="Tata Capital"
                       fill
-                      sizes="68px"
-                      className="object-cover object-top"
+                      sizes="37px"
+                      className="object-contain object-top"
                     />
                   </div>
-                  {/* Shriram Finance */}
-                  <div className="relative flex h-[16.4px] w-[56px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
+                  {/* Shriram Finance — 56.26 × 20 on a white plate */}
+                  <div className="relative flex h-[20px] w-[56.26px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
                     <Image
                       src="/assets/loan/bank-shriram.png"
                       alt="Shriram Finance"
@@ -193,7 +206,7 @@ export default function ProductLoanCalculator() {
                     viewBox="0 0 14 6"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0 rotate-[-90deg] -scale-x-100 stroke-white"
+                    className="shrink-0 rotate-[-90deg] -scale-x-100 self-center stroke-white"
                     style={{
                       width: "14px",
                       height: "6px",

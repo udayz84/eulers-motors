@@ -245,7 +245,7 @@ export default function ProductShowcase() {
                            card (mobile 228 / sm 299) — sizes="120px" made the
                            optimizer serve a 119px sprite for ~4x upscale */
                         sizes="(min-width: 1024px) 420px, (min-width: 640px) 300px, 230px"
-                        className="object-cover"
+                        className={`object-cover ${isActive ? "drop-shadow-[0_5px_6px_rgba(14,47,109,0.35)]" : ""}`}
                         quality={100}
                       />
                     </span>

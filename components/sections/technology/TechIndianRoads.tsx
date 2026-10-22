@@ -79,8 +79,13 @@ function useAutoScrollCarousel(speed = 0.7) {
     );
     observer.observe(container);
 
+    // The desktop row only exists from the `lg` breakpoint (768px) up — the
+    // auto-scroll only runs there, never on the mobile row.
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+
     let frame = 0;
     let offset = 0;
+    let running = false;
 
     const tick = () => {
       const duplicate = container.querySelector<HTMLElement>("[data-card-copy='true']");
@@ -103,11 +108,36 @@ function useAutoScrollCarousel(speed = 0.7) {
       frame = window.requestAnimationFrame(tick);
     };
 
-    frame = window.requestAnimationFrame(tick);
+    const start = () => {
+      if (running) return;
+      running = true;
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      if (running) {
+        running = false;
+        window.cancelAnimationFrame(frame);
+      }
+      track.style.transform = "";
+      offset = 0;
+    };
+
+    const sync = () => {
+      if (desktopQuery.matches) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
+    desktopQuery.addEventListener("change", sync);
+    sync();
 
     return () => {
       observer.disconnect();
-      window.cancelAnimationFrame(frame);
+      desktopQuery.removeEventListener("change", sync);
+      stop();
       if (resumeTimerRef.current !== null) {
         window.clearTimeout(resumeTimerRef.current);
       }
@@ -151,7 +181,6 @@ function useAutoScrollCarousel(speed = 0.7) {
 /** TECHNOLOGY page — "Built for Indian roads." banner (Figma 2990:12839, 393×442). */
 export default function TechIndianRoads() {
   const desktopAuto = useAutoScrollCarousel(0.7);
-  const mobileAuto = useAutoScrollCarousel(0.6);
 
   return (
     <section className="overflow-x-clip bg-[#d4dbec]" aria-label="Built for Indian roads">
@@ -292,24 +321,18 @@ export default function TechIndianRoads() {
 
         <div className="relative -mx-5 w-[calc(100%+40px)]">
           <div className="relative">
+            {/* Mobile: no auto-scroll — the row is swiped by hand, so the
+                cards are rendered once (the repeated copies only exist to
+                feed the desktop loop). */}
             <div
               id="indian-roads-mobile-row"
-              ref={mobileAuto.containerRef}
-              {...mobileAuto.handlers}
               className="snap-row gap-2 px-5"
               style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
             >
-              <div
-                ref={mobileAuto.trackRef}
-                className="flex shrink-0 items-start gap-2"
-                style={{ willChange: "transform" }}
-              >
-                {TRIPLED_CARDS.map((c, i) => (
+              <div className="flex shrink-0 items-start gap-2">
+                {CARDS.map((c) => (
                   <article
-                    key={`${c.label}-${i}`}
-                    data-card-index={i % CARDS.length}
-                    data-card-copy={i >= CARDS.length ? "true" : undefined}
-                    aria-hidden={i >= CARDS.length ? true : undefined}
+                    key={c.label}
                     className="relative h-[202.13px] w-[353px] shrink-0"
                   >
                     <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
@@ -374,16 +397,11 @@ export default function TechIndianRoads() {
                 ))}
               </div>
             </div>
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[58px] bg-gradient-to-l from-[#d4dbec]/75 via-[#d4dbec]/25 to-transparent backdrop-blur-[4px]"
-            />
           </div>
         </div>
 
         <PagerBar
           rowId="indian-roads-mobile-row"
-          progress={mobileAuto.progress}
           className="bg-white/50 [&>div]:bg-ink"
         />
       </div>

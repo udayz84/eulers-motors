@@ -32,7 +32,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
             />
           </div>
 
-          <div className="absolute bottom-[28.93px] left-1/2 flex w-[353px] -translate-x-1/2 flex-col items-start justify-center gap-3">
+          <div className="absolute bottom-[68.93px] left-1/2 flex w-[353px] -translate-x-1/2 flex-col items-start justify-center gap-3">
             <Eyebrow label="Technology" dark />
             <h1 className="w-[289px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white">
               Built Smarter.
@@ -47,8 +47,9 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
             </Button>
           </div>
 
-          {/* uptime ribbon — straddles the hero/philosophy seam */}
-          <div className="absolute left-5 top-[746.74px] z-20 w-[353px] rounded-[8px] bg-gradient-to-b from-white/45 via-white/12 to-white/5 p-px">
+          {/* uptime ribbon — straddles the hero/philosophy seam; lifted with the
+              text block so it keeps the original tight gap to the CTA */}
+          <div className="absolute left-5 top-[706.74px] z-20 w-[353px] rounded-[8px] bg-gradient-to-b from-white/45 via-white/12 to-white/5 p-px">
             <div className="relative flex w-full flex-col gap-[10px] overflow-clip rounded-[7px] bg-[rgba(255,255,255,0.04)] px-[11px] pb-[13px] pt-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[4px]">
               <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
               <div className="absolute bottom-0 left-0 h-1 w-1/2 bg-white" />
@@ -65,8 +66,10 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
           </div>
 
           {/* quick-action rail — scoped to the hero (Figma places it in the hero frame);
-              on mobile it sits low on the right, level with the heading/subheading */}
-          <FloatingWidget mobileClassName="bottom-[80px]" />
+              on mobile it sits on the right, level with the heading/subheading and
+              clear of the CTA (the text block was lifted, so the rail moves up
+              with it) */}
+          <FloatingWidget mobileClassName="bottom-[140px]" />
         </div>
 
         {showPhilosophy && (

@@ -172,7 +172,7 @@ export default function Hero() {
         </div>
       </div>
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
-      <FloatingWidget mobileClassName="max-lg:bottom-[62px]" />
+      <FloatingWidget mobileClassName="max-lg:bottom-[82px]" />
 
     </section>
   );
