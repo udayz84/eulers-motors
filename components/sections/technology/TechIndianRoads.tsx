@@ -75,7 +75,7 @@ function useAutoScrollCarousel(speed = 0.7) {
       ([entry]) => {
         isVisible = entry.isIntersecting;
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
     observer.observe(container);
 
@@ -86,16 +86,34 @@ function useAutoScrollCarousel(speed = 0.7) {
     let frame = 0;
     let offset = 0;
     let running = false;
+    let cachedLoopDist = 0;
 
-    const tick = () => {
+    const getLoopDistance = () => {
+      if (cachedLoopDist > 0) return cachedLoopDist;
       const duplicate = container.querySelector<HTMLElement>("[data-card-copy='true']");
       const first = container.querySelector<HTMLElement>("[data-card-index='0']");
+      if (duplicate && first) {
+        const dist = duplicate.offsetLeft - first.offsetLeft;
+        if (dist > 0) {
+          cachedLoopDist = dist;
+          return dist;
+        }
+      }
+      return 0;
+    };
 
-      if (!reducedMotion && isVisible && !pausedRef.current && duplicate && first) {
-        const loopDistance = duplicate.offsetLeft - first.offsetLeft;
+    const handleResize = () => {
+      cachedLoopDist = 0;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const tick = () => {
+      if (!reducedMotion && isVisible && !pausedRef.current) {
+        const loopDistance = getLoopDistance();
         if (loopDistance > 0) {
           if (container.scrollLeft !== 0) {
-            offset = (offset + container.scrollLeft + loopDistance * 10) % loopDistance;
+            offset = (offset + container.scrollLeft) % loopDistance;
+            if (offset < 0) offset += loopDistance;
             container.scrollLeft = 0;
           }
 
@@ -137,6 +155,7 @@ function useAutoScrollCarousel(speed = 0.7) {
     return () => {
       observer.disconnect();
       desktopQuery.removeEventListener("change", sync);
+      window.removeEventListener("resize", handleResize);
       stop();
       if (resumeTimerRef.current !== null) {
         window.clearTimeout(resumeTimerRef.current);
@@ -151,13 +170,13 @@ function useAutoScrollCarousel(speed = 0.7) {
     }
   };
 
-  const resume = () => {
+  const resume = (delay = 1800) => {
     if (resumeTimerRef.current !== null) {
       window.clearTimeout(resumeTimerRef.current);
     }
     resumeTimerRef.current = window.setTimeout(() => {
       pausedRef.current = false;
-    }, 2000);
+    }, delay);
   };
 
   return {
@@ -166,13 +185,17 @@ function useAutoScrollCarousel(speed = 0.7) {
     progress,
     handlers: {
       onMouseEnter: pause,
-      onMouseLeave: resume,
+      onMouseLeave: () => resume(600),
       onPointerDown: pause,
-      onPointerUp: resume,
-      onPointerCancel: resume,
+      onPointerUp: () => resume(1800),
+      onPointerCancel: () => resume(1800),
       onWheel: () => {
         pause();
-        resume();
+        resume(1800);
+      },
+      onScroll: () => {
+        pause();
+        resume(1800);
       },
     },
   };

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "../ui/Eyebrow";
-import CarouselArrows from "../ui/CarouselArrows";
 
 const POSTS = [
   { imgs: ["/assets/social/post-c.png"], user: "variant-a" },
@@ -38,21 +37,40 @@ export default function SocialWall() {
       ([entry]) => {
         visibleRef.current = entry.isIntersecting;
       },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
     observer.observe(section);
 
     let frame = 0;
     let offset = 0;
+    let cachedLoopDist = 0;
 
-    const tick = () => {
+    const getLoopDistance = () => {
+      if (cachedLoopDist > 0) return cachedLoopDist;
       const duplicate = row.querySelector<HTMLElement>("[data-social-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-social-index='0']");
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
-        const loopDistance = duplicate.offsetLeft - first.offsetLeft;
+      if (duplicate && first) {
+        const dist = duplicate.offsetLeft - first.offsetLeft;
+        if (dist > 0) {
+          cachedLoopDist = dist;
+          return dist;
+        }
+      }
+      return 0;
+    };
+
+    const handleResize = () => {
+      cachedLoopDist = 0;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const tick = () => {
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current) {
+        const loopDistance = getLoopDistance();
         if (loopDistance > 0) {
           if (row.scrollLeft !== 0) {
-            offset = (offset + row.scrollLeft + loopDistance * 10) % loopDistance;
+            offset = (offset + row.scrollLeft) % loopDistance;
+            if (offset < 0) offset += loopDistance;
             row.scrollLeft = 0;
           }
 
@@ -73,6 +91,7 @@ export default function SocialWall() {
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("resize", handleResize);
       window.cancelAnimationFrame(frame);
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     };
@@ -83,14 +102,21 @@ export default function SocialWall() {
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
   };
 
-  const resumeAfterInteraction = () => {
+  const resumeAfterInteraction = (delay = 2000) => {
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = window.setTimeout(() => {
       interactionPausedRef.current = false;
-    }, 2200);
+    }, delay);
+  };
+
+  const handleWheel = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
   };
 
   const handleScroll = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
     const row = scrollRef.current;
     if (!row) return;
     const cards = row.querySelectorAll<HTMLElement>("article");
@@ -132,18 +158,19 @@ export default function SocialWall() {
         <div
           className="relative"
           onMouseEnter={pauseForInteraction}
-          onMouseLeave={resumeAfterInteraction}
+          onMouseLeave={() => resumeAfterInteraction(600)}
           onPointerDown={pauseForInteraction}
-          onPointerUp={resumeAfterInteraction}
+          onPointerUp={() => resumeAfterInteraction(1800)}
+          onPointerCancel={() => resumeAfterInteraction(1800)}
         >
           <div
             id="social-snap-row"
             ref={scrollRef}
             onScroll={handleScroll}
             onPointerDown={pauseForInteraction}
-            onPointerUp={resumeAfterInteraction}
-            onPointerCancel={resumeAfterInteraction}
-            onWheel={pauseForInteraction}
+            onPointerUp={() => resumeAfterInteraction(1800)}
+            onPointerCancel={() => resumeAfterInteraction(1800)}
+            onWheel={handleWheel}
             className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center"
             style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
           >
@@ -308,10 +335,8 @@ export default function SocialWall() {
               style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }}
             />
           </div>
-          {/* arrows drive the snap row above — hidden ≥2233px where all five
-              cards fit and the row centers (nothing to scroll) */}
-          <CarouselArrows rowId="social-snap-row" label="videos" className="min-[2233px]:hidden" />
         </div>
+
         {/* Progress Indicator Pill */}
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8">
           <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">

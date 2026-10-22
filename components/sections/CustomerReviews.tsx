@@ -43,7 +43,7 @@ export default function CustomerReviews({
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(([entry]) => {
       visibleRef.current = entry.isIntersecting;
-    }, { threshold: 0.15 });
+    }, { threshold: 0.05 });
     observer.observe(section);
 
     // The auto-scroll is desktop-only when the mobile row is meant to be
@@ -54,15 +54,34 @@ export default function CustomerReviews({
     let frame = 0;
     let offset = 0;
     let running = false;
+    let cachedLoopDist = 0;
 
-    const tick = () => {
+    const getLoopDistance = () => {
+      if (cachedLoopDist > 0) return cachedLoopDist;
       const duplicate = row.querySelector<HTMLElement>("[data-review-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-review-index='0']");
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
-        const loopDistance = duplicate.offsetLeft - first.offsetLeft;
+      if (duplicate && first) {
+        const dist = duplicate.offsetLeft - first.offsetLeft;
+        if (dist > 0) {
+          cachedLoopDist = dist;
+          return dist;
+        }
+      }
+      return 0;
+    };
+
+    const handleResize = () => {
+      cachedLoopDist = 0;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const tick = () => {
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current) {
+        const loopDistance = getLoopDistance();
         if (loopDistance > 0) {
           if (row.scrollLeft !== 0) {
-            offset = (offset + row.scrollLeft + loopDistance * 10) % loopDistance;
+            offset = (offset + row.scrollLeft) % loopDistance;
+            if (offset < 0) offset += loopDistance;
             row.scrollLeft = 0;
           }
 
@@ -109,6 +128,7 @@ export default function CustomerReviews({
     return () => {
       observer.disconnect();
       desktopQuery.removeEventListener("change", sync);
+      window.removeEventListener("resize", handleResize);
       stop();
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     };
@@ -119,14 +139,21 @@ export default function CustomerReviews({
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
   };
 
-  const resumeAfterInteraction = () => {
+  const resumeAfterInteraction = (delay = 2000) => {
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = window.setTimeout(() => {
       interactionPausedRef.current = false;
-    }, 2200);
+    }, delay);
+  };
+
+  const handleWheel = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
   };
 
   const handleScroll = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
     const row = scrollRef.current;
     if (!row) return;
     const cards = row.querySelectorAll<HTMLElement>("article");
@@ -173,11 +200,22 @@ export default function CustomerReviews({
         <div
           className="relative"
           onMouseEnter={pauseForInteraction}
-          onMouseLeave={resumeAfterInteraction}
+          onMouseLeave={() => resumeAfterInteraction(600)}
           onPointerDown={pauseForInteraction}
-          onPointerUp={resumeAfterInteraction}
+          onPointerUp={() => resumeAfterInteraction(1800)}
+          onPointerCancel={() => resumeAfterInteraction(1800)}
         >
-          <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction} onPointerCancel={resumeAfterInteraction} onWheel={pauseForInteraction} className="snap-row snap-center-mobile gap-[13px] lg:gap-6" style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}>
+          <div
+            id="reviews-snap-row"
+            ref={scrollRef}
+            onScroll={handleScroll}
+            onPointerDown={pauseForInteraction}
+            onPointerUp={() => resumeAfterInteraction(1800)}
+            onPointerCancel={() => resumeAfterInteraction(1800)}
+            onWheel={handleWheel}
+            className="snap-row snap-center-mobile gap-[13px] lg:gap-6"
+            style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
+          >
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered
               container offset (≥1440) + the 1280 row's centering offset

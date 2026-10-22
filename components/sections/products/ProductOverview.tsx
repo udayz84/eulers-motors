@@ -79,7 +79,7 @@ export default function ProductOverview() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(([entry]) => {
       visibleRef.current = entry.isIntersecting;
-    }, { threshold: 0.15 });
+    }, { threshold: 0.05 });
     observer.observe(section);
 
     // The cards only turn into a horizontal carousel from the `lg`
@@ -90,13 +90,37 @@ export default function ProductOverview() {
     let frame = 0;
     let offset = 0;
     let running = false;
+    let cachedLoopDist = 0;
 
-    const tick = () => {
+    const getLoopDistance = () => {
+      if (cachedLoopDist > 0) return cachedLoopDist;
       const duplicate = row.querySelector<HTMLElement>("[data-overview-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-overview-index='0']");
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
-        const loopDistance = duplicate.offsetLeft - first.offsetLeft;
+      if (duplicate && first) {
+        const dist = duplicate.offsetLeft - first.offsetLeft;
+        if (dist > 0) {
+          cachedLoopDist = dist;
+          return dist;
+        }
+      }
+      return 0;
+    };
+
+    const handleResize = () => {
+      cachedLoopDist = 0;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const tick = () => {
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current) {
+        const loopDistance = getLoopDistance();
         if (loopDistance > 0) {
+          if (row.scrollLeft !== 0) {
+            offset = (offset + row.scrollLeft) % loopDistance;
+            if (offset < 0) offset += loopDistance;
+            row.scrollLeft = 0;
+          }
+
           offset = (offset + 0.6) % loopDistance;
           track.style.transform = `translate3d(${-offset}px, 0, 0)`;
 
@@ -140,6 +164,7 @@ export default function ProductOverview() {
     return () => {
       observer.disconnect();
       desktopQuery.removeEventListener("change", sync);
+      window.removeEventListener("resize", handleResize);
       stop();
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     };
@@ -150,14 +175,21 @@ export default function ProductOverview() {
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
   };
 
-  const resumeAfterInteraction = () => {
+  const resumeAfterInteraction = (delay = 2000) => {
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = window.setTimeout(() => {
       interactionPausedRef.current = false;
-    }, 2200);
+    }, delay);
+  };
+
+  const handleWheel = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
   };
 
   const handleScroll = () => {
+    pauseForInteraction();
+    resumeAfterInteraction(1800);
     if (!scrollRef.current) return;
     const scrollLeft = scrollRef.current.scrollLeft;
     const cardWidth = 432; // 412px card + 20px gap
@@ -186,11 +218,13 @@ export default function ProductOverview() {
       <div className="relative w-full">
         <div
           ref={scrollRef}
+          onMouseEnter={pauseForInteraction}
+          onMouseLeave={() => resumeAfterInteraction(600)}
           onScroll={handleScroll}
           onPointerDown={pauseForInteraction}
-          onPointerUp={resumeAfterInteraction}
-          onPointerCancel={resumeAfterInteraction}
-          onWheel={pauseForInteraction}
+          onPointerUp={() => resumeAfterInteraction(1800)}
+          onPointerCancel={() => resumeAfterInteraction(1800)}
+          onWheel={handleWheel}
           className="carousel-pad-overview mx-auto flex w-full max-w-[680px] flex-col gap-4 sm:grid sm:grid-cols-2 sm:gap-4 lg:mx-0 lg:max-w-none lg:flex lg:flex-row lg:gap-5 lg:overflow-x-auto lg:pb-4 lg:snap-x lg:snap-mandatory scrollbar-none"
           style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
         >

@@ -142,19 +142,13 @@ export default function ProductLoanCalculator() {
                 slider to see your EMI.
               </p>
 
-              {/* Partner element — the "Partners" heading sits above the logo row,
-                  and the row is left-aligned so the logos start on the same level
-                  as the heading does. */}
-              <div className="mt-1 flex w-full flex-col items-start gap-[12px] self-stretch font-sans text-[12px] font-semibold text-white">
-                <span>Partners</span>
-                {/* Partner logos — Figma: flex row, 32px gap. Every logo sits on
-                    the 16.401px line height (Shriram is 20px on its white plate).
-                    The row is `items-start` so the wordmarks keep one shared
-                    baseline — the Tata lockup is taller, so centring the row
-                    would float it above the other logos. */}
-                <div className="no-scrollbar flex w-full items-start justify-between gap-2 overflow-x-auto sm:justify-start sm:gap-8">
-                  {/* HDFC Bank — 87.82 × 16.401 */}
-                  <div className="relative h-[16.4px] w-[87.82px] shrink-0">
+              {/* Partner element (Figma 2732:7782 / 2732:7784) */}
+              <div className="mt-1 flex flex-col items-start gap-[12px] self-stretch font-sans text-white">
+                <span className="text-[14px] font-semibold text-white">Partners</span>
+                {/* Partner logos — Frame 1984081090 (Figma 2732:7784): gap 32px, items-center */}
+                <div className="no-scrollbar flex items-center gap-[32px] overflow-x-auto">
+                  {/* HDFC Bank — 87.82 × 16.401 (2732:7785) */}
+                  <div className="relative h-[16.401px] w-[87.82px] shrink-0">
                     <Image
                       src="/assets/loan/bank-hdfc.png"
                       alt="HDFC Bank"
@@ -163,8 +157,8 @@ export default function ProductLoanCalculator() {
                       className="object-contain"
                     />
                   </div>
-                  {/* Mahindra Finance — 54.01 × 16.401 */}
-                  <div className="relative h-[16.4px] w-[54.01px] shrink-0">
+                  {/* Mahindra Finance — 54.009 × 16.401 (2732:7786) */}
+                  <div className="relative h-[16.401px] w-[54.009px] shrink-0">
                     <Image
                       src="/assets/loan/bank-mahindra.png"
                       alt="Mahindra Finance"
@@ -173,51 +167,39 @@ export default function ProductLoanCalculator() {
                       className="object-contain"
                     />
                   </div>
-                  {/* Tata Capital — unlike the other banks (single-line wordmarks,
-                      ~4-6:1), this asset is a stacked lockup: the "tata capital"
-                      wordmark (382×173) over the brand's underline bar (382×57)
-                      inside a 384×327 canvas, i.e. 1.2:1. It therefore needs its
-                      own taller box — sized to the artwork's aspect so
-                      `object-contain` renders the whole lockup uncropped — with
-                      the wordmark kept on the same 16.401px line as the rest. */}
-                  <div className="relative h-[30px] w-[36.4px] shrink-0">
+                  {/* Tata Capital — 70.322 × 16.401 (2732:7787) */}
+                  <div className="relative h-[16.401px] w-[70.322px] shrink-0">
                     <Image
-                      src="/assets/loan/bank-tata.png"
+                      src="/assets/loan/tata.png"
                       alt="Tata Capital"
                       fill
-                      sizes="37px"
-                      className="object-contain object-top"
+                      sizes="71px"
+                      className="object-contain"
                     />
                   </div>
-                  {/* Shriram Finance — 56.26 × 20 on a white plate */}
-                  <div className="relative flex h-[20px] w-[56.26px] shrink-0 items-center justify-center rounded-[2px] bg-white p-0.5">
+                  {/* Shriram Finance — 56.262 × 20 on white plate (2732:7788) */}
+                  <div className="relative h-[20px] w-[56.262px] shrink-0 overflow-hidden rounded-[2px] bg-white">
                     <Image
                       src="/assets/loan/bank-shriram.png"
                       alt="Shriram Finance"
                       fill
-                      sizes="56px"
+                      sizes="57px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Partner Arrow: 14x6 rotated 90deg scaleX(-1) */}
+                  {/* Chevron Arrow — Vector 142 (2732:7789): 6 × 14 */}
                   <svg
-                    width="14"
-                    height="6"
-                    viewBox="0 0 14 6"
+                    width="6"
+                    height="14"
+                    viewBox="0 0 6 14"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0 rotate-[-90deg] -scale-x-100 self-center stroke-white"
-                    style={{
-                      width: "14px",
-                      height: "6px",
-                      aspectRatio: "7/3",
-                      strokeWidth: "1.5px",
-                      stroke: "#FFF",
-                    }}
+                    className="shrink-0"
+                    aria-hidden="true"
                   >
                     <path
-                      d="M1 1L7 5L13 1"
-                      stroke="#FFF"
+                      d="M1 1.75L4.75 7L1 12.25"
+                      stroke="white"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

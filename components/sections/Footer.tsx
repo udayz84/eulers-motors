@@ -12,7 +12,7 @@ type FooterColumn = {
 
 const COLUMNS: FooterColumn[] = [
   {
-    title: "Euler Motor",
+    title: "Euler Motors",
     links: ["Storm EV LongRange 200", "Storm EV T1500", "HiLoad EV", "Turbo EV 1000"],
     openOnMobile: true,
   },
