@@ -29,6 +29,7 @@ type PromoCardProps = {
   mobileLayers?: { src: string; box: [number, number, number, number] }[];
   /** mobile photo object-position */
   mobilePosition?: string;
+  href?: string;
 };
 
 /**
@@ -52,6 +53,7 @@ export default function PromoCard({
   cropMobile,
   mobileLayers,
   mobilePosition = "50% 100%",
+  href = "/products",
 }: PromoCardProps) {
   const right = align === "right";
   const washCls =
@@ -216,7 +218,12 @@ export default function PromoCard({
               </p>
               {/* mobile CTA (Figma 1:4680): h44 · px-20 · Archia Bold 12 ·
                   gap 8 — Button base already carries the sizing */}
-              <Button variant="dark" arrow={icon === "phone" ? "none" : "white"} className="max-lg:font-bold">
+              <Button
+                href={href}
+                variant="dark"
+                arrow={icon === "phone" ? "none" : "white"}
+                className="max-lg:font-bold"
+              >
                 <span className="inline-flex items-center gap-2">
                   {cta}
                   {icon === "phone" && (

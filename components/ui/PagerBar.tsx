@@ -18,21 +18,27 @@ const TRAVEL = TRACK_W - PAD * 2 - THUMB_W;
 
 export default function PagerBar({
   rowId,
+  progress: controlledProgress,
   className = "",
 }: {
   rowId?: string;
+  progress?: number;
   className?: string;
 }) {
-  const [progress, setProgress] = useState(0);
+  const [internalProgress, setInternalProgress] = useState(0);
+  const isControlled = typeof controlledProgress === "number";
+  const progress = isControlled
+    ? Math.min(1, Math.max(0, controlledProgress))
+    : internalProgress;
 
   useEffect(() => {
-    if (!rowId) return;
+    if (isControlled || !rowId) return;
     const row = document.getElementById(rowId);
     if (!row) return;
 
     const update = () => {
       const max = row.scrollWidth - row.clientWidth;
-      setProgress(max > 0 ? Math.min(1, Math.max(0, row.scrollLeft / max)) : 0);
+      setInternalProgress(max > 0 ? Math.min(1, Math.max(0, row.scrollLeft / max)) : 0);
     };
 
     update();
@@ -42,7 +48,7 @@ export default function PagerBar({
       row.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [rowId]);
+  }, [rowId, isControlled]);
 
   return (
     <div

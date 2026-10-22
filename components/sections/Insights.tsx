@@ -52,7 +52,7 @@ export default function Insights() {
           {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
               `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
           <div className="hidden lg:block">
-            <Button variant="dark" arrow="white">
+            <Button href="/products" variant="dark" arrow="white">
               All articles
             </Button>
           </div>
@@ -112,7 +112,7 @@ export default function Insights() {
         </div>
 
         {/* mobile-only CTA below the cards — centered (Figma 1:4956) */}
-        <Button variant="dark" arrow="white" className="self-center lg:hidden">
+        <Button href="/products" variant="dark" arrow="white" className="self-center lg:hidden">
           All Articles
         </Button>
       </div>

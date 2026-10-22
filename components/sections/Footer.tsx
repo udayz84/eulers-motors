@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 const COLUMNS = [
   {
-    title: "Euler MOTOR VEHICLES",
+    title: "Euler MOTOR",
     links: ["Storm EV LongRange 200", "Storm EV T1500", "HiLoad EV", "Turbo EV 1000"],
     openOnMobile: true,
   },
-  { title: "Neo by Euler VEHICLES", links: ["HiRange", "HiCity"], openOnMobile: false },
+  { title: "Neo by Euler", links: ["HiRange", "HiCity"], openOnMobile: false },
   {
     title: "Support",
     links: ["Dealer Locator", "Service Centres", "Charging Stations Locator", "Downloads"],
@@ -26,30 +26,192 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  /* the Figma sources for instagram/linkedin/youtube are stored flipped and
-     displayed with -rotate-180 -scale-x-100 (node 1:2235/37/39); X is upright */
-  { icon: "/assets/footer/icon-instagram.svg", label: "Instagram", flip: true },
-  { icon: "/assets/footer/icon-linkedin.svg", label: "LinkedIn", flip: true },
-  { icon: "/assets/footer/icon-youtube.svg", label: "YouTube", flip: true },
-  { icon: "/assets/footer/icon-x.svg", label: "X", flip: false },
+  /* the Figma sources for instagram/youtube are stored flipped and
+     displayed with -rotate-180 -scale-x-100 (node 1:2235/39); X is upright */
+  {
+    icon: "/assets/footer/icon-facebook.svg",
+    label: "Facebook",
+    href: "https://www.facebook.com/EulerMotors/",
+    flip: false,
+  },
+  {
+    icon: "/assets/footer/icon-instagram.svg",
+    label: "Instagram",
+    href: "https://www.instagram.com/eulermotors/",
+    flip: true,
+  },
+  {
+    icon: "/assets/footer/icon-youtube.svg",
+    label: "YouTube",
+    href: "https://www.youtube.com/c/EulerMotors",
+    flip: true,
+  },
+  {
+    icon: "/assets/footer/icon-x.svg",
+    label: "X",
+    href: "https://twitter.com/Euler_Motors",
+    flip: false,
+  },
 ];
+
+function getFooterHref(link: string): string {
+  switch (link) {
+    case "Dealer Locator":
+      return "/dealer-locator";
+    case "About us":
+      return "/about";
+    case "Service Centres":
+      return "/service-centers";
+    case "Charging Stations Locator":
+      return "/charging-stations";
+    case "Technology":
+      return "/technology";
+    default:
+      return "/products";
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Brand pronunciation — "OY-ler" (eulermotors.com: "The name Euler is
+ * often mispronounced. The correct pronunciation is OY-ler, not YOU-ler").
+ *
+ * The spoken text is "Oiler", not the respelling "oy-ler": "oy-ler" is not
+ * in any TTS lexicon, so engines improvise — they spell it out letter by
+ * letter ("O Y L E R") or guess "you-ler". "Oiler" is a real English word
+ * and an exact homophone of Euler (Wiktionary: /ˈɔɪlər/), so every voice
+ * renders it as OY-ler.
+ * ------------------------------------------------------------------ */
+const PRONUNCIATION = "Oiler";
+
+/* macOS/Chrome ship novelty voices (Albert, Bubbles, Cellos, Wobble, Zarvox…)
+   that mangle brand names — never let one speak the logo. */
+const NOVELTY_VOICES = new Set([
+  "albert", "bahh", "bad news", "bells", "bing bong", "boing", "bubbles", "cellos",
+  "elephant", "flo (english (uk))", "flo (english (us))", "fred", "good news",
+  "grandma", "grandpa", "hysterical", "jester", "junior", "kathy", "organ",
+  "oswald", "pipe organ", "prince hal", "ralph", "reed", "rocko", "sandy",
+  "shelley", "superstar", "trinoids", "whisper", "wobble", "zarvox",
+]);
+
+/* Natural English voices, best first. Exact/prefix matches win, so a
+   browser-specific suffix ("Google US English", "Microsoft Aria (Natural)")
+   still resolves to the right family. */
+const VOICE_PRIORITY = [
+  "samantha", "alex", "ava", "allison", "serena", "karen", "moira", "daniel",
+  "google us english", "google uk english female", "microsoft aria", "microsoft jenny",
+  "microsoft sonia", "microsoft guy", "microsoft natasha", "aria", "jenny", "sonia",
+  "swara", "neerja", "veena", "rishi", "shubham", "tessa", "fiona", "oliver",
+];
+
+function scoreVoice(v: SpeechSynthesisVoice): number {
+  const name = v.name.toLowerCase();
+  const lang = (v.lang || "").toLowerCase().replace("_", "-");
+  let score = 0;
+
+  const priority = VOICE_PRIORITY.findIndex((p) => name.includes(p));
+  if (priority !== -1) score += 200 - priority;
+
+  if (/natural|enhanced|premium|siri/.test(name)) score += 30;
+  if (lang.startsWith("en")) score += 20;
+  if (lang === "en-us") score += 10;
+  else if (lang === "en-in") score += 8;
+  else if (lang === "en-gb") score += 6;
+
+  /* local voices need no network, so they are the safe default */
+  if (v.localService) score += 40;
+
+  return score;
+}
+
+function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  if (!voices.length) return null;
+  const english = voices.filter((v) => (v.lang || "").toLowerCase().startsWith("en"));
+  const pool = english.length ? english : voices;
+  const usable = pool.filter((v) => !NOVELTY_VOICES.has(v.name.toLowerCase()));
+  const candidates = usable.length ? usable : pool;
+  return candidates.reduce((best, v) => (scoreVoice(v) > scoreVoice(best) ? v : best));
+}
 
 /**
  * Footer (desktop 1:2174 · mobile 1:5128 with accordion link columns).
  */
 export default function Footer() {
   const [open, setOpen] = useState<string | null>(COLUMNS[0].title);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  /* bumped on every click so a cancelled utterance never re-speaks itself */
+  const speakToken = useRef(0);
 
-  /* logo + speaker control — click speaks "Euler" via the browser's
+  /* The voice list loads asynchronously on Chrome — cache it on mount so
+     the very first click already uses the right voice. */
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const synth = window.speechSynthesis;
+    const load = () => setVoices(synth.getVoices());
+    load();
+    synth.addEventListener("voiceschanged", load);
+    return () => synth.removeEventListener("voiceschanged", load);
+  }, []);
+
+  /* logo + speaker control — click speaks the brand name via the browser's
      built-in TTS (no audio asset needed, works on desktop and mobile) */
   const speakEuler = () => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    // Spell the brand phonetically so browser TTS consistently says "oy-ler"
-    // instead of guessing the pronunciation of the written word "Euler".
-    const u = new SpeechSynthesisUtterance("oy-ler");
-    u.lang = "en-US";
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
+    const synth = window.speechSynthesis;
+    const token = ++speakToken.current;
+
+    /* `withVoice` is dropped on the fallback pass so a voice that turns out
+       to be unavailable (network voices offline) still gets spoken by the
+       engine's default English voice. */
+    const speak = (withVoice: boolean, attempt: number) => {
+      if (token !== speakToken.current) return;
+      const u = new SpeechSynthesisUtterance(PRONUNCIATION);
+      const voice = withVoice ? pickVoice(voices) : null;
+      u.voice = voice;
+      u.lang = voice ? (voice.lang || "en-US").replace("_", "-") : "en-US";
+      u.rate = 0.95;
+      u.pitch = 1;
+      u.volume = 1;
+      u.onerror = (e) => {
+        if (token !== speakToken.current || attempt >= 2) return;
+        /* Chrome can drop an utterance queued in the same tick as cancel() */
+        if (e.error === "canceled" || e.error === "interrupted") {
+          window.setTimeout(() => speak(withVoice, attempt + 1), 150);
+        } else if (withVoice && (e.error === "voice-unavailable" || e.error === "synthesis-unavailable")) {
+          window.setTimeout(() => speak(false, attempt + 1), 150);
+        }
+      };
+      try {
+        synth.speak(u);
+      } catch {
+        /* engine refused the utterance — nothing else to do */
+      }
+    };
+
+    synth.cancel();
+    if (synth.paused) synth.resume();
+    speak(true, 0);
+  };
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  /* Play the authentic pronunciation audio file (falls back to TTS if needed) */
+  const playEulerAudio = () => {
+    if (typeof window === "undefined") return;
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio("/assets/footer/euler-audio.mp3");
+      }
+      audioRef.current.currentTime = 0;
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn("Audio playback failed, falling back to TTS:", err);
+          speakEuler();
+        });
+      }
+    } catch {
+      speakEuler();
+    }
   };
 
   return (
@@ -74,39 +236,33 @@ export default function Footer() {
       <div aria-hidden className="absolute left-[-1519px] top-[-351.73px] hidden h-[848px] w-[3971px] bg-white blur-[168.25px] lg:block" />
       <div aria-hidden className="absolute bottom-[-816.08px] left-[calc(50%-77.4px)] hidden h-[754.59px] w-[2509.121px] bg-black/20 blur-[102.15px] lg:block" />
       {/* bright-white fade from the footer top down to the middle of the image */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block lg:[background:linear-gradient(to_bottom,rgba(255,255,255,0)_0%,#fff_35%,rgba(255,255,255,0)_68%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block lg:[background:linear-gradient(to_bottom,#fff_0%,#fff_38%,rgba(255,255,255,0)_68%)]" />
 
       {/* Figma 1:2174 — 1440×927 frame; the three content rows (header,
           columns, bottom bar) are w-1280 centered → 80px sides via px-[80px].
           Row anchors: header top 39.12 · links 42.93 below it · bottom bar
           38.05 above the frame bottom. Mobile (1:5128) keeps its own 1006px
           accordion layout */}
-      <div className="relative z-10 mx-auto flex min-h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pb-[260px] pt-[42px] lg:h-full lg:min-h-0 lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[135.12px]">
+      <div className="relative z-10 mx-auto flex min-h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pb-[260px] pt-[42px] lg:h-full lg:min-h-0 lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[32px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">
             <button
               type="button"
-              onClick={speakEuler}
-              aria-label="Euler Motors — pronounced &quot;oy-ler&quot;"
+              onClick={playEulerAudio}
+              aria-label="Euler Motors — pronounced &quot;oy-ler&quot;. Play pronunciation"
               className="group flex w-fit cursor-pointer items-center gap-[13.272px] lg:gap-4"
             >
               <Image src="/assets/footer/logo-dark.svg" alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
               <span className="flex items-center gap-1.5 text-[12px] font-medium leading-none text-ink">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                <Image
+                  src="/assets/footer/icon-audio.svg"
+                  alt=""
+                  width={20}
+                  height={17}
                   aria-hidden
-                  className="size-5 lg:size-[24.111px]"
-                >
-                  <path d="M11 5 6 9H3v6h3l5 4V5z" />
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  <path d="M18.5 5.5a9 9 0 0 1 0 13" />
-                </svg>
+                  className="h-[15px] w-[17.5px] transition-transform group-hover:scale-110 lg:h-[17.2px] lg:w-[20.1px]"
+                />
                 <span className="group-hover:underline">pronounced &quot;oy-ler&quot;</span>
               </span>
             </button>
@@ -118,9 +274,11 @@ export default function Footer() {
             {SOCIALS.map((s) => (
               <a
                 key={s.label}
-                href="#"
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={s.label}
-                className="flex size-[38px] items-center justify-center rounded-[6.653px] bg-surface py-[6.4px]"
+                className="flex size-[38px] items-center justify-center rounded-[6.653px] bg-surface py-[6.4px] transition-transform hover:scale-105 active:scale-95"
               >
                 <Image
                   src={s.icon}
@@ -135,9 +293,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* link columns — desktop grid / mobile accordion.
-            Figma 1:2174: links start at y218.16, 42.93px below the header block. */}
-        <div className="hidden justify-between pt-[42.93px] lg:flex lg:w-[1280px] lg:items-start">
+        {/* link columns — desktop grid / mobile accordion. */}
+        <div className="hidden justify-between pt-[28px] lg:flex lg:w-[1280px] lg:items-start">
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title} className="flex flex-col gap-6">
               <h3 className="text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">{col.title}</h3>
@@ -145,7 +302,7 @@ export default function Footer() {
                 {col.links.map((l) => (
                   <li key={l}>
                     <Link
-                      href={l === "Dealer Locator" ? "/dealer-locator" : l === "About us" ? "/about" : "#"}
+                      href={getFooterHref(l)}
                       className="text-[14px] leading-none text-ink hover:underline"
                     >
                       {l}
@@ -190,7 +347,7 @@ export default function Footer() {
                         {col.links.map((l) => (
                           <li key={l}>
                             <Link
-                              href={l === "Dealer Locator" ? "/dealer-locator" : l === "About us" ? "/about" : "#"}
+                              href={getFooterHref(l)}
                               className="text-[12px] font-medium text-ink hover:underline"
                             >
                               {l}

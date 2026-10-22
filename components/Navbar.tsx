@@ -59,14 +59,25 @@ const MEGA_4W = [
 const MEGA_3W = [{ name: "HiLoad EV", payload: "688 kg", img: "/assets/products/vehicle-hiload-ev.png" }];
 
 /** Figma card: 200×267, #F3F4F5, radius 16; image 180×180 white/radius 12; ink arrow FAB */
-function ProductCard({ name, payload, img }: { name: string; payload: string; img: string }) {
+function ProductCard({
+  name,
+  payload,
+  img,
+  onNavigate,
+}: {
+  name: string;
+  payload: string;
+  img: string;
+  onNavigate?: () => void;
+}) {
   return (
     <Link
-      href="#"
-      className="group relative block h-[267px] w-[200px] rounded-2xl bg-[#F3F4F5] p-[10px] pb-6"
+      href="/products"
+      onClick={onNavigate}
+      className="group relative block h-[267px] w-[200px] cursor-pointer rounded-2xl bg-[#F3F4F5] p-[10px] pb-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       <div className="flex h-[180px] w-[180px] items-center justify-center rounded-xl bg-white p-2">
-        <Image src={img} alt={name} width={164} height={164} className="h-[164px] w-[164px] rounded-lg object-contain" />
+        <Image src={img} alt={name} width={164} height={164} className="h-[164px] w-[164px] rounded-lg object-contain transition-transform duration-200 group-hover:scale-105" />
       </div>
       <div className="mt-[15px] pl-[14px]">
         <p className="text-[16px] font-bold leading-[18px] text-ink">{name}</p>
@@ -195,55 +206,95 @@ function MenuRow({
   onToggle,
   children,
   isHome,
+  href,
+  onNavigate,
 }: {
   label: string;
   open: boolean;
   onToggle: () => void;
   children?: React.ReactNode;
   isHome: boolean;
+  href?: string;
+  onNavigate?: () => void;
 }) {
   return (
     <div>
-      <button
-        type="button"
-        aria-expanded={open}
-        onClick={onToggle}
+      <div
         className={
           isHome
             ? "flex h-[52px] w-full items-center justify-between border-b border-white/25"
             : "flex h-[52px] w-full items-center justify-between border-b border-[#EAECEF]"
         }
       >
-        <span className={isHome ? "text-[18px] font-bold uppercase tracking-[0.5px] text-white" : "text-[18px] font-bold uppercase tracking-[0.5px] text-ink"}>{label}</span>
-        <span aria-hidden className="relative block h-[20px] w-[20px]">
-          <span className={`absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 ${isHome ? "bg-white" : "bg-ink"}`} />
-          <span
-            className={`absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 transition-transform duration-200 ${isHome ? "bg-white" : "bg-ink"} ${open ? "scale-y-0" : ""}`}
-          />
-        </span>
-      </button>
+        {href ? (
+          <Link
+            href={href}
+            onClick={onNavigate}
+            className={`flex-1 text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "text-white" : "text-ink"}`}
+          >
+            {label}
+          </Link>
+        ) : (
+          <button
+            type="button"
+            aria-expanded={open}
+            onClick={onToggle}
+            className={`flex-1 text-left text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "text-white" : "text-ink"}`}
+          >
+            {label}
+          </button>
+        )}
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={onToggle}
+          aria-label={`Toggle ${label} section`}
+          className="flex h-full items-center px-2"
+        >
+          <span aria-hidden className="relative block h-[20px] w-[20px]">
+            <span className={`absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 ${isHome ? "bg-white" : "bg-ink"}`} />
+            <span
+              className={`absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 transition-transform duration-200 ${isHome ? "bg-white" : "bg-ink"} ${open ? "scale-y-0" : ""}`}
+            />
+          </span>
+        </button>
+      </div>
       {open && <div className="pt-4">{children}</div>}
     </div>
   );
 }
 
 /** Mobile menu card — white, r10, 15px semibold title + 13px gray subtitle */
-function MenuCardLink({ item, isHome }: { item: { label: string; desc?: string }; isHome: boolean }) {
+function MenuCardLink({
+  item,
+  isHome,
+  href: propHref,
+  onNavigate,
+}: {
+  item: { label: string; desc?: string };
+  isHome: boolean;
+  href?: string;
+  onNavigate?: () => void;
+}) {
   const href =
-    item.label === "Find a dealer" || item.label === "Dealer Locator"
+    propHref ||
+    (item.label === "Find a dealer" || item.label === "Dealer Locator"
       ? "/dealer-locator"
       : item.label === "Charging stations"
         ? "/charging-stations"
       : item.label === "About us"
         ? "/about"
-      : "#";
+      : PRODUCT_MOBILE.some((p) => p.label === item.label)
+        ? "/products"
+      : "#");
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={
         isHome
-          ? "flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3"
-          : "flex flex-col gap-1 rounded-[10px] border border-[#EAECEF] bg-white px-3.5 py-3"
+          ? "flex flex-col gap-1 rounded-[10px] bg-white px-3.5 py-3 transition-colors hover:bg-white/90"
+          : "flex flex-col gap-1 rounded-[10px] border border-[#EAECEF] bg-white px-3.5 py-3 transition-colors hover:bg-[#F3F4F5]"
       }
     >
       <span className="text-[15px] font-semibold leading-[1.2] text-ink">{item.label}</span>
@@ -309,9 +360,12 @@ export default function Navbar() {
               "linear-gradient(90deg, #1D6FFF 0%, #4A8CFF 50%, #347EFF 75%, #4A8CFF 100%)",
           }}
         >
-          <p className="font-bold text-white text-[10px] leading-none tracking-[0.1px] lg:text-[14px]">
+          <Link
+            href="/products"
+            className="font-bold text-white text-[10px] leading-none tracking-[0.1px] hover:underline lg:text-[14px]"
+          >
             Neo by Euler - Explore our electric 3 wheeler range
-          </p>
+          </Link>
           <button
             type="button"
             aria-label="Dismiss announcement"
@@ -399,24 +453,50 @@ export default function Navbar() {
               <ul className="flex items-center gap-12 px-2.5">
                 {/* Figma 1:2259 link order: Product · Company · Technology ·
                     Support — Support carries the Iconex/Light/Call phone icon */}
-                {(["Product", "Company"] as DropdownKey[]).map((key) => (
-                  <li
-                    key={key}
-                    className="relative"
-                    onMouseEnter={() => setOpenDropdown(key)}
+                {/* Product link + chevron dropdown trigger */}
+                <li
+                  className="relative flex items-center"
+                  onMouseEnter={() => setOpenDropdown("Product")}
+                >
+                  <Link
+                    href="/products"
+                    onClick={() => setOpenDropdown(null)}
+                    className={`flex items-center text-[14px] font-semibold transition-colors ${
+                      isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"
+                    }`}
                   >
-                    <button
-                      type="button"
-                      aria-haspopup="menu"
-                      aria-expanded={openDropdown === key}
-                      onClick={() => toggleDropdown(key)}
-                      className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
-                    >
-                      {key}
-                      {chevron(openDropdown === key, isHome)}
-                    </button>
-                  </li>
-                ))}
+                    Product
+                  </Link>
+                  <button
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded={openDropdown === "Product"}
+                    aria-label="Toggle Product dropdown"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleDropdown("Product");
+                    }}
+                    className={`ml-1 flex items-center p-1 ${isHome ? "text-white" : "text-ink"}`}
+                  >
+                    {chevron(openDropdown === "Product", isHome)}
+                  </button>
+                </li>
+                {/* Company dropdown */}
+                <li
+                  className="relative"
+                  onMouseEnter={() => setOpenDropdown("Company")}
+                >
+                  <button
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded={openDropdown === "Company"}
+                    onClick={() => toggleDropdown("Company")}
+                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
+                  >
+                    Company
+                    {chevron(openDropdown === "Company", isHome)}
+                  </button>
+                </li>
                 <li>
                   <Link
                     href="/technology"
@@ -510,12 +590,16 @@ export default function Navbar() {
           <div className={isHome ? "hidden bg-black/40 backdrop-blur-[30px] lg:block" : "hidden bg-white backdrop-blur-[30px] lg:block"}>
             <div className="flex items-start px-20 py-8">
               <div className="flex w-[632px] flex-col gap-[26px]">
-                <p className={isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}>
+                <Link
+                  href="/products"
+                  onClick={() => setOpenDropdown(null)}
+                  className={`transition-opacity hover:opacity-80 ${isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
+                >
                   4 WHEELER GOODS VEHICLES
-                </p>
+                </Link>
                 <div className="flex gap-4">
                   {MEGA_4W.map((p) => (
-                    <ProductCard key={p.name} {...p} />
+                    <ProductCard key={p.name} {...p} onNavigate={() => setOpenDropdown(null)} />
                   ))}
                 </div>
               </div>
@@ -523,24 +607,32 @@ export default function Navbar() {
               <div aria-hidden className="ml-[29px] mr-[30px] w-px self-stretch bg-[#CCC]/20" />
 
               <div className="flex w-[226px] flex-col gap-[26px]">
-                <p className={isHome ? "whitespace-nowrap text-[16px] font-bold leading-[22px] text-white" : "whitespace-nowrap text-[16px] font-bold leading-[22px] text-ink"}>
+                <Link
+                  href="/products"
+                  onClick={() => setOpenDropdown(null)}
+                  className={`whitespace-nowrap transition-opacity hover:opacity-80 ${isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
+                >
                   3 WHEELER GOODS VEHICLES
-                </p>
+                </Link>
                 {MEGA_3W.map((p) => (
-                  <ProductCard key={p.name} {...p} />
+                  <ProductCard key={p.name} {...p} onNavigate={() => setOpenDropdown(null)} />
                 ))}
               </div>
 
               <div aria-hidden className="ml-[28px] mr-[29px] w-px self-stretch bg-[#CCC]/20" />
 
               {/* Neo promo card — using the new image as full background */}
-              <div className="relative h-[355px] w-[305px] overflow-hidden rounded-2xl px-5 pt-6 bg-[#1b62cd]">
+              <Link
+                href="/products"
+                onClick={() => setOpenDropdown(null)}
+                className="group relative block h-[355px] w-[305px] cursor-pointer overflow-hidden rounded-2xl px-5 pt-6 bg-[#1b62cd] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+              >
                 <Image
                   src="/assets/neo/neo-card-image.png"
-                  alt=""
+                  alt="Neo by Euler"
                   fill
                   sizes="305px"
-                  className="absolute inset-0 object-cover object-bottom"
+                  className="absolute inset-0 object-cover object-bottom transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
                 <div className="relative z-10 flex h-5 items-center">
@@ -568,7 +660,7 @@ export default function Navbar() {
                   Smaller vehicles for city delivery. Built for owner drivers and
                   delivery partners.
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         )}
@@ -588,20 +680,46 @@ export default function Navbar() {
             <div className="no-scrollbar flex flex-1 flex-col overflow-y-auto">
               <div className={`flex flex-col border-t px-5 pb-6 ${isHome ? "border-white/25" : "border-[#EAECEF]"}`}>
                 {/* PRODUCTS */}
-                <MenuRow label="Products" open={openDropdown === "Product"} onToggle={() => toggleDropdown("Product")} isHome={isHome}>
+                <MenuRow
+                  label="Products"
+                  open={openDropdown === "Product"}
+                  onToggle={() => toggleDropdown("Product")}
+                  isHome={isHome}
+                  href="/products"
+                  onNavigate={() => {
+                    setMenuOpen(false);
+                    setOpenDropdown(null);
+                  }}
+                >
                   <div className="grid grid-cols-2 gap-2.5 pb-4">
                     {PRODUCT_MOBILE.map((item) => (
-                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
+                      <MenuCardLink
+                        key={item.label}
+                        item={item}
+                        isHome={isHome}
+                        href="/products"
+                        onNavigate={() => {
+                          setMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                      />
                     ))}
                   </div>
                   {/* Neo promo card — now properly inside the Products accordion */}
-                  <div className="relative mb-5 shrink-0 overflow-hidden rounded-2xl px-5 py-5 min-h-[360px] bg-[#1b62cd]">
+                  <Link
+                    href="/products"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setOpenDropdown(null);
+                    }}
+                    className="group relative mb-5 block shrink-0 overflow-hidden rounded-2xl px-5 py-5 min-h-[360px] bg-[#1b62cd] cursor-pointer"
+                  >
                     <Image
                       src="/assets/neo/neo-card-image.png"
-                      alt=""
+                      alt="Neo by Euler"
                       width={400}
                       height={400}
-                      className="absolute -bottom-2 -right-4 w-[90%] max-w-[340px] object-contain"
+                      className="absolute -bottom-2 -right-4 w-[90%] max-w-[340px] object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="relative z-10 flex h-5 items-center">
                       {/* white Neo mark icon — Figma "Rectangle 42110" (1:1604), same as the desktop mega-menu card */}
@@ -622,10 +740,11 @@ export default function Navbar() {
                       Smaller vehicles for city delivery. Built for owner drivers and
                       delivery partners.
                     </p>
-                    <Button variant="dark" arrow="white" className="relative z-10 mt-4">
+                    <span className="relative z-10 mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[14px] font-semibold text-white">
                       Explore Neo
-                    </Button>
-                  </div>
+                      <Arrow color="white" />
+                    </span>
+                  </Link>
                 </MenuRow>
                 {/* TECHNOLOGY — plain link row */}
                 <Link

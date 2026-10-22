@@ -87,11 +87,18 @@ export default function ProductOverview() {
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-overview-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-overview-index='0']");
-      if (!reducedMotion && visibleRef.current && duplicate && first) {
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
         const loopDistance = duplicate.offsetLeft - first.offsetLeft;
         if (loopDistance > 0) {
-          offset = (offset + 0.35) % loopDistance;
+          offset = (offset + 0.6) % loopDistance;
           track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+
+          const cardStep = loopDistance / CARDS.length;
+          const currentIdx = Math.min(
+            CARDS.length - 1,
+            Math.floor((offset + cardStep * 0.25) / cardStep) % CARDS.length
+          );
+          setActiveIndex((prev) => (prev !== currentIdx ? currentIdx : prev));
         }
       }
       frame = window.requestAnimationFrame(tick);

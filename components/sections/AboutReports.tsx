@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Eyebrow from "../ui/Eyebrow";
 
 /* Desktop swaps the file mark on row 3 (ESG Report); mobile uses the one
@@ -82,10 +83,10 @@ export default function AboutReports() {
                   </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-[7px] lg:gap-[11.288px]">
-                  <button
-                    type="button"
+                  <Link
+                    href="/products"
                     aria-label={`Download ${report.name}`}
-                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] bg-ink lg:size-[50px] lg:rounded-[6px]"
+                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] bg-ink lg:size-[50px] lg:rounded-[6px] hover:bg-black transition-colors"
                   >
                     <span className="relative block size-4 overflow-clip lg:size-[25.801px]">
                       <span className="absolute inset-[18.75%_16.67%]">
@@ -105,11 +106,11 @@ export default function AboutReports() {
                         />
                       </span>
                     </span>
-                  </button>
-                  <button
-                    type="button"
+                  </Link>
+                  <Link
+                    href="/products"
                     aria-label={`View ${report.name}`}
-                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface lg:size-[50px] lg:rounded-[6px] lg:border-[1.613px]"
+                    className="flex size-8 sm:size-9 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface lg:size-[50px] lg:rounded-[6px] lg:border-[1.613px] hover:bg-white transition-colors"
                   >
                     <span className="relative block size-4 overflow-clip lg:size-[25.801px]">
                       <span className="absolute inset-[12.5%_8.33%]">
@@ -129,7 +130,7 @@ export default function AboutReports() {
                         />
                       </span>
                     </span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -137,14 +138,14 @@ export default function AboutReports() {
         </div>
 
         {/* View All — mobile only */}
-        <button
-          type="button"
-          className="flex h-8 sm:h-9 shrink-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface px-5 sm:px-7 lg:hidden"
+        <Link
+          href="/products"
+          className="flex h-8 sm:h-9 shrink-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-surface px-5 sm:px-7 lg:hidden hover:bg-white transition-colors"
         >
           <span className="font-display text-[12px] sm:text-[14px] font-bold leading-none text-ink">
             View All
           </span>
-        </button>
+        </Link>
       </div>
     </section>
   );

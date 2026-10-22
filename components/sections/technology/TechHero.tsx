@@ -42,7 +42,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
             <p className="w-[316px] font-sans text-[12px] font-normal leading-normal text-white">
               Every innovation is designed for everyday business.
             </p>
-            <Button variant="white" arrow="white" href="#book-test-drive" className="w-full">
+            <Button variant="white" arrow="white" href="/products" className="w-full">
               Book a test drive
             </Button>
           </div>
@@ -154,7 +154,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
                 </p>
               </div>
             </div>
-            <Button variant="white" arrow="navy" href="#book-test-drive" className="w-full">
+            <Button variant="white" arrow="navy" href="/products" className="w-full">
               Book a test drive
             </Button>
           </div>

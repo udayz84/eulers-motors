@@ -26,7 +26,7 @@ export default function Technology() {
           {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
               `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
           <div className="hidden lg:block">
-            <Button variant="dark" arrow="white">
+            <Button href="/products" variant="dark" arrow="white">
               See how it works
             </Button>
           </div>
@@ -194,7 +194,7 @@ export default function Technology() {
 
           {/* mobile CTA (Figma 1:4818) — 24px below the cards, centered;
               the heading area carries no button on mobile (1:4785) */}
-          <Button variant="dark" arrow="white" className="self-center lg:hidden">
+          <Button href="/products" variant="dark" arrow="white" className="self-center lg:hidden">
             See how it works
           </Button>
         </div>

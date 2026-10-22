@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -7,7 +10,6 @@ const TRUCK_IMG = "/assets/products/variant-compare-truck.png";
 
 type VariantData = {
   name: string;
-  pillBg: string;
   price: number;
   bodyType: string;
   payload: string;
@@ -20,36 +22,33 @@ type VariantData = {
 const VARIANTS: VariantData[] = [
   {
     name: "LR 200",
-    pillBg: "bg-white lg:shadow-[0_1px_3px_rgba(0,0,0,0.06)]",
     price: 1149000,
-    bodyType: "3-wheel cargo EV",
+    bodyType: "4-wheel cargo EV",
     payload: "1,200 kg",
     range: "200 km",
-    runningCost: "\u20B91.05/km",
+    runningCost: "₹1.05/km",
     fullCharge: "90 min",
     cargoSpace: "2.9 m loading deck",
   },
   {
     name: "T1500",
-    pillBg: "bg-[#f3f4f5]",
     price: 1280000,
-    bodyType: "3-wheel cargo EV",
+    bodyType: "4-wheel container EV",
     payload: "1,500 kg",
     range: "200 km",
-    runningCost: "Not published",
-    fullCharge: "90 min",
-    cargoSpace: "Not published",
+    runningCost: "₹1.15/km",
+    fullCharge: "105 min",
+    cargoSpace: "3.2 m loading deck",
   },
   {
     name: "Turbo 1000",
-    pillBg: "bg-[#f3f4f5]",
     price: 980000,
-    bodyType: "3-wheel cargo EV",
+    bodyType: "4-wheel delivery EV",
     payload: "1,000 kg",
     range: "180 km",
-    runningCost: "Not published",
-    fullCharge: "90 min",
-    cargoSpace: "Not published",
+    runningCost: "₹0.98/km",
+    fullCharge: "75 min",
+    cargoSpace: "2.5 m loading deck",
   },
 ];
 
@@ -64,7 +63,7 @@ const LABELS = [
 ];
 
 const formatEmi = (price: number) => {
-  return `\u20B9${calculateMonthlyEmi(price).toLocaleString("en-IN")}/month`;
+  return `₹${calculateMonthlyEmi(price).toLocaleString("en-IN")}/month`;
 };
 
 const VALUES = (v: VariantData) => [
@@ -77,15 +76,29 @@ const VALUES = (v: VariantData) => [
   v.cargoSpace,
 ];
 
+// Layout positioning constants
+const DESKTOP_INITIAL_LEFT = 266.93;
+const DESKTOP_STEP = 323.67;
+
+const MOBILE_INITIAL_LEFT = 108.801;
+const MOBILE_STEP = 156;
+const MOBILE_TRUCK_WIDTH = 73.534;
+const MOBILE_TRUCK_INITIAL_LEFT =
+  MOBILE_INITIAL_LEFT + (MOBILE_STEP - MOBILE_TRUCK_WIDTH) / 2;
+const MOBILE_TOTAL_WIDTH =
+  MOBILE_INITIAL_LEFT + VARIANTS.length * MOBILE_STEP + 20;
+
 /**
  * Compare variants side by side — Figma node 2861:7715
  * 1440px frame, px-79/py-47, heading row + side-by-side comparison table
- * with Base Variant gradient highlight and truck renders above each column.
+ * with interactive variant highlight selector and truck renders above each column.
  *
  * Mobile (Figma 393px): header on top, horizontally scrollable comparison
  * card, and the two CTA buttons moved to the section's bottom in one row.
  */
 export default function ProductVariantsCompare() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
     <section
       aria-label="Compare variants side by side"
@@ -105,91 +118,123 @@ export default function ProductVariantsCompare() {
 
         {/* Comparison card */}
         <div className="-mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] overflow-x-auto px-5 sm:px-8 pb-1 scrollbar-none">
-          <div className="relative w-[488.801px] shrink-0">
+          <div className="relative shrink-0" style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}>
             {/* Truck renders */}
             <div className="relative mb-3 h-[47.389px] w-full">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="absolute top-0 aspect-[45/29] h-[47.389px] w-[73.534px] shrink-0"
-                  style={{ left: `${132.034 + i * 120}px` }}
-                >
-                  <Image
-                    src={TRUCK_IMG}
-                    alt=""
-                    fill
-                    sizes="74px"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              {VARIANTS.map((variant, i) => {
+                const isSelected = selectedIndex === i;
+                return (
+                  <button
+                    key={variant.name}
+                    type="button"
+                    onClick={() => setSelectedIndex(i)}
+                    aria-label={`Select ${variant.name}`}
+                    className={`absolute top-0 aspect-[45/29] h-[47.389px] w-[73.534px] shrink-0 cursor-pointer transition-all duration-200 focus:outline-none ${
+                      isSelected ? "scale-105" : "opacity-75 hover:opacity-100"
+                    }`}
+                    style={{ left: `${MOBILE_TRUCK_INITIAL_LEFT + i * MOBILE_STEP}px` }}
+                  >
+                    <Image
+                      src={TRUCK_IMG}
+                      alt={`${variant.name} Truck`}
+                      fill
+                      sizes="74px"
+                      className="object-cover"
+                    />
+                  </button>
+                );
+              })}
             </div>
 
-            <div className="relative h-[286px] w-[488.801px] shrink-0 rounded-[9.6px] border-[0.8px] border-[#ccc] bg-white p-5 pl-[108.801px]">
-            {/* Label column */}
             <div
-              className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-center justify-between pl-2 pr-px py-[26.313px]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(270deg, rgba(255,255,255,0.00) 0%, #FFF 9.17%)",
-              }}
+              className="relative h-[286px] shrink-0 rounded-[9.6px] border-[0.8px] border-[#ccc] bg-white p-5 pl-[108.801px]"
+              style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}
             >
-              <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
-                Variants
-              </p>
-              {LABELS.map((label) => (
-                <p
-                  key={label}
-                  className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]"
-                >
-                  {label}
-                </p>
-              ))}
-            </div>
-
-            {/* Base Variant highlight — spans the full card height (top → bottom border) */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-[108.801px] top-0 flex h-full w-[120px] flex-col justify-between overflow-hidden rounded-[0_3.2px_3.2px_0]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, rgba(29,111,255,0.20) 0%, rgba(29,111,255,0.04) 35.26%, rgba(29,111,255,0.04) 75%, rgba(29,111,255,0.20) 100%)",
-              }}
-            >
-              <div className="h-[6.4px] w-full shrink-0 bg-[#0E2F6D]" />
-              <div className="h-[6.4px] w-full shrink-0 bg-[#0E2F6D]" />
-            </div>
-
-            {/* Variant columns */}
-            {VARIANTS.map((variant, i) => (
+              {/* Label column */}
               <div
-                key={variant.name}
-                className="absolute flex h-[246px] w-[120px] flex-col items-center justify-between py-[10px]"
+                className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-center justify-between pl-2 pr-px py-[26.313px]"
                 style={{
-                  left: `${108.801 + i * 120}px`,
-                  top: "20px",
+                  backgroundImage:
+                    "linear-gradient(270deg, rgba(255,255,255,0.00) 0%, #FFF 9.17%)",
                 }}
               >
-                <div
-                  className={`flex items-center rounded-[9.6px] px-[10px] py-[4px] ${variant.pillBg}`}
-                >
-                  <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
-                    {variant.name}
-                  </p>
-                </div>
-                {VALUES(variant).map((value, vi) => (
+                <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
+                  Variants
+                </p>
+                {LABELS.map((label) => (
                   <p
-                    key={vi}
-                    className={`whitespace-nowrap font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.06px] ${
-                      i === 0 ? "text-ink" : "text-[#121212]"
-                    }`}
+                    key={label}
+                    className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]"
                   >
-                    {value}
+                    {label}
                   </p>
                 ))}
               </div>
-            ))}
-          </div>
+
+              {/* Variant highlight box — smoothly slides to selected variant */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute top-0 flex h-full flex-col justify-between overflow-hidden rounded-[0_3.2px_3.2px_0] transition-[left] duration-300 ease-in-out"
+                style={{
+                  width: `${MOBILE_STEP}px`,
+                  left: `${MOBILE_INITIAL_LEFT + selectedIndex * MOBILE_STEP}px`,
+                  backgroundImage:
+                    "linear-gradient(180deg, rgba(29,111,255,0.20) 0%, rgba(29,111,255,0.04) 35.26%, rgba(29,111,255,0.04) 75%, rgba(29,111,255,0.20) 100%)",
+                }}
+              >
+                <div className="h-[6.4px] w-full shrink-0 bg-[#0E2F6D]" />
+                <div className="h-[6.4px] w-full shrink-0 bg-[#0E2F6D]" />
+              </div>
+
+              {/* Variant columns */}
+              {VARIANTS.map((variant, i) => {
+                const isSelected = selectedIndex === i;
+                return (
+                  <div
+                    key={variant.name}
+                    onClick={() => setSelectedIndex(i)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedIndex(i);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Select ${variant.name}`}
+                    aria-pressed={isSelected}
+                    className="absolute flex h-[246px] cursor-pointer flex-col items-center justify-between py-[10px] select-none focus:outline-none"
+                    style={{
+                      width: `${MOBILE_STEP}px`,
+                      left: `${MOBILE_INITIAL_LEFT + i * MOBILE_STEP}px`,
+                      top: "20px",
+                    }}
+                  >
+                    <div
+                      className={`flex items-center rounded-[9.6px] px-[10px] py-[4px] transition-all duration-200 ${
+                        isSelected
+                          ? "bg-white shadow-sm ring-1 ring-[#0E2F6D]/20"
+                          : "bg-[#f3f4f5]"
+                      }`}
+                    >
+                      <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
+                        {variant.name}
+                      </p>
+                    </div>
+                    {VALUES(variant).map((value, vi) => (
+                      <p
+                        key={vi}
+                        className={`whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.06px] transition-colors duration-200 ${
+                          isSelected ? "text-ink" : "text-[#4a4f57]"
+                        }`}
+                      >
+                        {value}
+                      </p>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -210,7 +255,7 @@ export default function ProductVariantsCompare() {
         </div>
       </div>
 
-      {/* ===== Desktop (unchanged) ===== */}
+      {/* ===== Desktop ===== */}
       <div className="hidden py-[47px] lg:block">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[42px] px-5 xl:px-[79px]">
           {/* Heading + Action Buttons (Figma 2861:7716) */}
@@ -237,44 +282,41 @@ export default function ProductVariantsCompare() {
             <div className="relative h-[612px] w-[1277px] shrink-0 max-xl:mx-auto">
               {/* 3 Truck Renders sitting on top of the table (Figma 2861:7786) */}
               <div className="absolute left-[352.53px] top-[9px] flex items-center gap-[136px]">
-                <div className="relative h-[119.284px] w-[185.096px] shrink-0">
-                  <Image
-                    src={TRUCK_IMG}
-                    alt="Base Variant Truck"
-                    fill
-                    sizes="185px"
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-                <div className="relative h-[119.284px] w-[185.096px] shrink-0">
-                  <Image
-                    src={TRUCK_IMG}
-                    alt="Cargo Variant Truck"
-                    fill
-                    sizes="185px"
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-                <div className="relative h-[119.284px] w-[185.096px] shrink-0">
-                  <Image
-                    src={TRUCK_IMG}
-                    alt="XL Variant Truck"
-                    fill
-                    sizes="185px"
-                    className="object-contain"
-                    priority
-                  />
-                </div>
+                {VARIANTS.map((variant, i) => {
+                  const isSelected = selectedIndex === i;
+                  return (
+                    <button
+                      key={variant.name}
+                      type="button"
+                      onClick={() => setSelectedIndex(i)}
+                      aria-label={`Select ${variant.name} Truck`}
+                      className={`relative h-[119.284px] w-[185.096px] shrink-0 cursor-pointer transition-all duration-300 focus:outline-none ${
+                        isSelected
+                          ? "scale-105 drop-shadow-[0_8px_16px_rgba(14,47,109,0.18)]"
+                          : "opacity-80 hover:scale-[1.03] hover:opacity-100"
+                      }`}
+                    >
+                      <Image
+                        src={TRUCK_IMG}
+                        alt={`${variant.name} Truck`}
+                        fill
+                        sizes="185px"
+                        className="object-contain"
+                        priority
+                      />
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Table Card (Figma 2861:7736) */}
               <div className="absolute bottom-0 left-0 flex h-[456px] w-[1277px] items-center justify-between overflow-hidden rounded-[12px] border border-[#ccc] bg-white px-8 py-[42px]">
-                {/* Highlight Column for Base Variant (Figma 2861:7737) */}
+                {/* Highlight Column for selected variant — animated transition */}
                 <div
-                  className="pointer-events-none absolute left-[266.93px] top-1/2 flex h-[456px] w-[348px] -translate-y-1/2 flex-col justify-between overflow-hidden rounded-[4px]"
+                  aria-hidden
+                  className="pointer-events-none absolute top-1/2 flex h-[456px] w-[348px] -translate-y-1/2 flex-col justify-between overflow-hidden rounded-[4px] transition-[left] duration-300 ease-in-out"
                   style={{
+                    left: `${DESKTOP_INITIAL_LEFT + selectedIndex * DESKTOP_STEP}px`,
                     backgroundImage:
                       "linear-gradient(180deg, rgba(29, 111, 255, 0.2) 0%, rgba(29, 111, 255, 0.04) 35.26%, rgba(29, 111, 255, 0.04) 75%, rgba(29, 111, 255, 0.2) 100%)",
                   }}
@@ -284,7 +326,7 @@ export default function ProductVariantsCompare() {
                 </div>
 
                 {/* Column 1: Labels (Figma 2861:7740) */}
-                <div className="flex h-[400px] w-[242px] shrink-0 flex-col items-start justify-between">
+                <div className="relative z-10 flex h-[400px] w-[242px] shrink-0 flex-col items-start justify-between">
                   <div className="flex w-full items-center py-3">
                     <p className="font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]">
                       Variants
@@ -300,56 +342,49 @@ export default function ProductVariantsCompare() {
                   ))}
                 </div>
 
-                {/* Column 2: Base Variant (Figma 2861:7750) */}
-                <div className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 flex-col items-center justify-between">
-                  <div className={`flex items-center rounded-[12px] px-4 py-3 ${VARIANTS[0].pillBg}`}>
-                    <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
-                      {VARIANTS[0].name}
-                    </p>
-                  </div>
-                  {VALUES(VARIANTS[0]).map((value, vi) => (
-                    <p
-                      key={vi}
-                      className="whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] text-ink"
+                {/* Columns 2-4: Interactive Variants */}
+                {VARIANTS.map((variant, i) => {
+                  const isSelected = selectedIndex === i;
+                  return (
+                    <div
+                      key={variant.name}
+                      onClick={() => setSelectedIndex(i)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedIndex(i);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Select ${variant.name}`}
+                      aria-pressed={isSelected}
+                      className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 cursor-pointer flex-col items-center justify-between select-none focus:outline-none"
                     >
-                      {value}
-                    </p>
-                  ))}
-                </div>
-
-                {/* Column 3: Cargo Variant (Figma 2861:7762) */}
-                <div className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 flex-col items-center justify-between">
-                  <div className={`flex items-center rounded-[12px] px-4 py-3 ${VARIANTS[1].pillBg}`}>
-                    <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
-                      {VARIANTS[1].name}
-                    </p>
-                  </div>
-                  {VALUES(VARIANTS[1]).map((value, vi) => (
-                    <p
-                      key={vi}
-                      className="whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] text-ink"
-                    >
-                      {value}
-                    </p>
-                  ))}
-                </div>
-
-                {/* Column 4: XL Variant (Figma 2861:7774) */}
-                <div className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 flex-col items-center justify-between">
-                  <div className={`flex items-center rounded-[12px] px-4 py-3 ${VARIANTS[2].pillBg}`}>
-                    <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
-                      {VARIANTS[2].name}
-                    </p>
-                  </div>
-                  {VALUES(VARIANTS[2]).map((value, vi) => (
-                    <p
-                      key={vi}
-                      className="whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] text-ink"
-                    >
-                      {value}
-                    </p>
-                  ))}
-                </div>
+                      <div
+                        className={`flex items-center rounded-[12px] px-4 py-3 transition-all duration-200 ${
+                          isSelected
+                            ? "bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-[#0E2F6D]/20"
+                            : "bg-[#f3f4f5] hover:bg-[#e8eaec]"
+                        }`}
+                      >
+                        <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
+                          {variant.name}
+                        </p>
+                      </div>
+                      {VALUES(variant).map((value, vi) => (
+                        <p
+                          key={vi}
+                          className={`whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] transition-colors duration-200 ${
+                            isSelected ? "text-ink" : "text-[#4a4f57]"
+                          }`}
+                        >
+                          {value}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

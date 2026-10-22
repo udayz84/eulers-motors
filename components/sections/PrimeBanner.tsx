@@ -116,7 +116,7 @@ export default function PrimeBanner() {
         </div>
 
         <a
-          href="#book-test-drive"
+          href="/products"
           className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 font-display text-[12px] font-semibold leading-none text-navy lg:h-[50.477px] lg:px-6 lg:text-[16px]"
         >
           See Euler Prime

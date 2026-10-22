@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, MouseEvent } from "react";
 import Arrow, { type ArrowColor } from "./Arrow";
 
 type ButtonVariant = "dark" | "white" | "outline";
@@ -10,6 +10,7 @@ type ButtonProps = {
   className?: string;
   href?: string;
   type?: "button" | "submit";
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
 };
 
 const VARIANTS: Record<ButtonVariant, string> = {
@@ -33,6 +34,7 @@ export default function Button({
   className = "",
   href,
   type = "button",
+  onClick,
 }: ButtonProps) {
   const arrowColor: ArrowColor =
     arrow === "none"
@@ -46,7 +48,7 @@ export default function Button({
   const cls = `inline-flex items-center justify-center gap-2 rounded-[4px]
     h-11 px-5 lg:h-[50.477px] lg:px-6
     font-display font-semibold leading-none text-[12px] lg:text-[16px]
-    whitespace-nowrap transition-transform duration-200 hover:scale-[1.02]
+    whitespace-nowrap transition-transform duration-200 hover:scale-[1.02] cursor-pointer
     ${VARIANTS[variant]} ${className}`;
 
   const content = (
@@ -66,13 +68,13 @@ export default function Button({
 
   if (href) {
     return (
-      <a href={href} className={cls}>
+      <a href={href} onClick={onClick} className={cls}>
         {content}
       </a>
     );
   }
   return (
-    <button type={type} className={cls}>
+    <button type={type} onClick={onClick} className={cls}>
       {content}
     </button>
   );

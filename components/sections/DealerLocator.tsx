@@ -489,6 +489,7 @@ export default function DealerLocator({
   const [selectedCity, setSelectedCity] = useState("Mumbai");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<"map" | "list">("map");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cityRowScrollRef = useRef<HTMLDivElement>(null);
 
@@ -732,120 +733,215 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <MapPin className="left-[calc(50%+52px)] top-[193px] hidden lg:flex" />
-      <MapPin className="left-[calc(50%-210px)] top-[324px] hidden lg:flex" />
-      <MapPin className="left-[calc(50%+56px)] top-[489px] hidden lg:flex" />
+      {/* Map pins and details - only in map view */}
+      {viewMode === "map" && (
+        <>
+          <MapPin className="left-[calc(50%+115px)] top-[220px] hidden lg:flex" />
+          <MapPin className="left-[calc(50%-210px)] top-[324px] hidden lg:flex" />
+          <MapPin className="left-[calc(50%+56px)] top-[489px] hidden lg:flex" />
 
-      <MapPin className="left-[28px] top-[306.67px] lg:hidden" />
-      <MapPin className="left-[calc(66.67%+39px)] top-[175.67px] lg:hidden" />
-      <MapPin className="left-[calc(66.67%+43.76px)] top-[471.67px] lg:hidden" />
-      <div className="absolute left-[calc(33.33%+24.68px)] top-[331.36px] h-[65.31px] w-[88.25px] lg:left-[calc(50%-88px)] lg:top-[348.69px]">
-        <Image
-          src={`${ASSET}pin-detail-desktop.svg`}
-          alt=""
-          width={88.2466}
-          height={91.194}
-          aria-hidden="true"
-          className="absolute left-0 top-[-25.89px] hidden max-w-none lg:block"
-        />
-        <Image
-          src={`${ASSET}pin-detail-mobile.svg`}
-          alt=""
-          width={88.2466}
-          height={91.194}
-          aria-hidden="true"
-          className="absolute left-0 top-[-25.89px] max-w-none lg:hidden"
-        />
-      </div>
-      <span className="absolute left-[calc(33.33%+69.3px)] top-[381px] size-4 rounded-full border-2 border-white bg-[#1d6fff] lg:left-[calc(50%-42px)] lg:top-[399px]" aria-hidden="true" />
+          <MapPin className="left-[28px] top-[306.67px] lg:hidden" />
+          <MapPin className="left-[calc(66.67%+39px)] top-[175.67px] lg:hidden" />
+          <MapPin className="left-[calc(66.67%+43.76px)] top-[471.67px] lg:hidden" />
+          <div className="absolute left-[calc(33.33%+24.68px)] top-[331.36px] h-[65.31px] w-[88.25px] lg:left-[calc(50%-88px)] lg:top-[348.69px]">
+            <Image
+              src={`${ASSET}pin-detail-desktop.svg`}
+              alt=""
+              width={88.2466}
+              height={91.194}
+              aria-hidden="true"
+              className="absolute left-0 top-[-25.89px] hidden max-w-none lg:block"
+            />
+            <Image
+              src={`${ASSET}pin-detail-mobile.svg`}
+              alt=""
+              width={88.2466}
+              height={91.194}
+              aria-hidden="true"
+              className="absolute left-0 top-[-25.89px] max-w-none lg:hidden"
+            />
+          </div>
+          <span className="absolute left-[calc(33.33%+69.3px)] top-[381px] size-4 rounded-full border-2 border-white bg-[#1d6fff] lg:left-[calc(50%-42px)] lg:top-[399px]" aria-hidden="true" />
+        </>
+      )}
 
-      <div className="absolute left-[68px] top-[117px] z-10 flex -translate-x-1/2 items-center gap-[6px] rounded-[4px] bg-[#f3f4f5] p-1 lg:hidden">
-        <button type="button" aria-label="Map layers" className="flex h-8 w-[42px] items-center justify-center rounded-[4px] bg-[#121212] px-3 text-white">
-          <Image src={`${ASSET}map-layers-mobile.svg`} alt="" width={16.5} height={16.125} aria-hidden="true" className="max-w-none" />
+      {/* Map / List toggle buttons */}
+      <div className="absolute left-[68px] top-[117px] z-30 flex -translate-x-1/2 items-center gap-[6px] rounded-[4px] bg-[#f3f4f5] p-1 shadow-sm lg:left-1/2 lg:top-[215px]">
+        <button
+          type="button"
+          aria-label="Map view"
+          onClick={() => setViewMode("map")}
+          className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
+            viewMode === "map"
+              ? "bg-[#121212] text-white shadow-sm"
+              : "text-[#121212] hover:bg-black/5"
+          }`}
+        >
+          <svg
+            width="17"
+            height="16"
+            viewBox="0 0 16.5 16.125"
+            fill="none"
+            className="stroke-current max-w-none"
+            aria-hidden="true"
+          >
+            <path
+              d="M15.75 6.75V6.16311C15.75 4.7084 15.75 3.98105 15.3107 3.52913C14.8713 3.07721 14.1642 3.07721 12.75 3.07721H11.191C10.503 3.07721 10.4973 3.07587 9.87862 2.76625L7.37991 1.51585C6.33663 0.99378 5.81499 0.732743 5.25929 0.750884C4.70358 0.769025 4.19908 1.06356 3.19009 1.65263L2.26919 2.19027C1.52804 2.62297 1.15747 2.83932 0.953736 3.19923C0.750002 3.55915 0.750002 3.99745 0.750002 4.87405V11.0368C0.750002 12.1886 0.750002 12.7645 1.0067 13.085C1.17751 13.2983 1.41687 13.4416 1.6815 13.4892C2.0792 13.5606 2.5661 13.2763 3.53988 12.7078L3.53991 12.7078C4.20117 12.3217 4.83758 11.9208 5.62865 12.0295C6.29152 12.1206 6.9075 12.5389 7.5 12.8354"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path d="M5.25 0.749999L5.25 12" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M10.5 3V6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M12.375 7.875C10.5485 7.875 9 9.38737 9 11.2222C9 13.0926 10.5765 14.3856 12.0274 15.2838C12.1333 15.3436 12.2531 15.375 12.375 15.375C12.4969 15.375 12.6167 15.3436 12.7226 15.2838C14.1762 14.3943 15.75 13.0862 15.75 11.2222C15.75 9.38737 14.2015 7.875 12.375 7.875Z"
+              strokeWidth="1.5"
+            />
+            <path d="M12.375 11.25H12.3817" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
-        <button type="button" aria-label="List view" className="flex h-8 w-[42px] items-center justify-center rounded-[4px] px-3 text-[#121212]">
-          <Image src={`${ASSET}list-control-mobile.svg`} alt="" width={13.5} height={12} aria-hidden="true" className="max-w-none" />
+        <button
+          type="button"
+          aria-label="List view"
+          onClick={() => setViewMode("list")}
+          className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
+            viewMode === "list"
+              ? "bg-[#121212] text-white shadow-sm"
+              : "text-[#121212] hover:bg-black/5"
+          }`}
+        >
+          <svg
+            width="14"
+            height="12"
+            viewBox="0 0 13.5 12"
+            fill="none"
+            className="stroke-current max-w-none"
+            aria-hidden="true"
+          >
+            <path d="M0.75 0.75L8.25 0.750001" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M0.75 6L12.75 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M0.75 11.25L12.75 11.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
       </div>
 
-      <Image
-        src={`${ASSET}divider-mobile.svg`}
-        alt=""
-        width={353}
-        height={1}
-        aria-hidden="true"
-        className="absolute left-1/2 top-[520px] h-px w-[353px] max-w-[calc(100%-24px)] sm:w-[500px] -translate-x-1/2 lg:hidden"
-      />
+      {/* Map View: Horizontal cards at bottom */}
+      {viewMode === "map" && (
+        <>
+          <Image
+            src={`${ASSET}divider-mobile.svg`}
+            alt=""
+            width={353}
+            height={1}
+            aria-hidden="true"
+            className="absolute left-1/2 top-[520px] h-px w-[353px] max-w-[calc(100%-24px)] sm:w-[500px] -translate-x-1/2 lg:hidden"
+          />
 
-      <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[39px] lg:top-auto lg:gap-[21px]">
-        <div className="flex items-center justify-between px-3 lg:px-[39px]">
-          <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
+          <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[39px] lg:top-auto lg:gap-[21px]">
+            <div className="flex items-center justify-between px-3 lg:px-[39px]">
+              <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
+                {charging
+                  ? "12 Charging Points"
+                  : isService
+                  ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
+                  : `${String(resultCount).padStart(2, "0")} Dealers Found`}
+              </h2>
+              <div className="hidden items-center gap-2 lg:flex">
+                <button
+                  type="button"
+                  aria-label="Previous locations"
+                  onClick={() => scrollByCard(-1)}
+                  disabled={activeCardIndex === 0}
+                  className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next locations"
+                  onClick={() => scrollByCard(1)}
+                  disabled={activeCardIndex >= resultCount - 1}
+                  className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              ref={scrollContainerRef}
+              onScroll={handleScroll}
+              onKeyDown={handleCardKeyDown}
+              tabIndex={0}
+              role="region"
+              aria-label={charging ? "Charging station locations" : "Dealer locations"}
+              className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-center gap-3 overflow-x-auto overscroll-x-contain touch-pan-x px-3 lg:scroll-pl-[39px] lg:gap-5 lg:px-[39px]"
+            >
+              {charging
+                ? filteredStations.map((station) => (
+                    <div key={station.id} className="shrink-0 snap-start">
+                      <ChargingStationCard station={station} />
+                    </div>
+                  ))
+                : isService
+                ? filteredServiceCenters.map((serviceCenter) => (
+                    <div key={serviceCenter.id} className="shrink-0 snap-start">
+                      <ServiceCenterCard serviceCenter={serviceCenter} />
+                    </div>
+                  ))
+                : filteredDealers.map((dealer) => (
+                    <div key={dealer.id} className="shrink-0 snap-start">
+                      <DealerCard dealer={dealer} />
+                    </div>
+                  ))}
+            </div>
+          </div>
+
+          <div className="absolute left-1/2 top-[758px] flex h-5 w-[116px] -translate-x-1/2 items-center rounded-[14px] bg-white p-1 lg:hidden">
+            <div
+              className="h-3 w-[30px] rounded-full bg-[#121212] transition-transform duration-200"
+              style={{ transform: `translateX(${activeCardIndex * 18}px)` }}
+            />
+          </div>
+        </>
+      )}
+
+      {/* List View: Cards appear instead of the map */}
+      {viewMode === "list" && (
+        <div className="absolute inset-x-0 bottom-0 top-[165px] z-20 flex flex-col overflow-y-auto bg-[#eef2f8]/95 px-4 pb-8 backdrop-blur-md lg:top-[268px] lg:px-10">
+          <div className="mb-4 flex items-center justify-between pt-2">
+            <h2 className="font-display text-[16px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] sm:text-[20px] lg:text-[24px] lg:tracking-[-0.48px]">
+              {charging
+                ? "12 Charging Points"
+                : isService
+                ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
+                : `${String(resultCount).padStart(2, "0")} Dealers Found`}
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 pb-6 lg:gap-5">
             {charging
-              ? "12 Charging Points"
+              ? filteredStations.map((station) => (
+                  <div key={station.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                    <ChargingStationCard station={station} />
+                  </div>
+                ))
               : isService
-              ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
-              : `${String(resultCount).padStart(2, "0")} Dealers Found`}
-          </h2>
-          <div className="hidden items-center gap-2 lg:flex">
-            <button
-              type="button"
-              aria-label="Previous locations"
-              onClick={() => scrollByCard(-1)}
-              disabled={activeCardIndex === 0}
-              className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              aria-label="Next locations"
-              onClick={() => scrollByCard(1)}
-              disabled={activeCardIndex >= resultCount - 1}
-              className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
+              ? filteredServiceCenters.map((serviceCenter) => (
+                  <div key={serviceCenter.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                    <ServiceCenterCard serviceCenter={serviceCenter} />
+                  </div>
+                ))
+              : filteredDealers.map((dealer) => (
+                  <div key={dealer.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                    <DealerCard dealer={dealer} />
+                  </div>
+                ))}
           </div>
         </div>
-        <div
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          onKeyDown={handleCardKeyDown}
-          tabIndex={0}
-          role="region"
-          aria-label={charging ? "Charging station locations" : "Dealer locations"}
-          className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-center gap-3 overflow-x-auto overscroll-x-contain touch-pan-x px-3 lg:scroll-pl-[39px] lg:gap-5 lg:px-[39px]"
-        >
-          {charging
-            ? filteredStations.map((station) => (
-                <div key={station.id} className="shrink-0 snap-start">
-                  <ChargingStationCard station={station} />
-                </div>
-              ))
-            : isService
-            ? filteredServiceCenters.map((serviceCenter) => (
-                <div key={serviceCenter.id} className="shrink-0 snap-start">
-                  <ServiceCenterCard serviceCenter={serviceCenter} />
-                </div>
-              ))
-            : filteredDealers.map((dealer) => (
-                <div key={dealer.id} className="shrink-0 snap-start">
-                  <DealerCard dealer={dealer} />
-                </div>
-              ))}
-        </div>
-      </div>
-
-      <div className="absolute left-1/2 top-[758px] flex h-5 w-[116px] -translate-x-1/2 items-center rounded-[14px] bg-white p-1 lg:hidden">
-          <div
-            className="h-3 w-[30px] rounded-full bg-[#121212] transition-transform duration-200"
-            style={{ transform: `translateX(${activeCardIndex * 18}px)` }}
-          />
-        </div>
+      )}
     </section>
   );
 }

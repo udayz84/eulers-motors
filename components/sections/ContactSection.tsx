@@ -118,7 +118,7 @@ export default function ContactSection() {
                   <Field key={label} label={label} placeholder={ph} mobile />
                 ))}
               </div>
-              <Button variant="dark" arrow="white" className="w-full">
+              <Button href="/products" variant="dark" arrow="white" className="w-full">
                 Continue
               </Button>
               <p className="text-center text-[12px] font-medium text-ink">
@@ -192,7 +192,7 @@ export default function ContactSection() {
             </span>
           </label>
           <div className="flex flex-col gap-3">
-            <Button variant="dark" arrow="white" className="w-full">
+            <Button href="/products" variant="dark" arrow="white" className="w-full">
               {FORMS[tab].cta}
             </Button>
             <p className="text-center text-[12px] text-ink">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
 
@@ -35,16 +36,16 @@ export default function TechShepherd() {
             Track your vehicles, battery, trips, charging and service updates from one simple dashboard.
           </p>
           <div className="flex items-center gap-3">
-            <button type="button" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-6">
+            <Link href="/products" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-6 hover:bg-white transition-colors">
               <span className="whitespace-nowrap font-display text-[16px] font-semibold leading-none text-ink">Download the app</span>
               <span className="flex size-6 shrink-0 items-center justify-center">
                 <img src={`${A}/shep__imgElements6.svg`} alt="" className="h-[15.1px] w-4 object-contain" />
               </span>
-            </button>
-            <button type="button" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6">
+            </Link>
+            <Link href="/products" className="flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 hover:bg-black transition-colors">
               <span className="whitespace-nowrap font-display text-[16px] font-semibold leading-none text-white">See how it connects</span>
               <img src={`${A}/shep__imgContainer.svg`} alt="" className="h-[14px] w-[22px] shrink-0 object-contain" />
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -114,24 +115,24 @@ export default function TechShepherd() {
         </div>
 
         <div className="absolute left-1/2 top-[585px] flex w-[353px] -translate-x-1/2 items-start gap-2">
-          <button
-            type="button"
-            className="flex h-11 min-w-px flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-4"
+          <Link
+            href="/products"
+            className="flex h-11 min-w-px flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-4 hover:bg-white transition-colors"
           >
             <span className="whitespace-nowrap font-display text-[12px] font-semibold leading-none text-ink">
               Download the app
             </span>
             <img src={`${A}/shep__imgElements6.svg`} alt="" className="size-4 shrink-0 object-contain" />
-          </button>
-          <button
-            type="button"
-            className="flex h-11 min-w-px flex-1 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-4"
+          </Link>
+          <Link
+            href="/products"
+            className="flex h-11 min-w-px flex-1 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-4 hover:bg-black transition-colors"
           >
             <span className="whitespace-nowrap font-display text-[12px] font-bold leading-none text-white">
               See how it connects
             </span>
             <img src={`${A}/shep__imgContainer.svg`} alt="" className="h-3 w-[18.857px] shrink-0 object-contain" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

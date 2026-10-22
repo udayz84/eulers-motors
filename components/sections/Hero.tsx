@@ -96,6 +96,7 @@ export default function Hero() {
                 {slide.headline}
               </h1>
               <Button
+                href="/products"
                 variant="dark"
                 arrow="white"
                 className="max-lg:gradient-border-dark-soft h-12 rounded-[4.571px] px-[22.822px] text-[13.714px] lg:rounded-[4px] lg:px-6"
@@ -171,7 +172,7 @@ export default function Hero() {
         </div>
       </div>
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
-      <FloatingWidget mobileClassName="bottom-[62px]" desktopClassName="lg:bottom-[60px] lg:top-auto" />
+      <FloatingWidget mobileClassName="max-lg:bottom-[62px]" />
 
     </section>
   );

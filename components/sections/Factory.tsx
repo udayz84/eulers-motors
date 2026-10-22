@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /**
  * Factory/HowWeBuild section (Figma desktop: 3534:18269, mobile: 2929:14988).
@@ -46,7 +47,10 @@ export default function Factory() {
           <p className="font-sans font-normal leading-normal relative shrink-0 text-[12px] sm:text-[15px] text-white">
             See how every Euler vehicle is built and tested.
           </p>
-          <div className="bg-white content-stretch flex gap-[5.333px] h-[42px] sm:h-[48px] items-center justify-center px-[12px] sm:px-[18px] py-[10.667px] relative rounded-[2px] sm:rounded-[4px] shrink-0">
+          <Link
+            href="/products"
+            className="bg-white content-stretch flex gap-[5.333px] h-[42px] sm:h-[48px] items-center justify-center px-[12px] sm:px-[18px] py-[10.667px] relative rounded-[2px] sm:rounded-[4px] shrink-0 hover:bg-slate-100 transition-colors cursor-pointer"
+          >
             <p className="font-display text-[12px] sm:text-[14px] font-semibold leading-none not-italic relative shrink-0 text-[#121212] whitespace-nowrap">
               Learn about our technology
             </p>
@@ -60,7 +64,7 @@ export default function Factory() {
                 />
               </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-[37.174px] sm:size-[50px] top-1/2">
           <Image
@@ -113,7 +117,10 @@ export default function Factory() {
               <p className="font-sans font-normal leading-normal relative shrink-0 text-[16px] text-white w-[531px]">
                 See how every Euler vehicle is built and tested.
               </p>
-              <div className="bg-[#f2f2f2] border-[0.5px] border-solid border-white content-stretch flex gap-[8px] h-[50px] items-center justify-center px-[24px] relative rounded-[4px] shrink-0">
+              <Link
+                href="/products"
+                className="bg-[#f2f2f2] border-[0.5px] border-solid border-white content-stretch flex gap-[8px] h-[50px] items-center justify-center px-[24px] relative rounded-[4px] shrink-0 hover:bg-white transition-colors cursor-pointer"
+              >
                 <p className="font-display text-[16px] font-semibold leading-none not-italic relative shrink-0 text-[#121212] whitespace-nowrap">
                   Learn about our technology
                 </p>
@@ -127,7 +134,7 @@ export default function Factory() {
                     />
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-[52px] top-1/2">
               <Image

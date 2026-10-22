@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
+import VehicleCompareModal from "./VehicleCompareModal";
 
 /** Desktop strips (Figma 1:1520 / 1:1552): 8 cards each — the second pass swaps
     the photo cards for icon variants. Photo crop = [left, top, width, height] %
@@ -62,6 +63,7 @@ const MARQUEE_PERIOD_MOBILE = 136 + 8;
 
 export default function CompareSection() {
   const [activeTab, setActiveTab] = useState(0);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const mobileFrameRef = useRef<HTMLDivElement>(null);
   const rightTracks = useRef<(HTMLDivElement | null)[]>([]);
@@ -217,7 +219,7 @@ export default function CompareSection() {
         />
 
         {/* Neo promo — (20, 459) 353×133, r8, p16, stacked centered (1:4771) */}
-        <div className="absolute left-1/2 top-[459px] z-10 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-[8px] p-4">
+        <div className="pointer-events-auto absolute left-1/2 top-[459px] z-20 flex w-[353px] max-w-[calc(100%-40px)] -translate-x-1/2 flex-col items-center gap-[14px] overflow-clip rounded-[8px] p-4">
           <div
             aria-hidden
             className="absolute inset-0"
@@ -248,7 +250,12 @@ export default function CompareSection() {
               Sirf 5 questions, 30 seconds. No phone number needed.
             </p>
           </div>
-          <Button variant="dark" arrow="white" className="relative">
+          <Button
+            variant="dark"
+            arrow="white"
+            className="relative pointer-events-auto cursor-pointer"
+            onClick={() => setIsCompareOpen(true)}
+          >
             Take the 30 second test
           </Button>
         </div>
@@ -372,7 +379,7 @@ export default function CompareSection() {
         {/* Neo promo — 722×91, r16, p20, gap 82 (Figma 1:1587: left-1/2
             -translate-x-1/2 at top 679 — the old fixed left-359px only
             centered at exactly 1440px and stuck right of center below it) */}
-        <div className="absolute left-1/2 top-[464.43px] flex h-[91px] w-[722px] -translate-x-1/2 items-center gap-[82px] overflow-clip rounded-[16px] p-5">
+        <div className="pointer-events-auto absolute left-1/2 top-[464.43px] z-20 flex h-[91px] w-[722px] -translate-x-1/2 items-center gap-[82px] overflow-clip rounded-[16px] p-5">
           <div
             aria-hidden
             className="absolute inset-0"
@@ -399,11 +406,22 @@ export default function CompareSection() {
               Sirf 5 questions, 30 seconds. No phone number needed.
             </p>
           </div>
-          <Button variant="dark" arrow="white" className="relative">
+          <Button
+            variant="dark"
+            arrow="white"
+            className="relative pointer-events-auto cursor-pointer"
+            onClick={() => setIsCompareOpen(true)}
+          >
             Take the 30 second test
           </Button>
         </div>
       </div>
+
+      {/* Compare Modal */}
+      <VehicleCompareModal
+        isOpen={isCompareOpen}
+        onClose={() => setIsCompareOpen(false)}
+      />
     </section>
   );
 }

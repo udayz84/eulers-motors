@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const asset = "/assets/charging-station-next-step/";
@@ -405,13 +406,13 @@ export default function ChargingStationNextStep() {
             />
             <span>Euler Motors may contact me about this enquiry.</span>
           </label>
-          <button
-            type="button"
-            className="flex h-[50.477px] w-fit items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 font-display text-[16px] font-semibold leading-none text-white"
+          <Link
+            href="/products"
+            className="flex h-[50.477px] w-fit items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 font-display text-[16px] font-semibold leading-none text-white hover:bg-black transition-colors"
           >
             Send enquiry
             <Image src={`${asset}arrow.svg`} alt="" width={22} height={14} aria-hidden="true" />
-          </button>
+          </Link>
         </form>
       </div>
 
@@ -549,8 +550,8 @@ export default function ChargingStationNextStep() {
               />
             </div>
             <div className="flex flex-col gap-3 items-center justify-center relative shrink-0 w-full">
-              <button
-                type="button"
+              <Link
+                href="/products"
                 className="bg-[#121212] cursor-pointer flex w-full gap-2 h-[44px] sm:h-[48px] items-center justify-center px-5 rounded-[4px] hover:bg-black transition-colors"
               >
                 <span className="font-display font-semibold text-[13px] sm:text-[14px] text-white whitespace-nowrap">
@@ -564,7 +565,7 @@ export default function ChargingStationNextStep() {
                     className="object-contain"
                   />
                 </div>
-              </button>
+              </Link>
               <p className="font-sans font-medium leading-normal text-[#121212] text-[11px] sm:text-[12px] text-center w-full">
                 We never share your number with anyone else. No spam calls.
               </p>
@@ -611,7 +612,10 @@ export default function ChargingStationNextStep() {
                 </p>
               </div>
             </div>
-            <div className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3">
+            <Link
+              href="/dealer-locator"
+              className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3 hover:bg-[#e9ebed] transition-colors"
+            >
               <div className="bg-[#0c2c66] relative rounded-[6px] sm:rounded-lg shrink-0 size-[42px] sm:size-[46px] flex items-center justify-center">
                 <div className="relative size-[18px]">
                   <Image
@@ -630,7 +634,7 @@ export default function ChargingStationNextStep() {
                   112 locations, 24 states
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

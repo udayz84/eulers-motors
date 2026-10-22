@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 
@@ -105,7 +106,7 @@ export default function EnterpriseDealer() {
                 keeps the button at its intrinsic ~208px width (1:1926) instead
                 of stretching to the 727px column */}
             <div className="hidden lg:flex lg:flex-col lg:gap-6">
-              <Button variant="white" arrow="ink" className="self-start text-ink">
+              <Button href="/products" variant="white" arrow="ink" className="self-start text-ink">
                 Talk to our team
               </Button>
               <div className="flex gap-[26px]">
@@ -131,7 +132,7 @@ export default function EnterpriseDealer() {
               ))}
             </ul>
             <div className="lg:hidden">
-              <Button variant="white" arrow="ink" className="w-full text-ink">
+              <Button href="/products" variant="white" arrow="ink" className="w-full text-ink">
                 Talk to our team
               </Button>
             </div>
@@ -178,13 +179,19 @@ export default function EnterpriseDealer() {
               We manage showroom setup and training.
             </p>
             <div className="mt-3 flex gap-3 lg:mt-5">
-              <span className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-ink/50 bg-surface px-5 font-display text-[12px] font-semibold leading-none text-ink lg:h-[42px] lg:border-white/50 lg:bg-surface/50 lg:px-6 lg:text-[14px] lg:backdrop-blur-[10px]">
+              <Link
+                href="/products"
+                className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-ink/50 bg-surface px-5 font-display text-[12px] font-semibold leading-none text-ink lg:h-[42px] lg:border-white/50 lg:bg-surface/50 lg:px-6 lg:text-[14px] lg:backdrop-blur-[10px] hover:bg-white/80 transition-colors"
+              >
                 Download details
-              </span>
-              <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6 lg:text-[14px]">
+              </Link>
+              <Link
+                href="/products"
+                className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6 lg:text-[14px] hover:bg-black transition-colors"
+              >
                 Apply now
                 <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3 w-[18.857px] lg:h-3.5 lg:w-[22px]" />
-              </span>
+              </Link>
             </div>
           </div>
         </div>

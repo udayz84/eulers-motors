@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /**
  * Hiring/Join the journey section (Figma desktop: 3538:20555, mobile: 2937:16069).
@@ -49,7 +50,10 @@ export default function Hiring() {
             Either way, the same question applies. Does the work help somebody
             earn more than they did yesterday?
           </p>
-          <div className="relative flex h-[42px] sm:h-[48px] shrink-0 items-center justify-center gap-[5.333px] sm:gap-2 rounded-[2px] sm:rounded-[4px] bg-white px-[12px] sm:px-[18px] py-[10.667px]">
+          <Link
+            href="/products"
+            className="relative flex h-[42px] sm:h-[48px] shrink-0 items-center justify-center gap-[5.333px] sm:gap-2 rounded-[2px] sm:rounded-[4px] bg-white px-[12px] sm:px-[18px] py-[10.667px] hover:bg-slate-100 transition-colors cursor-pointer"
+          >
             <p className="relative shrink-0 font-display text-[12px] sm:text-[14px] font-semibold not-italic leading-none text-[#121212] whitespace-nowrap">
               View Job openings
             </p>
@@ -63,7 +67,7 @@ export default function Hiring() {
                 />
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -107,7 +111,10 @@ export default function Hiring() {
             Either way, the same question applies. Does the work help somebody
             earn more than they did yesterday?
           </p>
-          <div className="relative flex h-[50px] shrink-0 items-center justify-center gap-[8px] rounded-[4px] border-[0.5px] border-solid border-white bg-[#f2f2f2] px-[24px]">
+          <Link
+            href="/products"
+            className="relative flex h-[50px] shrink-0 items-center justify-center gap-[8px] rounded-[4px] border-[0.5px] border-solid border-white bg-[#f2f2f2] px-[24px] hover:bg-white transition-colors cursor-pointer"
+          >
             <p className="relative shrink-0 font-display text-[16px] font-semibold not-italic leading-none text-[#121212] whitespace-nowrap">
               View Job openings
             </p>
@@ -121,7 +128,7 @@ export default function Hiring() {
                 />
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

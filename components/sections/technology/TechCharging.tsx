@@ -256,7 +256,7 @@ export default function TechCharging() {
             </div>
             <div className="flex h-[50px] items-center gap-[119px] rounded-[8px] bg-white py-1 pl-3 pr-1">
               <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">How it works</span>
-              <a href="#technology-app" className="flex h-[42px] items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-5 font-display text-[16px] font-bold leading-none text-ink">
+              <a href="/products" className="flex h-[42px] items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-5 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors">
                 Find it on the app
               </a>
             </div>

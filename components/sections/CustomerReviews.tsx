@@ -44,11 +44,23 @@ export default function CustomerReviews() {
     const tick = () => {
       const duplicate = row.querySelector<HTMLElement>("[data-review-copy='true']");
       const first = row.querySelector<HTMLElement>("[data-review-index='0']");
-      if (!reducedMotion && visibleRef.current && duplicate && first) {
+      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current && duplicate && first) {
         const loopDistance = duplicate.offsetLeft - first.offsetLeft;
         if (loopDistance > 0) {
-          offset = (offset + 0.35) % loopDistance;
+          if (row.scrollLeft !== 0) {
+            offset = (offset + row.scrollLeft + loopDistance * 10) % loopDistance;
+            row.scrollLeft = 0;
+          }
+
+          offset = (offset + 0.6) % loopDistance;
           track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+
+          const cardStep = loopDistance / STORY_IMAGES.length;
+          const currentIdx = Math.min(
+            STORY_IMAGES.length - 1,
+            Math.floor((offset + cardStep * 0.25) / cardStep) % STORY_IMAGES.length
+          );
+          setActiveIndex((prev) => (prev !== currentIdx ? currentIdx : prev));
         }
       }
       frame = window.requestAnimationFrame(tick);
@@ -116,7 +128,13 @@ export default function CustomerReviews() {
           (the offset lives on a wrapper: padding on the snap scroller itself gets
           consumed as initial scroll by the browser) */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
-        <div className="relative" onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction}>
+        <div
+          className="relative"
+          onMouseEnter={pauseForInteraction}
+          onMouseLeave={resumeAfterInteraction}
+          onPointerDown={pauseForInteraction}
+          onPointerUp={resumeAfterInteraction}
+        >
           <div id="reviews-snap-row" ref={scrollRef} onScroll={handleScroll} onPointerDown={pauseForInteraction} onPointerUp={resumeAfterInteraction} onPointerCancel={resumeAfterInteraction} onWheel={pauseForInteraction} className="snap-row snap-center-mobile gap-[13px] lg:gap-6" style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}>
           {/* Spacers for alignment — they mirror the header row's left edge so
               the first card starts under the heading. Desktop: centered

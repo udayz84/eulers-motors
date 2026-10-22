@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Arrow from "../ui/Arrow";
 import Eyebrow from "../ui/Eyebrow";
+import VehicleCompareModal from "./VehicleCompareModal";
 
 export type VehicleData = {
   id: string;
@@ -78,6 +80,7 @@ const VEHICLES: VehicleData[] = [
  */
 export default function ProductShowcase() {
   const [active, setActive] = useState(1); // Default to "Strom EV LR 200"
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
   const scrollAccumulator = useRef(0);
 
   const handlePrev = useCallback(() => {
@@ -405,6 +408,7 @@ export default function ProductShowcase() {
           <div className="flex w-full items-center gap-3 self-stretch lg:w-auto lg:self-end">
             <button
               type="button"
+              onClick={() => setIsCompareOpen(true)}
               className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] border border-ink/50 bg-[#F3F4F5] px-6 font-display text-[16px] font-semibold leading-none text-ink transition-all cursor-pointer hover:bg-white lg:h-[50px]"
             >
               <Image
@@ -419,16 +423,23 @@ export default function ProductShowcase() {
                 Compare
               </span>
             </button>
-            <button
-              type="button"
+            <Link
+              href="/products"
               className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] bg-ink px-6 font-display text-[16px] font-semibold leading-none text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all cursor-pointer hover:bg-black lg:h-[50px]"
             >
               <span className="whitespace-nowrap">View Variants</span>
               <Arrow color="white" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Compare Modal */}
+      <VehicleCompareModal
+        isOpen={isCompareOpen}
+        onClose={() => setIsCompareOpen(false)}
+        initialVehicleIndex={active}
+      />
     </section>
   );
 }
