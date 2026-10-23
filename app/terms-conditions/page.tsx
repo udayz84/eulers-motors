@@ -135,14 +135,14 @@ export default function TermsConditionsPage() {
         <section className="mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-[24px] bg-white p-[32px] sm:w-full sm:gap-8 lg:w-full lg:max-w-[1440px] lg:items-stretch lg:justify-start lg:gap-[40px] lg:px-[200px] lg:pb-[62px] lg:pt-16" aria-labelledby="terms-title">
           <div className="w-full px-0 text-[12px] leading-[1.4] text-ink sm:text-[16px] sm:leading-[1.5] lg:px-0 lg:w-[1040px] lg:h-[275px] lg:text-[18px] lg:leading-[1.4]">
             <p>Last updated: <strong>October 22, 2021</strong></p>
-            <p className="mt-6">
+            <p className="mt-5 sm:mt-6">
               These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.
             </p>
-            <p className="mt-6">
+            <p className="mt-5 sm:mt-6">
               By accessing or using our Platform and/or booking Vehicles through the Platform, you understand and agree to be bound by these Terms. The Terms, Privacy Policy, Purchase Terms (as defined hereinafter) shall be collectively referred to as &quot;Euler Motors Policies&quot;, including any modifications or amendments made thereto by Euler Motors from time to time, at its sole discretion.
             </p>
           </div>
-          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-[10px] self-center sm:w-full sm:max-w-full sm:self-stretch lg:mt-[40px] lg:flex lg:w-full lg:max-w-full lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
+          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-[10px] self-center sm:w-full sm:max-w-full sm:self-stretch lg:flex lg:w-full lg:max-w-full lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
             {SECTIONS.map((title) => (
               <TermsSection
                 key={title}
