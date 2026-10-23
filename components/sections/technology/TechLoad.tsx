@@ -65,7 +65,7 @@ export default function TechLoad() {
 
       <div className="mx-auto flex w-full max-w-[393px] flex-col items-center justify-center gap-6 px-5 py-[35px] lg:hidden">
         <div className="relative -mx-5 w-[calc(100%+40px)]">
-        <div id="load-carousel-mobile" className="snap-row gap-3 px-5">
+        <div id="load-carousel-mobile" className="snap-row snap-center-mobile gap-3 px-5">
           <MobileLoadCard variant="load" />
           <MobileLoadCard variant="payload" />
           <MobileLoadCard variant="load" />
