@@ -17,8 +17,9 @@ const PROOF_BACKGROUND =
 export default function TechProof() {
   return (
     <section className="relative overflow-clip bg-[#041231]" style={{ background: PROOF_BACKGROUND }} aria-label="Proof">
+      {/* Desktop & Tablet view */}
       <div
-        className="relative mx-auto hidden h-[359px] w-full max-w-[1440px] overflow-clip lg:block"
+        className="relative mx-auto hidden h-[340px] w-full max-w-[1440px] overflow-clip md:block lg:h-[359px]"
         style={{ background: "transparent" }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -29,30 +30,30 @@ export default function TechProof() {
             <img src={`${A}/proof-glow.svg`} alt="" width="2899.52" height="906.379" className="absolute left-0 top-0 max-w-none" />
           </div>
         </div>
-        <div className="absolute left-1/2 top-[50.53px] flex w-[414.434px] -translate-x-1/2 flex-col items-center justify-center gap-4">
+        <div className="absolute left-1/2 top-[40px] flex max-w-[480px] -translate-x-1/2 flex-col items-center justify-center gap-3 md:top-[44px] lg:top-[50.53px] lg:gap-4">
           <div className="relative flex items-center gap-[6px]">
             <img src={`${A}/proof-mark.svg`} alt="" width="146.405" height="20.3555" className="absolute left-[3.43px] top-0 max-w-none" />
             <img src={`${A}/proof-mark-small.svg`} alt="" width="18.2171" height="20.3555" className="relative max-w-none" />
             <span className="relative whitespace-nowrap font-sans text-[14px] font-bold uppercase tracking-[0.7px] text-white">Proof</span>
           </div>
-          <h2 className="whitespace-nowrap font-display text-[42px] font-semibold leading-[normal] tracking-[-0.84px] text-white">
+          <h2 className="whitespace-nowrap font-display text-[30px] font-semibold leading-[normal] tracking-[-0.6px] text-white md:text-[36px] md:tracking-[-0.72px] lg:text-[42px] lg:tracking-[-0.84px]">
             Why businesses trust Euler.
           </h2>
         </div>
-        <div className="absolute left-1/2 top-[177.88px] flex w-[1322px] -translate-x-1/2 items-center gap-6">
+        <div className="absolute inset-x-6 top-[150px] mx-auto flex max-w-[1322px] items-center gap-3 md:inset-x-10 md:top-[160px] md:gap-4 lg:inset-x-20 lg:top-[177.88px] lg:gap-6">
           {STATS.map((stat, i) => (
             <Fragment key={stat.label}>
-              <div className="flex h-[167px] flex-1 flex-col items-center justify-center gap-5 overflow-clip rounded-3xl px-[2px] py-8">
-                <p className="whitespace-nowrap text-center font-display text-[44.167px] font-semibold leading-[1.15] tracking-[-0.8833px] text-white">
+              <div className="flex h-[150px] flex-1 flex-col items-center justify-center gap-3 overflow-clip rounded-3xl px-[2px] py-4 md:h-[167px] md:gap-5 md:py-8">
+                <p className="whitespace-nowrap text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white md:text-[38px] md:tracking-[-0.76px] lg:text-[44.167px] lg:tracking-[-0.8833px]">
                   {stat.num}{stat.suffix === "%" ? "%" : stat.suffix === "+" ? "+" : ""}
-                  {stat.suffix === "M" && <span className="font-sans text-[22px] font-bold"> M</span>}
+                  {stat.suffix === "M" && <span className="font-sans text-[18px] font-bold md:text-[22px]"> M</span>}
                 </p>
-                <p className="w-full text-center font-sans text-[22px] font-bold leading-normal text-white">
+                <p className="w-full text-center font-sans text-[15px] font-bold leading-normal text-white md:text-[18px] lg:text-[22px]">
                   {stat.label}
                 </p>
               </div>
               {i < STATS.length - 1 && (
-                <span aria-hidden="true" className="flex h-[62px] w-0 shrink-0 items-center justify-center">
+                <span aria-hidden="true" className="flex h-[50px] w-0 shrink-0 items-center justify-center md:h-[62px]">
                   <img src={`${A}/proof-divider.svg`} alt="" width="62" height="1" className="h-px w-[62px] max-w-none rotate-90" />
                 </span>
               )}
@@ -60,7 +61,7 @@ export default function TechProof() {
           ))}
         </div>
       </div>
-      <div className="relative mx-auto h-[396px] w-full max-w-[393px] overflow-clip lg:hidden">
+      <div className="relative mx-auto h-[396px] w-full max-w-[480px] overflow-clip md:hidden">
         <div className="absolute right-[-384.58px] top-[46.58px] size-[723.542px]">
           <img src={`${A}/proof__imgFrame1618873618.svg`} alt="" className="absolute inset-[-1.73%] size-full max-w-none" />
         </div>

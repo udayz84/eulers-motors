@@ -275,6 +275,21 @@ button {
   animation: fadeIn 0.25s ease-out forwards;
 }
 
+@keyframes slideUpClean {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUpClean {
+  animation: slideUpClean 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* CompareSection card strips — seamless leftward loop. The track renders two
    identical card sets in one flex row; one period = one set + one gap, i.e.
    exactly half the track width plus half the flex gap (a bare -50% is short

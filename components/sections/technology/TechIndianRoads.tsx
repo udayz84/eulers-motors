@@ -207,16 +207,16 @@ export default function TechIndianRoads() {
 
   return (
     <section className="overflow-x-clip bg-[#d4dbec]" aria-label="Built for Indian roads">
-      {/* Desktop view */}
-      <div className="mx-auto hidden w-full max-w-none flex-col items-center justify-center gap-9 px-0 py-[42px] lg:flex">
-        <div className="flex w-full flex-col items-center gap-6">
-          <div className="flex w-[700px] flex-col items-center gap-4">
+      {/* Desktop & Tablet view */}
+      <div className="mx-auto hidden w-full max-w-none flex-col items-center justify-center gap-7 px-0 py-8 md:flex md:gap-8 lg:gap-9 lg:py-[42px]">
+        <div className="flex w-full flex-col items-center gap-4 md:gap-6">
+          <div className="flex max-w-[700px] flex-col items-center gap-3 md:gap-4">
             <Eyebrow label="Built for here" />
-            <h2 className="whitespace-nowrap text-center font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink">
+            <h2 className="text-center font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink sm:text-[38px] md:text-[44px] md:tracking-[-0.88px] lg:text-[52px] lg:tracking-[-1.04px]">
               Built for Indian roads.
             </h2>
           </div>
-          <p className="w-[700px] text-center font-sans text-[16px] leading-normal text-ink">
+          <p className="max-w-[700px] px-5 text-center font-sans text-[14px] leading-normal text-ink md:text-[15px] lg:text-[16px]">
             From busy city streets to uneven roads and heavy loads, every detail is built to perform.
           </p>
         </div>
@@ -330,7 +330,7 @@ export default function TechIndianRoads() {
       </div>
 
       {/* Mobile view */}
-      <div className="mx-auto flex w-full max-w-[393px] flex-col items-center justify-center gap-8 px-5 py-[42px] lg:hidden">
+      <div className="mx-auto flex w-full max-w-[480px] flex-col items-center justify-center gap-8 px-5 py-[42px] md:hidden">
         <div className="flex w-full flex-col items-start gap-[14px]">
           <Eyebrow label="Built for here" />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink">

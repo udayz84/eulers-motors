@@ -2,15 +2,86 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import Eyebrow from "../ui/Eyebrow";
 
-const POSTS = [
-  { imgs: ["/assets/social/post-c.png"], user: "variant-a" },
-  { imgs: ["/assets/social/post-d.png"], user: "variant-a" },
-  { imgs: ["/assets/social/post-e.png"], user: "variant-a" },
-  { imgs: ["/assets/social/post-b.jpg"], user: "variant-a" },
-  { imgs: ["/assets/social/post-a.jpg"], user: "variant-b" },
+interface SocialPost {
+  id: string;
+  img: string;
+  duration: string;
+  author: {
+    name?: string;
+    handle: string;
+    avatar?: string;
+    isOfficial?: boolean;
+  };
+  likes: string;
+  timeAgo: string;
+  linkTheme?: "dark" | "frosted";
+}
+
+const POSTS: readonly SocialPost[] = [
+  {
+    id: "post-1",
+    img: "/assets/social/post-c.png",
+    duration: "02:14",
+    author: {
+      handle: "@eulermotors",
+      isOfficial: true,
+    },
+    likes: "4,820 likes",
+    timeAgo: "1 day ago",
+    linkTheme: "frosted",
+  },
+  {
+    id: "post-2",
+    img: "/assets/social/post-d.png",
+    duration: "01:48",
+    author: {
+      handle: "@eulermotors_drivers",
+      isOfficial: true,
+    },
+    likes: "3,150 likes",
+    timeAgo: "3 days ago",
+    linkTheme: "frosted",
+  },
+  {
+    id: "post-3",
+    img: "/assets/social/post-e.png",
+    duration: "00:58",
+    author: {
+      handle: "@eulermotors",
+      isOfficial: true,
+    },
+    likes: "9,480 likes",
+    timeAgo: "5 days ago",
+    linkTheme: "frosted",
+  },
+  {
+    id: "post-4",
+    img: "/assets/social/post-b.jpg",
+    duration: "02:45",
+    author: {
+      handle: "@eulermotors_fleet",
+      isOfficial: true,
+    },
+    likes: "6,240 likes",
+    timeAgo: "1 week ago",
+    linkTheme: "frosted",
+  },
+  {
+    id: "post-5",
+    img: "/assets/social/post-a.jpg",
+    duration: "02:55",
+    author: {
+      name: "Arjun Nair",
+      handle: "@arjunnair_fleet",
+      avatar: "/assets/social/avatar.png",
+      isOfficial: false,
+    },
+    likes: "2,890 likes",
+    timeAgo: "2 weeks ago",
+    linkTheme: "dark",
+  },
 ] as const;
 
 /**
@@ -205,7 +276,7 @@ export default function SocialWall() {
                     className="relative h-[400px] w-[300px] shrink-0 overflow-clip rounded-2xl lg:h-[519.574px] lg:w-[390px] lg:rounded-[20.442px]"
                   >
                     <Image
-                      src={post.imgs[0]}
+                      src={post.img}
                       alt="Euler trucks in action"
                       fill
                       sizes="400px"
@@ -232,7 +303,7 @@ export default function SocialWall() {
                     {/* time chip */}
                     <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
                       <span className="text-[12px] font-semibold leading-none text-black lg:text-[14px]">
-                        {last ? "02:55" : "02:32"}
+                        {post.duration}
                       </span>
                     </div>
 
@@ -251,29 +322,53 @@ export default function SocialWall() {
                       />
                     </button>
 
-                    {/* post info panel — Figma mobile (1:5068 bitmap): frosted
-                        glass with a white veil graduating lighter toward the
-                        bottom, strengthened per review (white/12 → white/38) */}
+                    {/* post info panel — frosted glass with white veil */}
                     <div className="absolute inset-x-[13.5px] bottom-3 rounded-[8px] bg-gradient-to-b from-white/[0.12] to-white/[0.38] p-[8px] backdrop-blur-[8px] lg:inset-x-4 lg:bottom-4 lg:rounded-[18px] lg:border lg:border-white/20 lg:p-4 lg:bg-none lg:bg-white/20 lg:backdrop-blur-[12px]">
-                      {last ? (
-                        <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
-                          <div className="flex items-center gap-[5.5px] lg:gap-[8.9px]">
+                      <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
+                        {/* Author row */}
+                        <div className="flex w-[190px] items-center gap-[5.5px] lg:w-auto lg:gap-[8.9px]">
+                          {post.author.isOfficial ? (
+                            <span className="flex size-[18px] shrink-0 items-center justify-center rounded-[37px] bg-black lg:size-6 lg:rounded-full">
+                              <Image
+                                src="/assets/social/logo-small.svg"
+                                alt=""
+                                width={17}
+                                height={3}
+                                aria-hidden
+                                className="h-[1.7px] w-[10.4px] lg:h-[2.8px] lg:w-[16.9px]"
+                              />
+                            </span>
+                          ) : post.author.avatar ? (
                             <Image
-                              src="/assets/social/avatar.png"
+                              src={post.author.avatar}
                               alt=""
                               width={20}
                               height={20}
                               className="size-[18px] rounded-[37px] lg:size-[20.4px] lg:rounded-full"
                             />
-                            <span className="text-[12px] text-white lg:text-[15.3px]">Arjun Nair</span>
-                          </div>
-                          <div className="flex items-center gap-[7.9px] lg:gap-[12.8px]">
-                            <span className="text-[12px] font-bold text-white lg:text-[12.8px]">2,412 likes</span>
-                            <span aria-hidden className="size-[3.1px] rounded-full bg-white/50 lg:size-[5.1px]" />
-                            <span className="text-[12px] font-bold text-white lg:text-[12.8px]">2 days ago</span>
-                          </div>
-                          <Link
-                            href="/products"
+                          ) : null}
+                          <span className="truncate text-[12px] font-medium text-white lg:text-[15.3px]">
+                            {post.author.name || post.author.handle}
+                          </span>
+                        </div>
+
+                        {/* Stats row */}
+                        <div className="flex items-center gap-[7.9px] lg:gap-[12.8px]">
+                          <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
+                            {post.likes}
+                          </span>
+                          <span aria-hidden className="size-[3.1px] rounded-full bg-white/50 lg:size-[5.1px]" />
+                          <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
+                            {post.timeAgo}
+                          </span>
+                        </div>
+
+                        {/* CTA button */}
+                        {post.linkTheme === "dark" ? (
+                          <a
+                            href="https://www.instagram.com/eulermotors/"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex h-[28px] w-fit self-start items-center justify-center gap-[7.4px] rounded-[8.6px] bg-ink px-[7.4px] lg:h-[40.9px] lg:gap-[10.2px] lg:rounded-[10.2px] lg:px-[15.3px] hover:bg-black transition-colors"
                           >
                             <span className="font-display text-[10px] font-semibold text-white lg:text-[15.3px]">
@@ -287,40 +382,20 @@ export default function SocialWall() {
                               aria-hidden
                               className="h-[9.3px] w-[14.5px] lg:h-[12.8px] lg:w-[20px]"
                             />
-                          </Link>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
-                          <div className="flex w-[190px] items-center gap-[5.5px] lg:w-auto lg:gap-[8.9px]">
-                            <span className="flex size-[18px] shrink-0 items-center justify-center rounded-[37px] bg-black lg:size-6 lg:rounded-full">
-                              <Image
-                                src="/assets/social/logo-small.svg"
-                                alt=""
-                                width={17}
-                                height={3}
-                                aria-hidden
-                                className="h-[1.7px] w-[10.4px] lg:h-[2.8px] lg:w-[16.9px]"
-                              />
-                            </span>
-                            <span className="truncate text-[12px] text-white lg:text-[15.332px]">
-                              @eulermotors_retroautomobiles
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-[7.9px] lg:gap-[12.8px]">
-                            <span className="text-[12px] font-bold text-white lg:text-[12.8px]">2,412 likes</span>
-                            <span aria-hidden className="size-[3.1px] rounded-full bg-white/50 lg:size-[5.1px]" />
-                            <span className="text-[12px] font-bold text-white lg:text-[12.8px]">2 days ago</span>
-                          </div>
-                          <Link
-                            href="/products"
+                          </a>
+                        ) : (
+                          <a
+                            href="https://www.instagram.com/eulermotors/"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex h-[28px] w-fit self-start items-center justify-center rounded-[8.6px] border border-white/50 bg-[rgba(243,244,245,0.2)] px-[7.4px] backdrop-blur-[6.16px] lg:h-9 lg:rounded-[14px] lg:border-white/50 lg:bg-surface/20 lg:px-3 lg:backdrop-blur-[10px] hover:bg-white/30 transition-colors"
                           >
                             <span className="font-display text-[10px] font-semibold text-white lg:text-[14px]">
                               View on Instagram
                             </span>
-                          </Link>
-                        </div>
-                      )}
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </article>
                 );
