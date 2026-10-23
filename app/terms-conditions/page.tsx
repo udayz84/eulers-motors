@@ -59,7 +59,7 @@ const ANSWERS: Record<(typeof SECTIONS)[number], string> = {
 function TermsHero() {
   return (
     <section
-      className="relative h-[272px] overflow-visible bg-[linear-gradient(-87.60965884151304deg,#0e2f6d_63.511%,#1d6fff_87.226%)] text-white lg:h-[420px]"
+      className="relative h-[272px] overflow-visible bg-[linear-gradient(-87.60965884151304deg,#0e2f6d_63.511%,#1d6fff_87.226%)] text-white sm:h-[340px] lg:h-[420px]"
       style={{
         backgroundColor: "#1d6fff",
         backgroundImage:
@@ -69,7 +69,7 @@ function TermsHero() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden opacity-[0.12] lg:block"
+        className="pointer-events-none absolute inset-0 hidden opacity-[0.12] sm:block"
         style={{
           backgroundImage: "url('/assets/dealer-locator-hero/desktop-texture.png')",
           backgroundPosition: "left top",
@@ -77,7 +77,7 @@ function TermsHero() {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.12] lg:hidden" aria-hidden>
+      <div className="pointer-events-none absolute inset-0 opacity-[0.12] sm:hidden" aria-hidden>
         <Image
           src="/assets/dealer-locator-hero/mobile-texture.png"
           alt=""
@@ -86,37 +86,37 @@ function TermsHero() {
           className="object-fill object-bottom"
         />
       </div>
-      <div className="absolute left-1/2 top-[119.99px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 whitespace-nowrap text-center lg:top-[calc(50%+30px)] lg:-translate-y-1/2 lg:gap-6">
+      <div className="absolute left-1/2 top-[119.99px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 whitespace-nowrap text-center sm:top-[calc(50%+20px)] sm:-translate-y-1/2 sm:gap-5 lg:top-[calc(50%+30px)] lg:-translate-y-1/2 lg:gap-6">
         <div className="relative flex items-center gap-1 lg:gap-1.5">
           <Image src="/assets/products/badge-line-white.svg" alt="" width={117} height={16} aria-hidden className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]" />
           <Image src="/assets/products/badge-cap-white.svg" alt="" width={14.794} height={16} aria-hidden className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]" />
-          <span className="relative whitespace-nowrap text-[12px] font-bold uppercase leading-normal tracking-[0.6px] lg:text-[14px] lg:leading-none lg:tracking-[0.7px]">Terms &amp; Conditions</span>
+          <span className="relative whitespace-nowrap text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:text-[14px] lg:leading-none lg:tracking-[0.7px]">Terms &amp; Conditions</span>
         </div>
-        <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] lg:w-[788px] lg:text-[52px] lg:tracking-[-1.04px]">Terms of Use</h1>
-        <p className="whitespace-nowrap text-[12px] leading-normal lg:w-[493px] lg:text-[16px]">Please read these terms carefully before using our services.</p>
+        <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] sm:text-[40px] sm:tracking-[-0.8px] lg:w-[788px] lg:text-[52px] lg:tracking-[-1.04px]">Terms of Use</h1>
+        <p className="whitespace-nowrap text-[12px] leading-normal sm:text-[14px] lg:w-[493px] lg:text-[16px]">Please read these terms carefully before using our services.</p>
       </div>
-      <FloatingWidget mobileClassName="top-[545px]" desktopClassName="lg:top-[400px]" />
+      <FloatingWidget mobileClassName="top-[545px] sm:top-auto sm:bottom-6" desktopClassName="lg:top-[400px]" />
     </section>
   );
 }
 
 function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[number]; expanded: boolean; onToggle: () => void }) {
   return (
-    <div className={`overflow-hidden rounded-[16px] bg-[#f3f4f5] lg:flex lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch ${expanded ? "" : "lg:h-[70px]"}`}>
+    <div className="overflow-hidden rounded-[16px] bg-[#f3f4f5] lg:flex lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
       <button
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex min-h-[64px] w-full items-center gap-2.5 px-3 py-[21px] text-left lg:flex lg:h-[70px] lg:w-full lg:items-center lg:gap-[20px] lg:self-stretch lg:p-[32px] lg:py-0"
+        className="flex min-h-[64px] w-full items-center gap-2.5 px-3 py-[21px] text-left sm:min-h-[70px] sm:px-6 sm:py-[23px] lg:flex lg:h-[70px] lg:w-full lg:items-center lg:gap-[20px] lg:self-stretch lg:p-[32px] lg:py-0"
       >
-        <span className="flex-1 text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] lg:text-[20px] lg:tracking-[-0.4px]">{title}</span>
+        <span className="flex-1 text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] sm:text-[18px] sm:tracking-[-0.36px] lg:text-[20px] lg:tracking-[-0.4px]">{title}</span>
         <span aria-hidden className="relative size-6 shrink-0">
           <span className="absolute left-[5px] right-[5px] top-1/2 h-px -translate-y-1/2 bg-ink" />
           <span className={`absolute bottom-[5px] top-[5px] left-1/2 w-px -translate-x-1/2 bg-ink transition-transform ${expanded ? "scale-y-0" : ""}`} />
         </span>
       </button>
       {expanded && (
-        <p className="px-3 pb-5 text-[12px] leading-[1.4] text-[#5c6675] lg:px-[32px] lg:pb-[32px] lg:pt-0 lg:text-[16px]">
+        <p className="px-3 pb-5 text-[12px] leading-[1.4] text-[#5c6675] sm:px-6 sm:pb-6 sm:text-[15px] lg:px-[32px] lg:pb-[32px] lg:pt-[20px] lg:text-[16px]">
           {ANSWERS[title]}
         </p>
       )}
@@ -132,8 +132,8 @@ export default function TermsConditionsPage() {
       <Navbar />
       <main>
         <TermsHero />
-        <section className="mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-[24px] bg-white p-[32px] lg:w-full lg:max-w-[1440px] lg:items-stretch lg:justify-start lg:gap-[40px] lg:px-[200px] lg:pb-[62px] lg:pt-16" aria-labelledby="terms-title">
-          <div className="w-full px-0 text-[12px] leading-[1.4] text-ink lg:px-0 lg:w-[1040px] lg:h-[275px] lg:text-[18px]">
+        <section className="mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-[24px] bg-white p-[32px] sm:w-full sm:gap-8 lg:w-full lg:max-w-[1440px] lg:items-stretch lg:justify-start lg:gap-[40px] lg:px-[200px] lg:pb-[62px] lg:pt-16" aria-labelledby="terms-title">
+          <div className="w-full px-0 text-[12px] leading-[1.4] text-ink sm:text-[16px] sm:leading-[1.5] lg:px-0 lg:w-[1040px] lg:h-[275px] lg:text-[18px] lg:leading-[1.4]">
             <p>Last updated: <strong>October 22, 2021</strong></p>
             <p className="mt-6">
               These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.
@@ -142,7 +142,7 @@ export default function TermsConditionsPage() {
               By accessing or using our Platform and/or booking Vehicles through the Platform, you understand and agree to be bound by these Terms. The Terms, Privacy Policy, Purchase Terms (as defined hereinafter) shall be collectively referred to as &quot;Euler Motors Policies&quot;, including any modifications or amendments made thereto by Euler Motors from time to time, at its sole discretion.
             </p>
           </div>
-          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-[10px] self-center lg:mt-[40px] lg:flex lg:w-full lg:max-w-full lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
+          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-[10px] self-center sm:w-full sm:max-w-full sm:self-stretch lg:mt-[40px] lg:flex lg:w-full lg:max-w-full lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
             {SECTIONS.map((title) => (
               <TermsSection
                 key={title}
