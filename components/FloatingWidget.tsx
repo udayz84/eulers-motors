@@ -25,11 +25,14 @@ const ACTIONS = [
 export default function FloatingWidget({
   mobileOnly = false,
   boundary = false,
+  inset = false,
   mobileClassName,
   desktopClassName,
 }: {
   mobileOnly?: boolean;
   boundary?: boolean;
+  /** Keeps the rail inside the viewport instead of using the design's cropped edge treatment. */
+  inset?: boolean;
   /** Mobile-only vertical placement override; desktop keeps the lg: position. */
   mobileClassName?: string;
   /** Desktop-only placement override for page-specific hero alignment. */
@@ -46,8 +49,9 @@ export default function FloatingWidget({
   // parent (the hero/next-section seam) instead of the vertical middle.
   const mobilePos =
     mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
+  const edgePosition = inset ? "lg:right-0" : "right-[-8px] lg:right-[-30px]";
   return (
-    <div className={`group/floating-widget absolute right-[-20px] z-40 ${mobilePos} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
+    <div className={`group/floating-widget absolute z-40 ${edgePosition} ${mobilePos} ${desktopClassName ? "" : "lg:top-1/2"} lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
       <div className="relative flex items-end gap-[19px]">
         {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
         <div
