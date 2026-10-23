@@ -95,19 +95,19 @@ function TermsHero() {
         <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] lg:w-[788px] lg:text-[52px] lg:tracking-[-1.04px]">Terms of Use</h1>
         <p className="whitespace-nowrap text-[12px] leading-normal lg:w-[493px] lg:text-[16px]">Please read these terms carefully before using our services.</p>
       </div>
-      <FloatingWidget mobileClassName="left-[calc(33.33%+36.53px)] top-[506.33px] right-auto" desktopClassName="lg:right-0 lg:top-[400px]" />
+      <FloatingWidget mobileClassName="top-[545px]" desktopClassName="lg:top-[400px]" />
     </section>
   );
 }
 
 function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[number]; expanded: boolean; onToggle: () => void }) {
   return (
-    <div className="overflow-hidden rounded-[16px] bg-[#f3f4f5]">
+    <div className={`overflow-hidden rounded-[16px] bg-[#f3f4f5] lg:flex lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch ${expanded ? "" : "lg:h-[70px]"}`}>
       <button
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex min-h-[64px] w-full items-center gap-2.5 px-3 py-[21px] text-left lg:h-[70px] lg:gap-5 lg:px-8 lg:py-0"
+        className="flex min-h-[64px] w-full items-center gap-2.5 px-3 py-[21px] text-left lg:flex lg:h-[70px] lg:w-full lg:items-center lg:gap-[20px] lg:self-stretch lg:p-[32px] lg:py-0"
       >
         <span className="flex-1 text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] lg:text-[20px] lg:tracking-[-0.4px]">{title}</span>
         <span aria-hidden className="relative size-6 shrink-0">
@@ -116,7 +116,7 @@ function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[
         </span>
       </button>
       {expanded && (
-        <p className="px-3 pb-5 text-[12px] leading-[1.4] text-[#5c6675] lg:px-8 lg:pb-6 lg:text-[16px]">
+        <p className="px-3 pb-5 text-[12px] leading-[1.4] text-[#5c6675] lg:px-[32px] lg:pb-[32px] lg:pt-0 lg:text-[16px]">
           {ANSWERS[title]}
         </p>
       )}
@@ -132,8 +132,8 @@ export default function TermsConditionsPage() {
       <Navbar />
       <main>
         <TermsHero />
-        <section className="mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-[24px] bg-white p-[32px] lg:w-full lg:max-w-[1440px] lg:items-stretch lg:justify-start lg:gap-10 lg:px-[200px] lg:pb-[62px] lg:pt-16" aria-labelledby="terms-title">
-          <div className="w-full px-0 text-[12px] leading-[1.4] text-ink lg:px-0 lg:text-[18px]">
+        <section className="mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-[24px] bg-white p-[32px] lg:w-full lg:max-w-[1440px] lg:items-stretch lg:justify-start lg:gap-[40px] lg:px-[200px] lg:pb-[62px] lg:pt-16" aria-labelledby="terms-title">
+          <div className="w-full px-0 text-[12px] leading-[1.4] text-ink lg:px-0 lg:w-[1040px] lg:h-[275px] lg:text-[18px]">
             <p>Last updated: <strong>October 22, 2021</strong></p>
             <p className="mt-6">
               These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.
@@ -142,7 +142,7 @@ export default function TermsConditionsPage() {
               By accessing or using our Platform and/or booking Vehicles through the Platform, you understand and agree to be bound by these Terms. The Terms, Privacy Policy, Purchase Terms (as defined hereinafter) shall be collectively referred to as &quot;Euler Motors Policies&quot;, including any modifications or amendments made thereto by Euler Motors from time to time, at its sole discretion.
             </p>
           </div>
-          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-2.5 self-center lg:w-full lg:max-w-full">
+          <div className="flex w-[373px] max-w-[calc(100vw-20px)] flex-col gap-[10px] self-center lg:mt-[40px] lg:flex lg:w-full lg:max-w-full lg:flex-col lg:items-start lg:gap-[10px] lg:self-stretch">
             {SECTIONS.map((title) => (
               <TermsSection
                 key={title}

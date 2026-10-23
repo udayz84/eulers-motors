@@ -28,6 +28,7 @@ export default function FloatingWidget({
   inset = false,
   mobileClassName,
   desktopClassName,
+  viewportFixed = false,
 }: {
   mobileOnly?: boolean;
   boundary?: boolean;
@@ -37,6 +38,8 @@ export default function FloatingWidget({
   mobileClassName?: string;
   /** Desktop-only placement override for page-specific hero alignment. */
   desktopClassName?: string;
+  /** Position relative to viewport instead of containing block. */
+  viewportFixed?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -50,8 +53,9 @@ export default function FloatingWidget({
   const mobilePos =
     mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
   const edgePosition = inset ? "lg:right-0" : "right-[-8px] lg:right-[-30px]";
+  const positionClass = viewportFixed ? "fixed" : "absolute";
   return (
-    <div className={`group/floating-widget absolute z-40 ${edgePosition} ${mobilePos} ${desktopClassName ? "" : "lg:top-1/2"} lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
+    <div className={`group/floating-widget ${positionClass} z-50 ${edgePosition} ${mobilePos} ${desktopClassName ? "" : "lg:top-1/2"} lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
       <div className="relative flex items-end gap-[19px]">
         {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
         <div
