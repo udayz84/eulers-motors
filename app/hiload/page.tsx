@@ -27,7 +27,7 @@ export default function HiLoadPage() {
         <SavingsCalculator />
         <ProductVariantsCompare
           variants={HILOAD_VARIANTS}
-          truckImg="/assets/products/vehicle-hiload-ev.png"
+          truckImg="/assets/products/vehicle-hiload-ev-clean.png"
         />
         <ProductLoanCalculator defaultVehicleIndex={3} />
         <CustomerReviews autoScrollOnMobile={false} />

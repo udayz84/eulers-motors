@@ -38,7 +38,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-lr-200",
     tabLabel: "Strom EV LR 200",
     title: "Storm EV LongRange 200",
-    image: "/assets/products/vehicle-storm-t1500-clean.png",
+    image: "/assets/products/vehicle-storm-lr200-clean.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
     specs: {
       range: "200 km",
@@ -50,7 +50,7 @@ const VEHICLES: VehicleData[] = [
     id: "turbo-ev-1000",
     tabLabel: "Turbo EV 1000",
     title: "Turbo EV 1000",
-    image: "/vehicles/Turboev1000.png",
+    image: "/assets/products/vehicle-turbo-1000-clean.png",
     crop: [-2.9, -6.56, 322.07, 228],
     specs: {
       range: "180 km",
@@ -62,7 +62,7 @@ const VEHICLES: VehicleData[] = [
     id: "hiload-ev",
     tabLabel: "HiLoad EV",
     title: "HiLoad EV",
-    image: "/assets/products/vehicle-hiload-ev-hq.png",
+    image: "/assets/products/vehicle-hiload-ev-clean.png",
     crop: [-295.3, -19.56, 415.35, 294.03],
     specs: {
       range: "170 km",
@@ -126,33 +126,25 @@ export default function ProductShowcase() {
           quality={100}
         />
       </div>
-      {/* Scene box (1:1319, Figma 1440×874, bottom-anchored): the default
-          vehicle renders the scene image itself; the others swap a cutout into
-          the scene truck's bbox (x 29.3–71.8% · y 34.9–76.2%) */}
+      {/* Scene box (1:1319, Figma 1440×874, bottom-anchored): all vehicles
+          share normalized 1672×941 canvas dimensions with unified ground
+          contact and horizontal centering for consistent layout transitions */}
       <div
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
         <div
           key={current.id}
-          className={`animate-fadeIn absolute ${
-            current.id === "turbo-ev-1000"
-              ? "left-[53%] top-[10%] h-[80%] w-[90%] -translate-x-1/2"
-              : current.id === "storm-ev-lr-200" || current.id === "storm-ev-t1500"
-              ? "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
-              : "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
-          }`}
+          className="animate-fadeIn absolute left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
         >
           <Image
             src={current.image}
-            alt=""
+            alt={current.title}
             fill
-            /* real swap-box widths (turbo up to 90% of the 1440 scene, LR 200
-               65%) — a smaller sizes made the optimizer serve ~74px-wide
-               files for 600–1300px boxes, which read as blur */
-            sizes="(min-width: 1440px) 1296px, 90vw"
+            sizes="(min-width: 1440px) 700px, 45vw"
             className="object-contain"
             quality={100}
+            priority
           />
         </div>
       </div>

@@ -7,16 +7,16 @@ import Arrow from "@/components/ui/Arrow";
 const ASSET = "/assets/products/";
 
 const STATS = [
-  { value: "170", unit: "km", label: "On One Charge" },
-  { value: "688", unit: "kg", label: "Load Capacity" },
-  { value: "₹0.85", unit: "/km", label: "Running Cost" },
-  { value: "60", unit: "min", label: "Fast Charge Time" },
+  { value: "150+", unit: "km", label: "Real Range" },
+  { value: "688", unit: "kg", label: "Payload Capacity" },
+  { value: "88.55", unit: "Nm", label: "Peak Torque" },
+  { value: "15", unit: "min", label: "Fast Charge (50km)" },
 ];
 
 const HILOAD_VARIANTS = [
-  { name: "Delivery Van (DV)", range: "170 km", price: "₹4.20 L", image: "vehicle-hiload-ev.png" },
-  { name: "Pickup Van (PV)", range: "170 km", price: "₹3.94 L", image: "vehicle-hiload-ev.png" },
-  { name: "Flatbed (FB)", range: "170 km", price: "₹4.10 L", image: "vehicle-hiload-ev.png" },
+  { name: "HiLoad TR (Liquid Cooled)", range: "170 km ARAI", price: "₹4.32 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "HiLoad XR (Extended Range)", range: "198 km ARAI", price: "₹3.92 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "Delivery Van (170 cu. ft.)", range: "170 km ARAI", price: "₹4.20 L", image: "vehicle-hiload-ev-clean.png" },
 ];
 
 type VariantSelectorProps = {
@@ -31,7 +31,7 @@ function Thumbs({ className = "" }: { className?: string }) {
     <div className={`inline-flex items-end justify-start gap-[10px] lg:gap-2 ${className}`}>
       <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm lg:size-[62px]">
         <Image
-          src="/assets/products/vehicle-hiload-ev.png"
+          src="/assets/products/vehicle-hiload-ev-clean.png"
           alt="HiLoad EV front angle"
           fill
           sizes="42px"
@@ -48,7 +48,7 @@ function Thumbs({ className = "" }: { className?: string }) {
           className="object-cover"
         />
         <Image
-          src="/assets/products/vehicle-hiload-ev-hq.png"
+          src="/assets/products/vehicle-hiload-ev-clean.png"
           alt="HiLoad EV container"
           fill
           sizes="42px"
@@ -279,7 +279,7 @@ export default function HiLoadHero() {
           className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[290px] h-[220px] sm:w-[380px] sm:h-[280px]"
         >
           <Image
-            src="/assets/products/vehicle-hiload-ev-hq.png"
+            src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
             priority
@@ -309,10 +309,10 @@ export default function HiLoadHero() {
       >
         <div className="absolute left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]">
           <Image
-            src="/assets/products/vehicle-hiload-ev-hq.png"
+            src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
-            sizes="(min-width: 1440px) 1296px, 90vw"
+            sizes="(min-width: 1440px) 700px, 45vw"
             className="object-contain"
             priority
             quality={100}
@@ -327,7 +327,7 @@ export default function HiLoadHero() {
             HiLoad EV
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
-            India&apos;s most powerful commercial 3-wheeler. High payload capacity of 688 kg with liquid-cooled battery technology.
+            Xtra load needs Xtra performance. India&apos;s highest-rated electric cargo 3-wheeler with up to 688 kg payload, 170 km range, and 88.55 Nm peak torque.
           </p>
           <a
             href="#book-test-drive"
@@ -353,7 +353,7 @@ export default function HiLoadHero() {
             HiLoad EV
           </h1>
           <p className="w-[310px] font-sans text-[16px] leading-normal text-ink">
-            India&apos;s most powerful commercial 3-wheeler. High payload capacity of 688 kg with liquid-cooled battery technology.
+            Xtra load needs Xtra performance. India&apos;s highest-rated electric cargo 3-wheeler with up to 688 kg payload, 170 km range, and 88.55 Nm peak torque.
           </p>
           <a
             href="#book-test-drive"
