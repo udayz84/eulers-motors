@@ -56,14 +56,69 @@ const VEHICLES: VehicleCard[] = [
   },
 ];
 
+const ALL_OTHER_VEHICLES: VehicleCard[] = [
+  {
+    id: "storm-ev-lr200",
+    name: "Storm EV LR 200",
+    image: "/assets/products/variant-compare-truck.png",
+    ground: "#4B423F",
+    stats: [
+      { label: "on one charge", value: "200", unit: "km" },
+      { label: "Load capacity", value: "1,200", unit: "kg" },
+      { label: "Running cost", value: "₹1.05", unit: "/km" },
+      { label: "Charging Time", value: "90", unit: "min" },
+    ],
+  },
+  {
+    id: "turbo-ev-1000",
+    name: "TURBO EV 1000",
+    image: "/assets/other-vehicles/turbo-ev-1000.png",
+    ground: "#4B423F",
+    stats: [
+      { label: "on one charge", value: "200", unit: "km" },
+      { label: "Load capacity", value: "1,200", unit: "kg" },
+      { label: "Running cost", value: "₹1.05", unit: "/km" },
+      { label: "Charging Time", value: "90", unit: "min" },
+    ],
+  },
+  {
+    id: "hiload-ev",
+    name: "HiLoad EV",
+    image: "/assets/other-vehicles/hiload-ev.png",
+    ground: "#524F56",
+    stats: [
+      { label: "on one charge", value: "170", unit: "km" },
+      { label: "Load capacity", value: "688", unit: "kg" },
+      { label: "Running cost", value: "₹0.85", unit: "/km" },
+      { label: "Charging Time", value: "60", unit: "min" },
+    ],
+  },
+  {
+    id: "storm-ev-t1500",
+    name: "Storm EV T1500",
+    image: "/assets/other-vehicles/turbo-ev-1000.png",
+    ground: "#4B423F",
+    stats: [
+      { label: "on one charge", value: "200", unit: "km" },
+      { label: "Load capacity", value: "1,500", unit: "kg" },
+      { label: "Running cost", value: "₹1.05", unit: "/km" },
+      { label: "Charging Time", value: "90", unit: "min" },
+    ],
+  },
+];
+
 /**
  * Other Vehicles ("Also worth a look.") — Figma node 2862:10734
  * Carousel showing alternative Euler EV goods vehicles with photo backdrop,
  * stat pill bar, interactive navigation arrows, and progress indicator.
  */
-export default function ProductOtherVehicles() {
+export default function ProductOtherVehicles({ currentVehicleId }: { currentVehicleId?: string } = {}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const displayVehicles = currentVehicleId
+    ? ALL_OTHER_VEHICLES.filter((v) => v.id !== currentVehicleId).slice(0, 3)
+    : VEHICLES;
 
   const scroll = (direction: -1 | 1) => {
     if (!scrollRef.current) return;
@@ -78,7 +133,7 @@ export default function ProductOtherVehicles() {
     const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
     const cardWidth = isMobile ? 340 : 740;
     const newIndex = Math.min(
-      VEHICLES.length - 1,
+      displayVehicles.length - 1,
       Math.max(0, Math.round(scrollLeft / cardWidth))
     );
     setActiveIndex(newIndex);
@@ -119,7 +174,7 @@ export default function ProductOtherVehicles() {
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
           />
 
-          {VEHICLES.map((vehicle) => (
+          {displayVehicles.map((vehicle) => (
             <article
               key={vehicle.id}
               className="relative h-[353px] w-[320px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:h-[485px] sm:w-[720px]"
@@ -319,7 +374,7 @@ export default function ProductOtherVehicles() {
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
             style={{
-              width: `${100 / VEHICLES.length}%`,
+              width: `${100 / displayVehicles.length}%`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           />
@@ -335,7 +390,7 @@ export default function ProductOtherVehicles() {
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
             style={{
-              width: `${100 / VEHICLES.length}%`,
+              width: `${100 / displayVehicles.length}%`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           />

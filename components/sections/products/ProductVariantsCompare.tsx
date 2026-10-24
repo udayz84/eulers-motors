@@ -88,6 +88,39 @@ const MOBILE_TRUCK_INITIAL_LEFT =
 const MOBILE_TOTAL_WIDTH =
   MOBILE_INITIAL_LEFT + VARIANTS.length * MOBILE_STEP + 20;
 
+export const HILOAD_VARIANTS: VariantData[] = [
+  {
+    name: "Delivery Van (DV)",
+    price: 420000,
+    bodyType: "3-wheel container EV",
+    payload: "688 kg",
+    range: "170 km",
+    runningCost: "₹0.85/km",
+    fullCharge: "60 min",
+    cargoSpace: "170 cu. ft. box",
+  },
+  {
+    name: "Pickup Van (PV)",
+    price: 394000,
+    bodyType: "3-wheel open deck EV",
+    payload: "688 kg",
+    range: "170 km",
+    runningCost: "₹0.85/km",
+    fullCharge: "60 min",
+    cargoSpace: "Open cargo bed",
+  },
+  {
+    name: "Flatbed (FB)",
+    price: 410000,
+    bodyType: "3-wheel flatbed EV",
+    payload: "688 kg",
+    range: "170 km",
+    runningCost: "₹0.85/km",
+    fullCharge: "60 min",
+    cargoSpace: "Flatbed deck",
+  },
+];
+
 /**
  * Compare variants side by side — Figma node 2861:7715
  * 1440px frame, px-79/py-47, heading row + side-by-side comparison table
@@ -96,8 +129,15 @@ const MOBILE_TOTAL_WIDTH =
  * Mobile (Figma 393px): header on top, horizontally scrollable comparison
  * card, and the two CTA buttons moved to the section's bottom in one row.
  */
-export default function ProductVariantsCompare() {
+export default function ProductVariantsCompare({
+  variants = VARIANTS,
+  truckImg = TRUCK_IMG,
+}: {
+  variants?: VariantData[];
+  truckImg?: string;
+} = {}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const mobileTotalWidth = MOBILE_INITIAL_LEFT + variants.length * MOBILE_STEP + 20;
 
   return (
     <section
@@ -118,10 +158,10 @@ export default function ProductVariantsCompare() {
 
         {/* Comparison card */}
         <div className="-mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] overflow-x-auto px-5 sm:px-8 pb-1 scrollbar-none">
-          <div className="relative shrink-0" style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}>
+          <div className="relative shrink-0" style={{ width: `${mobileTotalWidth}px` }}>
             {/* Truck renders */}
             <div className="relative mb-3 h-[47.389px] w-full">
-              {VARIANTS.map((variant, i) => {
+              {variants.map((variant, i) => {
                 const isSelected = selectedIndex === i;
                 return (
                   <button
@@ -135,11 +175,11 @@ export default function ProductVariantsCompare() {
                     style={{ left: `${MOBILE_TRUCK_INITIAL_LEFT + i * MOBILE_STEP}px` }}
                   >
                     <Image
-                      src={TRUCK_IMG}
+                      src={truckImg}
                       alt={`${variant.name} Truck`}
                       fill
                       sizes="74px"
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </button>
                 );
@@ -148,7 +188,7 @@ export default function ProductVariantsCompare() {
 
             <div
               className="relative h-[286px] shrink-0 rounded-[9.6px] border-[0.8px] border-[#ccc] bg-white p-5 pl-[108.801px]"
-              style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}
+              style={{ width: `${mobileTotalWidth}px` }}
             >
               {/* Label column */}
               <div
@@ -187,7 +227,7 @@ export default function ProductVariantsCompare() {
               </div>
 
               {/* Variant columns */}
-              {VARIANTS.map((variant, i) => {
+              {variants.map((variant, i) => {
                 const isSelected = selectedIndex === i;
                 return (
                   <div
@@ -280,9 +320,9 @@ export default function ProductVariantsCompare() {
           {/* Comparison Table Area (Figma 2861:7735) */}
           <div className="w-full overflow-x-auto pb-4 xl:overflow-x-visible">
             <div className="relative h-[612px] w-[1277px] shrink-0 max-xl:mx-auto">
-              {/* 3 Truck Renders sitting on top of the table (Figma 2861:7786) */}
+              {/* Truck Renders sitting on top of the table (Figma 2861:7786) */}
               <div className="absolute left-[352.53px] top-[9px] flex items-center gap-[136px]">
-                {VARIANTS.map((variant, i) => {
+                {variants.map((variant, i) => {
                   const isSelected = selectedIndex === i;
                   return (
                     <button
@@ -297,7 +337,7 @@ export default function ProductVariantsCompare() {
                       }`}
                     >
                       <Image
-                        src={TRUCK_IMG}
+                        src={truckImg}
                         alt={`${variant.name} Truck`}
                         fill
                         sizes="185px"
@@ -343,7 +383,7 @@ export default function ProductVariantsCompare() {
                 </div>
 
                 {/* Columns 2-4: Interactive Variants */}
-                {VARIANTS.map((variant, i) => {
+                {variants.map((variant, i) => {
                   const isSelected = selectedIndex === i;
                   return (
                     <div

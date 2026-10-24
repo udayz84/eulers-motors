@@ -95,8 +95,8 @@ function LoanRangeSlider({
  * Loans Section / EMI Calculator
  * Sourced directly from Figma mobile specs & desktop responsiveness.
  */
-export default function ProductLoanCalculator() {
-  const [selectedVehicle, setSelectedVehicle] = useState(0);
+export default function ProductLoanCalculator({ defaultVehicleIndex = 0 }: { defaultVehicleIndex?: number } = {}) {
+  const [selectedVehicle, setSelectedVehicle] = useState(defaultVehicleIndex);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [downPaymentPct, setDownPaymentPct] = useState(15);
   const [months, setMonths] = useState(48);

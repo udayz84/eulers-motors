@@ -82,21 +82,95 @@ const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: s
   },
 };
 
+export const HILOAD_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+  Battery: {
+    rows: [
+      { icon: "spec-ic-charge.svg", label: "Battery Capacity", value: "13 kWh Li-ion" },
+      { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
+      { icon: "spec-ic-target.svg", label: "Range per charge", value: "170 km (ARAI)" },
+      { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "15 min (50 km)" },
+      { icon: "spec-ic-clock.svg", label: "Standard Charge", value: "3.5 - 4 hours" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV battery and liquid cooling system",
+  },
+  Dimensions: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Payload Capacity", value: "688 kg" },
+      { icon: "spec-ic-doc.svg", label: "Cargo Volume", value: "Up to 170 cu. ft." },
+      { icon: "spec-ic-location.svg", label: "Ground Clearance", value: "300 mm unladen" },
+      { icon: "spec-ic-analytics.svg", label: "Wheelbase", value: "2,200 mm" },
+      { icon: "spec-ic-location.svg", label: "Vehicle Category", value: "L5N Electric 3W" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV dimensions and container body",
+  },
+  Performance: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Peak Motor Power", value: "10.96 kW" },
+      { icon: "spec-ic-charge.svg", label: "Peak Torque", value: "88.55 Nm" },
+      { icon: "spec-ic-target.svg", label: "Gradeability", value: "21% (11.86°)" },
+      { icon: "spec-ic-analytics.svg", label: "Top Speed", value: "45 km/h" },
+      { icon: "spec-ic-location.svg", label: "Drive Modes", value: "Eco and Thunder" },
+    ],
+    image: "/assets/technology-page/hero__imgRectangle42158.png",
+    imageAlt: "Euler HiLoad EV driving with heavy cargo",
+  },
+  Features: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Telematics", value: "Shepherd IoT App, included" },
+      { icon: "spec-ic-location.svg", label: "Live Location Tracking", value: "Yes" },
+      { icon: "spec-ic-charge.svg", label: "State of Charge on Phone", value: "Yes" },
+      { icon: "spec-ic-analytics.svg", label: "Driver Scoring", value: "Yes" },
+      { icon: "spec-ic-bell.svg", label: "Predictive Service Alerts", value: "Yes" },
+      { icon: "spec-ic-clock.svg", label: "Trip History & Reports", value: "12 months" },
+      { icon: "spec-ic-target.svg", label: "Tyre Size", value: "30% wider commercial tyres" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV telematics features",
+  },
+  Safety: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Front Brakes", value: "200 mm Disc Brakes" },
+      { icon: "spec-ic-target.svg", label: "Rear Brakes", value: "Hydraulic Drum Brakes" },
+      { icon: "spec-ic-bell.svg", label: "Ingress Protection", value: "IP67 Dust & Water Ingress" },
+      { icon: "spec-ic-doc.svg", label: "Chassis", value: "High-strength tubular steel" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV front disc brake and safety chassis",
+  },
+  Comfort: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Cabin", value: "Ergonomic wide-view cabin" },
+      { icon: "spec-ic-clock.svg", label: "Instrument Cluster", value: "Digital LCD display" },
+      { icon: "spec-ic-analytics.svg", label: "Seating", value: "Cushioned bucket seat" },
+      { icon: "spec-ic-charge.svg", label: "Charger Type", value: "Universal Type-2" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV cabin comfort",
+  },
+};
+
 /**
  * /products specifications — Figma 3245:17543. Section px-79/py-48, header row
  * (badge + h2 / spec-sheet CTA), then a rounded-12 #e5ebf3/60 panel with the
  * centered tab pill row overlapping its top edge (pt-89 clears it), the
  * spec list and the 557×424 photo split by a hairline.
  */
-export default function ProductSpecs() {
+export default function ProductSpecs({
+  specContent = SPEC_CONTENT,
+}: {
+  specContent?: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }>;
+} = {}) {
   const [activeTab, setActiveTab] = useState("Features");
-  const currentSpec = SPEC_CONTENT[activeTab];
+  const content = specContent || SPEC_CONTENT;
+  const currentSpec = content[activeTab] || SPEC_CONTENT[activeTab];
   const activeTabIndex = TABS.indexOf(activeTab);
   const currentImage = activeTabIndex % 2 === 0
     ? `${ASSET}spec-image.png`
     : "/assets/technology-page/hero__imgRectangle42158.png";
   const currentImageAlt = activeTabIndex % 2 === 0
-    ? "Storm EV LR 200 cabin and controls"
+    ? "Euler Motors vehicle cabin and controls"
     : "Euler Motors vehicle on an Indian road";
 
   return (
