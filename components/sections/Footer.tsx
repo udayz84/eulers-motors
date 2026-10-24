@@ -62,6 +62,14 @@ const SOCIALS = [
 
 function getFooterHref(link: string): string {
   switch (link) {
+    case "Storm EV LongRange 200":
+      return "/products/lr200";
+    case "Storm EV T1500":
+      return "/products/storm-ev-t1500";
+    case "HiLoad EV":
+      return "/products/hiload-ev";
+    case "Turbo EV 1000":
+      return "/products/turbo-ev-1000";
     case "Dealer Locator":
       return "/dealer-locator";
     case "About us":

@@ -42,7 +42,7 @@ type DropdownKey = keyof typeof DROPDOWNS;
 
 /** Mobile Products menu cards — payloads from the Figma mega-menu data */
 const PRODUCT_MOBILE: readonly { label: string; desc?: string; href?: string }[] = [
-  { label: "Storm EV LongRange 200", desc: "1,200 kg", href: "/products" },
+  { label: "Storm EV LongRange 200", desc: "1,200 kg", href: "/products/lr200" },
   { label: "Storm EV T1500", desc: "1,500 kg", href: "/products/storm-ev-t1500" },
   { label: "HiLoad EV", desc: "688 kg", href: "/products/hiload-ev" },
   { label: "Turbo EV 1000", desc: "1,000 kg", href: "/products/turbo-ev-1000" },
@@ -52,7 +52,7 @@ const PRODUCT_MOBILE: readonly { label: string; desc?: string; href?: string }[]
 
 /** Product mega-menu data (Figma "Property 1=Component 4" variant of Component 20) */
 const MEGA_4W = [
-  { name: "Strom EV LR 200", payload: "1,200 kg", img: "/assets/products/vehicle-storm-lr200.png", href: "/products" },
+  { name: "Strom EV LR 200", payload: "1,200 kg", img: "/assets/products/vehicle-storm-lr200.png", href: "/products/lr200" },
   { name: "Storm EV T1500", payload: "1,500 kg", img: "/assets/products/vehicle-storm-t1500.png", href: "/products/storm-ev-t1500" },
   { name: "Turbo EV 1000", payload: "1,000 kg", img: "/assets/products/vehicle-turbo-1000.png", href: "/products/turbo-ev-1000" },
 ];

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import ProductHero from "@/components/sections/products/ProductHero";
 import HiLoadHero from "@/components/sections/products/HiLoadHero";
 import TurboHero from "@/components/sections/products/TurboHero";
 import StormT1500Hero from "@/components/sections/products/StormT1500Hero";
@@ -28,6 +29,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "lr200" || slug === "storm-ev-lr200" || slug === "storm-lr200" || slug === "storm-ev-lr-200") {
+    return {
+      title: "Storm EV LR 200 | Euler Motors - Commercial 4-Wheeler EV",
+      description:
+        "Built for long city and highway runs. 1,200 kg payload, 200 km range, and liquid-cooled battery technology.",
+    };
+  }
   if (slug === "hiload-ev" || slug === "hiload") {
     return {
       title: "HiLoad EV | Euler Motors - India's Most Powerful Electric 3-Wheeler",
@@ -56,6 +64,10 @@ export async function generateMetadata({
 
 export function generateStaticParams() {
   return [
+    { slug: "lr200" },
+    { slug: "storm-ev-lr200" },
+    { slug: "storm-lr200" },
+    { slug: "storm-ev-lr-200" },
     { slug: "hiload-ev" },
     { slug: "hiload" },
     { slug: "turbo-ev-1000" },
@@ -71,6 +83,26 @@ export default async function ProductSlugPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  if (slug === "lr200" || slug === "storm-ev-lr200" || slug === "storm-lr200" || slug === "storm-ev-lr-200") {
+    return (
+      <>
+        <Navbar />
+        <main className="overflow-clip">
+          <ProductHero />
+          <ProductSpecs />
+          <SavingsCalculator />
+          <ProductVariantsCompare />
+          <ProductLoanCalculator defaultVehicleIndex={0} />
+          <CustomerReviews autoScrollOnMobile={false} />
+          <ProductOverview />
+          <ProductOtherVehicles currentVehicleId="storm-ev-lr200" />
+          <ContactSection />
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   if (slug === "hiload-ev" || slug === "hiload") {
     return (

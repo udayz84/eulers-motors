@@ -416,7 +416,15 @@ export default function ProductShowcase() {
               </span>
             </button>
             <Link
-              href="/products"
+              href={
+                current.id === "storm-ev-lr-200"
+                  ? "/products/lr200"
+                  : current.id === "turbo-ev-1000"
+                  ? "/products/turbo-ev-1000"
+                  : current.id === "hiload-ev"
+                  ? "/products/hiload-ev"
+                  : "/products/storm-ev-t1500"
+              }
               className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] bg-ink px-6 font-display text-[16px] font-semibold leading-none text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all cursor-pointer hover:bg-black lg:h-[50px]"
             >
               <span className="whitespace-nowrap">View Variants</span>

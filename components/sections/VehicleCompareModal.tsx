@@ -686,7 +686,15 @@ export default function VehicleCompareModal({
                     <div className="flex items-center gap-2.5 sm:gap-4 pl-[120px] sm:pl-[140px] md:pl-[180px] pt-3.5 sm:pt-4 w-full">
                       <div className="flex-1">
                         <Link
-                          href="/products"
+                          href={
+                            vehicle1.id === "storm-ev-lr-200"
+                              ? "/products/lr200"
+                              : vehicle1.id === "turbo-ev-1000"
+                              ? "/products/turbo-ev-1000"
+                              : vehicle1.id === "hiload-ev"
+                              ? "/products/hiload-ev"
+                              : "/products/storm-ev-t1500"
+                          }
                           onClick={onClose}
                           className="flex h-[32px] w-full sm:w-[130px] items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-3 font-display text-[11px] sm:text-[12px] font-semibold text-[#121212] transition-colors hover:bg-white"
                         >
@@ -695,7 +703,15 @@ export default function VehicleCompareModal({
                       </div>
                       <div className="flex-1">
                         <Link
-                          href="/products"
+                          href={
+                            compVehicle2.id === "storm-ev-lr-200"
+                              ? "/products/lr200"
+                              : compVehicle2.id === "turbo-ev-1000"
+                              ? "/products/turbo-ev-1000"
+                              : compVehicle2.id === "hiload-ev"
+                              ? "/products/hiload-ev"
+                              : "/products/storm-ev-t1500"
+                          }
                           onClick={onClose}
                           className="flex h-[32px] w-full sm:w-[130px] items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-3 font-display text-[11px] sm:text-[12px] font-semibold text-[#121212] transition-colors hover:bg-white"
                         >
