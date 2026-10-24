@@ -72,6 +72,12 @@ function getFooterHref(link: string): string {
       return "/charging-stations";
     case "Technology":
       return "/technology";
+    case "Privacy policy":
+      return "/privacy-policy";
+    case "Terms and conditions":
+      return "/terms-conditions";
+    case "Refund policy":
+      return "/refund-policy";
     default:
       return "/products";
   }
