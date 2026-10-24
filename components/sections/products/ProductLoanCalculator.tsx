@@ -14,8 +14,8 @@ type VehicleOption = {
 const VEHICLES: VehicleOption[] = [
   { name: "Strom EV LR 200", price: 1149000, thumb: "/assets/products/vehicle-storm-lr200.png" },
   { name: "Storm EV T1500", price: 1280000, thumb: "/assets/products/vehicle-storm-t1500.png" },
-  { name: "Turbo EV 1000", price: 980000, thumb: "/assets/products/vehicle-turbo-1000.png" },
-  { name: "HiLoad EV", price: 750000, thumb: "/assets/products/vehicle-hiload-ev.png" },
+  { name: "Turbo EV 1000", price: 599000, thumb: "/assets/products/vehicle-turbo-1000.png" },
+  { name: "HiLoad EV", price: 392000, thumb: "/assets/products/vehicle-hiload-ev.png" },
 ];
 
 /**

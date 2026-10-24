@@ -121,6 +121,72 @@ export const HILOAD_VARIANTS: VariantData[] = [
   },
 ];
 
+export const TURBO_VARIANTS: VariantData[] = [
+  {
+    name: "Turbo EV 1000 City",
+    price: 599000,
+    bodyType: "4-wheel cargo EV",
+    payload: "1,000 kg",
+    range: "180 km (ARAI)",
+    runningCost: "₹0.98/km",
+    fullCharge: "15 min top-up",
+    cargoSpace: "2.5 m deck",
+  },
+  {
+    name: "Turbo EV 1000 FC",
+    price: 649000,
+    bodyType: "4-wheel fast charge EV",
+    payload: "1,000 kg",
+    range: "180 km (ARAI)",
+    runningCost: "₹0.98/km",
+    fullCharge: "15 min fast charge",
+    cargoSpace: "2.5 m deck",
+  },
+  {
+    name: "Turbo EV 1000 Maxx",
+    price: 699000,
+    bodyType: "4-wheel extended EV",
+    payload: "1,000 kg",
+    range: "220 km (ARAI)",
+    runningCost: "₹0.98/km",
+    fullCharge: "15 min fast charge",
+    cargoSpace: "2.5 m deck",
+  },
+];
+
+export const STORM_T1500_VARIANTS: VariantData[] = [
+  {
+    name: "T1500 Delivery Van (DV)",
+    price: 1280000,
+    bodyType: "4-wheel container EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "260 cu. ft. container",
+  },
+  {
+    name: "T1500 Pickup Van (PV)",
+    price: 1250000,
+    bodyType: "4-wheel open deck EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "8.35 ft open deck",
+  },
+  {
+    name: "T1500 Flatbed (FB)",
+    price: 1260000,
+    bodyType: "4-wheel flatbed EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "Flatbed loading deck",
+  },
+];
+
 /**
  * Compare variants side by side — Figma node 2861:7715
  * 1440px frame, px-79/py-47, heading row + side-by-side comparison table
