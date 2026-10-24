@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 
@@ -14,9 +14,9 @@ const STATS = [
 ];
 
 const STORM_T1500_VARIANTS = [
-  { name: "T1500 Delivery Van (DV)", range: "210 km ARAI", price: "₹12.80 L", image: "vehicle-storm-t1500-clean.png" },
-  { name: "T1500 Pickup Van (PV)", range: "210 km ARAI", price: "₹12.50 L", image: "vehicle-storm-t1500-clean.png" },
-  { name: "T1500 Flatbed (FB)", range: "210 km ARAI", price: "₹12.60 L", image: "vehicle-storm-t1500-clean.png" },
+  { name: "T1500 DV", fullName: "Storm EV T1500 DV", range: "210 km ARAI", price: "₹12.80 L", image: "vehicle-storm-t1500-clean.png" },
+  { name: "T1500 PV", fullName: "Storm EV T1500 PV", range: "210 km ARAI", price: "₹12.50 L", image: "vehicle-storm-t1500-clean.png" },
+  { name: "T1500 FB", fullName: "Storm EV T1500 FB", range: "210 km ARAI", price: "₹12.60 L", image: "vehicle-storm-t1500-clean.png" },
 ];
 
 type VariantSelectorProps = {
@@ -76,15 +76,19 @@ function Thumbs({ className = "" }: { className?: string }) {
 function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = STORM_T1500_VARIANTS[selectedIndex];
   return (
-    <div onClick={onToggle} className="relative flex w-full cursor-pointer flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
         <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
           VARIANTS
         </span>
         <button
           type="button"
-          onClick={(event) => { event.stopPropagation(); onToggle(); }}
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggle();
+          }}
           aria-expanded={expanded}
+          aria-controls="storm-t1500-mobile-variant-options"
           className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm"
         >
           <div className="flex items-center gap-2">
@@ -114,23 +118,31 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
       </div>
 
       {expanded && (
-        <div className="mt-2 flex flex-col gap-1.5 border-t border-white/40 pt-2">
-          {STORM_T1500_VARIANTS.map((v, i) => (
-            <button
-              key={v.name}
-              type="button"
-              onClick={() => onSelect(i)}
-              className={`flex w-full items-center justify-between rounded-[8px] p-2 text-left transition-colors ${i === selectedIndex ? "bg-white font-semibold shadow-sm" : "hover:bg-white/60"}`}
-            >
-              <div className="flex items-center gap-2">
-                <div className="relative size-7 shrink-0 overflow-hidden rounded bg-gray-100">
-                  <Image src={`${ASSET}${v.image}`} alt="" fill sizes="28px" className="object-contain p-0.5" />
+        <div
+          id="storm-t1500-mobile-variant-options"
+          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px]"
+        >
+          <div className="flex flex-col gap-1.5">
+            {STORM_T1500_VARIANTS.map((v, i) => (
+              <button
+                key={v.name}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelect(i);
+                }}
+                className={`flex w-full items-center justify-between rounded-[8px] p-2 text-left transition-colors ${i === selectedIndex ? "bg-[#eaf1ff] font-bold text-[#0E2F6D] shadow-sm" : "hover:bg-gray-100 text-[#121212]"}`}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="relative size-7 shrink-0 overflow-hidden rounded bg-gray-100">
+                    <Image src={`${ASSET}${v.image}`} alt="" fill sizes="28px" className="object-contain p-0.5" />
+                  </div>
+                  <span className="text-[13px]">{v.name}</span>
                 </div>
-                <span className="text-[13px] text-ink">{v.name}</span>
-              </div>
-              <span className="text-[12px] text-navy font-semibold">{v.price}</span>
-            </button>
-          ))}
+                <span className="text-[12px] text-[#0E2F6D] font-semibold">{v.price}</span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -140,15 +152,19 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
 function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = STORM_T1500_VARIANTS[selectedIndex];
   return (
-    <div onClick={onToggle} className="relative z-30 flex w-[265px] cursor-pointer flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-30 flex w-[265px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
       <button
         type="button"
-        onClick={(event) => { event.stopPropagation(); onToggle(); }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggle();
+        }}
         aria-expanded={expanded}
-        className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm"
+        aria-controls="storm-t1500-desktop-variant-options"
+        className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm transition-colors hover:bg-white/90"
       >
         <div className="flex items-center gap-2">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
@@ -180,13 +196,19 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
       </button>
 
       {expanded && (
-        <div className="flex flex-col gap-1.5 rounded-lg border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-md">
+        <div
+          id="storm-t1500-desktop-variant-options"
+          className="flex flex-col gap-1.5 rounded-lg border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-md"
+        >
           {STORM_T1500_VARIANTS.map((v, i) => (
             <button
               key={v.name}
               type="button"
-              onClick={() => onSelect(i)}
-              className={`flex w-full items-center justify-between rounded-[8px] p-2 text-left transition-colors ${i === selectedIndex ? "bg-[#eaf1ff] font-bold text-navy" : "hover:bg-gray-100 text-ink"}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect(i);
+              }}
+              className={`flex w-full items-center justify-between rounded-[8px] p-2 text-left transition-colors ${i === selectedIndex ? "bg-[#eaf1ff] font-bold text-[#0E2F6D]" : "hover:bg-gray-100 text-[#121212]"}`}
             >
               <div className="flex items-center gap-2">
                 <div className="relative size-8 shrink-0 overflow-hidden rounded bg-gray-100">
@@ -194,7 +216,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
                 </div>
                 <span className="text-[13px]">{v.name}</span>
               </div>
-              <span className="text-[12px] font-semibold">{v.price}</span>
+              <span className="text-[12px] font-semibold text-[#0E2F6D]">{v.price}</span>
             </button>
           ))}
         </div>
@@ -252,16 +274,38 @@ function SpecsGrid() {
 export default function StormT1500Hero() {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [variantsExpanded, setVariantsExpanded] = useState(false);
+  const desktopPanelRef = useRef<HTMLDivElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!variantsExpanded) return;
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (
+        desktopPanelRef.current && !desktopPanelRef.current.contains(target) &&
+        mobilePanelRef.current && !mobilePanelRef.current.contains(target)
+      ) {
+        setVariantsExpanded(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [variantsExpanded]);
 
   const toggleVariants = () => setVariantsExpanded((expanded) => !expanded);
   const selectVariant = (index: number) => {
     setSelectedVariant(index);
     setVariantsExpanded(false);
   };
+  const selected = STORM_T1500_VARIANTS[selectedVariant];
 
   return (
     <section
-      aria-label="Storm EV T1500"
+      aria-label={selected.fullName}
       className="relative w-full overflow-hidden bg-white max-lg:overflow-visible max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
       {/* Mobile background: Homepage perspective warehouse tunnel */}
@@ -324,7 +368,7 @@ export default function StormT1500Hero() {
       <div className="relative z-10 mx-auto flex h-full w-full max-w-[393px] sm:max-w-[560px] flex-col justify-between px-4 sm:px-6 pb-4 sm:pb-6 pt-[90px] sm:pt-[100px] lg:hidden">
         <div className="flex w-[302.801px] sm:w-[420px] max-w-full flex-col items-start justify-center gap-[12px]">
           <h1 className="self-stretch font-display text-[28px] sm:text-[36px] font-semibold leading-[115%] tracking-[-0.56px] text-[#121212]">
-            Storm EV T1500
+            {selected.fullName}
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
             India&apos;s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.
@@ -338,7 +382,7 @@ export default function StormT1500Hero() {
           </a>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-3">
+        <div ref={mobilePanelRef} className="flex w-full flex-col items-start gap-3">
           <Thumbs />
           <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
           <SpecsGrid />
@@ -350,7 +394,7 @@ export default function StormT1500Hero() {
         {/* Left header */}
         <div className="absolute left-20 top-[130px] flex w-[320px] flex-col items-start gap-4">
           <h1 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink">
-            Storm EV T1500
+            {selected.fullName}
           </h1>
           <p className="w-[310px] font-sans text-[16px] leading-normal text-ink">
             India&apos;s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.
@@ -365,7 +409,7 @@ export default function StormT1500Hero() {
         </div>
 
         {/* Right variants */}
-        <div className="absolute right-0 top-[130px]">
+        <div ref={desktopPanelRef} className="absolute right-20 top-[130px]">
           <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
         </div>
 

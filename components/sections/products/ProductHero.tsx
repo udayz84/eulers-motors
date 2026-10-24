@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 
@@ -15,9 +15,9 @@ const STATS = [
 ];
 
 const VARIANTS = [
-  { name: "LR 200 DV", fullName: "Storm EV LR 200 Delivery Van (DV)", range: "200+ km RealRange™", price: "₹13.94 L", image: "vehicle-storm-lr200-clean.png" },
-  { name: "LR 200 PV", fullName: "Storm EV LR 200 Pickup Van (PV)", range: "200+ km RealRange™", price: "₹13.49 L", image: "vehicle-storm-lr200-clean.png" },
-  { name: "LR 200 FB", fullName: "Storm EV LR 200 Flatbed (FB)", range: "200+ km RealRange™", price: "₹13.60 L", image: "vehicle-storm-lr200-clean.png" },
+  { name: "LR 200 DV", fullName: "Storm EV LR 200 DV", range: "200+ km RealRange™", price: "₹13.94 L", image: "vehicle-storm-lr200-clean.png" },
+  { name: "LR 200 PV", fullName: "Storm EV LR 200 PV", range: "200+ km RealRange™", price: "₹13.49 L", image: "vehicle-storm-lr200-clean.png" },
+  { name: "LR 200 FB", fullName: "Storm EV LR 200 FB", range: "200+ km RealRange™", price: "₹13.60 L", image: "vehicle-storm-lr200-clean.png" },
 ];
 
 type VariantSelectorProps = {
@@ -34,8 +34,11 @@ function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, 
         <button
           key={variant.name}
           type="button"
-          onClick={() => onSelect(index)}
-          className={`flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-left transition-colors ${index === selectedIndex ? "bg-[#eaf1ff]" : "hover:bg-[#f4f7fb]"}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(index);
+          }}
+          className={`flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-left transition-colors ${index === selectedIndex ? "bg-[#eaf1ff] font-bold" : "hover:bg-[#f4f7fb]"}`}
           aria-pressed={index === selectedIndex}
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-[5px] bg-[#d9d9d9]">
@@ -129,55 +132,65 @@ function Thumbs({ className = "" }: { className?: string }) {
 function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div onClick={onToggle} className="relative flex w-full cursor-pointer flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
-      <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
-        VARIANTS
-      </span>
+        <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
+          VARIANTS
+        </span>
 
-      <button type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }} aria-expanded={expanded} aria-controls="mobile-variant-options" className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm">
-        <div className="flex items-center gap-2">
-          {/* Sized vehicle icon container */}
-          <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
-            <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
-          </div>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggle();
+          }}
+          aria-expanded={expanded}
+          aria-controls="mobile-variant-options"
+          className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm"
+        >
+          <div className="flex items-center gap-2">
+            <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
+              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
+            </div>
 
-          <div className="flex flex-col justify-center items-start gap-[2px]">
-            <span className="font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
-              {selected.name}
-            </span>
-            <div className="flex items-center gap-1 font-sans text-[12px] font-medium leading-[115%] tracking-[-0.24px] text-[#0E2F6D]">
-              <span>{selected.range}</span>
-              <span className="size-[3px] rounded-full bg-[#0E2F6D]/40" />
-              <span>{selected.price}</span>
+            <div className="flex flex-col justify-center items-start gap-[2px]">
+              <span className="font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
+                {selected.name}
+              </span>
+              <div className="flex items-center gap-1 font-sans text-[12px] font-medium leading-[115%] tracking-[-0.24px] text-[#0E2F6D]">
+                <span>{selected.range}</span>
+                <span className="size-[3px] rounded-full bg-[#0E2F6D]/40" />
+                <span>{selected.price}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Chevron down */}
-        <svg
-          width="14"
-          height="8"
-          viewBox="0 0 14 8"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className={`shrink-0 text-[#121212] transition-transform ${expanded ? "rotate-180" : ""}`}
-        >
-          <path
-            d="M1 1L7 7L13 1"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+          <svg
+            width="14"
+            height="8"
+            viewBox="0 0 14 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`shrink-0 text-[#121212] transition-transform ${expanded ? "rotate-180" : ""}`}
+          >
+            <path
+              d="M1 1L7 7L13 1"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
-      <div id="mobile-variant-options" onClick={(event) => event.stopPropagation()} className={`absolute left-0 right-0 top-full z-50 mt-2 grid max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px] transition-[opacity,transform] duration-300 ease-out ${expanded ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"}`}>
-        <div className="min-h-0 overflow-hidden">
+      {expanded && (
+        <div
+          id="mobile-variant-options"
+          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px]"
+        >
           <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -253,11 +266,20 @@ function SpecsGrid() {
 function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div onClick={onToggle} className="relative z-30 flex w-[251px] cursor-pointer flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-30 flex w-[260px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
-      <button type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }} aria-expanded={expanded} aria-controls="desktop-variant-options" className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm">
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggle();
+        }}
+        aria-expanded={expanded}
+        aria-controls="desktop-variant-options"
+        className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm transition-colors hover:bg-white/90"
+      >
         <div className="flex items-center gap-2">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
             <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
@@ -286,11 +308,14 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           className={`h-[7.12px] w-[15.5px] transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
         />
       </button>
-      <div id="desktop-variant-options" onClick={(event) => event.stopPropagation()} className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
-        <div className="min-h-0 overflow-y-auto">
+      {expanded && (
+        <div
+          id="desktop-variant-options"
+          className="flex flex-col gap-1.5 rounded-lg border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-md"
+        >
           <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -301,6 +326,27 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
 export default function ProductHero() {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [variantsExpanded, setVariantsExpanded] = useState(false);
+  const desktopPanelRef = useRef<HTMLDivElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!variantsExpanded) return;
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (
+        desktopPanelRef.current && !desktopPanelRef.current.contains(target) &&
+        mobilePanelRef.current && !mobilePanelRef.current.contains(target)
+      ) {
+        setVariantsExpanded(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [variantsExpanded]);
 
   const toggleVariants = () => setVariantsExpanded((expanded) => !expanded);
   const selectVariant = (index: number) => {
@@ -311,7 +357,7 @@ export default function ProductHero() {
 
   return (
     <section
-      aria-label={`Storm EV ${selected.name}`}
+      aria-label={selected.fullName}
       className="relative w-full overflow-hidden bg-white max-lg:overflow-visible max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
       {/* Mobile background portrait crop */}
@@ -359,7 +405,7 @@ export default function ProductHero() {
         {/* Header container */}
         <div className="flex w-[302.801px] sm:w-[420px] max-w-full flex-col items-start justify-center gap-[12px]">
           <h1 className="self-stretch font-display text-[28px] sm:text-[36px] font-semibold leading-[115%] tracking-[-0.56px] text-[#121212]">
-            Storm EV {selected.name}
+            {selected.fullName}
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
             Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
@@ -374,7 +420,7 @@ export default function ProductHero() {
         </div>
 
         {/* Bottom group */}
-        <div className="flex w-full flex-col items-start gap-3">
+        <div ref={mobilePanelRef} className="flex w-full flex-col items-start gap-3">
           {/* 3 Thumbnails element */}
           <Thumbs />
 
@@ -391,7 +437,7 @@ export default function ProductHero() {
         {/* Left header */}
         <div className="absolute left-20 top-[130px] flex w-[303px] flex-col items-start gap-4">
           <h1 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink">
-            Storm EV {selected.name}
+            {selected.fullName}
           </h1>
           <p className="w-[308.7px] font-sans text-[16px] leading-normal text-ink">
             Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
@@ -406,7 +452,7 @@ export default function ProductHero() {
         </div>
 
         {/* Right variants */}
-        <div className="absolute right-0 top-[130px]">
+        <div ref={desktopPanelRef} className="absolute right-20 top-[130px]">
           <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
         </div>
 
