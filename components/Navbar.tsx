@@ -351,7 +351,7 @@ export default function Navbar() {
   );
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-[100]">
       {bannerOpen && (
         <div
           className="relative flex h-6 items-center justify-center lg:h-[22px]"

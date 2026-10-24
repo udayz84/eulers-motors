@@ -270,7 +270,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous vehicle"
-            className="absolute left-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute left-6 xl:left-16 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -290,7 +290,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handleNext}
             aria-label="Next vehicle"
-            className="absolute right-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
