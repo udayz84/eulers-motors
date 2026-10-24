@@ -172,7 +172,8 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
 }
 
 function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
-  const href = item.label === "About us" ? "/about" : "#";
+  const href =
+    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : "#";
   return (
     <Link
       href={href}
@@ -284,8 +285,10 @@ function MenuCardLink({
         ? "/charging-stations"
       : item.label === "About us"
         ? "/about"
-      : PRODUCT_MOBILE.some((p) => p.label === item.label)
-        ? "/products"
+        : item.label === "Careers"
+          ? "/careers"
+        : PRODUCT_MOBILE.some((p) => p.label === item.label)
+          ? "/products"
       : "#");
   return (
     <Link

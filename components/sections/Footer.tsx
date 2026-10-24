@@ -66,6 +66,8 @@ function getFooterHref(link: string): string {
       return "/dealer-locator";
     case "About us":
       return "/about";
+    case "Careers":
+      return "/careers";
     case "Service Centres":
       return "/service-centers";
     case "Charging Stations Locator":
