@@ -12,6 +12,7 @@ import ProductSpecs, {
 } from "@/components/sections/products/ProductSpecs";
 import SavingsCalculator from "@/components/sections/SavingsCalculator";
 import ProductVariantsCompare, {
+  STORM_LR200_VARIANTS,
   HILOAD_VARIANTS,
   TURBO_VARIANTS,
   STORM_T1500_VARIANTS,
@@ -92,7 +93,10 @@ export default async function ProductSlugPage({
           <ProductHero />
           <ProductSpecs />
           <SavingsCalculator />
-          <ProductVariantsCompare />
+          <ProductVariantsCompare
+            variants={STORM_LR200_VARIANTS}
+            truckImg="/assets/products/vehicle-storm-lr200-clean.png"
+          />
           <ProductLoanCalculator defaultVehicleIndex={0} />
           <CustomerReviews autoScrollOnMobile={false} />
           <ProductOverview />

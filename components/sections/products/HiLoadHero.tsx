@@ -7,16 +7,17 @@ import Arrow from "@/components/ui/Arrow";
 const ASSET = "/assets/products/";
 
 const STATS = [
-  { value: "150+", unit: "km", label: "Real Range" },
-  { value: "688", unit: "kg", label: "Payload Capacity" },
+  { value: "150+", unit: "km", label: "RealRange™" },
+  { value: "768", unit: "kg", label: "Certified Payload" },
   { value: "88.55", unit: "Nm", label: "Peak Torque" },
   { value: "15", unit: "min", label: "Fast Charge (50km)" },
 ];
 
 const HILOAD_VARIANTS = [
-  { name: "HiLoad TR (Liquid Cooled)", range: "170 km ARAI", price: "₹4.32 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "HiLoad TR (Fast Charge)", range: "164 km ARAI", price: "₹4.32 L", image: "vehicle-hiload-ev-clean.png" },
   { name: "HiLoad XR (Extended Range)", range: "198 km ARAI", price: "₹3.92 L", image: "vehicle-hiload-ev-clean.png" },
-  { name: "Delivery Van (170 cu. ft.)", range: "170 km ARAI", price: "₹4.20 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "HiLoad DV (170 cu. ft.)", range: "164 km ARAI", price: "₹4.20 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "HiLoad PV (Open Deck)", range: "164 km ARAI", price: "₹4.10 L", image: "vehicle-hiload-ev-clean.png" },
 ];
 
 type VariantSelectorProps = {

@@ -8,17 +8,16 @@ const ASSET = "/assets/products/";
 
 /** Stats entries */
 const STATS = [
-  { value: "200", unit: "km", label: "On One Charge" },
-  { value: "1,200", unit: "kg", label: "Load Capacity" },
+  { value: "200+", unit: "km", label: "RealRange™" },
+  { value: "1,500", unit: "kg", label: "Load Capacity" },
   { value: "₹1.05", unit: "/km", label: "Running Cost" },
-  { value: "90", unit: "min", label: "Full Charge Time" },
+  { value: "15", unit: "min", label: "100 km Fast Charge" },
 ];
 
 const VARIANTS = [
-  { name: "Base", range: "200 km", price: "₹11.49 L", image: "variant-thumb.png" },
-  { name: "T1500", range: "200 km", price: "₹12.8 L", image: "vehicle-storm-t1500.png" },
-  { name: "Turbo", range: "180 km", price: "₹9.8 L", image: "vehicle-turbo-1000.png" },
-  { name: "HiLoad", range: "170 km", price: "₹7.5 L", image: "vehicle-hiload-ev.png" },
+  { name: "LR 200 DV", fullName: "Storm EV LR 200 Delivery Van (DV)", range: "200+ km RealRange™", price: "₹13.94 L", image: "vehicle-storm-lr200-clean.png" },
+  { name: "LR 200 PV", fullName: "Storm EV LR 200 Pickup Van (PV)", range: "200+ km RealRange™", price: "₹13.49 L", image: "vehicle-storm-lr200-clean.png" },
+  { name: "LR 200 FB", fullName: "Storm EV LR 200 Flatbed (FB)", range: "200+ km RealRange™", price: "₹13.60 L", image: "vehicle-storm-lr200-clean.png" },
 ];
 
 type VariantSelectorProps = {
@@ -40,11 +39,7 @@ function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, 
           aria-pressed={index === selectedIndex}
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-[5px] bg-[#d9d9d9]">
-            {variant.name === "Base" ? (
-              <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden width={97.11} height={64.97} className="absolute left-[-65.46px] top-[-38.28px] h-[64.97px] w-[97.11px] max-w-none" />
-            ) : (
-              <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-contain p-0.5" />
-            )}
+            <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-contain p-0.5" />
           </span>
           <span className="min-w-0">
             <span className="block truncate font-sans text-[13px] font-bold leading-tight text-[#0E2F6D]">{variant.name}</span>
@@ -144,11 +139,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
         <div className="flex items-center gap-2">
           {/* Sized vehicle icon container */}
           <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
-            {selected.name === "Base" ? (
-              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} width={97.11} height={64.97} className="absolute left-[-65.446px] top-[-38.282px] h-[64.97px] w-[97.11px] max-w-none" />
-            ) : (
-              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
-            )}
+            <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
           </div>
 
           <div className="flex flex-col justify-center items-start gap-[2px]">
@@ -269,11 +260,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
       <button type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }} aria-expanded={expanded} aria-controls="desktop-variant-options" className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm">
         <div className="flex items-center gap-2">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
-            {selected.name === "Base" ? (
-              <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden width={97.11} height={64.97} className="absolute left-[-65.46px] top-[-38.28px] h-[64.97px] w-[97.11px] max-w-none" />
-            ) : (
-              <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
-            )}
+            <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
           </div>
           <div className="flex flex-col justify-center gap-1">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
@@ -320,10 +307,11 @@ export default function ProductHero() {
     setSelectedVariant(index);
     setVariantsExpanded(false);
   };
+  const selected = VARIANTS[selectedVariant];
 
   return (
     <section
-      aria-label="Storm EV LR 200 Base"
+      aria-label={`Storm EV ${selected.name}`}
       className="relative w-full overflow-hidden bg-white max-lg:overflow-visible max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
       {/* Mobile background portrait crop */}
@@ -371,10 +359,10 @@ export default function ProductHero() {
         {/* Header container */}
         <div className="flex w-[302.801px] sm:w-[420px] max-w-full flex-col items-start justify-center gap-[12px]">
           <h1 className="self-stretch font-display text-[28px] sm:text-[36px] font-semibold leading-[115%] tracking-[-0.56px] text-[#121212]">
-            Storm EV LR 200 Base
+            Storm EV {selected.name}
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
-            Built for long city and highway runs. Carries a full load all day and charges overnight at your depot.
+            Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
           </p>
           <a
             href="#book-test-drive"
@@ -403,10 +391,10 @@ export default function ProductHero() {
         {/* Left header */}
         <div className="absolute left-20 top-[130px] flex w-[303px] flex-col items-start gap-4">
           <h1 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink">
-            Storm EV LR 200 Base
+            Storm EV {selected.name}
           </h1>
           <p className="w-[308.7px] font-sans text-[16px] leading-normal text-ink">
-            Built for long city and highway runs. Carries a full load all day and charges overnight at your depot.
+            Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
           </p>
           <a
             href="#book-test-drive"

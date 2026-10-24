@@ -7,16 +7,16 @@ import Arrow from "@/components/ui/Arrow";
 const ASSET = "/assets/products/";
 
 const STATS = [
-  { value: "180+", unit: "km", label: "ARAI Range" },
+  { value: "267", unit: "km", label: "Max Certified Range" },
   { value: "1,000", unit: "kg", label: "Certified Payload" },
   { value: "140", unit: "Nm", label: "Peak Torque" },
-  { value: "15", unit: "min", label: "Fast Charge Top-Up" },
+  { value: "15", unit: "min", label: "Fast Charge (50km)" },
 ];
 
 const TURBO_VARIANTS = [
-  { name: "Turbo EV 1000 City", range: "180 km ARAI", price: "₹5.99 L", image: "vehicle-turbo-1000-clean.png" },
-  { name: "Turbo EV 1000 FC", range: "180 km ARAI", price: "₹6.49 L", image: "vehicle-turbo-1000-clean.png" },
-  { name: "Turbo EV 1000 Maxx", range: "220 km ARAI", price: "₹6.99 L", image: "vehicle-turbo-1000-clean.png" },
+  { name: "Turbo EV 1000 City", range: "197 km ARAI", price: "₹5.99 L", image: "vehicle-turbo-1000-clean.png" },
+  { name: "Turbo EV 1000 FC", range: "200+ km ARAI", price: "₹6.49 L", image: "vehicle-turbo-1000-clean.png" },
+  { name: "Turbo EV 1000 Maxx", range: "267 km ARAI", price: "₹6.99 L", image: "vehicle-turbo-1000-clean.png" },
 ];
 
 type VariantSelectorProps = {
