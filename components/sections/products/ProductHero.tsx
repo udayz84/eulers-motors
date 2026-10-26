@@ -146,20 +146,20 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
           }}
           aria-expanded={expanded}
           aria-controls="mobile-variant-options"
-          className="flex flex-1 items-center justify-between rounded-[12px] bg-white py-[6px] pl-[6px] pr-[16px] text-left shadow-sm"
+          className="flex flex-1 min-w-0 items-center justify-between gap-2 rounded-[12px] bg-white py-[6px] pl-[6px] pr-3 text-left shadow-sm"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
               <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
             </div>
 
-            <div className="flex flex-col justify-center items-start gap-[2px]">
-              <span className="font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
+            <div className="flex flex-col justify-center items-start gap-[2px] min-w-0">
+              <span className="truncate font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
                 {selected.name}
               </span>
-              <div className="flex items-center gap-1 font-sans text-[12px] font-medium leading-[115%] tracking-[-0.24px] text-[#0E2F6D]">
+              <div className="flex items-center gap-1 font-sans text-[12px] font-medium leading-[115%] tracking-[-0.24px] text-[#0E2F6D] whitespace-nowrap">
                 <span>{selected.range}</span>
-                <span className="size-[3px] rounded-full bg-[#0E2F6D]/40" />
+                <span className="size-[3px] shrink-0 rounded-full bg-[#0E2F6D]/40" />
                 <span>{selected.price}</span>
               </div>
             </div>
@@ -266,7 +266,7 @@ function SpecsGrid() {
 function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div className="relative z-30 flex w-[260px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-30 flex w-[320px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
@@ -278,13 +278,13 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
         }}
         aria-expanded={expanded}
         aria-controls="desktop-variant-options"
-        className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm transition-colors hover:bg-white/90"
+        className="flex w-full items-center justify-between gap-3 rounded-[12px] bg-white py-[6px] pl-2 pr-3.5 text-left shadow-sm transition-colors hover:bg-white/90"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
             <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
           </div>
-          <div className="flex flex-col justify-center gap-1">
+          <div className="flex flex-col justify-center gap-1 min-w-0">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
               {selected.name}
             </p>
@@ -305,7 +305,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           aria-hidden
           width={15.5}
           height={7.12}
-          className={`h-[7.12px] w-[15.5px] transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
+          className={`h-[7.12px] w-[15.5px] shrink-0 transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
         />
       </button>
       {expanded && (

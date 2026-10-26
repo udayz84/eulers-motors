@@ -153,7 +153,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
 function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = HILOAD_VARIANTS[selectedIndex];
   return (
-    <div className="relative z-30 flex w-[265px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-30 flex w-[320px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
         Variants
       </p>
@@ -165,13 +165,13 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
         }}
         aria-expanded={expanded}
         aria-controls="hiload-desktop-variant-options"
-        className="flex w-full items-center justify-between rounded-[12px] bg-white py-[6px] pl-1.5 pr-4 text-left shadow-sm transition-colors hover:bg-white/90"
+        className="flex w-full items-center justify-between gap-3 rounded-[12px] bg-white py-[6px] pl-2 pr-3.5 text-left shadow-sm transition-colors hover:bg-white/90"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
             <Image src={`${ASSET}${selected.image}`} alt="" fill sizes="42px" className="object-contain p-0.5" />
           </div>
-          <div className="flex flex-col justify-center gap-1">
+          <div className="flex flex-col justify-center gap-1 min-w-0">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
               {selected.name}
             </p>
@@ -192,7 +192,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           aria-hidden
           width={15.5}
           height={7.12}
-          className={`h-[7.12px] w-[15.5px] transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
+          className={`h-[7.12px] w-[15.5px] shrink-0 transition-transform ${expanded ? "rotate-180" : "-scale-y-100"}`}
         />
       </button>
 

@@ -69,10 +69,10 @@ const ALL_OTHER_VEHICLES: VehicleCard[] = [
     ground: "#4B423F",
     href: "/products/lr200",
     stats: [
-      { label: "on one charge", value: "200", unit: "km" },
-      { label: "Load capacity", value: "1,200", unit: "kg" },
+      { label: "on one charge", value: "200+", unit: "km" },
+      { label: "Load capacity", value: "1,500", unit: "kg" },
       { label: "Running cost", value: "₹1.05", unit: "/km" },
-      { label: "Charging Time", value: "90", unit: "min" },
+      { label: "Charging Time", value: "15", unit: "min" },
     ],
   },
   {
