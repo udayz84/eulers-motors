@@ -36,7 +36,7 @@ const VEHICLES: VehicleData[] = [
   },
   {
     id: "storm-ev-lr-200",
-    tabLabel: "Strom EV LR 200",
+    tabLabel: "Storm EV LR 200",
     title: "Storm EV LongRange 200",
     image: "/assets/products/vehicle-storm-lr200-clean.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
@@ -72,6 +72,13 @@ const VEHICLES: VehicleData[] = [
   },
 ];
 
+const VEHICLE_SCENE_STYLES: Record<string, string> = {
+  "hiload-ev": "w-[62%] h-[57.5%] top-[20.5%]",
+  "storm-ev-t1500": "w-[56%] h-[52%] top-[25%]",
+  "storm-ev-lr-200": "w-[56%] h-[52%] top-[25%]",
+  "turbo-ev-1000": "w-[56%] h-[52%] top-[25%]",
+};
+
 /**
  * Desktop renders the Figma scene (1:1319) with the truck swapping per
  * vehicle — the default (LR 200) IS the scene image, the others swap cutouts
@@ -79,7 +86,7 @@ const VEHICLES: VehicleData[] = [
  * Mobile (1:4605) is the static Figma scene; tabs cycle specs only.
  */
 export default function ProductShowcase() {
-  const [active, setActive] = useState(1); // Default to "Strom EV LR 200"
+  const [active, setActive] = useState(1); // Default to "Storm EV LR 200"
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const scrollAccumulator = useRef(0);
 
@@ -135,13 +142,15 @@ export default function ProductShowcase() {
       >
         <div
           key={current.id}
-          className="animate-fadeIn absolute left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
+          className={`animate-fadeIn absolute left-1/2 -translate-x-1/2 ${
+            VEHICLE_SCENE_STYLES[current.id] || "w-[56%] h-[52%] top-[25%]"
+          }`}
         >
           <Image
             src={current.image}
             alt={current.title}
             fill
-            sizes="(min-width: 1440px) 700px, 45vw"
+            sizes="(min-width: 1440px) 900px, 65vw"
             className="object-contain"
             quality={100}
             priority
@@ -262,7 +271,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous vehicle"
-            className="absolute left-6 xl:left-16 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute left-12 xl:left-24 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -282,7 +291,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handleNext}
             aria-label="Next vehicle"
-            className="absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute right-12 xl:right-24 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
