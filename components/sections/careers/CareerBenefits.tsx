@@ -40,9 +40,9 @@ export default function CareerBenefits() {
         </p>
       </div>
 
-      <div id="career-benefits-row" className="snap-row w-full items-center gap-2.5 self-stretch lg:m-0 lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0">
+      <div id="career-benefits-row" className="snap-row -mx-5 w-[calc(100%+40px)] items-center gap-2.5 px-5 lg:m-0 lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0">
         {BENEFITS.map((benefit) => (
-          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] [scroll-snap-align:start] lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-lg lg:pt-[54px]" key={benefit.number}>
+          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] [scroll-snap-align:start] max-lg:first:scroll-ml-5 lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-lg lg:pt-[54px]" key={benefit.number}>
             <span className="absolute top-[9.818px] left-5 bg-[linear-gradient(2deg,rgb(29_111_255_/_0%)_-11.9%,rgb(29_111_255_/_20%)_87.54%)] bg-clip-text font-display text-[42px] font-bold leading-[1.15] tracking-[-0.84px] text-transparent lg:text-[62px] lg:tracking-[-1.24px]">{benefit.number}</span>
             <div
               className={`absolute top-[2.566px] right-[5.139px] h-[68.434px] w-[71.009px] aspect-[71.01/68.43] bg-transparent bg-cover bg-center bg-no-repeat lg:top-[10px] lg:right-[25.073px] lg:h-[76.003px] lg:w-[78.863px] lg:bg-contain ${

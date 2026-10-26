@@ -22,7 +22,7 @@ const COLUMNS: FooterColumn[] = [
     links: ["Dealer Locator", "Service Centres", "Charging Stations Locator", "Downloads"],
     openOnMobile: false,
   },
-  { title: "Resources", links: ["Blogs", "In press"], openOnMobile: false },
+  { title: "Resources", links: ["Insights", "In press"], openOnMobile: false },
   { title: "Company", links: ["About us", "Careers", "Sitemap"], openOnMobile: false },
   {
     title: "Legal",
@@ -74,6 +74,8 @@ function getFooterHref(link: string): string {
       return "/charging-stations";
     case "Technology":
       return "/technology";
+    case "Insights":
+      return "/insights";
     case "Privacy policy":
       return "/privacy-policy";
     case "Terms and conditions":

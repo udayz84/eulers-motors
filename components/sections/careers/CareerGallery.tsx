@@ -38,7 +38,7 @@ export default function CareerGallery() {
             <Image src={GALLERY[2].src} alt={GALLERY[2].alt} fill sizes="(max-width: 767px) 426px, 549px" />
           </div>
         </div>
-        <div className="flex h-full w-[426px] shrink-0 snap-start flex-col gap-[14px] lg:w-[296.4px] lg:gap-[18.04px]">
+        <div className="hidden h-full w-[426px] shrink-0 snap-start flex-col gap-[14px] lg:flex lg:w-[296.4px] lg:gap-[18.04px]">
           <div className="relative min-h-0 flex-1 overflow-hidden rounded-[7px] lg:flex-[0_0_331px] lg:rounded-[8.99px]">
             <Image src={GALLERY[3].src} alt={GALLERY[3].alt} fill sizes="(max-width: 767px) 426px, 296px" />
           </div>

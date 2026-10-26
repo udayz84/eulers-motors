@@ -144,6 +144,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
             <div className="contents lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
             <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Team</span>
+              <div className="relative min-w-0 flex-1 lg:contents">
               <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
                 <button
                   type="button"
@@ -170,9 +171,12 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                   </button>
                 ))}
               </div>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:hidden" />
+              </div>
             </div>
             <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Where</span>
+              <div className="relative min-w-0 flex-1 lg:contents">
               <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
                 <button
                   type="button"
@@ -198,6 +202,8 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                     {location}
                   </button>
                 ))}
+              </div>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:hidden" />
               </div>
             </div>
             </div>

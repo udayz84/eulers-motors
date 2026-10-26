@@ -26,6 +26,13 @@ const DROPDOWNS = {
       { label: "In press", desc: "News and media kit" },
     ],
   },
+  Insights: {
+    heading: "RESOURCES",
+    items: [
+      { label: "Insights", desc: "Stories, Ideas & Insights" },
+      { label: "In press", desc: "News and media kit" },
+    ],
+  },
   Support: {
     heading: "HELP AND SERVICE",
     items: [
@@ -173,7 +180,7 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
 
 function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
   const href =
-    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : "#";
+    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : item.label === "Insights" ? "/insights" : "#";
   return (
     <Link
       href={href}
@@ -287,6 +294,8 @@ function MenuCardLink({
         ? "/about"
         : item.label === "Careers"
           ? "/careers"
+        : item.label === "Insights"
+          ? "/insights"
         : PRODUCT_MOBILE.some((p) => p.label === item.label)
           ? "/products"
       : "#");
@@ -312,7 +321,7 @@ function MenuCardLink({
  */
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "/about";
+  const isHome = pathname === "/" || pathname === "/about" || pathname === "/insights";
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
@@ -498,6 +507,22 @@ export default function Navbar() {
                   >
                     Company
                     {chevron(openDropdown === "Company", isHome)}
+                  </button>
+                </li>
+                {/* Insights dropdown */}
+                <li
+                  className="relative"
+                  onMouseEnter={() => setOpenDropdown("Insights")}
+                >
+                  <button
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded={openDropdown === "Insights"}
+                    onClick={() => toggleDropdown("Insights")}
+                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
+                  >
+                    Insights
+                    {chevron(openDropdown === "Insights", isHome)}
                   </button>
                 </li>
                 <li>
@@ -748,6 +773,38 @@ export default function Navbar() {
                       <Arrow color="white" />
                     </span>
                   </Link>
+                </MenuRow>
+                {/* INSIGHTS */}
+                <MenuRow
+                  label="Insights"
+                  open={openDropdown === "Insights"}
+                  onToggle={() => toggleDropdown("Insights")}
+                  isHome={isHome}
+                  href="/insights"
+                  onNavigate={() => {
+                    setMenuOpen(false);
+                    setOpenDropdown(null);
+                  }}
+                >
+                  <div className="flex flex-col gap-3 pb-4">
+                    <MenuCardLink
+                      item={{ label: "Insights", desc: "Stories, Ideas & Insights" }}
+                      isHome={isHome}
+                      href="/insights"
+                      onNavigate={() => {
+                        setMenuOpen(false);
+                        setOpenDropdown(null);
+                      }}
+                    />
+                    <MenuCardLink
+                      item={{ label: "In press", desc: "News and media kit" }}
+                      isHome={isHome}
+                      onNavigate={() => {
+                        setMenuOpen(false);
+                        setOpenDropdown(null);
+                      }}
+                    />
+                  </div>
                 </MenuRow>
                 {/* TECHNOLOGY — plain link row */}
                 <Link
