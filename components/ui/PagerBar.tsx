@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 
 /**
  * White pager bar beneath a horizontally scrollable row (Figma 3329:13531):
@@ -20,10 +21,12 @@ export default function PagerBar({
   rowId,
   progress: controlledProgress,
   className = "",
+  trackStyle,
 }: {
   rowId?: string;
   progress?: number;
   className?: string;
+  trackStyle?: CSSProperties;
 }) {
   const [internalProgress, setInternalProgress] = useState(0);
   const isControlled = typeof controlledProgress === "number";
@@ -53,6 +56,7 @@ export default function PagerBar({
   return (
     <div
       className={`flex h-5 w-[116.199px] shrink-0 items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1 ${className}`}
+      style={trackStyle}
     >
       <div
         className="h-3 w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-150 ease-out"
