@@ -12,7 +12,7 @@ const GALLERY = [
 
 export default function CareerGallery() {
   return (
-    <section className="flex flex-col items-center gap-[17px] overflow-hidden bg-white px-5 py-8 lg:h-[800px] lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(64px,calc((100vw-1440px)/2+64px))] lg:py-[62px]" aria-labelledby="career-gallery-heading">
+    <section className="flex flex-col items-center gap-[17px] overflow-clip bg-white px-5 py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(64px,calc((100vw-1440px)/2+64px))] lg:py-[62px]" aria-labelledby="career-gallery-heading">
       <div className="flex w-full flex-col items-start gap-3 lg:w-[459px] lg:items-center lg:gap-4 lg:text-center">
         <Eyebrow label="Inside the depots" />
         <h2 id="career-gallery-heading" className="m-0 font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">Life at Euler Motors</h2>
@@ -24,7 +24,7 @@ export default function CareerGallery() {
 
       <div
         id="career-gallery-row"
-        className="no-scrollbar -ml-5 flex h-[380px] w-screen snap-x snap-mandatory scroll-pl-5 gap-[14px] self-start overflow-x-auto pl-5 pr-0 lg:m-0 lg:h-[489.7px] lg:w-[1280px] lg:shrink-0 lg:gap-[17.97px] lg:self-auto lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
+        className="no-scrollbar -ml-5 flex h-[380px] w-screen snap-x snap-mandatory scroll-pl-5 gap-[14px] self-start overflow-x-auto overflow-y-hidden touch-pan-x overscroll-y-contain pl-5 pr-0 lg:m-0 lg:h-[489.7px] lg:w-[1280px] lg:shrink-0 lg:gap-[17.97px] lg:self-auto lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
         aria-label="Life at Euler Motors"
       >
         <div className="relative h-full w-[310px] shrink-0 snap-start overflow-hidden rounded-[7px] lg:w-[399.49px] lg:rounded-[8.99px]">
