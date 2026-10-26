@@ -78,6 +78,19 @@ const VALUES = (v: VariantData) => [
   v.cargoSpace,
 ];
 
+// Responsive typography helpers to prevent table cells from overflowing or overlapping
+const getValueFontSize = (val: string) => {
+  if (val.length > 28) return "text-[13px] xl:text-[14px] leading-tight";
+  if (val.length > 20) return "text-[15px] xl:text-[16px] leading-snug";
+  return "text-[18px] xl:text-[20px] leading-tight";
+};
+
+const getMobileValueFontSize = (val: string) => {
+  if (val.length > 26) return "text-[10px] leading-tight";
+  if (val.length > 18) return "text-[11px] leading-tight";
+  return "text-[12px] leading-normal";
+};
+
 // Layout positioning constants
 const DESKTOP_INITIAL_LEFT = 266.93;
 const DESKTOP_STEP = 323.67;
@@ -260,22 +273,23 @@ export default function ProductVariantsCompare({
             >
               {/* Label column */}
               <div
-                className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-center justify-between pl-2 pr-px py-[26.313px]"
+                className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-start justify-between pl-3 pr-1 py-[20px]"
                 style={{
                   backgroundImage:
                     "linear-gradient(270deg, rgba(255,255,255,0.00) 0%, #FFF 9.17%)",
                 }}
               >
-                <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
-                  Variants
-                </p>
-                {LABELS.map((label) => (
-                  <p
-                    key={label}
-                    className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]"
-                  >
-                    {label}
+                <div className="flex h-[28px] w-full items-center">
+                  <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
+                    Variants
                   </p>
+                </div>
+                {LABELS.map((label) => (
+                  <div key={label} className="flex h-[28px] w-full items-center">
+                    <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
+                      {label}
+                    </p>
+                  </div>
                 ))}
               </div>
 
@@ -311,33 +325,36 @@ export default function ProductVariantsCompare({
                     tabIndex={0}
                     aria-label={`Select ${variant.name}`}
                     aria-pressed={isSelected}
-                    className="absolute flex h-[246px] cursor-pointer flex-col items-center justify-between py-[10px] select-none focus:outline-none"
+                    className="absolute flex h-[246px] cursor-pointer flex-col items-center justify-between py-0 select-none focus:outline-none"
                     style={{
                       width: `${MOBILE_STEP}px`,
                       left: `${MOBILE_INITIAL_LEFT + i * MOBILE_STEP}px`,
                       top: "20px",
                     }}
                   >
-                    <div
-                      className={`flex items-center rounded-[9.6px] px-[10px] py-[4px] transition-all duration-200 ${
-                        isSelected
-                          ? "bg-white shadow-sm ring-1 ring-[#0E2F6D]/20"
-                          : "bg-[#f3f4f5]"
-                      }`}
-                    >
-                      <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
-                        {variant.name}
-                      </p>
-                    </div>
-                    {VALUES(variant).map((value, vi) => (
-                      <p
-                        key={vi}
-                        className={`whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.06px] transition-colors duration-200 ${
-                          isSelected ? "text-ink" : "text-[#4a4f57]"
+                    <div className="flex h-[28px] w-full items-center justify-center">
+                      <div
+                        className={`flex items-center rounded-[9.6px] px-[8px] py-[3px] transition-all duration-200 ${
+                          isSelected
+                            ? "bg-white shadow-sm ring-1 ring-[#0E2F6D]/20"
+                            : "bg-[#f3f4f5]"
                         }`}
                       >
-                        {value}
-                      </p>
+                        <p className="whitespace-nowrap text-center font-sans text-[11px] sm:text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
+                          {variant.name}
+                        </p>
+                      </div>
+                    </div>
+                    {VALUES(variant).map((value, vi) => (
+                      <div key={vi} className="flex h-[28px] w-full items-center justify-center px-1 text-center">
+                        <p
+                          className={`w-full text-center font-sans font-bold tracking-[-0.06px] transition-colors duration-200 ${
+                            isSelected ? "text-ink" : "text-[#4a4f57]"
+                          } ${getMobileValueFontSize(value)}`}
+                        >
+                          {value}
+                        </p>
+                      </div>
                     ))}
                   </div>
                 );
@@ -434,19 +451,18 @@ export default function ProductVariantsCompare({
                 </div>
 
                 {/* Column 1: Labels (Figma 2861:7740) */}
-                <div className="relative z-10 flex h-[400px] w-[242px] shrink-0 flex-col items-start justify-between">
-                  <div className="flex w-full items-center py-3">
+                <div className="relative z-10 flex h-[372px] w-[242px] shrink-0 flex-col items-start justify-between">
+                  <div className="flex h-[44px] w-full items-center">
                     <p className="font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]">
                       Variants
                     </p>
                   </div>
                   {LABELS.map((label) => (
-                    <p
-                      key={label}
-                      className="w-full font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]"
-                    >
-                      {label}
-                    </p>
+                    <div key={label} className="flex h-[42px] w-full items-center">
+                      <p className="w-full font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]">
+                        {label}
+                      </p>
+                    </div>
                   ))}
                 </div>
 
@@ -467,28 +483,31 @@ export default function ProductVariantsCompare({
                       tabIndex={0}
                       aria-label={`Select ${variant.name}`}
                       aria-pressed={isSelected}
-                      className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 cursor-pointer flex-col items-center justify-between select-none focus:outline-none"
+                      className="relative z-10 flex h-[372px] w-[312.143px] shrink-0 cursor-pointer flex-col items-center justify-between select-none focus:outline-none"
                     >
-                      <div
-                        className={`flex items-center rounded-[12px] px-4 py-3 transition-all duration-200 ${
-                          isSelected
-                            ? "bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-[#0E2F6D]/20"
-                            : "bg-[#f3f4f5] hover:bg-[#e8eaec]"
-                        }`}
-                      >
-                        <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
-                          {variant.name}
-                        </p>
-                      </div>
-                      {VALUES(variant).map((value, vi) => (
-                        <p
-                          key={vi}
-                          className={`whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] transition-colors duration-200 ${
-                            isSelected ? "text-ink" : "text-[#4a4f57]"
+                      <div className="flex h-[44px] w-full items-center justify-center">
+                        <div
+                          className={`flex items-center rounded-[12px] px-3.5 py-2 transition-all duration-200 ${
+                            isSelected
+                              ? "bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-[#0E2F6D]/20"
+                              : "bg-[#f3f4f5] hover:bg-[#e8eaec]"
                           }`}
                         >
-                          {value}
-                        </p>
+                          <p className="whitespace-nowrap font-sans text-[15px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
+                            {variant.name}
+                          </p>
+                        </div>
+                      </div>
+                      {VALUES(variant).map((value, vi) => (
+                        <div key={vi} className="flex h-[42px] w-full items-center justify-center px-2 text-center">
+                          <p
+                            className={`max-w-full text-center font-sans font-bold tracking-[-0.1px] transition-colors duration-200 ${
+                              isSelected ? "text-ink" : "text-[#4a4f57]"
+                            } ${getValueFontSize(value)}`}
+                          >
+                            {value}
+                          </p>
+                        </div>
                       ))}
                     </div>
                   );
