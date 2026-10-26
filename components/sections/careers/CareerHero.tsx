@@ -280,8 +280,60 @@ function SearchIcon() {
 
 function ArrowIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 22 14" className="h-3 w-[18.86px]">
-      <path d="M1 7h19M14 1l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.6" />
+    <svg aria-hidden="true" viewBox="0 0 23.12 14" className="h-[14px] w-[23.12px]">
+      <path
+        d="M8.75 14 14.0806 7.781C14.4658 7.3316 14.4658 6.6684 14.0806 6.219L8.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        filter="url(#arrow-glow)"
+      />
+      <path
+        d="M0.75 14 6.0806 7.781C6.4658 7.3316 6.4658 6.6684 6.0806 6.219L0.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.1"
+      />
+      <path
+        d="M4.75 14 10.0806 7.781C10.4658 7.3316 10.4658 6.6684 10.0806 6.219L4.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.2"
+      />
+      <path
+        d="M8.75 14 14.0806 7.781C14.4658 7.3316 14.4658 6.6684 14.0806 6.219L8.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="1"
+      />
+      <path
+        d="M12.75 14 18.0806 7.781C18.4658 7.3316 18.4658 6.6684 18.0806 6.219L12.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.2"
+      />
+      <path
+        d="M16.75 14 22.0806 7.781C22.4658 7.3316 22.4658 6.6684 22.0806 6.219L16.75 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.1"
+      />
+      <defs>
+        <filter id="arrow-glow" x="6" y="-2.75" width="11.12" height="19.5" filterUnits="userSpaceOnUse">
+          <feGaussianBlur stdDeviation="1" />
+        </filter>
+      </defs>
     </svg>
   );
 }
@@ -295,7 +347,7 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
   return (
     <section className="relative isolate h-[734px] overflow-hidden bg-black text-white lg:h-[700px]" aria-labelledby="careers-heading">
       <div
-        className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.136%,#041231_60.12%),linear-gradient(8.53deg,#0e2f6d_28.191%,#1d6fff_89.743%)] max-lg:bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.14%,#041231_60.12%),linear-gradient(5deg,#0e2f6d_28.19%,#1d6fff_89.74%)] lg:bg-[linear-gradient(-86.6deg,#0e2f6d_63.511%,#1d6fff_87.226%),#000]"
+        className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.136%,#041231_60.12%),linear-gradient(8.53deg,#0e2f6d_28.191%,#1d6fff_89.743%)] max-lg:bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_18%,rgba(4,18,49,0.55)_42%,#041231_68%),linear-gradient(5deg,#0e2f6d_28.19%,#1d6fff_89.74%)] lg:bg-[linear-gradient(-86.6deg,#0e2f6d_63.511%,#1d6fff_87.226%)] lg:bg-black"
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[url('/assets/careers/hero-texture.png')] bg-[length:cover] bg-[position:center_bottom] bg-no-repeat opacity-[0.12] lg:bg-left-top lg:bg-[length:1440px_810.895px]" />
@@ -327,7 +379,7 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
           className="pointer-events-none absolute inset-0 hidden lg:block"
           style={{
             backgroundImage:
-              "linear-gradient(90deg, rgba(25,75,165,0) calc(max(80px, (100vw - 1440px) / 2 + 80px) + 259.26px), rgba(25,75,165,0.5) 46.46%, rgba(25,75,165,0) 58%)",
+              "linear-gradient(90deg, rgba(25,75,165,0) calc(max(80px, (100vw - 1440px) / 2 + 80px) + 160px), rgba(25,75,165,0.65) 38%, rgba(25,75,165,0) 54%)",
           }}
         />
       </div>

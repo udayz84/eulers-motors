@@ -58,7 +58,7 @@ function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDupli
   return (
     <article
       aria-hidden={isDuplicate || undefined}
-      className={`${isDuplicate ? "hidden lg:flex" : "flex"} w-full min-w-0 items-center gap-5 rounded-xl bg-white/[0.08] p-5 lg:min-h-[228px] lg:w-[412px] lg:min-w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8`}
+      className={`${isDuplicate ? "hidden lg:flex" : "flex"} w-full min-w-0 items-center gap-5 rounded-xl border-[0.5px] border-white/20 bg-white/[0.08] p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),inset_0_-1px_1px_rgba(255,255,255,0.08)] backdrop-blur-md lg:min-h-[228px] lg:w-[412px] lg:min-w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8`}
     >
       <div className="relative h-[62px] w-[64.33px] shrink-0 overflow-hidden lg:h-[72px] lg:w-[74.71px]">
         <Image
@@ -86,7 +86,7 @@ function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDupli
 
 export default function CareerSupport() {
   return (
-    <section className="relative flex min-h-[790px] flex-col items-start justify-center gap-[24.189px] overflow-hidden bg-[linear-gradient(0deg,rgb(0_0_0_/_40%)_0%,rgb(0_0_0_/_40%)_100%),linear-gradient(262deg,#0e2f6d_-37.82%,#1d6fff_87.67%)] pb-[31.185px] pl-[19.316px] pr-5 pt-[31.625px] text-white lg:h-[610.36px] lg:min-h-0 lg:items-center lg:justify-start lg:gap-[42px] lg:bg-[linear-gradient(rgb(0_0_0_/_40%),rgb(0_0_0_/_40%)),linear-gradient(267.35deg,#0e2f6d_37.824%,#1d6fff_87.673%)] lg:px-20 lg:py-[62px]" aria-labelledby="career-support-heading">
+    <section className="relative flex min-h-[790px] flex-col items-start justify-center gap-[24.189px] overflow-hidden bg-[linear-gradient(0deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.40)_100%),linear-gradient(272deg,#0E2F6D_-63.51%,#1D6FFF_87.23%)] bg-[#E9EDF3] pb-[31.185px] pl-[19.316px] pr-5 pt-[31.625px] text-white lg:h-[610.36px] lg:min-h-0 lg:items-center lg:justify-start lg:gap-[42px] lg:px-20 lg:py-[62px]" aria-labelledby="career-support-heading">
       <div className="flex w-full max-w-[353px] flex-col items-center justify-center gap-[14px] text-center lg:max-w-none lg:justify-start lg:gap-4">
         <Eyebrow label="Our offering" dark icons="white" />
         <h2 id="career-support-heading" className="m-0 font-display text-[28px] font-semibold leading-normal tracking-[-0.56px] text-white lg:text-[42px] lg:tracking-[-0.84px]">Support That Matters</h2>

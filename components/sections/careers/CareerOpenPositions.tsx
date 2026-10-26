@@ -53,7 +53,7 @@ function CareerCard({
       <div className="flex flex-col items-start gap-3 lg:self-stretch">
         <div className="flex flex-wrap items-center gap-2.5">
           {[opening.department, opening.location, "Full time", opening.experience].map((tag) => (
-            <span className="flex flex-col items-start gap-2.5 rounded-[50px] bg-[#d4dbec] px-2.5 py-1 font-sans text-[10px] font-bold leading-[1.3] text-ink lg:text-xs" key={tag}>{tag}</span>
+            <span className="flex flex-col items-start gap-2.5 rounded-[50px] bg-[#d4dbec] px-2.5 py-1 font-sans text-xs font-bold leading-[1.3] text-ink" key={tag}>{tag}</span>
           ))}
         </div>
         <h3 className="m-0 font-display text-base font-semibold leading-[1.4] text-[#121212] lg:self-stretch lg:text-xl lg:leading-[1.4]">{opening.title}</h3>
@@ -117,7 +117,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
   const pageStart = (currentPage - 1) * PAGE_SIZE;
 
   return (
-    <section id="open-positions" className="relative flex min-h-[760px] scroll-mt-[88px] flex-col items-center justify-center gap-6 bg-white px-5 py-8 lg:flex lg:h-[854px] lg:min-h-0 lg:w-full lg:flex-col lg:items-start lg:justify-start lg:gap-[10px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
+    <section id="open-positions" className="relative flex min-h-[760px] scroll-mt-[88px] flex-col items-center justify-center gap-6 bg-white px-5 py-8 lg:flex lg:min-h-0 lg:w-full lg:flex-col lg:items-start lg:justify-start lg:gap-[10px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
       <div className="flex w-full flex-col gap-6 lg:items-start lg:gap-[42px] lg:self-stretch">
         <div className="flex self-stretch flex-col gap-6 lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col items-start justify-center self-stretch gap-3 lg:w-[646.448px] lg:shrink-0 lg:justify-start lg:gap-4">

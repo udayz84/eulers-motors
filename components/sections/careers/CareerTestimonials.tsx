@@ -58,7 +58,7 @@ function TestimonialCard({
           4.5
         </span>
       </div>
-      <p className="m-0 self-stretch font-sans text-[17px] font-bold leading-[1.4] tracking-[-0.24px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">&quot;{testimonial.quote}&quot;</p>
+      <p className="m-0 self-stretch font-sans text-[18px] font-bold leading-[1.4] tracking-[-0.24px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">&quot;{testimonial.quote}&quot;</p>
       <div className="h-px w-[86px] bg-ink/20 lg:h-0.5 lg:w-[121px]" />
       <div className="flex items-center gap-2.5 self-stretch">
         <Image src={testimonial.image} alt="" width={62} height={62} className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]" />
@@ -73,7 +73,7 @@ function TestimonialCard({
 
 export default function CareerTestimonials() {
   return (
-    <section className="flex w-full flex-col items-center gap-6 overflow-hidden bg-white py-8 lg:h-[815.36px] lg:min-h-0 lg:gap-[42px] lg:py-[62px]" aria-labelledby="career-testimonials-heading">
+    <section className="relative flex w-full flex-col items-center gap-6 overflow-hidden bg-white py-8 lg:h-[815.36px] lg:min-h-0 lg:gap-[42px] lg:py-[62px]" aria-labelledby="career-testimonials-heading">
       <div className="flex w-[calc(100%-40px)] max-w-[518px] flex-col items-center gap-3 text-center lg:gap-4">
         <Eyebrow label="Employee voices" />
         <h2 id="career-testimonials-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">What Our People Say</h2>
@@ -98,6 +98,10 @@ export default function CareerTestimonials() {
           )),
         )}
       </div>
+
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-[62.17px] left-0 z-10 hidden h-[551px] w-[287.979px] [transform:scaleX(-1)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
+      <div aria-hidden="true" className="pointer-events-none absolute right-[-0.001px] bottom-[62.17px] z-10 hidden h-[551px] w-[268.629px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
+
       <PagerBar
         rowId="career-testimonials-row"
         className="self-center [&>div]:bg-ink"

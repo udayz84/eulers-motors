@@ -27,7 +27,7 @@ const BENEFITS = [
 
 export default function CareerBenefits() {
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-hidden bg-white px-5 py-8 lg:h-[450.36px] lg:w-full lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px] lg:bg-[linear-gradient(180deg,#fff_18.31%,#d4dbec_38.3%)] lg:bg-white" aria-labelledby="career-impact-heading">
+    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-hidden bg-[linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] bg-[#FFF] px-5 py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="career-impact-heading">
       <div className="flex flex-col items-start justify-center gap-[14px] self-stretch lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-8">
         <div className="flex w-full flex-col gap-[14px] lg:w-[414.43px] lg:shrink-0 lg:gap-4">
           <Eyebrow label="Why work with us" />

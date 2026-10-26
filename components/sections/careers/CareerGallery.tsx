@@ -12,7 +12,7 @@ const GALLERY = [
 
 export default function CareerGallery() {
   return (
-    <section className="flex flex-col items-center gap-[17px] overflow-hidden bg-white px-5 py-8 lg:h-[800px] lg:gap-[42px] lg:px-16 lg:py-[62px]" aria-labelledby="career-gallery-heading">
+    <section className="flex flex-col items-center gap-[17px] overflow-hidden bg-white px-5 py-8 lg:h-[800px] lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(64px,calc((100vw-1440px)/2+64px))] lg:py-[62px]" aria-labelledby="career-gallery-heading">
       <div className="flex w-full flex-col items-start gap-3 lg:w-[459px] lg:items-center lg:gap-4 lg:text-center">
         <Eyebrow label="Inside the depots" />
         <h2 id="career-gallery-heading" className="m-0 font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">Life at Euler Motors</h2>
