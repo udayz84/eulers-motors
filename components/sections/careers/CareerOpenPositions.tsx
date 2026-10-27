@@ -141,10 +141,11 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 placeholder="Search here..."
               />
             </label>
-            <div className="contents lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
-            <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
+            <div className="flex flex-col items-start self-stretch gap-[12px] lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
+            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Team</span>
-              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
+              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
                   type="button"
                   className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.department ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
@@ -169,11 +170,18 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                     {department}
                   </button>
                 ))}
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute lg:hidden"
+                  style={{ width: "54.598px", height: "84.271px", right: "-19.994px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                />
               </div>
             </div>
-            <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
+            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Where</span>
-              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
+              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
                   type="button"
                   className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.location ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
@@ -198,6 +206,12 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                     {location}
                   </button>
                 ))}
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute lg:hidden"
+                  style={{ width: "54.598px", height: "84.271px", right: "-19.994px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                />
               </div>
             </div>
             </div>

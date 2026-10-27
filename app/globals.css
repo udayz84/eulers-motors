@@ -234,6 +234,7 @@ button {
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 .snap-row::-webkit-scrollbar {
   display: none;
@@ -387,5 +388,14 @@ button {
     padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
     scroll-padding-left: calc(max(0px, (100vw - 1440px) / 2) + 80px);
     scroll-padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+  }
+}
+
+@layer utilities {
+  .touch-pan-y {
+    touch-action: pan-y pinch-zoom;
+  }
+  .touch-pan-x-y {
+    touch-action: pan-x pan-y pinch-zoom;
   }
 }
