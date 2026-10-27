@@ -174,7 +174,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute lg:hidden"
-                  style={{ width: "54.598px", height: "84.271px", right: "-19.994px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
                 />
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute lg:hidden"
-                  style={{ width: "54.598px", height: "84.271px", right: "-19.994px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
                 />
               </div>
             </div>
