@@ -234,6 +234,7 @@ button {
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 .snap-row::-webkit-scrollbar {
   display: none;
@@ -273,6 +274,21 @@ button {
 
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes slideUpClean {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUpClean {
+  animation: slideUpClean 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* CompareSection card strips — seamless leftward loop. The track renders two
@@ -372,5 +388,14 @@ button {
     padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
     scroll-padding-left: calc(max(0px, (100vw - 1440px) / 2) + 80px);
     scroll-padding-right: calc(max(0px, (100vw - 1440px) / 2) + 80px);
+  }
+}
+
+@layer utilities {
+  .touch-pan-y {
+    touch-action: pan-y pinch-zoom;
+  }
+  .touch-pan-x-y {
+    touch-action: pan-x pan-y pinch-zoom;
   }
 }

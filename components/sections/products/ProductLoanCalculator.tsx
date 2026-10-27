@@ -14,8 +14,8 @@ type VehicleOption = {
 const VEHICLES: VehicleOption[] = [
   { name: "Strom EV LR 200", price: 1149000, thumb: "/assets/products/vehicle-storm-lr200.png" },
   { name: "Storm EV T1500", price: 1280000, thumb: "/assets/products/vehicle-storm-t1500.png" },
-  { name: "Turbo EV 1000", price: 980000, thumb: "/assets/products/vehicle-turbo-1000.png" },
-  { name: "HiLoad EV", price: 750000, thumb: "/assets/products/vehicle-hiload-ev.png" },
+  { name: "Turbo EV 1000", price: 599000, thumb: "/assets/products/vehicle-turbo-1000.png" },
+  { name: "HiLoad EV", price: 392000, thumb: "/assets/products/vehicle-hiload-ev.png" },
 ];
 
 /**
@@ -95,8 +95,8 @@ function LoanRangeSlider({
  * Loans Section / EMI Calculator
  * Sourced directly from Figma mobile specs & desktop responsiveness.
  */
-export default function ProductLoanCalculator() {
-  const [selectedVehicle, setSelectedVehicle] = useState(0);
+export default function ProductLoanCalculator({ defaultVehicleIndex = 0 }: { defaultVehicleIndex?: number } = {}) {
+  const [selectedVehicle, setSelectedVehicle] = useState(defaultVehicleIndex);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [downPaymentPct, setDownPaymentPct] = useState(15);
   const [months, setMonths] = useState(48);

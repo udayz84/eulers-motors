@@ -2,6 +2,7 @@
 
 import { Fragment, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
 
@@ -10,6 +11,7 @@ type VehicleCard = {
   name: string;
   image: string;
   ground: string;
+  href: string;
   stats: {
     label: string;
     value: string;
@@ -23,11 +25,12 @@ const VEHICLES: VehicleCard[] = [
     name: "TURBO EV 1000",
     image: "/assets/other-vehicles/turbo-ev-1000.png",
     ground: "#4B423F",
+    href: "/products/turbo-ev-1000",
     stats: [
-      { label: "on one charge", value: "200", unit: "km" },
-      { label: "Load capacity", value: "1,200", unit: "kg" },
-      { label: "Running cost", value: "₹1.05", unit: "/km" },
-      { label: "Charging Time", value: "90", unit: "min" },
+      { label: "on one charge", value: "220", unit: "km" },
+      { label: "Load capacity", value: "1,000", unit: "kg" },
+      { label: "Running cost", value: "₹0.98", unit: "/km" },
+      { label: "Charging Time", value: "15", unit: "min" },
     ],
   },
   {
@@ -35,23 +38,80 @@ const VEHICLES: VehicleCard[] = [
     name: "HiLoad EV",
     image: "/assets/other-vehicles/hiload-ev.png",
     ground: "#524F56",
+    href: "/products/hiload-ev",
     stats: [
-      { label: "on one charge", value: "200", unit: "km" },
-      { label: "Load capacity", value: "1,200", unit: "kg" },
-      { label: "Running cost", value: "₹1.05", unit: "/km" },
-      { label: "Charging Time", value: "90", unit: "min" },
+      { label: "on one charge", value: "170", unit: "km" },
+      { label: "Load capacity", value: "688", unit: "kg" },
+      { label: "Running cost", value: "₹0.85", unit: "/km" },
+      { label: "Charging Time", value: "60", unit: "min" },
     ],
   },
   {
     id: "storm-ev-t1500",
     name: "Storm EV T1500",
-    image: "/assets/other-vehicles/turbo-ev-1000.png",
+    image: "/assets/products/vehicle-storm-t1500-clean.png",
     ground: "#4B423F",
+    href: "/products/storm-ev-t1500",
     stats: [
-      { label: "on one charge", value: "200", unit: "km" },
+      { label: "on one charge", value: "210", unit: "km" },
+      { label: "Load capacity", value: "1,500", unit: "kg" },
+      { label: "Running cost", value: "₹1.15", unit: "/km" },
+      { label: "Charging Time", value: "15", unit: "min" },
+    ],
+  },
+];
+
+const ALL_OTHER_VEHICLES: VehicleCard[] = [
+  {
+    id: "storm-ev-lr200",
+    name: "Storm EV LR 200",
+    image: "/assets/products/variant-compare-truck.png",
+    ground: "#4B423F",
+    href: "/products/lr200",
+    stats: [
+      { label: "on one charge", value: "200+", unit: "km" },
       { label: "Load capacity", value: "1,500", unit: "kg" },
       { label: "Running cost", value: "₹1.05", unit: "/km" },
-      { label: "Charging Time", value: "90", unit: "min" },
+      { label: "Charging Time", value: "15", unit: "min" },
+    ],
+  },
+  {
+    id: "turbo-ev-1000",
+    name: "TURBO EV 1000",
+    image: "/assets/other-vehicles/turbo-ev-1000.png",
+    ground: "#4B423F",
+    href: "/products/turbo-ev-1000",
+    stats: [
+      { label: "on one charge", value: "220", unit: "km" },
+      { label: "Load capacity", value: "1,000", unit: "kg" },
+      { label: "Running cost", value: "₹0.98", unit: "/km" },
+      { label: "Charging Time", value: "15", unit: "min" },
+    ],
+  },
+  {
+    id: "hiload-ev",
+    name: "HiLoad EV",
+    image: "/assets/other-vehicles/hiload-ev.png",
+    ground: "#524F56",
+    href: "/products/hiload-ev",
+    stats: [
+      { label: "on one charge", value: "170", unit: "km" },
+      { label: "Load capacity", value: "688", unit: "kg" },
+      { label: "Running cost", value: "₹0.85", unit: "/km" },
+      { label: "Charging Time", value: "60", unit: "min" },
+    ],
+  },
+  {
+    id: "storm-ev-t1500",
+    name: "Storm EV T1500",
+    image: "/assets/products/vehicle-storm-t1500-clean.png",
+    ground: "#4B423F",
+    href: "/products/storm-ev-t1500",
+    stats: [
+      { label: "on one charge", value: "210", unit: "km" },
+      { label: "Load capacity", value: "1,500", unit: "kg" },
+      { label: "Running cost", value: "₹1.15", unit: "/km" },
+      { label: "Charging Time", value: "15", unit: "min" },
     ],
   },
 ];
@@ -61,9 +121,13 @@ const VEHICLES: VehicleCard[] = [
  * Carousel showing alternative Euler EV goods vehicles with photo backdrop,
  * stat pill bar, interactive navigation arrows, and progress indicator.
  */
-export default function ProductOtherVehicles() {
+export default function ProductOtherVehicles({ currentVehicleId }: { currentVehicleId?: string } = {}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const displayVehicles = currentVehicleId
+    ? ALL_OTHER_VEHICLES.filter((v) => v.id !== currentVehicleId).slice(0, 3)
+    : VEHICLES;
 
   const scroll = (direction: -1 | 1) => {
     if (!scrollRef.current) return;
@@ -78,7 +142,7 @@ export default function ProductOtherVehicles() {
     const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
     const cardWidth = isMobile ? 340 : 740;
     const newIndex = Math.min(
-      VEHICLES.length - 1,
+      displayVehicles.length - 1,
       Math.max(0, Math.round(scrollLeft / cardWidth))
     );
     setActiveIndex(newIndex);
@@ -119,7 +183,7 @@ export default function ProductOtherVehicles() {
             style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 56px)" }}
           />
 
-          {VEHICLES.map((vehicle) => (
+          {displayVehicles.map((vehicle) => (
             <article
               key={vehicle.id}
               className="relative h-[353px] w-[320px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:h-[485px] sm:w-[720px]"
@@ -152,10 +216,21 @@ export default function ProductOtherVehicles() {
                 priority
               />
 
-              {/* Vehicle Title Top-Left (Figma 2736:8062) */}
-              <h3 className="absolute left-4 top-[14px] z-10 font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#121212] sm:left-6 sm:top-[23px] sm:text-[27px] sm:tracking-[-0.54px]">
-                {vehicle.name}
-              </h3>
+              {/* Vehicle Title & Explore Link */}
+              <div className="absolute left-4 right-4 top-[14px] z-10 flex items-center justify-between sm:left-6 sm:right-6 sm:top-[23px]">
+                <h3 className="font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#121212] sm:text-[27px] sm:tracking-[-0.54px]">
+                  {vehicle.name}
+                </h3>
+                <Link
+                  href={vehicle.href}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 font-display text-[11px] sm:text-[13px] font-semibold text-ink backdrop-blur-md shadow-xs transition-all hover:bg-ink hover:text-white"
+                >
+                  <span>Explore</span>
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+              </div>
 
               {/* Mobile Stats — 2×2 subcards */}
               <div className="absolute bottom-[9px] left-1/2 z-10 flex w-[300px] max-w-[calc(100%-20px)] -translate-x-1/2 flex-col items-start gap-3 rounded-[8px] bg-white/80 p-3 backdrop-blur-[10px] sm:hidden">
@@ -319,7 +394,7 @@ export default function ProductOtherVehicles() {
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
             style={{
-              width: `${100 / VEHICLES.length}%`,
+              width: `${100 / displayVehicles.length}%`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           />
@@ -335,7 +410,7 @@ export default function ProductOtherVehicles() {
           <div
             className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
             style={{
-              width: `${100 / VEHICLES.length}%`,
+              width: `${100 / displayVehicles.length}%`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           />

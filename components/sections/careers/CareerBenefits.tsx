@@ -27,8 +27,8 @@ const BENEFITS = [
 
 export default function CareerBenefits() {
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-hidden bg-[linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] bg-[#FFF] px-5 py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="career-impact-heading">
-      <div className="flex flex-col items-start justify-center gap-[14px] self-stretch lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-x-hidden bg-[linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] bg-[#FFF] py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="career-impact-heading">
+      <div className="flex flex-col items-start justify-center gap-[14px] self-stretch px-5 lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-8 lg:px-0">
         <div className="flex w-full flex-col gap-[14px] lg:w-[414.43px] lg:shrink-0 lg:gap-4">
           <Eyebrow label="Why work with us" />
           <h2 id="career-impact-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[646.448px] lg:text-[42px] lg:tracking-[-0.84px]">Engineering Impact, Every Day</h2>
@@ -40,9 +40,10 @@ export default function CareerBenefits() {
         </p>
       </div>
 
-      <div id="career-benefits-row" className="snap-row -mx-5 w-[calc(100%+40px)] items-center gap-2.5 px-5 lg:m-0 lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0">
-        {BENEFITS.map((benefit) => (
-          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] [scroll-snap-align:start] max-lg:first:scroll-ml-5 lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-lg lg:pt-[54px]" key={benefit.number}>
+      <div className="w-full self-stretch overflow-x-auto no-scrollbar lg:overflow-visible">
+        <div id="career-benefits-row" className="snap-row items-center gap-2.5 lg:m-0 lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0" style={{ width: "max-content", paddingLeft: "20px" }}>
+          {BENEFITS.map((benefit) => (
+          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] [scroll-snap-align:start] lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-lg lg:pt-[54px]" key={benefit.number}>
             <span className="absolute top-[9.818px] left-5 bg-[linear-gradient(2deg,rgb(29_111_255_/_0%)_-11.9%,rgb(29_111_255_/_20%)_87.54%)] bg-clip-text font-display text-[42px] font-bold leading-[1.15] tracking-[-0.84px] text-transparent lg:text-[62px] lg:tracking-[-1.24px]">{benefit.number}</span>
             <div
               className={`absolute top-[2.566px] right-[5.139px] h-[68.434px] w-[71.009px] aspect-[71.01/68.43] bg-transparent bg-cover bg-center bg-no-repeat lg:top-[10px] lg:right-[25.073px] lg:h-[76.003px] lg:w-[78.863px] lg:bg-contain ${
@@ -60,6 +61,8 @@ export default function CareerBenefits() {
             </div>
           </article>
         ))}
+          <div aria-hidden className="shrink-0" style={{ width: "20px" }} />
+        </div>
       </div>
 
       <PagerBar

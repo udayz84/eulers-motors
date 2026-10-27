@@ -32,14 +32,14 @@ export default function FaqHero() {
       />
 
       {/* Content Container */}
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 lg:pt-[164px] lg:pb-[104px]">
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:pt-[164px] lg:pb-[104px]">
         {/* Eyebrow */}
-        <div className="mb-3 flex h-6 items-center sm:mb-4 lg:mb-6">
+        <div className="mb-3 flex h-6 items-center sm:mb-4 md:mb-5 lg:mb-6">
           <Eyebrow label="Help centre" dark icons="white" className="font-bold text-[12px] sm:text-[13px] tracking-[0.6px] uppercase" />
         </div>
 
         {/* Heading */}
-        <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] lg:text-[52px] lg:tracking-[-1.04px]">
+        <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] md:text-[46px] md:tracking-[-0.88px] lg:text-[52px] lg:tracking-[-1.04px]">
           Frequently asked <br className="sm:hidden" />
           questions
         </h1>

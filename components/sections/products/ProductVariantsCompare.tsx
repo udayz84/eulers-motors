@@ -19,38 +19,40 @@ type VariantData = {
   cargoSpace: string;
 };
 
-const VARIANTS: VariantData[] = [
+export const STORM_LR200_VARIANTS: VariantData[] = [
   {
-    name: "LR 200",
-    price: 1149000,
-    bodyType: "4-wheel cargo EV",
-    payload: "1,200 kg",
-    range: "200 km",
-    runningCost: "₹1.05/km",
-    fullCharge: "90 min",
-    cargoSpace: "2.9 m loading deck",
-  },
-  {
-    name: "T1500",
-    price: 1280000,
-    bodyType: "4-wheel container EV",
+    name: "LR 200 Delivery Van (DV)",
+    price: 1394000,
+    bodyType: "4-wheel 10-ft container EV",
     payload: "1,500 kg",
-    range: "200 km",
-    runningCost: "₹1.15/km",
-    fullCharge: "105 min",
-    cargoSpace: "3.2 m loading deck",
+    range: "200+ km RealRange™ (260 km cert.)",
+    runningCost: "₹1.05/km",
+    fullCharge: "15 min (100 km DC)",
+    cargoSpace: "330 cu. ft. container (10 ft deck)",
   },
   {
-    name: "Turbo 1000",
-    price: 980000,
-    bodyType: "4-wheel delivery EV",
-    payload: "1,000 kg",
-    range: "180 km",
-    runningCost: "₹0.98/km",
-    fullCharge: "75 min",
-    cargoSpace: "2.5 m loading deck",
+    name: "LR 200 Pickup Van (PV)",
+    price: 1349000,
+    bodyType: "4-wheel 10-ft open deck EV",
+    payload: "1,500 kg",
+    range: "200+ km RealRange™ (260 km cert.)",
+    runningCost: "₹1.05/km",
+    fullCharge: "15 min (100 km DC)",
+    cargoSpace: "10 ft open cargo deck",
+  },
+  {
+    name: "LR 200 Flatbed (FB)",
+    price: 1360000,
+    bodyType: "4-wheel 10-ft flatbed EV",
+    payload: "1,500 kg",
+    range: "200+ km RealRange™ (260 km cert.)",
+    runningCost: "₹1.05/km",
+    fullCharge: "15 min (100 km DC)",
+    cargoSpace: "10 ft flatbed platform",
   },
 ];
+
+const VARIANTS: VariantData[] = STORM_LR200_VARIANTS;
 
 const LABELS = [
   "Body type",
@@ -76,6 +78,19 @@ const VALUES = (v: VariantData) => [
   v.cargoSpace,
 ];
 
+// Responsive typography helpers to prevent table cells from overflowing or overlapping
+const getValueFontSize = (val: string) => {
+  if (val.length > 28) return "text-[13px] xl:text-[14px] leading-tight";
+  if (val.length > 20) return "text-[15px] xl:text-[16px] leading-snug";
+  return "text-[18px] xl:text-[20px] leading-tight";
+};
+
+const getMobileValueFontSize = (val: string) => {
+  if (val.length > 26) return "text-[10px] leading-tight";
+  if (val.length > 18) return "text-[11px] leading-tight";
+  return "text-[12px] leading-normal";
+};
+
 // Layout positioning constants
 const DESKTOP_INITIAL_LEFT = 266.93;
 const DESKTOP_STEP = 323.67;
@@ -88,6 +103,105 @@ const MOBILE_TRUCK_INITIAL_LEFT =
 const MOBILE_TOTAL_WIDTH =
   MOBILE_INITIAL_LEFT + VARIANTS.length * MOBILE_STEP + 20;
 
+export const HILOAD_VARIANTS: VariantData[] = [
+  {
+    name: "HiLoad TR (Fast Charge)",
+    price: 432000,
+    bodyType: "3-wheel cargo EV",
+    payload: "768 kg (certified)",
+    range: "164 km ARAI (120+ km RealRange™)",
+    runningCost: "₹0.85/km",
+    fullCharge: "15 min (50 km DC)",
+    cargoSpace: "170 cu. ft. container",
+  },
+  {
+    name: "HiLoad XR (Extended Range)",
+    price: 392000,
+    bodyType: "3-wheel cargo EV",
+    payload: "763 kg (certified)",
+    range: "198 km ARAI (150+ km RealRange™)",
+    runningCost: "₹0.85/km",
+    fullCharge: "3.5 - 4 hrs (AC)",
+    cargoSpace: "170 cu. ft. container",
+  },
+  {
+    name: "HiLoad DV (Delivery Van)",
+    price: 420000,
+    bodyType: "3-wheel container EV",
+    payload: "768 kg",
+    range: "164 km ARAI",
+    runningCost: "₹0.85/km",
+    fullCharge: "15 min fast charge",
+    cargoSpace: "120 - 170 cu. ft.",
+  },
+];
+
+export const TURBO_VARIANTS: VariantData[] = [
+  {
+    name: "Turbo EV 1000 City",
+    price: 599000,
+    bodyType: "4-wheel 1-tonne EV",
+    payload: "1,000 kg",
+    range: "197 km ARAI (~135 km RealRange™)",
+    runningCost: "₹0.98/km",
+    fullCharge: "4 - 4.5 hrs (AC)",
+    cargoSpace: "2.5 m loading deck",
+  },
+  {
+    name: "Turbo EV 1000 FC",
+    price: 649000,
+    bodyType: "4-wheel fast charge EV",
+    payload: "1,000 kg",
+    range: "200+ km ARAI (~140 km RealRange™)",
+    runningCost: "₹0.98/km",
+    fullCharge: "15 min (50 km DC)",
+    cargoSpace: "2.5 m loading deck",
+  },
+  {
+    name: "Turbo EV 1000 Maxx",
+    price: 699000,
+    bodyType: "4-wheel extended EV",
+    payload: "1,000 kg (up to 1,209 kg FB)",
+    range: "267 km ARAI (~180 km RealRange™)",
+    runningCost: "₹0.98/km",
+    fullCharge: "5 - 5.5 hrs (AC) / DC Fast",
+    cargoSpace: "2.5 m loading deck",
+  },
+];
+
+export const STORM_T1500_VARIANTS: VariantData[] = [
+  {
+    name: "T1500 Delivery Van (DV)",
+    price: 1280000,
+    bodyType: "4-wheel container EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "260 cu. ft. container",
+  },
+  {
+    name: "T1500 Pickup Van (PV)",
+    price: 1250000,
+    bodyType: "4-wheel open deck EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "8.35 ft open deck",
+  },
+  {
+    name: "T1500 Flatbed (FB)",
+    price: 1260000,
+    bodyType: "4-wheel flatbed EV",
+    payload: "1,500 kg",
+    range: "210 km (ARAI)",
+    runningCost: "₹1.15/km",
+    fullCharge: "15 min (50 km)",
+    cargoSpace: "Flatbed loading deck",
+  },
+];
+
 /**
  * Compare variants side by side — Figma node 2861:7715
  * 1440px frame, px-79/py-47, heading row + side-by-side comparison table
@@ -96,8 +210,15 @@ const MOBILE_TOTAL_WIDTH =
  * Mobile (Figma 393px): header on top, horizontally scrollable comparison
  * card, and the two CTA buttons moved to the section's bottom in one row.
  */
-export default function ProductVariantsCompare() {
+export default function ProductVariantsCompare({
+  variants = VARIANTS,
+  truckImg = TRUCK_IMG,
+}: {
+  variants?: VariantData[];
+  truckImg?: string;
+} = {}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const mobileTotalWidth = MOBILE_INITIAL_LEFT + variants.length * MOBILE_STEP + 20;
 
   return (
     <section
@@ -118,10 +239,10 @@ export default function ProductVariantsCompare() {
 
         {/* Comparison card */}
         <div className="-mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] overflow-x-auto px-5 sm:px-8 pb-1 scrollbar-none">
-          <div className="relative shrink-0" style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}>
+          <div className="relative shrink-0" style={{ width: `${mobileTotalWidth}px` }}>
             {/* Truck renders */}
             <div className="relative mb-3 h-[47.389px] w-full">
-              {VARIANTS.map((variant, i) => {
+              {variants.map((variant, i) => {
                 const isSelected = selectedIndex === i;
                 return (
                   <button
@@ -135,11 +256,11 @@ export default function ProductVariantsCompare() {
                     style={{ left: `${MOBILE_TRUCK_INITIAL_LEFT + i * MOBILE_STEP}px` }}
                   >
                     <Image
-                      src={TRUCK_IMG}
+                      src={truckImg}
                       alt={`${variant.name} Truck`}
                       fill
                       sizes="74px"
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </button>
                 );
@@ -148,26 +269,27 @@ export default function ProductVariantsCompare() {
 
             <div
               className="relative h-[286px] shrink-0 rounded-[9.6px] border-[0.8px] border-[#ccc] bg-white p-5 pl-[108.801px]"
-              style={{ width: `${MOBILE_TOTAL_WIDTH}px` }}
+              style={{ width: `${mobileTotalWidth}px` }}
             >
               {/* Label column */}
               <div
-                className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-center justify-between pl-2 pr-px py-[26.313px]"
+                className="absolute left-0 top-0 flex h-full w-[108.801px] flex-col items-start justify-between pl-3 pr-1 py-[20px]"
                 style={{
                   backgroundImage:
                     "linear-gradient(270deg, rgba(255,255,255,0.00) 0%, #FFF 9.17%)",
                 }}
               >
-                <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
-                  Variants
-                </p>
-                {LABELS.map((label) => (
-                  <p
-                    key={label}
-                    className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]"
-                  >
-                    {label}
+                <div className="flex h-[28px] w-full items-center">
+                  <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
+                    Variants
                   </p>
+                </div>
+                {LABELS.map((label) => (
+                  <div key={label} className="flex h-[28px] w-full items-center">
+                    <p className="w-full whitespace-nowrap font-sans text-[12px] font-semibold leading-[1.2] text-[#4a4f57]">
+                      {label}
+                    </p>
+                  </div>
                 ))}
               </div>
 
@@ -187,7 +309,7 @@ export default function ProductVariantsCompare() {
               </div>
 
               {/* Variant columns */}
-              {VARIANTS.map((variant, i) => {
+              {variants.map((variant, i) => {
                 const isSelected = selectedIndex === i;
                 return (
                   <div
@@ -203,33 +325,36 @@ export default function ProductVariantsCompare() {
                     tabIndex={0}
                     aria-label={`Select ${variant.name}`}
                     aria-pressed={isSelected}
-                    className="absolute flex h-[246px] cursor-pointer flex-col items-center justify-between py-[10px] select-none focus:outline-none"
+                    className="absolute flex h-[246px] cursor-pointer flex-col items-center justify-between py-0 select-none focus:outline-none"
                     style={{
                       width: `${MOBILE_STEP}px`,
                       left: `${MOBILE_INITIAL_LEFT + i * MOBILE_STEP}px`,
                       top: "20px",
                     }}
                   >
-                    <div
-                      className={`flex items-center rounded-[9.6px] px-[10px] py-[4px] transition-all duration-200 ${
-                        isSelected
-                          ? "bg-white shadow-sm ring-1 ring-[#0E2F6D]/20"
-                          : "bg-[#f3f4f5]"
-                      }`}
-                    >
-                      <p className="whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
-                        {variant.name}
-                      </p>
-                    </div>
-                    {VALUES(variant).map((value, vi) => (
-                      <p
-                        key={vi}
-                        className={`whitespace-nowrap text-center font-sans text-[12px] font-bold leading-[1.2] tracking-[-0.06px] transition-colors duration-200 ${
-                          isSelected ? "text-ink" : "text-[#4a4f57]"
+                    <div className="flex h-[28px] w-full items-center justify-center">
+                      <div
+                        className={`flex items-center rounded-[9.6px] px-[8px] py-[3px] transition-all duration-200 ${
+                          isSelected
+                            ? "bg-white shadow-sm ring-1 ring-[#0E2F6D]/20"
+                            : "bg-[#f3f4f5]"
                         }`}
                       >
-                        {value}
-                      </p>
+                        <p className="whitespace-nowrap text-center font-sans text-[11px] sm:text-[12px] font-bold leading-[1.2] tracking-[-0.24px] text-[#121212]">
+                          {variant.name}
+                        </p>
+                      </div>
+                    </div>
+                    {VALUES(variant).map((value, vi) => (
+                      <div key={vi} className="flex h-[28px] w-full items-center justify-center px-1 text-center">
+                        <p
+                          className={`w-full text-center font-sans font-bold tracking-[-0.06px] transition-colors duration-200 ${
+                            isSelected ? "text-ink" : "text-[#4a4f57]"
+                          } ${getMobileValueFontSize(value)}`}
+                        >
+                          {value}
+                        </p>
+                      </div>
                     ))}
                   </div>
                 );
@@ -280,9 +405,9 @@ export default function ProductVariantsCompare() {
           {/* Comparison Table Area (Figma 2861:7735) */}
           <div className="w-full overflow-x-auto pb-4 xl:overflow-x-visible">
             <div className="relative h-[612px] w-[1277px] shrink-0 max-xl:mx-auto">
-              {/* 3 Truck Renders sitting on top of the table (Figma 2861:7786) */}
+              {/* Truck Renders sitting on top of the table (Figma 2861:7786) */}
               <div className="absolute left-[352.53px] top-[9px] flex items-center gap-[136px]">
-                {VARIANTS.map((variant, i) => {
+                {variants.map((variant, i) => {
                   const isSelected = selectedIndex === i;
                   return (
                     <button
@@ -297,7 +422,7 @@ export default function ProductVariantsCompare() {
                       }`}
                     >
                       <Image
-                        src={TRUCK_IMG}
+                        src={truckImg}
                         alt={`${variant.name} Truck`}
                         fill
                         sizes="185px"
@@ -326,24 +451,23 @@ export default function ProductVariantsCompare() {
                 </div>
 
                 {/* Column 1: Labels (Figma 2861:7740) */}
-                <div className="relative z-10 flex h-[400px] w-[242px] shrink-0 flex-col items-start justify-between">
-                  <div className="flex w-full items-center py-3">
+                <div className="relative z-10 flex h-[372px] w-[242px] shrink-0 flex-col items-start justify-between">
+                  <div className="flex h-[44px] w-full items-center">
                     <p className="font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]">
                       Variants
                     </p>
                   </div>
                   {LABELS.map((label) => (
-                    <p
-                      key={label}
-                      className="w-full font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]"
-                    >
-                      {label}
-                    </p>
+                    <div key={label} className="flex h-[42px] w-full items-center">
+                      <p className="w-full font-sans text-[16px] font-semibold leading-[1.3] text-[#4a4f57]">
+                        {label}
+                      </p>
+                    </div>
                   ))}
                 </div>
 
                 {/* Columns 2-4: Interactive Variants */}
-                {VARIANTS.map((variant, i) => {
+                {variants.map((variant, i) => {
                   const isSelected = selectedIndex === i;
                   return (
                     <div
@@ -359,28 +483,31 @@ export default function ProductVariantsCompare() {
                       tabIndex={0}
                       aria-label={`Select ${variant.name}`}
                       aria-pressed={isSelected}
-                      className="relative z-10 flex h-[400px] w-[312.143px] shrink-0 cursor-pointer flex-col items-center justify-between select-none focus:outline-none"
+                      className="relative z-10 flex h-[372px] w-[312.143px] shrink-0 cursor-pointer flex-col items-center justify-between select-none focus:outline-none"
                     >
-                      <div
-                        className={`flex items-center rounded-[12px] px-4 py-3 transition-all duration-200 ${
-                          isSelected
-                            ? "bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-[#0E2F6D]/20"
-                            : "bg-[#f3f4f5] hover:bg-[#e8eaec]"
-                        }`}
-                      >
-                        <p className="font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
-                          {variant.name}
-                        </p>
-                      </div>
-                      {VALUES(variant).map((value, vi) => (
-                        <p
-                          key={vi}
-                          className={`whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.1px] transition-colors duration-200 ${
-                            isSelected ? "text-ink" : "text-[#4a4f57]"
+                      <div className="flex h-[44px] w-full items-center justify-center">
+                        <div
+                          className={`flex items-center rounded-[12px] px-3.5 py-2 transition-all duration-200 ${
+                            isSelected
+                              ? "bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-[#0E2F6D]/20"
+                              : "bg-[#f3f4f5] hover:bg-[#e8eaec]"
                           }`}
                         >
-                          {value}
-                        </p>
+                          <p className="whitespace-nowrap font-sans text-[15px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">
+                            {variant.name}
+                          </p>
+                        </div>
+                      </div>
+                      {VALUES(variant).map((value, vi) => (
+                        <div key={vi} className="flex h-[42px] w-full items-center justify-center px-2 text-center">
+                          <p
+                            className={`max-w-full text-center font-sans font-bold tracking-[-0.1px] transition-colors duration-200 ${
+                              isSelected ? "text-ink" : "text-[#4a4f57]"
+                            } ${getValueFontSize(value)}`}
+                          >
+                            {value}
+                          </p>
+                        </div>
                       ))}
                     </div>
                   );

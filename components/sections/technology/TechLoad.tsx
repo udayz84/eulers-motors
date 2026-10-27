@@ -19,21 +19,18 @@ export default function TechLoad() {
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)]"
       aria-label="Load"
     >
-      <div className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-[42px] pb-[62px] pt-0 lg:flex">
+      <div className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 lg:gap-[42px] lg:pb-[62px]">
         <div
           id="load-carousel-desktop"
           ref={desktopCarousel}
-          className="snap-row w-full items-center gap-5"
+          className="snap-row w-full items-center gap-3.5 md:gap-4 lg:gap-5"
         >
-          {/* Customer Reviews aligns its first card at x=80px on a 1440px viewport.
-              This spacer accounts for the 20px track gap so the card itself lands
-              on the same x-position, while remaining responsive above 1440px. */}
           <div
             aria-hidden="true"
             className="shrink-0"
             style={{
               width:
-                "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 40px)",
+                "calc(max(16px, (100vw - 1440px) / 2 + 24px))",
             }}
           />
           <DesktopLoadCard variant="load" />
@@ -48,7 +45,7 @@ export default function TechLoad() {
           type="button"
           aria-label="Previous load features"
           onClick={() => scrollLoad(-1)}
-          className="absolute bottom-[340.5px] left-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] z-10 flex h-[55px] w-[55px] -scale-x-100 items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-6"
+          className="absolute bottom-[300px] left-4 z-10 flex h-[48px] w-[48px] -scale-x-100 items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:bottom-[320px] md:left-6 md:h-[55px] md:w-[55px] md:p-4 lg:bottom-[340.5px] lg:left-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)]"
         >
           <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none" />
         </button>
@@ -56,14 +53,14 @@ export default function TechLoad() {
           type="button"
           aria-label="Next load features"
           onClick={() => scrollLoad(1)}
-          className="absolute right-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] bottom-[340.5px] z-10 flex h-[55px] w-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-6"
+          className="absolute bottom-[300px] right-4 z-10 flex h-[48px] w-[48px] items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:bottom-[320px] md:right-6 md:h-[55px] md:w-[55px] md:p-4 lg:bottom-[340.5px] lg:right-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)]"
         >
           <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
         </button>
         <PagerBar rowId="load-carousel-desktop" className="bg-white/20 [&>div]:bg-white" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-[393px] flex-col items-center justify-center gap-6 px-5 py-[35px] lg:hidden">
+      <div className="mx-auto flex w-full max-w-[480px] flex-col items-center justify-center gap-6 px-5 py-[35px] md:hidden">
         <div className="relative -mx-5 w-[calc(100%+40px)]">
         <div id="load-carousel-mobile" className="snap-row snap-center-mobile gap-3 px-5">
           <MobileLoadCard variant="load" />
@@ -137,7 +134,7 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
     : "Payload, range and gradient are quoted loaded. Empty numbers help nobody.";
 
   return (
-    <article data-carousel-card className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-8 pb-8 pt-[252px]">
+    <article data-carousel-card className="relative flex h-[430px] w-[500px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border border-white/20 p-6 md:h-[460px] md:w-[540px] md:p-7 lg:h-[488px] lg:w-[620px] lg:px-8 lg:pb-8 lg:pt-[252px]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
         <img
           src={LOAD_CARD_IMAGES[variant]}

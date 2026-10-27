@@ -73,7 +73,7 @@ function TestimonialCard({
 
 export default function CareerTestimonials() {
   return (
-    <section className="relative flex w-full flex-col items-center gap-6 overflow-hidden bg-white py-8 lg:h-[815.36px] lg:min-h-0 lg:gap-[42px] lg:py-[62px]" aria-labelledby="career-testimonials-heading">
+    <section className="relative flex w-full flex-col items-center gap-6 overflow-visible bg-white py-8 lg:min-h-0 lg:gap-[42px] lg:py-[62px]" style={{ touchAction: "pan-y" }} aria-labelledby="career-testimonials-heading">
       <div className="flex w-[calc(100%-40px)] max-w-[518px] flex-col items-center gap-3 text-center lg:gap-4">
         <Eyebrow label="Employee voices" />
         <h2 id="career-testimonials-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">What Our People Say</h2>
@@ -85,7 +85,18 @@ export default function CareerTestimonials() {
 
       <div
         id="career-testimonials-row"
-        className="no-scrollbar flex w-full snap-x snap-mandatory items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:w-max lg:items-stretch lg:gap-2.5 lg:px-0 motion-safe:lg:animate-[marquee_40s_linear_infinite] lg:[--marquee-gap:10px]"
+        className="no-scrollbar flex w-full snap-x snap-mandatory items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:w-max lg:items-stretch lg:gap-2.5 lg:px-0 lg:overflow-x-visible motion-safe:lg:animate-[marquee_40s_linear_infinite] lg:[--marquee-gap:10px]"
+        style={{ touchAction: "pan-x pan-y", overscrollBehaviorX: "contain", overscrollBehaviorY: "auto" }}
+        onTouchMove={(e) => {
+          const target = e.currentTarget;
+          if (Math.abs(e.touches[0].clientX - (target as any)._startX || 0) > Math.abs(e.touches[0].clientY - (target as any)._startY || 0)) {
+            e.stopPropagation();
+          }
+        }}
+        onTouchStart={(e) => {
+          (e.currentTarget as any)._startX = e.touches[0].clientX;
+          (e.currentTarget as any)._startY = e.touches[0].clientY;
+        }}
         aria-label="Employee testimonials"
       >
         {Array.from({ length: 4 }).map((_, setIndex) =>
@@ -104,7 +115,7 @@ export default function CareerTestimonials() {
 
       <PagerBar
         rowId="career-testimonials-row"
-        className="self-center [&>div]:bg-ink"
+        className="self-center [&>div]:bg-ink lg:hidden"
         trackStyle={{
           background: "rgba(204, 204, 204, 0.50)",
           flexDirection: "column",

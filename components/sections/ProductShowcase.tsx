@@ -36,9 +36,9 @@ const VEHICLES: VehicleData[] = [
   },
   {
     id: "storm-ev-lr-200",
-    tabLabel: "Strom EV LR 200",
+    tabLabel: "Storm EV LR 200",
     title: "Storm EV LongRange 200",
-    image: "/assets/products/vehicle-storm-t1500-clean.png",
+    image: "/assets/products/vehicle-storm-lr200-clean.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
     specs: {
       range: "200 km",
@@ -50,7 +50,7 @@ const VEHICLES: VehicleData[] = [
     id: "turbo-ev-1000",
     tabLabel: "Turbo EV 1000",
     title: "Turbo EV 1000",
-    image: "/vehicles/Turboev1000.png",
+    image: "/assets/products/vehicle-turbo-1000-clean.png",
     crop: [-2.9, -6.56, 322.07, 228],
     specs: {
       range: "180 km",
@@ -62,7 +62,7 @@ const VEHICLES: VehicleData[] = [
     id: "hiload-ev",
     tabLabel: "HiLoad EV",
     title: "HiLoad EV",
-    image: "/assets/products/vehicle-hiload-ev-hq.png",
+    image: "/assets/products/vehicle-hiload-ev-clean.png",
     crop: [-295.3, -19.56, 415.35, 294.03],
     specs: {
       range: "170 km",
@@ -72,6 +72,13 @@ const VEHICLES: VehicleData[] = [
   },
 ];
 
+const VEHICLE_SCENE_STYLES: Record<string, string> = {
+  "hiload-ev": "w-[62%] h-[57.5%] top-[20.5%]",
+  "storm-ev-t1500": "w-[56%] h-[52%] top-[25%]",
+  "storm-ev-lr-200": "w-[56%] h-[52%] top-[25%]",
+  "turbo-ev-1000": "w-[56%] h-[52%] top-[25%]",
+};
+
 /**
  * Desktop renders the Figma scene (1:1319) with the truck swapping per
  * vehicle — the default (LR 200) IS the scene image, the others swap cutouts
@@ -79,7 +86,7 @@ const VEHICLES: VehicleData[] = [
  * Mobile (1:4605) is the static Figma scene; tabs cycle specs only.
  */
 export default function ProductShowcase() {
-  const [active, setActive] = useState(1); // Default to "Strom EV LR 200"
+  const [active, setActive] = useState(1); // Default to "Storm EV LR 200"
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const scrollAccumulator = useRef(0);
 
@@ -126,33 +133,27 @@ export default function ProductShowcase() {
           quality={100}
         />
       </div>
-      {/* Scene box (1:1319, Figma 1440×874, bottom-anchored): the default
-          vehicle renders the scene image itself; the others swap a cutout into
-          the scene truck's bbox (x 29.3–71.8% · y 34.9–76.2%) */}
+      {/* Scene box (1:1319, Figma 1440×874, bottom-anchored): all vehicles
+          share normalized 1672×941 canvas dimensions with unified ground
+          contact and horizontal centering for consistent layout transitions */}
       <div
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
         <div
           key={current.id}
-          className={`animate-fadeIn absolute ${
-            current.id === "turbo-ev-1000"
-              ? "left-[53%] top-[10%] h-[80%] w-[90%] -translate-x-1/2"
-              : current.id === "storm-ev-lr-200" || current.id === "storm-ev-t1500"
-              ? "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
-              : "left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]"
+          className={`animate-fadeIn absolute left-1/2 -translate-x-1/2 ${
+            VEHICLE_SCENE_STYLES[current.id] || "w-[56%] h-[52%] top-[25%]"
           }`}
         >
           <Image
             src={current.image}
-            alt=""
+            alt={current.title}
             fill
-            /* real swap-box widths (turbo up to 90% of the 1440 scene, LR 200
-               65%) — a smaller sizes made the optimizer serve ~74px-wide
-               files for 600–1300px boxes, which read as blur */
-            sizes="(min-width: 1440px) 1296px, 90vw"
+            sizes="(min-width: 1440px) 900px, 65vw"
             className="object-contain"
             quality={100}
+            priority
           />
         </div>
       </div>
@@ -270,7 +271,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous vehicle"
-            className="absolute left-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute left-12 xl:left-24 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -290,7 +291,7 @@ export default function ProductShowcase() {
             type="button"
             onClick={handleNext}
             aria-label="Next vehicle"
-            className="absolute right-16 z-50 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
+            className="absolute right-12 xl:right-24 top-1/2 -translate-y-1/2 z-20 hidden h-14 w-14 items-center justify-center rounded-2xl border border-gray-100/80 bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] active:scale-95 lg:flex"
           >
             <svg
               className="h-5 w-5 text-[#1D6FFF]"
@@ -424,7 +425,15 @@ export default function ProductShowcase() {
               </span>
             </button>
             <Link
-              href="/products"
+              href={
+                current.id === "storm-ev-lr-200"
+                  ? "/products/lr200"
+                  : current.id === "turbo-ev-1000"
+                  ? "/products/turbo-ev-1000"
+                  : current.id === "hiload-ev"
+                  ? "/products/hiload-ev"
+                  : "/products/storm-ev-t1500"
+              }
               className="inline-flex h-11 flex-1 sm:flex-none items-center justify-center gap-2 rounded-[4px] bg-ink px-6 font-display text-[16px] font-semibold leading-none text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all cursor-pointer hover:bg-black lg:h-[50px]"
             >
               <span className="whitespace-nowrap">View Variants</span>

@@ -404,9 +404,9 @@ export default function FaqContent() {
   return (
     <div
       data-node-id="3538:26361"
-      className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 lg:pb-[62px] lg:pt-[64px]"
+      className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[62px] lg:pt-[64px]"
     >
-      <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 lg:gap-[40px] lg:px-[140px] 2xl:px-[200px]">
+      <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[140px] 2xl:px-[200px]">
         {/* ============================================================== */}
         {/* Search & Category Filter Section (Figma 3538:26362 / 2979:8417)*/}
         {/* ============================================================== */}
@@ -414,7 +414,7 @@ export default function FaqContent() {
           {/* Tapered Frosted Filter Tray Background on Desktop / Wide Tablets (Figma 3538:26363) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -bottom-[9.75px] left-1/2 hidden h-[76px] w-[811px] -translate-x-1/2 select-none md:block"
+            className="pointer-events-none absolute -bottom-[9.75px] left-1/2 hidden h-[76px] w-[811px] -translate-x-1/2 select-none min-[880px]:block"
           >
             <Image
               src="/assets/faq/filter-tray.svg"
@@ -481,7 +481,7 @@ export default function FaqContent() {
                         : undefined
                     }
                   >
-                    <span className="font-sans text-[12px] font-semibold leading-none sm:text-[13px] lg:text-[16px]">
+                    <span className="font-sans text-[12px] font-semibold leading-none sm:text-[13px] md:text-[15px] lg:text-[16px]">
                       {cat.label}
                     </span>
                     <span
@@ -490,7 +490,7 @@ export default function FaqContent() {
                       }`}
                     />
                     <span
-                      className={`font-sans text-[10px] font-normal leading-none sm:text-[12px] lg:text-[14px] ${
+                      className={`font-sans text-[10px] font-normal leading-none sm:text-[12px] md:text-[13px] lg:text-[14px] ${
                         isActive ? "text-white" : "text-ink"
                       }`}
                     >
@@ -536,7 +536,7 @@ export default function FaqContent() {
         {/* ============================================================== */}
         <div
           key={activeCategory}
-          className="flex w-full flex-col gap-2.5 transition-all duration-300 sm:gap-3 lg:gap-[10px]"
+          className="flex w-full flex-col gap-2.5 transition-all duration-300 sm:gap-3 md:gap-3.5 lg:gap-[10px]"
         >
           {displayedFaqs.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[16px] bg-[#f3f4f5] px-6 py-12 text-center">
@@ -574,7 +574,7 @@ export default function FaqContent() {
                         aria-expanded={isOpen}
                         className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
                       >
-                        <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] lg:text-[20px] sm:tracking-[-0.4px]">
+                        <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[19px] lg:text-[20px] sm:tracking-[-0.4px]">
                           {faq.title}
                         </span>
                         <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
@@ -590,7 +590,7 @@ export default function FaqContent() {
 
                       {isOpen && (
                         <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
-                          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] lg:text-[18px] sm:leading-[1.6] sm:text-ink">
+                          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:text-[18px] sm:leading-[1.6] sm:text-ink">
                             {faq.answer}
                           </p>
                         </div>

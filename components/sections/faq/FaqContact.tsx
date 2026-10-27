@@ -76,23 +76,23 @@ export default function FaqContact() {
     <section
       data-node-id="2979:8641"
       aria-label="Contact Support"
-      className="relative w-full overflow-hidden bg-white px-5 py-8 sm:px-8 sm:py-12 lg:px-[80px] lg:py-[64px]"
+      className="relative w-full overflow-hidden bg-white px-5 py-8 sm:px-8 sm:py-12 md:px-12 lg:px-[80px] lg:py-[64px]"
     >
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 md:flex-row md:items-start md:justify-between lg:gap-12">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-8 lg:gap-12">
         {/* Left Column: Title Block & Contact Details Rows */}
-        <div className="flex w-full flex-col gap-5 sm:gap-6 md:flex-1 lg:max-w-[520px]">
+        <div className="flex w-full flex-col gap-5 sm:gap-6 md:flex-1 md:max-w-[360px] lg:max-w-[520px]">
           {/* Title Block */}
           <div className="flex flex-col gap-2.5 sm:gap-3.5">
             <div className="flex h-6 items-center">
               <Eyebrow label="Next step" className="font-bold text-[12px] sm:text-[13px] uppercase tracking-[0.6px]" />
             </div>
 
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[34px] lg:text-[42px] lg:tracking-[-0.84px]">
+            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[34px] md:text-[36px] lg:text-[42px] lg:tracking-[-0.84px]">
               Could not find <br className="sm:hidden" />
               your answer?
             </h2>
 
-            <p className="max-w-[420px] font-sans text-[12px] font-normal leading-normal text-ink sm:text-[14px] lg:text-[16px]">
+            <p className="max-w-[420px] font-sans text-[12px] font-normal leading-normal text-ink sm:text-[14px] md:text-[15px] lg:text-[16px]">
               Our team is happy to help. Leave your details and we will get back to you.
             </p>
           </div>
@@ -165,10 +165,10 @@ export default function FaqContact() {
         </div>
 
         {/* Right Column: Contact support Form Card (Figma 2981:9081) */}
-        <div className="w-full md:flex-1 lg:max-w-[480px]">
+        <div className="w-full md:flex-1 md:max-w-[390px] lg:max-w-[480px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 sm:p-5 lg:p-6"
+            className="flex w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 sm:p-5 md:p-4.5 lg:p-6"
           >
             <div className="flex flex-col gap-1">
               <h3 className="font-sans text-[20px] font-bold leading-[1.15] tracking-[-0.48px] text-ink sm:text-[22px] lg:text-[24px]">

@@ -22,7 +22,7 @@ const COLUMNS: FooterColumn[] = [
     links: ["Dealer Locator", "Service Centres", "Charging Stations Locator", "Downloads"],
     openOnMobile: false,
   },
-  { title: "Resources", links: ["Insights", "In press"], openOnMobile: false },
+  { title: "Resources", links: ["Blogs", "In press"], openOnMobile: false },
   { title: "Company", links: ["About us", "Careers", "Sitemap"], openOnMobile: false },
   {
     title: "Legal",
@@ -62,26 +62,32 @@ const SOCIALS = [
 
 function getFooterHref(link: string): string {
   switch (link) {
+    case "Storm EV LongRange 200":
+      return "/products/lr200";
+    case "Storm EV T1500":
+      return "/products/storm-ev-t1500";
+    case "HiLoad EV":
+      return "/products/hiload-ev";
+    case "Turbo EV 1000":
+      return "/products/turbo-ev-1000";
     case "Dealer Locator":
       return "/dealer-locator";
     case "About us":
       return "/about";
     case "Careers":
       return "/careers";
+    case "Blogs":
+      return "/insights";
     case "Service Centres":
       return "/service-centers";
     case "Charging Stations Locator":
       return "/charging-stations";
     case "Technology":
       return "/technology";
-    case "Insights":
-      return "/insights";
     case "Privacy policy":
       return "/privacy-policy";
     case "Terms and conditions":
       return "/terms-conditions";
-    case "Cookie policy":
-      return "/cookie-policy";
     case "Refund policy":
       return "/refund-policy";
     default:
@@ -261,7 +267,7 @@ export default function Footer() {
           Row anchors: header top 39.12 · links 42.93 below it · bottom bar
           38.05 above the frame bottom. Mobile (1:5128) keeps its own 1006px
           accordion layout */}
-      <div className="relative z-10 mx-auto flex min-h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pb-[260px] pt-[42px] lg:h-full lg:min-h-0 lg:gap-0 lg:px-[80px] lg:pb-[38.05px] lg:pt-[32px]">
+      <div className="relative z-10 mx-auto flex min-h-[1006px] max-w-[1440px] flex-col gap-8 px-5 pb-[260px] pt-[42px] lg:h-full lg:min-h-0 lg:gap-0 lg:px-8 xl:px-12 2xl:px-[80px] lg:pb-[38.05px] lg:pt-[32px]">
         {/* header row */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-5 lg:gap-[38px]">
@@ -312,7 +318,7 @@ export default function Footer() {
         </div>
 
         {/* link columns — desktop grid / mobile accordion. */}
-        <div className="hidden justify-between pt-[28px] lg:flex lg:w-[1280px] lg:items-start">
+        <div className="hidden w-full max-w-[1280px] justify-between pt-[28px] lg:flex lg:items-start">
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title} className="flex flex-col gap-6">
               <h3 className="text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">{col.title}</h3>

@@ -117,7 +117,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
   const pageStart = (currentPage - 1) * PAGE_SIZE;
 
   return (
-    <section id="open-positions" className="relative flex min-h-[760px] scroll-mt-[88px] flex-col items-center justify-center gap-6 bg-white px-5 py-8 lg:flex lg:min-h-0 lg:w-full lg:flex-col lg:items-start lg:justify-start lg:gap-[10px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
+    <section id="open-positions" className="relative flex scroll-mt-[88px] flex-col items-start justify-start gap-6 bg-white px-5 py-8 lg:w-full lg:gap-[10px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
       <div className="flex w-full flex-col gap-6 lg:items-start lg:gap-[42px] lg:self-stretch">
         <div className="flex self-stretch flex-col gap-6 lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col items-start justify-center self-stretch gap-3 lg:w-[646.448px] lg:shrink-0 lg:justify-start lg:gap-4">
@@ -141,11 +141,11 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 placeholder="Search here..."
               />
             </label>
-            <div className="contents lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
-            <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
+            <div className="flex flex-col items-start self-stretch gap-[12px] lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
+            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Team</span>
-              <div className="relative min-w-0 flex-1 lg:contents">
-              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
+              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
                   type="button"
                   className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.department ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
@@ -154,7 +154,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 >
                   All
                 </button>
-                {CAREER_DEPARTMENTS.filter((department) => department !== "Sales").map((department) => (
+                {CAREER_DEPARTMENTS.map((department) => (
                   <button
                     type="button"
                     key={department}
@@ -170,14 +170,18 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                     {department}
                   </button>
                 ))}
-              </div>
-              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:hidden" />
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute lg:hidden"
+                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                />
               </div>
             </div>
-            <div className="flex min-w-0 items-start gap-2 overflow-hidden lg:w-full">
+            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
               <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Where</span>
-              <div className="relative min-w-0 flex-1 lg:contents">
-              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto py-0.5 pb-1.5 lg:py-0 lg:pr-[93px] lg:pb-0">
+              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
                   type="button"
                   className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.location ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
@@ -202,8 +206,12 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                     {location}
                   </button>
                 ))}
-              </div>
-              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:hidden" />
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute lg:hidden"
+                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
+                />
               </div>
             </div>
             </div>
@@ -234,9 +242,75 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
             ))}
           </div>
         ) : (
-          <p className="m-0 rounded-xl bg-[#f3f4f5] px-4 py-6 font-sans text-sm leading-6 text-ink lg:w-full" role="status">
-            No roles match those filters. Try a different team, location, or search term.
-          </p>
+          <div
+            className="flex w-full flex-col items-center justify-center rounded-2xl border border-[#e4e7ec] bg-[#f8f9fb] px-6 py-12 text-center lg:py-16"
+            role="status"
+          >
+            <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-[#e8eefb] text-brand shadow-sm">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="size-7 stroke-[1.6]"
+                fill="none"
+                stroke="currentColor"
+              >
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+            </div>
+            <h4 className="m-0 font-display text-lg font-semibold text-ink lg:text-2xl">
+              No Open Positions Currently Available
+            </h4>
+            <p className="mt-2.5 max-w-[540px] font-sans text-xs leading-relaxed text-ink/70 lg:text-sm">
+              {filters.department || filters.location || filters.search ? (
+                <>
+                  We don&apos;t have any active openings matching your selection
+                  {filters.department ? (
+                    <> in <strong className="font-semibold text-ink">{filters.department}</strong></>
+                  ) : null}
+                  {filters.location ? (
+                    <> located in <strong className="font-semibold text-ink">{filters.location}</strong></>
+                  ) : null}
+                  {filters.search ? (
+                    <> for &ldquo;<span className="font-semibold text-ink">{filters.search}</span>&rdquo;</>
+                  ) : null}
+                  . We are continuously expanding our teams—check back soon or browse all open roles.
+                </>
+              ) : (
+                "There are currently no open positions listed in this section. Our teams are growing rapidly across technology, manufacturing, and operations, so check back regularly."
+              )}
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              {(filters.department || filters.location || filters.search) && (
+                <button
+                  type="button"
+                  onClick={() => onChange({ search: "", department: "", location: "" })}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded bg-ink px-5 font-display text-xs font-bold text-white transition-colors duration-150 hover:bg-navy"
+                >
+                  View all positions
+                  <span aria-hidden="true">→</span>
+                </button>
+              )}
+              <a
+                href="mailto:careers@eulermotors.com?subject=Euler%20Motors%20Career%20Inquiry%20-%20General%20Application"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded border border-ink/30 bg-white px-5 font-display text-xs font-bold text-ink transition-colors duration-150 hover:bg-mist"
+              >
+                Send open application
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+
+            <p className="mt-5 font-sans text-[11px] text-ink/50 lg:text-xs">
+              Can&apos;t find what you&apos;re looking for? Reach out directly at{" "}
+              <a
+                href="mailto:careers@eulermotors.com"
+                className="font-semibold text-brand underline decoration-brand/40 underline-offset-2 hover:decoration-brand"
+              >
+                careers@eulermotors.com
+              </a>
+            </p>
+          </div>
         )}
 
         {totalPages > 1 && (

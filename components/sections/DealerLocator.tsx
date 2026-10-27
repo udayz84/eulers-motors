@@ -573,6 +573,9 @@ export default function DealerLocator({
       left: direction * step,
       behavior: "smooth",
     });
+    setActiveCardIndex((prev) =>
+      Math.max(0, Math.min(resultCount - 1, prev + direction))
+    );
   };
 
   const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -589,7 +592,7 @@ export default function DealerLocator({
     >
       <div className="absolute inset-0 size-full overflow-hidden">
         <Image
-          src={`${ASSET}map-hq.png`}
+          src={`${ASSET}map-image.png`}
           alt=""
           fill
           priority
@@ -626,11 +629,7 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[500px] -translate-x-1/2 flex-col items-center gap-3 lg:top-[36px] lg:w-[846px] lg:max-w-none lg:gap-5">
-        <p className="w-full text-center font-display text-[12px] sm:text-[14px] font-semibold leading-[1.15] tracking-[-0.24px] text-[rgba(18,18,18,0.8)] lg:text-[16px] lg:tracking-[-0.32px]">
-          Search by an area
-        </p>
-
+      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[692px] lg:max-w-none">
         <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">
           <Image
             src={`${ASSET}search-swoosh-mobile.svg`}
@@ -638,7 +637,7 @@ export default function DealerLocator({
             width={348.409}
             height={60}
             aria-hidden="true"
-            className="absolute bottom-[-3.42px] left-1/2 h-[60px] w-[348.409px] max-w-none -translate-x-1/2 lg:hidden"
+            className="absolute bottom-[-3.42px] left-1/2 h-[60px] w-[348.409px] max-w-none -translate-x-1/2 lg:hidden pointer-events-none"
           />
           <Image
             src={`${ASSET}search-swoosh-desktop.svg`}
@@ -646,11 +645,11 @@ export default function DealerLocator({
             width={691.148}
             height={69}
             aria-hidden="true"
-            className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-[691.148px] max-w-none -translate-x-1/2 lg:block"
+            className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-[691.148px] max-w-none -translate-x-1/2 lg:block pointer-events-none"
           />
 
-          <div className="relative flex h-8 sm:h-10 w-full items-center justify-between rounded-full border border-[rgba(0,0,0,0.04)] bg-[#f3f4f5] py-0.5 pl-2 pr-0.5 sm:py-1 sm:pl-3 shadow-[0px_2px_2px_rgba(0,0,0,0.1)] lg:h-[46px] lg:py-[3px] lg:pl-4 lg:pr-[3px]">
-            <label className="flex w-[100px] sm:w-[160px] shrink-0 items-center gap-1 sm:gap-2 lg:w-[138px] lg:gap-3">
+          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 shadow-[0px_2px_12px_rgba(0,0,0,0.08)] lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
+            <label className="flex w-[120px] sm:w-[160px] shrink-0 items-center gap-2 lg:w-[150px] lg:gap-3">
               <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
                 <Image
                   src={`${ASSET}search-icon-desktop.svg`}
@@ -661,12 +660,12 @@ export default function DealerLocator({
                   className="max-w-none"
                 />
               </span>
-              <span className="flex size-3 shrink-0 items-center justify-center lg:hidden">
+              <span className="flex size-3.5 shrink-0 items-center justify-center lg:hidden">
                 <Image
                   src={`${ASSET}search-icon-mobile.svg`}
                   alt=""
-                  width={11.2}
-                  height={11.2}
+                  width={12}
+                  height={12}
                   aria-hidden="true"
                   className="max-w-none"
                 />
@@ -676,12 +675,12 @@ export default function DealerLocator({
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search here..."
-                className="w-[80px] sm:w-[130px] bg-transparent font-sans text-[12px] sm:text-[14px] font-semibold leading-none text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.8)] lg:w-[106px] lg:text-[16px]"
+                className="w-full bg-transparent font-sans text-[13px] sm:text-[14px] font-normal sm:font-medium leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
               />
             </label>
             <button
               type="button"
-              className="flex h-[26px] sm:h-[32px] shrink-0 items-center gap-1 rounded-full bg-white px-2 sm:px-3 text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] lg:h-[38px] lg:gap-1 lg:px-3 lg:text-[12px]"
+              className="flex h-[28px] sm:h-[32px] shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 sm:px-3.5 border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer lg:h-[38px] lg:px-4 lg:text-[12px]"
             >
               <Image
                 src={`${ASSET}location-icon-desktop.svg`}
@@ -707,7 +706,7 @@ export default function DealerLocator({
             ref={cityRowScrollRef}
             className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full touch-pan-x overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
           >
-            <div className="flex h-8 sm:h-9 w-max items-center lg:h-[42px]">
+            <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
               {CITIES.map((city) => {
                 const selected = city === selectedCity;
                 return (
@@ -715,15 +714,11 @@ export default function DealerLocator({
                     key={city}
                     type="button"
                     onClick={() => setSelectedCity(city)}
-                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-[400px] px-3 font-sans text-[12px] font-semibold leading-none lg:h-[42px] lg:px-3 lg:text-[16px] ${
+                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[38px] lg:text-[15px] ${
                       selected
-                        ? "border-[0.4px] border-solid border-white text-white lg:px-4"
-                        : "text-[#121212]"
+                        ? "bg-[#1363DF] text-white px-4 lg:px-5 shadow-sm"
+                        : "text-[#121212] px-2.5 sm:px-3 hover:text-[#1363DF]"
                     }`}
-                    style={selected ? {
-                      backgroundColor: "#121212",
-                      backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)",
-                    } : undefined}
                   >
                     {city}
                   </button>
@@ -747,6 +742,68 @@ export default function DealerLocator({
               className="pointer-events-none absolute right-0 top-1 h-[23px] w-[27px] max-w-none rotate-180 lg:hidden"
             />
           </div>
+        </div>
+
+        {/* Map / Cards toggle directly under Cities matching Figma */}
+        <div className="mt-2.5 sm:mt-3 flex items-center gap-[6px] rounded-[6px] bg-[#f3f4f5] p-1 shadow-sm border border-black/5">
+          <button
+            type="button"
+            aria-label="Map view"
+            title="Map view"
+            onClick={() => setViewMode("map")}
+            className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
+              viewMode === "map"
+                ? "bg-[#121212] text-white shadow-sm"
+                : "text-[#121212] hover:bg-black/5"
+            }`}
+          >
+            <svg
+              width="17"
+              height="16"
+              viewBox="0 0 16.5 16.125"
+              fill="none"
+              className="stroke-current max-w-none"
+              aria-hidden="true"
+            >
+              <path
+                d="M15.75 6.75V6.16311C15.75 4.7084 15.75 3.98105 15.3107 3.52913C14.8713 3.07721 14.1642 3.07721 12.75 3.07721H11.191C10.503 3.07721 10.4973 3.07587 9.87862 2.76625L7.37991 1.51585C6.33663 0.99378 5.81499 0.732743 5.25929 0.750884C4.70358 0.769025 4.19908 1.06356 3.19009 1.65263L2.26919 2.19027C1.52804 2.62297 1.15747 2.83932 0.953736 3.19923C0.750002 3.55915 0.750002 3.99745 0.750002 4.87405V11.0368C0.750002 12.1886 0.750002 12.7645 1.0067 13.085C1.17751 13.2983 1.41687 13.4416 1.6815 13.4892C2.0792 13.5606 2.5661 13.2763 3.53988 12.7078L3.53991 12.7078C4.20117 12.3217 4.83758 11.9208 5.62865 12.0295C6.29152 12.1206 6.9075 12.5389 7.5 12.8354"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path d="M5.25 0.749999L5.25 12" strokeWidth="1.5" strokeLinejoin="round" />
+              <path d="M10.5 3V6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M12.375 7.875C10.5485 7.875 9 9.38737 9 11.2222C9 13.0926 10.5765 14.3856 12.0274 15.2838C12.1333 15.3436 12.2531 15.375 12.375 15.375C12.4969 15.375 12.6167 15.3436 12.7226 15.2838C14.1762 14.3943 15.75 13.0862 15.75 11.2222C15.75 9.38737 14.2015 7.875 12.375 7.875Z"
+                strokeWidth="1.5"
+              />
+              <path d="M12.375 11.25H12.3817" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            aria-label="Cards view"
+            title="Cards view"
+            onClick={() => setViewMode("list")}
+            className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
+              viewMode === "list"
+                ? "bg-[#121212] text-white shadow-sm"
+                : "text-[#121212] hover:bg-black/5"
+            }`}
+          >
+            <svg
+              width="14"
+              height="12"
+              viewBox="0 0 13.5 12"
+              fill="none"
+              className="stroke-current max-w-none"
+              aria-hidden="true"
+            >
+              <path d="M0.75 0.75L8.25 0.750001" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M0.75 6L12.75 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M0.75 11.25L12.75 11.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -782,66 +839,6 @@ export default function DealerLocator({
         </>
       )}
 
-      {/* Map / List toggle buttons */}
-      <div className="absolute left-[68px] top-[117px] z-30 flex -translate-x-1/2 items-center gap-[6px] rounded-[4px] bg-[#f3f4f5] p-1 shadow-sm lg:hidden">
-        <button
-          type="button"
-          aria-label="Map view"
-          onClick={() => setViewMode("map")}
-          className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
-            viewMode === "map"
-              ? "bg-[#121212] text-white shadow-sm"
-              : "text-[#121212] hover:bg-black/5"
-          }`}
-        >
-          <svg
-            width="17"
-            height="16"
-            viewBox="0 0 16.5 16.125"
-            fill="none"
-            className="stroke-current max-w-none"
-            aria-hidden="true"
-          >
-            <path
-              d="M15.75 6.75V6.16311C15.75 4.7084 15.75 3.98105 15.3107 3.52913C14.8713 3.07721 14.1642 3.07721 12.75 3.07721H11.191C10.503 3.07721 10.4973 3.07587 9.87862 2.76625L7.37991 1.51585C6.33663 0.99378 5.81499 0.732743 5.25929 0.750884C4.70358 0.769025 4.19908 1.06356 3.19009 1.65263L2.26919 2.19027C1.52804 2.62297 1.15747 2.83932 0.953736 3.19923C0.750002 3.55915 0.750002 3.99745 0.750002 4.87405V11.0368C0.750002 12.1886 0.750002 12.7645 1.0067 13.085C1.17751 13.2983 1.41687 13.4416 1.6815 13.4892C2.0792 13.5606 2.5661 13.2763 3.53988 12.7078L3.53991 12.7078C4.20117 12.3217 4.83758 11.9208 5.62865 12.0295C6.29152 12.1206 6.9075 12.5389 7.5 12.8354"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path d="M5.25 0.749999L5.25 12" strokeWidth="1.5" strokeLinejoin="round" />
-            <path d="M10.5 3V6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path
-              d="M12.375 7.875C10.5485 7.875 9 9.38737 9 11.2222C9 13.0926 10.5765 14.3856 12.0274 15.2838C12.1333 15.3436 12.2531 15.375 12.375 15.375C12.4969 15.375 12.6167 15.3436 12.7226 15.2838C14.1762 14.3943 15.75 13.0862 15.75 11.2222C15.75 9.38737 14.2015 7.875 12.375 7.875Z"
-              strokeWidth="1.5"
-            />
-            <path d="M12.375 11.25H12.3817" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          aria-label="List view"
-          onClick={() => setViewMode("list")}
-          className={`flex h-8 w-[42px] cursor-pointer items-center justify-center rounded-[4px] px-3 transition-colors ${
-            viewMode === "list"
-              ? "bg-[#121212] text-white shadow-sm"
-              : "text-[#121212] hover:bg-black/5"
-          }`}
-        >
-          <svg
-            width="14"
-            height="12"
-            viewBox="0 0 13.5 12"
-            fill="none"
-            className="stroke-current max-w-none"
-            aria-hidden="true"
-          >
-            <path d="M0.75 0.75L8.25 0.750001" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M0.75 6L12.75 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M0.75 11.25L12.75 11.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
-
       {/* Map View: Horizontal cards at bottom */}
       {viewMode === "map" && (
         <>
@@ -854,7 +851,7 @@ export default function DealerLocator({
             className="absolute left-1/2 top-[520px] h-px w-[353px] max-w-[calc(100%-24px)] sm:w-[500px] -translate-x-1/2 lg:hidden"
           />
 
-          <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[39px] lg:top-auto lg:gap-[21px]">
+          <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[36px] lg:top-auto lg:gap-[18px]">
             <div className="flex items-center justify-between px-3 lg:px-[39px]">
               <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
                 {charging
@@ -863,13 +860,13 @@ export default function DealerLocator({
                   ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
                   : `${String(resultCount).padStart(2, "0")} Dealers Found`}
               </h2>
-              <div className="hidden items-center gap-2 lg:flex">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   aria-label="Previous locations"
                   onClick={() => scrollByCard(-1)}
                   disabled={activeCardIndex === 0}
-                  className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                  className="flex size-7 sm:size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M15 18l-6-6 6-6" />
@@ -880,7 +877,7 @@ export default function DealerLocator({
                   aria-label="Next locations"
                   onClick={() => scrollByCard(1)}
                   disabled={activeCardIndex >= resultCount - 1}
-                  className="flex size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
+                  className="flex size-7 sm:size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 18l6-6-6-6" />
@@ -917,18 +914,17 @@ export default function DealerLocator({
             </div>
           </div>
 
-          <div className="absolute left-1/2 top-[758px] flex h-5 w-[116px] -translate-x-1/2 items-center rounded-[14px] bg-white p-1 lg:hidden">
-            <div
-              className="h-3 w-[30px] rounded-full bg-[#121212] transition-transform duration-200"
-              style={{ transform: `translateX(${activeCardIndex * 18}px)` }}
-            />
-          </div>
+          {/* Bottom handle bar indicator matching Figma and screenshot */}
+          <div
+            className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 h-1.5 w-10 sm:w-12 rounded-full bg-[#121212]/35 pointer-events-none"
+            aria-hidden="true"
+          />
         </>
       )}
 
-      {/* List View: Cards appear instead of the map */}
+      {/* List / Cards View: Cards appear instead of the map */}
       {viewMode === "list" && (
-        <div className="absolute inset-x-0 bottom-0 top-[165px] z-20 flex flex-col overflow-y-auto bg-[#eef2f8]/95 px-4 pb-8 backdrop-blur-md lg:top-[268px] lg:px-10">
+        <div className="absolute inset-x-0 bottom-0 top-[140px] sm:top-[150px] lg:top-[180px] z-20 flex flex-col overflow-y-auto bg-[#eef2f8]/95 px-4 pb-8 backdrop-blur-md lg:px-10">
           <div className="mb-4 flex items-center justify-between pt-2">
             <h2 className="font-display text-[16px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] sm:text-[20px] lg:text-[24px] lg:tracking-[-0.48px]">
               {charging

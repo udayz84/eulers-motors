@@ -6,9 +6,9 @@ const A = "/assets/technology-page";
 export default function TechManufacturing() {
   return (
     <section className="bg-white" aria-label="Manufacturing">
-      <div className="mx-auto hidden h-[800px] w-full max-w-[1440px] px-[80px] py-[60px] lg:block">
-        <div className="relative h-[680px] w-full overflow-clip rounded-[20px]">
-          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[20px]">
+      <div className="mx-auto hidden h-[560px] w-full max-w-[1440px] px-6 py-8 md:block md:h-[620px] md:px-10 md:py-10 lg:h-[800px] lg:px-[80px] lg:py-[60px]">
+        <div className="relative h-full w-full overflow-clip rounded-[16px] md:rounded-[20px]">
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[16px] md:rounded-[20px]">
             <img
               src={`${A}/mfg__imgRectangle1618873365.png`}
               alt=""
@@ -17,12 +17,12 @@ export default function TechManufacturing() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black" />
           </div>
 
-          <div className="absolute bottom-10 left-10 flex w-[636px] flex-col items-start gap-4 text-white">
+          <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10 flex max-w-[500px] lg:max-w-[636px] flex-col items-start gap-3 md:gap-4 text-white">
             <Eyebrow label="Manufacturing" dark />
-            <h2 className="w-[488px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]">
+            <h2 className="max-w-[488px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] md:text-[42px] md:tracking-[-0.84px] lg:text-[52px] lg:tracking-[-1.04px]">
               Where Every Vehicle Begins
             </h2>
-            <p className="w-[531px] font-sans text-[16px] font-normal leading-normal">
+            <p className="max-w-[531px] font-sans text-[14px] font-normal leading-normal md:text-[15px] lg:text-[16px]">
               Packs, drivetrains and final assembly in one building, so a fault found in the field
               reaches the line that made it.
             </p>
@@ -31,14 +31,14 @@ export default function TechManufacturing() {
           <button
             type="button"
             aria-label="Play manufacturing film"
-            className="absolute left-1/2 top-1/2 size-[52px] -translate-x-1/2 -translate-y-1/2"
+            className="absolute left-1/2 top-1/2 size-[44px] -translate-x-1/2 -translate-y-1/2 md:size-[48px] lg:size-[52px]"
           >
             <img src={`${A}/mfg__imgContainer.svg`} alt="" className="absolute inset-0 size-full max-w-none" />
           </button>
         </div>
       </div>
 
-      <div className="relative mx-auto h-[620px] w-full max-w-[393px] overflow-clip bg-[#041231] lg:hidden">
+      <div className="relative mx-auto h-[620px] w-full max-w-[480px] overflow-clip bg-[#041231] md:hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[#041231]" />
           <div className="absolute inset-0 overflow-hidden">
@@ -64,7 +64,7 @@ export default function TechManufacturing() {
           <span className="text-[12px] font-semibold leading-normal text-black">Placeholder</span>
         </div>
 
-        <div className="absolute bottom-[39px] left-5 flex w-[353px] flex-col items-start gap-3">
+        <div className="absolute bottom-[39px] left-5 right-5 mx-auto max-w-[353px] flex flex-col items-start gap-3">
           <Eyebrow label="Manufacturing" dark />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
             Where Every Vehicle Begins

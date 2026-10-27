@@ -78,7 +78,7 @@ export default function TechFaq() {
 
   return (
     <section className="overflow-x-clip bg-white" aria-label="Frequently asked questions">
-      <div className="relative mx-auto flex w-full max-w-[393px] flex-col items-center gap-5 px-5 py-8 lg:hidden">
+      <div className="relative mx-auto flex w-full max-w-[480px] flex-col items-center gap-5 px-5 py-8 md:hidden">
         <div className="relative flex w-full flex-col items-start gap-[14px]">
           <Eyebrow label="FAQ" />
           <h2
@@ -185,17 +185,17 @@ export default function TechFaq() {
         </div>
       </div>
 
-      {/* Desktop FAQ panel (Figma 3572:26644). */}
-      <div className="mx-auto hidden min-h-[702px] w-full max-w-[1440px] px-[80px] py-[62px] lg:flex">
-        <div className="flex w-full items-center gap-[41px]">
-          <div className="flex h-[578px] min-w-0 flex-1 flex-col gap-5">
-            <div className="flex w-full flex-col items-start gap-4">
+      {/* Desktop & Tablet FAQ panel */}
+      <div className="mx-auto hidden min-h-[640px] w-full max-w-[1440px] px-6 py-10 md:flex md:px-10 lg:min-h-[702px] lg:px-[80px] lg:py-[62px]">
+        <div className="flex w-full flex-col items-start gap-8 md:flex-row md:items-start md:gap-8 lg:items-center lg:gap-[41px]">
+          <div className="flex h-auto w-full flex-col gap-4 md:h-[578px] md:w-[45%] md:gap-5 lg:flex-1">
+            <div className="flex w-full flex-col items-start gap-3 md:gap-4">
               <Eyebrow label="FAQ" />
-              <div className="flex flex-col items-start gap-4 text-ink">
-                <h2 className="text-[clamp(28px,3.3vw,42px)] font-display font-semibold leading-[1.15] tracking-[-0.84px] lg:whitespace-normal xl:whitespace-nowrap">
+              <div className="flex flex-col items-start gap-3 text-ink md:gap-4">
+                <h2 className="text-[clamp(26px,3vw,42px)] font-display font-semibold leading-[1.15] tracking-[-0.84px]">
                   Frequently asked questions
                 </h2>
-                <p className="max-w-[474px] text-[16px] leading-normal">
+                <p className="max-w-[474px] font-sans text-[14px] leading-normal md:text-[15px] lg:text-[16px]">
                   Find answers to the most common questions about our vehicles, charging, service, warranty and more.
                 </p>
               </div>
@@ -214,15 +214,15 @@ export default function TechFaq() {
                         setSelected(category.label);
                         setOpen(null);
                       }}
-                      className={`flex shrink-0 items-center justify-center gap-[6.4px] rounded-full border-[0.4px] border-solid px-4 py-[13px] ${
+                      className={`flex shrink-0 items-center justify-center gap-[6.4px] rounded-full border-[0.4px] border-solid px-3.5 py-2.5 md:px-4 md:py-[13px] ${
                         isSelected
                           ? "border-white bg-gradient-to-br from-[#1d6fff] to-[#0e2f6d] text-white"
                           : "border-transparent bg-[rgba(204,204,204,0.32)] text-ink"
                       }`}
                     >
-                      <span className="whitespace-nowrap text-[16px] font-semibold leading-none">{category.label}</span>
+                      <span className="whitespace-nowrap text-[14px] font-semibold leading-none md:text-[16px]">{category.label}</span>
                       <span aria-hidden className={`size-[3.145px] shrink-0 rounded-full ${isSelected ? "bg-white/50" : "bg-black/50"}`} />
-                      <span className="whitespace-nowrap text-[14px] leading-none">{category.count}</span>
+                      <span className="whitespace-nowrap text-[12px] leading-none md:text-[14px]">{category.count}</span>
                     </button>
                   );
                 })}
@@ -230,7 +230,7 @@ export default function TechFaq() {
               <div aria-hidden className="pointer-events-none absolute right-0 top-0 h-full w-[49px] bg-gradient-to-l from-white to-transparent" />
             </div>
 
-            <div className="min-h-0 w-full flex-1 overflow-hidden rounded-[20px]">
+            <div className="min-h-0 w-full flex-1 overflow-hidden rounded-[16px] md:rounded-[20px]">
               <img
                 src="/assets/charging-station-faq/location-map.png"
                 alt="Customer support team member helping with a vehicle question"
@@ -239,7 +239,7 @@ export default function TechFaq() {
             </div>
           </div>
 
-          <div className="flex h-[578px] w-[min(652px,48%)] shrink-0 items-stretch gap-3">
+          <div className="flex h-auto w-full flex-col items-stretch gap-3 md:h-[578px] md:w-[55%] lg:w-[min(652px,48%)]">
             <div
               ref={desktopListRef}
               onScroll={(event) => {

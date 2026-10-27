@@ -82,21 +82,230 @@ const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: s
   },
 };
 
+export const HILOAD_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+  Battery: {
+    rows: [
+      { icon: "spec-ic-charge.svg", label: "Battery Capacity", value: "13.44 kWh (XR) / 11.5 kWh (TR)" },
+      { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
+      { icon: "spec-ic-target.svg", label: "Range per charge", value: "170 km (ARAI) | 150+ km Real" },
+      { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "50 km in 15 min" },
+      { icon: "spec-ic-bell.svg", label: "Battery Warranty", value: "5 years / 1.25 Lakh km" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV battery and liquid cooling system",
+  },
+  Dimensions: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Payload Capacity", value: "688 kg (768 kg certified)" },
+      { icon: "spec-ic-doc.svg", label: "Container Size", value: "6.1 x 4.8 x 4.5 ft | 170 cu. ft." },
+      { icon: "spec-ic-location.svg", label: "Ground Clearance", value: "300 mm unladen (240 mm laden)" },
+      { icon: "spec-ic-analytics.svg", label: "Wheelbase & Radius", value: "2,200 mm | 3.5 m turning" },
+      { icon: "spec-ic-location.svg", label: "Vehicle Category", value: "L5N Electric Cargo 3W" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV dimensions and container body",
+  },
+  Performance: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Peak Motor Power", value: "11.7 kW (PMSM motor)" },
+      { icon: "spec-ic-charge.svg", label: "Peak Torque", value: "88.55 Nm" },
+      { icon: "spec-ic-target.svg", label: "Gradeability", value: "21% (Range) | 30% (Thunder)" },
+      { icon: "spec-ic-analytics.svg", label: "Top Speed", value: "45 km/h (Range) | 55 km/h (Thunder)" },
+      { icon: "spec-ic-location.svg", label: "Drive Modes", value: "RANGE & THUNDER modes" },
+    ],
+    image: "/assets/technology-page/hero__imgRectangle42158.png",
+    imageAlt: "Euler HiLoad EV driving with heavy cargo",
+  },
+  Features: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Telematics", value: "Euler Shepherd IoT App" },
+      { icon: "spec-ic-location.svg", label: "Live Location Tracking", value: "Yes, included" },
+      { icon: "spec-ic-charge.svg", label: "State of Charge on Phone", value: "Yes, real-time" },
+      { icon: "spec-ic-analytics.svg", label: "Tyres", value: "Radial Tubeless 145 R12 (30% wider)" },
+      { icon: "spec-ic-bell.svg", label: "Water Wading Height", value: "1 Foot wading capability" },
+      { icon: "spec-ic-clock.svg", label: "Trip History & Reports", value: "12 months on cloud" },
+      { icon: "spec-ic-target.svg", label: "Braking", value: "Regenerative Braking" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV telematics features",
+  },
+  Safety: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Front Brakes", value: "200 mm Disc Brakes (Segment first)" },
+      { icon: "spec-ic-target.svg", label: "Rear Brakes", value: "Hydraulic Drum Brakes" },
+      { icon: "spec-ic-bell.svg", label: "Ingress Protection", value: "IP67 Dust & Water Proof Battery" },
+      { icon: "spec-ic-doc.svg", label: "Cabin Construction", value: "Reinforced Sheet Metal Cabin" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV front disc brake and safety chassis",
+  },
+  Comfort: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Cabin View", value: "Ergonomic wide-view windscreen" },
+      { icon: "spec-ic-clock.svg", label: "Lighting", value: "Integrated Projector Headlamps" },
+      { icon: "spec-ic-analytics.svg", label: "Seating", value: "Cushioned bucket seat (D + Cargo)" },
+      { icon: "spec-ic-charge.svg", label: "On-Board Charger", value: "3.3 kWh Plug & Play gun" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler HiLoad EV cabin comfort",
+  },
+};
+
+export const TURBO_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+  Battery: {
+    rows: [
+      { icon: "spec-ic-charge.svg", label: "Certified Range", value: "Up to 220 km (ARAI)" },
+      { icon: "spec-ic-target.svg", label: "Real Range", value: "140 - 180 km real-world" },
+      { icon: "spec-ic-clock.svg", label: "Fast Charging", value: "15 min quick top-up" },
+      { icon: "spec-ic-bell.svg", label: "Battery Protection", value: "IP67 Dust & Water Ingress" },
+      { icon: "spec-ic-doc.svg", label: "Battery Warranty", value: "5 years / 1.25 Lakh km" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Turbo EV 1000 battery and powertrain",
+  },
+  Dimensions: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Rated Payload", value: "1,000 kg across all variants" },
+      { icon: "spec-ic-doc.svg", label: "Deck Type", value: "Heavy-duty commercial cargo deck" },
+      { icon: "spec-ic-location.svg", label: "Vehicle Class", value: "4-Wheeler Commercial EV Truck" },
+      { icon: "spec-ic-analytics.svg", label: "Category", value: "N1 Goods Carrier" },
+      { icon: "spec-ic-location.svg", label: "Fleet Use", value: "Urban & intercity logistics" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Turbo EV 1000 dimensions and cargo deck",
+  },
+  Performance: {
+    rows: [
+      { icon: "spec-ic-charge.svg", label: "Peak Torque", value: "140 Nm" },
+      { icon: "spec-ic-analytics.svg", label: "Top Speed", value: "70 km/h (Thunder Mode)" },
+      { icon: "spec-ic-location.svg", label: "Drive Modes", value: "Range & Thunder modes" },
+      { icon: "spec-ic-phone.svg", label: "Steering", value: "Electronic Power Steering (EPS)" },
+      { icon: "spec-ic-target.svg", label: "Gradeability", value: "High gradeability for flyovers" },
+    ],
+    image: "/assets/technology-page/hero__imgRectangle42158.png",
+    imageAlt: "Euler Turbo EV 1000 driving on road",
+  },
+  Features: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Telematics", value: "Euler Shepherd IoT app included" },
+      { icon: "spec-ic-location.svg", label: "Live Tracking", value: "Yes, GPS & SoC enabled" },
+      { icon: "spec-ic-bell.svg", label: "Service Alerts", value: "Predictive fleet maintenance" },
+      { icon: "spec-ic-target.svg", label: "Suspension", value: "3/8-Leaf springs optimized" },
+      { icon: "spec-ic-doc.svg", label: "Fleet API", value: "On request" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Turbo EV 1000 telematics features",
+  },
+  Safety: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Front Brakes", value: "Hydraulic Disc Brakes" },
+      { icon: "spec-ic-target.svg", label: "Rear Brakes", value: "Heavy-Duty Drum Brakes" },
+      { icon: "spec-ic-bell.svg", label: "Battery Safety", value: "IP67 dust & water proof" },
+      { icon: "spec-ic-doc.svg", label: "Cabin", value: "Reinforced high-strength steel cabin" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Turbo EV 1000 safety chassis",
+  },
+  Comfort: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Cabin Space", value: "Spacious ergonomic driver cabin" },
+      { icon: "spec-ic-clock.svg", label: "Steering Comfort", value: "Effortless EPS power steering" },
+      { icon: "spec-ic-analytics.svg", label: "Driver Seating", value: "Anti-fatigue cushioned seating" },
+      { icon: "spec-ic-charge.svg", label: "Charging Gun", value: "Plug-and-play Type-2 charger" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Turbo EV 1000 cabin comfort",
+  },
+};
+
+export const STORM_T1500_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+  Battery: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
+      { icon: "spec-ic-charge.svg", label: "Certified Range", value: "210 km (ARAI certified)" },
+      { icon: "spec-ic-target.svg", label: "Real Range", value: "140+ km full payload" },
+      { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "15 min (50 km) | 30 min (100 km)" },
+      { icon: "spec-ic-bell.svg", label: "Standard AC Charge", value: "3.3 kW (6 hrs) | 6.6 kW (4 hrs)" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Storm EV T1500 liquid cooling and battery",
+  },
+  Dimensions: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Rated Payload", value: "1,500 kg (1,250 kg recommended)" },
+      { icon: "spec-ic-doc.svg", label: "Container Size", value: "8.35 x 5.04 x 6.23 ft | 260 cu. ft." },
+      { icon: "spec-ic-location.svg", label: "Deck Length", value: "8-Foot commercial loading deck" },
+      { icon: "spec-ic-analytics.svg", label: "Wheelbase & Radius", value: "2,170 mm | 4.7 m turning" },
+      { icon: "spec-ic-location.svg", label: "Gross Vehicle Weight", value: "2,600 kg (Kerb 1,350 kg)" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Storm EV T1500 dimensions and 8ft deck",
+  },
+  Performance: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Peak Motor Power", value: "30 kW IPM Motor" },
+      { icon: "spec-ic-charge.svg", label: "Peak Torque", value: "140 Nm with E-Axle" },
+      { icon: "spec-ic-analytics.svg", label: "Maximum Speed", value: "70 km/h" },
+      { icon: "spec-ic-target.svg", label: "Water Wading", value: "420 mm wading depth" },
+      { icon: "spec-ic-location.svg", label: "Regenerative Braking", value: "Yes, multi-level" },
+    ],
+    image: "/assets/technology-page/hero__imgRectangle42158.png",
+    imageAlt: "Euler Storm EV T1500 heavy payload performance",
+  },
+  Features: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Telematics", value: "Euler Shepherd IoT app enabled" },
+      { icon: "spec-ic-location.svg", label: "Live Location", value: "Yes, real-time tracking" },
+      { icon: "spec-ic-bell.svg", label: "Lighting", value: "Sequential LED Headlamps + DRL" },
+      { icon: "spec-ic-target.svg", label: "Tyres", value: "185 R14 LT 8PR Commercial Tyres" },
+      { icon: "spec-ic-clock.svg", label: "Fleet History", value: "12 months data log on cloud" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Storm EV T1500 telematics features",
+  },
+  Safety: {
+    rows: [
+      { icon: "spec-ic-target.svg", label: "Brake System", value: "Vacuum Assisted Power Brakes" },
+      { icon: "spec-ic-target.svg", label: "Front Brakes", value: "High-Performance Disc Brakes" },
+      { icon: "spec-ic-target.svg", label: "Rear Brakes", value: "Heavy-Duty Drum Brakes" },
+      { icon: "spec-ic-bell.svg", label: "Battery Protection", value: "IP67 Dust & Water Proof" },
+      { icon: "spec-ic-doc.svg", label: "Cabin", value: "Reinforced sheet metal cabin" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Storm EV T1500 vacuum power brakes and safety",
+  },
+  Comfort: {
+    rows: [
+      { icon: "spec-ic-phone.svg", label: "Cabin Space", value: "Wide ergonomic 2-seater cabin" },
+      { icon: "spec-ic-clock.svg", label: "Instrument Cluster", value: "Digital LCD multi-info display" },
+      { icon: "spec-ic-analytics.svg", label: "Driver Ergonomics", value: "Designed for all-day comfort" },
+      { icon: "spec-ic-charge.svg", label: "Charger Gun", value: "Dual AC (3.3 / 6.6 kW) + DC Fast" },
+    ],
+    image: `${ASSET}spec-image.png`,
+    imageAlt: "Euler Storm EV T1500 cabin comfort",
+  },
+};
+
 /**
  * /products specifications — Figma 3245:17543. Section px-79/py-48, header row
  * (badge + h2 / spec-sheet CTA), then a rounded-12 #e5ebf3/60 panel with the
  * centered tab pill row overlapping its top edge (pt-89 clears it), the
  * spec list and the 557×424 photo split by a hairline.
  */
-export default function ProductSpecs() {
+export default function ProductSpecs({
+  specContent = SPEC_CONTENT,
+}: {
+  specContent?: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }>;
+} = {}) {
   const [activeTab, setActiveTab] = useState("Features");
-  const currentSpec = SPEC_CONTENT[activeTab];
+  const content = specContent || SPEC_CONTENT;
+  const currentSpec = content[activeTab] || SPEC_CONTENT[activeTab];
   const activeTabIndex = TABS.indexOf(activeTab);
   const currentImage = activeTabIndex % 2 === 0
     ? `${ASSET}spec-image.png`
     : "/assets/technology-page/hero__imgRectangle42158.png";
   const currentImageAlt = activeTabIndex % 2 === 0
-    ? "Storm EV LR 200 cabin and controls"
+    ? "Euler Motors vehicle cabin and controls"
     : "Euler Motors vehicle on an Indian road";
 
   return (

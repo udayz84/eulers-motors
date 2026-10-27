@@ -26,7 +26,7 @@ export default function TechCharging() {
 
   return (
     <section className="bg-white py-6 lg:py-0" aria-label="Charging">
-      <div className="relative mx-auto w-full max-w-[393px] overflow-hidden lg:hidden">
+      <div className="relative mx-auto w-full max-w-[480px] overflow-hidden md:hidden">
         {/* Header container */}
         <div className="flex flex-col items-start gap-[14px] px-5 pt-2">
           <Eyebrow label="Charging" />
@@ -238,21 +238,21 @@ export default function TechCharging() {
         </div>
       </div>
 
-      {/* Desktop charging guide (Figma 3572:26411). */}
-      <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-[62px] px-[80px] py-[101px] lg:flex">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex w-[534px] flex-col items-start justify-center gap-4">
+      {/* Desktop & Tablet charging guide */}
+      <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-8 px-6 py-10 md:flex md:gap-10 md:px-10 lg:gap-[62px] lg:px-[80px] lg:py-[101px]">
+        <div className="flex w-full flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="flex max-w-[534px] flex-col items-start justify-center gap-3 md:gap-4">
             <div className="relative flex h-[21px] items-center gap-[6px]">
               <img src={`${A}/charging-eyebrow-mark.svg`} alt="" className="relative z-10" />
               <img src={`${A}/charging-eyebrow-line.svg`} alt="" className="absolute left-[3.43px] top-0" />
               <span className="relative z-10 text-[14px] font-bold uppercase tracking-[0.7px] text-navy">Charging</span>
             </div>
-            <h2 className="whitespace-nowrap font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink">
+            <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink md:text-[42px] md:tracking-[-0.84px] lg:text-[52px] lg:tracking-[-1.04px]">
               Where Will I Charge?
             </h2>
           </div>
-          <div className="flex flex-col items-end justify-end gap-5">
-            <p className="w-[405px] text-[16px] leading-normal text-ink">
+          <div className="flex flex-col items-start gap-4 md:items-end md:justify-end md:gap-5">
+            <p className="max-w-[405px] text-[14px] leading-normal text-ink md:text-[15px] lg:text-[16px]">
               Different businesses have different needs. Choose the charging setup that works best for your operations.
             </p>
             <div className="flex items-center gap-3" role="group" aria-label="Charging setup">
@@ -266,24 +266,24 @@ export default function TechCharging() {
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center gap-[27px] rounded-[12px] border border-[#E4E6EA] bg-[#f3f4f5] p-[42px] shadow-sm">
-          <div className="flex shrink-0 flex-col items-start justify-center gap-5">
-            <div className="relative h-[243px] w-[452px] overflow-hidden">
+        <div className="flex w-full flex-col items-center justify-center gap-6 rounded-[12px] border border-[#E4E6EA] bg-[#f3f4f5] p-6 shadow-sm xl:flex-row xl:gap-[27px] xl:p-[42px]">
+          <div className="flex w-full max-w-[452px] shrink-0 flex-col items-start justify-center gap-5">
+            <div className="relative h-[220px] w-full overflow-hidden md:h-[243px]">
               <img src={`${A}/charge__imgRectangle1618873364.png`} alt="Public charging station" className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain" />
             </div>
             {/* Two cards — each holds its heading + its own button */}
             <div className="flex w-full items-stretch gap-2">
               <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">How it works</span>
-                <a href="/products" className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors">
+                <span className="whitespace-nowrap text-[16px] font-semibold leading-none text-ink md:text-[18px]">How it works</span>
+                <a href="/products" className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[14px] font-bold leading-none text-ink hover:bg-white transition-colors md:text-[16px]">
                   Find it on the app
                 </a>
               </div>
               <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-ink">Charging stations</span>
+                <span className="whitespace-nowrap text-[16px] font-semibold leading-none text-ink md:text-[18px]">Charging stations</span>
                 <Link
                   href="/charging-stations"
-                  className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[16px] font-bold leading-none text-ink hover:bg-white transition-colors"
+                  className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[14px] font-bold leading-none text-ink hover:bg-white transition-colors md:text-[16px]"
                 >
                   Find a charging point
                 </Link>
@@ -291,7 +291,7 @@ export default function TechCharging() {
             </div>
           </div>
 
-          <div className="flex shrink-0 items-start gap-5">
+          <div className="flex w-full flex-col sm:flex-row shrink-0 items-center justify-center gap-4 md:gap-5 xl:w-auto">
             <ChargingList title="Do's" kind="do" items={DOS} />
             <ChargingList title="Don'ts" kind="dont" items={DONTS} />
           </div>

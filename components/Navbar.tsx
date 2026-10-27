@@ -26,13 +26,6 @@ const DROPDOWNS = {
       { label: "In press", desc: "News and media kit" },
     ],
   },
-  Insights: {
-    heading: "RESOURCES",
-    items: [
-      { label: "Insights", desc: "Stories, Ideas & Insights" },
-      { label: "In press", desc: "News and media kit" },
-    ],
-  },
   Support: {
     heading: "HELP AND SERVICE",
     items: [
@@ -48,38 +41,40 @@ const DROPDOWNS = {
 type DropdownKey = keyof typeof DROPDOWNS;
 
 /** Mobile Products menu cards — payloads from the Figma mega-menu data */
-const PRODUCT_MOBILE: readonly { label: string; desc?: string }[] = [
-  { label: "Storm EV LongRange 200", desc: "1,200 kg" },
-  { label: "Storm EV T1500", desc: "1,500 kg" },
-  { label: "HiLoad EV", desc: "688 kg" },
-  { label: "Turbo EV 1000", desc: "1,000 kg" },
-  { label: "Neo HiRange" },
-  { label: "Neo HiCity" },
+const PRODUCT_MOBILE: readonly { label: string; desc?: string; href?: string }[] = [
+  { label: "Storm EV LongRange 200", desc: "1,500 kg", href: "/products/lr200" },
+  { label: "Storm EV T1500", desc: "1,500 kg", href: "/products/storm-ev-t1500" },
+  { label: "HiLoad EV", desc: "688 kg", href: "/products/hiload-ev" },
+  { label: "Turbo EV 1000", desc: "1,000 kg", href: "/products/turbo-ev-1000" },
+  { label: "Neo HiRange", href: "/products" },
+  { label: "Neo HiCity", href: "/products" },
 ];
 
 /** Product mega-menu data (Figma "Property 1=Component 4" variant of Component 20) */
 const MEGA_4W = [
-  { name: "Strom EV LR 200", payload: "1,200 kg", img: "/assets/products/vehicle-storm-lr200.png" },
-  { name: "Storm EV T1500", payload: "1,500 kg", img: "/assets/products/vehicle-storm-t1500.png" },
-  { name: "Turbo EV 1000", payload: "1,000 kg", img: "/assets/products/vehicle-turbo-1000.png" },
+  { name: "Storm EV LR 200", payload: "1,500 kg", img: "/assets/products/vehicle-storm-lr200.png", href: "/products/lr200" },
+  { name: "Storm EV T1500", payload: "1,500 kg", img: "/assets/products/vehicle-storm-t1500.png", href: "/products/storm-ev-t1500" },
+  { name: "Turbo EV 1000", payload: "1,000 kg", img: "/assets/products/vehicle-turbo-1000.png", href: "/products/turbo-ev-1000" },
 ];
-const MEGA_3W = [{ name: "HiLoad EV", payload: "688 kg", img: "/assets/products/vehicle-hiload-ev.png" }];
+const MEGA_3W = [{ name: "HiLoad EV", payload: "688 kg", img: "/assets/products/vehicle-hiload-ev.png", href: "/products/hiload-ev" }];
 
 /** Figma card: 200×267, #F3F4F5, radius 16; image 180×180 white/radius 12; ink arrow FAB */
 function ProductCard({
   name,
   payload,
   img,
+  href = "/products",
   onNavigate,
 }: {
   name: string;
   payload: string;
   img: string;
+  href?: string;
   onNavigate?: () => void;
 }) {
   return (
     <Link
-      href="/products"
+      href={href}
       onClick={onNavigate}
       className="group relative block h-[267px] w-[200px] cursor-pointer rounded-2xl bg-[#F3F4F5] p-[10px] pb-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
@@ -180,7 +175,7 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
 
 function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
   const href =
-    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : item.label === "Insights" ? "/insights" : "#";
+    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : "#";
   return (
     <Link
       href={href}
@@ -294,8 +289,6 @@ function MenuCardLink({
         ? "/about"
         : item.label === "Careers"
           ? "/careers"
-        : item.label === "Insights"
-          ? "/insights"
         : PRODUCT_MOBILE.some((p) => p.label === item.label)
           ? "/products"
       : "#");
@@ -321,7 +314,7 @@ function MenuCardLink({
  */
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "/about" || pathname === "/insights";
+  const isHome = pathname === "/" || pathname === "/about";
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
@@ -363,7 +356,7 @@ export default function Navbar() {
   );
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-[100]">
       {bannerOpen && (
         <div
           className="relative flex h-6 items-center justify-center lg:h-[22px]"
@@ -507,22 +500,6 @@ export default function Navbar() {
                   >
                     Company
                     {chevron(openDropdown === "Company", isHome)}
-                  </button>
-                </li>
-                {/* Insights dropdown */}
-                <li
-                  className="relative"
-                  onMouseEnter={() => setOpenDropdown("Insights")}
-                >
-                  <button
-                    type="button"
-                    aria-haspopup="menu"
-                    aria-expanded={openDropdown === "Insights"}
-                    onClick={() => toggleDropdown("Insights")}
-                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
-                  >
-                    Insights
-                    {chevron(openDropdown === "Insights", isHome)}
                   </button>
                 </li>
                 <li>
@@ -725,7 +702,7 @@ export default function Navbar() {
                         key={item.label}
                         item={item}
                         isHome={isHome}
-                        href="/products"
+                        href={item.href || "/products"}
                         onNavigate={() => {
                           setMenuOpen(false);
                           setOpenDropdown(null);
@@ -773,38 +750,6 @@ export default function Navbar() {
                       <Arrow color="white" />
                     </span>
                   </Link>
-                </MenuRow>
-                {/* INSIGHTS */}
-                <MenuRow
-                  label="Insights"
-                  open={openDropdown === "Insights"}
-                  onToggle={() => toggleDropdown("Insights")}
-                  isHome={isHome}
-                  href="/insights"
-                  onNavigate={() => {
-                    setMenuOpen(false);
-                    setOpenDropdown(null);
-                  }}
-                >
-                  <div className="flex flex-col gap-3 pb-4">
-                    <MenuCardLink
-                      item={{ label: "Insights", desc: "Stories, Ideas & Insights" }}
-                      isHome={isHome}
-                      href="/insights"
-                      onNavigate={() => {
-                        setMenuOpen(false);
-                        setOpenDropdown(null);
-                      }}
-                    />
-                    <MenuCardLink
-                      item={{ label: "In press", desc: "News and media kit" }}
-                      isHome={isHome}
-                      onNavigate={() => {
-                        setMenuOpen(false);
-                        setOpenDropdown(null);
-                      }}
-                    />
-                  </div>
                 </MenuRow>
                 {/* TECHNOLOGY — plain link row */}
                 <Link
