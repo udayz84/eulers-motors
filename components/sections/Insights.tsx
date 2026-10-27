@@ -52,7 +52,7 @@ export default function Insights() {
           {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
               `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
           <div className="hidden lg:block">
-            <Button href="/products" variant="dark" arrow="white">
+            <Button href="/insights" variant="dark" arrow="white">
               All articles
             </Button>
           </div>
@@ -64,9 +64,10 @@ export default function Insights() {
               starts the first card at the container's 20px (px-5) content edge */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
           {ARTICLES.map((a) => (
-            <article
+            <a
               key={a.title}
-              className="relative h-[320px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px]"
+              href="/insights"
+              className="relative h-[320px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px] block cursor-pointer hover:shadow-lg transition-shadow"
             >
               {a.crop ? (
                 <Image
@@ -105,14 +106,14 @@ export default function Insights() {
                 </h3>
                 <p className="line-clamp-3 text-[12px] leading-[1.5] text-white lg:line-clamp-2 lg:text-[14px]">{a.desc}</p>
               </div>
-            </article>
+            </a>
           ))}
           {/* Mobile spacer — mirrors the left one for symmetric end padding */}
           <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 13px)" }} />
         </div>
 
         {/* mobile-only CTA below the cards — centered (Figma 1:4956) */}
-        <Button href="/products" variant="dark" arrow="white" className="self-center lg:hidden">
+        <Button href="/insights" variant="dark" arrow="white" className="self-center lg:hidden">
           All Articles
         </Button>
       </div>
