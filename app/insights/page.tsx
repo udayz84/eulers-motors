@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 
@@ -212,7 +213,7 @@ export default function InsightsPage() {
               Insights
             </span>
           </div>
-          <h1 className="font-display text-[32px] lg:text-[52px] font-semibold leading-[1.15] text-white tracking-[-0.64px] lg:tracking-[-1.04px] whitespace-nowrap">
+          <h1 className="w-full text-balance font-display text-[32px] lg:text-[52px] font-semibold leading-[1.15] text-white tracking-[-0.64px] lg:tracking-[-1.04px] lg:whitespace-nowrap">
             Stories, Ideas & Insights
           </h1>
           <p className="max-w-[353px] lg:max-w-[493px] text-[12px] lg:text-[16px] font-normal text-white leading-normal">
@@ -402,11 +403,11 @@ export default function InsightsPage() {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="bg-white pb-[32px] lg:pb-[62px] px-5 lg:px-[60px] pt-[32px] lg:pt-[62px]">
-        <div className="mx-auto max-w-[1440px] flex flex-col gap-4 lg:gap-5">
+      <section className="overflow-hidden bg-white px-5 pt-[32px] lg:px-[60px] lg:pt-[62px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-4 lg:gap-5">
           {/* Search Bar */}
           <div className="relative">
-            <div className="bg-[#f3f4f5] border border-[rgba(0,0,0,0.06)] lg:border-[rgba(0,0,0,0.04)] rounded-[50px] lg:rounded-[500px] h-[42px] lg:h-[46px] flex items-center justify-between p-3 lg:pl-4 lg:pr-1 lg:py-1 drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] w-full lg:w-auto">
+            <div className="flex h-[42px] w-full items-center justify-between rounded-[50px] border border-[rgba(0,0,0,0.06)] bg-[#f3f4f5] p-3 drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] lg:h-[46px] lg:rounded-[500px] lg:border-[rgba(0,0,0,0.04)] lg:py-[3px] lg:pl-4 lg:pr-[3px]">
               <div className="flex items-center gap-2 lg:gap-3 flex-1">
                 <Image
                   src="/assets/insights/search-icon.svg"
@@ -436,22 +437,22 @@ export default function InsightsPage() {
           </div>
 
           {/* Category Filters */}
-          <div className="flex flex-wrap gap-2 items-center justify-center">
+          <div className="no-scrollbar flex h-8 w-full items-center justify-start gap-2 overflow-x-auto lg:h-auto lg:justify-center lg:overflow-visible">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
-                className={`flex items-center gap-1.5 px-4 py-3 rounded-[400px] transition-all ${
+                className={`flex h-8 shrink-0 items-center gap-[6.4px] rounded-[400px] px-3 transition-all lg:h-auto lg:px-4 lg:py-[13px] ${
                   activeCategory === cat.name
                     ? "bg-gradient-to-r from-[#0e2f6d] to-[#1d6fff] text-white border-white hover:opacity-90"
                     : "bg-[rgba(204,204,204,0.32)] text-[#121212] hover:bg-[rgba(204,204,204,0.5)]"
                 }`}
               >
-                <span className="text-[16px] font-semibold whitespace-nowrap">
+                <span className="whitespace-nowrap text-[12px] font-semibold leading-none lg:text-[16px]">
                   {cat.name}
                 </span>
-                <span className="size-[3.145px] rounded-full bg-white/50" />
-                <span className="text-[14px] font-normal whitespace-nowrap">
+                <span className={`size-[3.145px] rounded-full ${activeCategory === cat.name ? "bg-white/50" : "bg-black/50"}`} />
+                <span className="whitespace-nowrap text-[10px] font-normal leading-none lg:text-[14px]">
                   {cat.count}
                 </span>
               </button>
@@ -461,8 +462,8 @@ export default function InsightsPage() {
       </section>
 
       {/* All Articles Grid */}
-      <section className="bg-white pb-[100px] px-5 lg:px-[60px]">
-        <div className="mx-auto max-w-[1440px]">
+      <section className="bg-white px-5 pb-[100px] pt-4 lg:px-[60px] lg:pt-[42px]">
+        <div className="mx-auto max-w-[1280px]">
           {filteredArticles.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[18px] font-semibold text-[rgba(18,18,18,0.6)]">
@@ -479,26 +480,26 @@ export default function InsightsPage() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-5">
               {filteredArticles.map((article) => (
                 <a
                   key={article.id}
                   href={`/insights/${article.slug}`}
-                  className="bg-[#f3f4f5] rounded-[12px] p-5 lg:p-5 flex flex-col gap-6 hover:shadow-lg transition-shadow"
+                  className="flex flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg lg:gap-6 lg:p-5"
                 >
-                  <div className="relative h-[233px] lg:h-[233px] rounded-[8px] overflow-hidden">
+                  <div className="relative h-[160px] overflow-hidden rounded-[8px] lg:h-[233px]">
                     <Image
                       src={article.img}
                       alt=""
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-3 left-3 bg-white px-2.5 py-1 rounded-[50px]">
-                      <span className="text-[14px] font-bold text-black">
+                    <div className="absolute left-2 top-2 rounded-[50px] bg-white px-2 py-1 lg:left-3 lg:top-3 lg:px-2.5">
+                      <span className="text-[12px] font-semibold text-black lg:text-[14px] lg:font-bold">
                         {article.category}
                       </span>
                     </div>
-                    <div className="absolute bottom-[77px] right-3 bg-white size-9 rounded-[4px] flex items-center justify-center">
+                    <div className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-3 lg:top-3 lg:size-9">
                       <Image
                         src="/assets/insights/arrow-icon.svg"
                         alt=""
@@ -508,25 +509,35 @@ export default function InsightsPage() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-display text-[20px] font-semibold leading-[1.15] text-[#121212] tracking-[-0.52px]">
+                  <div className="flex flex-col gap-1.5 px-3 pb-3 pt-1 lg:px-0 lg:pb-0 lg:pt-0">
+                    <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] lg:whitespace-normal lg:text-[26px] lg:leading-[1.15] lg:tracking-[-0.52px]">
                       {article.title}
                     </h3>
                     <div className="flex items-center gap-2.5">
-                      <span className="text-[14px] font-bold text-[rgba(18,18,18,0.6)]">
+                      <span className="text-[12px] font-semibold text-[rgba(18,18,18,0.6)] lg:text-[14px] lg:font-bold">
                         {article.date}
                       </span>
                       <span className="size-[3.145px] rounded-full bg-[rgba(0,0,0,0.5)]" />
-                      <span className="text-[14px] font-bold text-[rgba(18,18,18,0.6)]">
+                      <span className="text-[12px] font-semibold text-[rgba(18,18,18,0.6)] lg:text-[14px] lg:font-bold">
                         {article.readTime}
                       </span>
                     </div>
-                    <p className="text-[16px] font-normal text-[#121212] leading-normal">
+                    <p className="text-[12px] font-normal leading-[1.4] text-[#121212] lg:text-[16px] lg:leading-normal">
                       {article.excerpt}
                     </p>
                   </div>
                 </a>
               ))}
+            </div>
+          )}
+          {filteredArticles.length > 0 && (
+            <div className="mt-5 flex justify-center">
+              <Link
+                href="/insights/connected-vehicles-business"
+                className="inline-flex h-8 items-center justify-center rounded-[2px] border border-[#b8b8b8] bg-[#f7f7f7] px-3 text-[10px] font-medium text-[#121212] transition-colors hover:bg-[#ededed] lg:h-[30px]"
+              >
+                Load More
+              </Link>
             </div>
           )}
         </div>

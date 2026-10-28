@@ -21,7 +21,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*
 
 # typescript
 *.tsbuildinfo
@@ -32,3 +31,4 @@ next-env.d.ts
 
 # figma reference screenshots (scratch)
 .figma-ref/
+config.bat

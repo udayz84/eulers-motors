@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 const ARTICLES = [
   {
     img: "/assets/insights/article-1.jpg",
+    slug: "electric-fleet-costs",
     title: "What an electric fleet really costs",
     desc: "Electricity, servicing, insurance, battery, and resale value. Everything calculated for fleets driving 80km to 200 km per day.",
     /* Figma 1:1872: plain object-cover fill, no gradient overlay */
@@ -13,6 +14,7 @@ const ARTICLES = [
   },
   {
     img: "/assets/insights/article-2.png",
+    slug: "ev-subsidy",
     title: "How much EV subsidy will you get?",
     desc: "Which states still offer subsidies, what ended in April, and how to claim them.",
     /* Figma 1:1884 crop: left -21.5% · top -0.02% · 143.14% × 100.04% */
@@ -21,6 +23,7 @@ const ARTICLES = [
   },
   {
     img: "/assets/insights/article-3.png",
+    slug: "how-to-charge-electric-truck",
     title: "Depot or public charging?",
     desc: "Under 9 vehicles, public charging works out cheaper. The full working is inside",
     crop: null,
@@ -66,7 +69,7 @@ export default function Insights() {
           {ARTICLES.map((a) => (
             <a
               key={a.title}
-              href="/insights"
+              href={`/insights/${a.slug}`}
               className="relative h-[320px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px] block cursor-pointer hover:shadow-lg transition-shadow"
             >
               {a.crop ? (
