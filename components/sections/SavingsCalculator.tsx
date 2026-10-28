@@ -108,7 +108,7 @@ export default function SavingsCalculator() {
   }, []);
 
   return (
-    <section className="bg-deep py-[42px] lg:pt-[52px] lg:pb-[48px]" aria-label="Savings calculator">
+    <section id="savings-calculator" className="bg-deep py-[42px] lg:pt-[52px] lg:pb-[48px]" aria-label="Savings calculator">
       {/* container frame (Figma 1:1471/1:2381): 1440px wide, padding
           52px top · 89px right · 48px bottom · 71px left → a 1280px content
           row split 736 + 32 gap + 512 (1:2382–1:2391), columns bottom-aligned
