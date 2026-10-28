@@ -1,0 +1,21 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "feat/policy-pages",
+    "fix/technology-qc-pointer",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "feat/policy-pages": "main",
+    "fix/technology-qc-pointer": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "feat/policy-pages",
+    "fix/technology-qc-pointer",
+    "origin"
+  ]
+}
