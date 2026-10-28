@@ -19,10 +19,10 @@ export default function TechManufacturing() {
 
           <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10 flex max-w-[500px] lg:max-w-[636px] flex-col items-start gap-3 md:gap-4 text-white">
             <Eyebrow label="Manufacturing" dark />
-            <h2 className="max-w-[488px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] md:text-[42px] md:tracking-[-0.84px] lg:text-[52px] lg:tracking-[-1.04px]">
+            <h2 className="max-w-[488px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]">
               Where Every Vehicle Begins
             </h2>
-            <p className="max-w-[531px] font-sans text-[14px] font-normal leading-normal md:text-[15px] lg:text-[16px]">
+            <p className="max-w-[531px] font-sans text-[16px] font-normal leading-normal md:text-[16px] lg:text-[16px]">
               Packs, drivetrains and final assembly in one building, so a fault found in the field
               reaches the line that made it.
             </p>
@@ -66,7 +66,7 @@ export default function TechManufacturing() {
 
         <div className="absolute bottom-[39px] left-5 right-5 mx-auto max-w-[353px] flex flex-col items-start gap-3">
           <Eyebrow label="Manufacturing" dark />
-          <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
+          <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
             Where Every Vehicle Begins
           </h2>
           <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">

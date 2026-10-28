@@ -369,7 +369,7 @@ export default function ProductVariantsCompare({
             type="button"
             className="flex h-[44px] sm:h-[48px] flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.50)] bg-[#F3F4F5] font-display text-[12px] sm:text-[14px] font-bold leading-none text-[#121212]"
           >
-            Get Price Quote
+            Download Brochure
           </button>
           <button
             type="button"
@@ -394,7 +394,7 @@ export default function ProductVariantsCompare({
 
             <div className="flex flex-wrap items-center gap-3">
               <Button href="#book-test-drive" variant="outline" arrow="none" className="h-[50.48px] px-6">
-                Get Price Quote
+                Download Brochure
               </Button>
               <Button href="#book-test-drive" variant="dark" arrow="white" className="h-[50.48px] px-6">
                 Talk to an expert

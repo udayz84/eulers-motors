@@ -25,23 +25,23 @@ export default function TechCharging() {
   const [chargingMode, setChargingMode] = useState<"home" | "public">("public");
 
   return (
-    <section className="bg-white py-6 lg:py-0" aria-label="Charging">
-      <div className="relative mx-auto w-full max-w-[480px] overflow-hidden md:hidden">
+    <section className="bg-white py-10 lg:py-16" aria-label="Charging">
+      {/* Mobile view (< 768px) */}
+      <div className="relative mx-auto w-full max-w-[480px] overflow-hidden px-4 md:hidden">
         {/* Header container */}
-        <div className="flex flex-col items-start gap-[14px] px-5 pt-2">
+        <div className="flex flex-col items-start gap-3 pt-2">
           <Eyebrow label="Charging" />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink">
             Where Will I Charge?
           </h2>
-          <p className="w-full font-sans text-[12px] font-normal leading-normal text-ink">
+          <p className="w-full font-sans text-[13px] font-normal leading-normal text-ink">
             Different businesses have different needs. Choose the charging setup that works best for
             your operations.
           </p>
         </div>
 
         {/* Home / Public segmented control */}
-        <div className="mx-auto mt-4 flex h-[48px] w-[213px] translate-y-[8px] items-center justify-center relative">
-          {/* Frosted-glass trapezoid plate (Figma 3009:11525) */}
+        <div className="mx-auto mt-5 flex h-[48px] w-[213px] items-center justify-center relative">
           <div className="pointer-events-none absolute -bottom-5 left-1/2 z-0 h-[60px] w-[253px] -translate-x-1/2 backdrop-blur-[26px]">
             <img
               src={`${A}/charge__imgRectangle42188.svg`}
@@ -75,10 +75,10 @@ export default function TechCharging() {
           </div>
         </div>
 
-        {/* How it works card */}
-        <div className="relative z-10 mx-auto mt-4 w-[353px] overflow-hidden rounded-[16px] bg-[#f3f4f5] pb-6 pt-0 shadow-sm border border-[#E4E6EA]">
-          {/* Top image */}
-          <div className="relative h-[190px] w-full overflow-hidden">
+        {/* Showcase card */}
+        <div className="relative z-10 mx-auto mt-5 w-full overflow-hidden rounded-[20px] bg-gradient-to-b from-[#f8fafc] to-[#eef2f8] p-4 shadow-sm border border-[#E2E6EE]">
+          {/* Top image illustration */}
+          <div className="relative h-[200px] w-full overflow-hidden rounded-[14px] bg-white border border-[#E2E6EE] shadow-[0_2px_8px_rgba(0,0,0,0.03)] mb-4">
             <img
               src={`${A}/charge__imgRectangle1618873364.png`}
               alt={`${chargingMode === "home" ? "Home" : "Public"} charging station preview`}
@@ -86,31 +86,53 @@ export default function TechCharging() {
             />
           </div>
 
-          <div className="flex flex-col items-center gap-5 px-3.5">
-            {/* Two cards — each holds its heading + its own button */}
-            <div className="flex w-full items-stretch gap-2">
-              <div className="flex flex-1 flex-col items-start gap-1 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[12px] font-semibold text-ink">How it works</span>
-                <Link
-                  href="/products"
-                  className="flex h-7 w-full items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.3)] bg-[#f3f4f5] px-2 transition-colors hover:bg-white"
-                >
-                  <span className="whitespace-nowrap font-display text-[11px] font-bold text-ink">
-                    Find it on the app
-                  </span>
-                </Link>
-              </div>
-              <div className="flex flex-1 flex-col items-start gap-1 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[12px] font-semibold text-ink">Charging stations</span>
-                <Link
-                  href="/charging-stations"
-                  className="flex h-7 w-full items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.3)] bg-[#f3f4f5] px-2 transition-colors hover:bg-white"
-                >
-                  <span className="whitespace-nowrap font-display text-[11px] font-bold text-ink">
-                    Find a charging point
-                  </span>
-                </Link>
-              </div>
+          <div className="flex flex-col items-center gap-5">
+            {/* Two interactive feature action tiles */}
+            <div className="grid grid-cols-2 w-full gap-2.5">
+              <Link
+                href="/products"
+                className="group flex flex-col justify-between gap-3 rounded-[14px] border border-[#E2E6EE] bg-white p-3.5 shadow-[0_1px_4px_rgba(0,0,0,0.03)] hover:border-[#1D6FFF] hover:shadow-md transition-all active:scale-[0.98]"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] text-white shadow-sm">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg>
+                  </div>
+                  <div className="flex size-6 items-center justify-center rounded-full bg-[#f1f4f9] text-[#0E2F6D] group-hover:bg-[#1D6FFF] group-hover:text-white transition-colors">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 12L10 8L6 4" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-display text-[13px] font-semibold text-ink leading-tight group-hover:text-[#1D6FFF] transition-colors">How it works</p>
+                  <p className="mt-1 text-[11px] text-neutral-500 font-medium">Find on app</p>
+                </div>
+              </Link>
+
+              <Link
+                href="/charging-stations"
+                className="group flex flex-col justify-between gap-3 rounded-[14px] border border-[#E2E6EE] bg-white p-3.5 shadow-[0_1px_4px_rgba(0,0,0,0.03)] hover:border-[#1D6FFF] hover:shadow-md transition-all active:scale-[0.98]"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] text-white shadow-sm">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                  </div>
+                  <div className="flex size-6 items-center justify-center rounded-full bg-[#f1f4f9] text-[#0E2F6D] group-hover:bg-[#1D6FFF] group-hover:text-white transition-colors">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 12L10 8L6 4" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-display text-[13px] font-semibold text-ink leading-tight group-hover:text-[#1D6FFF] transition-colors">Stations</p>
+                  <p className="mt-1 text-[11px] text-neutral-500 font-medium">Find a point</p>
+                </div>
+              </Link>
             </div>
 
             {/* Do's and Don'ts Lists */}
@@ -256,42 +278,93 @@ export default function TechCharging() {
               Different businesses have different needs. Choose the charging setup that works best for your operations.
             </p>
             <div className="flex items-center gap-3" role="group" aria-label="Charging setup">
-              <button type="button" aria-pressed={chargingMode === "home"} data-active={chargingMode === "home"} onClick={() => setChargingMode("home")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "home" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink"}`} style={chargingMode === "home" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}>
+              <button
+                type="button"
+                aria-pressed={chargingMode === "home"}
+                data-active={chargingMode === "home"}
+                onClick={() => setChargingMode("home")}
+                className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none cursor-pointer transition-all ${chargingMode === "home" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink hover:bg-[#e8ebf0]"}`}
+                style={chargingMode === "home" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}
+              >
                 Home
               </button>
-              <button type="button" aria-pressed={chargingMode === "public"} data-active={chargingMode === "public"} onClick={() => setChargingMode("public")} className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none ${chargingMode === "public" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink"}`} style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}>
+              <button
+                type="button"
+                aria-pressed={chargingMode === "public"}
+                data-active={chargingMode === "public"}
+                onClick={() => setChargingMode("public")}
+                className={`flex h-[42px] w-[100px] items-center justify-center rounded-full border-[0.5px] border-white px-4 text-[16px] font-semibold leading-none cursor-pointer transition-all ${chargingMode === "public" ? "text-white shadow-sm" : "bg-[#f3f4f5] text-ink hover:bg-[#e8ebf0]"}`}
+                style={chargingMode === "public" ? { backgroundImage: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%)", backgroundColor: "#121212" } : undefined}
+              >
                 Public
               </button>
             </div>
           </div>
         </div>
 
-        <div className="flex w-full flex-col items-center justify-center gap-6 rounded-[12px] border border-[#E4E6EA] bg-[#f3f4f5] p-6 shadow-sm xl:flex-row xl:gap-[27px] xl:p-[42px]">
-          <div className="flex w-full max-w-[452px] shrink-0 flex-col items-start justify-center gap-5">
-            <div className="relative h-[220px] w-full overflow-hidden md:h-[243px]">
-              <img src={`${A}/charge__imgRectangle1618873364.png`} alt="Public charging station" className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain" />
+        {/* Showcase Container */}
+        <div className="flex w-full flex-col items-center justify-center gap-8 rounded-[20px] border border-[#E2E6EE] bg-gradient-to-b from-[#f8fafc] to-[#eef2f8] p-6 shadow-sm md:p-8 xl:flex-row xl:gap-8 xl:p-10">
+          <div className="flex w-full max-w-[460px] shrink-0 flex-col items-start justify-center gap-5">
+            {/* Top illustration container */}
+            <div className="relative h-[220px] w-full overflow-hidden rounded-[16px] bg-white border border-[#E2E6EE] shadow-[0_2px_12px_rgba(0,0,0,0.03)] md:h-[240px]">
+              <img
+                src={`${A}/charge__imgRectangle1618873364.png`}
+                alt="Public charging station"
+                className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain"
+              />
             </div>
-            {/* Two cards — each holds its heading + its own button */}
-            <div className="flex w-full items-stretch gap-2">
-              <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[16px] font-semibold leading-none text-ink md:text-[18px]">How it works</span>
-                <a href="/products" className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[14px] font-bold leading-none text-ink hover:bg-white transition-colors md:text-[16px]">
-                  Find it on the app
-                </a>
-              </div>
-              <div className="flex flex-1 flex-col items-start gap-2 rounded-[8px] border border-[#E4E6EA] bg-white p-2 shadow-sm">
-                <span className="whitespace-nowrap text-[16px] font-semibold leading-none text-ink md:text-[18px]">Charging stations</span>
-                <Link
-                  href="/charging-stations"
-                  className="flex h-[42px] w-full items-center justify-center rounded-[4px] border border-black/50 bg-[#f3f4f5] px-3 font-display text-[14px] font-bold leading-none text-ink hover:bg-white transition-colors md:text-[16px]"
-                >
-                  Find a charging point
-                </Link>
-              </div>
+
+            {/* Two interactive feature action tiles */}
+            <div className="grid grid-cols-2 w-full gap-3.5">
+              <Link
+                href="/products"
+                className="group flex flex-col justify-between gap-4 rounded-[16px] border border-[#E2E6EE] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-[#1D6FFF] hover:shadow-[0_8px_24px_rgba(29,111,255,0.12)] transition-all duration-300"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] text-white shadow-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg>
+                  </div>
+                  <div className="flex size-8 items-center justify-center rounded-full bg-[#f1f4f9] text-[#0E2F6D] group-hover:bg-[#1D6FFF] group-hover:text-white transition-colors duration-200">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 12L10 8L6 4" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-display text-[16px] font-semibold text-ink leading-tight group-hover:text-[#1D6FFF] transition-colors">How it works</p>
+                  <p className="mt-1 text-[13px] font-medium text-neutral-500">Find it on the app</p>
+                </div>
+              </Link>
+
+              <Link
+                href="/charging-stations"
+                className="group flex flex-col justify-between gap-4 rounded-[16px] border border-[#E2E6EE] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-[#1D6FFF] hover:shadow-[0_8px_24px_rgba(29,111,255,0.12)] transition-all duration-300"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0E2F6D] to-[#1D6FFF] text-white shadow-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                  </div>
+                  <div className="flex size-8 items-center justify-center rounded-full bg-[#f1f4f9] text-[#0E2F6D] group-hover:bg-[#1D6FFF] group-hover:text-white transition-colors duration-200">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 12L10 8L6 4" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-display text-[16px] font-semibold text-ink leading-tight group-hover:text-[#1D6FFF] transition-colors">Charging stations</p>
+                  <p className="mt-1 text-[13px] font-medium text-neutral-500">Find a charging point</p>
+                </div>
+              </Link>
             </div>
           </div>
 
-          <div className="flex w-full flex-col sm:flex-row shrink-0 items-center justify-center gap-4 md:gap-5 xl:w-auto">
+          {/* Do's and Don'ts Checklist */}
+          <div className="flex w-full flex-col sm:flex-row shrink-0 items-center justify-center gap-5 xl:w-auto">
             <ChargingList title="Do's" kind="do" items={DOS} />
             <ChargingList title="Don'ts" kind="dont" items={DONTS} />
           </div>
@@ -303,17 +376,17 @@ export default function TechCharging() {
 
 function ChargingList({ title, kind, items }: { title: string; kind: "do" | "dont"; items: string[] }) {
   return (
-    <div className="flex w-[323px] flex-col items-start gap-[11px]">
+    <div className="flex w-[320px] sm:w-[323px] flex-col items-start gap-[11px]">
       <div className="relative flex h-[32px] w-full items-center px-5">
         <img aria-hidden src={`${A}/charging-${kind === "do" ? "dos" : "donts"}-tab.svg`} alt="" className="absolute left-[10px] top-[-5.53px]" />
         <span className="relative z-10 text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-white">{title}</span>
       </div>
-      <div className="flex w-full flex-col gap-[14px] rounded-[12px] border border-[#E4E6EA] bg-white p-4 shadow-sm">
+      <div className="flex w-full flex-col gap-[14px] rounded-[16px] border border-[#E2E6EE] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
         {items.map((item, index) => (
           <Fragment key={item}>
-            {index > 0 && <img aria-hidden src={`${A}/charging-divider.svg`} alt="" className="block" />}
-            <div className="flex w-full items-center gap-3">
-              <span className={`flex size-[42px] shrink-0 items-center justify-center rounded-[20px] p-[6px] ${kind === "do" ? "bg-[rgba(212,219,236,0.4)]" : "bg-[rgba(240,6,6,0.1)]"}`}>
+            {index > 0 && <img aria-hidden src={`${A}/charging-divider.svg`} alt="" className="block opacity-70" />}
+            <div className="flex w-full items-center gap-3.5 group cursor-default">
+              <span className={`flex size-[42px] shrink-0 items-center justify-center rounded-[18px] p-[6px] transition-transform group-hover:scale-105 ${kind === "do" ? "bg-[rgba(212,219,236,0.4)]" : "bg-[rgba(240,6,6,0.1)]"}`}>
                 <img aria-hidden src={`${A}/charging-${kind === "do" ? "check" : "cross"}.svg`} alt="" />
               </span>
               <p className="min-w-0 flex-1 text-[14px] font-semibold leading-[1.4] tracking-[-0.28px] text-ink">{item}</p>

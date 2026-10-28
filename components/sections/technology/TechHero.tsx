@@ -12,11 +12,12 @@ const A = "/assets/technology-page";
 export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: boolean }) {
   return (
     <section className="relative overflow-clip bg-[#041231]" aria-label="Technology">
-      <div className="relative mx-auto w-full max-w-[480px] md:hidden">
-        {/* hero — 393×762 */}
-        <div className="relative h-[762px] w-full">
+      {/* Mobile Hero (< 640px) */}
+      <div className="relative mx-auto w-full sm:hidden">
+        {/* hero — dynamic 100svh minus navbar (52px) to fit in one fold for all mobile heights */}
+        <div className="relative flex h-[calc(100svh-52px)] min-h-[500px] max-h-[762px] w-full flex-col justify-end">
           <div aria-hidden className="pointer-events-none absolute inset-0">
-            <img src={`${A}/hero__imgEulerUiMobile.png`} alt="" className="absolute inset-0 size-full max-w-none object-bottom" />
+            <img src={`${A}/hero__imgEulerUiMobile.png`} alt="" className="absolute inset-0 size-full max-w-none object-cover object-bottom" />
             <div className="absolute inset-0 overflow-hidden">
               <img src={`${A}/hero__imgEulerUiMobile1.png`} alt="" className="absolute left-[-2.05%] top-[-3.59%] h-[103.55%] w-[104.1%] max-w-none" />
             </div>
@@ -27,19 +28,19 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
               className="absolute inset-0"
               style={{
                 backgroundImage:
-                  "linear-gradient(180deg, rgba(4,18,49,0) 60.466%, rgb(4,18,49) 90.795%), linear-gradient(191.077deg, rgba(0,0,0,0) 56.444%, rgba(0,0,0,0.8) 99.952%), linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%)",
+                  "linear-gradient(180deg, rgba(4,18,49,0) 45%, rgb(4,18,49) 85%), linear-gradient(191.077deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 99.95%), linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%)",
               }}
             />
           </div>
 
-          <div className="absolute bottom-[68.93px] left-1/2 flex w-[calc(100%-40px)] max-w-[353px] -translate-x-1/2 flex-col items-start justify-center gap-3">
+          <div className="relative z-10 mx-auto flex w-[calc(100%-40px)] max-w-[353px] flex-col items-start justify-center gap-2.5 pb-8 min-[400px]:pb-10">
             <Eyebrow label="Technology" dark />
-            <h1 className="w-full font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white">
+            <h1 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white min-[380px]:text-[32px] min-[380px]:tracking-[-0.64px]">
               Built Smarter.
               <br />
               Built for Business.
             </h1>
-            <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
+            <p className="w-full font-sans text-[12px] font-normal leading-normal text-white/90">
               Every innovation is designed for everyday business.
             </p>
             <Button variant="white" arrow="white" href="/products" className="w-full">
@@ -47,32 +48,32 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
             </Button>
           </div>
 
-          {/* uptime ribbon */}
-          <div className="absolute left-5 right-5 top-[706.74px] z-20 mx-auto max-w-[353px] rounded-[8px] bg-gradient-to-b from-white/45 via-white/12 to-white/5 p-px">
-            <div className="relative flex w-full flex-col gap-[10px] overflow-clip rounded-[7px] bg-[rgba(255,255,255,0.04)] px-[11px] pb-[13px] pt-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[4px]">
-              <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
-              <div className="absolute bottom-0 left-0 h-1 w-1/2 bg-white" />
-              <div className="flex items-center justify-center gap-[10px] text-white">
-                <p className="shrink-0 font-display font-semibold leading-[1.15] tracking-[-0.84px]">
-                  <span className="text-[36px]">96.4</span>
-                  <span className="text-[24px]">%</span>
-                </p>
-                <p className="min-w-px flex-1 font-display leading-[1.15] tracking-[-0.28px] text-[14px]">
-                  Fleet uptime last year, across 15,000 vehicles
-                </p>
-              </div>
+          <FloatingWidget mobileClassName="bottom-[90px]" />
+        </div>
+
+        {/* uptime ribbon — sits over the seam between hero and philosophy */}
+        <div className="relative z-20 mx-auto -mt-[31px] w-[calc(100%-40px)] max-w-[353px] rounded-[8px] bg-gradient-to-b from-white/45 via-white/12 to-white/5 p-px">
+          <div className="relative flex w-full flex-col gap-[10px] overflow-clip rounded-[7px] bg-[rgba(255,255,255,0.04)] px-[11px] pb-[13px] pt-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[4px]">
+            <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
+            <div className="absolute bottom-0 left-0 h-1 w-1/2 bg-white" />
+            <div className="flex items-center justify-center gap-[10px] text-white">
+              <p className="shrink-0 font-display font-semibold leading-[1.15] tracking-[-0.84px]">
+                <span className="text-[36px]">96.4</span>
+                <span className="text-[24px]">%</span>
+              </p>
+              <p className="min-w-px flex-1 font-display leading-[1.15] tracking-[-0.28px] text-[14px]">
+                Fleet uptime last year, across 15,000 vehicles
+              </p>
             </div>
           </div>
-
-          <FloatingWidget mobileClassName="bottom-[140px]" />
         </div>
 
         {showPhilosophy && (
         /* philosophy — mobile */
-        <div className="relative z-10 flex h-[553px] flex-col items-center justify-center gap-[42px] overflow-clip bg-[#041231] px-5 pb-[52px] pt-[117px]">
+        <div className="relative z-10 flex min-h-[500px] flex-col items-center justify-center gap-[42px] overflow-clip bg-[#041231] px-5 pb-[52px] pt-[62px]">
           <div className="flex w-full flex-col items-start gap-[14px]">
             <Eyebrow label="Philosophy" dark />
-            <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
+            <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
               Technology That Helps You Earn More
             </h2>
             <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
@@ -114,8 +115,60 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
         )}
       </div>
 
-      {/* Desktop & Tablet Hero */}
-      <div className="relative hidden h-[680px] w-full overflow-clip md:block lg:h-[800px]">
+      {/* Tablet Hero (640px – 1023px) — Dedicated tablet layout with reduced image size & full bleed */}
+      <div className="relative hidden h-[580px] w-full overflow-clip sm:block lg:hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={`${A}/hero__imgRectangle42158.png`}
+              alt=""
+              className="absolute inset-0 size-full object-cover object-[center_35%]"
+            />
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, rgba(4,18,49,0) 60.47%, #041231 90.8%), linear-gradient(186deg, rgba(0,0,0,0) 56.44%, rgba(0,0,0,0.8) 99.95%), linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%), linear-gradient(182deg, rgba(0,0,0,0) 56.69%, rgba(0,0,0,0.8) 93.41%)",
+            }}
+          />
+        </div>
+
+        <div className="absolute inset-x-0 bottom-10 mx-auto flex w-full max-w-[1440px] items-end justify-between pl-6 pr-12 md:pl-10 md:pr-24">
+          <div className="flex flex-col items-start justify-center gap-[20px] text-white">
+            <Eyebrow label="Technology" dark />
+            <h1 className="font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.72px] md:text-[46px] md:tracking-[-0.92px]">
+              Built Smarter.<br />Built for Business.
+            </h1>
+            <p className="max-w-[605px] font-sans text-[14px] leading-normal md:text-[15px]">
+              Every innovation is designed for everyday business.
+            </p>
+          </div>
+
+          <div className="flex w-[300px] shrink-0 flex-col items-start gap-4 md:w-[340px]">
+            <div className="relative w-full overflow-clip rounded-lg bg-white/[0.04] p-4 md:p-5">
+              <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
+              <div className="absolute bottom-0 left-0 h-1 w-[140px] bg-white md:w-[160px]" />
+              <div className="flex w-full items-center gap-3 text-white md:gap-4">
+                <p className="shrink-0 whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-0.84px]">
+                  <span className="text-[34px] md:text-[38px]">96.4</span><span className="text-[20px] md:text-[24px]">%</span>
+                </p>
+                <p className="min-w-0 flex-1 font-display text-[13px] leading-[1.35] tracking-[-0.26px] md:text-[14px] md:leading-[1.4]">
+                  Fleet uptime last year, across 15,000 vehicles
+                </p>
+              </div>
+            </div>
+            <Button variant="white" arrow="navy" href="/products" className="w-full">
+              Book a test drive
+            </Button>
+          </div>
+        </div>
+
+        <FloatingWidget />
+      </div>
+
+      {/* Desktop Hero (>= 1024px) — Exact untouched original desktop from HEAD */}
+      <div className="relative hidden h-[680px] w-full overflow-clip lg:block lg:h-[800px]">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 overflow-hidden">
             <img src={`${A}/hero__imgRectangle42158.png`} alt="" className="absolute left-[0.05%] top-[-36.82%] h-[181.34%] w-[99.94%] max-w-none object-cover" />
@@ -164,7 +217,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
 
       {showPhilosophy && (
       <div
-        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 pb-12 pt-6 md:flex md:px-10 lg:gap-[42px] lg:px-20 lg:pb-[62px]"
+        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 pb-12 pt-6 sm:flex md:px-10 lg:gap-[42px] lg:px-20 lg:pb-[62px]"
         style={{
           backgroundImage:
             "linear-gradient(180deg, #041231 43.98%, #05173F 63.46%, #0C3797 100%), linear-gradient(0deg, #041231 0%, #041231 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #E9EDF3",

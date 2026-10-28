@@ -223,10 +223,10 @@ export default function TechKnowVehicle() {
       <div className="relative mx-auto hidden min-h-[644px] w-full max-w-[1440px] flex-col gap-8 px-6 py-10 text-white md:flex md:px-10 lg:gap-10 lg:px-20 lg:py-16">
         <div className="flex flex-col items-start gap-3 md:gap-4">
           <Eyebrow label="The parts" dark />
-          <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white md:text-[38px] md:tracking-[-0.76px] lg:text-[42px] lg:tracking-[-0.84px]">
+          <h2 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
             Know Your Vehicle Better
           </h2>
-          <p className="max-w-[600px] font-sans text-[14px] leading-normal text-white/90 md:text-[15px] lg:text-[16px]">
+          <p className="max-w-[600px] font-sans text-[16px] leading-normal text-white/90 md:text-[16px] lg:text-[16px]">
             Understand what each key part does and how it helps you on every trip.
           </p>
         </div>

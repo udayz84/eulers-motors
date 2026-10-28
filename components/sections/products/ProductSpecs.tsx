@@ -385,13 +385,13 @@ export default function ProductSpecs({
                     : "flex min-h-8 w-full items-center justify-between overflow-visible py-1 lg:min-h-8 lg:h-auto lg:pt-3"
                 }
               >
-                <div className="flex min-w-0 items-center gap-2">
+                <div className="flex min-w-0 flex-1 items-center gap-2 pr-3">
                   <span className="flex size-[26px] shrink-0 items-center justify-center rounded-[3.25px] bg-[#eff3f8] lg:size-8 lg:rounded-[4px]">
                     <Image src={`${ASSET}${f.icon}`} alt="" aria-hidden width={20} height={20} />
                   </span>
                   <p className="min-w-0 whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.label}</p>
                 </div>
-                <p className="max-w-[45%] whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
+                <p className="w-[45%] shrink-0 whitespace-normal break-words text-left font-sans text-[12px] font-bold capitalize leading-normal text-ink lg:text-[16px]">{f.value}</p>
               </div>
             ))}
           </div>
