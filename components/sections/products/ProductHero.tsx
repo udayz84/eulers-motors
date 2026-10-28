@@ -63,11 +63,11 @@ function Thumbs({ className = "" }: { className?: string }) {
       {/* Thumb 1 */}
       <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[4px] bg-[#D9D9D9] shadow-sm lg:size-[62px]">
         <Image
-          src={`${ASSET}thumb-1.png`}
-          alt="Storm EV LR 200 Base thumb 1"
+          src="/assets/products/vehicle-storm-lr200-clean.png"
+          alt="Storm EV LR 200 front angle"
           fill
           sizes="42px"
-          className="object-cover"
+          className="object-contain p-1"
         />
       </div>
 
@@ -360,44 +360,60 @@ export default function ProductHero() {
       aria-label={selected.fullName}
       className="relative w-full overflow-hidden bg-white max-lg:overflow-visible max-lg:h-[762px] sm:max-lg:h-[820px] max-lg:w-full lg:h-[800px]"
     >
-      {/* Mobile background portrait crop */}
-      <div aria-hidden className="absolute inset-0 lg:hidden">
+      {/* Mobile background: Homepage perspective warehouse tunnel */}
+      <div aria-hidden className="absolute inset-0 overflow-hidden lg:hidden">
         <Image
-          src={`${ASSET}mobile-hero.png`}
-          alt="Storm EV LR 200 electric vehicle on a city road"
+          src="/images/vehicel images.png"
+          alt="Storm EV LR 200 background"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-bottom"
         />
-
-        {/* Sharp truck aligned to the blurred truck in the background */}
+        {/* Mobile Storm EV LR 200 vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-1/2 aspect-[393/762] -translate-x-1/2 -translate-y-1/2"
-          style={{ width: "max(100vw, 393px)" }}
+          className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
         >
           <Image
-            src={`${ASSET}vehicle-storm-lr200.png`}
-            alt=""
-            aria-hidden
-            width={300}
-            height={190}
-            className="absolute h-auto"
-            style={{ left: "11%", top: "34.3%", width: "78%" }}
+            src="/assets/products/vehicle-storm-lr200-clean.png"
+            alt="Storm EV LR 200"
+            fill
+            priority
+            sizes="420px"
+            className="object-contain"
           />
         </div>
       </div>
 
-      {/* Desktop background landscape */}
-      <div aria-hidden className="absolute inset-0 hidden lg:block">
+      {/* Desktop background: Homepage perspective warehouse tunnel */}
+      <div aria-hidden className="absolute inset-0 hidden pointer-events-none lg:block">
         <Image
-          src={`${ASSET}hero-bg-desktop.png`}
-          alt="Storm EV LR 200 electric vehicle on a city road"
+          src="/images/vehicel images.png"
+          alt="Storm EV LR 200 background scene"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-bottom"
+          quality={100}
         />
+      </div>
+
+      {/* Desktop Storm EV LR 200 Cutout aligned in the tunnel perspective */}
+      <div
+        aria-hidden
+        className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
+      >
+        <div className="absolute left-1/2 -translate-x-1/2 w-[56%] h-[52%] top-[25%]">
+          <Image
+            src="/assets/products/vehicle-storm-lr200-clean.png"
+            alt="Storm EV LR 200"
+            fill
+            sizes="(min-width: 1440px) 900px, 65vw"
+            className="object-contain"
+            priority
+            quality={100}
+          />
+        </div>
       </div>
 
       {/* Mobile layout container (393px phone, fluid up to 560px on small tablets) */}

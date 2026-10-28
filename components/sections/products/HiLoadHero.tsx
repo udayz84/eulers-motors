@@ -321,14 +321,14 @@ export default function HiLoadHero() {
         />
         {/* Mobile HiLoad EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[290px] h-[220px] sm:w-[380px] sm:h-[280px]"
+          className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
         >
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
             priority
-            sizes="380px"
+            sizes="440px"
             className="object-contain"
           />
         </div>
@@ -352,12 +352,12 @@ export default function HiLoadHero() {
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
-        <div className="absolute left-[29.3%] top-[34.87%] h-[41.37%] w-[42.48%]">
+        <div className="absolute left-1/2 -translate-x-1/2 w-[62%] h-[57.5%] top-[20.5%]">
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
-            sizes="(min-width: 1440px) 700px, 45vw"
+            sizes="(min-width: 1440px) 900px, 65vw"
             className="object-contain"
             priority
             quality={100}
