@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import FaqHero from "@/components/sections/faq/FaqHero";
 import FaqContent from "@/components/sections/faq/FaqContent";
 import FaqQuickHelp from "@/components/sections/faq/FaqQuickHelp";
-import FaqContact from "@/components/sections/faq/FaqContact";
+import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function FaqPage() {
         <FaqHero />
         <FaqContent />
         <FaqQuickHelp />
-        <FaqContact />
+        <ContactSection />
       </main>
       <Footer />
     </>

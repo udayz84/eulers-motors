@@ -405,9 +405,9 @@ export default function FaqContent() {
   return (
     <div
       data-node-id="3538:26361"
-      className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[62px] lg:pt-[64px]"
+      className="relative mx-auto flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:w-[1440px] md:max-w-full md:px-[200px] md:pb-[62px] md:pt-[64px]"
     >
-      <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[140px] 2xl:px-[200px]">
+      <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:max-w-none md:gap-[40px] md:px-0">
         {/* ============================================================== */}
         {/* Search & Category Filter Section (Figma 3538:26362 / 2979:8417)*/}
         {/* ============================================================== */}
@@ -427,7 +427,7 @@ export default function FaqContent() {
           </div>
 
           {/* Search Row Input Box (Figma 3538:26364 / 2979:8417) */}
-          <div className="relative z-10 flex h-[42px] w-full items-center justify-between rounded-[50px] border border-black/[0.06] bg-[#f3f4f5] px-3.5 py-1 sm:h-[46px] sm:rounded-[500px] sm:border-black/[0.04] sm:py-[3px] sm:pl-4 sm:pr-3 sm:drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)]">
+          <div className="relative z-10 flex h-[42px] w-full items-center justify-between rounded-[50px] border border-black/[0.06] bg-[#f3f4f5] px-3.5 py-1 sm:h-[46px] sm:rounded-[500px] sm:border-black/[0.04] sm:py-[3px] sm:pl-4 sm:pr-3 sm:drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] lg:h-[46px] lg:rounded-[500px] lg:border-black/[0.04] lg:py-[3px] lg:pl-4 lg:pr-[3px] lg:drop-shadow-[0px_2px_4px_rgba(0,0,0,0.1)]">
             <div className="flex w-full items-center gap-2.5 sm:gap-3">
               <div className="flex size-4 shrink-0 items-center justify-center sm:size-5">
                 <Image
@@ -443,7 +443,7 @@ export default function FaqContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for the question"
-                className="w-full bg-transparent font-sans text-[14px] font-semibold text-ink placeholder:text-ink/80 focus:outline-none sm:text-[15px] md:text-[16px]"
+                className="w-full bg-transparent font-sans text-[14px] font-semibold text-ink placeholder:text-ink/80 focus:outline-none sm:text-[15px] md:text-[16px] lg:text-[16px] lg:font-semibold lg:text-[rgba(18,18,18,0.80)]"
               />
             </div>
             {searchQuery && (
@@ -460,7 +460,7 @@ export default function FaqContent() {
           {/* Popular Categories Pill Row (Figma 3538:26368 / 2979:8424) */}
           {/* Spreads full width edge-to-edge on mobile and small tablets, centers on medium tablets */}
           <div className="relative z-10 -mx-4 w-[calc(100%+32px)] sm:-mx-8 sm:w-[calc(100%+64px)] md:mx-0 md:w-full">
-            <div className="flex w-full items-center justify-start gap-2 overflow-x-auto px-4 pb-1 scrollbar-none sm:px-8 md:justify-center md:px-0">
+            <div className="faq-pill-row flex w-full items-center justify-start gap-2 overflow-x-auto px-4 pb-1 scrollbar-none sm:px-8 md:justify-center md:px-0">
               {CATEGORIES.map((cat) => {
                 const isActive = activeCategory === cat.id;
                 return (
@@ -470,7 +470,7 @@ export default function FaqContent() {
                     onClick={() => setActiveCategory(cat.id)}
                     className={`flex h-[32px] shrink-0 cursor-pointer items-center gap-1.5 rounded-[400px] px-3 transition-all duration-200 active:scale-95 sm:h-[36px] sm:px-3.5 md:h-auto md:px-4 md:py-3.5 ${
                       isActive
-                        ? "border-[0.4px] border-white text-white shadow-sm"
+                        ? "faq-active-category border-[0.4px] border-white text-white shadow-sm"
                         : "bg-[#cccccc]/30 text-ink hover:bg-[#cccccc]/50"
                     }`}
                     style={
@@ -482,7 +482,7 @@ export default function FaqContent() {
                         : undefined
                     }
                   >
-                    <span className="font-sans text-[12px] font-semibold leading-none sm:text-[13px] md:text-[15px] lg:text-[16px]">
+                    <span className="font-sans text-[12px] font-semibold leading-none sm:text-[13px] md:text-[16px] md:leading-[100%] lg:font-semibold">
                       {cat.label}
                     </span>
                     <span
@@ -509,7 +509,7 @@ export default function FaqContent() {
         {/* Hidden on mobile (Figma 2979:7915) & hidden during search     */}
         {/* ============================================================== */}
         {!isSearching && (
-          <div className="hidden w-full flex-col font-sans text-[15px] leading-[1.6] text-ink md:flex lg:text-[18px]">
+          <div className="hidden w-full flex-col font-sans text-[15px] leading-[1.6] text-ink md:flex md:h-[275px] md:w-[1040px] lg:text-[18px]">
             <p className="mb-3 md:mb-4">
               <span className="font-normal">Last updated: </span>
               <span className="font-bold text-ink">October 22, 2021</span>
@@ -537,7 +537,7 @@ export default function FaqContent() {
         {/* ============================================================== */}
         <div
           key={activeCategory}
-          className="flex w-full flex-col gap-2.5 transition-all duration-300 sm:gap-3 md:gap-3.5 lg:gap-[10px]"
+          className="flex w-full flex-col gap-2.5 transition-all duration-300 sm:gap-3 md:gap-[10px]"
         >
           {displayedFaqs.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[16px] bg-[#f3f4f5] px-6 py-12 text-center">
@@ -573,7 +573,7 @@ export default function FaqContent() {
                         type="button"
                         onClick={() => toggleItem(faq.id)}
                         aria-expanded={isOpen}
-                        className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
+                        className="flex h-[56px] min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:h-[64px] sm:min-h-[64px] sm:p-5 sm:px-6 md:h-[70px] md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
                       >
                         <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[20px] lg:text-[20px] sm:tracking-[-0.4px]">
                           {faq.title}
@@ -591,7 +591,7 @@ export default function FaqContent() {
 
                       {isOpen && (
                         <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
-                          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:text-[18px] sm:leading-[1.6] sm:text-ink">
+                          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:!text-[18px] lg:font-normal lg:leading-[140%] lg:text-[#121212] sm:leading-[1.6] sm:text-ink">
                             {faq.answer}
                           </p>
                         </div>

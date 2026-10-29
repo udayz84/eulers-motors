@@ -205,6 +205,40 @@ button {
     linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
     linear-gradient(90deg, #1d6fff -3.2%, #0e2f6d 170.8%);
 }
+
+@media (min-width: 768px) {
+  .faq-active-category {
+    background:
+      linear-gradient(258deg, #0e2f6d -138.16%, #1d6fff 87.02%),
+      linear-gradient(258deg, #0e2f6d -138.16%, #1d6fff 87.02%),
+      #121212 !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .faq-pill-row {
+    column-gap: calc(11520px / 100vw);
+  }
+}
+
+@media (min-width: 768px) {
+  .faq-quick-help-bg {
+    background:
+      linear-gradient(0deg, #041231 0%, #041231 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+      linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%),
+      #e9edf3 !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .faq-mobile-hero > section {
+    height: 316px !important;
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+  }
+}
+
 @media (min-width: 768px) {
   .compare-bg {
     background-image:

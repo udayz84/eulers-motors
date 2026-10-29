@@ -9,7 +9,7 @@ export default function MobilePageHero({
   label: string;
   title: React.ReactNode;
   titleId?: string;
-  description: string;
+  description: React.ReactNode;
 }) {
   return (
     <section

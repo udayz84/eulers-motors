@@ -9,11 +9,11 @@ import MobilePageHero from "@/components/sections/MobilePageHero";
 export default function FaqHero() {
   return (
     <>
-    <div className="lg:hidden">
+    <div className="faq-mobile-hero lg:hidden">
       <MobilePageHero
         label="Help centre"
-        title={<>Frequently asked <br className="sm:hidden" /> questions</>}
-        description="Find answers to the most common questions about our vehicles, charging, service, warranty and more."
+        title={<>Frequently asked <br /> questions</>}
+        description={<>Find answers to the most common questions about our<br />vehicles, charging, service, warranty and more.</>}
       />
     </div>
     <div className="hidden lg:block">
@@ -46,13 +46,13 @@ export default function FaqHero() {
           </div>
 
           {/* Heading */}
-          <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] md:text-[46px] md:tracking-[-0.88px] lg:w-[788.543px] lg:text-[52px] lg:tracking-[-1.04px]">
+          <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] md:text-[52px] md:tracking-[-1.04px] lg:w-[788.543px] lg:text-[52px] lg:tracking-[-1.04px]">
             Frequently asked <br className="sm:hidden" />
             questions
           </h1>
 
           {/* Description */}
-          <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] lg:mt-0 lg:w-[493.019px] lg:max-w-none lg:text-[16px] md:leading-relaxed lg:leading-normal sm:text-white/90">
+          <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[16px] lg:mt-0 lg:w-[493.019px] lg:max-w-none lg:text-[16px] md:leading-relaxed lg:leading-normal sm:text-white/90">
             Find answers to the most common questions about our vehicles, charging, service, warranty and more.
           </p>
         </div>
