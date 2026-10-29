@@ -114,14 +114,19 @@ function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[
         className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
       >
         <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[19px] lg:text-[20px] sm:tracking-[-0.4px]">{title}</span>
-        <span aria-hidden className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
-          <span className="absolute left-[3px] right-[3px] top-1/2 h-0.5 -translate-y-1/2 bg-ink" />
-          <span className={`absolute bottom-[3px] top-[3px] left-1/2 w-0.5 -translate-x-1/2 bg-ink transition-transform ${expanded ? "scale-y-0" : ""}`} />
+        <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
+          <Image
+            src={expanded ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
+            alt={expanded ? "Collapse" : "Expand"}
+            width={24}
+            height={24}
+            className="size-5 select-none transition-transform duration-200 sm:size-5.5 md:size-6"
+          />
         </span>
       </button>
       {expanded && (
         <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
-          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:text-[18px] sm:leading-[1.6] sm:text-ink">
+          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:text-[18px] lg:leading-[1.4]">
             {ANSWERS[title]}
           </p>
         </div>
@@ -139,8 +144,8 @@ export default function TermsConditionsPage() {
       <main className="overflow-clip">
         <TermsHero />
         <div className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
-          <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[140px] 2xl:px-[200px]">
-            <div className="w-full flex-col font-sans text-[12px] leading-[1.5] text-ink sm:text-[14px] sm:leading-[1.6] md:text-[16px] md:leading-[1.65] lg:text-[18px]">
+          <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[200px]">
+            <div className="w-full flex-col font-sans text-[12px] leading-[1.5] text-ink sm:text-[14px] sm:leading-[1.6] md:text-[16px] md:leading-[1.65] lg:text-[18px] lg:leading-[1.4]">
               <p>Last updated: <strong className="font-bold">October 22, 2021</strong></p>
               <p className="mt-4 sm:mt-5 md:mt-6">
                 These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.

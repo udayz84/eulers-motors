@@ -84,7 +84,7 @@ export default function FaqContact() {
           {/* Title Block */}
           <div className="flex flex-col gap-2.5 sm:gap-3.5">
             <div className="flex h-6 items-center">
-              <Eyebrow label="Next step" className="font-bold text-[12px] sm:text-[13px] uppercase tracking-[0.6px]" />
+              <Eyebrow label="Next step" className="font-bold text-[12px] sm:text-[13px] lg:text-[14px] uppercase tracking-[0.6px] lg:tracking-[0.7px]" />
             </div>
 
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[34px] md:text-[36px] lg:text-[42px] lg:tracking-[-0.84px]">
@@ -111,10 +111,10 @@ export default function FaqContact() {
                 />
               </div>
               <div className="flex flex-col gap-0.5 font-sans leading-[1.15]">
-                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px]">
+                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px] lg:text-[16px] lg:tracking-[-0.32px]">
                   1800 000 0000
                 </span>
-                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80 sm:text-[13px]">
+                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80">
                   9 am to 8 pm Monday to Saturday
                 </span>
               </div>
@@ -132,10 +132,10 @@ export default function FaqContact() {
                 />
               </div>
               <div className="flex flex-col gap-0.5 font-sans leading-[1.15]">
-                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px]">
+                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px] lg:text-[16px] lg:tracking-[-0.32px]">
                   fleet@eulermotors.com
                 </span>
-                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80 sm:text-[13px]">
+                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80">
                   For fleets over 50 vehicles
                 </span>
               </div>
@@ -153,10 +153,10 @@ export default function FaqContact() {
                 />
               </div>
               <div className="flex flex-col gap-0.5 font-sans leading-[1.15]">
-                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px]">
+                <span className="text-[14px] font-bold tracking-[-0.28px] text-ink sm:text-[15px] lg:text-[16px] lg:tracking-[-0.32px]">
                   Find your nearest dealer
                 </span>
-                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80 sm:text-[13px]">
+                <span className="text-[12px] font-medium tracking-[-0.24px] text-ink/80">
                   112 locations, 24 states
                 </span>
               </div>
@@ -171,10 +171,10 @@ export default function FaqContact() {
             className="flex w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 sm:p-5 md:p-4.5 lg:p-6"
           >
             <div className="flex flex-col gap-1">
-              <h3 className="font-sans text-[20px] font-bold leading-[1.15] tracking-[-0.48px] text-ink sm:text-[22px] lg:text-[24px]">
+              <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.44px] text-ink sm:text-[26px] lg:text-[32px] lg:tracking-[-0.64px]">
                 Contact support
               </h3>
-              <p className="font-sans text-[12px] text-ink/80 sm:text-[13px]">
+              <p className="font-sans text-[12px] text-ink/80 sm:text-[14px] lg:text-[16px]">
                 One step. We reply within one working day.
               </p>
             </div>
@@ -318,7 +318,7 @@ export default function FaqContact() {
                 {/* Submit Button (Figma 2981:9129) */}
                 <button
                   type="submit"
-                  className="mt-1 flex h-[44px] w-full cursor-pointer items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 font-display text-[12px] font-bold text-white transition-all hover:bg-black/80 active:scale-[0.98]"
+                  className="mt-1 flex h-[44px] lg:h-[48px] w-full cursor-pointer items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 font-display text-[13px] sm:text-[14px] lg:text-[16px] font-semibold text-white transition-all hover:bg-black/80 active:scale-[0.98]"
                 >
                   <span>Continue</span>
                   <Image

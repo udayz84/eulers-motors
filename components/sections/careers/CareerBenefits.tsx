@@ -56,7 +56,7 @@ export default function CareerBenefits() {
               data-illustration={benefit.illustration}
             />
             <div className="relative z-[1] flex flex-col gap-5 lg:gap-2">
-              <h3 className="m-0 self-stretch font-display text-lg font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:mt-0 lg:text-[26px] lg:leading-[1.4] lg:tracking-[-0.52px]">{benefit.title}</h3>
+              <h3 className="m-0 self-stretch font-display text-lg font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:mt-0 lg:bg-[linear-gradient(-54.6deg,#1d6fff_23.58%,#0e2f6d_93.09%)] lg:bg-clip-text lg:text-[26px] lg:leading-[1.4] lg:tracking-[-0.52px] lg:text-transparent">{benefit.title}</h3>
               <p className="m-0 w-[223.869px] font-sans text-xs font-normal leading-normal text-ink lg:w-[383.635px] lg:text-base lg:leading-[1.4]">{benefit.description}</p>
             </div>
           </article>

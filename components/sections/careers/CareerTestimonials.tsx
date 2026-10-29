@@ -51,8 +51,8 @@ function TestimonialCard({
         >
           <path d="M0 18.4V10.6C0 4.8 3.6 0 9.2 0V5.6C6.7 5.6 5.3 7.3 5.2 9.4H9.2V18.4H0ZM13.892 18.4V10.6C13.892 4.8 17.492 0 23.092 0V5.6C20.592 5.6 19.192 7.3 19.092 9.4H23.092V18.4H13.892Z" />
         </svg>
-        <span className="flex items-center self-stretch gap-1 rounded-[400px] border border-[rgba(29,111,255,0.02)] bg-white px-2.5 py-1.5 font-sans text-[13px] font-semibold text-ink/60 shadow-[0_0_12px_0_rgba(0,0,0,0.05)] lg:h-8 lg:gap-[5px] lg:self-auto lg:rounded-[560px] lg:border-brand/[0.05] lg:py-0 lg:shadow-[0_0_8px_rgb(0_0_0_/_5%)] lg:text-base">
-          <svg aria-hidden="true" viewBox="0 0 16 16" className="size-[14px] fill-[#7e7e7e]">
+        <span className="flex items-center self-stretch gap-1 rounded-[400px] border border-[rgba(29,111,255,0.02)] bg-white px-2.5 py-1.5 font-sans text-[13px] font-semibold text-ink/60 shadow-[0_0_12px_0_rgba(0,0,0,0.05)] lg:h-8 lg:gap-[5.6px] lg:self-auto lg:rounded-[560px] lg:border-[1.4px] lg:border-brand/[0.02] lg:py-0 lg:shadow-[0_0_8.4px_rgba(0,0,0,0.05)] lg:text-base lg:tracking-[-0.8px]">
+          <svg aria-hidden="true" viewBox="0 0 16 16" className="size-[14px] fill-[#7e7e7e] lg:size-4">
             <path d="m8 1 1.8 4.2 4.6.4-3.5 3 1.1 4.5L8 10.7 4 13.1l1.1-4.5-3.5-3 4.6-.4L8 1Z" />
           </svg>
           4.5
@@ -63,8 +63,8 @@ function TestimonialCard({
       <div className="flex items-center gap-2.5 self-stretch">
         <Image src={testimonial.image} alt="" width={62} height={62} className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]" />
         <div className="flex min-w-0 flex-1 flex-col">
-          <h3 className="mb-1 mt-0 self-stretch font-sans text-base font-bold leading-none tracking-[-0.32px] text-ink [transform:rotate(-0.772deg)] lg:text-2xl lg:leading-[1.2] lg:tracking-normal lg:[transform:none]">{testimonial.name}</h3>
-          <p className="m-0 font-sans text-xs font-normal leading-none tracking-[-0.24px] text-ink/80 lg:text-sm lg:leading-[1.2] lg:tracking-normal">{testimonial.role}</p>
+          <h3 className="mb-1 mt-0 self-stretch font-sans text-base font-bold leading-none tracking-[-0.32px] text-ink [transform:rotate(-0.772deg)] lg:text-2xl lg:leading-none lg:tracking-[-0.48px] lg:[transform:rotate(-0.77deg)]">{testimonial.name}</h3>
+          <p className="m-0 font-sans text-xs font-normal leading-none tracking-[-0.24px] text-ink/80 lg:text-sm lg:leading-none lg:tracking-[-0.28px]">{testimonial.role}</p>
         </div>
       </div>
     </article>

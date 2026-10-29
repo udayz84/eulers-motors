@@ -35,7 +35,7 @@ export default function FaqHero() {
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:pt-[164px] lg:pb-[104px]">
         {/* Eyebrow */}
         <div className="mb-3 flex h-6 items-center sm:mb-4 md:mb-5 lg:mb-6">
-          <Eyebrow label="Help centre" dark icons="white" className="font-bold text-[12px] sm:text-[13px] tracking-[0.6px] uppercase" />
+          <Eyebrow label="Help centre" dark icons="white" className="font-bold text-[12px] sm:text-[13px] lg:text-[14px] tracking-[0.6px] lg:tracking-[0.7px] uppercase" />
         </div>
 
         {/* Heading */}
@@ -45,7 +45,7 @@ export default function FaqHero() {
         </h1>
 
         {/* Description */}
-        <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed sm:text-white/90">
+        <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] lg:text-[16px] md:leading-relaxed lg:leading-normal sm:text-white/90">
           Find answers to the most common questions about our vehicles, charging, service, warranty and more.
         </p>
       </div>

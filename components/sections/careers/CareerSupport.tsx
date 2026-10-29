@@ -77,7 +77,7 @@ function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDupli
         />
       </div>
       <div>
-        <h3 className="mb-2 font-sans text-base font-bold leading-normal text-white lg:mb-2 lg:font-display lg:text-[26px] lg:font-semibold lg:tracking-[-0.78px]">{item.title}</h3>
+        <h3 className="mb-2 font-sans text-base font-bold leading-normal text-white lg:mb-2 lg:font-display lg:text-[26px] lg:font-semibold lg:leading-[1.15] lg:tracking-[-0.78px]">{item.title}</h3>
         <p className="m-0 font-sans text-xs font-normal leading-normal text-white lg:text-base">{item.description}</p>
       </div>
     </article>

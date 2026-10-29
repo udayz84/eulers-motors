@@ -78,7 +78,7 @@ export default function FaqQuickHelp() {
         {/* Header Block (Figma 3538:26435 / 2980:8764) */}
         <div className="flex flex-col items-center gap-3 text-center sm:gap-4 md:gap-6">
           <div className="flex h-6 items-center">
-            <Eyebrow label="Quick help" dark icons="white" className="font-bold uppercase text-[12px] sm:text-[13px] tracking-[0.6px]" />
+            <Eyebrow label="Quick help" dark icons="white" className="font-bold uppercase text-[12px] sm:text-[13px] lg:text-[14px] tracking-[0.6px] lg:tracking-[0.7px]" />
           </div>
 
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white sm:text-[34px] md:text-[38px] lg:text-[42px] lg:tracking-[-0.84px]">
@@ -115,10 +115,10 @@ export default function FaqQuickHelp() {
 
               {/* Text content & CTA button */}
               <div className="flex flex-col items-start gap-1.5 sm:gap-2">
-                <h3 className="font-sans text-[16px] font-bold leading-normal text-white sm:text-[18px] md:font-display md:text-[19px] md:leading-[1.15] md:tracking-[-0.78px] lg:text-[24px]">
+                <h3 className="font-sans text-[16px] font-bold leading-normal text-white sm:text-[18px] md:font-display md:text-[20px] md:leading-[1.15] md:tracking-[-0.78px] lg:text-[26px]">
                   {card.title}
                 </h3>
-                <p className="font-sans text-[12px] font-normal leading-normal text-white/90 sm:text-[13px] md:text-[13.5px] lg:text-[15px]">
+                <p className="font-sans text-[12px] font-normal leading-normal text-white/90 sm:text-[13px] md:text-[14px] lg:text-[16px]">
                   {card.description}
                 </p>
 

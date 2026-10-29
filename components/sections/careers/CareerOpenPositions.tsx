@@ -223,7 +223,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
           <h3 className="m-0 flex-[1_0_0] font-display text-base font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:flex-none lg:text-2xl lg:leading-[1.15] lg:tracking-[-0.48px]">
             {filteredOpenings.length} open {filteredOpenings.length === 1 ? "role" : "roles"}
           </h3>
-          <p className="m-0 flex items-center gap-2 font-sans text-[10px] font-normal leading-none text-[#121212] lg:text-base lg:font-medium lg:leading-normal lg:text-ink/60">
+          <p className="m-0 flex items-center gap-2 font-sans text-[10px] font-normal leading-none text-[#121212] lg:text-base lg:font-medium lg:leading-none lg:text-ink/60">
             {filters.department || "All Teams"}
             <span className="size-1 rounded-full bg-ink/30" aria-hidden="true" />
             {filters.location || "All locations"}
