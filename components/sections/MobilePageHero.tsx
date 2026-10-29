@@ -14,7 +14,7 @@ export default function MobilePageHero({
   return (
     <section
       aria-label={`${label} Banner`}
-      className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-[68.5px] pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:px-16 sm:pt-[128px] sm:pb-16"
+      className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-5 sm:px-8 pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:pt-[128px] sm:pb-16"
       style={{
         backgroundImage:
           "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",

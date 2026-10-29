@@ -51,7 +51,7 @@ export default function PolicyHero({
           </p>
         </div>
       </div>
-      <FloatingWidget boundary desktopClassName="lg:top-1/2 lg:-translate-y-1/2" />
+      <FloatingWidget boundary desktopClassName="lg:top-[380px]" />
     </section>
   );
 }

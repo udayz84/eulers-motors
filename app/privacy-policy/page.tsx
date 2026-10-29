@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
         <div className="lg:hidden">
           <section
             aria-label="Privacy Policy Banner"
-            className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-[68.5px] pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:px-16 sm:pt-[128px] sm:pb-16"
+            className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-5 sm:px-8 pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:pt-[128px] sm:pb-16"
             style={{
               backgroundImage:
                 "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
@@ -62,9 +62,9 @@ export default function PrivacyPolicyPage() {
         <div className="hidden lg:block">
           <PolicyHero label="Privacy policy" title="Privacy Policy" />
         </div>
-        <div className="relative mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-6 bg-white p-8 sm:w-full sm:max-w-[720px] sm:gap-8 sm:px-10 sm:py-10 lg:w-[1440px] lg:max-w-full lg:gap-[40px] lg:px-[200px] lg:pt-[64px] lg:pb-[42px]">
-          <div className="flex w-full max-w-[1440px] flex-col gap-6 sm:gap-8 lg:max-w-none lg:gap-[40px] lg:px-0">
-            <div className="h-[272px] w-[329px] max-w-full self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-auto sm:min-h-[272px] sm:w-full sm:text-[14px] lg:h-auto lg:min-h-0 lg:w-full lg:text-[18px] lg:leading-[1.4]">
+        <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-[40px] lg:px-8 xl:px-0 lg:pt-[64px] lg:pb-[42px]">
+          <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
+            <div className="h-auto min-h-[272px] w-full self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-auto sm:min-h-0 sm:w-full sm:text-[14px] lg:h-auto lg:min-h-0 lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[1.4]">
               <p className="font-normal">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
               <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4 md:mt-6 lg:space-y-0">
                 <p>This is our policy which outlines how Euler Motors Private Limited protects any information that you give us when you visit the website. Euler Motors Private Limited is committed to ensuring that your privacy is protected.</p>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
                 <p>Euler Motors Private Limited may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes. This policy is effective from October 22, 2021.</p>
               </div>
             </div>
-            <div className="flex w-[373px] max-w-[100vw] flex-col items-start gap-[10px] self-center sm:w-full sm:max-w-full lg:w-[1040px] lg:max-w-full lg:items-start lg:gap-[10px] lg:self-stretch">
+            <div className="flex w-full max-w-[100vw] flex-col items-start gap-[10px] self-center sm:w-full sm:max-w-full lg:w-full lg:max-w-[1040px] lg:items-start lg:gap-[10px] lg:self-stretch">
               {ITEMS.map((item) => {
                 const expanded = open === item.id;
                 return (

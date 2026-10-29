@@ -158,9 +158,9 @@ export default function TermsConditionsPage() {
       <Navbar />
       <main className="overflow-x-clip lg:overflow-visible">
         <TermsHero />
-        <div className="relative mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-6 bg-white p-8 sm:w-full sm:max-w-[720px] sm:gap-8 sm:px-10 sm:py-10 lg:w-[1440px] lg:max-w-full lg:gap-0 lg:px-[200px] lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
-          <div className="flex w-full max-w-[1440px] flex-col gap-6 p-0 sm:gap-8 lg:max-w-none lg:gap-[40px] lg:px-0">
-            <div className="h-[323px] w-full flex-col self-stretch font-sans text-[12px] font-normal leading-[140%] text-[#121212] sm:h-auto sm:min-h-[323px] sm:w-full sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:min-h-[275px] lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[140%]">
+        <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
+          <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
+            <div className="h-auto min-h-[323px] w-full flex-col self-stretch font-sans text-[12px] font-normal leading-[140%] text-[#121212] sm:h-auto sm:min-h-0 sm:w-full sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:min-h-[275px] lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[140%]">
               <p className="font-normal">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
               <p className="mt-4 sm:mt-5 md:mt-6">
                 These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.
