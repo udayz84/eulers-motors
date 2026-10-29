@@ -574,7 +574,7 @@ export default function FaqContent() {
                         aria-expanded={isOpen}
                         className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
                       >
-                        <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[19px] lg:text-[20px] sm:tracking-[-0.4px]">
+                        <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[20px] lg:text-[20px] sm:tracking-[-0.4px]">
                           {faq.title}
                         </span>
                         <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">

@@ -51,7 +51,7 @@ export default function RefundPolicyPage() {
 function PolicyCallout({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="w-full rounded-[16px] bg-[#f3f4f5] p-4 sm:p-6 md:p-7 lg:p-8">
-      <h2 className="font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[19px] lg:text-[20px] sm:tracking-[-0.4px]">
+      <h2 className="font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[20px] lg:text-[20px] sm:tracking-[-0.4px]">
         {title}
       </h2>
       <div className="mt-3 font-sans text-[12px] leading-[1.5] text-ink/80 sm:mt-4 sm:text-[14px] sm:leading-[1.6] md:text-[16px] lg:text-[18px] lg:leading-[1.4]">
