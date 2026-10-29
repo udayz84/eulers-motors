@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import FloatingWidget from "@/components/FloatingWidget";
+import MobilePageHero from "@/components/sections/MobilePageHero";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 
@@ -58,6 +59,16 @@ const ANSWERS: Record<(typeof SECTIONS)[number], string> = {
 
 function TermsHero() {
   return (
+    <>
+      <div className="lg:hidden">
+        <MobilePageHero
+          label="Terms & Conditions"
+          title="Terms of Use"
+          titleId="terms-title-mobile"
+          description="Please read these terms carefully before using our services."
+        />
+      </div>
+      <div className="hidden lg:block">
     <section
       className="relative w-full overflow-visible text-white lg:h-[420px] lg:w-full lg:max-w-full"
       style={{
@@ -103,19 +114,21 @@ function TermsHero() {
       </div>
       <FloatingWidget />
     </section>
+      </div>
+    </>
   );
 }
 
 function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[number]; expanded: boolean; onToggle: () => void }) {
   return (
-    <article className="overflow-hidden rounded-[16px] bg-[#f3f4f5] transition-all duration-200">
+    <article className="w-full self-stretch overflow-hidden rounded-[16px] bg-[#f3f4f5] transition-all duration-200">
       <button
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
+        className="flex h-[66px] w-full cursor-pointer items-center justify-center gap-[10px] px-3 py-[21px] text-left transition-colors lg:h-auto lg:min-h-[70px] lg:justify-between lg:gap-5 lg:p-6 lg:px-8"
       >
-        <span className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[20px] lg:text-[20px] sm:tracking-[-0.4px]">{title}</span>
+        <span className="flex-[1_0_0] font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] capitalize sm:text-[16px] sm:tracking-[-0.32px] md:text-[20px] md:tracking-[-0.4px]">{title}</span>
         <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
           <Image
             src={expanded ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
@@ -156,7 +169,7 @@ export default function TermsConditionsPage() {
                 By accessing or using our Platform and/or booking Vehicles through the Platform, you understand and agree to be bound by these Terms. The Terms, Privacy Policy, Purchase Terms (as defined hereinafter) shall be collectively referred to as &quot;Euler Motors Policies&quot;, including any modifications or amendments made thereto by Euler Motors from time to time, at its sole discretion.
               </p>
             </div>
-            <div className="flex w-full flex-col gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-[10px]">
+            <div className="flex w-[373px] max-w-[100vw] flex-col items-start gap-[10px] lg:w-full lg:max-w-full">
               {SECTIONS.map((title) => (
                 <TermsSection
                   key={title}
@@ -167,6 +180,7 @@ export default function TermsConditionsPage() {
               ))}
             </div>
           </div>
+          <FloatingWidget mobileOnly mobileClassName="top-[361px] -translate-y-1/2" />
         </div>
       </main>
       <Footer />

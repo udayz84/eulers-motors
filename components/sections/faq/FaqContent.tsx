@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
+import FloatingWidget from "@/components/FloatingWidget";
 
 type Category = "All" | "General" | "Vehicles" | "Charging" | "Service" | "Warranty";
 
@@ -615,6 +616,7 @@ export default function FaqContent() {
           )}
         </div>
       </div>
+      <FloatingWidget mobileOnly mobileClassName="top-[361px] -translate-y-1/2" />
     </div>
   );
 }

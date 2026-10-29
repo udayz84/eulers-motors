@@ -1,5 +1,6 @@
 import Eyebrow from "@/components/ui/Eyebrow";
 import FloatingWidget from "@/components/FloatingWidget";
+import MobilePageHero from "@/components/sections/MobilePageHero";
 
 /**
  * FAQ Hero / Banner Section — Figma node 3538:26147 (Desktop) & 2979:7907 (Mobile)
@@ -7,6 +8,15 @@ import FloatingWidget from "@/components/FloatingWidget";
  */
 export default function FaqHero() {
   return (
+    <>
+    <div className="lg:hidden">
+      <MobilePageHero
+        label="Help centre"
+        title={<>Frequently asked <br className="sm:hidden" /> questions</>}
+        description="Find answers to the most common questions about our vehicles, charging, service, warranty and more."
+      />
+    </div>
+    <div className="hidden lg:block">
     <section
       aria-label="FAQ Banner"
       className="relative w-full overflow-hidden bg-[linear-gradient(-84.34deg,#0e2f6d_63.51%,#1d6fff_87.23%)] lg:h-[420px] lg:w-full lg:max-w-full lg:overflow-x-clip lg:overflow-y-visible lg:bg-[repeating-linear-gradient(90deg,transparent_0,transparent_67px,rgba(0,0,0,.12)_68px),repeating-linear-gradient(0deg,transparent_0,transparent_67px,rgba(0,0,0,.12)_68px),linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)]"
@@ -51,5 +61,7 @@ export default function FaqHero() {
       {/* Floating Action Rail (desktop aligned to hero centre like the policy pages) */}
       <FloatingWidget boundary desktopClassName="lg:top-1/2 lg:-translate-y-1/2" />
     </section>
+    </div>
+    </>
   );
 }

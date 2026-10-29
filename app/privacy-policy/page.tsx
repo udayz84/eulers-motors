@@ -65,7 +65,7 @@ export default function PrivacyPolicyPage() {
         <div className="relative mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-6 bg-white p-8 sm:w-full sm:max-w-[720px] sm:gap-8 sm:px-10 sm:py-10 lg:w-[1440px] lg:max-w-full lg:gap-[40px] lg:px-[200px] lg:pt-[64px] lg:pb-[42px]">
           <div className="flex w-full max-w-[1440px] flex-col gap-6 sm:gap-8 lg:max-w-none lg:gap-[40px] lg:px-0">
             <div className="h-[272px] w-[329px] max-w-full self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-auto sm:min-h-[272px] sm:w-full sm:text-[14px] lg:h-auto lg:min-h-0 lg:w-full lg:text-[18px] lg:leading-[1.4]">
-              <p className="lg:font-bold">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
+              <p className="font-normal">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
               <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4 md:mt-6 lg:space-y-0">
                 <p>This is our policy which outlines how Euler Motors Private Limited protects any information that you give us when you visit the website. Euler Motors Private Limited is committed to ensuring that your privacy is protected.</p>
                 <p>Should we ask you to provide certain information by which you can be identified when using the website, then you can be assured that it will only be used in accordance with this privacy statement.</p>
