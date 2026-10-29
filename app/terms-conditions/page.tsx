@@ -126,16 +126,16 @@ function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex h-[66px] w-full cursor-pointer items-center justify-center gap-[10px] px-3 py-[21px] text-left transition-colors lg:h-auto lg:min-h-[70px] lg:justify-between lg:gap-5 lg:p-6 lg:px-8"
+        className="flex h-[66px] w-full cursor-pointer items-center justify-center gap-[10px] px-3 py-[21px] text-left transition-colors sm:h-[74px] sm:justify-between sm:gap-[10px] sm:px-5 lg:h-[70px] lg:min-h-[70px] lg:justify-between lg:gap-[20px] lg:p-[32px]"
       >
-        <span className="flex-[1_0_0] font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] capitalize sm:text-[16px] sm:tracking-[-0.32px] md:text-[20px] md:tracking-[-0.4px]">{title}</span>
-        <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
+        <span className="flex-[1_0_0] font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] capitalize sm:text-[18px] sm:tracking-[-0.36px] lg:text-[20px] lg:font-semibold lg:leading-[140%] lg:tracking-[-0.4px]">{title}</span>
+        <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-6 md:size-6">
           <Image
             src={expanded ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
             alt={expanded ? "Collapse" : "Expand"}
             width={24}
             height={24}
-            className="size-5 select-none transition-transform duration-200 sm:size-5.5 md:size-6"
+            className="size-5 select-none transition-transform duration-200 sm:size-6 md:size-6"
           />
         </span>
       </button>
@@ -156,12 +156,12 @@ export default function TermsConditionsPage() {
   return (
     <>
       <Navbar />
-      <main className="overflow-visible">
+      <main className="overflow-x-clip lg:overflow-visible">
         <TermsHero />
-        <div className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
-          <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[200px]">
-            <div className="w-full flex-col font-sans text-[12px] leading-[1.5] text-ink sm:text-[14px] sm:leading-[1.6] md:text-[16px] md:leading-[1.65] lg:text-[18px] lg:leading-[1.4]">
-              <p>Last updated: <strong className="font-bold">October 22, 2021</strong></p>
+        <div className="relative mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-6 bg-white p-8 sm:w-full sm:max-w-[720px] sm:gap-8 sm:px-10 sm:py-10 lg:w-[1440px] lg:max-w-full lg:gap-0 lg:px-[200px] lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
+          <div className="flex w-full max-w-[1440px] flex-col gap-6 p-0 sm:gap-8 lg:max-w-none lg:gap-[40px] lg:px-0">
+            <div className="h-[323px] w-full flex-col self-stretch font-sans text-[12px] font-normal leading-[140%] text-[#121212] sm:h-auto sm:min-h-[323px] sm:w-full sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:min-h-[275px] lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[140%]">
+              <p className="font-normal">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
               <p className="mt-4 sm:mt-5 md:mt-6">
                 These Terms and Conditions (&quot;Terms&quot;) of online booking are executed between the User (as defined hereinafter) and Euler Motors Private Limited, a company having its registered office address at B-99, Panchsheel Vihar, New Delhi 110017 (hereinafter referred to as &quot;Euler Motors&quot;, &quot;we&quot; or &quot;us&quot; or &quot;our&quot;) and its affiliates and subsidiaries and applies to the booking of Vehicles (as defined hereinafter) listed on the &apos;Book Online&apos; section.
               </p>
@@ -169,7 +169,7 @@ export default function TermsConditionsPage() {
                 By accessing or using our Platform and/or booking Vehicles through the Platform, you understand and agree to be bound by these Terms. The Terms, Privacy Policy, Purchase Terms (as defined hereinafter) shall be collectively referred to as &quot;Euler Motors Policies&quot;, including any modifications or amendments made thereto by Euler Motors from time to time, at its sole discretion.
               </p>
             </div>
-            <div className="flex w-[373px] max-w-[100vw] flex-col items-start gap-[10px] lg:w-full lg:max-w-full">
+            <div className="flex w-[373px] max-w-[calc(100vw_-_20px)] flex-col items-start gap-[10px] self-center sm:w-full sm:max-w-full lg:w-full lg:max-w-[1040px] lg:self-stretch lg:gap-[10px]">
               {SECTIONS.map((title) => (
                 <TermsSection
                   key={title}
