@@ -47,7 +47,7 @@ export default function FloatingWidget({
   const mobilePos =
     mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
   return (
-    <div className={`group/floating-widget absolute right-[-20px] z-40 ${mobilePos} lg:right-[-30px] lg:top-1/2 lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
+    <div className={`group/floating-widget absolute right-[-20px] z-40 ${mobilePos} lg:right-[-30px] lg:top-[400px] lg:bottom-auto lg:translate-y-0 ${mobileOnly ? "block lg:hidden" : "block"} ${desktopClassName ?? ""}`}>
       <div className="relative flex items-end gap-[19px]">
         {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
         <div

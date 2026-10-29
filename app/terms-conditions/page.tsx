@@ -59,7 +59,7 @@ const ANSWERS: Record<(typeof SECTIONS)[number], string> = {
 function TermsHero() {
   return (
     <section
-      className="relative w-full overflow-hidden text-white"
+      className="relative w-full overflow-visible text-white lg:h-[420px] lg:w-full lg:max-w-full"
       style={{
         backgroundColor: "#1d6fff",
         backgroundImage:
@@ -86,20 +86,22 @@ function TermsHero() {
           className="object-fill object-bottom"
         />
       </div>
-      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:pt-[164px] lg:pb-[104px]">
-        <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]">
-          <Image src="/assets/products/badge-line-white.svg" alt="" width={117} height={16} aria-hidden className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]" />
-          <Image src="/assets/products/badge-cap-white.svg" alt="" width={14.794} height={16} aria-hidden className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]" />
-          <span className="relative whitespace-nowrap">Terms &amp; Conditions</span>
+      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[420px] lg:w-full lg:max-w-full lg:items-center lg:justify-center lg:px-0 lg:pt-0 lg:pb-0">
+        <div className="lg:inline-flex lg:flex-col lg:items-center lg:gap-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
+          <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]" style={{ color: "#FFF", fontFamily: "Manrope", fontSize: "14px", fontStyle: "normal", fontWeight: 700, lineHeight: "normal", letterSpacing: "0.7px", textTransform: "uppercase" }}>
+            <Image src="/assets/products/badge-line-white.svg" alt="" width={117} height={16} aria-hidden className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]" />
+            <Image src="/assets/products/badge-cap-white.svg" alt="" width={14.794} height={16} aria-hidden className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]" />
+            <span className="relative whitespace-nowrap">Terms &amp; Conditions</span>
+          </div>
+          <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-0 lg:text-[52px] lg:tracking-[-1.04px]" style={{ width: "788.543px", color: "#FFF", textAlign: "center", fontFamily: "Archia", fontSize: "52px", fontStyle: "normal", fontWeight: 600, lineHeight: "115%", letterSpacing: "-1.04px" }}>
+            Terms of Use
+          </h1>
+          <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90" style={{ width: "493.019px", color: "#FFF", textAlign: "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}>
+            Please read these terms carefully before using our services.
+          </p>
         </div>
-        <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-6 lg:text-[52px] lg:tracking-[-1.04px]">
-          Terms of Use
-        </h1>
-        <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:text-[16px] sm:text-white/90">
-          Please read these terms carefully before using our services.
-        </p>
       </div>
-      <FloatingWidget boundary desktopClassName="lg:top-1/2 lg:-translate-y-1/2" />
+      <FloatingWidget />
     </section>
   );
 }
@@ -141,7 +143,7 @@ export default function TermsConditionsPage() {
   return (
     <>
       <Navbar />
-      <main className="overflow-clip">
+      <main className="overflow-visible">
         <TermsHero />
         <div className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
           <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[200px]">

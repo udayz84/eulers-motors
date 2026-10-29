@@ -5,6 +5,7 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import PolicyHero from "@/components/sections/PolicyHero";
+import FloatingWidget from "@/components/FloatingWidget";
 
 const ITEMS = [
   { id: "collect", title: "We may collect the following information:", body: "We may collect information such as your name, contact details, vehicle preferences, service requests, and any other information you choose to share with us while using our website or contacting our team." },
@@ -20,53 +21,94 @@ export default function PrivacyPolicyPage() {
     <>
       <Navbar />
       <main className="overflow-clip">
-        <PolicyHero label="Privacy policy" title="Privacy Policy" />
-        <div className="relative flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:pb-[56px] md:pt-[56px] lg:pb-[42px] lg:pt-[64px]">
-          <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:gap-10 md:px-12 lg:gap-[40px] lg:px-16 xl:px-[200px]">
-            <div className="w-full flex-col font-sans text-[12px] leading-[1.5] text-ink sm:text-[14px] sm:leading-[1.6] md:text-[16px] md:leading-[1.65] lg:text-[18px] lg:leading-[1.4]">
-              <p>Last updated: <strong className="font-bold">October 22, 2021</strong></p>
-              <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4 md:mt-6 md:space-y-4">
+        <div className="lg:hidden">
+          <section
+            aria-label="Privacy Policy Banner"
+            className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-[68.5px] pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:px-16 sm:pt-[128px] sm:pb-16"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
+            }}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px]">
+                <Image
+                  src="/assets/products/badge-line-white.svg"
+                  alt=""
+                  width={117}
+                  height={16}
+                  aria-hidden
+                  className="absolute left-[3.43px] top-0 h-4 w-[117px]"
+                />
+                <Image
+                  src="/assets/products/badge-cap-white.svg"
+                  alt=""
+                  width={14.794}
+                  height={16}
+                  aria-hidden
+                  className="relative h-4 w-[14.794px]"
+                />
+                Privacy policy
+              </div>
+              <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] sm:tracking-[-0.8px]">
+                Privacy Policy
+              </h1>
+              <p className="max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:max-w-[420px] sm:text-[14px]">
+                We protect your data and respect your privacy.
+              </p>
+            </div>
+          </section>
+        </div>
+        <div className="hidden lg:block">
+          <PolicyHero label="Privacy policy" title="Privacy Policy" />
+        </div>
+        <div className="relative mx-auto flex w-[393px] max-w-full flex-col items-center justify-center gap-6 bg-white p-8 sm:w-full sm:max-w-[720px] sm:gap-8 sm:px-10 sm:py-10 lg:w-[1440px] lg:max-w-full lg:gap-[40px] lg:px-[200px] lg:pt-[64px] lg:pb-[42px]">
+          <div className="flex w-full max-w-[1440px] flex-col gap-6 sm:gap-8 lg:max-w-none lg:gap-[40px] lg:px-0">
+            <div className="h-[272px] w-[329px] max-w-full self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-auto sm:min-h-[272px] sm:w-full sm:text-[14px] lg:h-auto lg:min-h-0 lg:w-full lg:text-[18px] lg:leading-[1.4]">
+              <p className="lg:font-bold">Last updated: <strong className="font-bold">October 22, 2021</strong></p>
+              <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4 md:mt-6 lg:space-y-0">
                 <p>This is our policy which outlines how Euler Motors Private Limited protects any information that you give us when you visit the website. Euler Motors Private Limited is committed to ensuring that your privacy is protected.</p>
                 <p>Should we ask you to provide certain information by which you can be identified when using the website, then you can be assured that it will only be used in accordance with this privacy statement.</p>
                 <p>Euler Motors Private Limited may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes. This policy is effective from October 22, 2021.</p>
               </div>
             </div>
-            <div className="flex w-full flex-col gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-[10px]">
+            <div className="flex w-[373px] max-w-[100vw] flex-col items-start gap-[10px] self-center sm:w-full sm:max-w-full lg:w-[1040px] lg:max-w-full lg:items-start lg:gap-[10px] lg:self-stretch">
               {ITEMS.map((item) => {
                 const expanded = open === item.id;
                 return (
-                  <article key={item.id} className="overflow-hidden rounded-[16px] bg-[#f3f4f5] transition-all duration-200">
+                  <article key={item.id} className="w-full self-stretch overflow-hidden rounded-[16px] bg-[#f3f4f5] transition-all duration-200 lg:self-stretch lg:rounded-[16px] lg:bg-[#F3F4F5]">
                     <button
                       type="button"
                       aria-expanded={expanded}
                       onClick={() => setOpen(expanded ? "" : item.id)}
-                      className="flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-4 p-4 text-left transition-colors sm:min-h-[64px] sm:p-5 sm:px-6 md:min-h-[70px] md:gap-5 md:p-6 md:px-8"
+                      className="flex h-[66px] w-full cursor-pointer items-center justify-center gap-[10px] px-3 py-[21px] text-left transition-colors sm:h-[74px] sm:justify-between sm:px-5 lg:h-[70px] lg:justify-between lg:gap-[20px] lg:p-0 lg:px-[32px]"
                     >
-                      <h2 className="flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink sm:text-[18px] md:text-[20px] lg:text-[20px] sm:tracking-[-0.4px]">
+                      <h2 className="flex-[1_0_0] font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] sm:text-[18px] lg:text-[#121212] lg:text-[20px] lg:leading-[1.4] lg:font-semibold lg:tracking-[-0.4px] lg:capitalize">
                         {item.title}
                       </h2>
-                      <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
+                      <span className="relative flex size-6 shrink-0 items-center justify-center lg:size-6">
                         <Image
                           src={expanded ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
                           alt={expanded ? "Collapse" : "Expand"}
                           width={24}
                           height={24}
-                          className="size-5 select-none transition-transform duration-200 sm:size-5.5 md:size-6"
+                          className="size-6 select-none transition-transform duration-200 lg:size-6"
                         />
                       </span>
                     </button>
                     {expanded && item.body && (
-                      <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
-                        <p className="w-full whitespace-pre-line font-sans text-[12px] font-normal leading-[1.4] text-ink sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:text-[18px] lg:leading-[1.4]">
-                          {item.body}
-                        </p>
-                      </div>
+                    <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:px-[32px] lg:pb-[32px]">
+                      <p className="self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.80)] sm:text-[14px] lg:w-[881.039px] lg:max-w-full lg:text-[#121212] lg:text-[18px] lg:font-normal lg:leading-[1.4]">
+                        {item.body}
+                      </p>
+                    </div>
                     )}
                   </article>
                 );
               })}
             </div>
           </div>
+          <FloatingWidget mobileOnly mobileClassName="top-[361px] -translate-y-1/2" />
         </div>
       </main>
       <Footer />
