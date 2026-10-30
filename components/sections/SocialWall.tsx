@@ -264,7 +264,7 @@ export default function SocialWall() {
             onPointerUp={() => resumeAfterInteraction(1800)}
             onPointerCancel={() => resumeAfterInteraction(1800)}
             onWheel={handleWheel}
-            className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center no-scrollbar touch-pan-x"
+            className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center no-scrollbar"
             style={{
               scrollSnapType: isDesktop ? "none" : undefined,
               scrollBehavior: isDesktop ? "auto" : undefined,

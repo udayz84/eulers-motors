@@ -182,8 +182,8 @@ export default function TechKnowVehicle() {
           <img src={`${A}/kv__imgVector174.svg`} alt="" className="absolute inset-0 size-full max-w-none" />
         </div>
 
-        {/* part chips — row scrolls horizontally only, strictly no vertical scroll */}
-        <div className="no-scrollbar absolute left-0 top-[335.06px] flex w-full items-stretch gap-2 overflow-x-auto overflow-y-hidden overscroll-y-none pl-[19.99px] pr-5">
+        {/* part chips — row scrolls horizontally */}
+        <div className="no-scrollbar absolute left-0 top-[335.06px] flex w-full items-stretch gap-2 overflow-x-auto pl-[19.99px] pr-5">
           {CHIPS.map((chip, i) => (
             <Chip
               key={`${chip.label}-${i}`}
@@ -258,8 +258,8 @@ export default function TechKnowVehicle() {
 
           {/* Right Column: Chips + Details Card */}
           <div className="flex w-full min-w-0 flex-1 flex-col gap-6">
-            {/* Horizontal scroll carousel — overflow-y-hidden & overscroll-y-none to strictly eliminate vertical scrolling */}
-            <div className="no-scrollbar flex w-full items-center gap-2.5 overflow-x-auto overflow-y-hidden overscroll-y-none">
+            {/* Horizontal scroll carousel */}
+            <div className="no-scrollbar flex w-full items-center gap-2.5 overflow-x-auto">
               {CHIPS.map((chip, i) => (
                 <DesktopChip
                   key={`${chip.label}-${i}`}

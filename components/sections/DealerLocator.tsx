@@ -704,7 +704,7 @@ export default function DealerLocator({
 
           <div
             ref={cityRowScrollRef}
-            className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full touch-pan-x overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
+            className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
           >
             <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
               {CITIES.map((city) => {
@@ -892,7 +892,7 @@ export default function DealerLocator({
               tabIndex={0}
               role="region"
               aria-label={charging ? "Charging station locations" : "Dealer locations"}
-              className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-center gap-3 overflow-x-auto overscroll-x-contain touch-pan-x px-3 lg:scroll-pl-[39px] lg:gap-5 lg:px-[39px]"
+              className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-center gap-3 overflow-x-auto overscroll-x-contain px-3 lg:scroll-pl-[39px] lg:gap-5 lg:px-[39px]"
             >
               {charging
                 ? filteredStations.map((station) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Button from "../ui/Button";
 import FloatingWidget from "../FloatingWidget";
@@ -20,7 +20,14 @@ const HERO_SLIDES = [
   },
 ];
 
-const SLIDES = HERO_SLIDES.length;
+export interface HeroSlideData {
+  headline: string;
+  subheading?: string;
+}
+
+export interface HeroProps {
+  slides?: HeroSlideData[];
+}
 
 /**
  * Hero V3 (Figma 1:1283). Desktop frame 1440×800 · mobile frame 393×762.
@@ -31,23 +38,217 @@ const SLIDES = HERO_SLIDES.length;
  * hero_mobile_clean.png (393×762, bottom scrim removed) below — both
  * edge-to-edge.
  */
-export default function Hero() {
+export default function Hero({ slides }: HeroProps = {}) {
+  const currentSlides = slides && slides.length > 0 ? slides : HERO_SLIDES;
+  const slideCount = currentSlides.length;
   const [active, setActive] = useState(1); // Figma shows the 2nd dot active
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const go = (dir: 1 | -1) => setActive((i) => (i + dir + SLIDES) % SLIDES);
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const mouseStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const dragOffsetRef = useRef(0);
+  const dragDistanceRef = useRef(0);
+  const isSwipingHorizontalRef = useRef(false);
+  const isSwipingVerticalRef = useRef(false);
+
+  const go = (dir: 1 | -1) => setActive((i) => (i + dir + slideCount) % slideCount);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest("aside") || target?.closest('[role="tablist"]')) return;
+
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      time: Date.now(),
+    };
+    dragDistanceRef.current = 0;
+    dragOffsetRef.current = 0;
+    isSwipingHorizontalRef.current = false;
+    isSwipingVerticalRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartRef.current || e.touches.length !== 1) return;
+    if (isSwipingVerticalRef.current) return;
+
+    const dx = e.touches[0].clientX - touchStartRef.current.x;
+    const dy = e.touches[0].clientY - touchStartRef.current.y;
+    dragDistanceRef.current = Math.hypot(dx, dy);
+
+    if (!isSwipingHorizontalRef.current && !isSwipingVerticalRef.current) {
+      // If moving predominantly vertically, let the page scroll naturally
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+        isSwipingVerticalRef.current = true;
+        setIsDragging(false);
+        setDragOffset(0);
+        dragOffsetRef.current = 0;
+        return;
+      }
+      if (Math.abs(dx) > 8 && Math.abs(dx) >= Math.abs(dy)) {
+        isSwipingHorizontalRef.current = true;
+        setIsDragging(true);
+      }
+    }
+
+    if (isSwipingHorizontalRef.current) {
+      // Rubber-band resistance past bounds (index 0 and slideCount - 1)
+      let effectiveDx = dx;
+      if ((active === 0 && dx > 0) || (active === slideCount - 1 && dx < 0)) {
+        effectiveDx = dx * 0.35;
+      }
+      dragOffsetRef.current = effectiveDx;
+      setDragOffset(effectiveDx);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartRef.current) return;
+
+    if (isSwipingHorizontalRef.current) {
+      const dx = dragOffsetRef.current;
+      const dt = Date.now() - touchStartRef.current.time;
+      const isQuickFlick = dt < 300 && Math.abs(dx) > 30;
+      const isPastThreshold = Math.abs(dx) > 50;
+
+      if (isQuickFlick || isPastThreshold) {
+        if (dx < 0 && active < slideCount - 1) {
+          setActive((prev) => prev + 1);
+        } else if (dx > 0 && active > 0) {
+          setActive((prev) => prev - 1);
+        }
+      }
+    }
+
+    touchStartRef.current = null;
+    isSwipingHorizontalRef.current = false;
+    isSwipingVerticalRef.current = false;
+    setIsDragging(false);
+    setDragOffset(0);
+    dragOffsetRef.current = 0;
+  };
+
+  const handleTouchCancel = () => {
+    touchStartRef.current = null;
+    isSwipingHorizontalRef.current = false;
+    isSwipingVerticalRef.current = false;
+    setIsDragging(false);
+    setDragOffset(0);
+    dragOffsetRef.current = 0;
+  };
+
+  // Mouse drag support for desktop emulation of mobile
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.innerWidth >= 640) return;
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest("aside") || target?.closest('[role="tablist"]')) return;
+
+    mouseStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      time: Date.now(),
+    };
+    dragDistanceRef.current = 0;
+    dragOffsetRef.current = 0;
+    isSwipingHorizontalRef.current = false;
+    isSwipingVerticalRef.current = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!mouseStartRef.current) return;
+    const dx = e.clientX - mouseStartRef.current.x;
+    const dy = e.clientY - mouseStartRef.current.y;
+    dragDistanceRef.current = Math.hypot(dx, dy);
+
+    if (!isSwipingHorizontalRef.current && !isSwipingVerticalRef.current) {
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+        isSwipingVerticalRef.current = true;
+        setIsDragging(false);
+        setDragOffset(0);
+        dragOffsetRef.current = 0;
+        return;
+      }
+      if (Math.abs(dx) > 8 && Math.abs(dx) >= Math.abs(dy)) {
+        isSwipingHorizontalRef.current = true;
+        setIsDragging(true);
+      }
+    }
+
+    if (isSwipingHorizontalRef.current) {
+      let effectiveDx = dx;
+      if ((active === 0 && dx > 0) || (active === slideCount - 1 && dx < 0)) {
+        effectiveDx = dx * 0.35;
+      }
+      dragOffsetRef.current = effectiveDx;
+      setDragOffset(effectiveDx);
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (!mouseStartRef.current) return;
+
+    if (isSwipingHorizontalRef.current) {
+      const dx = dragOffsetRef.current;
+      const dt = Date.now() - mouseStartRef.current.time;
+      const isQuickFlick = dt < 300 && Math.abs(dx) > 30;
+      const isPastThreshold = Math.abs(dx) > 50;
+
+      if (isQuickFlick || isPastThreshold) {
+        if (dx < 0 && active < slideCount - 1) {
+          setActive((prev) => prev + 1);
+        } else if (dx > 0 && active > 0) {
+          setActive((prev) => prev - 1);
+        }
+      }
+    }
+
+    mouseStartRef.current = null;
+    isSwipingHorizontalRef.current = false;
+    isSwipingVerticalRef.current = false;
+    setIsDragging(false);
+    setDragOffset(0);
+    dragOffsetRef.current = 0;
+  };
+
+  const handleClickCapture = (e: React.MouseEvent) => {
+    if (dragDistanceRef.current > 10) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragDistanceRef.current = 0;
+    }
+  };
 
   return (
     <section
       id="hero"
-      className="relative aspect-[393/762] overflow-clip sm:aspect-[1440/800]"
+      className="relative aspect-[393/762] overflow-clip sm:aspect-[1440/800] select-none sm:select-auto cursor-grab active:cursor-grabbing sm:cursor-auto"
       aria-label="Featured vehicle"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchCancel}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onClickCapture={handleClickCapture}
     >
       {/* Slider Track */}
       <div 
-        className="absolute inset-0 flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${active * 100}%)` }}
+        className={`absolute inset-0 flex will-change-transform ${
+          isDragging ? "" : "transition-transform duration-500 ease-in-out"
+        }`}
+        style={{
+          transform:
+            isDragging && dragOffset !== 0
+              ? `translateX(calc(-${active * 100}% + ${dragOffset}px))`
+              : `translateX(-${active * 100}%)`,
+        }}
       >
-        {HERO_SLIDES.map((slide, i) => (
+        {currentSlides.map((slide, i) => (
           <div key={i} className="relative h-full w-full shrink-0">
             {/* Backgrounds */}
             <Image
@@ -141,7 +342,7 @@ export default function Hero() {
       {/* Mobile dots */}
       <div className="absolute inset-x-0 bottom-6 flex px-5 lg:hidden">
         <div className="flex items-center gap-[7px] p-2.5" role="tablist" aria-label="Hero slides">
-          {Array.from({ length: SLIDES }).map((_, i) => (
+          {Array.from({ length: slideCount }).map((_, i) => (
             <button
               key={i}
               type="button"
@@ -158,7 +359,7 @@ export default function Hero() {
       {/* Desktop dots */}
       <div className="absolute inset-x-0 bottom-[27px] hidden justify-center lg:flex" role="tablist" aria-label="Hero slides">
         <div className="flex items-center gap-[7px] p-2.5">
-          {Array.from({ length: SLIDES }).map((_, i) => (
+          {Array.from({ length: slideCount }).map((_, i) => (
             <button
               key={i}
               type="button"

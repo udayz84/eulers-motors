@@ -126,7 +126,7 @@ export default function ProductOverview() {
           <div
             ref={scrollRef}
             onScroll={handleMobileScroll}
-            className="no-scrollbar flex w-full gap-4 overflow-x-auto px-[calc((100vw-min(82vw,340px))/2)] pb-4 sm:px-[calc((100vw-min(82vw,360px))/2)] snap-x snap-mandatory touch-pan-x"
+            className="no-scrollbar flex w-full gap-4 overflow-x-auto px-[calc((100vw-min(82vw,340px))/2)] pb-4 sm:px-[calc((100vw-min(82vw,360px))/2)] snap-x snap-mandatory"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {/* Mobile Card 1: Features */}

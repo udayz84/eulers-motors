@@ -54,7 +54,7 @@ export default function CustomerReviews({
             className={`flex gap-[13px] lg:gap-6 ${
               autoScrollOnMobile
                 ? "overflow-hidden"
-                : "no-scrollbar overflow-x-auto snap-x snap-mandatory lg:overflow-hidden lg:snap-none touch-pan-x"
+                : "no-scrollbar overflow-x-auto snap-x snap-mandatory lg:overflow-hidden lg:snap-none"
             }`}
           >
             {/* Spacers for alignment — they mirror the header row's left edge so
