@@ -23,11 +23,13 @@ const ACTIONS = [
  * screen (Figma places it in the hero frame).
  */
 export default function FloatingWidget({
+  sticky = false,
   mobileOnly = false,
   boundary = false,
   mobileClassName,
   desktopClassName,
 }: {
+  sticky?: boolean;
   mobileOnly?: boolean;
   boundary?: boolean;
   /** Mobile-only vertical placement override; desktop keeps the lg: position. */
@@ -44,12 +46,27 @@ export default function FloatingWidget({
   // Mobile: collapsed — the mobile hero frame (Figma 1:4524) has no rail.
   // boundary: on mobile the rail is centred on the bottom edge of its relative
   // parent (the hero/next-section seam) instead of the vertical middle.
+  // sticky: stays fixed in the viewport (centered at top-1/2) while the page scrolls.
+  const positionClass = sticky ? "fixed" : "absolute";
   const mobilePos =
-    mobileClassName ?? (boundary ? "bottom-0 translate-y-1/2" : "top-1/2 -translate-y-1/2");
+    mobileClassName ??
+    (sticky
+      ? "top-1/2 -translate-y-1/2"
+      : boundary
+      ? "bottom-0 translate-y-1/2"
+      : "top-1/2 -translate-y-1/2");
   const desktopPos =
-    desktopClassName ?? "lg:top-[400px] lg:translate-y-0";
+    desktopClassName ??
+    (sticky
+      ? "lg:top-1/2 lg:-translate-y-1/2"
+      : "lg:top-[400px] lg:translate-y-0");
+
   return (
-    <div className={`group/floating-widget absolute right-[-30px] z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${mobileOnly ? "block lg:hidden" : "block"}`}>
+    <div
+      className={`group/floating-widget ${positionClass} right-[-30px] z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
+        mobileOnly ? "block lg:hidden" : "block"
+      }`}
+    >
       <div className="relative flex items-end gap-[19px]">
         {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
         <div

@@ -151,8 +151,8 @@ export default function TermsConditionsPage() {
               ))}
             </div>
           </div>
-          <FloatingWidget mobileOnly mobileClassName="top-[361px] -translate-y-1/2" />
         </div>
+        <FloatingWidget sticky />
       </main>
       <Footer />
     </>

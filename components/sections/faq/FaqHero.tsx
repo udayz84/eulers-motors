@@ -57,9 +57,6 @@ export default function FaqHero() {
           </p>
         </div>
       </div>
-
-      {/* Floating Action Rail (desktop aligned to hero seam like the policy pages) */}
-      <FloatingWidget boundary desktopClassName="lg:top-[380px]" />
     </section>
     </div>
     </>

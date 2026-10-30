@@ -6,11 +6,13 @@ export default function PolicyHero({
   title,
   description = "We protect your data and respect your privacy.",
   variant = "privacy",
+  hasWidget = false,
 }: {
   label: string;
   title: string;
   description?: React.ReactNode;
   variant?: "refund" | "privacy";
+  hasWidget?: boolean;
 }) {
   return (
     <section
@@ -53,7 +55,7 @@ export default function PolicyHero({
           </p>
         </div>
       </div>
-      <FloatingWidget boundary desktopClassName="lg:top-[380px]" />
+      {hasWidget && <FloatingWidget boundary desktopClassName="lg:top-[380px]" />}
     </section>
   );
 }

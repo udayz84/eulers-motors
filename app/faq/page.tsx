@@ -5,6 +5,7 @@ import FaqContent from "@/components/sections/faq/FaqContent";
 import FaqQuickHelp from "@/components/sections/faq/FaqQuickHelp";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
+import FloatingWidget from "@/components/FloatingWidget";
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions | Euler Motors",
@@ -21,6 +22,7 @@ export default function FaqPage() {
         <FaqContent />
         <FaqQuickHelp />
         <ContactSection />
+        <FloatingWidget sticky />
       </main>
       <Footer />
     </>
