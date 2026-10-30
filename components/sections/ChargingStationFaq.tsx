@@ -286,9 +286,7 @@ export default function ChargingStationFaq() {
               return (
                 <article
                   key={index}
-                  className={`shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] p-4 sm:p-5 transition-all ${
-                    expanded ? "flex flex-col gap-4 sm:gap-5" : "flex min-h-[64px] sm:min-h-[68px] items-center"
-                  }`}
+                  className="shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] p-4 sm:p-5 transition-all"
                 >
                   <button
                     type="button"
@@ -299,19 +297,36 @@ export default function ChargingStationFaq() {
                     <span className="min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-[#121212]">
                       {faq.question}
                     </span>
-                    <Image
-                      src={`/assets/charging-station-faq/${icon}`}
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="h-6 w-6 shrink-0 transition-transform duration-200"
-                    />
+                    <span className="relative flex size-6 shrink-0 items-center justify-center">
+                      <Image
+                        src="/assets/charging-station-faq/icon-plus.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        aria-hidden
+                        className={`absolute size-6 select-none transition-all duration-300 ${
+                          expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
+                        }`}
+                      />
+                      <Image
+                        src="/assets/charging-station-faq/icon-minus.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        aria-hidden
+                        className={`absolute size-6 select-none transition-all duration-300 ${
+                          expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
+                        }`}
+                      />
+                    </span>
                   </button>
-                  {expanded && (
-                    <p className="font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
-                      {faq.answer}
-                    </p>
-                  )}
+                  <div className="accordion-grid" data-open={expanded}>
+                    <div className="accordion-inner">
+                      <p className="mt-3 font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 </article>
               );
             })}

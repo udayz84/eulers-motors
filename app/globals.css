@@ -206,6 +206,22 @@ button {
     linear-gradient(90deg, #1d6fff -3.2%, #0e2f6d 170.8%);
 }
 
+/* Smooth accordion animations */
+.accordion-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1), opacity 260ms ease;
+}
+.accordion-grid[data-open="true"],
+.accordion-grid.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.accordion-inner {
+  overflow: hidden;
+}
+
 @media (min-width: 768px) {
   .faq-active-category {
     background:

@@ -580,22 +580,40 @@ export default function FaqContent() {
                         </span>
                         <span className="relative flex size-5 shrink-0 items-center justify-center sm:size-5.5 md:size-6">
                           <Image
-                            src={isOpen ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
-                            alt={isOpen ? "Collapse" : "Expand"}
+                            src="/assets/faq/icon-plus.svg"
+                            alt=""
                             width={24}
                             height={24}
-                            className="size-5 select-none transition-transform duration-200 sm:size-5.5 md:size-6"
+                            aria-hidden
+                            className={`absolute size-5 select-none transition-all duration-300 sm:size-5.5 md:size-6 ${
+                              isOpen ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
+                            }`}
+                          />
+                          <Image
+                            src="/assets/faq/icon-minus.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            aria-hidden
+                            className={`absolute size-5 select-none transition-all duration-300 sm:size-5.5 md:size-6 ${
+                              isOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
+                            }`}
                           />
                         </span>
                       </button>
 
-                      {isOpen && (
-                        <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
-                          <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:!text-[18px] lg:font-normal lg:leading-[140%] lg:text-[#121212] sm:leading-[1.6] sm:text-ink">
-                            {faq.answer}
-                          </p>
+                      <div
+                        className="accordion-grid"
+                        data-open={isOpen}
+                      >
+                        <div className="accordion-inner">
+                          <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8">
+                            <p className="font-sans text-[12px] font-normal leading-[1.4] text-ink/80 sm:text-[14px] sm:leading-[1.5] md:text-[16px] lg:!text-[18px] lg:font-normal lg:leading-[140%] lg:text-[#121212] sm:leading-[1.6] sm:text-ink">
+                              {faq.answer}
+                            </p>
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </article>
                   );
                 })}

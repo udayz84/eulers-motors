@@ -88,21 +88,41 @@ export default function PrivacyPolicyPage() {
                       </h2>
                       <span className="relative flex size-6 shrink-0 items-center justify-center lg:size-6">
                         <Image
-                          src={expanded ? "/assets/faq/icon-minus.svg" : "/assets/faq/icon-plus.svg"}
-                          alt={expanded ? "Collapse" : "Expand"}
+                          src="/assets/faq/icon-plus.svg"
+                          alt=""
                           width={24}
                           height={24}
-                          className="size-6 select-none transition-transform duration-200 lg:size-6"
+                          aria-hidden
+                          className={`absolute size-6 select-none transition-all duration-300 lg:size-6 ${
+                            expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
+                          }`}
+                        />
+                        <Image
+                          src="/assets/faq/icon-minus.svg"
+                          alt=""
+                          width={24}
+                          height={24}
+                          aria-hidden
+                          className={`absolute size-6 select-none transition-all duration-300 lg:size-6 ${
+                            expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
+                          }`}
                         />
                       </span>
                     </button>
-                    {expanded && item.body && (
-                    <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:px-[32px] lg:pb-[32px]">
-                      <p className="self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.80)] sm:text-[14px] lg:w-[881.039px] lg:max-w-full lg:text-[#121212] lg:text-[18px] lg:font-normal lg:leading-[1.4]">
-                        {item.body}
-                      </p>
+                    <div
+                      className="accordion-grid"
+                      data-open={expanded}
+                    >
+                      <div className="accordion-inner">
+                        {item.body && (
+                          <div className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:px-[32px] lg:pb-[32px]">
+                            <p className="self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.80)] sm:text-[14px] lg:w-[881.039px] lg:max-w-full lg:text-[#121212] lg:text-[18px] lg:font-normal lg:leading-[1.4]">
+                              {item.body}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    )}
                   </article>
                 );
               })}

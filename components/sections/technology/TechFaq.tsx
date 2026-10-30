@@ -168,17 +168,30 @@ export default function TechFaq() {
                   >
                     {faq.question}
                   </span>
-                  <img
-                    src={`${A}/${expanded ? "icon-minus.svg" : "icon-plus.svg"}`}
-                    alt=""
-                    className="size-6 shrink-0"
-                  />
+                  <span className="relative flex size-6 shrink-0 items-center justify-center">
+                    <img
+                      src={`${A}/icon-plus.svg`}
+                      alt=""
+                      className={`absolute size-6 select-none transition-all duration-300 ${
+                        expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
+                      }`}
+                    />
+                    <img
+                      src={`${A}/icon-minus.svg`}
+                      alt=""
+                      className={`absolute size-6 select-none transition-all duration-300 ${
+                        expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
+                      }`}
+                    />
+                  </span>
                 </button>
-                {expanded && (
-                  <p className="mt-[10px] w-full font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.8)]">
-                    {faq.answer}
-                  </p>
-                )}
+                <div className="accordion-grid" data-open={expanded}>
+                  <div className="accordion-inner">
+                    <p className="pt-[10px] w-full font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.8)]">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
               </article>
             );
           })}
@@ -261,13 +274,28 @@ export default function TechFaq() {
                       className="flex w-full items-center justify-between gap-6 text-left"
                     >
                       <span className="min-w-0 flex-1 text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink">{faq.question}</span>
-                      <img
-                        src={`${A}/${expanded ? "icon-minus.svg" : "icon-plus.svg"}`}
-                        alt=""
-                        className="size-6 shrink-0"
-                      />
+                      <span className="relative flex size-6 shrink-0 items-center justify-center">
+                        <img
+                          src={`${A}/icon-plus.svg`}
+                          alt=""
+                          className={`absolute size-6 select-none transition-all duration-300 ${
+                            expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
+                          }`}
+                        />
+                        <img
+                          src={`${A}/icon-minus.svg`}
+                          alt=""
+                          className={`absolute size-6 select-none transition-all duration-300 ${
+                            expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
+                          }`}
+                        />
+                      </span>
                     </button>
-                    {expanded && <p className="mt-5 text-[16px] leading-[1.4] text-black/80">{faq.answer}</p>}
+                    <div className="accordion-grid" data-open={expanded}>
+                      <div className="accordion-inner">
+                        <p className="pt-5 text-[16px] leading-[1.4] text-black/80">{faq.answer}</p>
+                      </div>
+                    </div>
                   </article>
                 );
               })}
