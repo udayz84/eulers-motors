@@ -405,13 +405,13 @@ export default function FaqContent() {
   return (
     <div
       data-node-id="3538:26361"
-      className="relative mx-auto flex w-full flex-col items-center justify-center bg-white pb-12 pt-8 sm:pb-16 sm:pt-10 md:w-[1440px] md:max-w-full md:px-[200px] md:pb-[62px] md:pt-[64px]"
+      className="relative mx-auto flex w-full flex-col items-center justify-center bg-white px-5 py-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]"
     >
-      <div className="flex w-full max-w-[1440px] flex-col gap-6 px-4 sm:gap-8 sm:px-8 md:max-w-none md:gap-[40px] md:px-0">
+      <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
         {/* ============================================================== */}
         {/* Search & Category Filter Section (Figma 3538:26362 / 2979:8417)*/}
         {/* ============================================================== */}
-        <div className="relative flex w-full flex-col items-center gap-4 sm:gap-5 md:gap-[20px]">
+        <div className="relative flex w-[373px] max-w-[calc(100vw_-_20px)] self-center flex-col items-center gap-4 sm:w-full sm:max-w-full sm:self-auto sm:gap-5 md:gap-[20px]">
           {/* Tapered Frosted Filter Tray Background on Desktop / Wide Tablets (Figma 3538:26363) */}
           <div
             aria-hidden
@@ -509,7 +509,7 @@ export default function FaqContent() {
         {/* Hidden on mobile (Figma 2979:7915) & hidden during search     */}
         {/* ============================================================== */}
         {!isSearching && (
-          <div className="hidden w-full flex-col font-sans text-[15px] leading-[1.6] text-ink md:flex md:h-[275px] md:w-[1040px] lg:text-[18px]">
+          <div className="hidden w-full max-w-[1040px] flex-col font-sans text-[15px] leading-[1.6] text-ink md:flex md:h-auto md:min-h-[275px] lg:text-[18px]">
             <p className="mb-3 md:mb-4">
               <span className="font-normal">Last updated: </span>
               <span className="font-bold text-ink">October 22, 2021</span>
@@ -537,7 +537,8 @@ export default function FaqContent() {
         {/* ============================================================== */}
         <div
           key={activeCategory}
-          className="flex w-full flex-col gap-2.5 transition-all duration-300 sm:gap-3 md:gap-[10px]"
+          id="faq-accordion-list"
+          className="flex w-[373px] max-w-[calc(100vw_-_20px)] flex-col gap-2.5 self-center transition-all duration-300 sm:w-full sm:max-w-full sm:self-auto sm:gap-3 md:gap-[10px]"
         >
           {displayedFaqs.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[16px] bg-[#f3f4f5] px-6 py-12 text-center">
