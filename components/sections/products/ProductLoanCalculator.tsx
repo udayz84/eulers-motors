@@ -142,59 +142,59 @@ export default function ProductLoanCalculator({ defaultVehicleIndex = 0 }: { def
                 slider to see your EMI.
               </p>
 
-              {/* Partner element (Figma 2732:7782 / 2732:7784) */}
+              {/* Partner element */}
               <div className="mt-1 flex flex-col items-start gap-[12px] self-stretch font-sans text-white">
                 <span className="text-[14px] font-semibold text-white">Partners</span>
-                {/* Partner logos — Frame 1984081090 (Figma 2732:7784): gap 32px, items-center */}
-                <div className="no-scrollbar flex items-center gap-[32px] overflow-x-auto">
-                  {/* HDFC Bank — 87.82 × 16.401 (2732:7785) */}
-                  <div className="relative h-[16.401px] w-[87.82px] shrink-0">
+                {/* Partner logos: fits cleanly on mobile without clipping, original spacing on tablet/desktop */}
+                <div className="no-scrollbar flex w-full max-w-[420px] items-center justify-between sm:max-w-none sm:justify-start sm:gap-6 lg:gap-[32px]">
+                  {/* HDFC Bank */}
+                  <div className="relative h-[14px] w-[72px] shrink-0 sm:h-[16.401px] sm:w-[87.82px]">
                     <Image
                       src="/assets/loan/bank-hdfc.png"
                       alt="HDFC Bank"
                       fill
-                      sizes="88px"
+                      sizes="(max-width: 640px) 72px, 88px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Mahindra Finance — 54.009 × 16.401 (2732:7786) */}
-                  <div className="relative h-[16.401px] w-[54.009px] shrink-0">
+                  {/* Mahindra Finance */}
+                  <div className="relative h-[14px] w-[45px] shrink-0 sm:h-[16.401px] sm:w-[54.009px]">
                     <Image
                       src="/assets/loan/bank-mahindra.png"
                       alt="Mahindra Finance"
                       fill
-                      sizes="54px"
+                      sizes="(max-width: 640px) 45px, 54px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Tata Capital — 70.322 × 16.401 (2732:7787) */}
-                  <div className="relative h-[16.401px] w-[70.322px] shrink-0">
+                  {/* Tata Capital */}
+                  <div className="relative h-[14px] w-[58px] shrink-0 sm:h-[16.401px] sm:w-[70.322px]">
                     <Image
                       src="/assets/loan/tata.png"
                       alt="Tata Capital"
                       fill
-                      sizes="71px"
+                      sizes="(max-width: 640px) 58px, 71px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Shriram Finance — 56.262 × 20 on white plate (2732:7788) */}
-                  <div className="relative h-[20px] w-[56.262px] shrink-0 overflow-hidden rounded-[2px] bg-white">
+                  {/* Shriram Finance */}
+                  <div className="relative h-[16px] w-[48px] shrink-0 overflow-hidden rounded-[2px] bg-white sm:h-[20px] sm:w-[56.262px]">
                     <Image
                       src="/assets/loan/bank-shriram.png"
                       alt="Shriram Finance"
                       fill
-                      sizes="57px"
+                      sizes="(max-width: 640px) 48px, 57px"
                       className="object-contain"
                     />
                   </div>
-                  {/* Chevron Arrow — Vector 142 (2732:7789): 6 × 14 */}
+                  {/* Chevron Arrow — visible on tablet & desktop */}
                   <svg
                     width="6"
                     height="14"
                     viewBox="0 0 6 14"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0"
+                    className="hidden shrink-0 sm:block"
                     aria-hidden="true"
                   >
                     <path

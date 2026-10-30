@@ -132,7 +132,7 @@ function Thumbs({ className = "" }: { className?: string }) {
 function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = VARIANTS[selectedIndex];
   return (
-    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-40 flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
         <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
           VARIANTS
@@ -186,7 +186,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
       {expanded && (
         <div
           id="mobile-variant-options"
-          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px]"
+          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[280px] overflow-y-auto rounded-[8px] border border-gray-200 bg-white p-2 shadow-2xl"
         >
           <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
         </div>
@@ -200,7 +200,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
  */
 function SpecsGrid() {
   return (
-    <div className="flex w-full flex-col self-stretch rounded-[8px] bg-white/20 p-[14px] backdrop-blur-[12px] border border-white/30 shadow-sm">
+    <div className="relative z-10 flex w-full flex-col self-stretch rounded-[8px] bg-white/20 p-[14px] backdrop-blur-[12px] border border-white/30 shadow-sm">
       {/* Row 1 */}
       <div className="flex w-full items-center justify-between pb-2.5">
         {/* Spec 1 */}
@@ -372,7 +372,7 @@ export default function ProductHero() {
         />
         {/* Mobile Storm EV LR 200 vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
+          className="pointer-events-none absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
         >
           <Image
             src="/assets/products/vehicle-storm-lr200-clean.png"
@@ -436,7 +436,7 @@ export default function ProductHero() {
         </div>
 
         {/* Bottom group */}
-        <div ref={mobilePanelRef} className="flex w-full flex-col items-start gap-3">
+        <div ref={mobilePanelRef} className="relative z-20 flex w-full flex-col items-start gap-3">
           {/* 3 Thumbnails element */}
           <Thumbs />
 

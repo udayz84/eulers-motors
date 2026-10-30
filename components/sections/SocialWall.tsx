@@ -96,12 +96,23 @@ export default function SocialWall() {
   const interactionPausedRef = useRef(false);
   const resumeTimerRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     const row = scrollRef.current;
     const track = trackRef.current;
     if (!section || !row || !track) return;
+
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(desktopQuery.matches);
+    const updateDesktop = (e: MediaQueryListEvent) => {
+      setIsDesktop(e.matches);
+      if (!e.matches && track) {
+        track.style.transform = "";
+      }
+    };
+    desktopQuery.addEventListener("change", updateDesktop);
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(
@@ -136,6 +147,13 @@ export default function SocialWall() {
     window.addEventListener("resize", handleResize);
 
     const tick = () => {
+      // Auto-scroll is enabled on desktop viewports only (>= 1024px)
+      if (!desktopQuery.matches) {
+        if (track.style.transform) track.style.transform = "";
+        frame = window.requestAnimationFrame(tick);
+        return;
+      }
+
       if (!reducedMotion && visibleRef.current && !interactionPausedRef.current) {
         const loopDistance = getLoopDistance();
         if (loopDistance > 0) {
@@ -162,6 +180,7 @@ export default function SocialWall() {
 
     return () => {
       observer.disconnect();
+      desktopQuery.removeEventListener("change", updateDesktop);
       window.removeEventListener("resize", handleResize);
       window.cancelAnimationFrame(frame);
       if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
@@ -186,8 +205,11 @@ export default function SocialWall() {
   };
 
   const handleScroll = () => {
-    pauseForInteraction();
-    resumeAfterInteraction(1800);
+    if (isDesktop) {
+      pauseForInteraction();
+      resumeAfterInteraction(1800);
+      return;
+    }
     const row = scrollRef.current;
     if (!row) return;
     const cards = row.querySelectorAll<HTMLElement>("article");
@@ -242,8 +264,12 @@ export default function SocialWall() {
             onPointerUp={() => resumeAfterInteraction(1800)}
             onPointerCancel={() => resumeAfterInteraction(1800)}
             onWheel={handleWheel}
-            className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center"
-            style={{ scrollSnapType: "none", scrollBehavior: "auto", overflowAnchor: "none" }}
+            className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center no-scrollbar touch-pan-x"
+            style={{
+              scrollSnapType: isDesktop ? "none" : undefined,
+              scrollBehavior: isDesktop ? "auto" : undefined,
+              overflowAnchor: "none",
+            }}
           >
             {/* Spacers for alignment — the desktop spacer anchors the first card
                 at x=80 on the 1440 frame (Figma 1:2008): frame margin + 49.337px

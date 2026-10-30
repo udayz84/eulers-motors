@@ -52,8 +52,9 @@ export default function ProductOverview() {
   const handleMobileScroll = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return;
+    const firstCard = container.querySelector("article");
+    const cardWidth = firstCard ? firstCard.offsetWidth : container.offsetWidth * 0.82;
     const scrollLeft = container.scrollLeft;
-    const cardWidth = container.offsetWidth * 0.85; // 85vw
     const newIndex = Math.min(
       4,
       Math.max(0, Math.round(scrollLeft / (cardWidth + 16)))
@@ -125,12 +126,12 @@ export default function ProductOverview() {
           <div
             ref={scrollRef}
             onScroll={handleMobileScroll}
-            className="flex w-full gap-4 overflow-x-auto px-5 pb-4 sm:px-8 scrollbar-none snap-x snap-mandatory"
+            className="no-scrollbar flex w-full gap-4 overflow-x-auto px-[calc((100vw-min(82vw,340px))/2)] pb-4 sm:px-[calc((100vw-min(82vw,360px))/2)] snap-x snap-mandatory touch-pan-x"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {/* Mobile Card 1: Features */}
             <article
-              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
+              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
               style={{
                 transform: getCardTransform(0),
                 opacity: isVisible ? 1 : 0,
@@ -160,7 +161,7 @@ export default function ProductOverview() {
 
             {/* Mobile Card 2: Shepherd App */}
             <article
-              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
+              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
               style={{
                 transform: getCardTransform(1),
                 opacity: isVisible ? 1 : 0,
@@ -188,7 +189,7 @@ export default function ProductOverview() {
 
             {/* Mobile Card 3: Benefits */}
             <article
-              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
+              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
               style={{
                 transform: getCardTransform(2),
                 opacity: isVisible ? 1 : 0,
@@ -218,7 +219,7 @@ export default function ProductOverview() {
 
             {/* Mobile Card 4: Ideal for */}
             <article
-              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
+              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
               style={{
                 transform: getCardTransform(3),
                 opacity: isVisible ? 1 : 0,
@@ -253,7 +254,7 @@ export default function ProductOverview() {
 
             {/* Mobile Card 5: Key Use Cases */}
             <article
-              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
+              className="relative h-[250px] w-[82vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[12px] bg-[#d9e1eb] sm:h-[268px] sm:w-[360px]"
               style={{
                 transform: getCardTransform(4),
                 opacity: isVisible ? 1 : 0,

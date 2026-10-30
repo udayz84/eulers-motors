@@ -77,7 +77,7 @@ function Thumbs({ className = "" }: { className?: string }) {
 function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
   const selected = HILOAD_VARIANTS[selectedIndex];
   return (
-    <div className="relative flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-40 flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
         <span className="px-2 font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
           VARIANTS
@@ -107,21 +107,29 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
               </div>
             </div>
           </div>
-          <Image
-            src={`${ASSET}variant-chevron.svg`}
-            alt=""
-            aria-hidden
-            width={12}
-            height={6}
-            className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-          />
+          <svg
+            width="14"
+            height="8"
+            viewBox="0 0 14 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`shrink-0 text-[#121212] transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          >
+            <path
+              d="M1 1L7 7L13 1"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </div>
 
       {expanded && (
         <div
           id="hiload-mobile-variant-options"
-          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[260px] overflow-y-auto rounded-[8px] border border-white/40 bg-white/95 p-2 shadow-xl backdrop-blur-[12px]"
+          className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[280px] overflow-y-auto rounded-[8px] border border-gray-200 bg-white p-2 shadow-2xl"
         >
           <div className="flex flex-col gap-1.5">
             {HILOAD_VARIANTS.map((v, i) => (
@@ -228,7 +236,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
 
 function SpecsGrid() {
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded-[8px] border border-white/40 bg-white/20 p-2.5 shadow-sm backdrop-blur-[12px]">
+    <div className="relative z-10 flex w-full flex-col items-center justify-center rounded-[8px] border border-white/40 bg-white/20 p-2.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between pb-2.5">
         <div className="flex flex-1 flex-col items-start pr-3">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
@@ -321,7 +329,7 @@ export default function HiLoadHero() {
         />
         {/* Mobile HiLoad EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
+          className="pointer-events-none absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
         >
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
@@ -383,7 +391,7 @@ export default function HiLoadHero() {
           </a>
         </div>
 
-        <div ref={mobilePanelRef} className="flex w-full flex-col items-start gap-3">
+        <div ref={mobilePanelRef} className="relative z-20 flex w-full flex-col items-start gap-3">
           <Thumbs />
           <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
           <SpecsGrid />

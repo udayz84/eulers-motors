@@ -15,16 +15,20 @@ const STORY_IMAGES = [
 /**
  * Customer reviews (desktop 1:1669 · mobile 1:4828).
  * Instagram-story shaped testimonial cards (300/400 aspect) with play buttons.
- * Continuous, silky-smooth infinite auto-scrolling marquee across all pages and viewports.
+ * Desktop: continuous infinite auto-scrolling marquee.
+ * Mobile: touch swipeable snap row by hand (no auto-scroll on mobile).
  */
 export default function CustomerReviews({
-  autoScrollOnMobile = true,
+  autoScrollOnMobile = false,
+  eyebrow = "Customers",
+  title = "Customer reviews",
+  description = "Watch real customers share their experience with Euler Motors.",
 }: {
   autoScrollOnMobile?: boolean;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 } = {}) {
-  // autoScrollOnMobile prop maintained for call-site API compatibility
-  void autoScrollOnMobile;
-
   return (
     <section className="bg-white overflow-hidden" aria-label="Customer reviews">
       {/* Figma 1:1669 root — width 1440 · padding 62px 60px · flex-col ·
@@ -32,22 +36,26 @@ export default function CustomerReviews({
           centered in the 1320px content box → text starts at x=80 on desktop. */}
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 sm:px-8 pb-[24px] pt-10 sm:pt-12 lg:justify-center lg:px-[60px] lg:pb-[42px] lg:pt-[62px]">
         <div className="flex w-full max-w-[1280px] flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:text-left">
-          <Eyebrow label="Customers" />
+          <Eyebrow label={eyebrow} />
           <h2 className="font-display text-[28px] sm:text-[38px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
-            Customer reviews
+            {title}
           </h2>
           <p className="text-[12px] sm:text-[14px] text-ink lg:text-[16px] lg:leading-normal">
-            Watch real customers share their experience with Euler Motors.
+            {description}
           </p>
         </div>
       </div>
 
-      {/* Cards continuous auto-scrolling marquee — doesn't pause on hover and has no slider */}
+      {/* Cards: touch snap-scroll on mobile, continuous auto-scrolling marquee on desktop */}
       <div className="w-full pb-[42px] lg:pb-[62px]">
         <div className="relative overflow-hidden">
           <div
             id="reviews-snap-row"
-            className="flex overflow-hidden gap-[13px] lg:gap-6"
+            className={`flex gap-[13px] lg:gap-6 ${
+              autoScrollOnMobile
+                ? "overflow-hidden"
+                : "no-scrollbar overflow-x-auto snap-x snap-mandatory lg:overflow-hidden lg:snap-none touch-pan-x"
+            }`}
           >
             {/* Spacers for alignment — they mirror the header row's left edge so
                 the first card starts under the heading on desktop (x=80) */}
@@ -61,15 +69,17 @@ export default function CustomerReviews({
               }}
             />
 
-            {/* Continuous Marquee Track */}
+            {/* Marquee Track: auto-scroll on desktop only, static & swipeable on mobile */}
             <div
-              className="flex w-max shrink-0 gap-[13px] lg:gap-6 animate-marquee [--marquee-gap:13px] lg:[--marquee-gap:24px] will-change-transform"
+              className={`flex w-max shrink-0 gap-[13px] lg:gap-6 lg:animate-marquee [--marquee-gap:13px] lg:[--marquee-gap:24px] will-change-transform ${
+                autoScrollOnMobile ? "animate-marquee" : "max-lg:[animation:none]"
+              }`}
               style={{ animationDuration: "40s" }}
             >
               {[...STORY_IMAGES, ...STORY_IMAGES].map((story, i) => (
                 <article
                   key={`${i}-${story.base}`}
-                  className="relative aspect-[300/400] h-[466.667px] w-[350px] shrink-0 overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
+                  className="relative aspect-[300/400] h-[466.667px] w-[350px] shrink-0 snap-center overflow-clip rounded-[14.614px] lg:h-[485.645px] lg:w-auto lg:rounded-[20.442px]"
                 >
                   <Image
                     src={story.base}
@@ -165,6 +175,7 @@ export default function CustomerReviews({
                   </button>
                 </article>
               ))}
+              <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "20px" }} />
             </div>
           </div>
 
