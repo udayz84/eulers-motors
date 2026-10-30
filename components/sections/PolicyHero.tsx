@@ -4,10 +4,12 @@ import Image from "next/image";
 export default function PolicyHero({
   label,
   title,
+  description = "We protect your data and respect your privacy.",
   variant = "privacy",
 }: {
   label: string;
   title: string;
+  description?: React.ReactNode;
   variant?: "refund" | "privacy";
 }) {
   return (
@@ -47,7 +49,7 @@ export default function PolicyHero({
           </h1>
           {/* Description */}
           <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90" style={{ width: "493.019px", color: "#FFF", textAlign: "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}>
-            We protect your data and respect your privacy.
+            {description}
           </p>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import FloatingWidget from "@/components/FloatingWidget";
 import MobilePageHero from "@/components/sections/MobilePageHero";
+import PolicyHero from "@/components/sections/PolicyHero";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 
@@ -57,68 +58,6 @@ const ANSWERS: Record<(typeof SECTIONS)[number], string> = {
   Miscellaneous: "Other administrative matters are handled consistently with these terms and the related Euler Motors policies.",
 };
 
-function TermsHero() {
-  return (
-    <>
-      <div className="lg:hidden">
-        <MobilePageHero
-          label="Terms & Conditions"
-          title="Terms of Use"
-          titleId="terms-title-mobile"
-          description="Please read these terms carefully before using our services."
-        />
-      </div>
-      <div className="hidden lg:block">
-    <section
-      className="relative w-full overflow-visible text-white lg:h-[420px] lg:w-full lg:max-w-full"
-      style={{
-        backgroundColor: "#1d6fff",
-        backgroundImage:
-          "repeating-linear-gradient(90deg, transparent 0, transparent 67px, rgba(0,0,0,.12) 68px), repeating-linear-gradient(0deg, transparent 0, transparent 67px, rgba(0,0,0,.12) 68px), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)",
-      }}
-      aria-labelledby="terms-title"
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 hidden opacity-[0.12] sm:block"
-        style={{
-          backgroundImage: "url('/assets/dealer-locator-hero/desktop-texture.png')",
-          backgroundPosition: "left top",
-          backgroundSize: "100% auto",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.12] sm:hidden" aria-hidden>
-        <Image
-          src="/assets/dealer-locator-hero/mobile-texture.png"
-          alt=""
-          fill
-          sizes="393px"
-          className="object-fill object-bottom"
-        />
-      </div>
-      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[420px] lg:w-full lg:max-w-full lg:items-center lg:justify-center lg:px-0 lg:pt-0 lg:pb-0">
-        <div className="lg:inline-flex lg:flex-col lg:items-center lg:gap-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
-          <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]" style={{ color: "#FFF", fontFamily: "Manrope", fontSize: "14px", fontStyle: "normal", fontWeight: 700, lineHeight: "normal", letterSpacing: "0.7px", textTransform: "uppercase" }}>
-            <Image src="/assets/products/badge-line-white.svg" alt="" width={117} height={16} aria-hidden className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]" />
-            <Image src="/assets/products/badge-cap-white.svg" alt="" width={14.794} height={16} aria-hidden className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]" />
-            <span className="relative whitespace-nowrap">Terms &amp; Conditions</span>
-          </div>
-          <h1 id="terms-title" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-0 lg:text-[52px] lg:tracking-[-1.04px]" style={{ width: "788.543px", color: "#FFF", textAlign: "center", fontFamily: "Archia", fontSize: "52px", fontStyle: "normal", fontWeight: 600, lineHeight: "115%", letterSpacing: "-1.04px" }}>
-            Terms of Use
-          </h1>
-          <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90" style={{ width: "493.019px", color: "#FFF", textAlign: "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}>
-            Please read these terms carefully before using our services.
-          </p>
-        </div>
-      </div>
-      <FloatingWidget />
-    </section>
-      </div>
-    </>
-  );
-}
-
 function TermsSection({ title, expanded, onToggle }: { title: (typeof SECTIONS)[number]; expanded: boolean; onToggle: () => void }) {
   return (
     <article className="w-full self-stretch overflow-hidden rounded-[16px] bg-[#f3f4f5] transition-all duration-200">
@@ -156,8 +95,22 @@ export default function TermsConditionsPage() {
   return (
     <>
       <Navbar />
-      <main className="overflow-x-clip lg:overflow-visible">
-        <TermsHero />
+      <main className="overflow-clip">
+        <div className="lg:hidden">
+          <MobilePageHero
+            label="Terms & Conditions"
+            title="Terms of Use"
+            titleId="terms-title-mobile"
+            description="Please read these terms carefully before using our services."
+          />
+        </div>
+        <div className="hidden lg:block">
+          <PolicyHero
+            label="Terms & Conditions"
+            title="Terms of Use"
+            description="Please read these terms carefully before using our services."
+          />
+        </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
           <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
             <div className="h-auto min-h-[323px] w-full flex-col self-stretch font-sans text-[12px] font-normal leading-[140%] text-[#121212] sm:h-auto sm:min-h-0 sm:w-full sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:min-h-[275px] lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[140%]">
