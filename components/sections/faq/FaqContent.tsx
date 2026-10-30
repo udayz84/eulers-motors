@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import FloatingWidget from "@/components/FloatingWidget";
 
 type Category = "All" | "General" | "Vehicles" | "Charging" | "Service" | "Warranty";
 

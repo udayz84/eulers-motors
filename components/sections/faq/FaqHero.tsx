@@ -1,5 +1,4 @@
 import Eyebrow from "@/components/ui/Eyebrow";
-import FloatingWidget from "@/components/FloatingWidget";
 import MobilePageHero from "@/components/sections/MobilePageHero";
 
 /**

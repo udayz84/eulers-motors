@@ -15,7 +15,7 @@ const ACTIONS = [
  * calculator · download · call · test drive · WhatsApp, uniform 4px gaps).
  * WhatsApp = green logo (image 686) in a white ring, on every breakpoint.
  * Mobile: collapsed by default — chevron toggle + WhatsApp only (rail 1:5427,
- * 50px buttons / 116px tall, hanging 30px off the right edge);
+ * scaled down to 36px buttons / ~83px tall, hanging 20px off the right edge);
  * expanding reveals just the four icon buttons — no text labels, no blurred
  * backdrop (per request).
  * Desktop keeps the full rail open (278px) with no toggle or labels.
@@ -63,7 +63,7 @@ export default function FloatingWidget({
 
   return (
     <div
-      className={`group/floating-widget ${positionClass} right-[-30px] z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
+      className={`group/floating-widget ${positionClass} right-[-20px] lg:right-[-30px] z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
         mobileOnly ? "block lg:hidden" : "block"
       }`}
     >
@@ -81,7 +81,7 @@ export default function FloatingWidget({
         {/* rail — black glass, rounded on the left only (Figma 1:5427) */}
         <aside
           aria-label="Quick actions"
-          className="flex w-[98px] flex-col overflow-clip rounded-l-[32px] bg-black/80 py-[6px] pl-[6px] pr-[42px]"
+          className="flex w-[70px] flex-col overflow-clip rounded-l-[22px] bg-black/80 py-[4px] pl-[4px] pr-[30px] lg:w-[98px] lg:rounded-l-[32px] lg:py-[6px] lg:pl-[6px] lg:pr-[42px]"
         >
           {/* expand/collapse toggle — mobile only; chevron flips when open */}
           <button
@@ -90,21 +90,21 @@ export default function FloatingWidget({
             aria-expanded={open}
             aria-controls="floating-actions"
             aria-label={open ? "Hide quick actions" : "Show quick actions"}
-            className="group mb-[4px] lg:hidden"
+            className="group mb-[3px] lg:mb-[4px] lg:hidden"
           >
             <Image
               src="/assets/widget/icon-chevron.svg"
               alt=""
               width={50}
               height={50}
-              className={`size-[50px] transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${open ? "rotate-180" : ""}`}
+              className={`size-[36px] transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${open ? "rotate-180" : ""} lg:size-[50px]`}
             />
           </button>
 
           {/* calculator / brochure / call / test drive — collapsed on mobile, open on desktop */}
           <div
             id="floating-actions"
-            className={`flex flex-col gap-[4px] overflow-hidden pb-0 transition-[max-height,padding-bottom,opacity] duration-300 lg:max-h-none lg:overflow-visible lg:pb-[4px] lg:opacity-100 ${open ? "max-h-[240px] pb-[4px] opacity-100" : "max-h-0 pb-0 opacity-0"
+            className={`flex flex-col gap-[4px] overflow-hidden pb-0 transition-[max-height,padding-bottom,opacity] duration-300 lg:max-h-none lg:overflow-visible lg:pb-[4px] lg:opacity-100 ${open ? "max-h-[220px] pb-[4px] opacity-100" : "max-h-0 pb-0 opacity-0"
               }`}
           >
             {ACTIONS.map((a) => (
@@ -112,7 +112,7 @@ export default function FloatingWidget({
                 key={a.label}
                 type="button"
                 aria-label={a.label}
-                className="glass-shine flex size-[50px] items-center justify-center rounded-full bg-white/[0.12] backdrop-blur-[20px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96]"
+                className="glass-shine flex size-[36px] items-center justify-center rounded-full bg-white/[0.12] backdrop-blur-[20px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96] lg:size-[50px]"
               >
                 <Image
                   src={a.icon}
@@ -121,6 +121,7 @@ export default function FloatingWidget({
                   height={a.size}
                   aria-hidden
                   style={{ width: a.size, height: a.size }}
+                  className="scale-[0.86] lg:scale-100"
                 />
               </button>
             ))}
@@ -131,7 +132,7 @@ export default function FloatingWidget({
           <button
             type="button"
             aria-label="Chat on WhatsApp"
-            className="group flex size-[50px] shrink-0 items-center justify-center rounded-full bg-white p-[2px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96]"
+            className="group flex size-[36px] shrink-0 items-center justify-center rounded-full bg-white p-[1.5px] transition-transform duration-200 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 active:scale-[0.96] lg:size-[50px] lg:p-[2px]"
           >
             <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
               <Image
