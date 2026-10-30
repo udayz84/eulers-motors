@@ -13,22 +13,23 @@ export default function RefundPolicyPage() {
           <MobilePageHero
             label="Refund policy"
             title="Refund Policy"
+            titleId="refund-title-mobile"
             description="We protect your data and respect your privacy."
           />
         </div>
         <div className="hidden lg:block">
           <PolicyHero label="Refund policy" title="Refund Policy" variant="refund" />
         </div>
-        <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:px-8 xl:px-0 lg:pt-[64px] lg:pb-[42px] lg:gap-[40px]">
-          <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px]">
-            <div className="h-auto min-h-[204px] w-full self-stretch font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-auto sm:min-h-0 sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[1.4]">
+        <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="refund-title">
+          <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
+            <div className="h-auto min-h-[204px] w-full flex-col self-stretch font-sans text-[12px] font-normal leading-[140%] text-[#121212] sm:h-auto sm:min-h-0 sm:w-full sm:text-[14px] sm:leading-[1.6] lg:h-auto lg:min-h-[275px] lg:w-full lg:max-w-[1040px] lg:text-[18px] lg:leading-[140%]">
               <p className="font-normal" style={{ fontWeight: 400 }}>Last updated: <strong className="font-bold" style={{ fontWeight: 700 }}>October 22, 2021</strong></p>
               <p className="mt-4 sm:mt-5 md:mt-6 lg:mt-6 font-normal">
                 In event, the Customer is not completely satisfied with a purchase for any reason. Please read our Refund and Cancellation Policy. This Refund and Cancellation Policy has been created to help the Customer to raise a request for refund and cancellation from the Company. All refund and cancellation requests must be sent vide email to customer.support@eulermotors.com or on our Customer Hotline No: 1800 1238 1238 (between 10:00 a.m. to 6:30 p.m., Monday to Saturday) with subject line (&quot;Vehicle Name and number) Cancellation&quot;.
               </p>
             </div>
             
-            <div className="flex w-full max-w-[calc(100vw_-_20px)] flex-col gap-4 self-center sm:w-full sm:max-w-full sm:gap-5 md:gap-6 lg:w-full lg:max-w-[1040px] lg:!gap-[40px] lg:self-stretch">
+            <div className="flex w-[373px] max-w-[calc(100vw_-_20px)] flex-col gap-4 self-center sm:w-full sm:max-w-full sm:gap-5 md:gap-6 lg:w-full lg:max-w-[1040px] lg:!gap-[40px] lg:self-stretch">
               <PolicyCallout title="The Terms Of The Refund And Cancellation Policy Are As Follows:" className="lg:h-auto lg:min-h-[212px] lg:!p-[32px] lg:!gap-[20px] lg:!flex-col lg:!items-center lg:!self-stretch">
                 <ul className="list-none space-y-0 pl-0 [&>li]:relative [&>li]:pl-5 [&>li]:leading-[140%] [&>li]:before:absolute [&>li]:before:left-1 [&>li]:before:top-0 [&>li]:before:content-['•'] lg:self-stretch">
                   <li>Order Acceptance</li>
