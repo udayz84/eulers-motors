@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
-import { ArticleItem } from "@/types/strapi";
 
-export interface InsightsArticleItem extends Partial<ArticleItem> {
-  img?: string;
+export interface InsightsArticleItem {
+  id?: number | string;
+  documentId?: string;
+  title: string;
+  slug?: string;
+  description?: string;
   desc?: string;
+  category?: string;
+  readingTime?: string;
+  publishedDate?: string;
+  publishDate?: string;
+  coverImage?: {
+    url?: string;
+  };
+  img?: string;
   crop?: [number, number, number, number] | null;
   overlay?: boolean;
   date?: string;
@@ -57,7 +68,7 @@ export interface InsightsProps {
   buttonLabel?: string;
   buttonHref?: string;
   mobileButtonLabel?: string;
-  articles?: (ArticleItem | InsightsArticleItem)[];
+  articles?: InsightsArticleItem[];
 }
 
 /**
