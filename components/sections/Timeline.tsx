@@ -69,7 +69,7 @@ const BASE_ITEMS = [
  * Timeline section (Figma desktop: 3530:16872, mobile: 2929-14952).
  * Interactive timeline with year selection and milestone cards.
  * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
- * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
+ * blue navigation arrows with boundary auto-hide, full-bleed bleed layout without edge cropping.
  */
 export default function Timeline() {
   const [selectedYear, setSelectedYear] = useState(2024);
@@ -216,7 +216,7 @@ export default function Timeline() {
 
     const targetIdx = BASE_ITEMS.findIndex((item) => Number(item.year) === year);
     if (targetIdx !== -1) {
-      const cardWidth = 1015.59;
+      const cardWidth = 1015;
       row.scrollTo({
         left: targetIdx * cardWidth,
         behavior: "smooth",
@@ -344,14 +344,20 @@ export default function Timeline() {
         </div>
       </div>
 
-      {/* Desktop Layout — outer frame: 1440 → padding 60/80, centered column */}
-      <div className="relative hidden lg:block" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
-        <div className="content-stretch relative mx-auto flex w-full max-w-[1440px] flex-col gap-[52px] items-center px-[80px] py-[60px]">
-          {/* Header Row */}
-          <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-            <div className="content-stretch flex flex-col gap-[25px] items-start relative shrink-0 w-[636px]">
+      {/* Desktop Layout — edge-to-edge full width so cards bleed smoothly without cutting */}
+      <div
+        className="relative hidden lg:block overflow-hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)",
+        }}
+      >
+        {/* Header Row (Centered 1440 container) */}
+        <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-[80px] pt-[60px] pb-[42px]">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex w-[636px] flex-col gap-[25px] items-start">
               {/* Eyebrow */}
-              <div className="content-stretch flex gap-[6px] items-center relative shrink-0">
+              <div className="flex gap-[6px] items-center">
                 <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
                   <Image
                     src="/assets/timeline/desktop-rect-1.svg"
@@ -377,23 +383,26 @@ export default function Timeline() {
                 <p className="leading-[1.15]">Shaped Euler</p>
               </div>
             </div>
-            <div className="content-stretch flex flex-col gap-[31px] items-end justify-center relative shrink-0">
-              <p className="font-sans font-normal leading-normal relative shrink-0 text-[16px] text-white w-[531px]">
+            <div className="flex flex-col gap-[31px] items-end justify-center">
+              <p className="font-sans font-normal leading-normal text-[16px] text-white w-[531px]">
                 Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
               </p>
-              <div className="content-stretch flex gap-[16px] items-center justify-end relative shrink-0">
+              <div className="flex gap-[16px] items-center justify-end">
                 {YEARS.map((year) => (
                   <button
                     key={year}
                     type="button"
                     onClick={() => scrollToYear(year)}
-                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 ${
+                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 transition-colors ${
                       selectedYear === year
                         ? "bg-white border-[rgba(18,18,18,0.5)]"
                         : "bg-black border-[rgba(255,255,255,0.1)]"
                     }`}
                   >
-                    <span className="font-display text-[16px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
+                    <span
+                      className="font-display text-[16px] font-semibold leading-none not-italic whitespace-nowrap"
+                      style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}
+                    >
                       {year}
                     </span>
                   </button>
@@ -401,90 +410,106 @@ export default function Timeline() {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Cards Row — Full Bleed Horizontal Scroll with Arrows */}
-          <div className="relative w-full shrink-0 overflow-hidden lg:w-[max(calc(100%+160px),100vw)] lg:px-[max(80px,calc(50vw-640px))]">
+        {/* Full-width Carousel Track Container */}
+        <div className="relative w-full">
+          <div
+            id="timeline-snap-row"
+            ref={scrollRef}
+            className="no-scrollbar flex w-full gap-[20px] items-center overflow-x-auto cursor-grab active:cursor-grabbing select-none"
+          >
+            {/* Left gutter spacer so first card starts lined up with 1440px grid! */}
             <div
-              id="timeline-snap-row"
-              ref={scrollRef}
-              className="no-scrollbar flex gap-[20px] items-center overflow-x-auto w-full cursor-grab active:cursor-grabbing select-none"
-            >
-              {displayCards.map((card) => (
+              aria-hidden
+              className="shrink-0"
+              style={{ width: "max(32px, calc((100vw - 1440px) / 2 + 80px))" }}
+            />
+
+            {displayCards.map((card) => (
+              <div
+                key={card.uniqueKey}
+                className="border border-white/20 bg-[rgba(255,255,255,0.04)] flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0 w-[995px] select-none"
+              >
                 <div
-                  key={card.uniqueKey}
-                  className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0 w-[995px] select-none"
-                >
-                  <div
-                    aria-hidden
-                    className="h-[354.531px] shrink-0 w-[642.09px] rounded-l-[12px]"
-                    style={{ background: card.background }}
-                  />
-                  <div className="content-stretch flex flex-col h-full items-start justify-between py-[24px] relative shrink-0 w-[329.5px]">
-                    <p className="font-display text-[42px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.84px] w-full">
-                      {card.year}
+                  aria-hidden
+                  className="h-[354.531px] shrink-0 w-[642.09px] rounded-l-[12px]"
+                  style={{ background: card.background }}
+                />
+                <div className="flex flex-col h-full items-start justify-between py-[24px] relative shrink-0 w-[329.5px]">
+                  <p className="font-display text-[42px] font-semibold leading-[1.15] not-italic text-white tracking-[-0.84px] w-full">
+                    {card.year}
+                  </p>
+                  <div className="flex flex-col gap-[16px] items-start relative shrink-0 w-full">
+                    <p className="font-display text-[20px] font-semibold leading-[1.15] not-italic text-white tracking-[-0.4px] whitespace-nowrap">
+                      {card.title}
                     </p>
-                    <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-                      <p className="font-display text-[20px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.4px] whitespace-nowrap">
-                        {card.title}
-                      </p>
-                      <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[14px] text-white w-[min-content]">
-                        <p className="leading-[normal] mb-0">{card.descLine1}</p>
-                        <p className="leading-[normal]">{card.descLine2}</p>
-                      </div>
-                      <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                        {card.badges.map((badge, bIdx) => (
-                          <div key={bIdx} className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                            <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                              <p className="leading-[normal]">{badge}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="font-sans font-normal min-w-full text-[14px] text-white">
+                      <p className="leading-[normal] mb-0">{card.descLine1}</p>
+                      <p className="leading-[normal]">{card.descLine2}</p>
+                    </div>
+                    <div className="flex gap-[10px] items-center relative shrink-0">
+                      {card.badges.map((badge, bIdx) => (
+                        <div
+                          key={bIdx}
+                          className="bg-[#d4dbec] flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0"
+                        >
+                          <span className="font-sans font-bold leading-normal text-[12px] text-black whitespace-nowrap">
+                            {badge}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
 
-            {/* Navigation Arrows with boundary auto-hide */}
-            <CarouselArrows
-              rowId="timeline-snap-row"
-              label="milestones timeline"
-              variant="blue"
-              onStep={() => pauseAutoScroll(600)}
+            {/* Right end spacer */}
+            <div
+              aria-hidden
+              className="shrink-0"
+              style={{ width: "max(32px, calc((100vw - 1440px) / 2 + 80px))" }}
             />
           </div>
 
-          {/* Progress Indicator Pill (Figma 3321:13258) */}
-          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-2">
-            <div
-              role="progressbar"
-              aria-label="Timeline scroll progress"
-              aria-valuenow={Math.round(scrollProgress * 100)}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
-            >
-              <div
-                className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
-                style={{
-                  transform: `translateX(${scrollProgress * 78.308}px)`,
-                }}
-              />
-            </div>
-          </div>
+          {/* Right-edge fade */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-0 bottom-0 z-[5] h-full w-[210.811px]"
+            style={{
+              background:
+                "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0.00) 100%)",
+            }}
+          />
+
+          {/* Blue Navigation Arrows with boundary auto-hide */}
+          <CarouselArrows
+            rowId="timeline-snap-row"
+            label="milestones timeline"
+            variant="blue"
+            onStep={() => pauseAutoScroll(600)}
+          />
         </div>
 
-        {/* Right-edge fade (matches AboutEuler) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 bottom-[96px] z-[5] h-[442.531px] w-[210.811px]"
-          style={{
-            background:
-              "linear-gradient(270deg, #041231 0%, rgba(4, 18, 49, 0.00) 100%)",
-            backdropFilter: "blur(0px)",
-          }}
-        />
+        {/* Progress Indicator Pill */}
+        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8 pb-[60px]">
+          <div
+            role="progressbar"
+            aria-label="Timeline scroll progress"
+            aria-valuenow={Math.round(scrollProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
+          >
+            <div
+              className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
+              style={{
+                transform: `translateX(${scrollProgress * 78.308}px)`,
+              }}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
