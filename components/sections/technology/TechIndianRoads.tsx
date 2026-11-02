@@ -1,4 +1,5 @@
 import Eyebrow from "@/components/ui/Eyebrow";
+import PagerBar from "@/components/ui/PagerBar";
 
 const A = "/assets/technology-page";
 
@@ -86,12 +87,12 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
       <div className="absolute left-0 top-[34.31px] flex h-[220px] w-full flex-col items-start gap-4 rounded-[10px] bg-white p-4 shadow-sm">
         <div className="flex w-full flex-col items-start gap-2">
           <p
-            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent"
+            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent min-[1440px]:text-[16px]"
             style={{ backgroundImage: PROBLEM_GRADIENT }}
           >
             The problem
           </p>
-          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">
+          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink min-[1440px]:text-[16px]">
             {c.problem}
           </p>
         </div>
@@ -106,12 +107,12 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
 
         <div className="flex w-full flex-col items-start gap-2">
           <p
-            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent"
+            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent min-[1440px]:text-[16px]"
             style={{ backgroundImage: EULER_GRADIENT }}
           >
             What Euler does
           </p>
-          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">
+          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink min-[1440px]:text-[16px]">
             {c.euler}
           </p>
         </div>
@@ -127,14 +128,14 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
  */
 export default function TechIndianRoads() {
   return (
-    <section className="overflow-x-clip bg-[#d4dbec] py-10 md:py-12 lg:py-16" aria-label="Built for Indian roads">
+    <section className="overflow-x-clip bg-[#d4dbec] py-10 md:pt-12 md:pb-0 lg:pt-16" aria-label="Built for Indian roads">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center px-5 pb-8 text-center md:pb-10 lg:pb-12">
         <div className="flex max-w-[700px] flex-col items-center gap-3 md:gap-4">
           <Eyebrow label="Built for here" />
-          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[36px] sm:tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:text-[52px] lg:tracking-[-1.04px]">
+          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[36px] sm:tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:text-[44px] lg:tracking-[-0.88px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
             Built for Indian roads.
           </h2>
-          <p className="font-sans text-[13px] leading-normal text-ink sm:text-[14px] md:text-[15px] lg:text-[16px]">
+          <p className="font-sans text-[13px] leading-normal text-ink sm:text-[14px] md:text-[15px] lg:text-[15px] min-[1440px]:text-[16px]">
             From busy city streets to uneven roads and heavy loads, every detail is built to perform.
           </p>
         </div>
@@ -163,6 +164,9 @@ export default function TechIndianRoads() {
             <IndianRoadCard key={`${c.label}-${i}`} c={c} />
           ))}
         </div>
+      </div>
+      <div className="hidden justify-center pt-[36px] pb-[42px] md:flex">
+        <PagerBar className="rounded-[14.4px] bg-[rgba(255,255,255,0.5)] [&>div]:bg-black" />
       </div>
     </section>
   );

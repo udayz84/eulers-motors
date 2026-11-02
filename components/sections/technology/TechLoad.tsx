@@ -151,7 +151,7 @@ export default function TechLoad() {
       aria-label="Load"
     >
       <div
-        className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 lg:gap-[42px] lg:pb-[62px]"
+        className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 min-[1440px]:gap-[42px] min-[1440px]:pb-[62px]"
         onMouseEnter={() => {
           isHoveredRef.current = true;
         }}
