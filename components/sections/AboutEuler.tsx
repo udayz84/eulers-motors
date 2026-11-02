@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import Eyebrow from "../ui/Eyebrow";
+import CarouselArrows from "../ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
-const CARDS = [
+const BASE_CARDS = [
   {
     id: 1,
     badge: "Purpose",
@@ -37,191 +38,293 @@ const CARDS = [
 /**
  * About Euler section (Figma 3223:16874).
  * Horizontal scrolling cards showcasing Euler's mission and values.
- * Mobile: snap scroll with dots. Desktop: horizontal row with carousel.
+ * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
+ * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
 export default function AboutEuler() {
-  const [active, setActive] = useState(0);
-  const rowRef = useRef<HTMLDivElement>(null);
+  const repeats = 4;
+  const displayCards = Array.from({ length: repeats }).flatMap((_, setIndex) =>
+    BASE_CARDS.map((c) => ({ ...c, uniqueKey: `${setIndex}-${c.id}` }))
+  );
 
-  const cardStep = () => {
-    const first = rowRef.current?.querySelector<HTMLElement>("article");
-    return first ? first.offsetWidth + 20 : 740;
-  };
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const goTo = (index: number) => {
-    const row = rowRef.current;
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
     if (!row) return;
-    const len = CARDS.length;
-    const next = ((index % len) + len) % len;
-    setActive(next);
-    row.scrollTo({ left: next * cardStep(), behavior: "smooth" });
-  };
 
-  const handleScroll = () => {
-    const row = rowRef.current;
-    if (!row) return;
-    const step = cardStep();
-    if (step === 0) return;
-    const idx = Math.min(
-      Math.max(Math.round(row.scrollLeft / step), 0),
-      CARDS.length - 1,
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility check
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.1 }
     );
-    if (idx !== active) setActive(idx);
-  };
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const isDesktop = window.innerWidth >= 1024;
+      if (
+        isDesktop &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const row = scrollRef.current;
+        if (row) {
+          const maxScroll = row.scrollWidth - row.clientWidth;
+          if (maxScroll > 1) {
+            accumulator += 50 * delta;
+            if (accumulator >= 1) {
+              const advance = Math.floor(accumulator);
+              accumulator -= advance;
+
+              if (row.scrollLeft >= maxScroll - 2) {
+                row.scrollLeft = 0;
+              } else {
+                row.scrollLeft += advance;
+              }
+              updateProgress();
+            }
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [updateProgress]);
 
   return (
-    <section className="relative overflow-hidden" aria-label="About Euler">
+    <section ref={sectionRef} className="relative overflow-hidden" aria-label="About Euler">
       {/* Mobile Background */}
       <div className="absolute inset-0 lg:hidden" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)" }} />
       {/* Desktop Background */}
       <div className="absolute inset-0 max-lg:hidden" style={{ background: "linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)" }} />
 
-      {/* 1440 frame — arrows are positioned against this */}
+      {/* 1440 frame */}
       <div className="relative mx-auto w-full max-w-[1440px]">
-        {/* padded content — desktop 62px 80px, column, gap 42 */}
+        {/* padded content */}
         <div className="flex w-full flex-col items-center px-5 py-[26px] sm:px-8 sm:py-9 lg:gap-[42px] lg:px-[80px] lg:py-[62px]">
-        {/* Header */}
-        <div className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-full">
-          <div className="content-stretch flex gap-[4px] items-center relative shrink-0 lg:hidden">
-            <div className="absolute h-[16px] left-[3.43px] top-0 w-[116.978px] overflow-hidden">
-              <Image
-                src="/assets/about-euler/mobile-rect-1.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="h-[16px] relative shrink-0 w-[14.794px] overflow-hidden">
-              <Image
-                src="/assets/about-euler/mobile-rect-2.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] sm:text-[13px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
-              About Euler
-            </p>
-          </div>
-          <div className="content-stretch flex gap-[6px] items-center relative shrink-0 max-lg:hidden">
-            <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
-              <Image
-                src="/assets/about-euler/desktop-rect-1.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="h-[20.355px] relative shrink-0 w-[18.821px] overflow-hidden">
-              <Image
-                src="/assets/about-euler/desktop-rect-2.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="font-sans font-bold leading-normal relative shrink-0 text-[14px] text-white tracking-[0.7px] uppercase whitespace-nowrap">
-              About Euler
-            </p>
-          </div>
-        </div>
-
-        {/* Cards Container */}
-        <div className="relative w-full mt-[26px] lg:mt-0">
-          <div
-            id="about-euler-snap-row"
-            ref={rowRef}
-            onScroll={handleScroll}
-            className="snap-row snap-center-mobile -mx-5 w-[calc(100%+40px)] px-5 sm:-mx-8 sm:w-[calc(100%+64px)] sm:px-8 gap-[20px] lg:relative lg:left-1/2 lg:w-[max(calc(100%+160px),100vw)] lg:-translate-x-1/2 lg:scroll-pl-[max(80px,calc(50vw-640px))] lg:overflow-x-auto lg:px-[max(80px,calc(50vw-640px))] lg:mx-0"
-          >
-            {CARDS.map((card) => (
-              <article
-                key={card.id}
-                className="relative h-[420px] w-[324px] sm:h-[460px] sm:w-[480px] shrink-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:h-[485px] lg:w-[720px] lg:rounded-[20px]"
-              >
-                {/* Background Image */}
-                <div className="absolute inset-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:rounded-[20px]">
-                  <Image
-                    src={card.mobileImage}
-                    alt=""
-                    fill
-                    sizes="(min-width: 640px) 480px, 324px"
-                    className="object-cover lg:hidden"
-                  />
-                </div>
-
-                {/* Desktop Background — gradient + image (Figma 3223:16874) */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 max-lg:hidden"
-                  style={{
-                    background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 68.87%, rgba(0, 0, 0, 0.60) 90.7%), url('${card.desktopImage}') lightgray 0px -106.086px / 100% 149.608% no-repeat`,
-                  }}
+          {/* Header */}
+          <div className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-full">
+            <div className="content-stretch flex gap-[4px] items-center relative shrink-0 lg:hidden">
+              <div className="absolute h-[16px] left-[3.43px] top-0 w-[116.978px] overflow-hidden">
+                <Image
+                  src="/assets/about-euler/mobile-rect-1.svg"
+                  alt=""
+                  fill
+                  className="object-cover"
                 />
-
-                {/* Gradient Overlay (mobile only) */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 rounded-[12px] sm:rounded-[18px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
+              </div>
+              <div className="h-[16px] relative shrink-0 w-[14.794px] overflow-hidden">
+                <Image
+                  src="/assets/about-euler/mobile-rect-2.svg"
+                  alt=""
+                  fill
+                  className="object-cover"
                 />
-
-                {/* Info Card */}
-                <div className="absolute bottom-[8px] sm:bottom-4 left-1/2 -translate-x-1/2 w-[308px] sm:w-[calc(100%-32px)] rounded-[10px] border border-white/35 bg-white/20 p-[12px] sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[40px] lg:border-white/25 lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:p-[16px]">
-                  {/* Badge */}
-                  <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] lg:mb-[12px]">
-                    <span className="text-[12px] font-bold leading-normal text-black lg:text-[12px]">
-                      {card.badge}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="mb-[6px] text-[16px] sm:text-[18px] font-bold leading-normal tracking-[-0.32px] text-white lg:mb-[12px] lg:text-[20px] lg:tracking-[-0.4px]">
-                    {card.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="mb-[6px] h-[36px] sm:h-[42px] overflow-hidden text-ellipsis text-[12px] sm:text-[13px] font-normal leading-[1.5] text-white lg:mb-[12px] lg:h-[48px] lg:text-[14px]">
-                    {card.description}
-                  </p>
-
-                  {/* Stat Badge */}
-                  <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] lg:rounded-[14.614px] lg:border-[0.913px] lg:px-[6.51px] lg:py-[4.34px]">
-                    <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white lg:text-[12px]">
-                      {card.stat}
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
+              </div>
+              <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] sm:text-[13px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
+                About Euler
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[6px] items-center relative shrink-0 max-lg:hidden">
+              <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
+                <Image
+                  src="/assets/about-euler/desktop-rect-1.svg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="h-[20.355px] relative shrink-0 w-[18.821px] overflow-hidden">
+                <Image
+                  src="/assets/about-euler/desktop-rect-2.svg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <p className="font-sans font-bold leading-normal relative shrink-0 text-[14px] text-white tracking-[0.7px] uppercase whitespace-nowrap">
+                About Euler
+              </p>
+            </div>
           </div>
 
-          {/* Scroll indicator — desktop sits 42px below the cards, 62px above the section's bottom edge */}
-          <div className="bg-[rgba(204,204,204,0.2)] content-stretch z-10 mx-auto mt-[26px] flex h-[20px] w-[116.199px] shrink-0 flex-col items-start justify-center rounded-[14.4px] p-[4px] lg:mt-[42px]">
+          {/* Cards Container with Draggable Scroll & Arrows */}
+          <div className="relative w-full mt-[26px] lg:mt-0">
             <div
-              className="h-full rounded-[23.04px] bg-white transition-transform duration-300 ease-out"
-              style={{ width: `${100 / CARDS.length}%`, transform: `translateX(${active * 100}%)` }}
+              id="about-euler-snap-row"
+              ref={scrollRef}
+              className="no-scrollbar flex -mx-5 w-[calc(100%+40px)] px-5 sm:-mx-8 sm:w-[calc(100%+64px)] sm:px-8 gap-[20px] overflow-x-auto lg:relative lg:left-1/2 lg:w-[max(calc(100%+160px),100vw)] lg:-translate-x-1/2 lg:scroll-pl-[max(80px,calc(50vw-640px))] lg:px-[max(80px,calc(50vw-640px))] lg:mx-0 cursor-grab active:cursor-grabbing select-none"
+            >
+              {displayCards.map((card) => (
+                <article
+                  key={card.uniqueKey}
+                  className="relative h-[420px] w-[324px] sm:h-[460px] sm:w-[480px] shrink-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:h-[485px] lg:w-[720px] lg:rounded-[20px]"
+                >
+                  {/* Background Image */}
+                  <div className="absolute inset-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:rounded-[20px]">
+                    <Image
+                      src={card.mobileImage}
+                      alt=""
+                      fill
+                      sizes="(min-width: 640px) 480px, 324px"
+                      className="object-cover lg:hidden"
+                    />
+                  </div>
+
+                  {/* Desktop Background — gradient + image (Figma 3223:16874) */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 max-lg:hidden"
+                    style={{
+                      background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 68.87%, rgba(0, 0, 0, 0.60) 90.7%), url('${card.desktopImage}') lightgray 0px -106.086px / 100% 149.608% no-repeat`,
+                    }}
+                  />
+
+                  {/* Gradient Overlay (mobile only) */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 rounded-[12px] sm:rounded-[18px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
+                  />
+
+                  {/* Info Card */}
+                  <div className="absolute bottom-[8px] sm:bottom-4 left-1/2 -translate-x-1/2 w-[308px] sm:w-[calc(100%-32px)] rounded-[10px] border border-white/35 bg-white/20 p-[12px] sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[40px] lg:border-white/25 lg:bottom-[20.36px] lg:left-[20px] lg:translate-x-0 lg:w-[388px] lg:p-[16px]">
+                    {/* Badge */}
+                    <div className="mb-[6px] inline-flex flex-col items-start rounded-[50px] bg-[#d4dbec] px-[10px] py-[4px] lg:mb-[12px]">
+                      <span className="text-[12px] font-bold leading-normal text-black lg:text-[12px]">
+                        {card.badge}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="mb-[6px] text-[16px] sm:text-[18px] font-bold leading-normal tracking-[-0.32px] text-white lg:mb-[12px] lg:text-[20px] lg:tracking-[-0.4px]">
+                      {card.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="mb-[6px] h-[36px] sm:h-[42px] overflow-hidden text-ellipsis text-[12px] sm:text-[13px] font-normal leading-[1.5] text-white lg:mb-[12px] lg:h-[48px] lg:text-[14px]">
+                      {card.description}
+                    </p>
+
+                    {/* Stat Badge */}
+                    <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] lg:rounded-[14.614px] lg:border-[0.913px] lg:px-[6.51px] lg:py-[4.34px]">
+                      <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white lg:text-[12px]">
+                        {card.stat}
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* Navigation Arrows with boundary auto-hide */}
+            <CarouselArrows
+              rowId="about-euler-snap-row"
+              label="About Euler cards"
+              variant="blue"
+              onStep={() => pauseAutoScroll(600)}
             />
           </div>
-        </div>
-        </div>
 
-      {/* Navigation Arrows — positioned against the 1440 frame (Figma 3223:16874) */}
-      <button
-          type="button"
-          aria-label="Previous card"
-          className="absolute left-[50px] bottom-[339px] z-10 hidden size-[55px] lg:block"
-          onClick={() => goTo(active - 1)}
-        >
-          <Image src="/assets/about-euler/arrow-left.svg" alt="" fill className="object-cover" />
-        </button>
-        <button
-          type="button"
-          aria-label="Next card"
-          className="absolute right-[49.636px] bottom-[339px] z-10 hidden size-[55px] lg:block"
-          onClick={() => goTo(active + 1)}
-        >
-          <Image src="/assets/about-euler/arrow-right.svg" alt="" fill className="object-cover" />
-        </button>
+          {/* Progress Indicator Pill (Figma 3321:13258) */}
+          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-6 pb-2 lg:pt-8 lg:pb-0">
+            <div
+              role="progressbar"
+              aria-label="About Euler scroll progress"
+              aria-valuenow={Math.round(scrollProgress * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
+            >
+              <div
+                className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
+                style={{
+                  transform: `translateX(${scrollProgress * 78.308}px)`,
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Right-edge fade (Figma 3223:16874) — anchored to the section's right edge */}

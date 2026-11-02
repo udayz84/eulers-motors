@@ -1,10 +1,11 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
+import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 type VehicleCard = {
@@ -119,151 +120,141 @@ const ALL_OTHER_VEHICLES: VehicleCard[] = [
 
 /**
  * Other Vehicles ("Also worth a look.") — Figma node 2862:10734
- * Magnet infinite loop carousel with desktop auto-scroll, magnetic snapping,
- * interactive navigation arrows, and synchronized progress indicator.
+ * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
+ * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
 export default function ProductOtherVehicles({ currentVehicleId }: { currentVehicleId?: string } = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const displayVehicles = currentVehicleId
     ? ALL_OTHER_VEHICLES.filter((v) => v.id !== currentVehicleId).slice(0, 3)
     : VEHICLES;
 
-  const N = displayVehicles.length;
-  // Duplicate 3x for true seamless infinite loop
-  const loopedVehicles = [...displayVehicles, ...displayVehicles, ...displayVehicles];
+  // Duplicate 4x for continuous infinite runway
+  const loopedVehicles = Array.from({ length: 4 }).flatMap(() => displayVehicles);
 
-  const virtualIndexRef = useRef(N);
-  const isVisibleRef = useRef(false);
-  const isHoveredRef = useRef(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
   const isInteractingRef = useRef(false);
-  const interactionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
 
   useDraggableScroll(scrollRef, {
     onDragStart: () => {
-      isInteractingRef.current = true;
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
     },
     onDragEnd: () => {
-      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-      interactionTimeoutRef.current = setTimeout(() => {
-        isInteractingRef.current = false;
-      }, 4000);
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
     },
   });
 
-  const getCardStep = () => {
-    if (typeof window === "undefined") return 744;
-    return window.innerWidth < 640 ? 340 : 744;
-  };
-
-  // Center on middle set (Set 1) on initial client mount
+  // Track initial scroll progress and attach resize/scroll sync
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const step = getCardStep();
-    container.scrollLeft = N * step;
-    virtualIndexRef.current = N;
-  }, [N]);
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
 
-  const scrollToVirtualIndex = (vIndex: number, behavior: ScrollBehavior = "smooth") => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const step = getCardStep();
-    virtualIndexRef.current = vIndex;
+    const onStep = () => pauseAutoScroll(600);
 
-    container.scrollTo({
-      left: vIndex * step,
-      behavior,
-    });
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
 
-    const normalized = ((vIndex % N) + N) % N;
-    setActiveIndex(normalized);
-
-    // If scrolled past the center set into Set 0 or Set 2, seamlessly jump back to Set 1
-    if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
-    if (vIndex >= 2 * N || vIndex < N) {
-      jumpTimeoutRef.current = setTimeout(() => {
-        if (!scrollRef.current) return;
-        const resetIndex = normalized + N;
-        virtualIndexRef.current = resetIndex;
-        scrollRef.current.style.scrollSnapType = "none";
-        scrollRef.current.scrollLeft = resetIndex * step;
-        requestAnimationFrame(() => {
-          if (scrollRef.current) {
-            scrollRef.current.style.scrollSnapType = "";
-          }
-        });
-      }, 500);
-    }
-  };
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
 
   // Section visibility tracking
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting;
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Desktop auto-scroll loop
+  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
   useEffect(() => {
-    const reducedMotion =
+    const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return;
+    if (prefersReducedMotion) return;
 
-    const interval = setInterval(() => {
-      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const isDesktop = window.innerWidth >= 1024;
       if (
         isDesktop &&
         isVisibleRef.current &&
-        !isHoveredRef.current &&
-        !isInteractingRef.current
+        !isInteractingRef.current &&
+        !isDraggingRef.current
       ) {
-        scrollToVirtualIndex(virtualIndexRef.current + 1, "smooth");
+        const row = scrollRef.current;
+        if (row) {
+          const maxScroll = row.scrollWidth - row.clientWidth;
+          if (maxScroll > 1) {
+            accumulator += 50 * delta;
+            if (accumulator >= 1) {
+              const advance = Math.floor(accumulator);
+              accumulator -= advance;
+
+              if (row.scrollLeft >= maxScroll - 2) {
+                row.scrollLeft = 0;
+              } else {
+                row.scrollLeft += advance;
+              }
+              updateProgress();
+            }
+          }
+        }
       }
-    }, 3500);
 
-    return () => {
-      clearInterval(interval);
-      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-      if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+      animId = requestAnimationFrame(tick);
     };
-  }, [N]);
 
-  const scroll = (direction: -1 | 1) => {
-    isInteractingRef.current = true;
-    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-
-    const nextVirtual = virtualIndexRef.current + direction;
-    scrollToVirtualIndex(nextVirtual, "smooth");
-
-    interactionTimeoutRef.current = setTimeout(() => {
-      isInteractingRef.current = false;
-    }, 4000);
-  };
-
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const scrollLeft = scrollRef.current.scrollLeft;
-    const step = getCardStep();
-    const vIndex = Math.round(scrollLeft / step);
-    const normalized = ((vIndex % N) + N) % N;
-    setActiveIndex(normalized);
-
-    if (isInteractingRef.current) {
-      virtualIndexRef.current = vIndex;
-    }
-  };
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [updateProgress]);
 
   return (
     <section
@@ -271,7 +262,7 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
       aria-label="Other vehicles"
       className="relative flex w-full flex-col items-start justify-center gap-6 overflow-hidden bg-white px-5 sm:px-8 py-[42px] sm:py-[50px] lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[80px] lg:pb-[32px] lg:pt-[62px]"
     >
-      {/* Header Row (Figma 2862:10483) — desktop outer frame supplies padding 62/80/32/80 + gap 42 */}
+      {/* Header Row (Figma 2862:10483) */}
       <div className="flex w-full flex-col items-start justify-center gap-6 lg:mx-auto lg:max-w-[1280px] lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:px-0 lg:pb-0">
         <div className="flex w-full flex-col items-start gap-6 lg:w-auto lg:gap-4">
           <Eyebrow label="Other vehicles" icons="navy" />
@@ -285,31 +276,13 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
         </Button>
       </div>
 
-      {/* Carousel Container — Full-Bleed across viewport (Figma 2862:10499).
-          Breaks out of section side padding on mobile, tablet, and desktop to stay edge-to-edge. */}
-      <div
-        className="relative -mx-5 w-[calc(100%+40px)] sm:-mx-8 sm:w-[calc(100%+64px)] lg:mx-[calc(50%_-_50vw)] lg:w-[100vw]"
-        onMouseEnter={() => {
-          isHoveredRef.current = true;
-        }}
-        onMouseLeave={() => {
-          isHoveredRef.current = false;
-        }}
-        onPointerDown={() => {
-          isInteractingRef.current = true;
-        }}
-        onPointerUp={() => {
-          if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-          interactionTimeoutRef.current = setTimeout(() => {
-            isInteractingRef.current = false;
-          }, 3000);
-        }}
-      >
+      {/* Carousel Container — Full-Bleed across viewport */}
+      <div className="relative -mx-5 w-[calc(100%+40px)] sm:-mx-8 sm:w-[calc(100%+64px)] lg:mx-[calc(50%_-_50vw)] lg:w-[100vw]">
         {/* Scrollable Track */}
         <div
+          id="other-vehicles-snap-row"
           ref={scrollRef}
-          onScroll={handleScroll}
-          className="flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing"
+          className="no-scrollbar flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
         >
           {loopedVehicles.map((vehicle, index) => (
             <article
@@ -322,8 +295,8 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
                 alt={vehicle.name}
                 fill
                 sizes="(min-width: 640px) 720px, 320px"
-                className="object-cover object-center"
-                priority
+                className="object-cover object-center pointer-events-none"
+                priority={index < 3}
               />
 
               {/* Vehicle Title & Explore Link */}
@@ -415,108 +388,36 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
           className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 hidden w-[180px] bg-gradient-to-l from-white to-transparent lg:block xl:w-[210px]"
         />
 
-        {/* Navigation Arrows: 55x55 Figma gradient buttons (Figma 3321:13264 / 3321:13268) */}
-        <button
-          type="button"
-          aria-label="Previous vehicle"
-          onClick={() => scroll(-1)}
-          className="absolute top-1/2 z-20 hidden size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] left-4 sm:left-6 lg:left-[calc(max(80px,(100vw-1280px)/2)-27.5px)] lg:flex"
-        >
-          <svg
-            viewBox="0 0 55 55"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="size-full"
-            aria-hidden="true"
-          >
-            <rect width="55" height="55" rx="8" fill="#212121" />
-            <rect width="55" height="55" rx="8" fill="url(#other_blue_grad_left)" />
-            <path
-              d="M30.3097 34.5L24.9791 28.2809C24.5939 27.8316 24.5939 27.1684 24.9791 26.7191L30.3097 20.5"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-            <defs>
-              <linearGradient
-                id="other_blue_grad_left"
-                x1="132.207"
-                y1="-70.111"
-                x2="-11.187"
-                y2="-40.3038"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#0E2F6D" />
-                <stop offset="1" stopColor="#1D6FFF" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </button>
-
-        <button
-          type="button"
-          aria-label="Next vehicle"
-          onClick={() => scroll(1)}
-          className="absolute top-1/2 z-20 hidden size-[45px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[8px] shadow-[0_4px_16px_rgba(29,111,255,0.3)] transition-all hover:scale-105 hover:shadow-[0_6px_22px_rgba(29,111,255,0.45)] hover:brightness-110 active:scale-95 sm:size-[55px] right-4 sm:right-6 lg:right-[calc(max(80px,(100vw-1280px)/2)-27.5px)] lg:flex"
-        >
-          <svg
-            viewBox="0 0 55 55"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="size-full"
-            aria-hidden="true"
-          >
-            <rect width="55" height="55" rx="8" fill="#212121" />
-            <rect width="55" height="55" rx="8" fill="url(#other_blue_grad_right)" />
-            <path
-              d="M24.6903 34.5L30.0209 28.2809C30.4061 27.8316 30.4061 27.1684 30.0209 26.7191L24.6903 20.5"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-            <defs>
-              <linearGradient
-                id="other_blue_grad_right"
-                x1="132.207"
-                y1="-70.111"
-                x2="-11.187"
-                y2="-40.3038"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#0E2F6D" />
-                <stop offset="1" stopColor="#1D6FFF" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </button>
+        {/* Navigation Arrows with boundary auto-hide */}
+        <CarouselArrows
+          rowId="other-vehicles-snap-row"
+          label="other vehicles"
+          variant="blue"
+          onStep={() => pauseAutoScroll(600)}
+        />
       </div>
 
-      {/* Bottom row (mobile): pager left · button right */}
-      <div className="flex w-full items-center justify-between lg:hidden">
-        <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
+      {/* Bottom row: Progress Bar Pill & Mobile CTA */}
+      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between lg:justify-center pt-6 pb-2 lg:pt-8 lg:pb-0">
+        <div
+          role="progressbar"
+          aria-label="Other vehicles scroll progress"
+          aria-valuenow={Math.round(scrollProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1"
+        >
           <div
-            className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
+            className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
             style={{
-              width: `${100 / displayVehicles.length}%`,
-              transform: `translateX(${activeIndex * 100}%)`,
+              transform: `translateX(${scrollProgress * 78.308}px)`,
             }}
           />
         </div>
-        <Button href="/products" variant="dark" arrow="white">
-          See all vehicles
-        </Button>
-      </div>
-
-      {/* Carousel Progress Indicator Pill (Figma 3321:13258) */}
-      <div className="mx-auto hidden w-full max-w-[1440px] items-center justify-center pt-8 pb-2 lg:flex">
-        <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
-          <div
-            className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
-            style={{
-              width: `${100 / displayVehicles.length}%`,
-              transform: `translateX(${activeIndex * 100}%)`,
-            }}
-          />
+        <div className="lg:hidden">
+          <Button href="/products" variant="dark" arrow="white">
+            See all vehicles
+          </Button>
         </div>
       </div>
     </section>

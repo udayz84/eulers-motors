@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
-import PagerBar from "@/components/ui/PagerBar";
+import CarouselArrows from "@/components/ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const TESTIMONIALS = [
   {
@@ -41,7 +43,7 @@ function TestimonialCard({
     <article
       aria-hidden={isDuplicate || undefined}
       data-testimonial={isDuplicate ? undefined : true}
-      className={`${isDuplicate ? "hidden lg:flex" : "flex"} h-auto min-h-[338px] w-[353px] min-w-[353px] shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-[443px] lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:items-stretch lg:gap-8 lg:p-8`}
+      className="flex h-auto min-h-[338px] w-[353px] min-w-[353px] shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-[443px] lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:items-stretch lg:gap-8 lg:p-8 select-none"
     >
       <div className="flex items-center justify-between self-stretch">
         <svg
@@ -71,9 +73,141 @@ function TestimonialCard({
   );
 }
 
+/**
+ * CAREERS page — "What Our People Say" employee voice cards.
+ * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
+ * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
+ */
 export default function CareerTestimonials() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility tracking
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+      if (
+        isDesktop &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const row = scrollRef.current;
+        if (row) {
+          const maxScroll = row.scrollWidth - row.clientWidth;
+          if (maxScroll > 1) {
+            accumulator += 50 * delta;
+            if (accumulator >= 1) {
+              const advance = Math.floor(accumulator);
+              accumulator -= advance;
+
+              if (row.scrollLeft >= maxScroll - 2) {
+                row.scrollLeft = 0;
+              } else {
+                row.scrollLeft += advance;
+              }
+              updateProgress();
+            }
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [updateProgress]);
+
   return (
-    <section className="relative flex w-full flex-col items-center gap-6 overflow-visible bg-white py-8 lg:min-h-0 lg:gap-[42px] lg:py-[62px]" style={{ touchAction: "pan-y" }} aria-labelledby="career-testimonials-heading">
+    <section
+      ref={sectionRef}
+      className="relative flex w-full flex-col items-center gap-6 overflow-hidden bg-white py-8 lg:min-h-0 lg:gap-[42px] lg:py-[62px]"
+      aria-labelledby="career-testimonials-heading"
+    >
       <div className="flex w-[calc(100%-40px)] max-w-[518px] flex-col items-center gap-3 text-center lg:gap-4">
         <Eyebrow label="Employee voices" />
         <h2 id="career-testimonials-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">What Our People Say</h2>
@@ -83,47 +217,56 @@ export default function CareerTestimonials() {
         </p>
       </div>
 
-      <div
-        id="career-testimonials-row"
-        className="no-scrollbar flex w-full snap-x snap-mandatory items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:w-max lg:items-stretch lg:gap-2.5 lg:px-0 lg:overflow-x-visible motion-safe:lg:animate-[marquee_40s_linear_infinite] lg:[--marquee-gap:10px]"
-        style={{ touchAction: "pan-x pan-y", overscrollBehaviorX: "contain", overscrollBehaviorY: "auto" }}
-        onTouchMove={(e) => {
-          const target = e.currentTarget;
-          if (Math.abs(e.touches[0].clientX - (target as any)._startX || 0) > Math.abs(e.touches[0].clientY - (target as any)._startY || 0)) {
-            e.stopPropagation();
-          }
-        }}
-        onTouchStart={(e) => {
-          (e.currentTarget as any)._startX = e.touches[0].clientX;
-          (e.currentTarget as any)._startY = e.touches[0].clientY;
-        }}
-        aria-label="Employee testimonials"
-      >
-        {Array.from({ length: 4 }).map((_, setIndex) =>
-          TESTIMONIALS.map((testimonial) => (
-            <TestimonialCard
-              key={`${setIndex}-${testimonial.name}`}
-              testimonial={testimonial}
-              isDuplicate={setIndex > 0}
-            />
-          )),
-        )}
+      <div className="relative w-full">
+        <div
+          id="career-testimonials-row"
+          ref={scrollRef}
+          className="no-scrollbar flex w-full snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:gap-4 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
+          aria-label="Employee testimonials"
+        >
+          {Array.from({ length: 4 }).map((_, setIndex) =>
+            TESTIMONIALS.map((testimonial) => (
+              <TestimonialCard
+                key={`${setIndex}-${testimonial.name}`}
+                testimonial={testimonial}
+                isDuplicate={setIndex > 0}
+              />
+            )),
+          )}
+          <div aria-hidden className="shrink-0 w-8 lg:w-16" />
+        </div>
+
+        {/* Right and left edge gradients */}
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 top-0 z-[5] hidden w-[140px] [transform:scaleX(-1)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[140px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
+
+        {/* Blue Navigation Arrows with boundary auto-hide */}
+        <CarouselArrows
+          rowId="career-testimonials-row"
+          label="employee testimonials"
+          variant="blue"
+          onStep={() => pauseAutoScroll(600)}
+        />
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-[62.17px] left-0 z-10 hidden h-[551px] w-[287.979px] [transform:scaleX(-1)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
-      <div aria-hidden="true" className="pointer-events-none absolute right-[-0.001px] bottom-[62.17px] z-10 hidden h-[551px] w-[268.629px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
-
-      <PagerBar
-        rowId="career-testimonials-row"
-        className="self-center [&>div]:bg-ink lg:hidden"
-        trackStyle={{
-          background: "rgba(204, 204, 204, 0.50)",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          gap: "14.4px",
-        }}
-      />
+      {/* Progress Indicator Pill (Figma 3321:13258) */}
+      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-2">
+        <div
+          role="progressbar"
+          aria-label="Employee testimonials scroll progress"
+          aria-valuenow={Math.round(scrollProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1"
+        >
+          <div
+            className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
+            style={{
+              transform: `translateX(${scrollProgress * 78.308}px)`,
+            }}
+          />
+        </div>
+      </div>
     </section>
   );
 }

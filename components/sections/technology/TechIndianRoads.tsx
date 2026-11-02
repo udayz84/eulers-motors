@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
+import CarouselArrows from "@/components/ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const A = "/assets/technology-page";
 
@@ -50,11 +55,9 @@ const CARDS = [
   },
 ];
 
-const QUADRUPLED_CARDS = [...CARDS, ...CARDS, ...CARDS, ...CARDS];
-
 function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
   return (
-    <article className="relative h-[254px] w-[320px] sm:w-[353px] shrink-0 snap-center">
+    <article className="relative h-[254px] w-[320px] sm:w-[353px] shrink-0 snap-center select-none">
       {/* Tab Header with Icon & Label */}
       <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
         <div
@@ -120,12 +123,135 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
 
 /**
  * TECHNOLOGY page — "Built for Indian roads." banner (Figma 2990:12839, 393×442).
- * Mobile: manual touch swipeable snap carousel (no auto-sliding).
- * Desktop: continuous, smooth GPU-accelerated infinite marquee.
+ * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
+ * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
 export default function TechIndianRoads() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility tracking
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+      if (
+        isDesktop &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const row = scrollRef.current;
+        if (row) {
+          const maxScroll = row.scrollWidth - row.clientWidth;
+          if (maxScroll > 1) {
+            accumulator += 50 * delta;
+            if (accumulator >= 1) {
+              const advance = Math.floor(accumulator);
+              accumulator -= advance;
+
+              if (row.scrollLeft >= maxScroll - 2) {
+                row.scrollLeft = 0;
+              } else {
+                row.scrollLeft += advance;
+              }
+              updateProgress();
+            }
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [updateProgress]);
+
   return (
-    <section className="overflow-x-clip bg-[#d4dbec] py-10 md:py-12 lg:py-16" aria-label="Built for Indian roads">
+    <section ref={sectionRef} className="overflow-x-clip bg-[#d4dbec] py-10 md:py-12 lg:py-16" aria-label="Built for Indian roads">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center px-5 pb-8 text-center md:pb-10 lg:pb-12">
         <div className="flex max-w-[700px] flex-col items-center gap-3 md:gap-4">
           <Eyebrow label="Built for here" />
@@ -138,28 +264,45 @@ export default function TechIndianRoads() {
         </div>
       </div>
 
-      {/* Mobile Track: Manual touch snap scroll (not auto-sliding) */}
-      <div className="relative w-full overflow-hidden md:hidden">
+      <div className="relative w-full">
         <div
-          className="no-scrollbar flex w-full gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory"
-          style={{ WebkitOverflowScrolling: "touch" }}
+          id="tech-indian-roads-row"
+          ref={scrollRef}
+          className="no-scrollbar flex w-full gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
         >
-          {CARDS.map((c) => (
-            <IndianRoadCard key={c.label} c={c} />
-          ))}
-          <div aria-hidden className="shrink-0 w-1" />
+          {Array.from({ length: 4 }).map((_, setIdx) =>
+            CARDS.map((c, i) => (
+              <IndianRoadCard key={`${setIdx}-${c.label}-${i}`} c={c} />
+            ))
+          )}
+          <div aria-hidden className="shrink-0 w-8 lg:w-16" />
         </div>
+
+        {/* Blue Navigation Arrows with boundary auto-hide */}
+        <CarouselArrows
+          rowId="tech-indian-roads-row"
+          label="Indian roads features"
+          variant="blue"
+          onStep={() => pauseAutoScroll(600)}
+        />
       </div>
 
-      {/* Desktop Track: Continuous infinite auto-sliding marquee */}
-      <div className="relative hidden w-full overflow-hidden md:block">
+      {/* Progress Indicator Pill (Figma 3321:13258) */}
+      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-6">
         <div
-          className="flex w-max shrink-0 gap-6 animate-marquee [--marquee-gap:24px] will-change-transform"
-          style={{ animationDuration: "40s" }}
+          role="progressbar"
+          aria-label="Indian roads features scroll progress"
+          aria-valuenow={Math.round(scrollProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#9ca3af]/40 p-1"
         >
-          {QUADRUPLED_CARDS.map((c, i) => (
-            <IndianRoadCard key={`${c.label}-${i}`} c={c} />
-          ))}
+          <div
+            className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
+            style={{
+              transform: `translateX(${scrollProgress * 78.308}px)`,
+            }}
+          />
         </div>
       </div>
     </section>

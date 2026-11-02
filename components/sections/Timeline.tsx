@@ -1,42 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import CarouselArrows from "../ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const YEARS = [2018, 2020, 2022, 2024, 2025, 2026];
-
-const MILESTONES = {
-  2018: {
-    year: "2018",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-  2020: {
-    year: "2020",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-  2022: {
-    year: "2022",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-  2024: {
-    year: "2024",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-  2025: {
-    year: "2025",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-  2026: {
-    year: "2026",
-    title: "One thousand vehicles at work",
-    badges: ["CCS2", "60 kW", "4 of 6 free"],
-  },
-};
 
 /* Card image = 642.09×354.531 rounded-left, CSS background layers transcribed
    from Figma (image order: last background paints underneath). */
@@ -45,75 +14,214 @@ const CARD_BG_BASE =
 const CARD_BG_TOP =
   "url('/assets/timeline/timeline-3.png') 0 0 / 100% 185.99% no-repeat, " + CARD_BG_BASE;
 
-const TIMELINE_CARDS = [
-  { id: "card-1", background: CARD_BG_BASE },
-  { id: "card-2", background: CARD_BG_TOP },
-  { id: "card-3", background: CARD_BG_TOP },
+const BASE_ITEMS = [
+  {
+    year: "2018",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_BASE,
+  },
+  {
+    year: "2020",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_TOP,
+  },
+  {
+    year: "2022",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_BASE,
+  },
+  {
+    year: "2024",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_TOP,
+  },
+  {
+    year: "2025",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_BASE,
+  },
+  {
+    year: "2026",
+    title: "One thousand vehicles at work.",
+    descLine1: "Enough data from enough routes to design the",
+    descLine2: "next one with confidence.",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
+    background: CARD_BG_TOP,
+  },
 ];
 
 /**
  * Timeline section (Figma desktop: 3530:16872, mobile: 2929-14952).
  * Interactive timeline with year selection and milestone cards.
- * Desktop: Two cards with gradient background. Mobile: Single card with solid background.
+ * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
+ * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
 export default function Timeline() {
   const [selectedYear, setSelectedYear] = useState(2024);
-  const [slideIndex, setSlideIndex] = useState(0);
-  const [maxOffset, setMaxOffset] = useState(0);
-  const [cardStep, setCardStep] = useState(1015.59);
-  const [mobileProgress, setMobileProgress] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const mobileCardsRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const milestone = MILESTONES[selectedYear as keyof typeof MILESTONES];
+  // Repeat for continuous runway
+  const displayCards = Array.from({ length: 4 }).flatMap((_, setIndex) =>
+    BASE_ITEMS.map((item, idx) => ({
+      ...item,
+      uniqueKey: `${setIndex}-${item.year}-${idx}`,
+    }))
+  );
 
-  const maxSlide = TIMELINE_CARDS.length - 1;
-  const offset = Math.min(slideIndex * cardStep, maxOffset);
-  const progress = maxSlide > 0 ? slideIndex / maxSlide : 0;
-
-  useEffect(() => {
-    const measure = () => {
-      const section = sectionRef.current;
-      const wrapper = wrapperRef.current;
-      const track = trackRef.current;
-      if (!section || !wrapper || !track) return;
-      const firstCard = track.firstElementChild as HTMLElement | null;
-      const lastCard = track.lastElementChild as HTMLElement | null;
-      const step = firstCard ? firstCard.offsetWidth + 20 : 1015.59;
-      const wrapperStyle = getComputedStyle(wrapper);
-      // clientWidth/padding are CSS px (rects are scaled by the tablet html zoom)
-      const visibleWidth =
-        wrapper.clientWidth -
-        parseFloat(wrapperStyle.paddingLeft || "0") -
-        parseFloat(wrapperStyle.paddingRight || "0");
-      const contentWidth = lastCard
-        ? lastCard.offsetLeft + lastCard.offsetWidth
-        : track.scrollWidth;
-      setCardStep(step);
-      setMaxOffset(Math.max(0, contentWidth - visibleWidth));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  const changeSlide = (direction: number) => {
-    setSlideIndex((prev) => {
-      const next = prev + direction;
-      if (next < 0) return maxSlide;
-      if (next > maxSlide) return 0;
-      return next;
-    });
-  };
-
-  const onMobileCardsScroll = () => {
-    const el = mobileCardsRef.current;
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
-    setMobileProgress(max > 0 ? el.scrollLeft / max : 0);
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility check
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      const isDesktop = window.innerWidth >= 1024;
+      if (
+        isDesktop &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const row = scrollRef.current;
+        if (row) {
+          const maxScroll = row.scrollWidth - row.clientWidth;
+          if (maxScroll > 1) {
+            accumulator += 50 * delta;
+            if (accumulator >= 1) {
+              const advance = Math.floor(accumulator);
+              accumulator -= advance;
+
+              if (row.scrollLeft >= maxScroll - 2) {
+                row.scrollLeft = 0;
+              } else {
+                row.scrollLeft += advance;
+              }
+              updateProgress();
+            }
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [updateProgress]);
+
+  const scrollToYear = (year: number) => {
+    setSelectedYear(year);
+    pauseAutoScroll(800);
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const targetIdx = BASE_ITEMS.findIndex((item) => Number(item.year) === year);
+    if (targetIdx !== -1) {
+      const cardWidth = 1015.59;
+      row.scrollTo({
+        left: targetIdx * cardWidth,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -160,12 +268,12 @@ export default function Timeline() {
           </div>
 
           {/* Year Buttons — moveable (horizontal scroll) */}
-          <div className="snap-row -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] px-5 sm:px-8 scroll-pl-5 sm:scroll-pl-8">
+          <div className="no-scrollbar flex overflow-x-auto -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] px-5 sm:px-8">
             {YEARS.map((year) => (
               <button
                 key={year}
                 type="button"
-                onClick={() => setSelectedYear(year)}
+                onClick={() => scrollToYear(year)}
                 className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] sm:h-[36px] items-center justify-center px-[14px] sm:px-[18px] relative rounded-[24.381px] shrink-0 ${
                   selectedYear === year
                     ? "bg-white border-[rgba(18,18,18,0.5)]"
@@ -179,44 +287,34 @@ export default function Timeline() {
             ))}
           </div>
 
-          {/* Cards — moveable (horizontal scroll carousel) */}
+          {/* Cards — moveable */}
           <div
-            ref={mobileCardsRef}
-            onScroll={onMobileCardsScroll}
-            className="snap-row -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] sm:gap-[16px] px-5 sm:px-8 scroll-pl-5 sm:scroll-pl-8"
+            className="no-scrollbar flex overflow-x-auto -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] sm:gap-[16px] px-5 sm:px-8"
           >
-            {TIMELINE_CARDS.map((card) => (
+            {BASE_ITEMS.map((item, idx) => (
               <div
-                key={card.id}
+                key={`mobile-${item.year}-${idx}`}
                 className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] sm:pt-[295px] px-[12px] sm:px-[16px] relative rounded-[12px] shrink-0 w-[353px] sm:w-[420px]"
               >
                 <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
                   <p className="font-display text-[42px] sm:text-[48px] font-semibold leading-[1.15] tracking-[-0.84px] text-white whitespace-nowrap">
-                    {milestone.year}
+                    {item.year}
                   </p>
                   <p className="font-display text-[18px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.36px] text-white whitespace-nowrap">
-                    One thousand vehicles at work.
+                    {item.title}
                   </p>
                   <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] sm:text-[14px] text-white w-[min-content]">
-                    <p className="leading-[normal] mb-0">Enough data from enough routes to design the</p>
-                    <p className="leading-[normal]">next one with confidence.</p>
+                    <p className="leading-[normal] mb-0">{item.descLine1}</p>
+                    <p className="leading-[normal]">{item.descLine2}</p>
                   </div>
                   <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
-                        <p className="leading-[normal]">CCS2</p>
+                    {item.badges.map((badge, bIdx) => (
+                      <div key={bIdx} className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
+                        <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
+                          <p className="leading-[normal]">{badge}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
-                        <p className="leading-[normal]">60 kW</p>
-                      </div>
-                    </div>
-                    <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] sm:px-[14px] py-[4px] sm:py-[6px] relative rounded-[50px] shrink-0">
-                      <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] sm:text-[13px] text-black whitespace-nowrap">
-                        <p className="leading-[normal]">4 of 6 free</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
                 <div className="absolute h-[235.284px] sm:h-[280px] left-0 top-0 w-full">
@@ -236,11 +334,11 @@ export default function Timeline() {
             ))}
           </div>
 
-          {/* Pagination Dots */}
+          {/* Pagination Dots (Mobile) */}
           <div className="bg-[rgba(204,204,204,0.2)] content-stretch flex flex-col h-[20px] items-start justify-center p-[4px] relative rounded-[14.4px] self-center shrink-0 w-[116.199px]">
             <div
               className="bg-white relative h-[12px] w-[29.891px] rounded-[23.04px]"
-              style={{ transform: `translateX(${mobileProgress * 78.308}px)` }}
+              style={{ transform: `translateX(${scrollProgress * 78.308}px)` }}
             />
           </div>
         </div>
@@ -248,7 +346,7 @@ export default function Timeline() {
 
       {/* Desktop Layout — outer frame: 1440 → padding 60/80, centered column */}
       <div className="relative hidden lg:block" style={{ backgroundImage: "linear-gradient(0deg, rgb(4, 18, 49) 0%, rgb(4, 18, 49) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), linear-gradient(272deg, rgb(14, 47, 109) -63.51%, rgb(29, 111, 255) 87.23%)" }}>
-        <div ref={wrapperRef} className="content-stretch relative mx-auto flex w-full max-w-[1440px] flex-col gap-[52px] items-center px-[80px] py-[60px]">
+        <div className="content-stretch relative mx-auto flex w-full max-w-[1440px] flex-col gap-[52px] items-center px-[80px] py-[60px]">
           {/* Header Row */}
           <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
             <div className="content-stretch flex flex-col gap-[25px] items-start relative shrink-0 w-[636px]">
@@ -288,7 +386,7 @@ export default function Timeline() {
                   <button
                     key={year}
                     type="button"
-                    onClick={() => setSelectedYear(year)}
+                    onClick={() => scrollToYear(year)}
                     className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 ${
                       selectedYear === year
                         ? "bg-white border-[rgba(18,18,18,0.5)]"
@@ -304,15 +402,18 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* Cards Row — clipped to the content area like About Euler */}
+          {/* Cards Row — Full Bleed Horizontal Scroll with Arrows */}
           <div className="relative w-full shrink-0 overflow-hidden lg:w-[max(calc(100%+160px),100vw)] lg:px-[max(80px,calc(50vw-640px))]">
             <div
-              ref={trackRef}
-              className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${offset}px)` }}
+              id="timeline-snap-row"
+              ref={scrollRef}
+              className="no-scrollbar flex gap-[20px] items-center overflow-x-auto w-full cursor-grab active:cursor-grabbing select-none"
             >
-              {TIMELINE_CARDS.map((card) => (
-                <div key={card.id} className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0">
+              {displayCards.map((card) => (
+                <div
+                  key={card.uniqueKey}
+                  className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex gap-[24px] h-[354.531px] items-start overflow-clip relative rounded-[12px] shrink-0 w-[995px] select-none"
+                >
                   <div
                     aria-hidden
                     className="h-[354.531px] shrink-0 w-[642.09px] rounded-l-[12px]"
@@ -320,83 +421,61 @@ export default function Timeline() {
                   />
                   <div className="content-stretch flex flex-col h-full items-start justify-between py-[24px] relative shrink-0 w-[329.5px]">
                     <p className="font-display text-[42px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.84px] w-full">
-                      {milestone.year}
+                      {card.year}
                     </p>
                     <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
                       <p className="font-display text-[20px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.4px] whitespace-nowrap">
-                        One thousand vehicles at work.
+                        {card.title}
                       </p>
                       <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[14px] text-white w-[min-content]">
-                        <p className="leading-[normal] mb-0">Enough data from enough routes to design the</p>
-                        <p className="leading-[normal]">next one with confidence.</p>
+                        <p className="leading-[normal] mb-0">{card.descLine1}</p>
+                        <p className="leading-[normal]">{card.descLine2}</p>
                       </div>
                       <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                        <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                          <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                            <p className="leading-[normal]">CCS2</p>
+                        {card.badges.map((badge, bIdx) => (
+                          <div key={bIdx} className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
+                            <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
+                              <p className="leading-[normal]">{badge}</p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                          <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                            <p className="leading-[normal]">60 kW</p>
-                          </div>
-                        </div>
-                        <div className="bg-[#d4dbec] content-stretch flex flex-col items-start px-[10px] py-[4px] relative rounded-[50px] shrink-0">
-                          <div className="font-sans font-bold justify-center leading-[0] relative shrink-0 text-[12px] text-black whitespace-nowrap">
-                            <p className="leading-[normal]">4 of 6 free</p>
-                          </div>
-                        </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* Navigation Arrows with boundary auto-hide */}
+            <CarouselArrows
+              rowId="timeline-snap-row"
+              label="milestones timeline"
+              variant="blue"
+              onStep={() => pauseAutoScroll(600)}
+            />
           </div>
 
-          {/* Pagination */}
-          <div className="bg-[rgba(204,204,204,0.2)] relative h-[20px] shrink-0 w-[116.199px] rounded-[14.4px]">
+          {/* Progress Indicator Pill (Figma 3321:13258) */}
+          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-2">
             <div
-              className="absolute top-[4px] h-[12px] w-[29.891px] rounded-[23.04px] bg-white transition-[left] duration-500 ease-out"
-              style={{ left: `${4 + progress * 78.308}px` }}
-            />
-          </div>
-
-          {/* Navigation Arrows — vertically centered on the cards */}
-          <button
-            type="button"
-            aria-label="Previous milestones"
-            onClick={() => changeSlide(-1)}
-            className="absolute left-[49.818px] bottom-[281.766px] flex size-[55px] cursor-pointer items-center justify-center"
-          >
-            <div className="-scale-x-100 flex-none">
-              <div className="relative size-[55px]">
-                <Image
-                  src="/assets/about-euler/timeline-arrow-left.svg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              role="progressbar"
+              aria-label="Timeline scroll progress"
+              aria-valuenow={Math.round(scrollProgress * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
+            >
+              <div
+                className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
+                style={{
+                  transform: `translateX(${scrollProgress * 78.308}px)`,
+                }}
+              />
             </div>
-          </button>
-          <button
-            type="button"
-            aria-label="Next milestones"
-            onClick={() => changeSlide(1)}
-            className="absolute right-[49.818px] bottom-[281.766px] z-10 size-[55px] cursor-pointer"
-          >
-            <Image
-              src="/assets/about-euler/timeline-arrow-right.svg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </button>
-
+          </div>
         </div>
 
-        {/* Right-edge fade (matches AboutEuler) — anchored to the section's right edge */}
+        {/* Right-edge fade (matches AboutEuler) */}
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 bottom-[96px] z-[5] h-[442.531px] w-[210.811px]"

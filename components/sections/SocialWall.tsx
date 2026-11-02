@@ -1,25 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
+import CarouselArrows from "../ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
-interface SocialPost {
-  id: string;
+export interface SocialPostItem {
+  id?: string;
   img: string;
-  duration: string;
-  author: {
+  duration?: string;
+  author?: {
     name?: string;
     handle: string;
     avatar?: string;
     isOfficial?: boolean;
   };
-  likes: string;
-  timeAgo: string;
+  likes?: string;
+  timeAgo?: string;
   linkTheme?: "dark" | "frosted";
 }
 
-const POSTS: readonly SocialPost[] = [
+const DEFAULT_POSTS: readonly SocialPostItem[] = [
   {
     id: "post-1",
     img: "/assets/social/post-c.png",
@@ -84,142 +86,160 @@ const POSTS: readonly SocialPost[] = [
   },
 ] as const;
 
+export interface SocialWallProps {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  posts?: readonly SocialPostItem[] | SocialPostItem[];
+}
+
 /**
  * "See the trucks in action." (desktop 1:2008 · mobile 1:5058).
  * Instagram-style post cards with author chip, stats and CTA.
  */
-export default function SocialWall() {
+export default function SocialWall({
+  eyebrow = "From the road",
+  title = "See the trucks in action.",
+  description = "Real vehicles, real depots, filmed by our own team.",
+  posts,
+}: SocialWallProps = {}) {
+  const currentPosts = posts !== undefined ? posts : DEFAULT_POSTS;
+
+  // Clean unmount if empty collection intentionally provided by CMS
+  if (currentPosts.length === 0) return null;
+
+  const repeats = Math.max(2, Math.ceil(12 / currentPosts.length));
+  const displayList = Array.from({ length: repeats }).flatMap(() => currentPosts);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const visibleRef = useRef(false);
-  const interactionPausedRef = useRef(false);
-  const resumeTimerRef = useRef<number | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility tracking via IntersectionObserver
   useEffect(() => {
     const section = sectionRef.current;
-    const row = scrollRef.current;
-    const track = trackRef.current;
-    if (!section || !row || !track) return;
+    if (!section) return;
 
-    const desktopQuery = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(desktopQuery.matches);
-    const updateDesktop = (e: MediaQueryListEvent) => {
-      setIsDesktop(e.matches);
-      if (!e.matches && track) {
-        track.style.transform = "";
-      }
-    };
-    desktopQuery.addEventListener("change", updateDesktop);
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      isVisibleRef.current = true;
+    }
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        visibleRef.current = entry.isIntersecting;
+        isVisibleRef.current = entry.isIntersecting;
       },
       { threshold: 0.05 }
     );
     observer.observe(section);
-
-    let frame = 0;
-    let offset = 0;
-    let cachedLoopDist = 0;
-
-    const getLoopDistance = () => {
-      if (cachedLoopDist > 0) return cachedLoopDist;
-      const duplicate = row.querySelector<HTMLElement>("[data-social-copy='true']");
-      const first = row.querySelector<HTMLElement>("[data-social-index='0']");
-      if (duplicate && first) {
-        const dist = duplicate.offsetLeft - first.offsetLeft;
-        if (dist > 0) {
-          cachedLoopDist = dist;
-          return dist;
-        }
-      }
-      return 0;
-    };
-
-    const handleResize = () => {
-      cachedLoopDist = 0;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const tick = () => {
-      // Auto-scroll is enabled on desktop viewports only (>= 1024px)
-      if (!desktopQuery.matches) {
-        if (track.style.transform) track.style.transform = "";
-        frame = window.requestAnimationFrame(tick);
-        return;
-      }
-
-      if (!reducedMotion && visibleRef.current && !interactionPausedRef.current) {
-        const loopDistance = getLoopDistance();
-        if (loopDistance > 0) {
-          if (row.scrollLeft !== 0) {
-            offset = (offset + row.scrollLeft) % loopDistance;
-            if (offset < 0) offset += loopDistance;
-            row.scrollLeft = 0;
-          }
-
-          offset = (offset + 0.6) % loopDistance;
-          track.style.transform = `translate3d(${-offset}px, 0, 0)`;
-
-          const cardStep = loopDistance / POSTS.length;
-          const currentIdx = Math.min(
-            POSTS.length - 1,
-            Math.floor((offset + cardStep * 0.25) / cardStep) % POSTS.length
-          );
-          setActiveIndex((prev) => (prev !== currentIdx ? currentIdx : prev));
-        }
-      }
-      frame = window.requestAnimationFrame(tick);
-    };
-    frame = window.requestAnimationFrame(tick);
-
-    return () => {
-      observer.disconnect();
-      desktopQuery.removeEventListener("change", updateDesktop);
-      window.removeEventListener("resize", handleResize);
-      window.cancelAnimationFrame(frame);
-      if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
-    };
+    return () => observer.disconnect();
   }, []);
 
-  const pauseForInteraction = () => {
-    interactionPausedRef.current = true;
-    if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
-  };
+  // Smooth desktop auto-scroll loop (continuous drift without pausing on hover)
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
 
-  const resumeAfterInteraction = (delay = 2000) => {
-    if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
-    resumeTimerRef.current = window.setTimeout(() => {
-      interactionPausedRef.current = false;
-    }, delay);
-  };
+    let rafId: number;
+    let lastTime: number | null = null;
+    let accumulator = 0;
+    const speed = 50; // pixels per second
 
-  const handleWheel = () => {
-    pauseForInteraction();
-    resumeAfterInteraction(1800);
-  };
+    const step = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
 
-  const handleScroll = () => {
-    if (isDesktop) {
-      pauseForInteraction();
-      resumeAfterInteraction(1800);
-      return;
-    }
-    const row = scrollRef.current;
-    if (!row) return;
-    const cards = row.querySelectorAll<HTMLElement>("article");
-    if (!cards.length) return;
-    let index = 0;
-    cards.forEach((card, i) => {
-      if (row.scrollLeft >= card.offsetLeft - card.offsetWidth / 2) index = i % POSTS.length;
-    });
-    setActiveIndex(index);
-  };
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+      const reducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (
+        isDesktop &&
+        !reducedMotion &&
+        isVisibleRef.current &&
+        !isDraggingRef.current &&
+        !isInteractingRef.current
+      ) {
+        accumulator += speed * dt;
+        if (accumulator >= 1) {
+          const px = Math.floor(accumulator);
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          if (container.scrollLeft < maxScroll - 1) {
+            container.scrollLeft = Math.min(maxScroll, container.scrollLeft + px);
+            accumulator -= px;
+            updateProgress();
+          } else {
+            accumulator = 0;
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
+  }, [updateProgress]);
 
   return (
     <section ref={sectionRef} className="bg-white overflow-hidden" aria-label="From the road">
@@ -233,43 +253,28 @@ export default function SocialWall() {
           (constant −396.33px = −316.33px group offset (2072.65−1440)/2 − 80px anchor) */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center px-5 pb-[20px] pt-10 lg:items-start lg:px-0 lg:pb-[42px] lg:pt-[60px]">
         <div className="flex w-full flex-col items-center gap-[14px] text-center lg:items-start lg:gap-4 lg:pl-[80px] min-[2233px]:-ml-[396.326px] lg:text-left">
-          <Eyebrow label="From the road" />
+          {eyebrow && <Eyebrow label={eyebrow} />}
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-1.04px] text-ink lg:text-[52px]">
-            See the trucks in action.
+            {title}
           </h2>
           <p className="text-[12px] text-ink lg:text-[16px] lg:leading-normal">
-            Real vehicles, real depots, filmed by our own team.
+            {description}
           </p>
         </div>
       </div>
 
-      {/* desktop row anchored at x=80, bleeding right — offset on a wrapper so
-          the snap scroller doesn't consume it as initial scroll. Wrapper pb is
-          the Figma container's 20px bottom padding (1:2008), nudged up a bit
-          for breathing room below the cards */}
+      {/* desktop row anchored at x=80, bleeding right */}
       <div className="w-full pb-[28px] lg:pb-[32px]">
-        <div
-          className="relative"
-          onMouseEnter={pauseForInteraction}
-          onMouseLeave={() => resumeAfterInteraction(600)}
-          onPointerDown={pauseForInteraction}
-          onPointerUp={() => resumeAfterInteraction(1800)}
-          onPointerCancel={() => resumeAfterInteraction(1800)}
-        >
+        <div className="relative overflow-hidden">
           <div
             id="social-snap-row"
             ref={scrollRef}
-            onScroll={handleScroll}
-            onPointerDown={pauseForInteraction}
-            onPointerUp={() => resumeAfterInteraction(1800)}
-            onPointerCancel={() => resumeAfterInteraction(1800)}
-            onWheel={handleWheel}
-            className="snap-row snap-center-mobile gap-[12px] lg:gap-[30.663px] min-[2233px]:justify-center no-scrollbar"
-            style={{
-              scrollSnapType: isDesktop ? "none" : undefined,
-              scrollBehavior: isDesktop ? "auto" : undefined,
-              overflowAnchor: "none",
+            onScroll={() => {
+              if (isDraggingRef.current) {
+                pauseAutoScroll(600);
+              }
             }}
+            className="no-scrollbar flex w-full gap-[12px] overflow-x-auto snap-x snap-mandatory lg:snap-none lg:gap-[30.663px] cursor-grab active:cursor-grabbing"
           >
             {/* Spacers for alignment — the desktop spacer anchors the first card
                 at x=80 on the 1440 frame (Figma 1:2008): frame margin + 49.337px
@@ -281,171 +286,188 @@ export default function SocialWall() {
             <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
             <div
               aria-hidden
-              className="hidden shrink-0 lg:block min-[2233px]:hidden"
+              className="desktop-spacer hidden shrink-0 lg:block min-[2233px]:hidden"
               style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }}
             />
-            <div
-              ref={trackRef}
-              className="flex w-max shrink-0 gap-[12px] lg:gap-[30.663px]"
-              style={{ willChange: "transform" }}
-            >
-              {[...POSTS, ...POSTS].map((post, i) => {
-                const originalIndex = i % POSTS.length;
-                const isCopy = i >= POSTS.length;
-                const last = originalIndex === POSTS.length - 1;
-                return (
-                  <article
-                    key={i}
-                    data-social-index={originalIndex}
-                    data-social-copy={isCopy ? "true" : undefined}
-                    aria-hidden={isCopy ? true : undefined}
-                    className="relative h-[400px] w-[300px] shrink-0 overflow-clip rounded-2xl lg:h-[519.574px] lg:w-[390px] lg:rounded-[20.442px]"
+
+            {displayList.map((post, i) => {
+              const originalIndex = i % currentPosts.length;
+              const duration = post.duration || "02:00";
+              const author = post.author || { handle: "@eulermotors", isOfficial: true };
+              const likes = post.likes || "4,820 likes";
+              const timeAgo = post.timeAgo || "1 day ago";
+              const linkTheme = post.linkTheme || "frosted";
+
+              return (
+                <article
+                  key={`social-${i}`}
+                  data-social-index={originalIndex}
+                  className="relative h-[400px] w-[300px] shrink-0 snap-center overflow-clip rounded-2xl lg:h-[519.574px] lg:w-[390px] lg:rounded-[20.442px]"
+                >
+                  <Image
+                    src={post.img}
+                    alt="Euler trucks in action"
+                    fill
+                    sizes="400px"
+                    priority={i < 4}
+                    className="object-cover"
+                  />
+                  {/* scrim — mobile Figma (1:5068 bitmap): top-only darkening */}
+                  <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent lg:to-black/60" />
+
+                  {/* instagram chip */}
+                  <span className="absolute right-[13.5px] top-[13.5px] flex size-[30.2px] items-center justify-center rounded-[7.6px] border border-white/20 bg-white/20 backdrop-blur-[10px] lg:right-[26px] lg:top-6 lg:size-[41px] lg:rounded-[10.2px]">
+                    <Image
+                      src="/assets/social/icon-instagram2.svg"
+                      alt=""
+                      width={23}
+                      height={23}
+                      aria-hidden
+                      className="size-[17px] lg:size-[23px]"
+                    />
+                  </span>
+
+                  {/* time chip */}
+                  <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
+                    <span className="text-[12px] font-semibold leading-none text-black lg:text-[14px]">
+                      {duration}
+                    </span>
+                  </div>
+
+                  {/* play button */}
+                  <button
+                    type="button"
+                    aria-label="Play video"
+                    className="absolute left-1/2 top-[calc(50%-20px)] -translate-x-1/2 cursor-pointer transition-transform hover:scale-110 active:scale-95"
                   >
                     <Image
-                      src={post.img}
-                      alt="Euler trucks in action"
-                      fill
-                      sizes="400px"
-                      loading={isCopy ? "eager" : "lazy"}
-                      className="object-cover"
+                      src="/assets/reviews/play-figma.png"
+                      alt=""
+                      width={52}
+                      height={52}
+                      className="size-[42px] lg:size-[70.27px]"
                     />
-                    {/* scrim — mobile Figma (1:5068 bitmap): top-only darkening;
-                        the bottom has NO scrim so the photo reads through the
-                        white/20 panel (verified: figma panel px = photo×0.8+51) */}
-                    <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent lg:to-black/60" />
+                  </button>
 
-                    {/* instagram chip */}
-                    <span className="absolute right-[13.5px] top-[13.5px] flex size-[30.2px] items-center justify-center rounded-[7.6px] border border-white/20 bg-white/20 backdrop-blur-[10px] lg:right-[26px] lg:top-6 lg:size-[41px] lg:rounded-[10.2px]">
-                      <Image
-                        src="/assets/social/icon-instagram2.svg"
-                        alt=""
-                        width={23}
-                        height={23}
-                        aria-hidden
-                        className="size-[17px] lg:size-[23px]"
-                      />
-                    </span>
-
-                    {/* time chip */}
-                    <div className="absolute left-4 top-4 flex items-center justify-center rounded-full bg-white px-[6px] py-[2px] lg:px-2.5 lg:py-1">
-                      <span className="text-[12px] font-semibold leading-none text-black lg:text-[14px]">
-                        {post.duration}
-                      </span>
-                    </div>
-
-                    {/* play button */}
-                    <button
-                      type="button"
-                      aria-label="Play video"
-                      className="absolute left-1/2 top-[calc(50%-20px)] -translate-x-1/2"
-                    >
-                      <Image
-                        src="/assets/reviews/play-figma.png"
-                        alt=""
-                        width={52}
-                        height={52}
-                        className="size-[42px] lg:size-[70.27px]"
-                      />
-                    </button>
-
-                    {/* post info panel — frosted glass with white veil */}
-                    <div className="absolute inset-x-[13.5px] bottom-3 rounded-[8px] bg-gradient-to-b from-white/[0.12] to-white/[0.38] p-[8px] backdrop-blur-[8px] lg:inset-x-4 lg:bottom-4 lg:rounded-[18px] lg:border lg:border-white/20 lg:p-4 lg:bg-none lg:bg-white/20 lg:backdrop-blur-[12px]">
-                      <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
-                        {/* Author row */}
-                        <div className="flex w-[190px] items-center gap-[5.5px] lg:w-auto lg:gap-[8.9px]">
-                          {post.author.isOfficial ? (
-                            <span className="flex size-[18px] shrink-0 items-center justify-center rounded-[37px] bg-black lg:size-6 lg:rounded-full">
-                              <Image
-                                src="/assets/social/logo-small.svg"
-                                alt=""
-                                width={17}
-                                height={3}
-                                aria-hidden
-                                className="h-[1.7px] w-[10.4px] lg:h-[2.8px] lg:w-[16.9px]"
-                              />
-                            </span>
-                          ) : post.author.avatar ? (
+                  {/* post info panel — frosted glass with white veil */}
+                  <div className="absolute inset-x-[13.5px] bottom-3 rounded-[8px] bg-gradient-to-b from-white/[0.12] to-white/[0.38] p-[8px] backdrop-blur-[8px] lg:inset-x-4 lg:bottom-4 lg:rounded-[18px] lg:border lg:border-white/20 lg:p-4 lg:bg-none lg:bg-white/20 lg:backdrop-blur-[12px]">
+                    <div className="flex flex-col gap-[6px] lg:gap-[16.6px]">
+                      {/* Author row */}
+                      <div className="flex w-[190px] items-center gap-[5.5px] lg:w-auto lg:gap-[8.9px]">
+                        {author.isOfficial ? (
+                          <span className="flex size-[18px] shrink-0 items-center justify-center rounded-[37px] bg-black lg:size-6 lg:rounded-full">
                             <Image
-                              src={post.author.avatar}
+                              src="/assets/social/logo-small.svg"
                               alt=""
-                              width={20}
-                              height={20}
-                              className="size-[18px] rounded-[37px] lg:size-[20.4px] lg:rounded-full"
-                            />
-                          ) : null}
-                          <span className="truncate text-[12px] font-medium text-white lg:text-[15.3px]">
-                            {post.author.name || post.author.handle}
-                          </span>
-                        </div>
-
-                        {/* Stats row */}
-                        <div className="flex items-center gap-[7.9px] lg:gap-[12.8px]">
-                          <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
-                            {post.likes}
-                          </span>
-                          <span aria-hidden className="size-[3.1px] rounded-full bg-white/50 lg:size-[5.1px]" />
-                          <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
-                            {post.timeAgo}
-                          </span>
-                        </div>
-
-                        {/* CTA button */}
-                        {post.linkTheme === "dark" ? (
-                          <a
-                            href="https://www.instagram.com/eulermotors/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex h-[28px] w-fit self-start items-center justify-center gap-[7.4px] rounded-[8.6px] bg-ink px-[7.4px] lg:h-[40.9px] lg:gap-[10.2px] lg:rounded-[10.2px] lg:px-[15.3px] hover:bg-black transition-colors"
-                          >
-                            <span className="font-display text-[10px] font-semibold text-white lg:text-[15.3px]">
-                              View on Instagram
-                            </span>
-                            <Image
-                              src="/assets/social/post-arrow.svg"
-                              alt=""
-                              width={20}
-                              height={13}
+                              width={17}
+                              height={3}
                               aria-hidden
-                              className="h-[9.3px] w-[14.5px] lg:h-[12.8px] lg:w-[20px]"
+                              className="h-[1.7px] w-[10.4px] lg:h-[2.8px] lg:w-[16.9px]"
                             />
-                          </a>
-                        ) : (
-                          <a
-                            href="https://www.instagram.com/eulermotors/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex h-[28px] w-fit self-start items-center justify-center rounded-[8.6px] border border-white/50 bg-[rgba(243,244,245,0.2)] px-[7.4px] backdrop-blur-[6.16px] lg:h-9 lg:rounded-[14px] lg:border-white/50 lg:bg-surface/20 lg:px-3 lg:backdrop-blur-[10px] hover:bg-white/30 transition-colors"
-                          >
-                            <span className="font-display text-[10px] font-semibold text-white lg:text-[14px]">
-                              View on Instagram
-                            </span>
-                          </a>
-                        )}
+                          </span>
+                        ) : author.avatar ? (
+                          <Image
+                            src={author.avatar}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="size-[18px] rounded-[37px] lg:size-[20.4px] lg:rounded-full"
+                          />
+                        ) : null}
+                        <span className="truncate text-[12px] font-medium text-white lg:text-[15.3px]">
+                          {author.name || author.handle}
+                        </span>
                       </div>
+
+                      {/* Stats row */}
+                      <div className="flex items-center gap-[7.9px] lg:gap-[12.8px]">
+                        <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
+                          {likes}
+                        </span>
+                        <span aria-hidden className="size-[3.1px] rounded-full bg-white/50 lg:size-[5.1px]" />
+                        <span className="text-[12px] font-bold text-white lg:text-[12.8px]">
+                          {timeAgo}
+                        </span>
+                      </div>
+
+                      {/* CTA button */}
+                      {linkTheme === "dark" ? (
+                        <a
+                          href="https://www.instagram.com/eulermotors/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-[28px] w-fit self-start items-center justify-center gap-[7.4px] rounded-[8.6px] bg-ink px-[7.4px] lg:h-[40.9px] lg:gap-[10.2px] lg:rounded-[10.2px] lg:px-[15.3px] hover:bg-black transition-colors"
+                        >
+                          <span className="font-display text-[10px] font-semibold text-white lg:text-[15.3px]">
+                            View on Instagram
+                          </span>
+                          <Image
+                            src="/assets/social/post-arrow.svg"
+                            alt=""
+                            width={20}
+                            height={13}
+                            aria-hidden
+                            className="h-[9.3px] w-[14.5px] lg:h-[12.8px] lg:w-[20px]"
+                          />
+                        </a>
+                      ) : (
+                        <a
+                          href="https://www.instagram.com/eulermotors/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-[28px] w-fit self-start items-center justify-center rounded-[8.6px] border border-white/50 bg-[rgba(243,244,245,0.2)] px-[7.4px] backdrop-blur-[6.16px] lg:h-9 lg:rounded-[14px] lg:border-white/50 lg:bg-surface/20 lg:px-3 lg:backdrop-blur-[10px] hover:bg-white/30 transition-colors"
+                        >
+                          <span className="font-display text-[10px] font-semibold text-white lg:text-[14px]">
+                            View on Instagram
+                          </span>
+                        </a>
+                      )}
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-            {/* Spacers for right bleed padding — same width as the left one,
-                keeping scroll-end padding symmetric with the start gutter */}
+                  </div>
+                </article>
+              );
+            })}
+
+            {/* End spacers: mobile gutter, desktop buffer so the last card is fully visible before maxScroll */}
             <div aria-hidden className="shrink-0 lg:hidden" style={{ width: "calc(20px - 12px)" }} />
             <div
               aria-hidden
-              className="hidden shrink-0 lg:block min-[2233px]:hidden"
-              style={{ width: "calc(max(0px, (100vw - 1440px) / 2) + 49.337px)" }}
+              className="hidden shrink-0 lg:block"
+              style={{
+                width: "calc(max(24px, (100vw - 1440px) / 2 + 60px) + 80px)",
+              }}
             />
           </div>
+
+          {/* Right edge fade gradient */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[180px] bg-gradient-to-l from-white to-transparent lg:block xl:w-[210px]"
+          />
+
+          {/* Arrows on both sides — Figma 3321:13434 / 3321:13436 */}
+          <CarouselArrows
+            rowId="social-snap-row"
+            label="trucks in action"
+            variant="blue"
+            onStep={() => pauseAutoScroll(600)}
+          />
         </div>
 
-        {/* Progress Indicator Pill */}
-        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-8">
-          <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1">
+        {/* Progress Indicator Pill (Figma 3321:13258) */}
+        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-6 pb-2 lg:pt-8 lg:pb-0">
+          <div
+            role="progressbar"
+            aria-label="Social posts scroll progress"
+            aria-valuenow={Math.round(scrollProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#ccc]/50 p-1"
+          >
             <div
-              className="h-full rounded-[23px] bg-[#121212] transition-all duration-300"
+              className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
               style={{
-                width: `${100 / POSTS.length}%`,
-                transform: `translateX(${activeIndex * 100}%)`,
+                transform: `translateX(${scrollProgress * 78.308}px)`,
               }}
             />
           </div>
