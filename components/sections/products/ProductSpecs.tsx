@@ -88,7 +88,7 @@ export const HILOAD_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: strin
       { icon: "spec-ic-charge.svg", label: "Battery Capacity", value: "13.44 kWh (XR) / 11.5 kWh (TR)" },
       { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
       { icon: "spec-ic-target.svg", label: "Range per charge", value: "170 km (ARAI) | 150+ km Real" },
-      { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "50 km in 15 min" },
+      { icon: "spec-ic-clock.svg", label: "Charging Time", value: "3.5 - 4 hours (AC)" },
       { icon: "spec-ic-bell.svg", label: "Battery Warranty", value: "5 years / 1.25 Lakh km" },
     ],
     image: `${ASSET}spec-image.png`,

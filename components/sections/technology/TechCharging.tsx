@@ -303,8 +303,8 @@ export default function TechCharging() {
         </div>
 
         {/* Showcase Container */}
-        <div className="flex w-full flex-col items-center justify-center gap-8 rounded-[20px] border border-[#E2E6EE] bg-gradient-to-b from-[#f8fafc] to-[#eef2f8] p-6 shadow-sm md:p-8 xl:flex-row xl:gap-8 xl:p-10">
-          <div className="flex w-full max-w-[460px] shrink-0 flex-col items-start justify-center gap-5">
+        <div className="flex w-full flex-col items-center justify-between gap-8 rounded-[20px] border border-[#E2E6EE] bg-gradient-to-b from-[#f8fafc] to-[#eef2f8] p-6 shadow-sm md:p-8 xl:flex-row xl:items-stretch xl:gap-8 xl:p-10 2xl:gap-10">
+          <div className="flex w-full max-w-[460px] lg:max-w-[480px] xl:max-w-[440px] 2xl:max-w-[470px] shrink-0 flex-col items-start justify-between gap-5">
             {/* Top illustration container */}
             <div className="relative h-[220px] w-full overflow-hidden rounded-[16px] bg-white border border-[#E2E6EE] shadow-[0_2px_12px_rgba(0,0,0,0.03)] md:h-[240px]">
               <img
@@ -364,7 +364,7 @@ export default function TechCharging() {
           </div>
 
           {/* Do's and Don'ts Checklist */}
-          <div className="flex w-full flex-col sm:flex-row shrink-0 items-center justify-center gap-5 xl:w-auto">
+          <div className="flex w-full flex-1 flex-col sm:flex-row items-stretch justify-center gap-5 lg:gap-6 2xl:gap-8">
             <ChargingList title="Do's" kind="do" items={DOS} />
             <ChargingList title="Don'ts" kind="dont" items={DONTS} />
           </div>
@@ -376,20 +376,20 @@ export default function TechCharging() {
 
 function ChargingList({ title, kind, items }: { title: string; kind: "do" | "dont"; items: string[] }) {
   return (
-    <div className="flex w-[320px] sm:w-[323px] flex-col items-start gap-[11px]">
-      <div className="relative flex h-[32px] w-full items-center px-5">
-        <img aria-hidden src={`${A}/charging-${kind === "do" ? "dos" : "donts"}-tab.svg`} alt="" className="absolute left-[10px] top-[-5.53px]" />
-        <span className="relative z-10 text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-white">{title}</span>
+    <div className="flex w-full sm:w-1/2 max-w-[420px] flex-col items-start gap-3 flex-1">
+      <div className="relative flex h-[34px] w-full items-center px-5">
+        <img aria-hidden src={`${A}/charging-${kind === "do" ? "dos" : "donts"}-tab.svg`} alt="" className="absolute left-[10px] top-[-5.53px] h-[48px] w-auto" />
+        <span className="relative z-10 text-[15px] font-bold uppercase leading-normal tracking-[0.8px] text-white">{title}</span>
       </div>
-      <div className="flex w-full flex-col gap-[14px] rounded-[16px] border border-[#E2E6EE] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+      <div className="flex w-full flex-1 flex-col justify-between gap-4 lg:gap-5 rounded-[18px] border border-[#E2E6EE] bg-white p-6 lg:p-7 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
         {items.map((item, index) => (
           <Fragment key={item}>
-            {index > 0 && <img aria-hidden src={`${A}/charging-divider.svg`} alt="" className="block opacity-70" />}
-            <div className="flex w-full items-center gap-3.5 group cursor-default">
-              <span className={`flex size-[42px] shrink-0 items-center justify-center rounded-[18px] p-[6px] transition-transform group-hover:scale-105 ${kind === "do" ? "bg-[rgba(212,219,236,0.4)]" : "bg-[rgba(240,6,6,0.1)]"}`}>
-                <img aria-hidden src={`${A}/charging-${kind === "do" ? "check" : "cross"}.svg`} alt="" />
+            {index > 0 && <div className="h-px w-full bg-[#E4E8F0]" />}
+            <div className="flex w-full items-center gap-4 group cursor-default py-1">
+              <span className={`flex size-[46px] lg:size-[48px] shrink-0 items-center justify-center rounded-[20px] p-2 transition-transform group-hover:scale-105 ${kind === "do" ? "bg-[rgba(212,219,236,0.4)]" : "bg-[rgba(240,6,6,0.1)]"}`}>
+                <img aria-hidden src={`${A}/charging-${kind === "do" ? "check" : "cross"}.svg`} alt="" className="size-5" />
               </span>
-              <p className="min-w-0 flex-1 text-[14px] font-semibold leading-[1.4] tracking-[-0.28px] text-ink">{item}</p>
+              <p className="min-w-0 flex-1 text-[15px] lg:text-[16px] font-semibold leading-[1.45] tracking-[-0.3px] text-ink">{item}</p>
             </div>
           </Fragment>
         ))}

@@ -218,29 +218,31 @@ export default function PromoCard({
               </p>
               {/* mobile CTA (Figma 1:4680): h44 · px-20 · Archia Bold 12 ·
                   gap 8 — Button base already carries the sizing */}
-              <Button
-                href={href}
-                variant="dark"
-                arrow={icon === "phone" ? "none" : "white"}
-                className="max-lg:font-bold"
-              >
-                <span className="inline-flex items-center gap-2">
-                  {cta}
-                  {icon === "phone" && (
-                    /* desktop 1:1496: 23.8×24 container, glyph 18×17.85 ·
-                       mobile 1:4702: 16×16 container, glyph 11.94 */
-                    <span className="inline-flex h-4 w-4 items-center justify-center lg:h-6 lg:w-[23.8px]" aria-hidden>
-                      <Image
-                        src="/assets/nav/phone-white.svg"
-                        alt=""
-                        width={18}
-                        height={18}
-                        className="h-3 w-3 lg:h-[17.85px] lg:w-[18px]"
-                      />
-                    </span>
-                  )}
-                </span>
-              </Button>
+              {cta && href && (
+                <Button
+                  href={href}
+                  variant="dark"
+                  arrow={icon === "phone" ? "none" : "white"}
+                  className="max-lg:font-bold"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    {cta}
+                    {icon === "phone" && (
+                      /* desktop 1:1496: 23.8×24 container, glyph 18×17.85 ·
+                         mobile 1:4702: 16×16 container, glyph 11.94 */
+                      <span className="inline-flex h-4 w-4 items-center justify-center lg:h-6 lg:w-[23.8px]" aria-hidden>
+                        <Image
+                          src="/assets/nav/phone-white.svg"
+                          alt=""
+                          width={18}
+                          height={18}
+                          className="h-3 w-3 lg:h-[17.85px] lg:w-[18px]"
+                        />
+                      </span>
+                    )}
+                  </span>
+                </Button>
+              )}
             </div>
           </div>
         </div>

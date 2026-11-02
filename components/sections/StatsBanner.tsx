@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 
-type Stat = {
+export type Stat = {
   value: string;
   unit?: string;
   /** mobile node 1:4542 renders "+" / "%" as small Manrope units; desktop keeps them in the number */
@@ -12,7 +12,7 @@ type Stat = {
 
 /** Figma 1:1385 desktop stats: Archia 44.167 numbers · Manrope Bold 22 units/labels
  *  Figma 1:4542 mobile stats: Archia 40 numbers · Manrope Bold 16 units/labels */
-const STATS: Stat[] = [
+export const DEFAULT_STATS: Stat[] = [
   { value: "15,000+", valueMobile: "15,000", unitMobile: "+", label: "Trucks delivered" },
   { value: "480", unit: "M", label: "Kilometres driven" },
   { value: "96.4%", valueMobile: "96.4", unitMobile: "%", label: "Trucks up & running" },
@@ -40,7 +40,11 @@ function StatValue({ value, unit }: { value: string; unit?: string }) {
  * the five 226×167 r24 cells), cells justify-center py-32 gap-20,
  * value 44.167×1.15 + label 22 → 42/42 padding = 251 band.
  */
-export default function StatsBanner() {
+export default function StatsBanner({ stats }: { stats?: Stat[] } = {}) {
+  const currentStats = stats !== undefined ? stats : DEFAULT_STATS;
+
+  if (currentStats.length === 0) return null;
+
   return (
     <section className="relative z-10 -mt-[6px] overflow-clip bg-[#041231]" aria-label="Euler Motors in numbers">
       {/* desktop bg card — the exported 1440×251 "Banner image" fill: gradient +
@@ -89,34 +93,41 @@ export default function StatsBanner() {
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[14px] px-5 py-6 lg:justify-center lg:px-[60px] lg:py-[42px]">
         {/* mobile grid: centered rows of two flat stat cells split by hairlines, last cell alone */}
         <div className="flex w-full flex-col gap-[14px] lg:hidden">
-          {[
-            [STATS[0], STATS[1]],
-            [STATS[2], STATS[3]],
-          ].map((row, ri) => (
-            <div key={ri} className="flex h-[115px] items-center justify-center gap-3">
-              <MobileCard stat={row[0]} />
-              <MobileDivider />
-              <MobileCard stat={row[1]} />
-            </div>
-          ))}
-          <div className="flex h-[115px] justify-center">
-            <MobileCard stat={STATS[4]} />
-          </div>
+          {Array.from({ length: Math.ceil(currentStats.length / 2) }).map((_, ri) => {
+            const first = currentStats[ri * 2];
+            const second = currentStats[ri * 2 + 1];
+
+            if (!second) {
+              return (
+                <div key={ri} className="flex h-[115px] justify-center">
+                  <MobileCard stat={first} />
+                </div>
+              );
+            }
+
+            return (
+              <div key={ri} className="flex h-[115px] items-center justify-center gap-3">
+                <MobileCard stat={first} />
+                <MobileDivider />
+                <MobileCard stat={second} />
+              </div>
+            );
+          })}
         </div>
 
         {/* desktop row — Figma 1:1385: 1322 wide, gap-24 around zero-width divider
             slots yields 48px between the five flex-1 (226 @ 1440) cells; the row's
             items-center puts each 62px divider's center at 52.5 of the 167 cells */}
         <div className="hidden w-full items-center gap-6 lg:flex">
-          {STATS.map((stat, i) => (
-            <Fragment key={stat.label}>
+          {currentStats.map((stat, i) => (
+            <Fragment key={stat.label || i}>
               <div className="flex h-[167px] flex-1 flex-col items-center justify-center gap-5 overflow-clip rounded-[24px] px-[2px] py-8">
                 <StatValue value={stat.value} unit={stat.unit} />
                 <p className="font-sans text-center text-[22px] font-bold leading-[normal] text-white min-[1366px]:whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
-              {i < STATS.length - 1 && <DesktopDivider />}
+              {i < currentStats.length - 1 && <DesktopDivider />}
             </Fragment>
           ))}
         </div>

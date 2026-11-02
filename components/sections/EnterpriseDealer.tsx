@@ -10,11 +10,49 @@ const BULLETS = [
   "A dedicated account manager for you.",
 ];
 
+export interface EnterpriseDealerProps {
+  enterpriseEyebrow?: string;
+  enterpriseTitle?: string;
+  enterpriseDesc?: string;
+  enterpriseCtaLabel?: string;
+  enterpriseCtaHref?: string;
+  enterpriseBullets?: string[];
+  dealerEyebrow?: string;
+  dealerTitle?: string;
+  dealerDesc?: string;
+  dealerSecondaryCtaLabel?: string;
+  dealerSecondaryCtaHref?: string;
+  dealerPrimaryCtaLabel?: string;
+  dealerPrimaryCtaHref?: string;
+}
+
 /**
  * Enterprise + Dealer cards (desktop 1:1908 · mobile 1:4965).
  * Desktop: 800px dark card + 460px light card, gap 20, pb 19 (no top pad).
  */
-export default function EnterpriseDealer() {
+export default function EnterpriseDealer({
+  enterpriseEyebrow = "Enterprise",
+  enterpriseTitle = "Need 50+ trucks?",
+  enterpriseDesc = "We check your routes on your own data first. Then connect with you.",
+  enterpriseCtaLabel = "Talk to our team",
+  enterpriseCtaHref = "/products",
+  enterpriseBullets,
+  dealerEyebrow = "38 cities open",
+  dealerTitle = "Want to become a dealer?",
+  dealerDesc = "Your area, with clear numbers.\nWe manage showroom setup and training.",
+  dealerSecondaryCtaLabel = "Download details",
+  dealerSecondaryCtaHref = "/products",
+  dealerPrimaryCtaLabel = "Apply now",
+  dealerPrimaryCtaHref = "/products",
+}: EnterpriseDealerProps = {}) {
+  const currentBullets = enterpriseBullets !== undefined ? enterpriseBullets : BULLETS;
+  const mid = Math.ceil(currentBullets.length / 2);
+  const col1 = currentBullets.slice(0, mid);
+  const col2 = currentBullets.slice(mid);
+  const showEnterpriseCta = Boolean(enterpriseCtaLabel && enterpriseCtaHref);
+  const showDealerSecondaryCta = Boolean(dealerSecondaryCtaLabel && dealerSecondaryCtaHref);
+  const showDealerPrimaryCta = Boolean(dealerPrimaryCtaLabel && dealerPrimaryCtaHref);
+
   return (
     <section className="bg-white" aria-label="Enterprise and dealership">
       {/* Figma 1:1908 root — align-self stretch (max-w-1440) · padding 0 60px
@@ -93,12 +131,12 @@ export default function EnterpriseDealer() {
           {/* content — (36, 43.27) 727×408, justify-between (Figma 1:1916) */}
           <div className="relative z-10 flex h-full flex-col justify-between p-6 py-8 lg:absolute lg:left-[36px] lg:top-[43.27px] lg:h-[408px] lg:w-[727px] lg:p-0">
             <div className="flex flex-col gap-4 lg:gap-5">
-              <Eyebrow label="Enterprise" dark />
+              {enterpriseEyebrow && <Eyebrow label={enterpriseEyebrow} dark />}
               <h2 className="font-display text-[32px] font-semibold leading-[40px] tracking-[-0.64px] text-white lg:leading-[1.15] lg:tracking-[-1.04px] lg:text-[52px]">
-                Need 50+ trucks?
+                {enterpriseTitle}
               </h2>
               <p className="max-w-[260px] text-[12px] leading-snug text-white lg:max-w-[359px] lg:text-[16px] lg:leading-normal">
-                We check your routes on your own data first. Then connect with you.
+                {enterpriseDesc}
               </p>
             </div>
 
@@ -106,36 +144,46 @@ export default function EnterpriseDealer() {
                 keeps the button at its intrinsic ~208px width (1:1926) instead
                 of stretching to the 727px column */}
             <div className="hidden lg:flex lg:flex-col lg:gap-6">
-              <Button href="/products" variant="white" arrow="ink" className="self-start text-ink">
-                Talk to our team
-              </Button>
-              <div className="flex gap-[26px]">
-                <div className="flex flex-col gap-4">
-                  {BULLETS.slice(0, 2).map((b) => (
-                    <Bullet key={b} text={b} />
-                  ))}
+              {showEnterpriseCta && (
+                <Button href={enterpriseCtaHref} variant="white" arrow="ink" className="self-start text-ink">
+                  {enterpriseCtaLabel}
+                </Button>
+              )}
+              {currentBullets.length > 0 && (
+                <div className="flex gap-[26px]">
+                  <div className="flex flex-col gap-4">
+                    {col1.map((b) => (
+                      <Bullet key={b} text={b} />
+                    ))}
+                  </div>
+                  {col2.length > 0 && (
+                    <div className="flex flex-col gap-4">
+                      {col2.map((b) => (
+                        <Bullet key={b} text={b} />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className="flex flex-col gap-4">
-                  {BULLETS.slice(2).map((b) => (
-                    <Bullet key={b} text={b} />
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
 
             {/* mobile bullets + CTA inline */}
-            <ul className="mt-8 flex flex-col gap-1.5 lg:hidden">
-              {BULLETS.map((b) => (
-                <li key={b}>
-                  <Bullet text={b} />
-                </li>
-              ))}
-            </ul>
-            <div className="lg:hidden">
-              <Button href="/products" variant="white" arrow="ink" className="w-full text-ink">
-                Talk to our team
-              </Button>
-            </div>
+            {currentBullets.length > 0 && (
+              <ul className="mt-8 flex flex-col gap-1.5 lg:hidden">
+                {currentBullets.map((b) => (
+                  <li key={b}>
+                    <Bullet text={b} />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {showEnterpriseCta && (
+              <div className="lg:hidden">
+                <Button href={enterpriseCtaHref} variant="white" arrow="ink" className="w-full text-ink">
+                  {enterpriseCtaLabel}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -167,32 +215,42 @@ export default function EnterpriseDealer() {
               desktop (24, 40.27) capped at the 412px Figma width (1:1953) and
               inset 24px both sides so it shrinks, not clips, on narrow cards */}
           <div className="absolute inset-x-5 top-[19.67px] flex flex-col lg:inset-x-[24px] lg:top-[40.27px] lg:max-w-[412px]">
-            <Eyebrow label="38 cities open" />
+            {dealerEyebrow && <Eyebrow label={dealerEyebrow} />}
             {/* mobile width breaks the heading after "become" (line 1 measures
                 256.9px · "Want to become a" would need 286px, so 264 lands
                 between them) — Figma 1:5007 two-line wrap */}
             <h2 className="mt-3 w-[264px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink lg:w-full">
-              Want to become a dealer?
+              {dealerTitle}
             </h2>
             <p className="mt-4 w-[248px] text-[12px] leading-4 text-ink lg:mt-2.5 lg:w-full lg:text-[16px] lg:leading-[21.33px]">
-              Your area, with clear numbers.<br />
-              We manage showroom setup and training.
+              {dealerDesc.split("\n").map((line, idx) => (
+                <span key={idx}>
+                  {idx > 0 && <br />}
+                  {line}
+                </span>
+              ))}
             </p>
-            <div className="mt-3 flex gap-3 lg:mt-5">
-              <Link
-                href="/products"
-                className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-ink/50 bg-surface px-5 font-display text-[12px] font-semibold leading-none text-ink lg:h-[42px] lg:border-white/50 lg:bg-surface/50 lg:px-6 lg:text-[14px] lg:backdrop-blur-[10px] hover:bg-white/80 transition-colors"
-              >
-                Download details
-              </Link>
-              <Link
-                href="/products"
-                className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6 lg:text-[14px] hover:bg-black transition-colors"
-              >
-                Apply now
-                <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3 w-[18.857px] lg:h-3.5 lg:w-[22px]" />
-              </Link>
-            </div>
+            {(showDealerSecondaryCta || showDealerPrimaryCta) && (
+              <div className="mt-3 flex gap-3 lg:mt-5">
+                {showDealerSecondaryCta && (
+                  <Link
+                    href={dealerSecondaryCtaHref}
+                    className="flex h-11 flex-1 items-center justify-center rounded-[4px] border border-ink/50 bg-surface px-5 font-display text-[12px] font-semibold leading-none text-ink lg:h-[42px] lg:border-white/50 lg:bg-surface/50 lg:px-6 lg:text-[14px] lg:backdrop-blur-[10px] hover:bg-white/80 transition-colors"
+                  >
+                    {dealerSecondaryCtaLabel}
+                  </Link>
+                )}
+                {showDealerPrimaryCta && (
+                  <Link
+                    href={dealerPrimaryCtaHref}
+                    className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-ink px-5 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6 lg:text-[14px] hover:bg-black transition-colors"
+                  >
+                    {dealerPrimaryCtaLabel}
+                    <Image src="/assets/enterprise/btn-arrow2.svg" alt="" width={22} height={14} aria-hidden className="h-3 w-[18.857px] lg:h-3.5 lg:w-[22px]" />
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

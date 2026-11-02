@@ -3,7 +3,20 @@ import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Arrow from "../ui/Arrow";
 
-const FEATURES = [
+export interface PrimeFeature {
+  value: string;
+  label: string;
+}
+
+export interface PrimeBannerProps {
+  eyebrow?: string;
+  title?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  features?: PrimeFeature[];
+}
+
+const DEFAULT_FEATURES: PrimeFeature[] = [
   { value: "24 hours", label: "Truck back in a day" },
   { value: "Spare vehicle", label: "Totally free" },
   { value: "Every 3 months", label: "Free check-up at your depot" },
@@ -16,7 +29,16 @@ const FEATURES = [
  * Mobile: black base + a single bg-3 strip in the bottom half, right-anchored
  * (178.63% × 51.83% at (-78.67, 48.03)), content top-aligned at 36.33px.
  */
-export default function PrimeBanner() {
+export default function PrimeBanner({
+  eyebrow = "Euler Prime",
+  title = "Get free check-up at your depot with Prime",
+  ctaLabel = "See Euler Prime",
+  ctaHref = "/products",
+  features,
+}: PrimeBannerProps = {}) {
+  const currentFeatures = features !== undefined ? features : DEFAULT_FEATURES;
+  const showCta = Boolean(ctaLabel && ctaHref);
+
   return (
     <section className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -84,44 +106,50 @@ export default function PrimeBanner() {
           and the text scales down to keep clear of the vehicle; min-[1440px]
           restores the exact Figma values. */}
       <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)] lg:justify-center lg:gap-[18px] min-[1440px]:gap-[25px] lg:px-0 lg:pl-[max(80px,calc(50vw-640px))] lg:pt-0">
-        <Eyebrow label="Euler Prime" dark />
+        {eyebrow && <Eyebrow label={eyebrow} dark />}
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
-          Get free check-up at your depot with Prime
+          {title}
         </h2>
 
         {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
             mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).
             Below 1440px the row wraps without the dots so the scaled-down text
             never runs under the truck. */}
-        <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5 lg:rounded-[10px] lg:p-4 min-[1440px]:p-5">
-          {FEATURES.map((f, i) => (
-            <Fragment key={f.value}>
-              <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">
-                <span className="whitespace-nowrap font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[19px] lg:tracking-[-0.38px] min-[1440px]:text-[24px] min-[1440px]:tracking-[-0.48px]">
-                  {f.value}
-                </span>
-                {/* mobile separator — sits between value and label (Figma 1:4905) */}
-                <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
-                <span className="text-[12px] leading-normal text-[#ccc] lg:text-[14px] lg:whitespace-nowrap min-[1440px]:text-[16px]">{f.label}</span>
-              </div>
-              {i < FEATURES.length - 1 && (
-                /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) — 1440px+ only */
-                <span
-                  aria-hidden
-                  className={`hidden rounded-full bg-white/50 min-[1440px]:block ${i === 0 ? "size-2" : "h-2 w-[9px]"}`}
-                />
-              )}
-            </Fragment>
-          ))}
-        </div>
+        {currentFeatures.length > 0 && (
+          <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5 lg:rounded-[10px] lg:p-4 min-[1440px]:p-5">
+            {currentFeatures.map((f, i) => (
+              <Fragment key={`${f.value}-${i}`}>
+                <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">
+                  <span className="whitespace-nowrap font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[19px] lg:tracking-[-0.38px] min-[1440px]:text-[24px] min-[1440px]:tracking-[-0.48px]">
+                    {f.value}
+                  </span>
+                  {/* mobile separator — sits between value and label (Figma 1:4905) */}
+                  <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
+                  <span className="text-[12px] leading-normal text-[#ccc] lg:text-[14px] lg:whitespace-nowrap min-[1440px]:text-[16px]">
+                    {f.label}
+                  </span>
+                </div>
+                {i < currentFeatures.length - 1 && (
+                  /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) — 1440px+ only */
+                  <span
+                    aria-hidden
+                    className={`hidden rounded-full bg-white/50 min-[1440px]:block ${i === 0 ? "size-2" : "h-2 w-[9px]"}`}
+                  />
+                )}
+              </Fragment>
+            ))}
+          </div>
+        )}
 
-        <a
-          href="/products"
-          className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 font-display text-[12px] font-semibold leading-none text-navy lg:h-[50.477px] lg:px-6 lg:text-[16px]"
-        >
-          See Euler Prime
-          <Arrow color="navy" />
-        </a>
+        {showCta && (
+          <a
+            href={ctaHref}
+            className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 font-display text-[12px] font-semibold leading-none text-navy lg:h-[50.477px] lg:px-6 lg:text-[16px]"
+          >
+            {ctaLabel}
+            <Arrow color="navy" />
+          </a>
+        )}
       </div>
     </section>
   );

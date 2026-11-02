@@ -215,21 +215,28 @@ export default function Footer() {
   };
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   /* Play the authentic pronunciation audio file (falls back to TTS if needed) */
   const playEulerAudio = () => {
     if (typeof window === "undefined") return;
     try {
-      if (!audioRef.current) {
-        audioRef.current = new Audio("/assets/footer/euler-audio.mp3");
-      }
-      audioRef.current.currentTime = 0;
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.warn("Audio playback failed, falling back to TTS:", err);
-          speakEuler();
-        });
+      const audio = audioRef.current;
+      if (audio) {
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => setIsPlaying(true))
+            .catch((err) => {
+              console.warn("Audio element play error, falling back to TTS:", err);
+              setIsPlaying(false);
+              speakEuler();
+            });
+        }
+      } else {
+        const fallbackAudio = new Audio("/assets/footer/euler-audio.mp3");
+        fallbackAudio.play().catch(() => speakEuler());
       }
     } catch {
       speakEuler();
@@ -272,9 +279,19 @@ export default function Footer() {
             <button
               type="button"
               onClick={playEulerAudio}
-              aria-label="Euler Motors — pronounced &quot;oy-ler&quot;. Play pronunciation"
+              aria-label="Euler Motors — Pronounced &quot;oy-ler&quot;. Play pronunciation"
               className="group flex w-fit cursor-pointer items-center gap-[13.272px] lg:gap-4"
             >
+              <audio
+                ref={audioRef}
+                preload="auto"
+                playsInline
+                onEnded={() => setIsPlaying(false)}
+                onError={() => setIsPlaying(false)}
+              >
+                <source src="/assets/footer/euler-audio.mp3" type="audio/mpeg" />
+                <source src="/assets/footer/euler_audio_caf9cd309b.mp3" type="audio/mpeg" />
+              </audio>
               <Image src="/assets/footer/logo-dark.svg" alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
               <span className="flex items-center gap-1.5 text-[12px] font-medium leading-none text-ink">
                 <Image
@@ -283,9 +300,9 @@ export default function Footer() {
                   width={20}
                   height={17}
                   aria-hidden
-                  className="h-[15px] w-[17.5px] transition-transform group-hover:scale-110 lg:h-[17.2px] lg:w-[20.1px]"
+                  className={`h-[15px] w-[17.5px] transition-transform ${isPlaying ? "scale-125" : "group-hover:scale-110"} lg:h-[17.2px] lg:w-[20.1px]`}
                 />
-                <span className="group-hover:underline">pronounced &quot;oy-ler&quot;</span>
+                <span className="group-hover:underline">Pronounced &quot;oy-ler&quot;</span>
               </span>
             </button>
             <p className="whitespace-pre-line font-display text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink lg:text-[32px] lg:leading-[1.15] lg:tracking-[-0.64px]">

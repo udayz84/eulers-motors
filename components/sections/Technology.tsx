@@ -2,6 +2,13 @@ import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 
+export interface TechnologyProps {
+  eyebrow?: string;
+  title?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
 /**
  * TECHNOLOGY section (desktop 1:1618 · mobile 1:4784).
  * Four cards: 01 Battery · 02 Safety (heading top-left on mobile) · 03 App
@@ -9,7 +16,14 @@ import Button from "../ui/Button";
  * below the cards, centered (1:4818); desktop keeps it in the header.
  * Desktop card art/positions follow Figma 1:1640–1:1668 exactly.
  */
-export default function Technology() {
+export default function Technology({
+  eyebrow = "Built for the job",
+  title = "Built for Indian roads.",
+  ctaLabel = "See how it works",
+  ctaHref = "/products",
+}: TechnologyProps = {}) {
+  const showCta = Boolean(ctaLabel && ctaHref);
+
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
       {/* container — Figma 1:1618: 1440×1036, padding 48/80, column, items-start,
@@ -18,18 +32,20 @@ export default function Technology() {
         {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
         <div className="flex w-full flex-col gap-5 lg:h-[100px] lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4 lg:self-start">
-            <Eyebrow label="Built for the job" />
+            {eyebrow && <Eyebrow label={eyebrow} />}
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
-              Built for Indian roads.
+              {title}
             </h2>
           </div>
           {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
               `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
-          <div className="hidden lg:block">
-            <Button href="/products" variant="dark" arrow="white">
-              See how it works
-            </Button>
-          </div>
+          {showCta && (
+            <div className="hidden lg:block">
+              <Button href={ctaHref!} variant="dark" arrow="white">
+                {ctaLabel}
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* cards — mobile 12px apart, rows 20px apart on lg (Figma 1:1639) ·
@@ -194,9 +210,11 @@ export default function Technology() {
 
           {/* mobile CTA (Figma 1:4818) — 24px below the cards, centered;
               the heading area carries no button on mobile (1:4785) */}
-          <Button href="/products" variant="dark" arrow="white" className="self-center lg:hidden">
-            See how it works
-          </Button>
+          {showCta && (
+            <Button href={ctaHref!} variant="dark" arrow="white" className="self-center lg:hidden">
+              {ctaLabel}
+            </Button>
+          )}
         </div>
       </div>
     </section>

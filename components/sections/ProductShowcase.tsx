@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Arrow from "../ui/Arrow";
 import Eyebrow from "../ui/Eyebrow";
+import VehicleGroundShadow from "../ui/VehicleGroundShadow";
 import VehicleCompareModal from "./VehicleCompareModal";
 
 export type VehicleData = {
@@ -73,10 +74,10 @@ const VEHICLES: VehicleData[] = [
 ];
 
 const VEHICLE_SCENE_STYLES: Record<string, string> = {
-  "hiload-ev": "w-[62%] h-[57.5%] top-[20.5%]",
-  "storm-ev-t1500": "w-[56%] h-[52%] top-[25%]",
-  "storm-ev-lr-200": "w-[56%] h-[52%] top-[25%]",
-  "turbo-ev-1000": "w-[56%] h-[52%] top-[25%]",
+  "hiload-ev": "w-[62%] h-[57.5%] top-[21%]",
+  "storm-ev-t1500": "w-[56%] h-[52%] top-[25.5%]",
+  "storm-ev-lr-200": "w-[56%] h-[52%] top-[25.5%]",
+  "turbo-ev-1000": "w-[56%] h-[52%] top-[25.5%]",
 };
 
 /**
@@ -85,18 +86,21 @@ const VEHICLE_SCENE_STYLES: Record<string, string> = {
  * into the same region. Arrows and tabs cycle the selection (specs + imagery).
  * Mobile (1:4605) is the static Figma scene; tabs cycle specs only.
  */
-export default function ProductShowcase() {
+export default function ProductShowcase({ vehicles }: { vehicles?: VehicleData[] } = {}) {
+  const currentVehicles = vehicles && vehicles.length > 0 ? vehicles : VEHICLES;
   const [active, setActive] = useState(1); // Default to "Storm EV LR 200"
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const scrollAccumulator = useRef(0);
 
+  const safeActive = Math.min(Math.max(0, active), currentVehicles.length - 1);
+
   const handlePrev = useCallback(() => {
-    setActive((prev) => (prev === 0 ? VEHICLES.length - 1 : prev - 1));
-  }, []);
+    setActive((prev) => (prev === 0 ? currentVehicles.length - 1 : prev - 1));
+  }, [currentVehicles.length]);
 
   const handleNext = useCallback(() => {
-    setActive((prev) => (prev === VEHICLES.length - 1 ? 0 : prev + 1));
-  }, []);
+    setActive((prev) => (prev === currentVehicles.length - 1 ? 0 : prev + 1));
+  }, [currentVehicles.length]);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
@@ -111,7 +115,7 @@ export default function ProductShowcase() {
     }
   }, [handleNext, handlePrev]);
 
-  const current = VEHICLES[active];
+  const current = currentVehicles[safeActive];
 
   return (
     <section
@@ -143,15 +147,19 @@ export default function ProductShowcase() {
         <div
           key={current.id}
           className={`animate-fadeIn absolute left-1/2 -translate-x-1/2 ${
-            VEHICLE_SCENE_STYLES[current.id] || "w-[56%] h-[52%] top-[25%]"
+            VEHICLE_SCENE_STYLES[current.id] || "w-[56%] h-[52%] top-[25.5%]"
           }`}
         >
+          <VehicleGroundShadow
+            className="top-[93%] w-[84%] h-[68px] xl:h-[78px]"
+            frontWheelLeft={current.id === "hiload-ev" ? "20%" : "17%"}
+          />
           <Image
             src={current.image}
             alt={current.title}
             fill
             sizes="(min-width: 1440px) 900px, 65vw"
-            className="object-contain"
+            className="relative z-10 object-contain"
             quality={100}
             priority
           />
@@ -216,8 +224,8 @@ export default function ProductShowcase() {
               role="tablist"
               aria-label="Vehicle models"
             >
-            {VEHICLES.map((vehicle, index) => {
-              const isActive = index === active;
+            {currentVehicles.map((vehicle, index) => {
+              const isActive = index === safeActive;
               return (
                 <button
                   key={vehicle.id}
@@ -229,27 +237,36 @@ export default function ProductShowcase() {
                     }`}
                 >
                   <span className="relative flex h-[52px] w-[54.986px] items-center justify-center overflow-hidden rounded-[9.621px] bg-transparent transition-transform group-hover:scale-105 sm:h-[64px] sm:w-[72px] lg:h-[94.642px] lg:w-[100.075px] lg:rounded-[14.491px]">
-                    <span
-                      className="absolute"
-                      style={{
-                        left: `${vehicle.crop[0]}%`,
-                        top: `${vehicle.crop[1]}%`,
-                        width: `${vehicle.crop[2]}%`,
-                        height: `${vehicle.crop[3]}%`,
-                      }}
-                    >
+                    {vehicle.crop ? (
+                      <span
+                        className="absolute"
+                        style={{
+                          left: `${vehicle.crop[0]}%`,
+                          top: `${vehicle.crop[1]}%`,
+                          width: `${vehicle.crop[2]}%`,
+                          height: `${vehicle.crop[3]}%`,
+                        }}
+                      >
+                        <Image
+                          src="/assets/products/product.png"
+                          alt=""
+                          fill
+                          /* crop windows are 322–416px wide inside the 100px
+                             card (mobile 228 / sm 299) — sizes="120px" made the
+                             optimizer serve a 119px sprite for ~4x upscale */
+                          sizes="(min-width: 1024px) 420px, (min-width: 640px) 300px, 230px"
+                          className={`object-cover ${isActive ? "drop-shadow-[0_5px_6px_rgba(14,47,109,0.35)]" : ""}`}
+                          quality={100}
+                        />
+                      </span>
+                    ) : (
                       <Image
-                        src="/assets/products/product.png"
-                        alt=""
+                        src={vehicle.image}
+                        alt={vehicle.tabLabel}
                         fill
-                        /* crop windows are 322–416px wide inside the 100px
-                           card (mobile 228 / sm 299) — sizes="120px" made the
-                           optimizer serve a 119px sprite for ~4x upscale */
-                        sizes="(min-width: 1024px) 420px, (min-width: 640px) 300px, 230px"
-                        className={`object-cover ${isActive ? "drop-shadow-[0_5px_6px_rgba(14,47,109,0.35)]" : ""}`}
-                        quality={100}
+                        className="object-contain"
                       />
-                    </span>
+                    )}
                   </span>
                   <span className="whitespace-nowrap text-center text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-ink lg:text-[16px] lg:tracking-[-0.32px]">
                     {vehicle.tabLabel}

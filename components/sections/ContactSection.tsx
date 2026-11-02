@@ -15,7 +15,13 @@ const VEHICLES = [
   "Neo HiCity",
 ];
 
-const CONTACTS = [
+export interface ContactItem {
+  icon: string;
+  title: string;
+  sub: string;
+}
+
+const DEFAULT_CONTACTS: ContactItem[] = [
   { icon: "/assets/contact/icon-call-new.svg", title: "1800 000 0000", sub: "9 am to 8 pm Monday to Saturday" },
   { icon: "/assets/contact/icon-mail-new.svg", title: "fleet@eulermotors.com", sub: "For fleets over 50 vehicles" },
   { icon: "/assets/contact/icon-pin-new.svg", title: "Find your nearest dealer", sub: "112 locations, 24 states" },
@@ -68,8 +74,46 @@ const VEHICLE_SELECT: Record<Tab, [string, string]> = {
   Fleet: ["Which vehicle *", "Not sure, please suggest one"],
 };
 
-export default function ContactSection() {
+export interface ContactSectionProps {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  phone?: string;
+  email?: string;
+  contacts?: ContactItem[];
+}
+
+export default function ContactSection({
+  eyebrow = "Next step",
+  title = "Tell us what you need!",
+  description = "We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.",
+  phone,
+  email,
+  contacts,
+}: ContactSectionProps = {}) {
   const [tab, setTab] = useState<Tab>("Test drive");
+
+  const currentContacts =
+    contacts !== undefined
+      ? contacts
+      : [
+          {
+            icon: "/assets/contact/icon-call-new.svg",
+            title: phone || "1800 000 0000",
+            sub: "9 am to 8 pm Monday to Saturday",
+          },
+          {
+            icon: "/assets/contact/icon-mail-new.svg",
+            title: email || "fleet@eulermotors.com",
+            sub: "For fleets over 50 vehicles",
+          },
+          {
+            icon: "/assets/contact/icon-pin-new.svg",
+            title: "Find your nearest dealer",
+            sub: "112 locations, 24 states",
+          },
+        ];
+
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
       {/* Figma 1:1974 — width 1440 · padding 64px 80px 42px 80px ·
@@ -91,14 +135,13 @@ export default function ContactSection() {
           />
 
           <div className="relative flex flex-col gap-4">
-            <Eyebrow label="Next step" />
+            {eyebrow && <Eyebrow label={eyebrow} />}
             <div className="flex flex-col gap-4">
               <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink lg:text-[42px]">
-                Tell us what you need!
+                {title}
               </h2>
               <p className="max-w-[474px] text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-normal">
-                We bring the vehicle to your depot with a load on it. Forty minutes. No
-                pressure. You keep the cost report.
+                {description}
               </p>
             </div>
           </div>
@@ -127,14 +170,19 @@ export default function ContactSection() {
             </div>
 
             {/* contact cards — relative keeps them above the absolute photo wash */}
-            <div className="relative flex flex-col gap-2.5 lg:flex-row lg:flex-wrap lg:items-start lg:gap-2.5">
-              <div className="flex flex-col gap-2.5 lg:gap-2.5">
-                {CONTACTS.slice(0, 2).map((c) => (
+            {currentContacts.length > 0 && (
+              <div className="relative flex flex-col gap-2.5 lg:flex-row lg:flex-wrap lg:items-start lg:gap-2.5">
+                <div className="flex flex-col gap-2.5 lg:gap-2.5">
+                  {currentContacts.slice(0, 2).map((c) => (
+                    <ContactCard key={c.title} {...c} />
+                  ))}
+                </div>
+                {currentContacts[2] && <ContactCard {...currentContacts[2]} />}
+                {currentContacts.slice(3).map((c) => (
                   <ContactCard key={c.title} {...c} />
                 ))}
               </div>
-              <ContactCard {...CONTACTS[2]} />
-            </div>
+            )}
           </div>
         </div>
 

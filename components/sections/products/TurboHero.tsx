@@ -3,6 +3,7 @@
 import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
+import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
 
 const ASSET = "/assets/products/";
 
@@ -328,15 +329,16 @@ export default function TurboHero() {
         />
         {/* Mobile Turbo EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
+          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
         >
+          <VehicleGroundShadow className="top-[93%] w-[84%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-turbo-1000-clean.png"
             alt="Euler Turbo EV 1000"
             fill
             priority
             sizes="420px"
-            className="object-contain"
+            className="relative z-10 object-contain"
           />
         </div>
       </div>
@@ -359,7 +361,8 @@ export default function TurboHero() {
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
-        <div className="absolute left-1/2 -translate-x-1/2 w-[56%] h-[52%] top-[25%]">
+        <div className="absolute left-1/2 -translate-x-1/2 w-[56%] h-[52%] top-[25.5%]">
+          <VehicleGroundShadow className="top-[93%] w-[84%] h-[68px] xl:h-[78px]" />
           <Image
             src="/assets/products/vehicle-turbo-1000-clean.png"
             alt="Euler Turbo EV 1000"

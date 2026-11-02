@@ -61,7 +61,23 @@ const MARQUEE_PERIOD = 291.776 + 42;
 /** mobile period: 136px card + 8px gap (Figma 1:4706) */
 const MARQUEE_PERIOD_MOBILE = 136 + 8;
 
-export default function CompareSection() {
+const ensureBuffer = (cards: DeskCard[]) => {
+  if (cards.length >= 4) return cards;
+  let res = [...cards];
+  while (res.length < 4) res = [...res, ...cards];
+  return res;
+};
+
+export default function CompareSection({
+  withoutCards,
+  withCards,
+}: {
+  withoutCards?: DeskCard[];
+  withCards?: DeskCard[];
+} = {}) {
+  const currentWithout = ensureBuffer(withoutCards && withoutCards.length > 0 ? withoutCards : WITHOUT_DESK);
+  const currentWith = ensureBuffer(withCards && withCards.length > 0 ? withCards : WITH_DESK);
+
   const [activeTab, setActiveTab] = useState(0);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -158,10 +174,10 @@ export default function CompareSection() {
           <div className="absolute left-0 top-0 h-full w-1/2 overflow-hidden group">
             <div className="absolute left-[-48px] top-0">
               <div className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
-                {WITHOUT_DESK.map((c, i) => (
+                {currentWithout.map((c, i) => (
                   <MobileCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
                 ))}
-                {WITHOUT_DESK.map((c, i) => (
+                {currentWithout.map((c, i) => (
                   <MobileCardView key={`w2m-${i}`} c={c} tone="black" chip="red" />
                 ))}
               </div>
@@ -171,10 +187,10 @@ export default function CompareSection() {
           {/* Right Half: With Euler */}
           <div className="absolute left-1/2 top-0 h-full w-1/2 overflow-hidden group">
             <div ref={(el) => { rightTracks.current[0] = el; }} className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
-              {WITH_DESK.map((c, i) => (
+              {currentWith.map((c, i) => (
                 <MobileCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
               ))}
-              {WITH_DESK.map((c, i) => (
+              {currentWith.map((c, i) => (
                 <MobileCardView key={`w2m-${i}`} c={c} tone="glass" chip="green" />
               ))}
             </div>
@@ -319,24 +335,24 @@ export default function CompareSection() {
             section's centre line like the design's 720/740 split. */}
       <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block group">
         <div className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
-          {/* First set of 8 cards */}
-          {WITHOUT_DESK.map((c, i) => (
+          {/* First set of cards */}
+          {currentWithout.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="black" chip="red" />
           ))}
           {/* Duplicated set for infinite marquee */}
-          {WITHOUT_DESK.map((c, i) => (
+          {currentWithout.map((c, i) => (
             <DeskCardView key={`w2-${i}`} c={c} tone="black" chip="red" />
           ))}
         </div>
       </div>
       <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
         <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
-          {/* First set of 8 cards */}
-          {WITH_DESK.map((c, i) => (
+          {/* First set of cards */}
+          {currentWith.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="glass" chip="green" />
           ))}
           {/* Duplicated set for infinite marquee */}
-          {WITH_DESK.map((c, i) => (
+          {currentWith.map((c, i) => (
             <DeskCardView key={`w2-${i}`} c={c} tone="glass" chip="green" />
           ))}
         </div>

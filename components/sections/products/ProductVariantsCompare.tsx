@@ -105,13 +105,13 @@ const MOBILE_TOTAL_WIDTH =
 
 export const HILOAD_VARIANTS: VariantData[] = [
   {
-    name: "HiLoad TR (Fast Charge)",
+    name: "HiLoad TR",
     price: 432000,
     bodyType: "3-wheel cargo EV",
     payload: "768 kg (certified)",
     range: "164 km ARAI (120+ km RealRange™)",
     runningCost: "₹0.85/km",
-    fullCharge: "15 min (50 km DC)",
+    fullCharge: "3.5 - 4 hrs (AC)",
     cargoSpace: "170 cu. ft. container",
   },
   {
@@ -131,7 +131,7 @@ export const HILOAD_VARIANTS: VariantData[] = [
     payload: "768 kg",
     range: "164 km ARAI",
     runningCost: "₹0.85/km",
-    fullCharge: "15 min fast charge",
+    fullCharge: "3.5 - 4 hrs (AC)",
     cargoSpace: "120 - 170 cu. ft.",
   },
 ];

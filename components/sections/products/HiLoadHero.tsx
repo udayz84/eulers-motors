@@ -3,6 +3,7 @@
 import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
+import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
 
 const ASSET = "/assets/products/";
 
@@ -10,11 +11,11 @@ const STATS = [
   { value: "150+", unit: "km", label: "RealRange™" },
   { value: "768", unit: "kg", label: "Certified Payload" },
   { value: "88.55", unit: "Nm", label: "Peak Torque" },
-  { value: "15", unit: "min", label: "Fast Charge (50km)" },
+  { value: "3.5-4", unit: "hrs", label: "Charging Time" },
 ];
 
 const HILOAD_VARIANTS = [
-  { name: "HiLoad TR (Fast Charge)", range: "164 km ARAI", price: "₹4.32 L", image: "vehicle-hiload-ev-clean.png" },
+  { name: "HiLoad TR", range: "164 km ARAI", price: "₹4.32 L", image: "vehicle-hiload-ev-clean.png" },
   { name: "HiLoad XR (Extended Range)", range: "198 km ARAI", price: "₹3.92 L", image: "vehicle-hiload-ev-clean.png" },
   { name: "HiLoad DV (170 cu. ft.)", range: "164 km ARAI", price: "₹4.20 L", image: "vehicle-hiload-ev-clean.png" },
   { name: "HiLoad PV (Open Deck)", range: "164 km ARAI", price: "₹4.10 L", image: "vehicle-hiload-ev-clean.png" },
@@ -329,15 +330,16 @@ export default function HiLoadHero() {
         />
         {/* Mobile HiLoad EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
+          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
         >
+          <VehicleGroundShadow className="top-[93%] w-[82%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
             priority
             sizes="440px"
-            className="object-contain"
+            className="relative z-10 object-contain"
           />
         </div>
       </div>
@@ -360,13 +362,14 @@ export default function HiLoadHero() {
         aria-hidden
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
-        <div className="absolute left-1/2 -translate-x-1/2 w-[62%] h-[57.5%] top-[20.5%]">
+        <div className="absolute left-1/2 -translate-x-1/2 w-[62%] h-[57.5%] top-[21%]">
+          <VehicleGroundShadow className="top-[93%] w-[82%] h-[72px] xl:h-[82px]" />
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
             fill
             sizes="(min-width: 1440px) 900px, 65vw"
-            className="object-contain"
+            className="relative z-10 object-contain"
             priority
             quality={100}
           />
