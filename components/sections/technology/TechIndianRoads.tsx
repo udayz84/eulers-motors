@@ -67,14 +67,16 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
             className="absolute inset-0 size-full max-w-none"
           />
         </div>
-        <div className="relative h-[25.095px] w-[26.039px] shrink-0 overflow-hidden">
-          <img
-            src={`${A}/indian__imgChatGptImage.png`}
-            alt=""
-            className="absolute max-w-none"
-            style={c.crop}
-          />
-        </div>
+        <div
+          aria-hidden="true"
+          className="relative h-[25.095px] w-[26.039px] shrink-0 overflow-hidden"
+          style={{
+            backgroundImage: `url(${A}/indian__imgChatGptImage.png)`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `${c.crop.width} ${c.crop.height}`,
+            backgroundPosition: `${(Number.parseFloat(c.crop.left) / (100 - Number.parseFloat(c.crop.width)) * 100).toFixed(2)}% ${(Number.parseFloat(c.crop.top) / (100 - Number.parseFloat(c.crop.height)) * 100).toFixed(2)}%`,
+          }}
+        />
         <p className="relative whitespace-nowrap text-[18px] sm:text-[20px] font-bold leading-[1.15] tracking-[-0.4px] text-ink">
           {c.label}
         </p>
@@ -141,7 +143,7 @@ export default function TechIndianRoads() {
       {/* Mobile Track: Manual touch snap scroll (not auto-sliding) */}
       <div className="relative w-full overflow-hidden md:hidden">
         <div
-          className="no-scrollbar flex w-full gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory"
+          className="no-scrollbar flex w-full gap-4 overflow-x-auto overflow-y-hidden px-5 pb-2 snap-x snap-mandatory"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {CARDS.map((c) => (

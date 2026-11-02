@@ -164,7 +164,7 @@ export default function TechLoad() {
             id="load-carousel-desktop"
             ref={desktopCarousel}
             onScroll={handleScroll}
-            className="snap-row w-full items-center gap-3.5 md:gap-4 lg:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))]"
+            className="snap-row w-full items-center gap-3.5 md:gap-5 lg:gap-5 min-[1440px]:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))]"
             style={{ scrollSnapType: "x mandatory" }}
           >
             {LOOPED_CARDS.map((variant, index) => (
@@ -174,6 +174,11 @@ export default function TechLoad() {
               />
             ))}
           </div>
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 bottom-[-20px] z-20 hidden h-[532.059px] w-[210.81px] bg-black/[0.01] backdrop-blur-[8px] [-webkit-mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] [mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] md:block"
+          />
 
 
           <button
@@ -276,7 +281,8 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
   return (
     <article
       data-carousel-card
-      className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-[32px] pb-[32px] pt-[252px]"
+      className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border-b border-white/20 px-[32px] pb-[32px] pt-[252px]"
+      style={{ borderTopWidth: 0 }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
         <img

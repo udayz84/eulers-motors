@@ -182,31 +182,31 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
           />
         </div>
 
-        <div className="absolute inset-x-0 bottom-10 mx-auto flex w-full max-w-[1440px] items-end justify-between px-6 md:px-10 lg:bottom-12 lg:px-20">
-          <div className="flex max-w-[460px] flex-col items-start justify-center gap-3 text-white md:gap-4 lg:max-w-[700px] lg:gap-5">
+        <div className="absolute inset-x-0 bottom-10 mx-auto flex w-full max-w-[1440px] items-end justify-between px-6 md:px-10 lg:bottom-12 lg:px-10 lg:pr-20 xl:pl-20 min-[1440px]:!pr-20">
+          <div className="flex w-full max-w-[460px] flex-col items-start justify-center gap-3 text-white md:gap-4 lg:w-[450px] lg:flex-none lg:gap-5">
             <Eyebrow label="Technology" dark />
-            <h1 className="font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:text-[52px] lg:tracking-[-1.04px]">
+            <h1 className="font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:w-[450px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-0.88px] min-[1440px]:w-[788.543px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
               Built Smarter.<br />Built for Business.
             </h1>
-            <p className="max-w-[540px] font-sans text-[14px] leading-normal md:text-[15px] lg:text-[16px]">
+            <p className="max-w-[540px] font-sans text-[14px] leading-normal md:text-[15px] lg:w-[450px] lg:max-w-none lg:text-[16px] min-[1440px]:w-[604.962px] min-[1440px]:text-[16px]">
               Every innovation is designed for everyday business.
             </p>
           </div>
 
           <div className="flex w-[300px] shrink-0 flex-col items-start gap-4 md:w-[340px] lg:w-[386px] lg:gap-5">
-            <div className="relative w-full overflow-clip rounded-lg bg-white/[0.04] p-4 md:p-5 lg:p-6">
+            <div className="relative h-auto w-full overflow-clip rounded-lg bg-white/[0.04] p-4 md:p-5 lg:h-[96px] lg:p-6">
               <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
               <div className="absolute bottom-0 left-0 h-1 w-[140px] bg-white md:w-[160px] lg:w-[178px]" />
               <div className="flex w-full items-center gap-3 text-white md:gap-4">
                 <p className="shrink-0 whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-0.84px]">
-                  <span className="text-[34px] md:text-[38px] lg:text-[42px]">96.4</span><span className="text-[20px] md:text-[24px] lg:text-[26px]">%</span>
+                  <span className="text-[34px] md:text-[38px] min-[1440px]:text-[42px]">96.4</span><span className="text-[20px] md:text-[24px] min-[1440px]:text-[26px]">%</span>
                 </p>
-                <p className="min-w-0 flex-1 font-display text-[13px] leading-[1.35] tracking-[-0.26px] md:text-[14px] md:leading-[1.4] lg:text-[16px] lg:tracking-[-0.32px]">
+                <p className="min-w-0 flex-1 font-display text-[13px] leading-[1.35] tracking-[-0.26px] md:text-[14px] md:leading-[1.4] min-[1440px]:text-[16px] min-[1440px]:tracking-[-0.32px]">
                   Fleet uptime last year, across 15,000 vehicles
                 </p>
               </div>
             </div>
-            <Button variant="white" arrow="navy" href="/products" className="w-full">
+            <Button variant="white" arrow="navy" href="/products" className="w-full lg:!h-[51px]">
               Book a test drive
             </Button>
           </div>
@@ -217,7 +217,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
 
       {showPhilosophy && (
       <div
-        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 pb-12 pt-6 sm:flex md:px-10 lg:gap-[42px] lg:px-20 lg:pb-[62px]"
+        className="relative mx-auto hidden w-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 pb-12 pt-6 sm:flex md:px-10 lg:gap-[42px] lg:px-20 lg:pb-[62px] min-[1440px]:w-[1440px] min-[1440px]:gap-[42px] min-[1440px]:px-[80px] min-[1440px]:pb-[62px] min-[1440px]:pt-[24px]"
         style={{
           backgroundImage:
             "linear-gradient(180deg, #041231 43.98%, #05173F 63.46%, #0C3797 100%), linear-gradient(0deg, #041231 0%, #041231 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%), #E9EDF3",
@@ -226,33 +226,36 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
         <div className="flex w-full flex-col items-center gap-4 md:gap-6">
           <div className="flex max-w-[900px] flex-col items-center gap-3 md:gap-4">
             <Eyebrow label="Philosophy" dark />
-            <h2 className="text-center font-display text-[30px] font-semibold leading-[normal] tracking-[-0.6px] text-white md:text-[36px] md:tracking-[-0.72px] lg:text-[42px] lg:tracking-[-0.84px]">
+            <h2 className="text-center font-display text-[30px] font-semibold leading-[normal] tracking-[-0.6px] text-white md:text-[36px] md:tracking-[-0.72px] lg:text-[36px] lg:tracking-[-0.72px] min-[1440px]:text-[42px] min-[1440px]:tracking-[-0.84px]">
               Technology That Helps You Earn More
             </h2>
           </div>
-          <p className="max-w-[540px] text-center font-sans text-[13px] leading-normal text-white md:text-[14px] lg:text-[16px]">
+          <p className="max-w-[540px] text-center font-sans text-[13px] leading-normal text-white md:text-[14px] lg:text-[14px] min-[1440px]:text-[16px]">
             A commercial vehicle is part of your business. That&apos;s why every technology we build is designed to reduce costs.
           </p>
         </div>
 
-        <div className="relative w-full">
-          <div className="grid w-full grid-cols-3 items-stretch gap-3 md:gap-4 lg:gap-5">
+        <div className="relative w-full min-[1440px]:self-stretch">
+          <div className="grid w-full grid-cols-3 items-stretch gap-3 md:gap-4 lg:gap-5 min-[1440px]:flex min-[1440px]:items-center min-[1440px]:gap-[10px]">
             {PHILOSOPHY.map((card) => (
-              <article key={card.title} className="flex min-h-[200px] w-full flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 md:gap-6 md:p-6 lg:h-[228px] lg:gap-8 lg:p-8">
-                <div className="relative h-[56px] w-[58px] shrink-0 overflow-hidden md:h-[64px] md:w-[66px] lg:h-[72px] lg:w-[74.709px]">
-                  <img src={`${A}/philosophy-icons-exact.png`} alt="" className="absolute max-w-none" style={card.crop} />
-                </div>
+              <article key={card.title} className="flex min-h-[200px] w-full flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 md:gap-6 md:p-6 lg:h-[228px] min-[1440px]:h-[228px] min-[1440px]:w-[420px] min-[1440px]:flex-[1_0_0] min-[1440px]:self-stretch min-[1440px]:gap-8 min-[1440px]:p-8">
+                <div
+                  aria-hidden="true"
+                  className="relative h-[56px] w-[58px] shrink-0 overflow-hidden md:h-[64px] md:w-[66px] lg:h-[72px] lg:w-[74.709px] min-[1440px]:h-[72px] min-[1440px]:w-[74.70px]"
+                  style={{
+                    backgroundImage: `url(${A}/philosophy-icons-exact.png)`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: `${card.crop.width} ${card.crop.height}`,
+                    backgroundPosition: `${(Number.parseFloat(card.crop.left) / (100 - Number.parseFloat(card.crop.width)) * 100).toFixed(2)}% ${(Number.parseFloat(card.crop.top) / (100 - Number.parseFloat(card.crop.height)) * 100).toFixed(2)}%`,
+                  }}
+                />
                 <div className="flex w-full flex-col items-start gap-1.5 text-white md:gap-2">
-                  <h3 className="w-full font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px] md:text-[21px] md:tracking-[-0.42px] lg:text-[26px] lg:tracking-[-0.78px]">{card.title}</h3>
-                  <p className="w-full font-sans text-[12px] leading-normal md:text-[13.5px] lg:text-[16px]">{card.desc}</p>
+                  <h3 className="w-full font-display text-[18px] font-semibold leading-[1.15] tracking-[-0.36px] md:text-[21px] md:tracking-[-0.42px] min-[1440px]:text-[26px] min-[1440px]:tracking-[-0.78px]">{card.title}</h3>
+                  <p className="w-full font-sans text-[12px] leading-normal md:text-[13.5px] min-[1440px]:text-[16px]">{card.desc}</p>
                 </div>
               </article>
             ))}
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-[120px] bg-gradient-to-l from-[#05173f]/85 via-[#05173f]/35 to-transparent blur-[0.5px] lg:block"
-          />
         </div>
       </div>
       )}
