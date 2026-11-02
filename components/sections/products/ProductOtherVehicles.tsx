@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 type VehicleCard = {
   id: string;
@@ -140,6 +141,18 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
   const isInteractingRef = useRef(false);
   const interactionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isInteractingRef.current = true;
+    },
+    onDragEnd: () => {
+      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+      interactionTimeoutRef.current = setTimeout(() => {
+        isInteractingRef.current = false;
+      }, 4000);
+    },
+  });
 
   const getCardStep = () => {
     if (typeof window === "undefined") return 744;
@@ -296,7 +309,7 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))]"
+          className="flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing"
         >
           {loopedVehicles.map((vehicle, index) => (
             <article
