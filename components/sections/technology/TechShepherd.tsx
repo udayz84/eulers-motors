@@ -18,7 +18,7 @@ export default function TechShepherd() {
   return (
     <section id="technology-app" className="relative bg-[#f3f4f5]" aria-label="Shepherd app">
       {/* Desktop & Tablet view */}
-      <div className="relative mx-auto hidden h-[620px] w-full max-w-[1440px] overflow-clip md:block lg:h-[668px]">
+      <div className="relative mx-auto hidden h-[620px] w-full max-w-[1440px] overflow-clip md:block lg:h-[668px] min-[1440px]:px-[80px] min-[1440px]:py-[62px]">
         <div className="absolute right-[-40px] top-[-20px] h-[440px] w-[540px] overflow-hidden rounded-lg md:right-0 md:top-[-30px] md:h-[480px] md:w-[580px] lg:left-[calc(25%+336.51px)] lg:top-[-41.75px] lg:h-[529.435px] lg:w-[642.52px]">
           <img
             src={`${A}/shep__imgImage749.png`}
@@ -28,7 +28,7 @@ export default function TechShepherd() {
         </div>
         <div aria-hidden="true" className="absolute left-[20.49px] top-[333.21px] h-[252.152px] w-[1645.513px] bg-[#f3f4f5] blur-[47.1px]" />
 
-        <div className="absolute left-6 top-[60px] flex max-w-[460px] flex-col items-start justify-center gap-3 md:left-10 md:top-[70px] lg:left-[80px] lg:top-[100.85px] lg:max-w-[534px] lg:gap-4">
+        <div className="absolute left-6 top-[60px] flex max-w-[460px] flex-col items-start justify-center gap-3 md:left-10 md:top-[70px] lg:left-[160px] lg:top-[100.85px] lg:max-w-[534px] lg:gap-4 min-[1440px]:left-[80px]">
           <Eyebrow label="Shepherd app" />
           <h2 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink md:text-[40px] md:tracking-[-0.8px] lg:w-[550px] lg:text-[52px] lg:tracking-[-1.04px]">
             Manage Everything in One Place
@@ -59,7 +59,7 @@ export default function TechShepherd() {
         id="shepherd-features-row"
         className="snap-row absolute left-0 top-[375px] hidden w-full items-center gap-3 md:flex md:top-[385px] lg:top-[418.69px]"
       >
-        <div aria-hidden="true" className="shrink-0" style={{ width: "calc(max(16px, (100vw - 1440px) / 2 + 24px))" }} />
+        <div aria-hidden="true" className="shrink-0 min-[1440px]:!w-[max(80px,calc((100vw-1440px)/2+80px))]" style={{ width: "calc(max(16px, (100vw - 1440px) / 2 + 24px))" }} />
         {FEATURES.map((feature) => (
           <article key={feature.title} data-carousel-card className="flex h-[138.8px] w-[320px] shrink-0 snap-start flex-col items-start gap-2.5 overflow-clip rounded-lg bg-white p-4 md:w-[360px] md:p-5 lg:w-[420px] lg:gap-3">
             <div className="flex w-full items-center gap-2">
