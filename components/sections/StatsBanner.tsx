@@ -165,7 +165,7 @@ function DesktopDivider() {
   return (
     <span aria-hidden className="flex h-[62px] w-0 shrink-0 items-center justify-center">
       <Image
-        src="/assets/products/stat-divider.svg"
+        src="/assets/products/divider.svg"
         alt=""
         width={62}
         height={1}

@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
         pathname: "/uploads/**",
       },
       {
+        protocol: "http",
+        hostname: "**",
+      },
+      {
         protocol: "https",
         hostname: "**",
       },

@@ -52,16 +52,12 @@ const DEFAULT_ARTICLES: InsightsArticleItem[] = [
   },
 ];
 
+import { mediaUrl } from "@/lib/strapi/client";
+
 function getMediaUrl(img?: any): string | null {
   if (!img) return null;
-  const raw = typeof img === "string" ? img : img?.url;
-  if (!raw) return null;
-  if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/assets/") || raw.startsWith("/images/")) {
-    return raw;
-  }
-  const strapiBase = (process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337").replace(/\/+$/, "");
-  const cleanPath = raw.startsWith("/") ? raw : `/${raw}`;
-  return `${strapiBase}${cleanPath}`;
+  const url = mediaUrl(img);
+  return url || null;
 }
 
 export interface InsightsProps {

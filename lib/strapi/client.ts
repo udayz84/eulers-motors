@@ -49,6 +49,11 @@ export function buildPopulate(populateObj: Record<string, unknown>): string {
 
 /**
  * Safely normalizes Strapi upload URLs or falls back to local / CDN assets.
+ * 
+ * In both local development and production deployments, all media files are
+ * mirrored directly into Next.js `public/uploads/`.
+ * Therefore, any Strapi upload path `/uploads/...` is served directly and statically
+ * by Next.js from the same origin (HTTPS, no mixed content, no port 1337 firewall issues).
  */
 export function mediaUrl(
   media: StrapiMedia | string | null | undefined,
@@ -60,13 +65,26 @@ export function mediaUrl(
 
   if (typeof media === "string") {
     rawUrl = media;
-  } else if (typeof media === "object" && "url" in media && media.url) {
-    rawUrl = media.url;
+  } else if (typeof media === "object" && media !== null) {
+    if ("url" in media && typeof media.url === "string") {
+      rawUrl = media.url;
+    } else if ("data" in media && (media as any).data?.attributes?.url) {
+      rawUrl = (media as any).data.attributes.url;
+    }
   }
 
-  if (!rawUrl) return fallback;
+  if (!rawUrl || !rawUrl.trim()) return fallback;
 
-  // Fully-qualified external URLs or data URIs
+  // If a full or partial URL contains /uploads/, always extract the relative
+  // /uploads/... path so it is served statically by Next.js from public/uploads/.
+  // This avoids issues with localhost, non-standard ports (e.g. :1337),
+  // internal Docker hostnames, and HTTPS mixed-content blocks in production.
+  if (rawUrl.includes("/uploads/")) {
+    const uploadIdx = rawUrl.indexOf("/uploads/");
+    return rawUrl.substring(uploadIdx);
+  }
+
+  // Fully-qualified external URLs (e.g. S3, Cloudinary, HTTPS CDNs) or data URIs
   if (rawUrl.startsWith("http://") || rawUrl.startsWith("https://") || rawUrl.startsWith("data:")) {
     return rawUrl;
   }
@@ -76,22 +94,9 @@ export function mediaUrl(
     return rawUrl;
   }
 
-  // Strapi relative uploads
-  const cleanBase = STRAPI_BASE_URL.replace(/\/+$/, "");
+  // Strapi uploads: served directly by Next.js from public/uploads/
   const cleanPath = rawUrl.startsWith("/") ? rawUrl : `/${rawUrl}`;
-
-  // If STRAPI_BASE_URL is localhost or 127.0.0.1, client browsers in production
-  // cannot reach localhost:1337. Return the relative path /uploads/... which
-  // Next.js serves statically from public/uploads/.
-  if (
-    cleanBase.includes("localhost") ||
-    cleanBase.includes("127.0.0.1") ||
-    !cleanBase.startsWith("http")
-  ) {
-    return cleanPath;
-  }
-
-  return `${cleanBase}${cleanPath}`;
+  return cleanPath;
 }
 
 export interface StrapiFetchOptions {

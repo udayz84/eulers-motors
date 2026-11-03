@@ -98,8 +98,8 @@ export default async function Home() {
     tag: slide.tag,
     headline: slide.headline,
     subheading: slide.subheading,
-    desktopImage: slide.desktopImage ? mediaUrl(slide.desktopImage) : undefined,
-    mobileImage: slide.mobileImage ? mediaUrl(slide.mobileImage) : undefined,
+    desktopImage: mediaUrl(slide.desktopImage, "/images/hero_desktop_clean.webp"),
+    mobileImage: mediaUrl(slide.mobileImage, "/images/hero_mobile_clean.webp"),
     primaryCta:
       slide.primaryCta?.label && slide.primaryCta?.href
         ? { label: slide.primaryCta.label, href: slide.primaryCta.href }
@@ -200,7 +200,7 @@ export default async function Home() {
             "Smaller three wheelers for city delivery. HiRange and HiCity. Sold and serviced by the same 112 dealers."
           }
           cta={data.neoPromo?.ctaLabel ?? "Explore Neo"}
-          image={data.neoPromo?.image ? mediaUrl(data.neoPromo.image) : "/assets/neo/product.webp"}
+          image={mediaUrl(data.neoPromo?.image, "/assets/neo/product.webp")}
           imageAlt={data.neoPromo?.imageAlt ?? "Neo by Euler three-wheelers"}
           wash="blue"
           cardH="413"
@@ -234,7 +234,7 @@ export default async function Home() {
             "Need assistance? Request a callback, and our team will get in touch with you in just a few minutes!"
           }
           cta={data.talkPromo?.ctaLabel ?? "Request a call back"}
-          image={data.talkPromo?.image ? mediaUrl(data.talkPromo.image) : "/assets/talk/desktop-bg.webp"}
+          image={mediaUrl(data.talkPromo?.image, "/assets/talk/desktop-bg.webp")}
           imageAlt={data.talkPromo?.imageAlt ?? "Euler expert with a customer"}
           wash="mobile-blue"
           align="right"
