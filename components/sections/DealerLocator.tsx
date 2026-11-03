@@ -588,7 +588,7 @@ export default function DealerLocator({
   return (
     <section
       aria-label={charging ? "Charging station locator" : "Dealer locator"}
-      className="relative mx-auto h-[794px] w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-40px)] max-w-[1600px] overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.1)] bg-white lg:h-[815px] lg:rounded-[20px]"
+      className="relative mx-auto h-[794px] w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-40px)] max-w-[1600px] overflow-hidden rounded-[12px] border border-white/10 bg-[#0B0F15] lg:h-[815px] lg:rounded-[20px]"
     >
       <div className="absolute inset-0 size-full overflow-hidden">
         <Image
@@ -602,8 +602,6 @@ export default function DealerLocator({
           className={`object-cover object-center pointer-events-none ${mobileMapShift}`}
         />
       </div>
-      <div className="absolute bottom-[-151px] left-[-593px] h-[491px] w-[1551px] rounded-full bg-[#d4dbec] blur-[81px] lg:hidden" />
-      <div className="absolute bottom-[-191px] left-[-112px] hidden h-[349px] w-[1662px] rounded-full bg-[#d4dbec] blur-[81px] lg:block" />
 
       <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[692px] lg:max-w-none">
         <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">
@@ -829,7 +827,7 @@ export default function DealerLocator({
 
           <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[36px] lg:top-auto lg:gap-[18px]">
             <div className="flex items-center justify-between px-3 lg:px-[39px]">
-              <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
+              <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-white lg:text-[24px] lg:tracking-[-0.48px] drop-shadow-sm">
                 {charging
                   ? "12 Charging Points"
                   : isService
@@ -892,7 +890,7 @@ export default function DealerLocator({
 
           {/* Bottom handle bar indicator matching Figma and screenshot */}
           <div
-            className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 h-1.5 w-10 sm:w-12 rounded-full bg-[#121212]/35 pointer-events-none"
+            className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 h-1.5 w-10 sm:w-12 rounded-full bg-white/40 pointer-events-none"
             aria-hidden="true"
           />
         </>
