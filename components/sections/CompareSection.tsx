@@ -68,13 +68,19 @@ const ensureBuffer = (cards: DeskCard[]) => {
   return res;
 };
 
-export default function CompareSection({
-  withoutCards,
-  withCards,
-}: {
+export interface CompareSectionProps {
+  eyebrow?: string;
+  title?: string;
   withoutCards?: DeskCard[];
   withCards?: DeskCard[];
-} = {}) {
+}
+
+export default function CompareSection({
+  eyebrow = "Why Euler",
+  title = "What changes when you switch?",
+  withoutCards,
+  withCards,
+}: CompareSectionProps = {}) {
   const currentWithout = ensureBuffer(withoutCards && withoutCards.length > 0 ? withoutCards : WITHOUT_DESK);
   const currentWith = ensureBuffer(withCards && withCards.length > 0 ? withCards : WITH_DESK);
 
@@ -136,9 +142,9 @@ export default function CompareSection({
 
         {/* title container — (19.32, 31.3), gap 14, pills h-32 (1:4753) */}
         <div className="absolute inset-x-[19.32px] top-[31.3px] z-10 flex flex-col items-center gap-[14px]">
-          <Eyebrow label="Why Euler" dark />
+          <Eyebrow label={eyebrow} dark />
           <h2 className="w-[310.678px] text-center font-display text-[28px] font-semibold leading-[normal] tracking-[-0.56px] text-white">
-            What changes when you switch?
+            {title}
           </h2>
           {/* pills row (Figma 1:4759: full 353px container width, first pill at
               its x=0). The 19.32px gutters live in snap-aligned spacer children
@@ -305,9 +311,9 @@ export default function CompareSection({
           otherwise cut across the centre pill (Small business) */}
       <div className="relative z-10 mx-auto hidden w-full max-w-[1360px] flex-col items-center gap-[24px] pt-[62.21px] lg:flex">
         <div className="flex h-[86.36px] flex-col items-center gap-4">
-          <Eyebrow label="Why Euler" dark />
+          <Eyebrow label={eyebrow} dark />
           <h2 className="text-center font-display text-[42px] font-semibold leading-[50px] tracking-[-0.84px] text-white">
-            What changes when you switch?
+            {title}
           </h2>
         </div>
         <div className="snap-row gap-3" role="tablist" aria-label="Audience">

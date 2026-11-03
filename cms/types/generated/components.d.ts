@@ -213,7 +213,9 @@ export interface HomeHeroSlide extends Struct.ComponentSchema {
     icon: 'slideshow';
   };
   attributes: {
+    desktopImage: Schema.Attribute.Media<'images'>;
     headline: Schema.Attribute.String & Schema.Attribute.Required;
+    mobileImage: Schema.Attribute.Media<'images'>;
     primaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
     secondaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
     subheading: Schema.Attribute.String;
@@ -245,6 +247,7 @@ export interface HomePrimeBanner extends Struct.ComponentSchema {
     icon: 'star';
   };
   attributes: {
+    backgroundImage: Schema.Attribute.Media<'images'>;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
     description: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Euler Prime'>;

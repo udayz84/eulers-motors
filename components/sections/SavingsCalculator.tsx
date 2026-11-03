@@ -88,7 +88,15 @@ function RangeSlider({
  * Desktop: chart left + controls right · Mobile: stacked, chips in a
  * full-bleed horizontal scroll row (Figma 1:5219).
  */
-export default function SavingsCalculator() {
+export interface SavingsCalculatorProps {
+  eyebrow?: string;
+  title?: string;
+}
+
+export default function SavingsCalculator({
+  eyebrow = "Savings calculator",
+  title = "Calculate your savings",
+}: SavingsCalculatorProps = {}) {
   const [vehicle, setVehicle] = useState(0);
   const [km, setKm] = useState(60);
   const [years, setYears] = useState(5);
@@ -120,9 +128,9 @@ export default function SavingsCalculator() {
         <div className="lg:flex lg:min-w-0 lg:flex-col lg:gap-[36px]">
           <div className="flex flex-col gap-[14px] lg:gap-3 lg:pt-[14px]">
             {/* white badge marks + white text on the dark section */}
-            <Eyebrow label="Savings calculator" dark icons="white" />
+            <Eyebrow label={eyebrow} dark icons="white" />
             <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:text-[52px] lg:tracking-[-1.04px]">
-              Calculate your savings
+              {title}
             </h2>
           </div>
           {/* chart (Figma 1:2270, updated variant 1:2261): rounded 737×495
