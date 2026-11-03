@@ -94,15 +94,17 @@ function getFooterHref(link: string): string {
 }
 
 /* ------------------------------------------------------------------ *
- * Brand pronunciation — "OY-ler" (eulermotors.com: "The name Euler is
- * often mispronounced. The correct pronunciation is OY-ler, not YOU-ler").
- *
- * The spoken text is "Oiler", not the respelling "oy-ler": "oy-ler" is not
- * in any TTS lexicon, so engines improvise — they spell it out letter by
- * letter ("O Y L E R") or guess "you-ler". "Oiler" is a real English word
- * and an exact homophone of Euler (Wiktionary: /ˈɔɪlər/), so every voice
- * renders it as OY-ler.
+ * Brand pronunciation — "OY-ler" across multiple Indian languages.
+ * Cycles dynamically through English, Hindi, Tamil, Telugu, Kannada, Bengali.
  * ------------------------------------------------------------------ */
+const PRONUNCIATIONS = [
+  'Pronounced "oy-ler"',
+  'उच्चारण "ऑयलर"',
+  'உச்சரிப்பு "ஆய்லர்"',
+  'ఉచ్చారణ "ఆయిలర్"',
+  'ಉಚ್ಚಾರಣೆ "ಆಯ್ಲರ್"',
+  'উচ্চারণ "অয়লার"',
+];
 const PRONUNCIATION = "Oiler";
 
 /* macOS/Chrome ship novelty voices (Albert, Bubbles, Cellos, Wobble, Zarvox…)
@@ -216,6 +218,21 @@ export default function Footer() {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [langIndex, setLangIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  /* Cycle pronunciation text through multiple languages automatically */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setLangIndex((prev) => (prev + 1) % PRONUNCIATIONS.length);
+        setFade(true);
+      }, 200);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   /* Play the authentic pronunciation audio file (falls back to TTS if needed) */
   const playEulerAudio = () => {
@@ -279,7 +296,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={playEulerAudio}
-              aria-label="Euler Motors — Pronounced &quot;oy-ler&quot;. Play pronunciation"
+              aria-label={`Euler Motors — ${PRONUNCIATIONS[langIndex]}. Play pronunciation`}
               className="group flex w-fit cursor-pointer items-center gap-[13.272px] lg:gap-4"
             >
               <audio
@@ -302,7 +319,13 @@ export default function Footer() {
                   aria-hidden
                   className={`h-[15px] w-[17.5px] transition-transform ${isPlaying ? "scale-125" : "group-hover:scale-110"} lg:h-[17.2px] lg:w-[20.1px]`}
                 />
-                <span className="group-hover:underline">Pronounced &quot;oy-ler&quot;</span>
+                <span
+                  className={`inline-block transition-all duration-200 ${
+                    fade ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+                  } group-hover:underline`}
+                >
+                  {PRONUNCIATIONS[langIndex]}
+                </span>
               </span>
             </button>
             <p className="whitespace-pre-line font-display text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink lg:text-[32px] lg:leading-[1.15] lg:tracking-[-0.64px]">
