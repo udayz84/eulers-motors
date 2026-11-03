@@ -67,7 +67,7 @@ export default function Technology({
     <section id="technology" className="bg-white" aria-label="Technology">
       {/* container — Figma 1:1618: 1440×1036, padding 48/80, column, items-start,
           gap 42 (header 1280×100 → cards 1280×798: rows 431 + 20 + 343) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:h-[1036px] lg:items-start lg:gap-[42px] lg:px-[80px] lg:pb-12 lg:pt-12">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-10 pt-[42px] sm:pb-12 lg:h-[1036px] lg:items-start lg:gap-[42px] lg:px-[80px] lg:pb-12 lg:pt-12">
         {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
         <div className="flex w-full flex-col gap-5 lg:h-[100px] lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4 lg:self-start">
@@ -161,7 +161,7 @@ export default function Technology({
 
             {/* row 2 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
+              <article className="relative min-h-[260px] h-[260px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
                 {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
                 <Image
                   src="/assets/technology/app-photo.png"
@@ -191,7 +191,7 @@ export default function Technology({
                 {/* on lg the wrapper spans the card so heading and badges place
                     independently (Figma 1:1657/1:1661); mobile keeps the narrow
                     heading column at bottom-left, badges in flow (Figma 1:4806) */}
-                <div className="absolute bottom-[76.9px] left-[14px] flex w-[197.8px] flex-col gap-3 lg:inset-0 lg:w-auto lg:p-0">
+                <div className="absolute bottom-[14px] left-[14px] flex w-[197.8px] flex-col gap-2 sm:gap-3 lg:inset-0 lg:w-auto lg:p-0">
                   <CardHeading
                     className="max-lg:static lg:right-auto lg:bottom-[123.36px] lg:left-[30px] lg:w-[376px]"
                     num={card3.tag || "03 / App"}

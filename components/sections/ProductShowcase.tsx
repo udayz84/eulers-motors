@@ -131,15 +131,13 @@ export default function ProductShowcase({
 
   return (
     <section
-      className="relative overflow-hidden bg-white pb-[33.34px] pt-[41px] lg:pb-9 lg:pt-[66px]"
+      id="product-showcase"
+      className="relative overflow-hidden bg-white pb-8 pt-8 sm:pb-10 sm:pt-10 lg:pb-9 lg:pt-[66px]"
       aria-label="Choose your truck"
       onWheel={handleWheel}
     >
-      {/* Figma background stack (1:1318): white base · main-bg @50% ·
-          scene truck render (1:1319) · blurred #f3f4f5 band (1:1320).
-          The scene is the static Figma imagery (1440×874, bottom-anchored);
-          arrows/tabs cycle the selected vehicle's specs, not the truck. */}
-      <div aria-hidden className="absolute inset-0 hidden pointer-events-none lg:block">
+      {/* Clean showroom background (2880×1600 environment) covering full section height */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
         <Image
           src="/images/vehicel images.png"
           alt=""
@@ -181,35 +179,7 @@ export default function ProductShowcase({
         aria-hidden
         className="absolute left-[calc(50%_-_25px)] top-[-170.73px] hidden h-[432px] w-[2160px] -translate-x-1/2 bg-surface blur-[173.2px] pointer-events-none lg:block"
       />
-      {/* mobile scene (1:4605, 393×852 at top -41.34): #a3aaba base ·
-          environment (mobile-bg-1) · white/50 wash · truck cutout
-          (mobile-bg-2) — every layer stretched to the node per the Figma */}
-      <div
-        aria-hidden
-        className="absolute left-1/2 top-[-41.34px] h-[852px] w-[393px] -translate-x-1/2 pointer-events-none overflow-hidden lg:hidden"
-      >
-        <div className="absolute inset-0 bg-[#a3aaba]" />
-        <Image
-          src="/assets/products/mobile-bg-1.png"
-          alt=""
-          fill
-          sizes="393px"
-          className="object-fill object-bottom"
-        />
-        <div className="absolute inset-0 bg-white/50" />
-        <Image
-          src="/assets/products/mobile-bg-2.png"
-          alt=""
-          fill
-          sizes="393px"
-          className="object-fill object-bottom"
-        />
-      </div>
-      {/* mobile blurred band (Figma 1:4607): 1874.7×374.9 at (50%+19.5, -73.34) */}
-      <div
-        aria-hidden
-        className="absolute left-[calc(50%+19.5px)] top-[-73.34px] h-[374.945px] w-[1874.727px] -translate-x-1/2 bg-surface blur-[173.2px] pointer-events-none lg:hidden"
-      />
+
 
       {/* Figma 1:1321 header spans 77→1363 inside the 1440 frame — use the
           centered max-w-1440 frame with 80px gutters (like StatsBanner's 60px)
@@ -299,10 +269,31 @@ export default function ProductShowcase({
           </div>
         </div>
 
-        {/* Stage — the truck comes from the scene layer (1:1319); this is the
-            arrow band. Height sized so the section lands on the Figma 862px
-            frame: truck bottom sits ~7px above the spec card (1:1341). */}
-        <div className="relative flex h-[242px] w-full items-center justify-center lg:my-6 lg:h-auto lg:min-h-[420px]">
+        {/* Stage — on mobile renders the active vehicle cutout with ground shadow
+            in-flow between tabs and specs card so it never overlaps the tabs.
+            Desktop maintains the bottom-anchored scene box with arrow controls. */}
+        <div className="relative flex h-[210px] xs:h-[230px] sm:h-[260px] w-full items-center justify-center my-2 sm:my-3 lg:my-6 lg:h-auto lg:min-h-[420px]">
+          {/* Mobile active vehicle display */}
+          <div className="relative h-full w-full max-w-[340px] xs:max-w-[360px] sm:max-w-[420px] lg:hidden">
+            <div
+              key={current.id}
+              className="animate-fadeIn relative flex h-full w-full items-center justify-center"
+            >
+              <VehicleGroundShadow
+                className="top-[86%] w-[86%] h-[38px]"
+                frontWheelLeft={current.id === "hiload-ev" ? "20%" : "17%"}
+              />
+              <Image
+                src={current.image}
+                alt={current.title}
+                fill
+                sizes="(max-width: 640px) 360px, 420px"
+                className="relative z-10 object-contain"
+                quality={100}
+                priority
+              />
+            </div>
+          </div>
 
           {/* Left Arrow — desktop only */}
           <button

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 
@@ -9,15 +9,11 @@ type Vehicle = { name: string; capacity: string; crop: [number, number, number, 
 /* sprite crop boxes (Figma 1:2398/1:2404/1:2411/1:2417) — [left, top, width, height] %
    of the 42×42 thumb window into /assets/calculator/vehicle.png */
 const VEHICLES: Vehicle[] = [
-  { name: "Storm EV LR 200", capacity: "1,200 kg", crop: [-215.19, -125.87, 319.14, 213.66] },
   { name: "Storm EV T1500", capacity: "1,500 kg", crop: [-5.8, -125.03, 319.14, 213.66] },
+  { name: "Storm EV LR 200", capacity: "1,200 kg", crop: [-215.19, -125.87, 319.14, 213.66] },
   { name: "Turbo EV 1000", capacity: "1,000 kg", crop: [0, 0, 319.14, 213.66] },
   { name: "HiLoad EV", capacity: "688 kg", crop: [-279.52, -14.06, 397.73, 266.27] },
 ];
-
-/* mobile track order (Figma 1:5219): T1500 leads, the default-active LR 200
-   second, Turbo/HiLoad after — desktop grid keeps array order */
-const MOBILE_ORDER = ["max-lg:order-2", "max-lg:order-1", "max-lg:order-3", "max-lg:order-4"];
 
 /**
  * Figma slider (1:2426–1:2431 desktop · 1:5249–1:5257 mobile): dashed tick
@@ -110,18 +106,6 @@ export default function SavingsCalculator({
   const [years, setYears] = useState(defaultYears);
   const chipsRef = useRef<HTMLDivElement>(null);
 
-  // start the mobile chip row scrolled so the active chip leads with a ~33px
-  // peek of its predecessor (Figma 1:5219 places the track ~150px from left)
-  useLayoutEffect(() => {
-    const row = chipsRef.current;
-    const active = row?.querySelector<HTMLElement>('[data-active="true"]');
-    if (!row || !active) return;
-    row.scrollLeft = Math.max(
-      0,
-      active.getBoundingClientRect().left - row.getBoundingClientRect().left + row.scrollLeft - 33,
-    );
-  }, []);
-
   return (
     <section className="bg-deep py-[42px] lg:pt-[52px] lg:pb-[48px]" aria-label="Savings calculator">
       {/* container frame (Figma 1:1471/1:2381): 1440px wide, padding
@@ -185,7 +169,7 @@ export default function SavingsCalculator({
                   data-active={i === vehicle}
                   onClick={() => setVehicle(i)}
                   aria-pressed={i === vehicle}
-                  className={`${MOBILE_ORDER[i]} flex h-[56px] w-auto shrink-0 items-center gap-[15px] rounded-[6px] border border-brand/50 py-[6px] pl-[6px] pr-[10px] text-left transition-opacity lg:order-none lg:h-[70px] lg:w-full lg:rounded-2xl lg:p-[6px] ${
+                  className={`flex h-[56px] w-auto shrink-0 items-center gap-[15px] rounded-[6px] border border-brand/50 py-[6px] pl-[6px] pr-[10px] text-left transition-opacity lg:h-[70px] lg:w-full lg:rounded-2xl lg:p-[6px] ${
                     i === vehicle ? "bg-brand/20" : "bg-brand/10 opacity-60"
                   }`}
                 >

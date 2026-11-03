@@ -196,10 +196,11 @@ export default function CompareSection({
       className="compare-bg group relative overflow-clip lg:h-[800px]"
       aria-label="Why Euler"
     >
-      {/* ── mobile: composed Figma 1:4703 frame (393×612) — title block at
+      {/* ── mobile: composed Figma 1:4703 frame — title block at
           y31.3 · strips at y248.67 · labels at y374.25 · divider 178.67→458.5
-          (touching the promo top) · truck art right half · Neo promo y459 ── */}
-      <div ref={mobileFrameRef} className="relative mx-auto h-[612px] w-full max-w-[393px] lg:hidden">
+          (touching the promo top) · truck art right half · Neo promo y459.
+          h-[656px] provides healthy ~40px margin under the quiz card ── */}
+      <div ref={mobileFrameRef} className="relative mx-auto h-[656px] w-full max-w-[393px] lg:hidden">
         {/* rings + blue glow art (1:4718, native 319×443, arcs centered on
             the divider) — scaled 1.294× about its arc center (197.74, 368.38)
             so the outer arcs span y≈122→612 like the taller divider, per
@@ -337,7 +338,7 @@ export default function CompareSection({
             aria-hidden
             className="object-cover opacity-20"
           />
-          <div className="relative flex flex-col items-center gap-0.5 whitespace-nowrap text-center">
+          <div className="relative flex flex-col items-center gap-0.5 text-center">
             <p className="font-outfit text-[18px] font-semibold leading-[1.25] tracking-[-0.27px] text-white">
               {quizTitle}
             </p>
@@ -471,10 +472,8 @@ export default function CompareSection({
           className="pointer-events-none absolute left-[721.17px] top-[-13px] h-[2.5px] w-[598.535px] origin-top-left rotate-90"
         />
 
-        {/* Neo promo — 722×91, r16, p20, gap 82 (Figma 1:1587: left-1/2
-            -translate-x-1/2 at top 679 — the old fixed left-359px only
-            centered at exactly 1440px and stuck right of center below it) */}
-        <div className="pointer-events-auto absolute left-1/2 top-[464.43px] z-20 flex h-[91px] w-[722px] -translate-x-1/2 items-center gap-[82px] overflow-clip rounded-[16px] p-5">
+        {/* Quiz promo banner — adaptive width with justify-between so longer subtitles and CTA buttons never clip */}
+        <div className="pointer-events-auto absolute left-1/2 top-[464.43px] z-20 flex min-h-[91px] h-auto w-[calc(100%-48px)] max-w-[880px] min-[1440px]:max-w-[920px] -translate-x-1/2 items-center justify-between gap-6 overflow-hidden rounded-[16px] p-5 shadow-lg">
           <div
             aria-hidden
             className="absolute inset-0"
@@ -489,11 +488,11 @@ export default function CompareSection({
             src="/assets/compare/neo-promo-bg.png"
             alt=""
             fill
-            sizes="722px"
+            sizes="920px"
             aria-hidden
             className="object-cover opacity-20"
           />
-          <div className="relative flex flex-col gap-1.5 whitespace-nowrap">
+          <div className="relative flex min-w-0 flex-1 flex-col gap-1.5">
             <p className="font-outfit text-[20px] font-semibold leading-[1.25] tracking-[-0.3px] text-white">
               {quizTitle}
             </p>
@@ -504,7 +503,7 @@ export default function CompareSection({
           <Button
             variant="dark"
             arrow="white"
-            className="relative pointer-events-auto cursor-pointer"
+            className="relative pointer-events-auto cursor-pointer shrink-0 whitespace-nowrap"
             onClick={() => setIsCompareOpen(true)}
           >
             {quizCtaLabel}
