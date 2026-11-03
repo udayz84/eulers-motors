@@ -30,6 +30,7 @@ export default function FloatingWidget({
   mobileClassName,
   desktopClassName,
   desktopRightClassName,
+  mobileRightClassName,
 }: {
   sticky?: boolean;
   mobileOnly?: boolean;
@@ -42,6 +43,8 @@ export default function FloatingWidget({
   desktopClassName?: string;
   /** Desktop-only horizontal alignment override. */
   desktopRightClassName?: string;
+  /** Mobile-only horizontal alignment override. */
+  mobileRightClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
@@ -71,7 +74,7 @@ export default function FloatingWidget({
 
   return (
     <div
-      className={`group/floating-widget ${positionClass} right-[-20px] ${desktopRight} z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
+      className={`group/floating-widget ${positionClass} ${mobileRightClassName ?? "right-[-20px]"} ${desktopRight} z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
         mobileOnly ? "block lg:hidden" : "block"
       }`}
     >

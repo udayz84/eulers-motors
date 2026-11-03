@@ -282,9 +282,73 @@ const FIGMA_RELATED_CARDS = [
   },
 ];
 
+const MOBILE_RELATED_CARDS = [
+  {
+    id: "connected-vehicles-business",
+    image: "/assets/insights/figma-mobile-article-3.png",
+    category: "Technology",
+    title: "How Connected Vehicles Help Businesses Run Better",
+    date: "28 July 2026",
+    readTime: "5 min read",
+    excerpt: "See how connected vehicle technology can help businesses…",
+    href: "/insights/connected-vehicles-business",
+  },
+  {
+    id: "real-cost-electric",
+    image: "/assets/insights/figma-mobile-article-2.png",
+    category: "Industry",
+    title: "The Real Cost of Running an Electric…",
+    date: "28 July 2026",
+    readTime: "5 min read",
+    excerpt: "A side-by-side comparison of electric versus diesel running costs for last-mile delivery…",
+    href: "/insights/real-cost-electric",
+  },
+  {
+    id: "ev-subsidies",
+    image: "/assets/insights/article-featured-4.png",
+    category: "Industry",
+    title: "Understanding EV Subsidies and…",
+    date: "28 July 2026",
+    readTime: "5 min read",
+    excerpt: "A practical guide to central and state subsidies available for commercial electric…",
+    href: "/insights/ev-subsidies",
+  },
+  {
+    id: "charging-network",
+    image: "/assets/insights/figma-related-article.png",
+    category: "Industry",
+    title: "What Makes a Good Charging Network…",
+    date: "28 July 2026",
+    readTime: "5 min read",
+    excerpt: "Depot charging, highway charging and the infrastructure decisions that matter for fleet…",
+    href: "/insights/charging-network",
+  },
+  {
+    id: "ev-maintenance-best-practices",
+    image: "/assets/insights/article-featured-1.png",
+    category: "Service",
+    title: "Electric Vehicle Maintenance Best Practices",
+    date: "10 July 2026",
+    readTime: "4 min read",
+    excerpt: "Essential tips for maintaining your electric fleet.",
+    href: "/insights/ev-maintenance-best-practices",
+  },
+  {
+    id: "battery-technology-advances",
+    image: "/assets/insights/article-featured-2.png",
+    category: "Technology",
+    title: "Battery Technology Advances in 2026",
+    date: "5 July 2026",
+    readTime: "6 min read",
+    excerpt: "Latest breakthroughs in battery technology for commercial EVs.",
+    href: "/insights/battery-technology-advances",
+  },
+];
+
 function RelatedArticles() {
   const rowRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
 
   const scroll = (direction: -1 | 1) => {
     const row = rowRef.current;
@@ -302,12 +366,47 @@ function RelatedArticles() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white pb-10 pt-8 sm:pb-12 lg:h-[579.356px] lg:pb-[62px] lg:pt-16" aria-labelledby="related-heading">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-5 px-5 lg:gap-8 lg:px-20">
+    <section className="relative overflow-hidden bg-white lg:h-[579.356px] lg:pb-[62px] lg:pt-16" aria-labelledby="related-heading">
+      <div className="relative flex flex-col items-center gap-4 px-5 py-8 lg:hidden">
+        <div className="relative flex h-4 w-full items-center gap-1">
+          <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={16} className="absolute left-[3.43px] top-0 h-4 w-[148.821px]" />
+          <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" aria-hidden width={15} height={16} className="relative h-4 w-[14.794px]" />
+          <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">Keep reading</span>
+        </div>
+        <h2 id="related-heading-mobile" className="w-full font-sans text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#121212]">Related articles</h2>
+        <div className="flex w-full flex-col gap-2">
+          {MOBILE_RELATED_CARDS.slice(0, mobileVisibleCount).map((article) => (
+            <Link key={article.id} href={article.href} className="flex h-[282px] w-full shrink-0 flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2">
+              <div className="relative h-[160px] w-full shrink-0 overflow-visible rounded-[8px]">
+                <Image src={article.image} alt="" fill sizes="353px" className="rounded-[8px] object-cover" />
+                <span className="absolute left-[6px] top-[6px] rounded-[39.312px] bg-white p-2 text-[12px] font-semibold leading-normal text-black">{article.category}</span>
+                <span className="absolute right-[-4px] top-[6px] flex size-8 items-center justify-center rounded-[4px] bg-white px-3 py-[11px]">
+                  <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="size-5 shrink-0" />
+                </span>
+              </div>
+              <div className="flex min-h-0 flex-col gap-[6px] px-3 pb-3 pt-1">
+                <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212]">{article.title}</h3>
+                <div className="flex items-center gap-2 text-[12px] font-semibold leading-normal text-[rgba(18,18,18,0.6)]">
+                  <span>{article.date}</span><span aria-hidden="true" className="size-[3.145px] shrink-0 rounded-full bg-black/50" /><span>{article.readTime}</span>
+                </div>
+                <p className="line-clamp-2 text-[12px] leading-[1.4] text-[#121212]">{article.excerpt}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        {mobileVisibleCount < MOBILE_RELATED_CARDS.length && (
+          <button type="button" onClick={() => setMobileVisibleCount((count) => Math.min(count + 2, MOBILE_RELATED_CARDS.length))} className="flex h-8 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-5 font-display text-[12px] font-bold leading-none text-[#121212]">
+            Load More
+          </button>
+        )}
+        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[80px] z-10 h-[49.664px] w-[54.598px] bg-[linear-gradient(270deg,#fff_13.618%,rgba(255,255,255,0)_100%)]" />
+      </div>
+
+      <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-5 px-5 lg:flex lg:gap-8 lg:px-20">
         <header className="flex w-full flex-col items-start lg:h-[96.355px] lg:items-start lg:justify-between">
           <div className="flex flex-col items-start gap-3 lg:items-start lg:gap-4">
             <div className="relative flex h-[20.355px] items-center gap-[6px]">
-              <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={147} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
+              <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={147} height={21} className="absolute left-[-2px] top-0 h-[20.355px] w-[148.821px] lg:left-[3.43px]" />
               <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
               <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d] lg:text-[14px] lg:tracking-[0.7px]">Keep reading</span>
             </div>
@@ -359,7 +458,33 @@ function RelatedArticles() {
 
 function FleetBanner() {
   return (
-    <section className="bg-[#f3f4f5] px-5 py-6 lg:h-[339px] lg:px-20 lg:py-8">
+    <>
+    <section className="bg-white px-5 pb-5 pt-2 lg:hidden">
+      <div className="relative mx-auto h-[384px] w-full max-w-[353px] overflow-hidden rounded-[8px] bg-[linear-gradient(175.729deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
+        <div aria-hidden="true" className="absolute left-[14.164%] top-[175px] h-[249px] w-[88.385%] overflow-hidden">
+          <Image src="/assets/insights/figma-fleet-banner.png" alt="" width={520} height={415} className="absolute left-0 top-0 h-[125.24%] w-full max-w-none object-fill" />
+        </div>
+        <div className="absolute left-1/2 top-5 flex w-[calc(100%-40px)] max-w-[313px] -translate-x-1/2 flex-col items-start gap-4">
+          <div className="flex w-full flex-col items-start gap-3">
+            <div className="relative flex h-4 w-full items-center gap-1">
+              <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={117} height={16} aria-hidden="true" className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
+              <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[14.794px]" />
+              <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">38 cities open</span>
+            </div>
+            <h2 className="w-full max-w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212]">See how Euler fits your fleet</h2>
+          </div>
+          <div className="grid w-full grid-cols-[151.5fr_149.5fr] items-center gap-3">
+            <Link href="/dealer-locator" className="flex h-11 min-w-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-3 font-display text-[12px] font-bold leading-none text-[#121212]">Find a dealer</Link>
+            <Link href="/products" className="flex h-11 min-w-0 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-3 font-display text-[12px] font-bold leading-none text-white">
+              <span className="whitespace-nowrap">Explore vehicles</span>
+              <Image src="/assets/insights/figma-fleet-arrow.svg" alt="" width={19} height={12} aria-hidden="true" className="shrink-0" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="hidden bg-[#f3f4f5] px-5 py-6 lg:block lg:h-[339px] lg:px-20 lg:py-8">
       <div className="relative mx-auto flex min-h-[300px] w-full max-w-[1280px] items-center overflow-hidden rounded-[12px] bg-[linear-gradient(179.155deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%),linear-gradient(90deg,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.4)_100%),linear-gradient(-82.341deg,#0e2f6d_63.511%,#1d6fff_87.226%)] px-5 py-8 lg:h-[275px] lg:min-h-0 lg:px-10 lg:py-8">
         <div className="relative z-10 flex w-full flex-col items-start gap-4 lg:w-[414.434px]">
           <div className="relative flex h-[20.355px] items-center gap-[6px]">
@@ -381,6 +506,7 @@ function FleetBanner() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
@@ -536,11 +662,12 @@ export default function BlogDetailsPage() {
       <main>
         <section className="relative isolate h-[594px] overflow-visible bg-[#101923] sm:h-[594px] lg:h-[650px]" aria-label="Article header">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden lg:hidden">
-            <Image src="/assets/insights/figma-mobile-hero-base.png" alt="" fill priority sizes="100vw" className="object-fill" />
-            <Image src="/assets/insights/figma-mobile-hero-layer-1.png" alt="" fill priority sizes="100vw" className="absolute left-[-2.05%] top-[-3.59%] h-[103.55%] w-[104.1%] max-w-none object-fill" />
-            <div className="absolute inset-0 bg-[linear-gradient(188.677deg,rgba(0,0,0,0)_56.444%,rgba(0,0,0,0.8)_99.952%)]" />
-            <Image src="/assets/insights/figma-mobile-hero-layer-2.png" alt="" fill priority sizes="100vw" className="absolute left-[-11.08%] top-[-1.11%] h-[104.6%] w-[122.17%] max-w-none object-fill" />
-            <div className="absolute -left-[190px] -top-[95px] h-[220px] w-[400px] rounded-full bg-black/20 blur-[61px] backdrop-blur-[119px]" />
+            <div className="absolute inset-0 scale-[1.06]">
+              <Image src="/assets/insights/figma-mobile-hero-base.png" alt="" fill priority sizes="100vw" className="object-fill" />
+              <Image src="/assets/insights/figma-mobile-hero-layer-1.png" alt="" fill priority sizes="100vw" className="absolute left-[-2.05%] top-[-3.59%] h-[103.55%] w-[104.1%] max-w-none object-fill" />
+              <div className="absolute inset-0 bg-[linear-gradient(188.677deg,rgba(0,0,0,0)_56.444%,rgba(0,0,0,0.8)_99.952%)]" />
+              <Image src="/assets/insights/figma-mobile-hero-layer-2.png" alt="" fill priority sizes="100vw" className="absolute left-[-11.08%] top-[-1.11%] h-[104.6%] w-[122.17%] max-w-none object-fill" />
+            </div>
           </div>
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block">
             <Image src="/assets/insights/figma-hero-layer-1.png" alt="" width={1440} height={671} priority sizes="100vw" className="absolute left-[0.02%] top-[-3.21%] h-[103.16%] w-[99.98%] max-w-none object-fill" />
@@ -550,12 +677,14 @@ export default function BlogDetailsPage() {
           </div>
           <nav aria-label="Breadcrumb" className="absolute left-[19px] top-[85px] z-10 flex items-center gap-2 font-sans text-[14px] font-bold leading-normal text-white lg:left-20 lg:top-[90px] lg:text-[16px]">
             <Link href="/" className="whitespace-nowrap transition-colors hover:text-white/80">Home</Link>
-            <Image src="/assets/insights/figma-breadcrumb-chevron.svg" alt="" width={22} height={22} className="size-4 rotate-180 scale-y-100 lg:size-[22px]" />
+            <svg aria-hidden="true" viewBox="0 0 22 22" className="size-4 shrink-0 lg:size-[22px]" fill="none">
+              <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
             <Link href="/insights" className="whitespace-nowrap transition-colors hover:text-white/80">Blog</Link>
             <Image src="/assets/insights/figma-breadcrumb-chevron.svg" alt="" width={22} height={22} className="hidden rotate-180 scale-y-100 lg:block" />
             <span aria-current="page" className="hidden max-w-[150px] truncate whitespace-nowrap text-[#ccc] sm:max-w-[240px] lg:inline lg:max-w-none">How to Charge...</span>
           </nav>
-          <div className="absolute bottom-[40px] left-5 flex max-w-[calc(100%-40px)] -translate-x-0 flex-col items-start justify-center gap-3 lg:bottom-[62px] lg:left-[calc(50%-360.54px)] lg:max-w-none lg:-translate-x-1/2 lg:gap-5">
+          <div className="absolute bottom-[24px] left-5 flex max-w-[calc(100%-40px)] -translate-x-0 flex-col items-start justify-center gap-3 lg:bottom-[62px] lg:left-[calc(50%-360.54px)] lg:max-w-none lg:-translate-x-1/2 lg:gap-5">
             <div className="relative flex h-[20.355px] items-center gap-[6px]">
               <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
               <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
@@ -573,7 +702,13 @@ export default function BlogDetailsPage() {
               <span>5 min read</span>
             </div>
           </div>
-          <FloatingWidget desktopHandle desktopClassName="lg:top-[400px] lg:translate-y-0" desktopRightClassName="lg:right-[-30px]" />
+          <Link href="/insights" aria-label="Back to insights" className="absolute bottom-[46px] right-0 z-20 flex h-[42px] w-[42px] min-h-[42px] min-w-[42px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.18)] lg:hidden" style={{ borderRadius: "50%" }}>
+            <svg aria-hidden="true" viewBox="0 0 42 42" className="size-[42px]" fill="none">
+              <circle cx="21" cy="21" r="21" fill="white" />
+              <path d="M23 16.3L19 21L23 25.7" stroke="#121212" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+          <FloatingWidget desktopHandle mobileClassName="top-[calc(100%_-_38px)] translate-y-0" desktopClassName="lg:top-[400px] lg:translate-y-0" desktopRightClassName="lg:right-[-30px]" mobileRightClassName="right-0" />
         </section>
 
         <FigmaArticleBody title={title} />
