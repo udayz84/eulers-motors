@@ -26,18 +26,25 @@ export default function FloatingWidget({
   sticky = false,
   mobileOnly = false,
   boundary = false,
+  desktopHandle = false,
   mobileClassName,
   desktopClassName,
+  desktopRightClassName,
 }: {
   sticky?: boolean;
   mobileOnly?: boolean;
   boundary?: boolean;
+  /** Show the desktop Figma handle above the rail (used on article details). */
+  desktopHandle?: boolean;
   /** Mobile-only vertical placement override; desktop keeps the lg: position. */
   mobileClassName?: string;
   /** Desktop-only placement override for page-specific hero alignment. */
   desktopClassName?: string;
+  /** Desktop-only horizontal alignment override. */
+  desktopRightClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false);
 
   // desktop: rail hangs 30px off the right edge so its black right pad is
   // cropped (Figma 1:2258 — rail spans x 1372–1470 in the 1440px frame);
@@ -60,14 +67,33 @@ export default function FloatingWidget({
     (sticky
       ? "lg:top-1/2 lg:-translate-y-1/2"
       : "lg:top-[400px] lg:translate-y-0");
+  const desktopRight = desktopRightClassName ?? "lg:right-[-30px]";
 
   return (
     <div
-      className={`group/floating-widget ${positionClass} right-[-20px] lg:right-[-30px] z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
+      className={`group/floating-widget ${positionClass} right-[-20px] ${desktopRight} z-40 ${mobilePos} lg:bottom-auto ${desktopPos} ${
         mobileOnly ? "block lg:hidden" : "block"
       }`}
     >
       <div className="relative flex items-end gap-[19px]">
+        {desktopHandle && (
+          <button
+            type="button"
+            onClick={() => setDesktopCollapsed((collapsed) => !collapsed)}
+            aria-expanded={!desktopCollapsed}
+            aria-controls="floating-actions"
+            aria-label={desktopCollapsed ? "Show quick actions" : "Hide quick actions"}
+            className="absolute -top-[80.5px] right-6 z-50 hidden h-[75px] w-[75px] lg:block"
+          >
+            <Image
+              src="/assets/insights/figma-floating-toggle.svg"
+              alt=""
+              width={75}
+              height={75}
+              className={`block h-[75px] w-[75px] transition-transform duration-200 ${desktopCollapsed ? "rotate-180" : ""}`}
+            />
+          </button>
+        )}
         {/* Figma desktop detail labels: hidden until the rail is hovered or focused. */}
         <div
           aria-hidden
@@ -104,7 +130,7 @@ export default function FloatingWidget({
           {/* calculator / brochure / call / test drive — collapsed on mobile, open on desktop */}
           <div
             id="floating-actions"
-            className={`flex flex-col gap-[4px] overflow-hidden pb-0 transition-[max-height,padding-bottom,opacity] duration-300 lg:max-h-none lg:overflow-visible lg:pb-[4px] lg:opacity-100 ${open ? "max-h-[220px] pb-[4px] opacity-100" : "max-h-0 pb-0 opacity-0"
+            className={`flex flex-col gap-[4px] overflow-hidden pb-0 transition-[max-height,padding-bottom,opacity] duration-300 lg:overflow-hidden lg:pb-[4px] ${desktopCollapsed ? "lg:max-h-0 lg:opacity-0" : "lg:max-h-[278px] lg:opacity-100"} ${open ? "max-h-[220px] pb-[4px] opacity-100" : "max-h-0 pb-0 opacity-0"
               }`}
           >
             {ACTIONS.map((a) => (
