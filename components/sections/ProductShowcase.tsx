@@ -27,7 +27,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-t1500",
     tabLabel: "Storm EV T1500",
     title: "Storm EV T1500",
-    image: "/assets/products/vehicle-storm-t1500-clean.webp",
+    image: "/assets/products/vehicle-storm-t1500-clean.png",
     crop: [-228.13, -145.73, 335.27, 237.35],
     specs: {
       range: "200 km",
@@ -39,7 +39,7 @@ const VEHICLES: VehicleData[] = [
     id: "storm-ev-lr-200",
     tabLabel: "Storm EV LR 200",
     title: "Storm EV LongRange 200",
-    image: "/assets/products/vehicle-storm-lr200-clean.webp",
+    image: "/assets/products/vehicle-storm-lr200-clean.png",
     crop: [-4.46, -140.4, 325.69, 230.57],
     specs: {
       range: "200 km",
@@ -51,7 +51,7 @@ const VEHICLES: VehicleData[] = [
     id: "turbo-ev-1000",
     tabLabel: "Turbo EV 1000",
     title: "Turbo EV 1000",
-    image: "/assets/products/vehicle-turbo-1000-clean.webp",
+    image: "/assets/products/vehicle-turbo-1000-clean.png",
     crop: [-2.9, -6.56, 322.07, 228],
     specs: {
       range: "180 km",
@@ -63,7 +63,7 @@ const VEHICLES: VehicleData[] = [
     id: "hiload-ev",
     tabLabel: "HiLoad EV",
     title: "HiLoad EV",
-    image: "/assets/products/vehicle-hiload-ev-clean.webp",
+    image: "/assets/products/vehicle-hiload-ev-clean.png",
     crop: [-295.3, -19.56, 415.35, 294.03],
     specs: {
       range: "170 km",
@@ -80,25 +80,13 @@ const VEHICLE_SCENE_STYLES: Record<string, string> = {
   "turbo-ev-1000": "w-[56%] h-[52%] top-[25.5%]",
 };
 
-export interface ProductShowcaseProps {
-  eyebrow?: string;
-  title?: string;
-  subtitle?: string;
-  vehicles?: VehicleData[];
-}
-
 /**
  * Desktop renders the Figma scene (1:1319) with the truck swapping per
  * vehicle — the default (LR 200) IS the scene image, the others swap cutouts
  * into the same region. Arrows and tabs cycle the selection (specs + imagery).
  * Mobile (1:4605) is the static Figma scene; tabs cycle specs only.
  */
-export default function ProductShowcase({
-  eyebrow,
-  title,
-  subtitle,
-  vehicles,
-}: ProductShowcaseProps = {}) {
+export default function ProductShowcase({ vehicles }: { vehicles?: VehicleData[] } = {}) {
   const currentVehicles = vehicles && vehicles.length > 0 ? vehicles : VEHICLES;
   const [active, setActive] = useState(1); // Default to "Storm EV LR 200"
   const [isCompareOpen, setIsCompareOpen] = useState(false);
@@ -220,21 +208,12 @@ export default function ProductShowcase({
           {/* Left: Eyebrow badge + Main heading */}
           {/* mobile (Figma 1:4608): gap 14 · title 28px/-0.56 wrapping at 322px */}
           <div className="flex flex-col gap-[14px] lg:max-w-[480px] lg:gap-3">
-            <Eyebrow label={eyebrow || "Choose your truck"} />
+            <Eyebrow label="Choose your truck" />
             <h2 className="w-[322px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:w-auto sm:text-[36px] lg:text-[42px] lg:leading-[1.15] lg:tracking-[-0.84px]">
-              {title || (
-                <>
-                  Pick the vehicle
-                  <br className="hidden lg:block" />{" "}
-                  that fits your work.
-                </>
-              )}
+              Pick the vehicle
+              <br className="hidden lg:block" />{" "}
+              that fits your work.
             </h2>
-            {subtitle && (
-              <p className="font-sans text-[14px] leading-relaxed text-ink/75 sm:text-[15px] lg:text-[16px]">
-                {subtitle}
-              </p>
-            )}
           </div>
 
           {/* Right: 4 vehicle cards — clickable, sync with the arrows.

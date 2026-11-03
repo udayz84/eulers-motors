@@ -28,8 +28,6 @@ export interface HeroSlideData {
   tag?: string;
   headline: string;
   subheading?: string;
-  desktopImage?: string;
-  mobileImage?: string;
   primaryCta?: {
     label: string;
     href: string;
@@ -282,7 +280,7 @@ export default function Hero({ slides }: HeroProps = {}) {
             <div key={i} className="relative h-full w-full shrink-0">
               {/* Backgrounds */}
               <Image
-                src={slide.mobileImage || "/images/hero_mobile_clean.webp"}
+                src="/images/hero_mobile_clean.png"
                 alt="Euler Turbo EV 1000 electric truck"
                 fill
                 priority
@@ -291,7 +289,7 @@ export default function Hero({ slides }: HeroProps = {}) {
               />
 
               <Image
-                src={slide.desktopImage || "/images/hero_desktop_clean.webp"}
+                src="/images/hero_desktop_clean.png"
                 alt="Euler Turbo EV 1000 electric truck"
                 fill
                 priority
