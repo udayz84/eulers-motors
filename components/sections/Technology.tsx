@@ -2,12 +2,45 @@ import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 
+export interface TechnologyCardItem {
+  id?: number;
+  tag?: string;
+  title: string;
+  description: string;
+}
+
 export interface TechnologyProps {
   eyebrow?: string;
   title?: string;
+  subheading?: string;
+  description?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  cards?: TechnologyCardItem[];
 }
+
+const DEFAULT_CARDS: TechnologyCardItem[] = [
+  {
+    tag: "01 / Battery",
+    title: "Full range, even in garmi.",
+    description: "Batteries lose range above 40 degrees. The Euler battery is water cooled, maintaining range year-round.",
+  },
+  {
+    tag: "02 / Safety",
+    title: "Comfortable for an 11-hour day.",
+    description: "Steel cabin, power steering, good seats, AC. Reverse camera and warnings included.",
+  },
+  {
+    tag: "03 / App",
+    title: "Poori fleet, ek phone mein.",
+    description: "Track vehicle locations, charge levels, driving behavior, and service due dates all on one screen.",
+  },
+  {
+    tag: "04 / Performance",
+    title: "Climbs a slope on a full load",
+    description: "Our own Arc Reactor motor. It climbs 22 to 25 percent slopes with a full load. Ramps, flyovers and rough roads are no problem.",
+  },
+];
 
 /**
  * TECHNOLOGY section (desktop 1:1618 · mobile 1:4784).
@@ -17,12 +50,18 @@ export interface TechnologyProps {
  * Desktop card art/positions follow Figma 1:1640–1:1668 exactly.
  */
 export default function Technology({
-  eyebrow = "Built for the job",
+  eyebrow = "MADE FOR THE MILES",
   title = "Built for Indian roads.",
   ctaLabel = "See how it works",
-  ctaHref = "/products",
+  ctaHref = "/technology",
+  cards,
 }: TechnologyProps = {}) {
   const showCta = Boolean(ctaLabel && ctaHref);
+  const activeCards = cards && cards.length >= 4 ? cards : DEFAULT_CARDS;
+  const card1 = activeCards[0] || DEFAULT_CARDS[0];
+  const card2 = activeCards[1] || DEFAULT_CARDS[1];
+  const card3 = activeCards[2] || DEFAULT_CARDS[2];
+  const card4 = activeCards[3] || DEFAULT_CARDS[3];
 
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
@@ -69,9 +108,9 @@ export default function Technology({
                 />
                 <CardHeading
                   className="lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
-                  num="01 / Battery"
-                  title="Full range, even in garmi."
-                  desc="Batteries lose range above 40 degrees. The Euler battery is water cooled, maintaining range year-round."
+                  num={card1.tag || "01 / Battery"}
+                  title={card1.title}
+                  desc={card1.description}
                 />
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
@@ -111,11 +150,11 @@ export default function Technology({
                     desktop: below the glow */}
                 <CardHeading
                   className="max-lg:bottom-auto max-lg:right-auto max-lg:top-[14px] max-lg:w-[281px] lg:bottom-auto lg:left-[28px] lg:top-[30px] lg:w-[534px]"
-                  num="02 / Safety"
-                  title="Comfortable for an 11-hour day."
+                  num={card2.tag || "02 / Safety"}
+                  title={card2.title}
                   titleW="max-lg:max-w-[236px] lg:max-w-[244px]"
                   descW="max-lg:max-w-[187px] lg:max-w-[327px]"
-                  desc="Steel cabin, power steering, good seats, AC. Reverse camera and warnings included."
+                  desc={card2.description}
                 />
               </article>
             </div>
@@ -155,10 +194,10 @@ export default function Technology({
                 <div className="absolute bottom-[76.9px] left-[14px] flex w-[197.8px] flex-col gap-3 lg:inset-0 lg:w-auto lg:p-0">
                   <CardHeading
                     className="max-lg:static lg:right-auto lg:bottom-[123.36px] lg:left-[30px] lg:w-[376px]"
-                    num="03 / App"
-                    title="Poori fleet, ek phone mein."
+                    num={card3.tag || "03 / App"}
+                    title={card3.title}
                     descW="lg:max-w-[376px]"
-                    desc="Track vehicle locations, charge levels, driving behavior, and service due dates all on one screen."
+                    desc={card3.description}
                   />
                   <div className="flex items-start gap-[4.8px] lg:absolute lg:left-[30px] lg:top-[253.29px]">
                     {/* App Store badge — Figma "Component 2" (r6, border #a6a6a6). Width is
@@ -199,10 +238,10 @@ export default function Technology({
                 <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
                 <CardHeading
                   className="lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
-                  num="04 / Performance"
-                  title="Climbs a slope on a full load"
+                  num={card4.tag || "04 / Performance"}
+                  title={card4.title}
                   descW="max-lg:max-w-[315px] lg:max-w-[484px]"
-                  desc="Our own Arc Reactor motor. It climbs 22 to 25 percent slopes with a full load. Ramps, flyovers and rough roads are no problem."
+                  desc={card4.description}
                 />
               </article>
             </div>

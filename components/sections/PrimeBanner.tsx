@@ -17,9 +17,10 @@ export interface PrimeBannerProps {
 }
 
 const DEFAULT_FEATURES: PrimeFeature[] = [
-  { value: "24 hours", label: "Truck back in a day" },
-  { value: "Spare vehicle", label: "Totally free" },
-  { value: "Every 3 months", label: "Free check-up at your depot" },
+  { value: "90-minute service", label: "Quick response to help minimise vehicle downtime." },
+  { value: "24×7 RSA support", label: "Roadside assistance when you need it." },
+  { value: "Predictive maintenance", label: "Proactive support to help identify service needs early." },
+  { value: "Doorstep service", label: "Expert technicians bring service support to your location." },
 ];
 
 /**
@@ -32,7 +33,7 @@ const DEFAULT_FEATURES: PrimeFeature[] = [
 export default function PrimeBanner({
   eyebrow = "Euler Prime",
   title = "Get free check-up at your depot with Prime",
-  ctaLabel = "See Euler Prime",
+  ctaLabel = "Explore Euler Prime",
   ctaHref = "/products",
   features,
 }: PrimeBannerProps = {}) {

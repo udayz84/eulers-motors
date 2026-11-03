@@ -554,6 +554,37 @@ export async function seedStrapi(strapi: any) {
         title: 'Built for Indian roads.',
         description:
           'Full range in every weather condition. Purpose-built technology, thoughtful engineering, and safety-focused design for commercial mobility.',
+        cta: {
+          label: 'See how it works',
+          href: '/technology',
+          variant: 'primary',
+        },
+        cards: [
+          {
+            tag: '01 / Battery',
+            title: 'Full range, even in garmi.',
+            description:
+              'Indian summers can be tough on batteries. Our liquid-cooled battery helps manage heat, so you can keep moving.',
+          },
+          {
+            tag: '02 / Comfort & Safety',
+            title: 'Comfortable for an 11-hour day.',
+            description:
+              'Spacious cabin, electronic power steering, comfortable seats, infotainment system, ADAS and reverse camera for a more comfortable, confident drive.',
+          },
+          {
+            tag: '03 / Shepherd App',
+            title: 'Your entire fleet, one app.',
+            description:
+              'Manage real-time vehicle tracking, locate charging stations and book slots, set geofences, manage fleet operations, use digital locks and receive regular service alerts with the Shepherd mobile app.',
+          },
+          {
+            tag: '04 / Performance',
+            title: 'Climbs a slope on a full load.',
+            description:
+              'Industry-leading torque and selectable driving modes deliver strong pulling power across steep slopes, flyovers and rough roads, even with a full load.',
+          },
+        ],
       },
       reviewsSection: {
         eyebrow: 'CUSTOMERS',
@@ -620,6 +651,13 @@ export async function seedStrapi(strapi: any) {
           'Tell us about your business. We’ll help you find the right Euler vehicle for your daily runs.',
         phone: '1800-1238-1238',
         email: 'customer.help@eulermotors.com',
+        form: {
+          heading: 'What are you looking for?',
+          subheading: 'Two steps. We call you within one working day.',
+          options: ['Test drive', 'Price enquiry', 'Fleet solutions'],
+          ctaLabel: 'Submit enquiry',
+          disclaimer: 'We never share your number with anyone else. No spam calls.',
+        },
       },
       socialWall: {
         eyebrow: 'From the road',

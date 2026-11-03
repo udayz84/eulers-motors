@@ -24,7 +24,7 @@ export interface InsightsArticleItem {
 
 const DEFAULT_ARTICLES: InsightsArticleItem[] = [
   {
-    img: "/assets/insights/article-1.jpg",
+    img: "/assets/insights/article-1.webp",
     title: "What an electric fleet really costs",
     desc: "Electricity, servicing, insurance, battery, and resale value. Everything calculated for fleets driving 80km to 200 km per day.",
     crop: null,
@@ -33,7 +33,7 @@ const DEFAULT_ARTICLES: InsightsArticleItem[] = [
     readingTime: "09 Min",
   },
   {
-    img: "/assets/insights/article-2.png",
+    img: "/assets/insights/article-2.webp",
     title: "How much EV subsidy will you get?",
     desc: "Which states still offer subsidies, what ended in April, and how to claim them.",
     crop: [-21.5, -0.02, 143.14, 100.04],
@@ -42,7 +42,7 @@ const DEFAULT_ARTICLES: InsightsArticleItem[] = [
     readingTime: "09 Min",
   },
   {
-    img: "/assets/insights/article-3.png",
+    img: "/assets/insights/article-3.webp",
     title: "Depot or public charging?",
     desc: "Under 9 vehicles, public charging works out cheaper. The full working is inside",
     crop: null,
@@ -54,12 +54,14 @@ const DEFAULT_ARTICLES: InsightsArticleItem[] = [
 
 function getMediaUrl(img?: any): string | null {
   if (!img) return null;
-  if (typeof img === "string") return img;
-  if (img.url) {
-    if (img.url.startsWith("http") || img.url.startsWith("/")) return img.url;
-    return `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${img.url}`;
+  const raw = typeof img === "string" ? img : img?.url;
+  if (!raw) return null;
+  if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/assets/") || raw.startsWith("/images/")) {
+    return raw;
   }
-  return null;
+  const strapiBase = (process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337").replace(/\/+$/, "");
+  const cleanPath = raw.startsWith("/") ? raw : `/${raw}`;
+  return `${strapiBase}${cleanPath}`;
 }
 
 export interface InsightsProps {
@@ -126,7 +128,7 @@ export default function Insights({
               getMediaUrl(articleItem.coverImage) ||
               articleItem.img ||
               DEFAULT_ARTICLES[i % DEFAULT_ARTICLES.length]?.img ||
-              "/assets/insights/article-1.jpg";
+              "/assets/insights/article-1.webp";
             const cardTitle = articleItem.title || "";
             const cardDesc = articleItem.description || articleItem.desc || "";
             const cardDate = articleItem.publishDate || articleItem.date || "14 July 2026";

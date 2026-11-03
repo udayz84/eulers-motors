@@ -9,11 +9,11 @@
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Connect"
+      "default": "NEXT STEP"
     },
     "title": {
       "type": "string",
-      "default": "Get in touch with Euler Motors"
+      "default": "Ready to make the switch?"
     },
     "description": {
       "type": "text"
@@ -23,6 +23,11 @@
     },
     "email": {
       "type": "string"
+    },
+    "form": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.contact-form"
     }
   }
 }

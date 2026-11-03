@@ -21,58 +21,13 @@ export interface ContactItem {
   sub: string;
 }
 
-const DEFAULT_CONTACTS: ContactItem[] = [
-  { icon: "/assets/contact/icon-call-new.svg", title: "1800 000 0000", sub: "9 am to 8 pm Monday to Saturday" },
-  { icon: "/assets/contact/icon-mail-new.svg", title: "fleet@eulermotors.com", sub: "For fleets over 50 vehicles" },
-  { icon: "/assets/contact/icon-pin-new.svg", title: "Find your nearest dealer", sub: "112 locations, 24 states" },
-];
-
-/**
- * "Tell us what you need!" + Book-a-test-drive form
- * (desktop 1:1974 · mobile 1:5028 — the mobile form is the simplified variant).
- */
-const TABS = ["Test drive", "Price Enquiry", "Fleet"] as const;
-type Tab = (typeof TABS)[number];
-
-/** Per-tab form fields (Figma 1:2007 skeleton: 2 + select + 2 + consent + CTA) */
-const FORMS: Record<Tab, { fields: [string, string][]; cta: string }> = {
-  "Test drive": {
-    fields: [
-      ["Name *", "Full name"],
-      ["Mobile number *", "10 digit"],
-    ],
-    cta: "Confirm test drive",
-  },
-  "Price Enquiry": {
-    fields: [
-      ["Name *", "Full name"],
-      ["Mobile number *", "10 digit"],
-    ],
-    cta: "Get price list",
-  },
-  Fleet: {
-    fields: [
-      ["Company name *", "Company"],
-      ["Mobile number *", "10 digit"],
-    ],
-    cta: "Talk to our fleet team",
-  },
-};
-const SECOND_ROW: Record<Tab, [string, string]> = {
-  "Test drive": ["City *", "Mumbai"],
-  "Price Enquiry": ["City *", "Mumbai"],
-  Fleet: ["City *", "Mumbai"],
-};
-const THIRD_FIELD: Record<Tab, [string, string]> = {
-  "Test drive": ["Kilometres per day *", "150"],
-  "Price Enquiry": ["Quantity of vehicles *", "5"],
-  Fleet: ["Fleet size *", "Number of vehicles"],
-};
-const VEHICLE_SELECT: Record<Tab, [string, string]> = {
-  "Test drive": ["Which vehicle *", "Not sure, please suggest one"],
-  "Price Enquiry": ["Which vehicle *", "Not sure, please suggest one"],
-  Fleet: ["Which vehicle *", "Not sure, please suggest one"],
-};
+export interface ContactFormData {
+  heading?: string;
+  subheading?: string;
+  options?: string[];
+  ctaLabel?: string;
+  disclaimer?: string;
+}
 
 export interface ContactSectionProps {
   eyebrow?: string;
@@ -81,7 +36,48 @@ export interface ContactSectionProps {
   phone?: string;
   email?: string;
   contacts?: ContactItem[];
+  form?: ContactFormData;
+  formHeading?: string;
+  formSubheading?: string;
+  formOptions?: string[];
+  formCtaLabel?: string;
+  formDisclaimer?: string;
 }
+
+const getTabConfig = (tabName: string) => {
+  const lower = (tabName || "").toLowerCase();
+  if (lower.includes("fleet")) {
+    return {
+      fields: [
+        ["Company name *", "Company"],
+        ["Mobile number *", "10 digit"],
+      ] as [string, string][],
+      secondRow: ["City *", "Mumbai"] as [string, string],
+      thirdField: ["Fleet size *", "Number of vehicles"] as [string, string],
+      vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
+    };
+  }
+  if (lower.includes("price")) {
+    return {
+      fields: [
+        ["Name *", "Full name"],
+        ["Mobile number *", "10 digit"],
+      ] as [string, string][],
+      secondRow: ["City *", "Mumbai"] as [string, string],
+      thirdField: ["Quantity of vehicles *", "5"] as [string, string],
+      vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
+    };
+  }
+  return {
+    fields: [
+      ["Name *", "Full name"],
+      ["Mobile number *", "10 digit"],
+    ] as [string, string][],
+    secondRow: ["City *", "Mumbai"] as [string, string],
+    thirdField: ["Kilometres per day *", "150"] as [string, string],
+    vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
+  };
+};
 
 export default function ContactSection({
   eyebrow = "Next step",
@@ -90,8 +86,26 @@ export default function ContactSection({
   phone,
   email,
   contacts,
+  form,
+  formHeading,
+  formSubheading,
+  formOptions,
+  formCtaLabel,
+  formDisclaimer,
 }: ContactSectionProps = {}) {
-  const [tab, setTab] = useState<Tab>("Test drive");
+  const effectiveHeading = form?.heading || formHeading || "What are you looking for?";
+  const effectiveSubheading = form?.subheading || formSubheading || "Two steps. We call you within one working day.";
+  const rawOptions = form?.options || formOptions;
+  const effectiveOptions: string[] =
+    Array.isArray(rawOptions) && rawOptions.length > 0
+      ? rawOptions
+      : ["Test drive", "Price enquiry", "Fleet solutions"];
+  const effectiveCtaLabel = form?.ctaLabel || formCtaLabel || "Submit enquiry";
+  const effectiveDisclaimer =
+    form?.disclaimer || formDisclaimer || "We never share your number with anyone else. No spam calls.";
+
+  const [tab, setTab] = useState<string>(effectiveOptions[0] || "Test drive");
+  const activeConfig = getTabConfig(tab);
 
   const currentContacts =
     contacts !== undefined
@@ -152,20 +166,20 @@ export default function ContactSection({
             {/* form card — mobile variant (Figma 1:5038) */}
             <div className="flex w-full flex-col gap-3 rounded-[10px] bg-surface p-4 lg:hidden">
               <div className="flex flex-col gap-1.5">
-                <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">Book a test drive</h3>
-                <p className="text-[12px] text-ink">Two steps. We call you within one working day.</p>
+                <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">{effectiveHeading}</h3>
+                <p className="text-[12px] text-ink">{effectiveSubheading}</p>
               </div>
-              <FormTabs active={tab} onSelect={setTab} mobile />
+              <FormTabs active={tab} tabs={effectiveOptions} onSelect={setTab} mobile />
               <div className="flex gap-1.5">
-                {FORMS[tab].fields.map(([label, ph]) => (
+                {activeConfig.fields.map(([label, ph]) => (
                   <Field key={label} label={label} placeholder={ph} mobile />
                 ))}
               </div>
               <Button href="/products" variant="dark" arrow="white" className="w-full">
-                Continue
+                {effectiveCtaLabel}
               </Button>
               <p className="text-center text-[12px] font-medium text-ink">
-                We never share your number with anyone else. No spam calls.
+                {effectiveDisclaimer}
               </p>
             </div>
 
@@ -190,25 +204,25 @@ export default function ContactSection({
         <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
-              Book a test drive
+              {effectiveHeading}
             </h3>
-            <p className="text-[16px] text-ink">Two steps. We call you within one working day.</p>
+            <p className="text-[16px] text-ink">{effectiveSubheading}</p>
           </div>
-          <FormTabs active={tab} onSelect={setTab} />
+          <FormTabs active={tab} tabs={effectiveOptions} onSelect={setTab} />
           <div className="flex gap-3">
-            {FORMS[tab].fields.map(([label, ph]) => (
+            {activeConfig.fields.map(([label, ph]) => (
               <Field key={label} label={label} placeholder={ph} />
             ))}
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[12px] font-medium text-[#212125]">{VEHICLE_SELECT[tab][0]}</span>
+            <span className="text-[12px] font-medium text-[#212125]">{activeConfig.vehicleSelect[0]}</span>
             <div className="relative">
               <select
                 defaultValue=""
                 className="h-[46px] w-full appearance-none rounded-[13px] border border-hairline bg-white px-4 text-[12px] font-medium text-ink backdrop-blur-[8.15px] outline-none"
               >
                 <option value="" disabled>
-                  {VEHICLE_SELECT[tab][1]}
+                  {activeConfig.vehicleSelect[1]}
                 </option>
                 {VEHICLES.map((v) => (
                   <option key={v} value={v}>
@@ -227,8 +241,8 @@ export default function ContactSection({
             </div>
           </div>
           <div className="flex gap-3">
-            <Field label={SECOND_ROW[tab][0]} placeholder={SECOND_ROW[tab][1]} />
-            <Field label={THIRD_FIELD[tab][0]} placeholder={THIRD_FIELD[tab][1]} />
+            <Field label={activeConfig.secondRow[0]} placeholder={activeConfig.secondRow[1]} />
+            <Field label={activeConfig.thirdField[0]} placeholder={activeConfig.thirdField[1]} />
           </div>
           <label className="flex items-start gap-2.5">
             <input
@@ -241,10 +255,10 @@ export default function ContactSection({
           </label>
           <div className="flex flex-col gap-3">
             <Button href="/products" variant="dark" arrow="white" className="w-full">
-              {FORMS[tab].cta}
+              {effectiveCtaLabel}
             </Button>
             <p className="text-center text-[12px] text-ink">
-              We never share your number with anyone else. No spam calls.
+              {effectiveDisclaimer}
             </p>
           </div>
         </div>
@@ -274,16 +288,18 @@ function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: s
 
 function FormTabs({
   active,
+  tabs,
   onSelect,
   mobile = false,
 }: {
-  active: Tab;
-  onSelect: (t: Tab) => void;
+  active: string;
+  tabs: string[];
+  onSelect: (t: string) => void;
   mobile?: boolean;
 }) {
   return (
     <div className={mobile ? "flex w-full gap-2" : "flex gap-3"} role="tablist" aria-label="Enquiry type">
-      {TABS.map((t) => {
+      {tabs.map((t) => {
         const on = t === active;
         return (
           <button

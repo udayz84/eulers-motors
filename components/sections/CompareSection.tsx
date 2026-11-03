@@ -68,23 +68,96 @@ const ensureBuffer = (cards: DeskCard[]) => {
   return res;
 };
 
+export interface ComparePersonaPoints {
+  persona: string;
+  points: string[];
+}
+
 export interface CompareSectionProps {
   eyebrow?: string;
   title?: string;
+  quizTitle?: string;
+  quizSubtitle?: string;
+  quizCtaLabel?: string;
+  withoutEulerPoints?: ComparePersonaPoints[];
+  withEulerPoints?: ComparePersonaPoints[];
   withoutCards?: DeskCard[];
   withCards?: DeskCard[];
+}
+
+function pointToWithoutCard(text: string, index: number): DeskCard {
+  const lower = text.toLowerCase();
+  let icon: string | undefined;
+  if (lower.includes("downtime") || lower.includes("breakdown") || lower.includes("disrupt") || lower.includes("stop")) {
+    icon = "/assets/compare/icon-cancel.svg";
+  } else if (lower.includes("cost") || lower.includes("₹") || lower.includes("margin") || lower.includes("price") || lower.includes("pressure")) {
+    icon = "/assets/compare/icon-cash.svg";
+  } else if (lower.includes("trip") || lower.includes("fewer") || lower.includes("less") || lower.includes("inefficienc") || lower.includes("off the road")) {
+    icon = "/assets/compare/icon-chart-down.svg";
+  } else if (lower.includes("fuel") || lower.includes("diesel") || lower.includes("petrol")) {
+    icon = "/assets/compare/icon-fuel.svg";
+  } else if (index % 2 === 0) {
+    icon = "/assets/compare/icon-cancel.svg";
+  } else {
+    icon = "/assets/compare/icon-chart-down.svg";
+  }
+  return { text, icon };
+}
+
+function pointToWithCard(text: string, index: number): DeskCard {
+  const lower = text.toLowerCase();
+  let icon: string | undefined;
+  if (lower.includes("service") || lower.includes("doorstep") || lower.includes("minute") || lower.includes("hour") || lower.includes("support")) {
+    icon = "/assets/compare/icon-clock.svg";
+  } else if (lower.includes("trip") || lower.includes("more") || lower.includes("earning") || lower.includes("grow") || lower.includes("opportunity")) {
+    icon = "/assets/compare/icon-chart-up.svg";
+  } else if (lower.includes("cost") || lower.includes("₹") || lower.includes("saving") || lower.includes("margin") || lower.includes("economic")) {
+    icon = "/assets/compare/icon-cash.svg";
+  } else if (lower.includes("vehicle") || lower.includes("fleet") || lower.includes("dealership") || lower.includes("partnership")) {
+    icon = "/assets/compare/icon-truck.svg";
+  } else if (index % 2 === 0) {
+    icon = "/assets/compare/icon-chart-up.svg";
+  } else {
+    icon = "/assets/compare/icon-clock.svg";
+  }
+  return { text, icon };
 }
 
 export default function CompareSection({
   eyebrow = "Why Euler",
   title = "What changes when you switch?",
+  quizTitle = "Which vehicle fits your work?",
+  quizSubtitle = "Sirf 5 questions, 30 seconds. No phone number needed.",
+  quizCtaLabel = "Take the 30 second test",
+  withoutEulerPoints,
+  withEulerPoints,
   withoutCards,
   withCards,
 }: CompareSectionProps = {}) {
-  const currentWithout = ensureBuffer(withoutCards && withoutCards.length > 0 ? withoutCards : WITHOUT_DESK);
-  const currentWith = ensureBuffer(withCards && withCards.length > 0 ? withCards : WITH_DESK);
-
   const [activeTab, setActiveTab] = useState(0);
+
+  const currentAudience = AUDIENCE[activeTab] || AUDIENCE[0];
+
+  const matchedWithoutPoints = withoutEulerPoints?.find(
+    (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
+  )?.points;
+
+  const matchedWithPoints = withEulerPoints?.find(
+    (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
+  )?.points;
+
+  const personaWithoutCards =
+    matchedWithoutPoints && matchedWithoutPoints.length > 0
+      ? matchedWithoutPoints.map((pt, i) => pointToWithoutCard(pt, i))
+      : undefined;
+
+  const personaWithCards =
+    matchedWithPoints && matchedWithPoints.length > 0
+      ? matchedWithPoints.map((pt, i) => pointToWithCard(pt, i))
+      : undefined;
+
+  const currentWithout = ensureBuffer(personaWithoutCards || withoutCards || WITHOUT_DESK);
+  const currentWith = ensureBuffer(personaWithCards || withCards || WITH_DESK);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const mobileFrameRef = useRef<HTMLDivElement>(null);
@@ -266,10 +339,10 @@ export default function CompareSection({
           />
           <div className="relative flex flex-col items-center gap-0.5 whitespace-nowrap text-center">
             <p className="font-outfit text-[18px] font-semibold leading-[1.25] tracking-[-0.27px] text-white">
-              Which vehicle fits your work?
+              {quizTitle}
             </p>
             <p className="text-[12px] font-normal leading-[1.5] text-on-dark-2">
-              Sirf 5 questions, 30 seconds. No phone number needed.
+              {quizSubtitle}
             </p>
           </div>
           <Button
@@ -278,7 +351,7 @@ export default function CompareSection({
             className="relative pointer-events-auto cursor-pointer"
             onClick={() => setIsCompareOpen(true)}
           >
-            Take the 30 second test
+            {quizCtaLabel}
           </Button>
         </div>
       </div>
@@ -422,10 +495,10 @@ export default function CompareSection({
           />
           <div className="relative flex flex-col gap-1.5 whitespace-nowrap">
             <p className="font-outfit text-[20px] font-semibold leading-[1.25] tracking-[-0.3px] text-white">
-              Which vehicle fits your work?
+              {quizTitle}
             </p>
             <p className="text-[13px] font-normal leading-[1.5] text-on-dark-2">
-              Sirf 5 questions, 30 seconds. No phone number needed.
+              {quizSubtitle}
             </p>
           </div>
           <Button
@@ -434,7 +507,7 @@ export default function CompareSection({
             className="relative pointer-events-auto cursor-pointer"
             onClick={() => setIsCompareOpen(true)}
           >
-            Take the 30 second test
+            {quizCtaLabel}
           </Button>
         </div>
       </div>

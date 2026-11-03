@@ -37,6 +37,27 @@
       "required": false,
       "allowedTypes": ["images"]
     },
+    "avatarImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "video": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["videos", "files"]
+    },
+    "videoDuration": {
+      "type": "string"
+    },
+    "savingsMonthly": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "decimal"
+    },
     "videoUrl": {
       "type": "string"
     },

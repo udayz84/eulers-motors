@@ -19,6 +19,7 @@ export interface ReviewItem {
   storyImage?: { url: string } | string;
   overlayImage?: { url: string } | string | null;
   avatarImage?: { url: string } | string;
+  video?: { url: string } | string;
   videoUrl?: string;
   order?: number;
 }
@@ -39,8 +40,8 @@ const DEFAULT_REVIEWS: ReviewItem[] = [
     quote: "14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.",
     savingsMonthly: "₹41,000 saved a month",
     videoDuration: "02:32",
-    storyImage: { url: "/assets/reviews/story-a.jpg" },
-    overlayImage: { url: "/assets/reviews/story-b.png" },
+    storyImage: { url: "/assets/reviews/story-a.webp" },
+    overlayImage: { url: "/assets/reviews/story-b.webp" },
     avatarImage: { url: "/assets/reviews/avatar.png" },
   },
   {
@@ -50,8 +51,8 @@ const DEFAULT_REVIEWS: ReviewItem[] = [
     quote: "14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.",
     savingsMonthly: "₹41,000 saved a month",
     videoDuration: "02:32",
-    storyImage: { url: "/assets/reviews/story-a.jpg" },
-    overlayImage: { url: "/assets/reviews/story-c.png" },
+    storyImage: { url: "/assets/reviews/story-a.webp" },
+    overlayImage: { url: "/assets/reviews/story-c.webp" },
     avatarImage: { url: "/assets/reviews/avatar.png" },
   },
   {
@@ -61,8 +62,8 @@ const DEFAULT_REVIEWS: ReviewItem[] = [
     quote: "14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.",
     savingsMonthly: "₹41,000 saved a month",
     videoDuration: "02:32",
-    storyImage: { url: "/assets/reviews/story-a.jpg" },
-    overlayImage: { url: "/assets/reviews/story-d.png" },
+    storyImage: { url: "/assets/reviews/story-a.webp" },
+    overlayImage: { url: "/assets/reviews/story-d.webp" },
     avatarImage: { url: "/assets/reviews/avatar.png" },
   },
   {
@@ -72,7 +73,7 @@ const DEFAULT_REVIEWS: ReviewItem[] = [
     quote: "14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.",
     savingsMonthly: "₹41,000 saved a month",
     videoDuration: "02:32",
-    storyImage: { url: "/assets/reviews/story-a.jpg" },
+    storyImage: { url: "/assets/reviews/story-a.webp" },
     avatarImage: { url: "/assets/reviews/avatar.png" },
   },
   {
@@ -82,19 +83,21 @@ const DEFAULT_REVIEWS: ReviewItem[] = [
     quote: "14 gaadi hain. Diesel ka kharcha hi khatam ho gaya.",
     savingsMonthly: "₹41,000 saved a month",
     videoDuration: "02:32",
-    storyImage: { url: "/assets/reviews/story-a.jpg" },
+    storyImage: { url: "/assets/reviews/story-a.webp" },
     avatarImage: { url: "/assets/reviews/avatar.png" },
   },
 ];
 
 function getMediaUrl(img?: any): string | null {
   if (!img) return null;
-  if (typeof img === "string") return img;
-  if (img.url) {
-    if (img.url.startsWith("http") || img.url.startsWith("/")) return img.url;
-    return `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${img.url}`;
+  const raw = typeof img === "string" ? img : img?.url;
+  if (!raw) return null;
+  if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/assets/") || raw.startsWith("/images/")) {
+    return raw;
   }
-  return null;
+  const strapiBase = (process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337").replace(/\/+$/, "");
+  const cleanPath = raw.startsWith("/") ? raw : `/${raw}`;
+  return `${strapiBase}${cleanPath}`;
 }
 
 /**
@@ -293,7 +296,7 @@ export default function CustomerReviews({
             />
 
             {displayList.map((item, i) => {
-              const baseImage = getMediaUrl(item.storyImage) || "/assets/reviews/story-a.jpg";
+              const baseImage = getMediaUrl(item.storyImage) || "/assets/reviews/story-a.webp";
               const overlayImage = getMediaUrl(item.overlayImage);
               const avatarUrl = getMediaUrl(item.avatarImage) || "/assets/reviews/avatar.png";
               const cleanQuote = item.quote ? item.quote.replace(/^["“”']|["“”']$/g, "") : "";

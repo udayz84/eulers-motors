@@ -5,18 +5,13 @@
     "singularName": "home-page",
     "pluralName": "home-pages",
     "displayName": "Home Page",
-    "description": "Homepage layout, SEO, and modular sections"
+    "description": "Homepage layout, modular sections, and SEO"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "seo": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.seo"
-    },
     "hero": {
       "type": "component",
       "repeatable": false,
@@ -86,6 +81,11 @@
       "type": "component",
       "repeatable": false,
       "component": "home.social-wall"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
     }
   }
 }

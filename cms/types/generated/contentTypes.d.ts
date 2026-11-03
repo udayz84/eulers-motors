@@ -589,7 +589,7 @@ export interface ApiCareersPageCareersPage extends Struct.SingleTypeSchema {
 export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   collectionName: 'home_pages';
   info: {
-    description: 'Homepage layout, SEO, and modular sections';
+    description: 'Homepage layout, modular sections, and SEO';
     displayName: 'Home Page';
     pluralName: 'home-pages';
     singularName: 'home-page';
@@ -638,7 +638,7 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
-    description: 'Euler Motors vehicle models and full page specifications';
+    description: 'Euler Motors vehicle models and showcase cards';
     displayName: 'Product';
     pluralName: 'products';
     singularName: 'product';
@@ -647,16 +647,10 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    contactSection: Schema.Attribute.Component<'home.contact-section', false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    hero: Schema.Attribute.Component<'product.hero', false>;
     image: Schema.Attribute.Media<'images'>;
-    loanCalculator: Schema.Attribute.Component<
-      'product.loan-calculator',
-      false
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -664,21 +658,9 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    otherVehiclesSection: Schema.Attribute.Component<
-      'product.other-vehicles',
-      false
-    >;
-    overview: Schema.Attribute.Component<'product.overview', false>;
     productUrl: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    reviewsSection: Schema.Attribute.Component<'home.reviews-section', false>;
-    savingsCalculator: Schema.Attribute.Component<
-      'shared.savings-calculator',
-      false
-    >;
-    seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    specs: Schema.Attribute.Component<'product.specs', false>;
     specsCapacity: Schema.Attribute.String & Schema.Attribute.Required;
     specsChargeTime: Schema.Attribute.String & Schema.Attribute.Required;
     specsRange: Schema.Attribute.String & Schema.Attribute.Required;
@@ -687,10 +669,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    variantsCompare: Schema.Attribute.Component<
-      'product.variants-compare',
-      false
-    >;
   };
 }
 
@@ -706,6 +684,7 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    avatarImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -721,11 +700,15 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     overlayImage: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     quote: Schema.Attribute.Text;
+    rating: Schema.Attribute.Decimal;
     roleOrCompany: Schema.Attribute.String;
+    savingsMonthly: Schema.Attribute.String;
     storyImage: Schema.Attribute.Media<'images'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    video: Schema.Attribute.Media<'videos' | 'files'>;
+    videoDuration: Schema.Attribute.String;
     videoUrl: Schema.Attribute.String;
   };
 }

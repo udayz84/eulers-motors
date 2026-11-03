@@ -149,6 +149,26 @@ export interface HomeCompareSection extends Struct.ComponentSchema {
   };
 }
 
+export interface HomeContactForm extends Struct.ComponentSchema {
+  collectionName: 'components_home_contact_forms';
+  info: {
+    description: 'Configurable contact form card';
+    displayName: 'Contact Form';
+    icon: 'mail';
+  };
+  attributes: {
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Submit enquiry'>;
+    disclaimer: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'What are you looking for?'>;
+    options: Schema.Attribute.JSON;
+    subheading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+  };
+}
+
 export interface HomeContactSection extends Struct.ComponentSchema {
   collectionName: 'components_home_contact_sections';
   info: {
@@ -159,10 +179,11 @@ export interface HomeContactSection extends Struct.ComponentSchema {
   attributes: {
     description: Schema.Attribute.Text;
     email: Schema.Attribute.String;
-    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Connect'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
+    form: Schema.Attribute.Component<'home.contact-form', false>;
     phone: Schema.Attribute.String;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Get in touch with Euler Motors'>;
+      Schema.Attribute.DefaultTo<'Ready to make the switch?'>;
   };
 }
 
@@ -213,7 +234,9 @@ export interface HomeHeroSlide extends Struct.ComponentSchema {
     icon: 'slideshow';
   };
   attributes: {
+    desktopImage: Schema.Attribute.Media<'images'>;
     headline: Schema.Attribute.String & Schema.Attribute.Required;
+    mobileImage: Schema.Attribute.Media<'images'>;
     primaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
     secondaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
     subheading: Schema.Attribute.String;
@@ -245,6 +268,7 @@ export interface HomePrimeBanner extends Struct.ComponentSchema {
     icon: 'star';
   };
   attributes: {
+    backgroundImage: Schema.Attribute.Media<'images'>;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
     description: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Euler Prime'>;
@@ -358,15 +382,33 @@ export interface HomeStatsBanner extends Struct.ComponentSchema {
 export interface HomeTechnology extends Struct.ComponentSchema {
   collectionName: 'components_home_technologies';
   info: {
-    description: 'Technology section headings and copy';
+    description: 'Technology section headings, copy, CTA and feature cards';
     displayName: 'Technology Section';
     icon: 'cog';
   };
   attributes: {
+    cards: Schema.Attribute.Component<'home.technology-card', true>;
+    cta: Schema.Attribute.Component<'shared.cta-button', false>;
     description: Schema.Attribute.Text;
-    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'technology'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'MADE FOR THE MILES'>;
+    subheading: Schema.Attribute.String;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Engineering that drives the future'>;
+      Schema.Attribute.DefaultTo<'Built for Indian roads.'>;
+  };
+}
+
+export interface HomeTechnologyCard extends Struct.ComponentSchema {
+  collectionName: 'components_home_technology_cards';
+  info: {
+    description: 'Interactive feature card in technology section';
+    displayName: 'Technology Card';
+    icon: 'layer';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    tag: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -867,6 +909,7 @@ declare module '@strapi/strapi' {
       'careers.testimonial-item': CareersTestimonialItem;
       'careers.testimonials-section': CareersTestimonialsSection;
       'home.compare-section': HomeCompareSection;
+      'home.contact-form': HomeContactForm;
       'home.contact-section': HomeContactSection;
       'home.enterprise-dealer': HomeEnterpriseDealer;
       'home.hero': HomeHero;
@@ -880,6 +923,7 @@ declare module '@strapi/strapi' {
       'home.social-wall': HomeSocialWall;
       'home.stats-banner': HomeStatsBanner;
       'home.technology': HomeTechnology;
+      'home.technology-card': HomeTechnologyCard;
       'product.hero': ProductHero;
       'product.loan-calculator': ProductLoanCalculator;
       'product.other-vehicles': ProductOtherVehicles;

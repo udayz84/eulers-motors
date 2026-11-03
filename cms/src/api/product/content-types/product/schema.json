@@ -5,7 +5,7 @@
     "singularName": "product",
     "pluralName": "products",
     "displayName": "Product",
-    "description": "Euler Motors vehicle models and full page specifications"
+    "description": "Euler Motors vehicle models and showcase cards"
   },
   "options": {
     "draftAndPublish": true
@@ -29,7 +29,9 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "specsRange": {
       "type": "string",
@@ -49,56 +51,6 @@
     "order": {
       "type": "integer",
       "default": 0
-    },
-    "seo": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.seo"
-    },
-    "hero": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.hero"
-    },
-    "specs": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.specs"
-    },
-    "savingsCalculator": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.savings-calculator"
-    },
-    "variantsCompare": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.variants-compare"
-    },
-    "overview": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.overview"
-    },
-    "loanCalculator": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.loan-calculator"
-    },
-    "reviewsSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "home.reviews-section"
-    },
-    "otherVehiclesSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "product.other-vehicles"
-    },
-    "contactSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "home.contact-section"
     }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_home_contact_forms",
+  "info": {
+    "displayName": "Contact Form",
+    "icon": "mail",
+    "description": "Configurable contact form card"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "What are you looking for?"
+    },
+    "subheading": {
+      "type": "string",
+      "default": "Two steps. We call you within one working day."
+    },
+    "options": {
+      "type": "json"
+    },
+    "ctaLabel": {
+      "type": "string",
+      "default": "Submit enquiry"
+    },
+    "disclaimer": {
+      "type": "string",
+      "default": "We never share your number with anyone else. No spam calls."
+    }
+  }
+}
+

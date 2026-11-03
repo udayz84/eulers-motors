@@ -3,20 +3,33 @@
   "info": {
     "displayName": "Technology Section",
     "icon": "cog",
-    "description": "Technology section headings and copy"
+    "description": "Technology section headings, copy, CTA and feature cards"
   },
   "options": {},
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "technology"
+      "default": "MADE FOR THE MILES"
     },
     "title": {
       "type": "string",
-      "default": "Engineering that drives the future"
+      "default": "Built for Indian roads."
+    },
+    "subheading": {
+      "type": "string"
     },
     "description": {
       "type": "text"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.technology-card"
     }
   }
 }

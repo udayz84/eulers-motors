@@ -9,7 +9,7 @@ type Vehicle = { name: string; capacity: string; crop: [number, number, number, 
 /* sprite crop boxes (Figma 1:2398/1:2404/1:2411/1:2417) — [left, top, width, height] %
    of the 42×42 thumb window into /assets/calculator/vehicle.png */
 const VEHICLES: Vehicle[] = [
-  { name: "Strom EV LR 200", capacity: "1,200 kg", crop: [-215.19, -125.87, 319.14, 213.66] },
+  { name: "Storm EV LR 200", capacity: "1,200 kg", crop: [-215.19, -125.87, 319.14, 213.66] },
   { name: "Storm EV T1500", capacity: "1,500 kg", crop: [-5.8, -125.03, 319.14, 213.66] },
   { name: "Turbo EV 1000", capacity: "1,000 kg", crop: [0, 0, 319.14, 213.66] },
   { name: "HiLoad EV", capacity: "688 kg", crop: [-279.52, -14.06, 397.73, 266.27] },
@@ -88,11 +88,26 @@ function RangeSlider({
  * Desktop: chart left + controls right · Mobile: stacked, chips in a
  * full-bleed horizontal scroll row (Figma 1:5219).
  */
-export default function SavingsCalculator() {
+export interface SavingsCalculatorProps {
+  eyebrow?: string;
+  title?: string;
+  defaultDailyKm?: number;
+  defaultYears?: number;
+  chartImage?: string;
+  chartImageAlt?: string;
+}
+
+export default function SavingsCalculator({
+  eyebrow = "Savings calculator",
+  title = "Calculate your savings",
+  defaultDailyKm = 60,
+  defaultYears = 5,
+  chartImage,
+  chartImageAlt = "Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV — ₹23,000 more profit per month with Euler EV",
+}: SavingsCalculatorProps = {}) {
   const [vehicle, setVehicle] = useState(0);
-  const [km, setKm] = useState(60);
-  const [years, setYears] = useState(5);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [km, setKm] = useState(defaultDailyKm);
+  const [years, setYears] = useState(defaultYears);
   const chipsRef = useRef<HTMLDivElement>(null);
 
   // start the mobile chip row scrolled so the active chip leads with a ~33px
@@ -120,42 +135,31 @@ export default function SavingsCalculator() {
         <div className="lg:flex lg:min-w-0 lg:flex-col lg:gap-[36px]">
           <div className="flex flex-col gap-[14px] lg:gap-3 lg:pt-[14px]">
             {/* white badge marks + white text on the dark section */}
-            <Eyebrow label="Savings calculator" dark icons="white" />
+            <Eyebrow label={eyebrow} dark icons="white" />
             <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:text-[52px] lg:tracking-[-1.04px]">
-              Calculate your savings
+              {title}
             </h2>
           </div>
           {/* chart (Figma 1:2270, updated variant 1:2261): rounded 737×495
               panel with the ₹ bar comparison — petrol / diesel / CNG / Euler EV */}
-          <div 
-            className="hidden lg:block cursor-pointer"
-            onClick={() => setHasInteracted(!hasInteracted)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setHasInteracted(!hasInteracted); }}
-          >
-            {!hasInteracted ? (
-              <div className="flex aspect-[1474/990] w-full flex-col justify-between rounded-[24px] bg-[#071120] p-[4%]">
-                <div className="flex flex-col gap-3 pl-2 pt-2">
-                  <div className="h-6 w-32 rounded-lg bg-[#121c2e] lg:h-8 lg:w-48"></div>
-                  <div className="h-3 w-20 rounded-md bg-[#121c2e] lg:h-4 lg:w-32"></div>
-                </div>
-                <div className="flex h-[75%] items-end justify-between px-[10%]">
-                  <div className="h-[55%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
-                  <div className="h-[75%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
-                  <div className="h-[40%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
-                  <div className="h-[95%] w-[12%] rounded-t-xl bg-[#121c2e]"></div>
-                </div>
-              </div>
-            ) : (
-              <Image
-                src="/assets/calculator/chart-v2.webp"
-                alt="Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV — ₹23,000 more profit per month with Euler EV"
-                width={1474}
-                height={990}
-                className="h-auto w-full animate-fadeIn"
-              />
-            )}
+          <div className="hidden lg:block relative">
+            <Image
+              src={chartImage || "/assets/calculator/chart-v2.webp"}
+              alt={chartImageAlt}
+              width={1474}
+              height={990}
+              className="h-auto w-full rounded-[24px]"
+              priority
+            />
+            {/* Dynamic live savings badge reacting to the km and years sliders */}
+            <div className="mt-3 flex items-center justify-between rounded-xl bg-white/5 px-4 py-2.5 backdrop-blur-md border border-white/10 text-white text-xs lg:text-sm">
+              <span className="text-white/70">
+                At <span className="font-semibold text-white">{km} km/day</span> over <span className="font-semibold text-white">{years} {years === 1 ? "year" : "years"}</span>:
+              </span>
+              <span className="font-bold text-[#6fcf97]">
+                ~₹{Math.round(((km || 60) / 60) * 23000).toLocaleString("en-IN")}/mo extra profit
+              </span>
+            </div>
           </div>
         </div>
 
@@ -165,7 +169,7 @@ export default function SavingsCalculator() {
         <div className="flex flex-1 flex-col gap-6 lg:min-w-0 lg:gap-[42px]">
           <div className="flex flex-col gap-3 lg:gap-5">
             <p className="text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white lg:text-[20px] lg:tracking-[-0.4px]">
-              Select Vehicle
+              Select your vehicle
             </p>
 
             {/* mobile: full-bleed horizontal scroll row (Figma 1:5219, 56px cards,
@@ -179,10 +183,7 @@ export default function SavingsCalculator() {
                   key={v.name}
                   type="button"
                   data-active={i === vehicle}
-                  onClick={() => {
-                    setVehicle(i);
-                    setHasInteracted(true);
-                  }}
+                  onClick={() => setVehicle(i)}
                   aria-pressed={i === vehicle}
                   className={`${MOBILE_ORDER[i]} flex h-[56px] w-auto shrink-0 items-center gap-[15px] rounded-[6px] border border-brand/50 py-[6px] pl-[6px] pr-[10px] text-left transition-opacity lg:order-none lg:h-[70px] lg:w-full lg:rounded-2xl lg:p-[6px] ${
                     i === vehicle ? "bg-brand/20" : "bg-brand/10 opacity-60"
@@ -226,17 +227,14 @@ export default function SavingsCalculator() {
               mobile p12/r8/gap12 per its own frame */}
           <div className="flex flex-col gap-3 rounded-lg bg-deeper p-3 lg:gap-8 lg:rounded-2xl lg:p-6">
             <SliderBlock
-              label="How many kilometres driven per day?"
+              label="How many kilometres do you drive per day?"
               value={km}
               display={`${km} km`}
               min={0}
               max={200}
               minLabel="0 km"
               maxLabel="200 km"
-              onChange={(v) => {
-                setKm(v);
-                setHasInteracted(true);
-              }}
+              onChange={(v) => setKm(v)}
             />
             <div className="h-px w-full shrink-0 bg-white/20" aria-hidden />
             <SliderBlock
@@ -247,10 +245,7 @@ export default function SavingsCalculator() {
               max={10}
               minLabel="1 year"
               maxLabel="10 year"
-              onChange={(v) => {
-                setYears(v);
-                setHasInteracted(true);
-              }}
+              onChange={(v) => setYears(v)}
             />
           </div>
 

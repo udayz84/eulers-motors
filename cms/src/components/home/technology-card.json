@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_home_technology_cards",
+  "info": {
+    "displayName": "Technology Card",
+    "icon": "layer",
+    "description": "Interactive feature card in technology section"
+  },
+  "options": {},
+  "attributes": {
+    "tag": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}
+
