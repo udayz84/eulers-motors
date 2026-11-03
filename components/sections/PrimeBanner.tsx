@@ -41,7 +41,7 @@ export default function PrimeBanner({
   const showCta = Boolean(ctaLabel && ctaHref);
 
   return (
-    <section className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
+    <section id="prime-banner" className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         {/* mobile background (Figma 1:4894) — bg-3 only, bottom half of the section */}
         <div className="absolute inset-0 overflow-hidden lg:hidden">
@@ -112,26 +112,30 @@ export default function PrimeBanner({
           {title}
         </h2>
 
-        {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
-            mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).
-            Below 1440px the row wraps without the dots so the scaled-down text
-            never runs under the truck. */}
+        {/* features — desktop: 2-column grid when >3 items so text stays clear of the truck;
+            single row for <=3 short items; mobile: stacked column */}
         {currentFeatures.length > 0 && (
-          <div className="flex w-full max-w-[353px] flex-col items-start gap-[11px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5 lg:rounded-[10px] lg:p-4 min-[1440px]:p-5">
+          <div
+            className={`w-full max-w-[353px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:rounded-[10px] lg:p-4 min-[1440px]:p-5 ${
+              currentFeatures.length > 3
+                ? "flex flex-col items-start gap-[11px] lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-3.5"
+                : "flex flex-col items-start gap-[11px] lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5"
+            }`}
+          >
             {currentFeatures.map((f, i) => (
               <Fragment key={`${f.value}-${i}`}>
-                <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-2.5">
-                  <span className="whitespace-nowrap font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[19px] lg:tracking-[-0.38px] min-[1440px]:text-[24px] min-[1440px]:tracking-[-0.48px]">
+                <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-1.5">
+                  <span className="font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[18px] lg:tracking-[-0.36px] min-[1440px]:text-[20px] min-[1440px]:tracking-[-0.4px]">
                     {f.value}
                   </span>
                   {/* mobile separator — sits between value and label (Figma 1:4905) */}
                   <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
-                  <span className="text-[12px] leading-normal text-[#ccc] lg:text-[14px] lg:whitespace-nowrap min-[1440px]:text-[16px]">
+                  <span className="text-[12px] leading-snug text-[#ccc] lg:text-[13px] min-[1440px]:text-[14px]">
                     {f.label}
                   </span>
                 </div>
-                {i < currentFeatures.length - 1 && (
-                  /* desktop separators: 8×8 after the first feature, 9×8 after the second (Figma 1:1832/1:1836) — 1440px+ only */
+                {currentFeatures.length <= 3 && i < currentFeatures.length - 1 && (
+                  /* desktop separators: only when items are in a single horizontal row */
                   <span
                     aria-hidden
                     className={`hidden rounded-full bg-white/50 min-[1440px]:block ${i === 0 ? "size-2" : "h-2 w-[9px]"}`}
