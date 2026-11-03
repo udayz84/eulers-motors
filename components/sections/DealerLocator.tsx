@@ -604,30 +604,6 @@ export default function DealerLocator({
       </div>
       <div className="absolute bottom-[-151px] left-[-593px] h-[491px] w-[1551px] rounded-full bg-[#d4dbec] blur-[81px] lg:hidden" />
       <div className="absolute bottom-[-191px] left-[-112px] hidden h-[349px] w-[1662px] rounded-full bg-[#d4dbec] blur-[81px] lg:block" />
-      <div className="absolute left-[-131px] top-[-128px] hidden h-[407px] w-[1710px] lg:block">
-        <div className="absolute inset-[-39.84%_-9.48%]">
-          <Image
-            src={`${ASSET}glow-desktop.svg`}
-            alt=""
-            width={2034.87}
-            height={731.505}
-            aria-hidden="true"
-            className="absolute inset-0 size-full max-w-none"
-          />
-        </div>
-      </div>
-      <div className="absolute left-[-557px] top-[-224px] h-[355px] w-[1490px] lg:hidden">
-        <div className="absolute inset-[-45.74%_-10.89%]">
-          <Image
-            src={`${ASSET}glow-mobile.svg`}
-            alt=""
-            width={1814.39}
-            height={679.029}
-            aria-hidden="true"
-            className="absolute inset-0 size-full max-w-none"
-          />
-        </div>
-      </div>
 
       <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[692px] lg:max-w-none">
         <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">

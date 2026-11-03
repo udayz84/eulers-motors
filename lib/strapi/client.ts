@@ -80,6 +80,17 @@ export function mediaUrl(
   const cleanBase = STRAPI_BASE_URL.replace(/\/+$/, "");
   const cleanPath = rawUrl.startsWith("/") ? rawUrl : `/${rawUrl}`;
 
+  // If STRAPI_BASE_URL is localhost or 127.0.0.1, client browsers in production
+  // cannot reach localhost:1337. Return the relative path /uploads/... which
+  // Next.js serves statically from public/uploads/.
+  if (
+    cleanBase.includes("localhost") ||
+    cleanBase.includes("127.0.0.1") ||
+    !cleanBase.startsWith("http")
+  ) {
+    return cleanPath;
+  }
+
   return `${cleanBase}${cleanPath}`;
 }
 

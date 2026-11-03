@@ -80,8 +80,9 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads/*
-!public/uploads/.gitkeep
+# Uploads tracked for production deployment
+# public/uploads/*
+# !public/uploads/.gitkeep
 .tsbuildinfo
 .eslintcache
 
