@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_careers_support_items",
+  "info": {
+    "displayName": "Support Item",
+    "icon": "handHeart",
+    "description": "Perks and employee benefits item"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
+

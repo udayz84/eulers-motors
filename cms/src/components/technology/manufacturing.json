@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_technology_manufacturings",
+  "info": {
+    "displayName": "Manufacturing Section",
+    "icon": "house",
+    "description": "Manufacturing plant and engineering film section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Manufacturing"
+    },
+    "title": {
+      "type": "string",
+      "default": "Where Every Vehicle Begins"
+    },
+    "description": {
+      "type": "text",
+      "default": "Packs, drivetrains and final assembly in one building, so a fault found in the field reaches the line that made it."
+    },
+    "mainImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "videoUrl": {
+      "type": "string"
+    }
+  }
+}
+

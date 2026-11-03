@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_technology_heroes",
+  "info": {
+    "displayName": "Technology Hero",
+    "icon": "shield",
+    "description": "Technology page hero and engineering philosophy section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Technology"
+    },
+    "title": {
+      "type": "string",
+      "default": "Built Smarter.\nBuilt for Business."
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Every innovation is designed for everyday business."
+    },
+    "philosophyEyebrow": {
+      "type": "string",
+      "default": "OUR PHILOSOPHY"
+    },
+    "philosophyTitle": {
+      "type": "string",
+      "default": "Designed for commercial reality."
+    },
+    "philosophyDescription": {
+      "type": "text",
+      "default": "Commercial electric vehicles don't get gentle treatment. They run 14 hours a day, through monsoon waterlogging and summer heat, carrying every kilogram they are rated for and sometimes more."
+    }
+  }
+}
+

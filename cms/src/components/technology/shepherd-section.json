@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_technology_shepherd_sections",
+  "info": {
+    "displayName": "Shepherd Section",
+    "icon": "phone",
+    "description": "Shepherd IoT fleet management app showcase"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Shepherd app"
+    },
+    "title": {
+      "type": "string",
+      "default": "Manage Everything in One Place"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Track your vehicles, battery, trips, charging and service updates from one simple dashboard."
+    },
+    "appImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}
+

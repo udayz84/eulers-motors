@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_home_enterprise_dealers",
+  "info": {
+    "displayName": "Enterprise & Dealer Section",
+    "icon": "briefcase",
+    "description": "Enterprise fleet inquiries and dealership application split cards"
+  },
+  "options": {},
+  "attributes": {
+    "enterpriseEyebrow": {
+      "type": "string",
+      "default": "Enterprise"
+    },
+    "enterpriseTitle": {
+      "type": "string",
+      "default": "Need 50+ trucks?"
+    },
+    "enterpriseDesc": {
+      "type": "text",
+      "default": "We check your routes on your own data first. Then connect with you."
+    },
+    "enterpriseBullets": {
+      "type": "json"
+    },
+    "enterpriseCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "dealerEyebrow": {
+      "type": "string",
+      "default": "38 cities open"
+    },
+    "dealerTitle": {
+      "type": "string",
+      "default": "Want to become a dealer?"
+    },
+    "dealerDesc": {
+      "type": "text",
+      "default": "Your area, with clear numbers.\nWe manage showroom setup and training."
+    },
+    "dealerPrimaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "dealerSecondaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}
+

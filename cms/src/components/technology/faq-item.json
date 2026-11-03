@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_technology_faq_items",
+  "info": {
+    "displayName": "FAQ Item",
+    "icon": "question",
+    "description": "Technology question and answer item"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "answer": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "default": "General"
+    }
+  }
+}
+

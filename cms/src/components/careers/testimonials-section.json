@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_careers_testimonials_sections",
+  "info": {
+    "displayName": "Testimonials Section",
+    "icon": "quote",
+    "description": "Employee quotes and testimonials carousel section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Our Team"
+    },
+    "title": {
+      "type": "string",
+      "default": "Hear from the team."
+    },
+    "testimonials": {
+      "type": "component",
+      "repeatable": true,
+      "component": "careers.testimonial-item"
+    }
+  }
+}
+

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_technology_proof_sections",
+  "info": {
+    "displayName": "Proof Section",
+    "icon": "check",
+    "description": "Proof statistics demonstrating commercial EV uptime and scale"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Proof"
+    },
+    "title": {
+      "type": "string",
+      "default": "Why businesses trust Euler."
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat-item"
+    }
+  }
+}
+

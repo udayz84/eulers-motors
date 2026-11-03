@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_home_heroes",
+  "info": {
+    "displayName": "Hero Section",
+    "icon": "crown",
+    "description": "Hero section container"
+  },
+  "options": {},
+  "attributes": {
+    "slides": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.hero-slide"
+    }
+  }
+}

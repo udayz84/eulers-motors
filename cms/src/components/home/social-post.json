@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_home_social_posts",
+  "info": {
+    "displayName": "Social Post",
+    "icon": "play",
+    "description": "Individual community social post video card"
+  },
+  "options": {},
+  "attributes": {
+    "mediaImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "duration": {
+      "type": "string"
+    },
+    "authorHandle": {
+      "type": "string",
+      "required": true
+    },
+    "isOfficial": {
+      "type": "boolean",
+      "default": true
+    },
+    "likes": {
+      "type": "string"
+    },
+    "timeAgo": {
+      "type": "string"
+    },
+    "videoUrl": {
+      "type": "string"
+    }
+  }
+}
+

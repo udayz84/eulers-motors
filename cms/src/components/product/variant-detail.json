@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_product_variant_details",
+  "info": {
+    "displayName": "Variant Detail",
+    "icon": "layer",
+    "description": "Variant comparison row item with full pricing and specs"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "priceNumeric": {
+      "type": "decimal"
+    },
+    "bodyType": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "string"
+    },
+    "range": {
+      "type": "string"
+    },
+    "runningCost": {
+      "type": "string"
+    },
+    "fullCharge": {
+      "type": "string"
+    },
+    "cargoSpace": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

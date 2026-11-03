@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_home_insights_sections",
+  "info": {
+    "displayName": "Insights Section",
+    "icon": "book",
+    "description": "Learn more about EVs - educational articles"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "insights"
+    },
+    "title": {
+      "type": "string",
+      "default": "Learn more about EVs"
+    },
+    "viewAllCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article"
+    }
+  }
+}

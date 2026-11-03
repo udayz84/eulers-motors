@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_home_contact_sections",
+  "info": {
+    "displayName": "Contact Section",
+    "icon": "phone",
+    "description": "Contact and callback prompts"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Connect"
+    },
+    "title": {
+      "type": "string",
+      "default": "Get in touch with Euler Motors"
+    },
+    "description": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    }
+  }
+}

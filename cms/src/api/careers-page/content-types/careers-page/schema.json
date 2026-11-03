@@ -1,0 +1,47 @@
+{
+  "kind": "singleType",
+  "collectionName": "careers_pages",
+  "info": {
+    "singularName": "careers-page",
+    "pluralName": "careers-pages",
+    "displayName": "Careers Page",
+    "description": "Careers page layout, employer value proposition, perks, team gallery, and testimonials"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.hero"
+    },
+    "benefitsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.benefits-section"
+    },
+    "supportSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.support-section"
+    },
+    "gallerySection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.gallery-section"
+    },
+    "testimonialsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.testimonials-section"
+    }
+  }
+}
+

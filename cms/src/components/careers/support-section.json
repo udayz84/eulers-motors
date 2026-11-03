@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_careers_support_sections",
+  "info": {
+    "displayName": "Support Section",
+    "icon": "handHeart",
+    "description": "Employee support and workplace perks section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Benefits & Perks"
+    },
+    "title": {
+      "type": "string",
+      "default": "We take care of the team."
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Comprehensive health, learning budgets, and equity support."
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "careers.support-item"
+    }
+  }
+}
+

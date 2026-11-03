@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_technology_vehicle_parts",
+  "info": {
+    "displayName": "Vehicle Part",
+    "icon": "cog",
+    "description": "Component part technical deep-dive"
+  },
+  "options": {},
+  "attributes": {
+    "partName": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "whatIsIt": {
+      "type": "text",
+      "required": true
+    },
+    "whyDoesItMatter": {
+      "type": "text",
+      "required": true
+    },
+    "businessMeaning": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

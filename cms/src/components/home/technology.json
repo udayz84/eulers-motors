@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_home_technologies",
+  "info": {
+    "displayName": "Technology Section",
+    "icon": "cog",
+    "description": "Technology section headings and copy"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "technology"
+    },
+    "title": {
+      "type": "string",
+      "default": "Engineering that drives the future"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

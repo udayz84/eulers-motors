@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_home_product_showcases",
+  "info": {
+    "displayName": "Product Showcase",
+    "icon": "car",
+    "description": "Featured vehicles and interactive switcher"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Vehicles"
+    },
+    "title": {
+      "type": "string",
+      "default": "Powering every commercial delivery"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
+    }
+  }
+}

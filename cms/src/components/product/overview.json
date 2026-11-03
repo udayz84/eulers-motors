@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_product_overviews",
+  "info": {
+    "displayName": "Product Overview Section",
+    "icon": "layout",
+    "description": "What this vehicle is good at - 5-card Bento grid"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "OVERVIEW"
+    },
+    "title": {
+      "type": "string",
+      "default": "What this vehicle is good at."
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.overview-card"
+    }
+  }
+}
+

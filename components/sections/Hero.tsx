@@ -25,9 +25,14 @@ const HERO_SLIDES: HeroSlideData[] = [
 ];
 
 export interface HeroSlideData {
+  tag?: string;
   headline: string;
   subheading?: string;
   primaryCta?: {
+    label: string;
+    href: string;
+  };
+  secondaryCta?: {
     label: string;
     href: string;
   };
@@ -267,7 +272,9 @@ export default function Hero({ slides }: HeroProps = {}) {
         }}
       >
         {currentSlides.map((slide, i) => {
-          const isExpanded = (slide.headline?.length ?? 0) > 90 || Boolean(slide.subheading && slide.subheading.trim().length > 0);
+          const headlineLen = slide.headline?.length ?? 0;
+          const isLongHeadline = headlineLen > 60;
+          const isExpanded = headlineLen > 80 || Boolean(slide.subheading && slide.subheading.trim().length > 0);
 
           return (
             <div key={i} className="relative h-full w-full shrink-0">
@@ -307,14 +314,25 @@ export default function Hero({ slides }: HeroProps = {}) {
               />
               
               {/* Content (Text + CTA) */}
-              <div className="absolute inset-x-0 bottom-[62px] flex flex-col items-start gap-3 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-6">
+              <div className="absolute inset-x-0 bottom-[62px] flex flex-col items-start gap-2.5 px-5 lg:bottom-[60.52px] lg:items-center lg:gap-5">
+                {slide.tag && (
+                  <span className="inline-block font-display text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80 bg-white/10 px-3 py-1 rounded-full border border-white/15 backdrop-blur-[6px] sm:text-[11px] lg:text-[12px] lg:tracking-[0.18em]">
+                    {slide.tag}
+                  </span>
+                )}
                 {slide.headline && (
-                  <h1 className={`max-w-[289px] ${isExpanded ? "md:max-w-[520px]" : ""} font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:max-w-[788.543px] lg:text-center lg:text-[48px] lg:leading-[1.4] lg:tracking-[-0.96px]`}>
+                  <h1
+                    className={`w-full max-w-[340px] sm:max-w-[580px] md:max-w-[700px] lg:max-w-[960px] xl:max-w-[1040px] font-display font-semibold text-white [text-wrap:balance] ${
+                      isLongHeadline
+                        ? "text-[23px] leading-[1.22] tracking-[-0.46px] sm:text-[28px] sm:leading-[1.2] sm:tracking-[-0.56px] md:text-[32px] lg:text-[40px] lg:leading-[1.25] lg:tracking-[-0.8px] xl:text-[44px]"
+                        : "text-[32px] leading-[1.15] tracking-[-0.64px] sm:text-[34px] sm:leading-[1.2] lg:text-[48px] lg:leading-[1.3] lg:tracking-[-0.96px]"
+                    } lg:text-center`}
+                  >
                     {slide.headline}
                   </h1>
                 )}
                 {slide.subheading && (
-                  <p className="max-w-[289px] md:max-w-[520px] text-[14px] text-white/85 lg:max-w-[788.543px] lg:text-center lg:text-[18px] lg:leading-relaxed">
+                  <p className="max-w-[340px] sm:max-w-[580px] md:max-w-[680px] text-[14px] text-white/85 lg:max-w-[788.543px] lg:text-center lg:text-[18px] lg:leading-relaxed">
                     {slide.subheading}
                   </p>
                 )}

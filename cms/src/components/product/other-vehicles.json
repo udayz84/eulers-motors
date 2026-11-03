@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_product_other_vehicles",
+  "info": {
+    "displayName": "Other Vehicles Section",
+    "icon": "car",
+    "description": "Recommended alternative vehicles in the fleet"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "OTHER VEHICLES"
+    },
+    "title": {
+      "type": "string",
+      "default": "Explore other vehicles in our fleet"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "vehicles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
+    }
+  }
+}
+

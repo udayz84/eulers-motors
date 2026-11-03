@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_home_promo_cards",
+  "info": {
+    "displayName": "Promo Card",
+    "icon": "layer",
+    "description": "Featured promotional section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "ctaLabel": {
+      "type": "string"
+    },
+    "ctaHref": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "imageAlt": {
+      "type": "string"
+    },
+    "wash": {
+      "type": "enumeration",
+      "enum": ["blue", "white", "mobile-blue"],
+      "default": "blue"
+    },
+    "align": {
+      "type": "enumeration",
+      "enum": ["left", "right"],
+      "default": "left"
+    }
+  }
+}

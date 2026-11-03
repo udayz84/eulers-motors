@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_product_variants_compares",
+  "info": {
+    "displayName": "Variants Comparison Section",
+    "icon": "dashboard",
+    "description": "Variant comparison table comparing trim levels and deck types"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "VARIANTS"
+    },
+    "title": {
+      "type": "string",
+      "default": "Compare variants"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "truckImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "variants": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.variant-detail"
+    }
+  }
+}
+

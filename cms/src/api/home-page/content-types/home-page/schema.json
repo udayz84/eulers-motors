@@ -1,0 +1,91 @@
+{
+  "kind": "singleType",
+  "collectionName": "home_pages",
+  "info": {
+    "singularName": "home-page",
+    "pluralName": "home-pages",
+    "displayName": "Home Page",
+    "description": "Homepage layout, SEO, and modular sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.hero"
+    },
+    "statsBanner": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.stats-banner"
+    },
+    "productShowcase": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.product-showcase"
+    },
+    "neoPromo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.promo-card"
+    },
+    "savingsCalculator": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.savings-calculator"
+    },
+    "talkPromo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.promo-card"
+    },
+    "compareSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.compare-section"
+    },
+    "technology": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.technology"
+    },
+    "reviewsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.reviews-section"
+    },
+    "primeBanner": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.prime-banner"
+    },
+    "insightsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.insights-section"
+    },
+    "enterpriseDealer": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.enterprise-dealer"
+    },
+    "contactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.contact-section"
+    },
+    "socialWall": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.social-wall"
+    }
+  }
+}

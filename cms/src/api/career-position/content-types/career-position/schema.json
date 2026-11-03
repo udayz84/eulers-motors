@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "career_positions",
+  "info": {
+    "singularName": "career-position",
+    "pluralName": "career-positions",
+    "displayName": "Career Position",
+    "description": "Job openings and career opportunities at Euler Motors"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "department": {
+      "type": "enumeration",
+      "enum": [
+        "Engineering",
+        "Manufacturing",
+        "Sales",
+        "Software",
+        "Service",
+        "Warranty",
+        "Operations",
+        "Human Resources"
+      ],
+      "required": true
+    },
+    "location": {
+      "type": "enumeration",
+      "enum": [
+        "New Delhi",
+        "Bengaluru",
+        "Pune",
+        "Chennai",
+        "Mumbai",
+        "Hyderabad",
+        "PAN India"
+      ],
+      "required": true
+    },
+    "experience": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "applyUrl": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+

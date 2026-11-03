@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_product_specs",
+  "info": {
+    "displayName": "Product Specs Section",
+    "icon": "cog",
+    "description": "Interactive specifications section with category tabs"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "SPECIFICATIONS"
+    },
+    "title": {
+      "type": "string",
+      "default": "Technical Specifications"
+    },
+    "description": {
+      "type": "text"
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.spec-category"
+    },
+    "downloadCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "downloadFile": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["files", "images"]
+    }
+  }
+}
+

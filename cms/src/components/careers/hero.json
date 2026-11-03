@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_careers_heroes",
+  "info": {
+    "displayName": "Career Hero",
+    "icon": "user",
+    "description": "Careers page hero banner and mission statement"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Careers at Euler"
+    },
+    "title": {
+      "type": "string",
+      "default": "Build the future of commercial mobility."
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Join a passionate team of engineers, designers, and operators building electric commercial vehicles for India."
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}
+

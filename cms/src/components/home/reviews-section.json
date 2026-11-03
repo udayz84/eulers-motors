@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_home_reviews_sections",
+  "info": {
+    "displayName": "Reviews Section",
+    "icon": "thumbUp",
+    "description": "Customer stories and reviews marquee"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Customers"
+    },
+    "title": {
+      "type": "string",
+      "default": "Customer reviews"
+    },
+    "description": {
+      "type": "text",
+      "default": "Watch real customers share their experience with Euler Motors."
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review"
+    }
+  }
+}

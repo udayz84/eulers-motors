@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_shared_savings_calculators",
+  "info": {
+    "displayName": "Savings Calculator",
+    "icon": "calculator",
+    "description": "Interactive operational cost and savings comparison calculator"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Savings calculator"
+    },
+    "title": {
+      "type": "string",
+      "default": "Calculate your savings"
+    },
+    "defaultDailyKm": {
+      "type": "integer",
+      "default": 80
+    },
+    "defaultYears": {
+      "type": "integer",
+      "default": 3
+    },
+    "chartImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "chartImageAlt": {
+      "type": "string",
+      "default": "Bar chart comparing monthly profit with petrol, diesel, CNG and Euler EV"
+    }
+  }
+}
+

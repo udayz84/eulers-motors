@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_product_loan_calculators",
+  "info": {
+    "displayName": "Product Loan Calculator",
+    "icon": "priceTag",
+    "description": "Interactive EMI and loan financing calculator section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "FINANCE"
+    },
+    "title": {
+      "type": "string",
+      "default": "Calculate your loan EMI"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "defaultPrice": {
+      "type": "decimal"
+    },
+    "defaultDownPayment": {
+      "type": "decimal"
+    },
+    "defaultTenureMonths": {
+      "type": "integer",
+      "default": 48
+    },
+    "defaultInterestRate": {
+      "type": "decimal",
+      "default": 9.5
+    },
+    "partners": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}
+

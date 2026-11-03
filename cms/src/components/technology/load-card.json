@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_technology_load_cards",
+  "info": {
+    "displayName": "Load Card",
+    "icon": "truck",
+    "description": "Card showing payload capability"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

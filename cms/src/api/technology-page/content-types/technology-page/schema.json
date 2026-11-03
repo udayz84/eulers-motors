@@ -1,0 +1,77 @@
+{
+  "kind": "singleType",
+  "collectionName": "technology_pages",
+  "info": {
+    "singularName": "technology-page",
+    "pluralName": "technology-pages",
+    "displayName": "Technology Page",
+    "description": "Technology innovations, load testing, manufacturing, Shepherd IoT, and engineering page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.hero"
+    },
+    "loadSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.load-section"
+    },
+    "indianRoads": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.indian-roads"
+    },
+    "manufacturing": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.manufacturing"
+    },
+    "knowVehicle": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.know-vehicle"
+    },
+    "chargingSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.charging-section"
+    },
+    "faqSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.faq-section"
+    },
+    "shepherdSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.shepherd-section"
+    },
+    "proofSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "technology.proof-section"
+    },
+    "reviewsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.reviews-section"
+    },
+    "contactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.contact-section"
+    }
+  }
+}
+

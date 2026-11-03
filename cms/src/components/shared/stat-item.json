@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_shared_stat_items",
+  "info": {
+    "displayName": "Stat Item",
+    "icon": "chartBubble",
+    "description": "Metric or statistic counter"
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "unit": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "valueMobile": {
+      "type": "string"
+    },
+    "unitMobile": {
+      "type": "string"
+    }
+  }
+}

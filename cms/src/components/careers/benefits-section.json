@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_careers_benefits_sections",
+  "info": {
+    "displayName": "Benefits Section",
+    "icon": "heart",
+    "description": "Why work with us impact section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Why work with us"
+    },
+    "title": {
+      "type": "string",
+      "default": "Engineering Impact, Every Day"
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "careers.benefit-item"
+    }
+  }
+}
+

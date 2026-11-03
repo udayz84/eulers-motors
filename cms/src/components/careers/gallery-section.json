@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_careers_gallery_sections",
+  "info": {
+    "displayName": "Gallery Section",
+    "icon": "picture",
+    "description": "Life at Euler Motors photo gallery"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Inside the depots"
+    },
+    "title": {
+      "type": "string",
+      "default": "Life at Euler Motors"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "From the assembly lines in New Delhi to real road testing across state lines — see what our day-to-day looks like."
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

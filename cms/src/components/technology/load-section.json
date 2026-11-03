@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_technology_load_sections",
+  "info": {
+    "displayName": "Load Section",
+    "icon": "layer",
+    "description": "Rated with weight payload section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Load"
+    },
+    "title": {
+      "type": "string",
+      "default": "Rated with weight on it."
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Every range and performance number we publish is measured with rated payload on board — not on an empty flat track."
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.load-card"
+    }
+  }
+}
+

@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_product_spec_categories",
+  "info": {
+    "displayName": "Spec Category",
+    "icon": "folder",
+    "description": "Tab category of specifications with image and rows"
+  },
+  "options": {},
+  "attributes": {
+    "categoryName": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "imageAlt": {
+      "type": "string"
+    },
+    "rows": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.spec-row"
+    }
+  }
+}
+

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_technology_faq_sections",
+  "info": {
+    "displayName": "Technology FAQ Section",
+    "icon": "question",
+    "description": "Technology page categorized FAQ section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "FAQ"
+    },
+    "title": {
+      "type": "string",
+      "default": "Frequently Asked Questions"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.faq-item"
+    }
+  }
+}
+

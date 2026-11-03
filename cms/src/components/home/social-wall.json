@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_home_social_walls",
+  "info": {
+    "displayName": "Social Wall",
+    "icon": "earth",
+    "description": "Social media community showcase wall"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "OUR SOCIAL COMMUNITY"
+    },
+    "title": {
+      "type": "string",
+      "default": "Follow the movement"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "See how drivers and fleet owners are transforming their business with Euler across India."
+    },
+    "posts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.social-post"
+    }
+  }
+}
+

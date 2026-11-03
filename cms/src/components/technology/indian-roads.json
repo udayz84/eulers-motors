@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_technology_indian_roads",
+  "info": {
+    "displayName": "Indian Roads Section",
+    "icon": "car",
+    "description": "Built for Indian roads problem-solution grid"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Made for India"
+    },
+    "title": {
+      "type": "string",
+      "default": "Built for everyday commercial roads."
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.road-condition-card"
+    }
+  }
+}
+

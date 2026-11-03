@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_home_compare_sections",
+  "info": {
+    "displayName": "Compare Section",
+    "icon": "layer",
+    "description": "Comparison section showing with vs without Euler benefits and 30-sec test quiz"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "WHAT CHANGES"
+    },
+    "title": {
+      "type": "string",
+      "default": "What changes when you switch?"
+    },
+    "quizTitle": {
+      "type": "string",
+      "default": "Which vehicle fits your work?"
+    },
+    "quizSubtitle": {
+      "type": "string",
+      "default": "Sirf 5 questions, 30 seconds. No phone number needed."
+    },
+    "quizCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "withoutEulerPoints": {
+      "type": "json"
+    },
+    "withEulerPoints": {
+      "type": "json"
+    }
+  }
+}
+
