@@ -171,9 +171,9 @@ export default function CompareSection({
             136×102 r12 (NOT scaled desktop cards) */}
         <div className="absolute left-0 top-[248.67px] h-[102px] w-full">
           {/* Left Half: Without Euler — window bleeds 48px past the left edge */}
-          <div className="absolute left-0 top-0 h-full w-1/2 overflow-hidden group">
+          <div className="absolute left-0 top-0 h-full w-1/2 overflow-hidden">
             <div className="absolute left-[-48px] top-0">
-              <div className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
+              <div className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px]">
                 {currentWithout.map((c, i) => (
                   <MobileCardView key={`w1m-${i}`} c={c} tone="black" chip="red" />
                 ))}
@@ -185,8 +185,8 @@ export default function CompareSection({
           </div>
 
           {/* Right Half: With Euler */}
-          <div className="absolute left-1/2 top-0 h-full w-1/2 overflow-hidden group">
-            <div ref={(el) => { rightTracks.current[0] = el; }} className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px] group-active:[animation-play-state:paused]">
+          <div className="absolute left-1/2 top-0 h-full w-1/2 overflow-hidden">
+            <div ref={(el) => { rightTracks.current[0] = el; }} className="flex w-max gap-[8px] animate-marquee [--marquee-gap:8px]">
               {currentWith.map((c, i) => (
                 <MobileCardView key={`w1m-${i}`} c={c} tone="glass" chip="green" />
               ))}
@@ -333,8 +333,8 @@ export default function CompareSection({
             keep the Figma 1:1520/1:1552 look: static cropped rows, not a marquee.
             Left half "Without" (80% opacity), right half "With", split at the
             section's centre line like the design's 720/740 split. */}
-      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block group">
-        <div className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
+      <div className="absolute left-0 top-[371px] hidden h-[220px] w-1/2 overflow-clip opacity-80 lg:block">
+        <div className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px]">
           {/* First set of cards */}
           {currentWithout.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="black" chip="red" />
@@ -345,8 +345,8 @@ export default function CompareSection({
           ))}
         </div>
       </div>
-      <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block group">
-        <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px] group-hover:[animation-play-state:paused]">
+      <div className="absolute left-1/2 top-[371px] hidden h-[220px] w-1/2 overflow-clip lg:block">
+        <div ref={(el) => { rightTracks.current[1] = el; }} className="absolute left-0 top-0 flex w-max h-[220px] gap-[42px] animate-marquee [--marquee-gap:42px]">
           {/* First set of cards */}
           {currentWith.map((c, i) => (
             <DeskCardView key={`w1-${i}`} c={c} tone="glass" chip="green" />
