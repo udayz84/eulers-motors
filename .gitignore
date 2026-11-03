@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.*
 
@@ -32,3 +32,6 @@ next-env.d.ts
 
 # figma reference screenshots (scratch)
 .figma-ref/
+
+# visual regression testing artifacts
+/visual-regression/
