@@ -68,7 +68,8 @@ function ArticleCard({ article }: { article: Article }) {
         <Image src={article.img} alt="" fill sizes="(max-width: 767px) 90vw, (max-width: 1279px) 42vw, 413px" className="object-cover" />
         <span className="absolute left-2 top-2 flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[12px] font-bold text-black lg:left-3 lg:top-3 lg:text-[14px]">{article.category}</span>
         <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-[12.333px] lg:top-[11.645px] lg:size-9 lg:p-[11px_12px]">
-          <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0" />
+          <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0 lg:hidden" />
+          <Image src="/assets/insights/arrow-icon.svg" alt="" width={20} height={20} className="hidden shrink-0 lg:block lg:-rotate-90 lg:-scale-x-100" />
         </span>
       </div>
       <div className="flex flex-col gap-1.5 px-3 pb-3 pt-1 lg:self-stretch lg:gap-[6px] lg:px-0 lg:pb-0 lg:pt-0">
@@ -142,8 +143,8 @@ export default function BlogListingPage() {
               <div onScroll={(event) => handleFeaturedScroll(event.currentTarget)} className="snap-row no-scrollbar w-full items-center gap-3 overflow-x-auto scroll-smooth touch-pan-x-y">
                 <div aria-hidden="true" className="w-2 shrink-0" />
                 {FEATURED_ARTICLES.map((article) => <Link key={article.id} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 snap-start flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
-                  <div className="relative h-[160px] w-full shrink-0 self-stretch overflow-hidden rounded-[8px] bg-[lightgray]"><Image src={article.img} alt="" fill sizes="320px" className="object-cover" /><span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] flex-col items-start justify-center gap-[7.862px] rounded-[39.312px] bg-white px-2 text-[12px] font-semibold text-black">{article.category}</span></div>
-                  <div className="relative flex w-full flex-col gap-1.5 px-3 pb-1 pt-1"><h3 className="self-stretch font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212]">{article.title}</h3><Metadata article={article} mobile /><p className="self-stretch text-[12px] leading-[1.4] text-[#121212]">{article.excerpt}</p><span className="absolute right-[4px] top-[-165.596px] flex size-8 items-center justify-center gap-[10px] rounded-[4px] bg-white p-[11px_12px]"><Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square shrink-0" /></span></div>
+                  <div className="relative h-[160px] w-full shrink-0 self-stretch overflow-hidden rounded-[8px] bg-[lightgray]"><Image src={article.img} alt="" fill sizes="320px" className={`object-cover ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`} /><span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] flex-col items-start justify-center gap-[7.862px] rounded-[39.312px] bg-white px-2 text-[12px] font-semibold text-black">{article.category}</span><span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white"><Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0" /></span></div>
+                  <div className="flex w-full flex-col gap-1.5 px-3 pb-1 pt-1"><h3 className="self-stretch font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212]">{article.title}</h3><Metadata article={article} mobile /><p className="self-stretch text-[12px] leading-[1.4] text-[#121212]">{article.excerpt}</p></div>
                 </Link>)}
               </div>
             </div>
@@ -166,24 +167,25 @@ export default function BlogListingPage() {
           <button onClick={() => scrollFeatured(1)} aria-label="Next featured articles" className="absolute bottom-[223px] right-[50px] z-20 hidden size-[55px] items-center justify-center lg:flex"><Image src="/assets/insights/carousel-arrow-right.svg" alt="" width={55} height={55} /></button>
         </section>
 
-        <section className="bg-white px-5 pt-8 lg:px-[60px] lg:py-[62px]">
+        <section className="relative bg-white px-5 pt-8 lg:px-[60px] lg:py-[62px]">
           <div className="mx-auto flex max-w-[1440px] flex-col gap-4 lg:gap-[20px]">
             <label className="flex h-[42px] w-full items-center justify-between rounded-[500px] border border-black/[0.06] bg-[#f3f4f5] p-3 shadow-[0_2px_4px_0_rgba(0,0,0,0.10)] lg:h-[46px] lg:w-[1320px] lg:max-w-full lg:py-[3px] lg:pl-4 lg:pr-[3px]">
               <span className="flex min-w-0 flex-1 items-center gap-3 text-[#121212]/70"><Image src="/assets/insights/search-icon.svg" alt="" width={20} height={20} /><input aria-label="Search articles" type="search" placeholder="Search articles" value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-[14px] font-semibold outline-none placeholder:text-[#121212]/80 lg:text-[16px]" /></span>
               {searchQuery && <button type="button" onClick={() => setSearchQuery("")} aria-label="Clear search" className="ml-2 px-2 text-xl leading-none text-[#121212]/60">×</button>}
             </label>
-            <div className="relative">
+            <div className="relative -mx-5 lg:mx-0">
               <Image src="/assets/insights/tabs-row-decoration.svg" alt="" aria-hidden width={752} height={76} className="pointer-events-none absolute left-1/2 top-[-20px] z-0 hidden h-[76px] w-[751.148px] max-w-none -translate-x-1/2 lg:block" />
-              <div className="no-scrollbar relative z-10 flex h-8 w-full items-center justify-start gap-2 overflow-x-auto lg:h-[42px] lg:justify-center lg:overflow-visible">
+              <div className="no-scrollbar relative z-10 flex h-8 w-full items-center justify-start gap-2 overflow-x-auto pl-5 pr-0 lg:h-[42px] lg:justify-center lg:overflow-visible lg:px-0">
                 {CATEGORIES.map((category) => <button key={category.name} type="button" onClick={() => setActiveCategory(category.name)} className={`flex h-8 shrink-0 items-center gap-[6.4px] rounded-[400px] px-3 transition-opacity lg:h-auto lg:px-4 lg:py-[13px] ${activeCategory === category.name ? "border-[0.4px] border-white text-white" : "bg-black/[0.08] text-[#121212] hover:bg-black/[0.14]"}`} style={activeCategory === category.name ? { background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #121212" } : undefined}>
                   <span className="whitespace-nowrap text-[12px] font-semibold leading-none lg:text-[16px]">{category.name}</span><span className={`size-[3px] rounded-full ${activeCategory === category.name ? "bg-white/50" : "bg-black/50"}`} /><span className="whitespace-nowrap text-[10px] leading-none lg:text-[14px]">{category.count}</span>
                 </button>)}
               </div>
             </div>
           </div>
+          <div aria-hidden className="pointer-events-none absolute right-0 top-[80px] z-20 h-[49.664px] w-[54.598px] bg-[linear-gradient(270deg,#FFF_13.62%,rgba(255,255,255,0)_100%)] lg:hidden" />
         </section>
 
-        <section className="bg-white px-5 pb-[100px] pt-5 lg:px-[60px] lg:pb-[62px] lg:pt-5">
+        <section className="bg-white px-5 pb-8 pt-5 lg:px-[60px] lg:pb-[62px] lg:pt-5">
           <div className="mx-auto max-w-[1280px]">
             {shownArticles.length === 0 ? <div className="py-20 text-center"><p className="text-[18px] font-semibold text-black/60">No articles found matching your criteria.</p><button onClick={clearFilters} className="mt-4 text-[16px] font-semibold text-[#1d6fff] hover:underline">Clear filters</button></div> : <div className="grid grid-cols-1 gap-2 md:grid-cols-3 lg:gap-5">{shownArticles.map((article) => <ArticleCard key={article.id} article={article} />)}</div>}
             {filteredArticles.length > 0 && <div className="mt-5 flex justify-center lg:mt-[42px]">

@@ -103,8 +103,8 @@ function BookTestDriveCard() {
     <aside id="book-test-drive" className="scroll-mt-24 -mx-3 flex w-[calc(100%+24px)] min-w-0 flex-col gap-3 overflow-hidden rounded-[10px] bg-[#f3f4f5] p-4 lg:mx-0 lg:h-full lg:w-full lg:gap-8 lg:rounded-[16px] lg:p-8">
       <div className="flex flex-col gap-[6px] lg:hidden">
         <div className="relative flex h-4 items-center gap-1">
-          <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={117} height={16} className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
-          <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={15} height={16} className="relative h-4 w-[14.794px]" />
+          <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={117} height={16} className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
+          <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={15} height={16} className="relative h-4 w-[14.794px]" />
           <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">Free, 40 minutes</span>
         </div>
         <p className="font-sans text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#121212]">Book a test drive</p>
@@ -116,7 +116,7 @@ function BookTestDriveCard() {
       </div>
       <div className="hidden w-full gap-3 lg:flex" role="tablist" aria-label="Enquiry type">
         {["Test drive", "Price Enquiry", "Fleet"].map((name) => (
-          <button key={name} type="button" role="tab" aria-selected={tab === name} onClick={() => setTab(name)} className={`flex h-[42px] min-w-0 flex-1 items-center justify-center rounded-full px-6 font-display text-[16px] font-semibold leading-none transition-colors ${tab === name ? "bg-[#0c2c66] text-white" : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px] hover:bg-white"}`}>
+          <button key={name} type="button" role="tab" aria-selected={tab === name} onClick={() => setTab(name)} className={`flex h-[42px] min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-full px-6 font-display text-[16px] font-semibold leading-none transition-colors ${tab === name ? "bg-[#0c2c66] text-white" : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px] hover:bg-white"}`}>
             {name}
           </button>
         ))}
@@ -368,24 +368,24 @@ function RelatedArticles() {
   return (
     <section className="relative overflow-hidden bg-white lg:h-[579.356px] lg:pb-[62px] lg:pt-16" aria-labelledby="related-heading">
       <div className="relative flex flex-col items-center gap-4 px-5 py-8 lg:hidden">
-        <div className="relative flex h-4 w-full items-center gap-1">
-          <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={16} className="absolute left-[3.43px] top-0 h-4 w-[148.821px]" />
-          <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" aria-hidden width={15} height={16} className="relative h-4 w-[14.794px]" />
+        <div className="relative flex h-[20.355px] w-full items-center gap-[6px]">
+          <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
+          <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" aria-hidden width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
           <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">Keep reading</span>
         </div>
         <h2 id="related-heading-mobile" className="w-full font-sans text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#121212]">Related articles</h2>
         <div className="flex w-full flex-col gap-2">
           {MOBILE_RELATED_CARDS.slice(0, mobileVisibleCount).map((article) => (
             <Link key={article.id} href={article.href} className="flex h-[282px] w-full shrink-0 flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2">
-              <div className="relative h-[160px] w-full shrink-0 overflow-visible rounded-[8px]">
-                <Image src={article.image} alt="" fill sizes="353px" className="rounded-[8px] object-cover" />
-                <span className="absolute left-[6px] top-[6px] rounded-[39.312px] bg-white p-2 text-[12px] font-semibold leading-normal text-black">{article.category}</span>
-                <span className="absolute right-[-4px] top-[6px] flex size-8 items-center justify-center rounded-[4px] bg-white px-3 py-[11px]">
-                  <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="size-5 shrink-0" />
+              <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-[8px]">
+                <Image src={article.image} alt="" fill sizes="353px" className={`rounded-[8px] object-cover ${article.id === "real-cost-electric" ? "scale-x-[1.12] object-[50%_60%]" : ""}`} />
+                <span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] items-center justify-center rounded-[39.312px] bg-white p-0 text-[12px] font-semibold leading-normal text-black">{article.category}</span>
+                <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-[12.333px] lg:top-[11.645px] lg:size-9 lg:p-[11px_12px]">
+                  <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="size-5 shrink-0 aspect-square" />
                 </span>
               </div>
-              <div className="flex min-h-0 flex-col gap-[6px] px-3 pb-3 pt-1">
-                <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212]">{article.title}</h3>
+              <div className="flex min-h-0 flex-col gap-[6px] px-3 pb-0 pt-1">
+                <h3 className="shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-display text-[16px] font-semibold leading-[1.5] tracking-[-0.32px] text-[#121212]">{article.title}</h3>
                 <div className="flex items-center gap-2 text-[12px] font-semibold leading-normal text-[rgba(18,18,18,0.6)]">
                   <span>{article.date}</span><span aria-hidden="true" className="size-[3.145px] shrink-0 rounded-full bg-black/50" /><span>{article.readTime}</span>
                 </div>
@@ -414,8 +414,8 @@ function RelatedArticles() {
           </div>
         </header>
 
-        <div className="relative -mr-5 w-[calc(100%+20px)] lg:-mr-20 lg:w-[calc(100%+80px)]">
-          <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto scroll-smooth pb-2 touch-pan-x lg:gap-8 lg:overflow-y-hidden lg:pb-0">
+        <div className="relative -mr-5 w-[calc(100%+20px)] lg:left-[calc(50%-50vw)] lg:w-screen">
+          <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto scroll-smooth pb-2 touch-pan-x lg:gap-8 lg:overflow-y-hidden lg:pb-0 lg:pl-20 lg:pr-0 lg:[scroll-padding-left:80px]">
             {FIGMA_RELATED_CARDS.map((article) => (
               <Link key={article.id} data-related-card href={article.href} className="flex h-[282px] w-full shrink-0 snap-start flex-col gap-2 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg lg:h-[273px] lg:w-[807px] lg:flex-row lg:items-start lg:gap-6 lg:p-5">
                 <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-[8px] p-2 lg:h-[233px] lg:w-[353px] lg:p-3">
@@ -437,7 +437,7 @@ function RelatedArticles() {
             ))}
           </div>
 
-          <button type="button" onClick={() => scroll(-1)} aria-label="Previous related articles" className="absolute left-5 top-1/2 z-20 hidden size-[55px] -translate-y-1/2 items-center justify-center lg:left-[-30px] lg:flex">
+          <button type="button" onClick={() => scroll(-1)} aria-label="Previous related articles" className="absolute left-5 top-1/2 z-20 hidden size-[55px] -translate-y-1/2 items-center justify-center lg:left-[50px] lg:flex">
             <Image src="/assets/insights/figma-related-nav-left.svg" alt="" width={55} height={55} className="rotate-180" />
           </button>
           <button type="button" onClick={() => scroll(1)} aria-label="Next related articles" className="absolute right-5 top-1/2 z-20 hidden size-[55px] -translate-y-1/2 items-center justify-center lg:right-[50px] lg:flex">
@@ -467,8 +467,8 @@ function FleetBanner() {
         <div className="absolute left-1/2 top-5 flex w-[calc(100%-40px)] max-w-[313px] -translate-x-1/2 flex-col items-start gap-4">
           <div className="flex w-full flex-col items-start gap-3">
             <div className="relative flex h-4 w-full items-center gap-1">
-              <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={117} height={16} aria-hidden="true" className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
-              <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[14.794px]" />
+              <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={117} height={16} aria-hidden="true" className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
+              <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[14.794px]" />
               <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">38 cities open</span>
             </div>
             <h2 className="w-full max-w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212]">See how Euler fits your fleet</h2>
@@ -488,8 +488,8 @@ function FleetBanner() {
       <div className="relative mx-auto flex min-h-[300px] w-full max-w-[1280px] items-center overflow-hidden rounded-[12px] bg-[linear-gradient(179.155deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%),linear-gradient(90deg,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.4)_100%),linear-gradient(-82.341deg,#0e2f6d_63.511%,#1d6fff_87.226%)] px-5 py-8 lg:h-[275px] lg:min-h-0 lg:px-10 lg:py-8">
         <div className="relative z-10 flex w-full flex-col items-start gap-4 lg:w-[414.434px]">
           <div className="relative flex h-[20.355px] items-center gap-[6px]">
-            <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
-            <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
+            <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
+            <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
             <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d] lg:text-[14px] lg:tracking-[0.7px]">38 cities open</span>
           </div>
           <h2 className="font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.48px] text-[#121212] sm:text-[28px] lg:whitespace-nowrap lg:text-[32px] lg:leading-normal lg:tracking-[-0.64px]">See how Euler fits your fleet</h2>
@@ -523,10 +523,11 @@ function FigmaArticleBody({ title }: { title: string }) {
   return (
     <section id="article-body" className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-8 pb-[42px] pt-8 lg:items-center lg:justify-center lg:gap-10 lg:px-[200px] lg:pt-16">
       <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-        <label className="order-2 -mx-3 flex h-[42px] w-[calc(100%+24px)] min-w-0 flex-1 items-center justify-between rounded-[500px] border border-[rgba(0,0,0,0.06)] bg-[#f3f4f5] p-3 shadow-[0_2px_2px_rgba(0,0,0,0.1)] lg:order-none lg:mx-0 lg:h-[46px] lg:w-auto lg:border-[rgba(0,0,0,0.04)] lg:py-[3px] lg:pl-4 lg:pr-[3px]">
-          <span className="flex min-w-0 items-center gap-3">
-            <Image src="/assets/insights/figma-search.svg" alt="" width={14} height={14} className="lg:h-5 lg:w-5" />
-            <input type="search" placeholder="Search articles" aria-label="Search articles" className="min-w-0 flex-1 bg-transparent text-[14px] font-semibold text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.8)] lg:text-[16px]" />
+        <label className="order-2 -mx-3 flex h-[42px] w-[calc(100%+24px)] max-w-[353px] min-w-0 flex-1 items-center justify-start gap-2 rounded-[50px] border border-[rgba(0,0,0,0.06)] bg-[#f3f4f5] p-3 lg:order-none lg:mx-0 lg:h-[46px] lg:w-auto lg:max-w-none lg:flex-[1_0_0] lg:justify-between lg:gap-3 lg:border-[rgba(0,0,0,0.04)] lg:py-[3px] lg:pl-4 lg:pr-[3px] lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
+          <span className="flex min-w-0 flex-1 items-center gap-2 lg:gap-3">
+            <Image src="/assets/insights/mobile-search.svg" alt="" width={14} height={14} className="size-[14px] shrink-0 lg:hidden" />
+            <Image src="/assets/insights/desktop-search.svg" alt="" width={20} height={20} className="hidden size-5 shrink-0 lg:block" />
+            <input type="search" placeholder="Search articles" aria-label="Search articles" className="min-w-0 flex-1 bg-transparent font-sans text-[14px] font-semibold leading-normal text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.8)] lg:text-[16px]" />
           </span>
         </label>
         <div className="order-1 flex w-full shrink-0 flex-col items-start gap-2 lg:order-none lg:w-auto lg:flex-row lg:items-center">
@@ -547,7 +548,7 @@ function FigmaArticleBody({ title }: { title: string }) {
           <h2 className={heading}>Understanding depot charging</h2>
           <p className={paragraph}>Depot charging means plugging in at your own premises — a warehouse, distribution centre, or fleet yard. The vehicle charges overnight or between shifts, using either a standard 15A wall socket or a dedicated AC charger.</p>
         </div>
-        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Depot charging equipment for commercial electric vehicles" className="order-1 h-[160px] aspect-auto w-full rounded-[8px] lg:order-2 lg:aspect-[504/189] lg:h-[189px] lg:w-[504px] lg:shrink-0" imageClassName="scale-x-[1.07]" />
+        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Depot charging equipment for commercial electric vehicles" className="order-1 h-[160px] aspect-auto w-full rounded-[8px] lg:order-2 lg:aspect-[504/189] lg:h-[189px] lg:w-[504px] lg:shrink-0" imageClassName="max-lg:scale-x-[1.12] lg:scale-x-[1.07] object-[50%_60%] lg:object-[50%_60%]" />
       </div>
 
       <div className={`${section} ${text} w-full`}>
@@ -577,7 +578,7 @@ function FigmaArticleBody({ title }: { title: string }) {
       </div>
 
       <div className="grid w-full items-stretch gap-8 lg:h-[683.476px] lg:grid-cols-[491px_517px]">
-        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Public charging station for electric vehicles" className="h-[160px] w-full rounded-[8px] lg:h-[683.476px] lg:w-[491px] lg:shrink-0" imageClassName="scale-x-[1.07]" />
+        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Public charging station for electric vehicles" className="h-[160px] w-full rounded-[8px] lg:h-[683.476px] lg:w-[491px] lg:shrink-0" imageClassName="max-lg:scale-x-[1.12] lg:scale-x-[1.07] object-[50%_60%] lg:object-center" />
         <BookTestDriveCard />
       </div>
 
@@ -603,7 +604,7 @@ function FigmaArticleBody({ title }: { title: string }) {
         </ul>
       </div>
 
-      <div className={callout}>“Most of our operators charge at their depot 90% of the time. Public charging is the safety net, not the primary plan.”</div>
+      <div className={`${callout} lg:whitespace-nowrap`}>“Most of our operators charge at their depot 90% of the time. Public charging is the safety net, not the primary plan.”</div>
 
       <div className={`${section} ${text} w-full`}>
         <h2 className={heading}>Combining both: the hybrid approach</h2>
@@ -611,7 +612,7 @@ function FigmaArticleBody({ title }: { title: string }) {
       </div>
       <div className="grid w-full gap-4 lg:h-[320px] lg:grid-cols-2 lg:gap-8">
         <ArticleImage src={image} mobileSrc="/assets/insights/figma-mobile-article-1.png" alt="Electric fleet charging at its depot" className="h-[160px] w-full rounded-[8px] lg:h-[320px] lg:w-[504px] lg:shrink-0" />
-        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Electric vehicles at a public charging station" className="h-[160px] w-full rounded-[8px] lg:h-[320px] lg:w-[504px] lg:shrink-0" imageClassName="scale-x-[1.07]" />
+        <ArticleImage src={secondImage} mobileSrc="/assets/insights/figma-mobile-article-2.png" alt="Electric vehicles at a public charging station" className="h-[160px] w-full rounded-[8px] lg:h-[320px] lg:w-[504px] lg:shrink-0" imageClassName="max-lg:scale-x-[1.12] lg:scale-x-[1.07] object-[50%_60%] lg:object-center" />
       </div>
 
       <div className={`${section} ${text} w-full`}>
@@ -632,7 +633,7 @@ function FigmaArticleBody({ title }: { title: string }) {
         <h2 className={heading}>Cost comparison</h2>
         <p className={paragraph}>The table below compares charging costs for a typical Euler HiLoad covering 80 km per day. Actual figures will vary by state electricity tariff and public station pricing.</p>
       </div>
-      <div className={`${callout} space-y-1`}>
+      <div className={`${callout} space-y-1 lg:h-[139px] lg:w-[1040px]`}>
         <p><strong>Depot charging:</strong> ~₹50–₹70 per full charge (₹0.63–₹0.88/km)</p>
         <p><strong>Public DC fast charging:</strong> ~₹100–₹145 per full charge (₹1.25–₹1.81/km)</p>
         <p><strong>Diesel equivalent:</strong> ~₹280–₹350 per 80 km (₹3.50–₹4.38/km)</p>
@@ -642,8 +643,6 @@ function FigmaArticleBody({ title }: { title: string }) {
       <div className={`${section} ${text} w-full`}>
         <h2 className={heading}>Practical tips for fleet operators</h2>
         <p className={paragraph}><strong>Start with depot charging -</strong> Install it before your first vehicle arrives. Most operators find this covers 90%+ of their energy needs.</p>
-        <p className={paragraph}><strong>Keep public charging as a backup -</strong> Identify reliable stations near the routes where your vehicles operate.</p>
-        <p className={paragraph}><strong>Track actual usage -</strong> Monitor energy and route data to adjust charging schedules as your fleet grows.</p>
       </div>
 
       <div className="flex w-full flex-col gap-4 border-t border-[#ededed] pt-6">
@@ -660,7 +659,7 @@ export default function BlogDetailsPage() {
     <div className="min-h-screen bg-white text-[#121212]">
       <Navbar />
       <main>
-        <section className="relative isolate h-[594px] overflow-visible bg-[#101923] sm:h-[594px] lg:h-[650px]" aria-label="Article header">
+        <section className="relative isolate h-[594px] overflow-x-clip overflow-y-visible bg-[#101923] sm:h-[594px] lg:h-[650px] lg:overflow-visible" aria-label="Article header">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden lg:hidden">
             <div className="absolute inset-0 scale-[1.06]">
               <Image src="/assets/insights/figma-mobile-hero-base.png" alt="" fill priority sizes="100vw" className="object-fill" />
@@ -681,8 +680,10 @@ export default function BlogDetailsPage() {
               <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <Link href="/insights" className="whitespace-nowrap transition-colors hover:text-white/80">Blog</Link>
-            <Image src="/assets/insights/figma-breadcrumb-chevron.svg" alt="" width={22} height={22} className="hidden rotate-180 scale-y-100 lg:block" />
-            <span aria-current="page" className="hidden max-w-[150px] truncate whitespace-nowrap text-[#ccc] sm:max-w-[240px] lg:inline lg:max-w-none">How to Charge...</span>
+            <svg aria-hidden="true" viewBox="0 0 22 22" className="size-4 shrink-0 lg:size-[22px]" fill="none">
+              <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span aria-current="page" className="min-w-0 max-w-[calc(100vw-205px)] truncate whitespace-nowrap text-[#ccc] sm:max-w-[240px] lg:max-w-none">How to Charge...</span>
           </nav>
           <div className="absolute bottom-[24px] left-5 flex max-w-[calc(100%-40px)] -translate-x-0 flex-col items-start justify-center gap-3 lg:bottom-[62px] lg:left-[calc(50%-360.54px)] lg:max-w-none lg:-translate-x-1/2 lg:gap-5">
             <div className="relative flex h-[20.355px] items-center gap-[6px]">
@@ -702,13 +703,10 @@ export default function BlogDetailsPage() {
               <span>5 min read</span>
             </div>
           </div>
-          <Link href="/insights" aria-label="Back to insights" className="absolute bottom-[46px] right-0 z-20 flex h-[42px] w-[42px] min-h-[42px] min-w-[42px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.18)] lg:hidden" style={{ borderRadius: "50%" }}>
-            <svg aria-hidden="true" viewBox="0 0 42 42" className="size-[42px]" fill="none">
-              <circle cx="21" cy="21" r="21" fill="white" />
-              <path d="M23 16.3L19 21L23 25.7" stroke="#121212" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <Link href="/insights" aria-label="Back to insights" className="absolute bottom-[46px] right-[-8px] z-20 flex size-[42px] shrink-0 items-center justify-center overflow-hidden lg:hidden">
+            <Image src="/assets/insights/figma-floating-toggle.svg" alt="" width={42} height={42} className="size-[42px]" />
           </Link>
-          <FloatingWidget desktopHandle mobileClassName="top-[calc(100%_-_38px)] translate-y-0" desktopClassName="lg:top-[400px] lg:translate-y-0" desktopRightClassName="lg:right-[-30px]" mobileRightClassName="right-0" />
+          <FloatingWidget desktopHandle mobileClassName="top-[calc(100%_-_38px)] translate-y-0" desktopClassName="lg:top-[400px] lg:translate-y-0" desktopRightClassName="lg:right-[-30px]" mobileRightClassName="right-[-26px]" />
         </section>
 
         <FigmaArticleBody title={title} />
