@@ -347,11 +347,12 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
   return (
     <section className="relative isolate h-[734px] overflow-hidden bg-black text-white lg:h-[700px]" aria-labelledby="careers-heading">
       <div
-        className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.136%,#041231_60.12%),linear-gradient(8.53deg,#0e2f6d_28.191%,#1d6fff_89.743%)] max-lg:bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_18%,rgba(4,18,49,0.55)_42%,#041231_68%),linear-gradient(5deg,#0e2f6d_28.19%,#1d6fff_89.74%)] lg:bg-[linear-gradient(-86.6deg,#0e2f6d_63.511%,#1d6fff_87.226%)] lg:bg-black"
+        className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.136%,#041231_60.12%),linear-gradient(8.53deg,#0e2f6d_28.191%,#1d6fff_89.743%)] max-lg:bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_18%,rgba(4,18,49,0.55)_42%,#041231_68%),linear-gradient(5deg,#0e2f6d_28.19%,#1d6fff_89.74%)] lg:bg-[linear-gradient(-86.6deg,#0e2f6d_63.511%,#1d6fff_87.226%)]"
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[url('/assets/careers/hero-texture.png')] bg-[length:cover] bg-[position:center_bottom] bg-no-repeat opacity-[0.12] lg:bg-left-top lg:bg-[length:1440px_810.895px]" />
         <div className="absolute top-[155.67px] bottom-auto left-[-41px] h-[579px] w-[477px] overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
+          <div className="absolute inset-0 hidden bg-black lg:block" />
           <Image
             src="/assets/careers/hero-mobile.png"
             alt=""
@@ -371,17 +372,17 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
             alt=""
             width={1440}
             height={1394}
-            className="absolute top-[-53.45%] left-[46.45%] hidden h-[153.36%] w-[54.44%] max-w-none object-fill lg:block lg:[mask-image:linear-gradient(to_right,transparent_0%,black_6%)]"
+            className="absolute top-[-53.45%] left-[46.45%] hidden h-[153.36%] w-[54.44%] max-w-none object-fill lg:block"
+          />
+          <div
+            className="absolute inset-0 hidden lg:block"
+            style={{
+              backgroundImage:
+                "linear-gradient(268.23deg, rgba(36, 106, 227, 0) 32.76%, rgb(36, 106, 227) 76.34%)",
+            }}
           />
         </div>
-        <div className="absolute inset-0 max-lg:hidden bg-[linear-gradient(180deg,#2059bf_0%,rgb(32_89_191_/_0%)_39.666%)] lg:bg-[linear-gradient(268.23deg,rgb(36_106_227_/_0%)_32.76%,#246ae3_76.34%)]" />
-        <div
-          className="pointer-events-none absolute inset-0 hidden lg:block"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(25,75,165,0) calc(max(80px, (100vw - 1440px) / 2 + 80px) + 160px), rgba(25,75,165,0.65) 38%, rgba(25,75,165,0) 54%)",
-          }}
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#2059bf_0%,rgb(32_89_191_/_0%)_39.666%)] lg:hidden" />
       </div>
 
       <div className="absolute top-[101.31px] left-5 w-[calc(100%_-_40px)] max-w-[518.52px] lg:top-[407px] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]">
