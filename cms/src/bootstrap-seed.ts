@@ -711,6 +711,311 @@ export async function seedStrapi(strapi: any) {
       strapi.log.info(`[Seeder] Updated Home Page singleType successfully! (${updated.documentId})`);
     }
 
+    // 4b. Seed Dealers, Charging Stations, Service Centers, and Dealer Locator Page
+    strapi.log.info('[Seeder] Seeding Dealers, Charging Stations, and Service Centers...');
+
+    const existingDealers = await strapi.documents('api::dealer.dealer').findMany();
+    const dealerIds: string[] = [];
+    const dealersToSeed = [
+      {
+        name: 'Euler Motors — Kandivali',
+        slug: 'kandivali',
+        badges: ['Dealer', 'Service'],
+        address: 'Akurli Metro Station, Kandivali East',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        hours: 'Open until 7 pm',
+        distance: '1.3',
+        phone: '1800 000 0000',
+        order: 1,
+      },
+      {
+        name: 'Euler Motors — Thane',
+        slug: 'thane',
+        badges: ['Dealer'],
+        address: 'Arun Arcade, Chitalsar, Manpada',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        hours: 'Open until 7 pm',
+        distance: '52.5',
+        phone: '1800 000 0000',
+        order: 2,
+      },
+      {
+        name: 'Euler Motors — Vasai',
+        slug: 'vasai',
+        badges: ['Dealer'],
+        address: "Johnson's Compound, Golani Naka, Vasai East",
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        hours: 'Open until 7 pm',
+        distance: '150',
+        phone: '1800 000 0000',
+        order: 3,
+      },
+      {
+        name: 'Euler Motors, Ambattur',
+        slug: 'ambattur',
+        badges: ['Dealer', 'Service'],
+        address: 'Ambattur Industrial Estate, Chennai 600058',
+        city: 'Chennai',
+        state: 'Tamil Nadu',
+        hours: 'Open until 7 pm',
+        distance: '1,338',
+        phone: '1800 000 0000',
+        order: 4,
+      },
+    ];
+
+    for (const d of dealersToSeed) {
+      let doc = existingDealers.find((ed: any) => ed.slug === d.slug || ed.name === d.name);
+      if (!doc) {
+        doc = await strapi.documents('api::dealer.dealer').create({
+          data: d,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Created dealer: ${d.name}`);
+      } else {
+        doc = await strapi.documents('api::dealer.dealer').update({
+          documentId: doc.documentId,
+          data: d,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Updated dealer: ${d.name}`);
+      }
+      dealerIds.push(doc.documentId);
+    }
+
+    const existingChargingStations = await strapi.documents('api::charging-station.charging-station').findMany();
+    const chargingStationIds: string[] = [];
+    const chargingStationsToSeed = [
+      {
+        name: 'Euler Fast Charge, Andheri MIDC',
+        slug: 'fast-charge-andheri',
+        address: 'Marol MIDC, opposite Gate 2, Andheri East',
+        city: 'Mumbai',
+        hours: 'Open 24 hours',
+        badges: ['CCS2', '60 kW', '4 of 6 free'],
+        distance: '13',
+        phone: '1800 000 0000',
+        order: 1,
+      },
+      {
+        name: 'Partner Hub, Bhiwandi',
+        slug: 'partner-hub-bhiwandi',
+        address: 'Marol MIDC, opposite Gate 2, Andheri East',
+        city: 'Mumbai',
+        hours: 'Open 24 hours',
+        badges: ['CCS2', '11 of 14 free'],
+        distance: '18.9',
+        phone: '1800 000 0000',
+        order: 2,
+      },
+      {
+        name: 'Euler Depot Charge, Vashi',
+        slug: 'depot-charge-vashi',
+        address: 'Marol MIDC, opposite Gate 2, Andheri East',
+        city: 'Mumbai',
+        hours: 'Open 24 hours',
+        badges: ['CCS2', 'Depot', '6 of 8 free'],
+        distance: '22.5',
+        phone: '1800 000 0000',
+        order: 3,
+      },
+      {
+        name: 'Euler Fast Charge, Andheri East',
+        slug: 'fast-charge-andheri-east',
+        address: 'Marol MIDC, opposite Gate 2, Andheri East',
+        city: 'Mumbai',
+        hours: 'Open 24 hours',
+        badges: ['CCS2', '60 kW', '4 of 6 free'],
+        distance: '13',
+        phone: '1800 000 0000',
+        order: 4,
+      },
+    ];
+
+    for (const cs of chargingStationsToSeed) {
+      let doc = existingChargingStations.find((ecs: any) => ecs.slug === cs.slug || ecs.name === cs.name);
+      if (!doc) {
+        doc = await strapi.documents('api::charging-station.charging-station').create({
+          data: cs,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Created charging station: ${cs.name}`);
+      } else {
+        doc = await strapi.documents('api::charging-station.charging-station').update({
+          documentId: doc.documentId,
+          data: cs,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Updated charging station: ${cs.name}`);
+      }
+      chargingStationIds.push(doc.documentId);
+    }
+
+    const existingServiceCenters = await strapi.documents('api::service-center.service-center').findMany();
+    const serviceCenterIds: string[] = [];
+    const serviceCentersToSeed = [
+      {
+        name: 'Euler Motors — Kandivali Service Hub',
+        slug: 'kandivali-service',
+        address: 'Akurli Metro Station, Kandivali East, Mumbai',
+        city: 'Mumbai',
+        hours: 'Open until 8 pm',
+        badges: ['Service', 'Spares', 'Express Bay'],
+        distance: '1.3',
+        phone: '1800 000 0000',
+        order: 1,
+      },
+      {
+        name: 'Euler Authorized Service Center, Andheri',
+        slug: 'andheri-service',
+        address: 'Saki Vihar Road, Marol MIDC, Andheri East, Mumbai',
+        city: 'Mumbai',
+        hours: 'Open 8 am to 8 pm',
+        badges: ['Service', 'Battery Check', 'Body Shop'],
+        distance: '5.8',
+        phone: '1800 000 0000',
+        order: 2,
+      },
+      {
+        name: 'Euler Service Point, Navi Mumbai',
+        slug: 'turbhe-service',
+        address: 'MIDC Industrial Area, Turbhe, Navi Mumbai',
+        city: 'Mumbai',
+        hours: 'Open until 7 pm',
+        badges: ['Service', 'Fleet Repair'],
+        distance: '21.4',
+        phone: '1800 000 0000',
+        order: 3,
+      },
+      {
+        name: 'Euler Central Workshop, Thane',
+        slug: 'thane-service',
+        address: 'Arun Arcade, Chitalsar, Manpada, Thane West',
+        city: 'Mumbai',
+        hours: 'Open 24 hours',
+        badges: ['Service', 'Spares', 'Major Repairs'],
+        distance: '32.0',
+        phone: '1800 000 0000',
+        order: 4,
+      },
+      {
+        name: 'Euler Motors Service, Ambattur',
+        slug: 'ambattur-service',
+        address: 'Ambattur Industrial Estate, Chennai 600058',
+        city: 'Chennai',
+        hours: 'Open until 7 pm',
+        badges: ['Service', 'Authorized'],
+        distance: '1,338',
+        phone: '1800 000 0000',
+        order: 5,
+      },
+    ];
+
+    for (const sc of serviceCentersToSeed) {
+      let doc = existingServiceCenters.find((esc: any) => esc.slug === sc.slug || esc.name === sc.name);
+      if (!doc) {
+        doc = await strapi.documents('api::service-center.service-center').create({
+          data: sc,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Created service center: ${sc.name}`);
+      } else {
+        doc = await strapi.documents('api::service-center.service-center').update({
+          documentId: doc.documentId,
+          data: sc,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Updated service center: ${sc.name}`);
+      }
+      serviceCenterIds.push(doc.documentId);
+    }
+
+    const dealerLocatorPageData = {
+      hero: {
+        supportBadge: 'Support',
+        dealerTabTitle: 'Find your nearest dealer.',
+        dealerTabSubtitle: 'Every dealer brings the vehicle to you for a test drive.',
+        dealerSearchPlaceholder: 'Search dealers by area',
+        chargingTabTitle: 'Find a charging point.',
+        chargingTabSubtitle: '1,412 points across India, with live status on each one.',
+        chargingSearchPlaceholder: 'Search charging points by area',
+        serviceTabTitle: 'Find a service center.',
+        serviceTabSubtitle: 'Authorized Euler service centers with genuine parts and certified experts.',
+        serviceSearchPlaceholder: 'Search service centers by area',
+        cities: ['Hyderabad', 'Delhi NCR', 'Bengaluru', 'Mumbai', 'Ahmedabad', 'Kolkata'],
+        dealers: dealerIds,
+        chargingStations: chargingStationIds,
+        serviceCenters: serviceCenterIds,
+      },
+      contactSection: {
+        eyebrow: 'Next step',
+        desktopTitle: 'Not sure which dealer to use?',
+        mobileTitle: 'Tell us what you need!',
+        desktopDescription: 'Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.',
+        mobileDescription: 'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.',
+        cards: [
+          {
+            icon: 'phone',
+            title: '1800 000 0000',
+            detail: '9 am to 8 pm Monday to Saturday',
+            mobileOrder: 'order-1',
+          },
+          {
+            icon: 'email',
+            title: 'fleet@eulermotors.com',
+            detail: 'For fleets over 50 vehicles',
+            mobileOrder: 'order-2 lg:order-3',
+          },
+          {
+            icon: 'location',
+            title: 'Find your nearest dealer',
+            detail: '112 locations, 24 states',
+            mobileOrder: 'order-3 lg:order-2',
+          },
+        ],
+        formHeading: 'Book a test drive',
+        formSubheading: 'Two steps. We call you within one working day.',
+        formTabs: ['Test drive', 'Price Enquiry', 'Fleet'],
+        vehicleOptions: [
+          'Storm EV LongRange 200',
+          'Storm EV T1500',
+          'HiLoad EV',
+          'Turbo EV 1000',
+          'Neo HiRange',
+          'Neo HiCity',
+        ],
+        ctaLabel: 'Confirm test drive',
+        privacyNotice: 'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
+        disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+      seo: {
+        metaTitle: 'Find an Euler Motors Dealer, Charging Station, or Service Center Near You',
+        metaDescription: 'Locate authorized Euler Motors dealers, fast charging stations, and certified service centers across India. Book a doorstep test drive today.',
+        keywords: 'euler dealer locator, euler service center, ev charging station, euler motors showroom',
+      },
+    };
+
+    const existingDealerPage = await strapi.documents('api::dealer-locator-page.dealer-locator-page').findFirst({
+      fields: ['documentId'],
+    });
+    if (!existingDealerPage) {
+      const created = await strapi.documents('api::dealer-locator-page.dealer-locator-page').create({
+        data: dealerLocatorPageData,
+        status: 'published',
+      });
+      strapi.log.info(`[Seeder] Created Dealer Locator Page singleType successfully! (${created.documentId})`);
+    } else {
+      const updated = await strapi.documents('api::dealer-locator-page.dealer-locator-page').update({
+        documentId: existingDealerPage.documentId,
+        data: dealerLocatorPageData,
+        status: 'published',
+      });
+      strapi.log.info(`[Seeder] Updated Dealer Locator Page singleType successfully! (${updated.documentId})`);
+    }
+
     // 5. Grant Public Read Permissions in users-permissions plugin
     const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
       where: { type: 'public' },
@@ -729,6 +1034,13 @@ export async function seedStrapi(strapi: any) {
         'api::careers-page.careers-page.find',
         'api::career-position.career-position.find',
         'api::career-position.career-position.findOne',
+        'api::dealer-locator-page.dealer-locator-page.find',
+        'api::dealer.dealer.find',
+        'api::dealer.dealer.findOne',
+        'api::charging-station.charging-station.find',
+        'api::charging-station.charging-station.findOne',
+        'api::service-center.service-center.find',
+        'api::service-center.service-center.findOne',
         'plugin::upload.content-api.find',
         'plugin::upload.content-api.findOne',
       ];

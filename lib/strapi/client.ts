@@ -1,5 +1,14 @@
-import { HomePageData, StrapiMedia, StrapiResponse } from "@/types/strapi";
+import {
+  HomePageData,
+  StrapiMedia,
+  StrapiResponse,
+  DealerLocatorPageData,
+  StrapiDealer,
+  StrapiChargingStation,
+  StrapiServiceCenter,
+} from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
+import { DEFAULT_DEALER_LOCATOR_PAGE } from "./defaults/dealer-locator";
 
 const STRAPI_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
@@ -321,5 +330,77 @@ export async function getHomePageData(): Promise<HomePageData> {
       revalidate: 60,
     },
     DEFAULT_HOME_PAGE
+  );
+}
+
+/**
+ * Fetch all authorized Dealers from Strapi collection.
+ */
+export async function getDealers(): Promise<StrapiDealer[]> {
+  return getCollection<StrapiDealer>(
+    "dealers",
+    {
+      sort: "order:asc",
+      revalidate: 60,
+    },
+    DEFAULT_DEALER_LOCATOR_PAGE.hero?.dealers || []
+  );
+}
+
+/**
+ * Fetch all Charging Stations from Strapi collection.
+ */
+export async function getChargingStations(): Promise<StrapiChargingStation[]> {
+  return getCollection<StrapiChargingStation>(
+    "charging-stations",
+    {
+      sort: "order:asc",
+      revalidate: 60,
+    },
+    DEFAULT_DEALER_LOCATOR_PAGE.hero?.chargingStations || []
+  );
+}
+
+/**
+ * Fetch all Service Centers from Strapi collection.
+ */
+export async function getServiceCenters(): Promise<StrapiServiceCenter[]> {
+  return getCollection<StrapiServiceCenter>(
+    "service-centers",
+    {
+      sort: "order:asc",
+      revalidate: 60,
+    },
+    DEFAULT_DEALER_LOCATOR_PAGE.hero?.serviceCenters || []
+  );
+}
+
+/**
+ * High-level fetcher for the full Dealer Locator page with all components and relations deeply populated.
+ */
+export async function getDealerLocatorPageData(): Promise<DealerLocatorPageData> {
+  const populate = {
+    seo: { populate: "*" },
+    hero: {
+      populate: {
+        dealers: { populate: "*" },
+        chargingStations: { populate: "*" },
+        serviceCenters: { populate: "*" },
+      },
+    },
+    contactSection: {
+      populate: {
+        cards: { populate: "*" },
+      },
+    },
+  };
+
+  return getSingleType<DealerLocatorPageData>(
+    "dealer-locator-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    DEFAULT_DEALER_LOCATOR_PAGE
   );
 }

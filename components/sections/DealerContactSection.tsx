@@ -128,8 +128,54 @@ function SelectField({ label, placeholder, options }: { label: string; placehold
   );
 }
 
-export default function DealerContactSection() {
+export interface DealerContactSectionProps {
+  eyebrow?: string;
+  desktopTitle?: string;
+  mobileTitle?: string;
+  desktopDescription?: string;
+  mobileDescription?: string;
+  cards?: Array<{
+    id?: number;
+    icon: string;
+    title: string;
+    detail: string;
+    mobileOrder?: string;
+  }>;
+  formHeading?: string;
+  formSubheading?: string;
+  formTabs?: string[];
+  vehicleOptions?: string[];
+  ctaLabel?: string;
+  privacyNotice?: string;
+  disclaimer?: string;
+}
+
+const DEFAULT_CARDS = [
+  { icon: "phone.svg", title: "1800 000 0000", detail: "9 am to 8 pm Monday to Saturday", mobileOrder: "order-1" },
+  { icon: "email.svg", title: "fleet@eulermotors.com", detail: "For fleets over 50 vehicles", mobileOrder: "order-2 lg:order-3" },
+  { icon: "location.svg", title: "Find your nearest dealer", detail: "112 locations, 24 states", mobileOrder: "order-3 lg:order-2" },
+];
+
+export default function DealerContactSection({
+  eyebrow = "Next step",
+  desktopTitle = "Not sure which dealer to use?",
+  mobileTitle = "Tell us what you need!",
+  desktopDescription = "Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.",
+  mobileDescription = "We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.",
+  cards,
+  formHeading = "Book a test drive",
+  formSubheading = "Two steps. We call you within one working day.",
+  formTabs,
+  vehicleOptions,
+  ctaLabel,
+  privacyNotice = "Euler Motors and its dealers may contact me about this enquiry. Privacy policy.",
+  disclaimer = "We never share your number with anyone else. No spam calls.",
+}: DealerContactSectionProps) {
   const [tab, setTab] = useState<Tab>("Test drive");
+
+  const activeCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
+  const activeVehicles = vehicleOptions && vehicleOptions.length > 0 ? vehicleOptions : VEHICLES;
+  const activeTabs = formTabs && formTabs.length > 0 ? (formTabs as readonly Tab[]) : TABS;
 
   return (
     <section className="relative isolate mx-auto flex min-h-[678px] w-full overflow-hidden bg-white px-5 py-6 sm:px-8 lg:min-h-[789.477px] lg:w-[1440px] lg:max-w-full lg:items-center lg:justify-between lg:px-20 lg:pt-16 lg:pb-[42px]">
@@ -148,26 +194,35 @@ export default function DealerContactSection() {
               <Image src={`${ASSET}decor-right-mobile.svg`} alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[15px] lg:hidden" />
               <Image src={`${ASSET}decor-left.svg`} alt="" width={149} height={21} aria-hidden="true" className="absolute left-1 top-0 hidden h-[21px] w-[149px] lg:block" />
               <Image src={`${ASSET}decor-right.svg`} alt="" width={19} height={21} aria-hidden="true" className="relative hidden lg:block" />
-              <span className="relative font-sans text-xs font-bold uppercase tracking-[0.6px] text-[#0e2f6d] lg:text-sm lg:tracking-[0.7px]">Next step</span>
+              <span className="relative font-sans text-xs font-bold uppercase tracking-[0.6px] text-[#0e2f6d] lg:text-sm lg:tracking-[0.7px]">{eyebrow}</span>
             </div>
-            <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] lg:max-w-[646px] lg:text-[42px] lg:tracking-[-0.84px]"><span className="lg:hidden">Tell us what you need!</span><span className="hidden lg:inline">Not sure which dealer to use?</span></h2>
-            <p className="w-full font-sans text-xs leading-normal text-[#121212] lg:max-w-[474px] lg:text-base"><span className="lg:hidden">We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.</span><span className="hidden lg:inline">Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.</span></p>
+            <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] lg:max-w-[646px] lg:text-[42px] lg:tracking-[-0.84px]"><span className="lg:hidden">{mobileTitle}</span><span className="hidden lg:inline">{desktopTitle}</span></h2>
+            <p className="w-full font-sans text-xs leading-normal text-[#121212] lg:max-w-[474px] lg:text-base"><span className="lg:hidden">{mobileDescription}</span><span className="hidden lg:inline">{desktopDescription}</span></p>
           </div>
 
           <div className="order-3 mt-0 grid grid-cols-1 gap-2.5 lg:order-none lg:mt-8 lg:grid-cols-2">
-            <ContactCard icon="phone.svg" title="1800 000 0000" detail="9 am to 8 pm Monday to Saturday" mobileOrder="order-1" />
-            <ContactCard icon="email.svg" title="fleet@eulermotors.com" detail="For fleets over 50 vehicles" mobileOrder="order-2 lg:order-3" />
-            <ContactCard icon="location.svg" title="Find your nearest dealer" detail="112 locations, 24 states" mobileOrder="order-3 lg:order-2" />
+            {activeCards.map((c, i) => {
+              const iconName = c.icon.endsWith(".svg") ? c.icon : `${c.icon}.svg`;
+              return (
+                <ContactCard
+                  key={`${c.title}-${i}`}
+                  icon={iconName}
+                  title={c.title}
+                  detail={c.detail}
+                  mobileOrder={c.mobileOrder || `order-${i + 1}`}
+                />
+              );
+            })}
           </div>
         </div>
 
         <div className="order-2 mb-2.5 flex h-[294px] w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 lg:order-none lg:mb-0 lg:h-[683.477px] lg:min-h-0 lg:w-[517px] lg:shrink-0 lg:items-center lg:justify-center lg:gap-8 lg:rounded-2xl lg:p-8">
           <div className="flex w-full flex-col gap-1.5 lg:gap-3">
-            <h3 className="font-sans text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-[#121212] lg:font-display lg:text-[32px] lg:font-semibold lg:tracking-[-0.64px]">Book a test drive</h3>
-            <p className="font-sans text-xs leading-normal text-[#121212] lg:text-base">Two steps. We call you within one working day.</p>
+            <h3 className="font-sans text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-[#121212] lg:font-display lg:text-[32px] lg:font-semibold lg:tracking-[-0.64px]">{formHeading}</h3>
+            <p className="font-sans text-xs leading-normal text-[#121212] lg:text-base">{formSubheading}</p>
           </div>
           <div className="flex w-full gap-3" role="tablist" aria-label="Enquiry type">
-            {TABS.map((t) => {
+            {activeTabs.map((t) => {
               const on = t === tab;
               return (
                 <button
@@ -175,7 +230,7 @@ export default function DealerContactSection() {
                   type="button"
                   role="tab"
                   aria-selected={on}
-                  onClick={() => setTab(t)}
+                  onClick={() => setTab(t as Tab)}
                   className={`h-[34px] flex-1 rounded-full px-2 font-display text-xs font-semibold lg:h-[42px] lg:px-3 lg:text-base ${
                     on ? "bg-[#0c2c66] text-white" : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px]"
                   }`}
@@ -188,26 +243,26 @@ export default function DealerContactSection() {
 
           <form className="contents">
             <div className="grid w-full grid-cols-2 gap-1.5 lg:gap-3">
-              {FORMS[tab].fields.map(([label, ph]) => (
+              {(FORMS[tab] || FORMS["Test drive"]).fields.map(([label, ph]) => (
                 <Field key={label} label={label} placeholder={ph} />
               ))}
             </div>
-            <div className="hidden w-full lg:block"><SelectField label="Which vehicle *" placeholder="Not sure, please suggest one" options={VEHICLES} /></div>
+            <div className="hidden w-full lg:block"><SelectField label="Which vehicle *" placeholder="Not sure, please suggest one" options={activeVehicles} /></div>
             <div className="hidden w-full grid-cols-2 gap-3 lg:grid">
-              <Field label={SECOND_ROW[tab][0]} placeholder={SECOND_ROW[tab][1]} />
-              <Field label={THIRD_FIELD[tab][0]} placeholder={THIRD_FIELD[tab][1]} />
+              <Field label={(SECOND_ROW[tab] || SECOND_ROW["Test drive"])[0]} placeholder={(SECOND_ROW[tab] || SECOND_ROW["Test drive"])[1]} />
+              <Field label={(THIRD_FIELD[tab] || THIRD_FIELD["Test drive"])[0]} placeholder={(THIRD_FIELD[tab] || THIRD_FIELD["Test drive"])[1]} />
             </div>
             <label className="hidden w-full items-start gap-2.5 font-sans text-sm leading-[1.4] text-[#121212] lg:flex">
               <input type="checkbox" className="mt-0.5 size-5 shrink-0 appearance-none rounded-full border border-[#0c1530] bg-[rgba(12,21,48,0.04)] checked:bg-[#0c2c66]" />
-              <span>Euler Motors and its dealers may contact me about this enquiry. <span className="underline">Privacy policy.</span></span>
+              <span>{privacyNotice}</span>
             </label>
             <div className="flex w-full flex-col items-center gap-3">
               <button type="button" className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-fit lg:px-6 lg:text-base lg:font-semibold">
-                <span className="lg:hidden">Continue</span><span className="hidden lg:inline">{FORMS[tab].cta}</span>
+                <span className="lg:hidden">Continue</span><span className="hidden lg:inline">{ctaLabel || (FORMS[tab] || FORMS["Test drive"]).cta}</span>
                 <Image src={`${ASSET}arrow-mobile.svg`} alt="" width={19} height={13} aria-hidden="true" className="lg:hidden" />
                 <Image src={`${ASSET}arrow.svg`} alt="" width={22} height={14} aria-hidden="true" className="hidden lg:block" />
               </button>
-              <p className="w-[271px] text-center font-sans text-xs leading-normal text-[#121212] lg:w-full">We never share your number with anyone else. No spam calls.</p>
+              <p className="w-[271px] text-center font-sans text-xs leading-normal text-[#121212] lg:w-full">{disclaimer}</p>
             </div>
           </form>
         </div>

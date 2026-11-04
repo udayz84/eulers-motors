@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import DealerLocator from "@/components/sections/DealerLocator";
+import DealerLocator, { Dealer, ChargingStation, ServiceCenter } from "@/components/sections/DealerLocator";
 import FloatingWidget from "@/components/FloatingWidget";
 
 const ASSET = "/assets/dealer-locator-hero/";
 
-function SupportBadge() {
+function SupportBadge({ text = "Support" }: { text?: string }) {
   return (
     <div className="relative flex h-5 items-center gap-1 lg:h-[21px] lg:gap-[6px]">
       <Image src={`${ASSET}desktop-support-left.svg`} alt="" width={149} height={21} aria-hidden="true" className="absolute left-[3px] top-0 hidden h-[21px] w-[149px] lg:block" />
@@ -18,7 +18,7 @@ function SupportBadge() {
       <span aria-hidden="true" className="relative flex h-4 w-[14.794px] shrink-0 lg:hidden">
         <Image src={`${ASSET}mobile-support-right.svg`} alt="" width={14.1899} height={16} className="absolute left-[4.08%] top-0 max-w-none" />
       </span>
-      <span className="relative font-sans text-xs font-bold uppercase leading-normal tracking-[0.6px] text-white lg:text-sm lg:tracking-[0.7px]">Support</span>
+      <span className="relative font-sans text-xs font-bold uppercase leading-normal tracking-[0.6px] text-white lg:text-sm lg:tracking-[0.7px]">{text}</span>
     </div>
   );
 }
@@ -98,7 +98,7 @@ function SupportTabs({
   );
 }
 
-const tabContent = {
+const DEFAULT_TAB_CONTENT = {
   dealer: {
     title: "Find your nearest dealer.",
     subtitle: "Every dealer brings the vehicle to you for a test drive.",
@@ -116,18 +116,42 @@ const tabContent = {
   },
 };
 
+export interface DealerLocatorHeroProps {
+  variant?: SupportTabType;
+  supportBadgeText?: string;
+  tabContent?: {
+    dealer?: { title?: string; subtitle?: string; searchLabel?: string };
+    charging?: { title?: string; subtitle?: string; searchLabel?: string };
+    service?: { title?: string; subtitle?: string; searchLabel?: string };
+  };
+  cities?: string[];
+  dealers?: Dealer[];
+  chargingStations?: ChargingStation[];
+  serviceCenters?: ServiceCenter[];
+}
+
 export default function DealerLocatorHero({
   variant = "dealer",
-}: {
-  variant?: SupportTabType;
-}) {
+  supportBadgeText = "Support",
+  tabContent,
+  cities,
+  dealers,
+  chargingStations,
+  serviceCenters,
+}: DealerLocatorHeroProps) {
   const [activeTab, setActiveTab] = useState<SupportTabType>(variant);
 
   useEffect(() => {
     setActiveTab(variant);
   }, [variant]);
 
-  const currentContent = tabContent[activeTab];
+  const activeContent = {
+    dealer: { ...DEFAULT_TAB_CONTENT.dealer, ...tabContent?.dealer },
+    charging: { ...DEFAULT_TAB_CONTENT.charging, ...tabContent?.charging },
+    service: { ...DEFAULT_TAB_CONTENT.service, ...tabContent?.service },
+  };
+
+  const currentContent = activeContent[activeTab];
   const isCharging = activeTab === "charging";
 
   return (
@@ -161,7 +185,7 @@ export default function DealerLocatorHero({
       />
 
       <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
-        <SupportBadge />
+        <SupportBadge text={supportBadgeText} />
         <SupportTabs
           active={activeTab}
           onTabChange={setActiveTab}
@@ -178,6 +202,10 @@ export default function DealerLocatorHero({
         <DealerLocator
           variant={activeTab}
           searchLabel={currentContent.searchLabel}
+          cities={cities}
+          dealers={dealers}
+          chargingStations={chargingStations}
+          serviceCenters={serviceCenters}
         />
       </div>
       <FloatingWidget />

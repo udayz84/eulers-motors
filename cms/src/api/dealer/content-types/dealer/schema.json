@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dealers",
+  "info": {
+    "singularName": "dealer",
+    "pluralName": "dealers",
+    "displayName": "Dealer",
+    "description": "Euler Motors authorized dealerships and showrooms"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "address": {
+      "type": "text",
+      "required": true
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "hours": {
+      "type": "string",
+      "default": "Open until 7 pm"
+    },
+    "distance": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string",
+      "default": "1800 000 0000"
+    },
+    "badges": {
+      "type": "json"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

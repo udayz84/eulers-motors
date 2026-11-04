@@ -586,6 +586,118 @@ export interface ApiCareersPageCareersPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiChargingStationChargingStation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'charging_stations';
+  info: {
+    description: 'Euler Motors EV charging network and hubs';
+    displayName: 'Charging Station';
+    pluralName: 'charging-stations';
+    singularName: 'charging-station';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.Text & Schema.Attribute.Required;
+    badges: Schema.Attribute.JSON;
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    distance: Schema.Attribute.String;
+    hours: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Open 24 hours'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::charging-station.charging-station'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    phone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'1800 000 0000'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDealerLocatorPageDealerLocatorPage
+  extends Struct.SingleTypeSchema {
+  collectionName: 'dealer_locator_pages';
+  info: {
+    description: 'Dealer locator, charging network, service centers, and contact section';
+    displayName: 'Dealer Locator Page';
+    pluralName: 'dealer-locator-pages';
+    singularName: 'dealer-locator-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contactSection: Schema.Attribute.Component<'dealer.contact-section', false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'dealer.hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dealer-locator-page.dealer-locator-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDealerDealer extends Struct.CollectionTypeSchema {
+  collectionName: 'dealers';
+  info: {
+    description: 'Euler Motors authorized dealerships and showrooms';
+    displayName: 'Dealer';
+    pluralName: 'dealers';
+    singularName: 'dealer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.Text & Schema.Attribute.Required;
+    badges: Schema.Attribute.JSON;
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    distance: Schema.Attribute.String;
+    hours: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Open until 7 pm'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dealer.dealer'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    phone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'1800 000 0000'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    state: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   collectionName: 'home_pages';
   info: {
@@ -710,6 +822,46 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     video: Schema.Attribute.Media<'videos' | 'files'>;
     videoDuration: Schema.Attribute.String;
     videoUrl: Schema.Attribute.String;
+  };
+}
+
+export interface ApiServiceCenterServiceCenter
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'service_centers';
+  info: {
+    description: 'Authorized Euler Motors service centers and workshops';
+    displayName: 'Service Center';
+    pluralName: 'service-centers';
+    singularName: 'service-center';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.Text & Schema.Attribute.Required;
+    badges: Schema.Attribute.JSON;
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    distance: Schema.Attribute.String;
+    hours: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Open until 8 pm'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service-center.service-center'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    phone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'1800 000 0000'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1277,9 +1429,13 @@ declare module '@strapi/strapi' {
       'api::article.article': ApiArticleArticle;
       'api::career-position.career-position': ApiCareerPositionCareerPosition;
       'api::careers-page.careers-page': ApiCareersPageCareersPage;
+      'api::charging-station.charging-station': ApiChargingStationChargingStation;
+      'api::dealer-locator-page.dealer-locator-page': ApiDealerLocatorPageDealerLocatorPage;
+      'api::dealer.dealer': ApiDealerDealer;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;
+      'api::service-center.service-center': ApiServiceCenterServiceCenter;
       'api::technology-page.technology-page': ApiTechnologyPageTechnologyPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

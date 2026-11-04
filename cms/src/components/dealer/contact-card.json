@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_dealer_contact_cards",
+  "info": {
+    "displayName": "Contact Card",
+    "icon": "phone",
+    "description": "Quick support or contact method card"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "default": "phone"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "detail": {
+      "type": "string",
+      "required": true
+    },
+    "mobileOrder": {
+      "type": "string"
+    }
+  }
+}

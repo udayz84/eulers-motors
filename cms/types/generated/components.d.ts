@@ -127,6 +127,95 @@ export interface CareersTestimonialsSection extends Struct.ComponentSchema {
   };
 }
 
+export interface DealerContactCard extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_contact_cards';
+  info: {
+    description: 'Quick support or contact method card';
+    displayName: 'Contact Card';
+    icon: 'phone';
+  };
+  attributes: {
+    detail: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.String & Schema.Attribute.DefaultTo<'phone'>;
+    mobileOrder: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface DealerContactSection extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_contact_sections';
+  info: {
+    description: 'Dealer enquiry, book test drive form and contact cards';
+    displayName: 'Dealer Contact Section';
+    icon: 'mail';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'dealer.contact-card', true>;
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Confirm test drive'>;
+    desktopDescription: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.'>;
+    desktopTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Not sure which dealer to use?'>;
+    disclaimer: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
+    formHeading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Book a test drive'>;
+    formSubheading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+    formTabs: Schema.Attribute.JSON;
+    mobileDescription: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.'>;
+    mobileTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Tell us what you need!'>;
+    privacyNotice: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.'>;
+    vehicleOptions: Schema.Attribute.JSON;
+  };
+}
+
+export interface DealerHero extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_heroes';
+  info: {
+    description: 'Dealer locator hero with support badge, tabs, search, and map';
+    displayName: 'Dealer Locator Hero';
+    icon: 'pinMap';
+  };
+  attributes: {
+    chargingSearchPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search charging points by area'>;
+    chargingStations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::charging-station.charging-station'
+    >;
+    chargingTabSubtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'1,412 points across India, with live status on each one.'>;
+    chargingTabTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Find a charging point.'>;
+    cities: Schema.Attribute.JSON;
+    dealers: Schema.Attribute.Relation<'oneToMany', 'api::dealer.dealer'>;
+    dealerSearchPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search dealers by area'>;
+    dealerTabSubtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Every dealer brings the vehicle to you for a test drive.'>;
+    dealerTabTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Find your nearest dealer.'>;
+    serviceCenters: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service-center.service-center'
+    >;
+    serviceSearchPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search service centers by area'>;
+    serviceTabSubtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Authorized Euler service centers with genuine parts and certified experts.'>;
+    serviceTabTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Find a service center.'>;
+    supportBadge: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Support'>;
+  };
+}
+
 export interface HomeCompareSection extends Struct.ComponentSchema {
   collectionName: 'components_home_compare_sections';
   info: {
@@ -908,6 +997,9 @@ declare module '@strapi/strapi' {
       'careers.support-section': CareersSupportSection;
       'careers.testimonial-item': CareersTestimonialItem;
       'careers.testimonials-section': CareersTestimonialsSection;
+      'dealer.contact-card': DealerContactCard;
+      'dealer.contact-section': DealerContactSection;
+      'dealer.hero': DealerHero;
       'home.compare-section': HomeCompareSection;
       'home.contact-form': HomeContactForm;
       'home.contact-section': HomeContactSection;

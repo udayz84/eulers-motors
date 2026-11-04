@@ -245,6 +245,101 @@ export interface HomePageData {
 }
 
 /**
+ * Dealer Locator TypeScript definitions
+ */
+export interface StrapiDealer {
+  id?: number;
+  documentId?: string;
+  name: string;
+  slug?: string;
+  address: string;
+  city?: string;
+  state?: string;
+  hours?: string;
+  distance?: string;
+  phone?: string;
+  badges?: string[];
+  order?: number;
+}
+
+export interface StrapiChargingStation {
+  id?: number;
+  documentId?: string;
+  name: string;
+  slug?: string;
+  address: string;
+  city?: string;
+  hours?: string;
+  distance?: string;
+  phone?: string;
+  badges?: string[];
+  order?: number;
+}
+
+export interface StrapiServiceCenter {
+  id?: number;
+  documentId?: string;
+  name: string;
+  slug?: string;
+  address: string;
+  city?: string;
+  hours?: string;
+  distance?: string;
+  phone?: string;
+  badges?: string[];
+  order?: number;
+}
+
+export interface DealerContactCard {
+  id?: number;
+  icon: string;
+  title: string;
+  detail: string;
+  mobileOrder?: string;
+}
+
+export interface DealerContactSectionData {
+  eyebrow?: string;
+  desktopTitle?: string;
+  mobileTitle?: string;
+  desktopDescription?: string;
+  mobileDescription?: string;
+  cards?: DealerContactCard[];
+  formHeading?: string;
+  formSubheading?: string;
+  formTabs?: string[];
+  vehicleOptions?: string[];
+  ctaLabel?: string;
+  privacyNotice?: string;
+  disclaimer?: string;
+}
+
+export interface DealerLocatorHeroData {
+  supportBadge?: string;
+  dealerTabTitle?: string;
+  dealerTabSubtitle?: string;
+  dealerSearchPlaceholder?: string;
+  chargingTabTitle?: string;
+  chargingTabSubtitle?: string;
+  chargingSearchPlaceholder?: string;
+  serviceTabTitle?: string;
+  serviceTabSubtitle?: string;
+  serviceSearchPlaceholder?: string;
+  cities?: string[];
+  dealers?: StrapiDealer[];
+  chargingStations?: StrapiChargingStation[];
+  serviceCenters?: StrapiServiceCenter[];
+}
+
+export interface DealerLocatorPageData {
+  id?: number;
+  documentId?: string;
+  hero?: DealerLocatorHeroData;
+  contactSection?: DealerContactSectionData;
+  seo?: StrapiSEO;
+}
+
+/**
  * Standard Strapi v5 API single & collection envelope structures
  */
 export interface StrapiResponse<T> {

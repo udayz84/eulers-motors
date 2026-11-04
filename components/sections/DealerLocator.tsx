@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-interface Dealer {
+export interface Dealer {
   id: string;
   name: string;
   badges: string[];
@@ -13,7 +13,7 @@ interface Dealer {
   phone: string;
 }
 
-interface ChargingStation {
+export interface ChargingStation {
   id: string;
   name: string;
   address: string;
@@ -101,7 +101,7 @@ const CHARGING_STATIONS: ChargingStation[] = [
   },
 ];
 
-interface ServiceCenter {
+export interface ServiceCenter {
   id: string;
   name: string;
   address: string;
@@ -494,15 +494,31 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
   );
 }
 
+export interface DealerLocatorProps {
+  variant?: "dealer" | "charging" | "service";
+  searchLabel?: string;
+  dealers?: Dealer[];
+  chargingStations?: ChargingStation[];
+  serviceCenters?: ServiceCenter[];
+  cities?: string[];
+}
+
 export default function DealerLocator({
   variant = "dealer",
   searchLabel = "Search dealers by area",
-}: {
-  variant?: "dealer" | "charging" | "service";
-  searchLabel?: string;
-}) {
+  dealers,
+  chargingStations,
+  serviceCenters,
+  cities,
+}: DealerLocatorProps) {
   const charging = variant === "charging";
   const isService = variant === "service";
+
+  const activeDealers = dealers && dealers.length > 0 ? dealers : DEALERS;
+  const activeStations = chargingStations && chargingStations.length > 0 ? chargingStations : CHARGING_STATIONS;
+  const activeServiceCenters = serviceCenters && serviceCenters.length > 0 ? serviceCenters : SERVICE_CENTERS;
+  const activeCities = cities && cities.length > 0 ? cities : CITIES;
+
   /**
    * Figma frames the charging locator's map higher than the dealer one: on
    * mobile the artwork is lifted ~150px so the "MUMBAI" label (source y
@@ -520,15 +536,15 @@ export default function DealerLocator({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cityRowScrollRef = useRef<HTMLDivElement>(null);
 
-  const filteredDealers = DEALERS.filter((dealer) =>
+  const filteredDealers = activeDealers.filter((dealer) =>
     `${dealer.name} ${dealer.address}`.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const filteredStations = CHARGING_STATIONS.filter((station) =>
+  const filteredStations = activeStations.filter((station) =>
     `${station.name} ${station.address} ${station.badges.join(" ")}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
-  const filteredServiceCenters = SERVICE_CENTERS.filter((sc) =>
+  const filteredServiceCenters = activeServiceCenters.filter((sc) =>
     `${sc.name} ${sc.address} ${sc.badges.join(" ")}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
@@ -681,7 +697,7 @@ export default function DealerLocator({
             className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
           >
             <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
-              {CITIES.map((city) => {
+              {activeCities.map((city) => {
                 const selected = city === selectedCity;
                 return (
                   <button

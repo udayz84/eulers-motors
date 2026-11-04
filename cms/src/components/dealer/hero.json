@@ -1,0 +1,69 @@
+{
+  "collectionName": "components_dealer_heroes",
+  "info": {
+    "displayName": "Dealer Locator Hero",
+    "icon": "pinMap",
+    "description": "Dealer locator hero with support badge, tabs, search, and map"
+  },
+  "options": {},
+  "attributes": {
+    "supportBadge": {
+      "type": "string",
+      "default": "Support"
+    },
+    "dealerTabTitle": {
+      "type": "string",
+      "default": "Find your nearest dealer."
+    },
+    "dealerTabSubtitle": {
+      "type": "text",
+      "default": "Every dealer brings the vehicle to you for a test drive."
+    },
+    "dealerSearchPlaceholder": {
+      "type": "string",
+      "default": "Search dealers by area"
+    },
+    "chargingTabTitle": {
+      "type": "string",
+      "default": "Find a charging point."
+    },
+    "chargingTabSubtitle": {
+      "type": "text",
+      "default": "1,412 points across India, with live status on each one."
+    },
+    "chargingSearchPlaceholder": {
+      "type": "string",
+      "default": "Search charging points by area"
+    },
+    "serviceTabTitle": {
+      "type": "string",
+      "default": "Find a service center."
+    },
+    "serviceTabSubtitle": {
+      "type": "text",
+      "default": "Authorized Euler service centers with genuine parts and certified experts."
+    },
+    "serviceSearchPlaceholder": {
+      "type": "string",
+      "default": "Search service centers by area"
+    },
+    "cities": {
+      "type": "json"
+    },
+    "dealers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dealer.dealer"
+    },
+    "chargingStations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::charging-station.charging-station"
+    },
+    "serviceCenters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service-center.service-center"
+    }
+  }
+}
