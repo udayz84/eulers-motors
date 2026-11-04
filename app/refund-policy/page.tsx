@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import PolicyHero from "@/components/sections/PolicyHero";
 import MobilePageHero from "@/components/sections/MobilePageHero";
-import FloatingWidget from "@/components/FloatingWidget";
 
 export default function RefundPolicyPage() {
   return (
@@ -15,10 +14,11 @@ export default function RefundPolicyPage() {
             title="Refund Policy"
             titleId="refund-title-mobile"
             description="We protect your data and respect your privacy."
+            hasWidget
           />
         </div>
         <div className="hidden lg:block">
-          <PolicyHero label="Refund policy" title="Refund Policy" variant="refund" />
+          <PolicyHero label="Refund policy" title="Refund Policy" variant="refund" hasWidget />
         </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="refund-title">
           <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
@@ -54,7 +54,6 @@ export default function RefundPolicyPage() {
             </p>
           </div>
         </div>
-        <FloatingWidget sticky />
       </main>
       <Footer />
     </>

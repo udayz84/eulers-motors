@@ -1,20 +1,27 @@
 import Image from "next/image";
+import FloatingWidget from "@/components/FloatingWidget";
 
 export default function MobilePageHero({
   label,
   title,
   titleId,
   description,
+  action,
+  className = "",
+  hasWidget = false,
 }: {
   label: string;
   title: React.ReactNode;
   titleId?: string;
   description: React.ReactNode;
+  action?: React.ReactNode;
+  className?: string;
+  hasWidget?: boolean;
 }) {
   return (
     <section
       aria-label={`${label} Banner`}
-      className="relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-5 sm:px-8 pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:pt-[128px] sm:pb-16"
+      className={`relative flex h-[272px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-5 sm:px-8 pt-[119.99px] pb-[59.01px] text-center text-white sm:h-[320px] sm:pt-[128px] sm:pb-16 ${className}`}
       style={{
         backgroundImage:
           "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
@@ -46,7 +53,9 @@ export default function MobilePageHero({
         <p className="max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:max-w-[420px] sm:text-[14px]">
           {description}
         </p>
+        {action}
       </div>
+      {hasWidget && <FloatingWidget boundary mobileOnly />}
     </section>
   );
 }

@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import PolicyHero from "@/components/sections/PolicyHero";
 import MobilePageHero from "@/components/sections/MobilePageHero";
-import FloatingWidget from "@/components/FloatingWidget";
 
 const ITEMS = [
   { id: "collect", title: "We may collect the following information:", body: "We may collect information such as your name, contact details, vehicle preferences, service requests, and any other information you choose to share with us while using our website or contacting our team." },
@@ -28,10 +27,11 @@ export default function PrivacyPolicyPage() {
             title="Privacy Policy"
             titleId="privacy-title-mobile"
             description="We protect your data and respect your privacy."
+            hasWidget
           />
         </div>
         <div className="hidden lg:block">
-          <PolicyHero label="Privacy policy" title="Privacy Policy" />
+          <PolicyHero label="Privacy policy" title="Privacy Policy" hasWidget />
         </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="privacy-title">
           <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
@@ -100,7 +100,6 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
         </div>
-        <FloatingWidget sticky />
       </main>
       <Footer />
     </>

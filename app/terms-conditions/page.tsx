@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import FloatingWidget from "@/components/FloatingWidget";
 import MobilePageHero from "@/components/sections/MobilePageHero";
 import PolicyHero from "@/components/sections/PolicyHero";
 import Navbar from "@/components/Navbar";
@@ -120,6 +119,7 @@ export default function TermsConditionsPage() {
             title="Terms of Use"
             titleId="terms-title-mobile"
             description="Please read these terms carefully before using our services."
+            hasWidget
           />
         </div>
         <div className="hidden lg:block">
@@ -127,6 +127,7 @@ export default function TermsConditionsPage() {
             label="Terms & Conditions"
             title="Terms of Use"
             description="Please read these terms carefully before using our services."
+            hasWidget
           />
         </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">
@@ -152,7 +153,6 @@ export default function TermsConditionsPage() {
             </div>
           </div>
         </div>
-        <FloatingWidget sticky />
       </main>
       <Footer />
     </>

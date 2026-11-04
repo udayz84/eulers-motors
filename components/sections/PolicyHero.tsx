@@ -7,12 +7,18 @@ export default function PolicyHero({
   description = "We protect your data and respect your privacy.",
   variant = "privacy",
   hasWidget = false,
+  action,
+  widgetDesktopClassName = "lg:top-[400px] lg:translate-y-0",
+  widgetDesktopRightClassName = "lg:right-[-30px]",
 }: {
   label: string;
   title: string;
   description?: React.ReactNode;
   variant?: "refund" | "privacy";
   hasWidget?: boolean;
+  action?: React.ReactNode;
+  widgetDesktopClassName?: string;
+  widgetDesktopRightClassName?: string;
 }) {
   return (
     <section
@@ -53,9 +59,10 @@ export default function PolicyHero({
           <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90" style={{ width: "493.019px", color: "#FFF", textAlign: "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}>
             {description}
           </p>
+          {action}
         </div>
       </div>
-      {hasWidget && <FloatingWidget boundary desktopClassName="lg:top-[380px]" />}
+      {hasWidget && <FloatingWidget boundary desktopClassName={widgetDesktopClassName} desktopRightClassName={widgetDesktopRightClassName} />}
     </section>
   );
 }

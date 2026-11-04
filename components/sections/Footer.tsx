@@ -64,6 +64,8 @@ function getFooterHref(link: string): string {
   switch (link) {
     case "Blogs":
       return "/insights";
+    case "In press":
+      return "/in-press";
     case "Storm EV LongRange 200":
       return "/products/lr200";
     case "Storm EV T1500":
