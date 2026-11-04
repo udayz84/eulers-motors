@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
-import CarouselArrows from "@/components/ui/CarouselArrows";
-import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const A = "/assets/technology-page";
 const LOAD_CARD_IMAGES = {
@@ -14,77 +12,71 @@ const LOAD_CARD_IMAGES = {
 
 type CardVariant = "load" | "payload";
 const CARDS_CYCLE: CardVariant[] = ["load", "payload", "load", "payload"];
-const LOOPED_CARDS: CardVariant[] = [
-  ...CARDS_CYCLE,
-  ...CARDS_CYCLE,
-  ...CARDS_CYCLE,
-  ...CARDS_CYCLE,
-];
+const SET_SIZE = CARDS_CYCLE.length;
+const LOOPED_CARDS: CardVariant[] = [...CARDS_CYCLE, ...CARDS_CYCLE, ...CARDS_CYCLE];
 
-/**
- * TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885, 393×601).
- * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
- * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
- */
+/** TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885, 393×601). */
 export default function TechLoad() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isVisibleRef = useRef(true);
-  const isDraggingRef = useRef(false);
+  const desktopCarousel = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const virtualIndexRef = useRef(SET_SIZE);
+  const isVisibleRef = useRef(false);
+  const isHoveredRef = useRef(false);
   const isInteractingRef = useRef(false);
-  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const interactionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const updateProgress = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    if (max > 0) {
-      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
-    } else {
-      setScrollProgress(0);
-    }
-  }, []);
+  const getCardStep = () => {
+    const container = desktopCarousel.current;
+    if (!container) return 640;
+    const card = container.querySelector<HTMLElement>("[data-carousel-card]");
+    if (!card) return 640;
+    const gap = parseFloat(getComputedStyle(container).columnGap) || 20;
+    return card.offsetWidth + gap;
+  };
 
-  const pauseAutoScroll = useCallback((duration = 600) => {
-    isInteractingRef.current = true;
-    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
-    interactionTimerRef.current = setTimeout(() => {
-      isInteractingRef.current = false;
-    }, duration);
-  }, []);
-
-  useDraggableScroll(scrollRef, {
-    onDragStart: () => {
-      isDraggingRef.current = true;
-      pauseAutoScroll(600);
-    },
-    onDragEnd: () => {
-      isDraggingRef.current = false;
-      pauseAutoScroll(400);
-      updateProgress();
-    },
-  });
-
-  // Track initial scroll progress and attach resize/scroll sync
+  // Center on middle set (Set 1) on initial client mount
   useEffect(() => {
-    updateProgress();
-    const row = scrollRef.current;
-    if (!row) return;
+    const container = desktopCarousel.current;
+    if (!container) return;
+    const step = getCardStep();
+    container.scrollLeft = SET_SIZE * step;
+    virtualIndexRef.current = SET_SIZE;
+  }, []);
 
-    const onStep = () => pauseAutoScroll(600);
+  const scrollToVirtualIndex = (vIndex: number, behavior: ScrollBehavior = "smooth") => {
+    const container = desktopCarousel.current;
+    if (!container) return;
+    const step = getCardStep();
+    virtualIndexRef.current = vIndex;
 
-    row.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    row.addEventListener("carousel-step", onStep);
+    container.scrollTo({
+      left: vIndex * step,
+      behavior,
+    });
 
-    return () => {
-      row.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
-      row.removeEventListener("carousel-step", onStep);
-    };
-  }, [updateProgress, pauseAutoScroll]);
+    const normalized = ((vIndex % 2) + 2) % 2;
+    setActiveIndex(normalized);
+
+    // If scrolled past the center set into Set 0 or Set 2, seamlessly jump back to Set 1
+    if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+    if (vIndex >= 2 * SET_SIZE || vIndex < SET_SIZE) {
+      jumpTimeoutRef.current = setTimeout(() => {
+        if (!desktopCarousel.current) return;
+        const resetIndex = (((vIndex % SET_SIZE) + SET_SIZE) % SET_SIZE) + SET_SIZE;
+        virtualIndexRef.current = resetIndex;
+        desktopCarousel.current.style.scrollSnapType = "none";
+        desktopCarousel.current.scrollLeft = resetIndex * getCardStep();
+        requestAnimationFrame(() => {
+          if (desktopCarousel.current) {
+            desktopCarousel.current.style.scrollSnapType = "";
+          }
+        });
+      }, 500);
+    }
+  };
 
   // Section visibility tracking
   useEffect(() => {
@@ -100,55 +92,57 @@ export default function TechLoad() {
     return () => observer.disconnect();
   }, []);
 
-  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  // Desktop auto-scroll loop
   useEffect(() => {
-    const prefersReducedMotion =
+    const reducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
+    if (reducedMotion) return;
 
-    let lastTime: number | null = null;
-    let animId: number;
-    let accumulator = 0;
-
-    const tick = (now: number) => {
-      if (lastTime === null) lastTime = now;
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
+    const interval = setInterval(() => {
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
       if (
         isDesktop &&
         isVisibleRef.current &&
-        !isInteractingRef.current &&
-        !isDraggingRef.current
+        !isHoveredRef.current &&
+        !isInteractingRef.current
       ) {
-        const row = scrollRef.current;
-        if (row) {
-          const maxScroll = row.scrollWidth - row.clientWidth;
-          if (maxScroll > 1) {
-            accumulator += 50 * delta;
-            if (accumulator >= 1) {
-              const advance = Math.floor(accumulator);
-              accumulator -= advance;
-
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
-              } else {
-                row.scrollLeft += advance;
-              }
-              updateProgress();
-            }
-          }
-        }
+        scrollToVirtualIndex(virtualIndexRef.current + 1, "smooth");
       }
+    }, 3500);
 
-      animId = requestAnimationFrame(tick);
+    return () => {
+      clearInterval(interval);
+      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+      if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
     };
+  }, []);
 
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, [updateProgress]);
+  const scroll = (direction: -1 | 1) => {
+    isInteractingRef.current = true;
+    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+
+    const nextVirtual = virtualIndexRef.current + direction;
+    scrollToVirtualIndex(nextVirtual, "smooth");
+
+    interactionTimeoutRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, 4000);
+  };
+
+  const handleScroll = () => {
+    if (!desktopCarousel.current) return;
+    const scrollLeft = desktopCarousel.current.scrollLeft;
+    const step = getCardStep();
+    if (step <= 0) return;
+    const vIndex = Math.round(scrollLeft / step);
+    const normalized = ((vIndex % 2) + 2) % 2;
+    setActiveIndex(normalized);
+
+    if (isInteractingRef.current) {
+      virtualIndexRef.current = vIndex;
+    }
+  };
 
   return (
     <section
@@ -156,12 +150,22 @@ export default function TechLoad() {
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)] overflow-hidden"
       aria-label="Load"
     >
-      <div className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 lg:gap-[42px] lg:pb-[62px]">
+      <div
+        className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 min-[1440px]:gap-[42px] min-[1440px]:pb-[62px]"
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
+        }}
+      >
         <div className="relative w-full">
           <div
             id="load-carousel-desktop"
-            ref={scrollRef}
-            className="no-scrollbar flex w-full items-center gap-3.5 md:gap-4 lg:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] overflow-x-auto cursor-grab active:cursor-grabbing select-none"
+            ref={desktopCarousel}
+            onScroll={handleScroll}
+            className="snap-row w-full items-center gap-3.5 md:gap-5 lg:gap-5 min-[1440px]:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))]"
+            style={{ scrollSnapType: "x mandatory" }}
           >
             {LOOPED_CARDS.map((variant, index) => (
               <DesktopLoadCard
@@ -171,29 +175,38 @@ export default function TechLoad() {
             ))}
           </div>
 
-          {/* Blue Navigation Arrows with boundary auto-hide */}
-          <CarouselArrows
-            rowId="load-carousel-desktop"
-            label="load features"
-            variant="blue"
-            onStep={() => pauseAutoScroll(600)}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 bottom-[-20px] z-20 hidden h-[532.059px] w-[210.81px] bg-black/[0.01] backdrop-blur-[8px] [-webkit-mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] [mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] md:block"
           />
+
+
+          <button
+            type="button"
+            aria-label="Previous load features"
+            onClick={() => scroll(-1)}
+            className="absolute top-1/2 left-4 z-30 flex h-[48px] w-[48px] -translate-y-1/2 -scale-x-100 items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:left-6 md:h-[55px] md:w-[55px] md:p-4 lg:left-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+          >
+            <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next load features"
+            onClick={() => scroll(1)}
+            className="absolute top-1/2 right-4 z-30 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:right-6 md:h-[55px] md:w-[55px] md:p-4 lg:right-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+          >
+            <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
+          </button>
         </div>
 
-        {/* Carousel Progress Indicator Pill (Figma 3321:13258) */}
+        {/* Carousel Progress Indicator Pill */}
         <div className="mx-auto hidden w-full max-w-[1440px] items-center justify-center md:flex">
-          <div
-            role="progressbar"
-            aria-label="Load features scroll progress"
-            aria-valuenow={Math.round(scrollProgress * 100)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
-          >
+          <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1">
             <div
-              className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
+              className="h-full rounded-[23px] bg-white transition-all duration-300"
               style={{
-                transform: `translateX(${scrollProgress * 78.308}px)`,
+                width: "50%",
+                transform: `translateX(${activeIndex * 100}%)`,
               }}
             />
           </div>
@@ -268,7 +281,8 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
   return (
     <article
       data-carousel-card
-      className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-[32px] pb-[32px] pt-[252px]"
+      className="relative flex h-[488px] w-[620px] shrink-0 snap-start items-end justify-center gap-[10px] overflow-clip rounded-[12px] border-b border-white/20 px-[32px] pb-[32px] pt-[252px]"
+      style={{ borderTopWidth: 0 }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
         <img

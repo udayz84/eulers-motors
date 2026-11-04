@@ -1,9 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState, useCallback } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
-import CarouselArrows from "@/components/ui/CarouselArrows";
-import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import PagerBar from "@/components/ui/PagerBar";
 
 const A = "/assets/technology-page";
 
@@ -55,9 +51,11 @@ const CARDS = [
   },
 ];
 
+const QUADRUPLED_CARDS = [...CARDS, ...CARDS, ...CARDS, ...CARDS];
+
 function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
   return (
-    <article className="relative h-[254px] w-[320px] sm:w-[353px] shrink-0 snap-center select-none">
+    <article className="relative h-[254px] w-[320px] sm:w-[353px] shrink-0 snap-center">
       {/* Tab Header with Icon & Label */}
       <div className="absolute left-[19.5px] top-[6.18px] flex items-center gap-2">
         <div
@@ -70,14 +68,16 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
             className="absolute inset-0 size-full max-w-none"
           />
         </div>
-        <div className="relative h-[25.095px] w-[26.039px] shrink-0 overflow-hidden">
-          <img
-            src={`${A}/indian__imgChatGptImage.png`}
-            alt=""
-            className="absolute max-w-none"
-            style={c.crop}
-          />
-        </div>
+        <div
+          aria-hidden="true"
+          className="relative h-[25.095px] w-[26.039px] shrink-0 overflow-hidden"
+          style={{
+            backgroundImage: `url(${A}/indian__imgChatGptImage.png)`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `${c.crop.width} ${c.crop.height}`,
+            backgroundPosition: `${(Number.parseFloat(c.crop.left) / (100 - Number.parseFloat(c.crop.width)) * 100).toFixed(2)}% ${(Number.parseFloat(c.crop.top) / (100 - Number.parseFloat(c.crop.height)) * 100).toFixed(2)}%`,
+          }}
+        />
         <p className="relative whitespace-nowrap text-[18px] sm:text-[20px] font-bold leading-[1.15] tracking-[-0.4px] text-ink">
           {c.label}
         </p>
@@ -87,12 +87,12 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
       <div className="absolute left-0 top-[34.31px] flex h-[220px] w-full flex-col items-start gap-4 rounded-[10px] bg-white p-4 shadow-sm">
         <div className="flex w-full flex-col items-start gap-2">
           <p
-            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent"
+            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent min-[1440px]:text-[16px]"
             style={{ backgroundImage: PROBLEM_GRADIENT }}
           >
             The problem
           </p>
-          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">
+          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink min-[1440px]:text-[16px]">
             {c.problem}
           </p>
         </div>
@@ -107,12 +107,12 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
 
         <div className="flex w-full flex-col items-start gap-2">
           <p
-            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent"
+            className="bg-clip-text text-[15px] sm:text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-transparent min-[1440px]:text-[16px]"
             style={{ backgroundImage: EULER_GRADIENT }}
           >
             What Euler does
           </p>
-          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">
+          <p className="text-[14px] sm:text-[15px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink min-[1440px]:text-[16px]">
             {c.euler}
           </p>
         </div>
@@ -123,187 +123,50 @@ function IndianRoadCard({ c }: { c: (typeof CARDS)[number] }) {
 
 /**
  * TECHNOLOGY page — "Built for Indian roads." banner (Figma 2990:12839, 393×442).
- * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
- * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
+ * Mobile: manual touch swipeable snap carousel (no auto-sliding).
+ * Desktop: continuous, smooth GPU-accelerated infinite marquee.
  */
 export default function TechIndianRoads() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isVisibleRef = useRef(true);
-  const isDraggingRef = useRef(false);
-  const isInteractingRef = useRef(false);
-  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const updateProgress = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    if (max > 0) {
-      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
-    } else {
-      setScrollProgress(0);
-    }
-  }, []);
-
-  const pauseAutoScroll = useCallback((duration = 600) => {
-    isInteractingRef.current = true;
-    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
-    interactionTimerRef.current = setTimeout(() => {
-      isInteractingRef.current = false;
-    }, duration);
-  }, []);
-
-  useDraggableScroll(scrollRef, {
-    onDragStart: () => {
-      isDraggingRef.current = true;
-      pauseAutoScroll(600);
-    },
-    onDragEnd: () => {
-      isDraggingRef.current = false;
-      pauseAutoScroll(400);
-      updateProgress();
-    },
-  });
-
-  // Track initial scroll progress and attach resize/scroll sync
-  useEffect(() => {
-    updateProgress();
-    const row = scrollRef.current;
-    if (!row) return;
-
-    const onStep = () => pauseAutoScroll(600);
-
-    row.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    row.addEventListener("carousel-step", onStep);
-
-    return () => {
-      row.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
-      row.removeEventListener("carousel-step", onStep);
-    };
-  }, [updateProgress, pauseAutoScroll]);
-
-  // Section visibility tracking
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting;
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
-  useEffect(() => {
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
-    let lastTime: number | null = null;
-    let animId: number;
-    let accumulator = 0;
-
-    const tick = (now: number) => {
-      if (lastTime === null) lastTime = now;
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
-      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
-      if (
-        isDesktop &&
-        isVisibleRef.current &&
-        !isInteractingRef.current &&
-        !isDraggingRef.current
-      ) {
-        const row = scrollRef.current;
-        if (row) {
-          const maxScroll = row.scrollWidth - row.clientWidth;
-          if (maxScroll > 1) {
-            accumulator += 50 * delta;
-            if (accumulator >= 1) {
-              const advance = Math.floor(accumulator);
-              accumulator -= advance;
-
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
-              } else {
-                row.scrollLeft += advance;
-              }
-              updateProgress();
-            }
-          }
-        }
-      }
-
-      animId = requestAnimationFrame(tick);
-    };
-
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, [updateProgress]);
-
   return (
-    <section ref={sectionRef} className="overflow-x-clip bg-[#d4dbec] py-10 md:py-12 lg:py-16" aria-label="Built for Indian roads">
+    <section className="overflow-x-clip bg-[#d4dbec] py-10 md:pt-12 md:pb-0 lg:pt-16" aria-label="Built for Indian roads">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center px-5 pb-8 text-center md:pb-10 lg:pb-12">
         <div className="flex max-w-[700px] flex-col items-center gap-3 md:gap-4">
           <Eyebrow label="Built for here" />
-          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[36px] sm:tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:text-[52px] lg:tracking-[-1.04px]">
+          <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink sm:text-[36px] sm:tracking-[-0.72px] md:text-[44px] md:tracking-[-0.88px] lg:text-[44px] lg:tracking-[-0.88px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
             Built for Indian roads.
           </h2>
-          <p className="font-sans text-[13px] leading-normal text-ink sm:text-[14px] md:text-[15px] lg:text-[16px]">
+          <p className="font-sans text-[13px] leading-normal text-ink sm:text-[14px] md:text-[15px] lg:text-[15px] min-[1440px]:text-[16px]">
             From busy city streets to uneven roads and heavy loads, every detail is built to perform.
           </p>
         </div>
       </div>
 
-      <div className="relative w-full">
+      {/* Mobile Track: Manual touch snap scroll (not auto-sliding) */}
+      <div className="relative w-full overflow-hidden md:hidden">
         <div
-          id="tech-indian-roads-row"
-          ref={scrollRef}
-          className="no-scrollbar flex w-full gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
+          className="no-scrollbar flex w-full gap-4 overflow-x-auto overflow-y-hidden px-5 pb-2 snap-x snap-mandatory"
+          style={{ WebkitOverflowScrolling: "touch" }}
         >
-          {Array.from({ length: 4 }).map((_, setIdx) =>
-            CARDS.map((c, i) => (
-              <IndianRoadCard key={`${setIdx}-${c.label}-${i}`} c={c} />
-            ))
-          )}
-          <div aria-hidden className="shrink-0 w-8 lg:w-16" />
+          {CARDS.map((c) => (
+            <IndianRoadCard key={c.label} c={c} />
+          ))}
+          <div aria-hidden className="shrink-0 w-1" />
         </div>
-
-        {/* Blue Navigation Arrows with boundary auto-hide */}
-        <CarouselArrows
-          rowId="tech-indian-roads-row"
-          label="Indian roads features"
-          variant="blue"
-          onStep={() => pauseAutoScroll(600)}
-        />
       </div>
 
-      {/* Progress Indicator Pill (Figma 3321:13258) */}
-      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-6">
+      {/* Desktop Track: Continuous infinite auto-sliding marquee */}
+      <div className="relative hidden w-full overflow-hidden md:block">
         <div
-          role="progressbar"
-          aria-label="Indian roads features scroll progress"
-          aria-valuenow={Math.round(scrollProgress * 100)}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#9ca3af]/40 p-1"
+          className="flex w-max shrink-0 gap-6 animate-marquee [--marquee-gap:24px] will-change-transform"
+          style={{ animationDuration: "40s" }}
         >
-          <div
-            className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
-            style={{
-              transform: `translateX(${scrollProgress * 78.308}px)`,
-            }}
-          />
+          {QUADRUPLED_CARDS.map((c, i) => (
+            <IndianRoadCard key={`${c.label}-${i}`} c={c} />
+          ))}
         </div>
+      </div>
+      <div className="hidden justify-center pt-[36px] pb-[42px] md:flex">
+        <PagerBar className="rounded-[14.4px] bg-[rgba(255,255,255,0.5)] [&>div]:bg-black" />
       </div>
     </section>
   );

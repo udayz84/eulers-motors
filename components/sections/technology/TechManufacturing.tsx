@@ -6,7 +6,7 @@ const A = "/assets/technology-page";
 export default function TechManufacturing() {
   return (
     <section className="bg-white" aria-label="Manufacturing">
-      <div className="mx-auto hidden h-[560px] w-full max-w-[1440px] px-6 py-8 md:block md:h-[620px] md:px-10 md:py-10 lg:h-[800px] lg:px-[80px] lg:py-[60px]">
+      <div className="mx-auto hidden h-[560px] w-full max-w-[1440px] px-6 py-8 md:block md:h-[620px] md:px-10 md:py-10 min-[1440px]:flex min-[1440px]:h-[800px] min-[1440px]:flex-col min-[1440px]:items-start min-[1440px]:gap-[55px] min-[1440px]:px-[80px] min-[1440px]:py-[60px]">
         <div className="relative h-full w-full overflow-clip rounded-[16px] md:rounded-[20px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[16px] md:rounded-[20px]">
             <img
