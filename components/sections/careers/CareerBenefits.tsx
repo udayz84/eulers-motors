@@ -27,7 +27,7 @@ const BENEFITS = [
 
 export default function CareerBenefits() {
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-x-hidden bg-[linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] bg-[#FFF] py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="career-impact-heading">
+    <section className="flex w-full flex-col items-center justify-center gap-4 overflow-x-hidden bg-[linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] bg-[#FFF] py-8 lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[max(40px,calc((100vw-1440px)/2+80px))] xl:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="career-impact-heading">
       <div className="flex flex-col items-start justify-center gap-[14px] self-stretch px-5 lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-8 lg:px-0">
         <div className="flex w-full flex-col gap-[14px] lg:w-[414.43px] lg:shrink-0 lg:gap-4">
           <Eyebrow label="Why work with us" />
@@ -40,10 +40,12 @@ export default function CareerBenefits() {
         </p>
       </div>
 
-      <div className="w-full self-stretch overflow-x-auto no-scrollbar lg:overflow-visible">
-        <div id="career-benefits-row" className="snap-row items-center gap-2.5 lg:m-0 lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0" style={{ width: "max-content", paddingLeft: "20px" }}>
-          {BENEFITS.map((benefit) => (
-          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] [scroll-snap-align:start] lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-lg lg:pt-[54px]" key={benefit.number}>
+      <div
+        id="career-benefits-row"
+        className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-5 items-center gap-2.5 overflow-x-auto px-5 lg:m-0 lg:flex lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
+      >
+        {BENEFITS.map((benefit) => (
+          <article className="relative flex h-[200px] w-[282px] min-w-[282px] shrink-0 snap-start flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] lg:h-[200px] lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-[8px] lg:pt-[54px]" key={benefit.number}>
             <span className="absolute top-[9.818px] left-5 bg-[linear-gradient(2deg,rgb(29_111_255_/_0%)_-11.9%,rgb(29_111_255_/_20%)_87.54%)] bg-clip-text font-display text-[42px] font-bold leading-[1.15] tracking-[-0.84px] text-transparent lg:text-[62px] lg:tracking-[-1.24px]">{benefit.number}</span>
             <div
               className={`absolute top-[2.566px] right-[5.139px] h-[68.434px] w-[71.009px] aspect-[71.01/68.43] bg-transparent bg-cover bg-center bg-no-repeat lg:top-[10px] lg:right-[25.073px] lg:h-[76.003px] lg:w-[78.863px] lg:bg-contain ${
@@ -55,14 +57,13 @@ export default function CareerBenefits() {
               }`}
               data-illustration={benefit.illustration}
             />
-            <div className="relative z-[1] flex flex-col gap-5 lg:gap-2">
+            <div className="relative z-[1] flex w-full min-w-0 flex-col gap-5 lg:gap-2">
               <h3 className="m-0 self-stretch font-display text-lg font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:mt-0 lg:bg-[linear-gradient(-54.6deg,#1d6fff_23.58%,#0e2f6d_93.09%)] lg:bg-clip-text lg:text-[26px] lg:leading-[1.4] lg:tracking-[-0.52px] lg:text-transparent">{benefit.title}</h3>
-              <p className="m-0 w-[223.869px] font-sans text-xs font-normal leading-normal text-ink lg:w-[383.635px] lg:text-base lg:leading-[1.4]">{benefit.description}</p>
+              <p className="m-0 w-full max-w-[223.869px] font-sans text-xs font-normal leading-normal text-ink lg:max-w-[383.635px] lg:text-base lg:leading-[1.4]">{benefit.description}</p>
             </div>
           </article>
         ))}
-          <div aria-hidden className="shrink-0" style={{ width: "20px" }} />
-        </div>
+        <div aria-hidden className="w-5 shrink-0 lg:hidden" />
       </div>
 
       <PagerBar

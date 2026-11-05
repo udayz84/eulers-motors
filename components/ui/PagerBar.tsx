@@ -46,10 +46,20 @@ export default function PagerBar({
 
     update();
     row.addEventListener("scroll", update, { passive: true });
+    row.addEventListener("touchmove", update, { passive: true });
     window.addEventListener("resize", update);
+
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(update) : null;
+    ro?.observe(row);
+    if (row.firstElementChild) {
+      ro?.observe(row.firstElementChild);
+    }
+
     return () => {
       row.removeEventListener("scroll", update);
+      row.removeEventListener("touchmove", update);
       window.removeEventListener("resize", update);
+      ro?.disconnect();
     };
   }, [rowId, isControlled]);
 
