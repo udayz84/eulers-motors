@@ -55,7 +55,7 @@ export default function MobilePageHero({
         </p>
         {action}
       </div>
-      {hasWidget && <FloatingWidget boundary mobileOnly />}
+      {hasWidget && <FloatingWidget boundary mobileOnly mobileClassName="top-[506.33px]" mobileRightClassName="right-[-29.531px]" />}
     </section>
   );
 }

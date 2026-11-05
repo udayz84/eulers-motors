@@ -373,7 +373,10 @@ export default function Hero({ slides }: HeroProps = {}) {
         </div>
       </div>
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
-      <FloatingWidget mobileClassName="max-lg:bottom-[82px]" />
+      <FloatingWidget
+        mobileClassName="max-lg:bottom-[82px]"
+        desktopClassName="lg:top-[calc(100%-80px)] lg:-translate-y-full"
+      />
 
     </section>
   );
