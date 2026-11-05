@@ -351,15 +351,15 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[url('/assets/careers/hero-texture.png')] bg-[length:cover] bg-[position:center_bottom] bg-no-repeat opacity-[0.12] lg:bg-left-top lg:bg-[length:1440px_810.895px]" />
-        <div className="absolute top-[155.67px] bottom-auto left-[-41px] h-[579px] w-[477px] overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
-          <div className="absolute inset-0 hidden bg-black lg:block" />
+        <div className="absolute inset-x-0 top-[155.67px] bottom-auto h-[579px] w-full overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
+          <div className="absolute inset-0 bg-black" />
           <Image
             src="/assets/careers/hero-mobile.png"
             alt=""
             width={1440}
             height={1394}
             priority
-            className="absolute top-[-53.43%] left-[-2.96%] h-[153.36%] w-[104.66%] max-w-none object-fill lg:hidden"
+            className="absolute top-[-53.43%] left-1/2 -translate-x-1/2 h-[153.36%] w-[max(100%,500px)] max-w-none object-cover object-bottom lg:hidden"
             style={{
               maskImage:
                 "linear-gradient(to bottom, transparent 42%, black 60%, black 67%, transparent 100%)",
@@ -381,8 +381,8 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
                 "linear-gradient(268.23deg, rgba(36, 106, 227, 0) 32.76%, rgb(36, 106, 227) 76.34%)",
             }}
           />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,#2059bf_0%,rgb(32_89_191_/_0%)_39.666%)] lg:hidden" />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#2059bf_0%,rgb(32_89_191_/_0%)_39.666%)] lg:hidden" />
       </div>
 
       <div className="absolute top-[101.31px] left-5 w-[calc(100%_-_40px)] max-w-[518.52px] lg:top-[407px] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]">
