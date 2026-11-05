@@ -16,7 +16,7 @@ export interface EnterpriseDealerProps {
   enterpriseDesc?: string;
   enterpriseCtaLabel?: string;
   enterpriseCtaHref?: string;
-  enterpriseBullets?: string[];
+  enterpriseBullets?: string[] | string;
   dealerEyebrow?: string;
   dealerTitle?: string;
   dealerDesc?: string;
@@ -45,7 +45,12 @@ export default function EnterpriseDealer({
   dealerPrimaryCtaLabel = "Apply now",
   dealerPrimaryCtaHref = "/products",
 }: EnterpriseDealerProps = {}) {
-  const currentBullets = enterpriseBullets !== undefined ? enterpriseBullets : BULLETS;
+  const currentBullets =
+    typeof enterpriseBullets === "string"
+      ? enterpriseBullets.split("\n").map((s) => s.trim()).filter(Boolean)
+      : Array.isArray(enterpriseBullets) && enterpriseBullets.length > 0
+      ? enterpriseBullets
+      : BULLETS;
   const mid = Math.ceil(currentBullets.length / 2);
   const col1 = currentBullets.slice(0, mid);
   const col2 = currentBullets.slice(mid);

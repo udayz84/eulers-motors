@@ -87,21 +87,7 @@ export default async function DealerLocatorPage() {
           chargingStations={mappedStations}
           serviceCenters={mappedServiceCenters}
         />
-        <DealerContactSection
-          eyebrow={contact?.eyebrow}
-          desktopTitle={contact?.desktopTitle}
-          mobileTitle={contact?.mobileTitle}
-          desktopDescription={contact?.desktopDescription}
-          mobileDescription={contact?.mobileDescription}
-          cards={contact?.cards}
-          formHeading={contact?.formHeading}
-          formSubheading={contact?.formSubheading}
-          formTabs={contact?.formTabs}
-          vehicleOptions={contact?.vehicleOptions}
-          ctaLabel={contact?.ctaLabel}
-          privacyNotice={contact?.privacyNotice}
-          disclaimer={contact?.disclaimer}
-        />
+        <DealerContactSection {...contact} />
       </main>
       <Footer />
     </>

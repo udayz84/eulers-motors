@@ -22,6 +22,21 @@
       "repeatable": false,
       "component": "dealer.contact-section"
     },
+    "chargingContactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.charging-contact-section"
+    },
+    "partnersSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.partners-section"
+    },
+    "faqSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.faq-section"
+    },
     "seo": {
       "type": "component",
       "repeatable": false,

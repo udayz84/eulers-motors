@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DealerLocator, { Dealer, ChargingStation, ServiceCenter } from "@/components/sections/DealerLocator";
 import FloatingWidget from "@/components/FloatingWidget";
 
@@ -100,18 +100,20 @@ function SupportTabs({
 
 const DEFAULT_TAB_CONTENT = {
   dealer: {
-    title: "Find your nearest dealer.",
-    subtitle: "Every dealer brings the vehicle to you for a test drive.",
+    title: "Find your nearest Euler showroom",
+    subtitle:
+      "Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.",
     searchLabel: "Search dealers by area",
   },
   charging: {
-    title: "Find a charging point.",
-    subtitle: "1,412 points across India, with live status on each one.",
+    title: "Find a charging station near you.",
+    subtitle: "Locate nearby charging points and plan your next stop with confidence.",
     searchLabel: "Search charging points by area",
   },
   service: {
-    title: "Find a service center.",
-    subtitle: "Authorized Euler service centers with genuine parts and certified experts.",
+    title: "Find a service centre near you.",
+    subtitle:
+      "Get the right support for your Euler vehicle, from routine maintenance to service and repairs.",
     searchLabel: "Search service centers by area",
   },
 };
@@ -124,7 +126,7 @@ export interface DealerLocatorHeroProps {
     charging?: { title?: string; subtitle?: string; searchLabel?: string };
     service?: { title?: string; subtitle?: string; searchLabel?: string };
   };
-  cities?: string[];
+  cities?: string[] | string;
   dealers?: Dealer[];
   chargingStations?: ChargingStation[];
   serviceCenters?: ServiceCenter[];
@@ -140,6 +142,14 @@ export default function DealerLocatorHero({
   serviceCenters,
 }: DealerLocatorHeroProps) {
   const [activeTab, setActiveTab] = useState<SupportTabType>(variant);
+
+  const activeCities = useMemo(() => {
+    if (typeof cities === "string") {
+      const parsed = cities.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
+      return parsed.length > 0 ? parsed : undefined;
+    }
+    return cities;
+  }, [cities]);
 
   useEffect(() => {
     setActiveTab(variant);
@@ -167,14 +177,14 @@ export default function DealerLocatorHero({
         aria-hidden="true"
         className="absolute inset-0 hidden lg:block"
         style={{
-          backgroundImage: `url("${ASSET}desktop-texture.png")`,
+          backgroundImage: `url("${ASSET}desktop-texture.webp")`,
           backgroundPosition: "left top",
           backgroundSize: "100% auto",
           backgroundRepeat: "no-repeat",
         }}
       />
       <div className="absolute inset-0 lg:hidden" aria-hidden="true">
-        <Image src={`${ASSET}mobile-texture.png`} alt="" fill sizes="393px" className="object-fill object-bottom" />
+        <Image src={`${ASSET}mobile-texture.webp`} alt="" fill sizes="393px" className="object-fill object-bottom" />
       </div>
       <div className="absolute left-[calc(50%+6.5px)] top-[428.54px] h-[1129.558px] w-[4141.919px] -translate-x-1/2 rounded-full bg-white blur-[220.45px] lg:left-[-859.81px] lg:top-[780.1px] lg:h-[984.503px] lg:w-[3610.026px]" aria-hidden="true" />
       <div className="absolute hidden left-[calc(100%+859.81px)] top-[780.1px] h-[984.503px] w-[3610.026px] -translate-x-1/2 rounded-full bg-white blur-[220.45px] lg:block" aria-hidden="true" />
@@ -193,7 +203,7 @@ export default function DealerLocatorHero({
         <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
           {currentContent.title}
         </h1>
-        <p className="whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base">
+        <p className="whitespace-normal sm:whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base max-w-[340px] sm:max-w-none">
           {currentContent.subtitle}
         </p>
       </div>
@@ -202,7 +212,7 @@ export default function DealerLocatorHero({
         <DealerLocator
           variant={activeTab}
           searchLabel={currentContent.searchLabel}
-          cities={cities}
+          cities={activeCities}
           dealers={dealers}
           chargingStations={chargingStations}
           serviceCenters={serviceCenters}

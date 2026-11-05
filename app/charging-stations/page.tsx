@@ -5,12 +5,12 @@ import PartnersInvestors from "@/components/sections/PartnersInvestors";
 import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
 import ChargingStationNextStep from "@/components/sections/ChargingStationNextStep";
 import Footer from "@/components/sections/Footer";
-import { getDealerLocatorPageData } from "@/lib/strapi/client";
+import { getChargingStationsPageData } from "@/lib/strapi/client";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await getDealerLocatorPageData();
+  const data = await getChargingStationsPageData();
   const hero = data?.hero;
   return {
     title: hero?.chargingTabTitle || "Find an EV Charging Point Across India",
@@ -22,8 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ChargingStationsPage() {
-  const data = await getDealerLocatorPageData();
+  const data = await getChargingStationsPageData();
   const hero = data?.hero;
+  const faqSection = data?.faqSection;
 
   const tabContent = hero
     ? {
@@ -88,9 +89,17 @@ export default async function ChargingStationsPage() {
           chargingStations={mappedStations}
           serviceCenters={mappedServiceCenters}
         />
-        <PartnersInvestors title="Trusted network partners" />
-        <ChargingStationFaq />
-        <ChargingStationNextStep />
+        <PartnersInvestors
+          data={data?.partnersSection}
+          title={data?.partnersSection?.title || "Trusted network partners"}
+        />
+        <ChargingStationFaq
+          eyebrow={faqSection?.eyebrow}
+          title={faqSection?.title}
+          items={faqSection?.items}
+          image={faqSection?.image}
+        />
+        <ChargingStationNextStep data={data?.chargingContactSection} />
       </main>
       <Footer />
     </>

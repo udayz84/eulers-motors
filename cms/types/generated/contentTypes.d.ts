@@ -626,6 +626,46 @@ export interface ApiChargingStationChargingStation
   };
 }
 
+export interface ApiChargingStationsPageChargingStationsPage
+  extends Struct.SingleTypeSchema {
+  collectionName: 'charging_stations_pages';
+  info: {
+    description: 'Charging stations network, map, partners, FAQ, and host a charging point contact section';
+    displayName: 'Charging Stations Page';
+    pluralName: 'charging-stations-pages';
+    singularName: 'charging-stations-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    chargingContactSection: Schema.Attribute.Component<
+      'dealer.charging-contact-section',
+      false
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
+    hero: Schema.Attribute.Component<'dealer.hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::charging-stations-page.charging-stations-page'
+    > &
+      Schema.Attribute.Private;
+    partnersSection: Schema.Attribute.Component<
+      'shared.partners-section',
+      false
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDealerLocatorPageDealerLocatorPage
   extends Struct.SingleTypeSchema {
   collectionName: 'dealer_locator_pages';
@@ -639,10 +679,15 @@ export interface ApiDealerLocatorPageDealerLocatorPage
     draftAndPublish: true;
   };
   attributes: {
+    chargingContactSection: Schema.Attribute.Component<
+      'dealer.charging-contact-section',
+      false
+    >;
     contactSection: Schema.Attribute.Component<'dealer.contact-section', false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
     hero: Schema.Attribute.Component<'dealer.hero', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -650,6 +695,10 @@ export interface ApiDealerLocatorPageDealerLocatorPage
       'api::dealer-locator-page.dealer-locator-page'
     > &
       Schema.Attribute.Private;
+    partnersSection: Schema.Attribute.Component<
+      'shared.partners-section',
+      false
+    >;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
@@ -692,6 +741,39 @@ export interface ApiDealerDealer extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'>;
     state: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
+  collectionName: 'faqs';
+  info: {
+    description: 'Frequently Asked Questions across categories';
+    displayName: 'FAQ';
+    pluralName: 'faqs';
+    singularName: 'faq';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    answer: Schema.Attribute.Text & Schema.Attribute.Required;
+    category: Schema.Attribute.Enumeration<
+      ['General', 'Vehicles', 'Charging', 'Service', 'Warranty']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'General'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1430,8 +1512,10 @@ declare module '@strapi/strapi' {
       'api::career-position.career-position': ApiCareerPositionCareerPosition;
       'api::careers-page.careers-page': ApiCareersPageCareersPage;
       'api::charging-station.charging-station': ApiChargingStationChargingStation;
+      'api::charging-stations-page.charging-stations-page': ApiChargingStationsPageChargingStationsPage;
       'api::dealer-locator-page.dealer-locator-page': ApiDealerLocatorPageDealerLocatorPage;
       'api::dealer.dealer': ApiDealerDealer;
+      'api::faq.faq': ApiFaqFaq;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;

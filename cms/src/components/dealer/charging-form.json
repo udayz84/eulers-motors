@@ -1,0 +1,80 @@
+{
+  "collectionName": "components_dealer_charging_forms",
+  "info": {
+    "displayName": "Charging Form",
+    "icon": "mail",
+    "description": "Host a charging point enquiry form card"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Book a test drive"
+    },
+    "subheading": {
+      "type": "string",
+      "default": "Two steps. We call you within one working day."
+    },
+    "nameLabel": {
+      "type": "string",
+      "default": "Name"
+    },
+    "namePlaceholder": {
+      "type": "string",
+      "default": "Full name"
+    },
+    "nameRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "mobileLabel": {
+      "type": "string",
+      "default": "Mobile number"
+    },
+    "mobilePlaceholder": {
+      "type": "string",
+      "default": "10 digit"
+    },
+    "mobileRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "cityLabel": {
+      "type": "string",
+      "default": "City"
+    },
+    "cityPlaceholder": {
+      "type": "string",
+      "default": "Mumbai"
+    },
+    "cityRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "dropdownLabel": {
+      "type": "string",
+      "default": "What you have"
+    },
+    "dropdownOptions": {
+      "type": "string",
+      "default": "Petrol Pump, Warehouse, Land"
+    },
+    "dropdownRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "ctaLabel": {
+      "type": "string",
+      "default": "Send enquiry"
+    },
+    "privacyNotice": {
+      "type": "string",
+      "default": "Euler Motors may contact me about this enquiry."
+    },
+    "disclaimer": {
+      "type": "string",
+      "default": "We never share your number with anyone else. No spam calls."
+    }
+  }
+}
+

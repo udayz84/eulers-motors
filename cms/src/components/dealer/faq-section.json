@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_dealer_faq_sections",
+  "info": {
+    "displayName": "Dealer FAQ Section",
+    "icon": "question",
+    "description": "Dealer & charging station FAQ section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "FAQ"
+    },
+    "title": {
+      "type": "string",
+      "default": "Frequently Asked Questions"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.faq-item"
+    }
+  }
+}
+

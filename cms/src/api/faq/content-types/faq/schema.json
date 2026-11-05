@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faqs",
+  "info": {
+    "singularName": "faq",
+    "pluralName": "faqs",
+    "displayName": "FAQ",
+    "description": "Frequently Asked Questions across categories"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "answer": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "General",
+        "Vehicles",
+        "Charging",
+        "Service",
+        "Warranty"
+      ],
+      "default": "General",
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+

@@ -1,0 +1,42 @@
+{
+  "kind": "singleType",
+  "collectionName": "charging_stations_pages",
+  "info": {
+    "singularName": "charging-stations-page",
+    "pluralName": "charging-stations-pages",
+    "displayName": "Charging Stations Page",
+    "description": "Charging stations network, map, partners, FAQ, and host a charging point contact section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.hero"
+    },
+    "partnersSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.partners-section"
+    },
+    "faqSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.faq-section"
+    },
+    "chargingContactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.charging-contact-section"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
+

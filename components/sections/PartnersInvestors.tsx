@@ -1,17 +1,26 @@
-const partners = [
-  { src: "/assets/partners-investors/qrg.png", alt: "QRG", width: 79.834, desktopWidth: 223.602 },
-  { src: "/assets/partners-investors/moglix.png", alt: "Moglix", width: 64.224, desktopWidth: 179.88 },
-  { src: "/assets/partners-investors/jetty.png", alt: "JETTY Ventures", width: 58.531, desktopWidth: 163.934 },
-  { src: "/assets/partners-investors/blume.png", alt: "BLUME", width: 58.531, desktopWidth: 163.934 },
-  { src: "/assets/partners-investors/gic.png", alt: "GIC", width: 58.531, desktopWidth: 163.934 },
+import { PartnersSectionData } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
+
+const DEFAULT_PARTNERS = [
+  { src: "/assets/partners-investors/qrg.webp", alt: "QRG", width: 79.834, desktopWidth: 223.602 },
+  { src: "/assets/partners-investors/moglix.webp", alt: "Moglix", width: 64.224, desktopWidth: 179.88 },
+  { src: "/assets/partners-investors/jetty.webp", alt: "JETTY Ventures", width: 58.531, desktopWidth: 163.934 },
+  { src: "/assets/partners-investors/blume.webp", alt: "BLUME", width: 58.531, desktopWidth: 163.934 },
+  { src: "/assets/partners-investors/gic.webp", alt: "GIC", width: 58.531, desktopWidth: 163.934 },
 ];
 
-function PartnerLogos({ duplicate = false }: { duplicate?: boolean }) {
+function PartnerLogos({
+  partners,
+  duplicate = false,
+}: {
+  partners: { src: string; alt: string; width: number; desktopWidth: number }[];
+  duplicate?: boolean;
+}) {
   return (
     <div className="flex shrink-0 items-center gap-[62px] pr-[62px]" aria-hidden={duplicate}>
-      {partners.map((partner) => (
+      {partners.map((partner, index) => (
         <img
-          key={`${duplicate ? "loop-" : ""}${partner.alt}`}
+          key={`${duplicate ? "loop-" : ""}${partner.alt}-${index}`}
           src={partner.src}
           alt={duplicate ? "" : partner.alt}
           width={partner.desktopWidth}
@@ -24,13 +33,30 @@ function PartnerLogos({ duplicate = false }: { duplicate?: boolean }) {
   );
 }
 
-interface PartnersInvestorsProps {
+export interface PartnersInvestorsProps {
   title?: string;
+  eyebrow?: string;
+  data?: PartnersSectionData;
 }
 
 export default function PartnersInvestors({
-  title = "Trusted by investors.",
+  title,
+  eyebrow,
+  data,
 }: PartnersInvestorsProps) {
+  const sectionEyebrow = data?.eyebrow || eyebrow || "Partners and investors";
+  const sectionTitle = data?.title || title || "Trusted by investors.";
+
+  const partnersList =
+    data?.partners && data.partners.length > 0
+      ? data.partners.map((p) => ({
+          src: p.logo ? mediaUrl(p.logo, p.logoUrl || "") : p.logoUrl || "",
+          alt: p.name || "",
+          width: p.width || 60,
+          desktopWidth: p.desktopWidth || 164,
+        }))
+      : DEFAULT_PARTNERS;
+
   return (
     <section
       aria-labelledby="partners-investors-title"
@@ -84,14 +110,14 @@ export default function PartnersInvestors({
             className="relative h-[20.355px] w-[18.8px] shrink-0"
           />
           <p className="relative font-sans text-[14px] font-bold uppercase tracking-[0.7px]">
-            Partners and investors
+            {sectionEyebrow}
           </p>
         </div>
         <h2
           id="partners-investors-title"
           className="whitespace-nowrap font-display text-[42px] font-semibold not-italic leading-normal tracking-[-0.84px] text-white"
         >
-          {title}
+          {sectionTitle}
         </h2>
       </header>
 
@@ -99,9 +125,9 @@ export default function PartnersInvestors({
         aria-label="Our partners and investors"
         className="partners-logo-loop absolute left-[-548px] top-[217px] hidden w-max lg:flex"
       >
-        <PartnerLogos />
-        <PartnerLogos duplicate />
-        <PartnerLogos duplicate />
+        <PartnerLogos partners={partnersList} />
+        <PartnerLogos partners={partnersList} duplicate />
+        <PartnerLogos partners={partnersList} duplicate />
       </div>
 
       {/* Mobile Layout - Figma Design */}
@@ -122,18 +148,18 @@ export default function PartnersInvestors({
             />
           </div>
           <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
-            Partners and investors
+            {sectionEyebrow}
           </p>
         </div>
         <p className="font-display text-[28px] sm:text-[34px] font-semibold leading-[1.15] not-italic relative shrink-0 text-white tracking-[-0.56px] whitespace-nowrap">
-          {title}
+          {sectionTitle}
         </p>
       </div>
 
       <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-276px] top-[138.15px] animate-logo-scroll-right w-max">
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={partner.alt}
+            key={`${partner.alt}-${i}`}
             src={partner.src}
             alt={partner.alt}
             width={partner.width}
@@ -142,9 +168,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-duplicate`}
+            key={`${partner.alt}-duplicate-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -153,9 +179,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-triplicate`}
+            key={`${partner.alt}-triplicate-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -164,9 +190,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-quad`}
+            key={`${partner.alt}-quad-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -178,9 +204,9 @@ export default function PartnersInvestors({
       </div>
 
       <div className="lg:hidden absolute content-stretch flex gap-[24px] items-center left-[-116px] top-[198.15px] animate-logo-scroll-left w-max">
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-row2`}
+            key={`${partner.alt}-row2-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -189,9 +215,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-row2-duplicate`}
+            key={`${partner.alt}-row2-duplicate-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -200,9 +226,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-row2-triplicate`}
+            key={`${partner.alt}-row2-triplicate-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}
@@ -211,9 +237,9 @@ export default function PartnersInvestors({
             style={{ width: `${partner.width}px` }}
           />
         ))}
-        {partners.map((partner) => (
+        {partnersList.map((partner, i) => (
           <img
-            key={`${partner.alt}-row2-quad`}
+            key={`${partner.alt}-row2-quad-${i}`}
             src={partner.src}
             alt=""
             width={partner.width}

@@ -2,23 +2,51 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChargingContactSectionData } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const asset = "/assets/charging-station-next-step/";
+
+export interface ChargingStationNextStepProps {
+  data?: ChargingContactSectionData;
+}
+
+const DEFAULT_CARDS: { id?: number; icon: string; title: string; detail: string }[] = [
+  {
+    id: 1,
+    icon: "phone",
+    title: "1800 000 0000",
+    detail: "9 am to 8 pm Monday to Saturday",
+  },
+  {
+    id: 2,
+    icon: "email",
+    title: "partners@eulermotors.com",
+    detail: "For charging and depot partners",
+  },
+  {
+    id: 3,
+    icon: "location",
+    title: "Find your nearest dealer",
+    detail: "112 locations, 24 states",
+  },
+];
 
 function ContactCard({
   icon,
   title,
   detail,
 }: {
-  icon: "phone.svg" | "email.svg";
+  icon: string;
   title: string;
   detail: string;
 }) {
+  const iconFile = icon.endsWith(".svg") ? icon : `${icon}.svg`;
   return (
     <div className="flex shrink-0 items-center gap-6 rounded-2xl bg-[#f3f4f5] p-5">
       <span className="flex size-[58px] shrink-0 items-center justify-center rounded-[8.12px] bg-white">
-        <Image src={`${asset}${icon}`} alt="" width={24} height={24} aria-hidden="true" />
+        <Image src={`${asset}${iconFile}`} alt="" width={24} height={24} aria-hidden="true" />
       </span>
       <div className="flex flex-col gap-[6px] whitespace-nowrap leading-[1.15] text-[#121212]">
         <p className="font-sans text-[16px] font-bold tracking-[-0.32px]">{title}</p>
@@ -34,15 +62,18 @@ function CustomDropdown({
   value,
   onChange,
   isMobile = false,
+  required = false,
 }: {
   label: string;
   options: string[];
   value: string;
   onChange: (val: string) => void;
   isMobile?: boolean;
+  required?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const cleanLabel = label.replace(/\s*\*+\s*$/, "").trim();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -71,7 +102,8 @@ function CustomDropdown({
       className="relative flex min-w-0 flex-1 flex-col gap-1 font-sans text-[12px] leading-normal text-[#212125]"
     >
       <span className="font-sans text-[12px] font-normal leading-normal text-[#212125] whitespace-nowrap">
-        {label}
+        {cleanLabel}
+        {required ? " *" : ""}
       </span>
       <button
         type="button"
@@ -181,6 +213,7 @@ function InputField({
   onKeyDown,
   type = "text",
   maxLength,
+  required = true,
 }: {
   label: string;
   placeholder?: string;
@@ -190,18 +223,26 @@ function InputField({
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   type?: string;
   maxLength?: number;
+  required?: boolean;
 }) {
+  const cleanLabel = label.replace(/\s*\*+\s*$/, "").trim();
+  const showAsterisk = required !== false;
+
   return (
     <label className="flex min-w-0 flex-1 flex-col gap-1 font-sans text-[12px] leading-normal text-[#212125]">
-      <span>{label}</span>
+      <span>
+        {cleanLabel}
+        {showAsterisk ? " *" : ""}
+      </span>
       <span className="flex h-[46px] items-center justify-between gap-2 rounded-[13px] border border-[#ededed] bg-white px-4 backdrop-blur-[8.15px] focus-within:border-[#0e2f6d] focus-within:ring-2 focus-within:ring-[#0e2f6d]/15 transition-all">
         <input
           type={type}
           maxLength={maxLength}
-          aria-label={label}
+          aria-label={cleanLabel}
           placeholder={placeholder}
           defaultValue={defaultValue}
           value={value}
+          required={showAsterisk}
           onChange={onChange}
           onKeyDown={onKeyDown}
           className="h-full min-w-0 flex-1 bg-transparent font-sans text-[12px] font-medium text-[#121212] outline-none placeholder:text-[#9ca3af]"
@@ -211,7 +252,7 @@ function InputField({
   );
 }
 
-function NextStepBadge() {
+function NextStepBadge({ text = "Next step" }: { text?: string }) {
   return (
     <div className="relative flex h-[20.355px] items-center gap-[6px]">
       <Image
@@ -231,7 +272,7 @@ function NextStepBadge() {
         />
       </span>
       <span className="relative font-sans text-[14px] font-bold uppercase tracking-[0.7px] text-[#0e2f6d]">
-        Next step
+        {text}
       </span>
     </div>
   );
@@ -239,12 +280,53 @@ function NextStepBadge() {
 
 type TabType = "Test drive" | "Price Enquiry" | "Fleet";
 
-export default function ChargingStationNextStep() {
+export default function ChargingStationNextStep({ data }: ChargingStationNextStepProps = {}) {
   const [activeTab, setActiveTab] = useState<TabType>("Test drive");
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [city, setCity] = useState("");
-  const [whatYouHave, setWhatYouHave] = useState("Warehouse");
+
+  const eyebrow = data?.eyebrow || "Next step";
+  const title = data?.title || "Host a charging point.";
+  const mobileTitle = data?.mobileTitle || title;
+  const description =
+    data?.description ||
+    "Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.";
+  const mobileDescription = data?.mobileDescription || description;
+  const cards = data?.cards && data.cards.length > 0 ? data.cards : DEFAULT_CARDS;
+  const form = data?.form;
+  const formHeading = form?.heading || data?.formHeading || "Book a test drive";
+  const formSubheading = form?.subheading || data?.formSubheading || "Two steps. We call you within one working day.";
+  const nameLabel = form?.nameLabel || data?.nameLabel || "Name";
+  const namePlaceholder = form?.namePlaceholder || data?.namePlaceholder || "Full name";
+  const nameRequired = form?.nameRequired ?? data?.nameRequired ?? true;
+  const mobileLabel = form?.mobileLabel || data?.mobileLabel || "Mobile number";
+  const mobilePlaceholder = form?.mobilePlaceholder || data?.mobilePlaceholder || "10 digit";
+  const mobileRequired = form?.mobileRequired ?? data?.mobileRequired ?? true;
+  const cityLabel = form?.cityLabel || data?.cityLabel || "City";
+  const cityPlaceholder = form?.cityPlaceholder || data?.cityPlaceholder || "Mumbai";
+  const cityRequired = form?.cityRequired ?? data?.cityRequired ?? true;
+  const dropdownLabel = form?.dropdownLabel || data?.dropdownLabel || "What you have";
+  const dropdownRequired = form?.dropdownRequired ?? data?.dropdownRequired ?? false;
+  const rawDropdownOptions = form?.dropdownOptions || data?.dropdownOptions;
+  const dropdownOptions: string[] = useMemo(() => {
+    if (typeof rawDropdownOptions === "string") {
+      const parsed = rawDropdownOptions
+        .split(/[\n,]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return parsed.length > 0 ? parsed : ["Petrol Pump", "Warehouse", "Land"];
+    }
+    if (Array.isArray(rawDropdownOptions) && rawDropdownOptions.length > 0) {
+      return rawDropdownOptions;
+    }
+    return ["Petrol Pump", "Warehouse", "Land"];
+  }, [rawDropdownOptions]);
+  const ctaLabel = form?.ctaLabel || data?.ctaLabel || "Send enquiry";
+  const privacyNotice = form?.privacyNotice || data?.privacyNotice || "Euler Motors may contact me about this enquiry.";
+  const disclaimer = form?.disclaimer || data?.disclaimer || "We never share your number with anyone else. No spam calls.";
+
+  const [whatYouHave, setWhatYouHave] = useState(dropdownOptions[0] || "Warehouse");
 
   // Prevent typing numbers in character-only fields (Name & City)
   const handleCharacterOnlyKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -301,12 +383,16 @@ export default function ChargingStationNextStep() {
     return val.replace(/[^a-zA-Z\s\-'.]/g, "");
   };
 
+  const bgImageSrc = data?.backgroundImage
+    ? mediaUrl(data.backgroundImage, `${asset}background.webp`)
+    : `${asset}background.webp`;
+
   return (
     <section className="relative isolate mx-auto flex h-auto w-full max-w-[1440px] flex-col items-stretch overflow-hidden bg-white p-0 lg:h-[611px] lg:flex-row lg:items-end lg:justify-between lg:px-20 lg:pt-16 lg:pb-[42px]">
       <div className="pointer-events-none absolute left-[72px] top-[189.55px] -z-10 hidden h-[441px] w-[631px] lg:block" aria-hidden="true">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src={`${asset}background.png`}
+            src={bgImageSrc}
             alt=""
             fill
             sizes="631px"
@@ -332,25 +418,26 @@ export default function ChargingStationNextStep() {
       {/* Desktop Layout */}
       <div className="relative z-10 hidden h-full min-w-0 flex-1 flex-col items-start justify-between lg:flex">
         <div className="flex flex-col items-start gap-4 text-[#121212]">
-          <NextStepBadge />
+          <NextStepBadge text={eyebrow} />
           <div className="flex flex-col gap-4">
             <h2 className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px]">
-              Host a charging point.
+              {title}
             </h2>
             <p className="max-w-[474px] font-sans text-[16px] leading-normal">
-              Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging
-              point and earn from it.
+              {description}
             </p>
           </div>
         </div>
 
         <div className="relative flex flex-wrap items-start gap-[10px]">
-          <ContactCard icon="phone.svg" title="1800 000 0000" detail="9 am to 8 pm Monday to Saturday" />
-          <ContactCard
-            icon="email.svg"
-            title="partners@eulermotors.com"
-            detail="For charging and depot partners"
-          />
+          {cards.slice(0, 2).map((card, i) => (
+            <ContactCard
+              key={card.id || i}
+              icon={card.icon}
+              title={card.title}
+              detail={card.detail}
+            />
+          ))}
         </div>
       </div>
 
@@ -358,44 +445,48 @@ export default function ChargingStationNextStep() {
       <div className="relative z-10 hidden w-[517px] shrink-0 flex-col justify-center gap-8 rounded-2xl bg-[#f3f4f5] p-8 lg:flex lg:h-[465.47px]">
         <div className="flex flex-col gap-3 text-[#121212]">
           <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px]">
-            Book a test drive
+            {formHeading}
           </h3>
           <p className="font-sans text-[16px] leading-normal">
-            Two steps. We call you within one working day.
+            {formSubheading}
           </p>
         </div>
 
         <form className="flex flex-col gap-8">
           <div className="flex gap-3 max-[480px]:flex-col">
             <InputField
-              label="Name *"
-              placeholder="Full name"
+              label={nameLabel}
+              placeholder={namePlaceholder}
               value={name}
+              required={nameRequired}
               onChange={(e) => setName(sanitizeCharactersOnly(e.target.value))}
               onKeyDown={handleCharacterOnlyKeyDown}
             />
             <InputField
-              label="Mobile number *"
-              placeholder="10 digit"
+              label={mobileLabel}
+              placeholder={mobilePlaceholder}
               type="tel"
               maxLength={10}
               value={mobile}
+              required={mobileRequired}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
               onKeyDown={handleNumberOnlyKeyDown}
             />
           </div>
           <div className="flex gap-3 max-[480px]:flex-col">
             <InputField
-              label="City *"
-              placeholder="Mumbai"
+              label={cityLabel}
+              placeholder={cityPlaceholder}
               value={city}
+              required={cityRequired}
               onChange={(e) => setCity(sanitizeCharactersOnly(e.target.value))}
               onKeyDown={handleCharacterOnlyKeyDown}
             />
             <CustomDropdown
-              label="What you have"
-              options={["Petrol Pump", "Warehouse", "Land"]}
+              label={dropdownLabel}
+              options={dropdownOptions}
               value={whatYouHave}
+              required={dropdownRequired}
               onChange={setWhatYouHave}
             />
           </div>
@@ -404,13 +495,13 @@ export default function ChargingStationNextStep() {
               type="checkbox"
               className="size-5 shrink-0 appearance-none rounded-full border border-[#0c1530] bg-[rgba(12,21,48,0.04)] checked:bg-[#0c2c66]"
             />
-            <span>Euler Motors may contact me about this enquiry.</span>
+            <span>{privacyNotice}</span>
           </label>
           <Link
             href="/products"
             className="flex h-[50.477px] w-fit items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 font-display text-[16px] font-semibold leading-none text-white hover:bg-black transition-colors"
           >
-            Send enquiry
+            {ctaLabel}
             <Image src={`${asset}arrow.svg`} alt="" width={22} height={14} aria-hidden="true" />
           </Link>
         </form>
@@ -441,67 +532,34 @@ export default function ChargingStationNextStep() {
             </p>
           </div>
           <h2 className="font-display text-[28px] sm:text-[34px] font-semibold leading-[1.15] text-[#121212] tracking-[-0.56px] w-full">
-            Tell us what you need!
+            {mobileTitle}
           </h2>
           <p className="font-sans text-[12px] sm:text-[14px] leading-normal text-[#121212] w-full">
-            We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.
+            {mobileDescription}
           </p>
         </div>
         <div className="flex flex-col gap-4 items-center w-full">
           <div className="relative w-full rounded-2xl bg-[#f3f4f5] p-4 sm:p-6 flex flex-col justify-center items-center gap-3 sm:gap-4 shrink-0">
             <div className="flex flex-col gap-[6px] items-start relative shrink-0 text-[#121212] w-full">
               <p className="font-sans font-bold leading-[1.15] relative shrink-0 text-[20px] sm:text-[24px] tracking-[-0.48px]">
-                Book a test drive
+                {formHeading}
               </p>
               <p className="font-sans text-[12px] sm:text-[13px] leading-normal text-[#121212]">
-                Two steps. We call you within one working day.
+                {formSubheading}
               </p>
-            </div>
-            <div className="flex gap-2 sm:gap-3 items-center relative shrink-0 w-full">
-              <button
-                type="button"
-                className={`flex flex-1 items-center justify-center h-8 sm:h-9 px-3 py-1.5 rounded-full cursor-pointer transition-colors ${
-                  activeTab === "Test drive" ? "bg-[#0c2c66] text-white" : "backdrop-blur-[10px] bg-white/80 border border-white/50 text-[#121212]"
-                }`}
-                onClick={() => setActiveTab("Test drive")}
-              >
-                <span className="font-display font-semibold text-[12px] sm:text-[13px] whitespace-nowrap">
-                  Test drive
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`flex flex-1 items-center justify-center h-8 sm:h-9 px-3 py-1.5 rounded-full cursor-pointer transition-colors ${
-                  activeTab === "Price Enquiry" ? "bg-[#0c2c66] text-white" : "backdrop-blur-[10px] bg-white/80 border border-white/50 text-[#121212]"
-                }`}
-                onClick={() => setActiveTab("Price Enquiry")}
-              >
-                <span className="font-display font-semibold text-[12px] sm:text-[13px] whitespace-nowrap">
-                  Price Enquiry
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`flex flex-1 items-center justify-center h-8 sm:h-9 px-3 py-1.5 rounded-full cursor-pointer transition-colors ${
-                  activeTab === "Fleet" ? "bg-[#0c2c66] text-white" : "backdrop-blur-[10px] bg-white/80 border border-white/50 text-[#121212]"
-                }`}
-                onClick={() => setActiveTab("Fleet")}
-              >
-                <span className="font-display font-semibold text-[12px] sm:text-[13px] whitespace-nowrap">
-                  Fleet
-                </span>
-              </button>
             </div>
             <div className="flex gap-2 sm:gap-3 items-start relative shrink-0 w-full">
               <div className="flex flex-1 flex-col gap-1 items-start min-w-0">
                 <label className="font-sans font-medium leading-normal text-[#212125] text-[12px] whitespace-nowrap">
-                  Name *
+                  {nameLabel.replace(/\s*\*+\s*$/, "").trim()}
+                  {nameRequired ? " *" : ""}
                 </label>
                 <div className="backdrop-blur-[8.15px] bg-white border border-[#ededed] flex h-[38px] sm:h-[42px] items-center px-3.5 py-1 rounded-[8px] w-full focus-within:border-[#0e2f6d] focus-within:ring-2 focus-within:ring-[#0e2f6d]/15 transition-all">
                   <input
                     type="text"
-                    placeholder="Full name"
+                    placeholder={namePlaceholder}
                     value={name}
+                    required={nameRequired}
                     onChange={(e) => setName(sanitizeCharactersOnly(e.target.value))}
                     onKeyDown={handleCharacterOnlyKeyDown}
                     className="w-full bg-transparent font-sans font-medium text-[12px] sm:text-[13px] text-[#121212] outline-none placeholder:text-[#9ca3af]"
@@ -510,14 +568,16 @@ export default function ChargingStationNextStep() {
               </div>
               <div className="flex flex-1 flex-col gap-1 items-start min-w-0">
                 <label className="font-sans font-medium leading-normal text-[#212125] text-[12px] whitespace-nowrap">
-                  Mobile number *
+                  {mobileLabel.replace(/\s*\*+\s*$/, "").trim()}
+                  {mobileRequired ? " *" : ""}
                 </label>
                 <div className="backdrop-blur-[8.15px] bg-white border border-[#ededed] flex h-[38px] sm:h-[42px] items-center px-3.5 py-1 rounded-[8px] w-full focus-within:border-[#0e2f6d] focus-within:ring-2 focus-within:ring-[#0e2f6d]/15 transition-all">
                   <input
                     type="tel"
                     maxLength={10}
-                    placeholder="10 digit"
+                    placeholder={mobilePlaceholder}
                     value={mobile}
+                    required={mobileRequired}
                     onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
                     onKeyDown={handleNumberOnlyKeyDown}
                     className="w-full bg-transparent font-sans font-medium text-[12px] sm:text-[13px] text-[#121212] outline-none placeholder:text-[#9ca3af]"
@@ -528,13 +588,15 @@ export default function ChargingStationNextStep() {
             <div className="flex gap-2 sm:gap-3 items-start relative shrink-0 w-full">
               <div className="flex flex-1 flex-col gap-1 items-start min-w-0">
                 <label className="font-sans font-medium leading-normal text-[#212125] text-[12px] whitespace-nowrap">
-                  City *
+                  {cityLabel.replace(/\s*\*+\s*$/, "").trim()}
+                  {cityRequired ? " *" : ""}
                 </label>
                 <div className="backdrop-blur-[8.15px] bg-white border border-[#ededed] flex h-[38px] sm:h-[42px] items-center px-3.5 py-1 rounded-[8px] w-full focus-within:border-[#0e2f6d] focus-within:ring-2 focus-within:ring-[#0e2f6d]/15 transition-all">
                   <input
                     type="text"
-                    placeholder="Mumbai"
+                    placeholder={cityPlaceholder}
                     value={city}
+                    required={cityRequired}
                     onChange={(e) => setCity(sanitizeCharactersOnly(e.target.value))}
                     onKeyDown={handleCharacterOnlyKeyDown}
                     className="w-full bg-transparent font-sans font-medium text-[12px] sm:text-[13px] text-[#121212] outline-none placeholder:text-[#9ca3af]"
@@ -542,10 +604,11 @@ export default function ChargingStationNextStep() {
                 </div>
               </div>
               <CustomDropdown
-                label="What you have"
-                options={["Petrol Pump", "Warehouse", "Land"]}
+                label={dropdownLabel}
+                options={dropdownOptions}
                 value={whatYouHave}
                 onChange={setWhatYouHave}
+                required={dropdownRequired}
                 isMobile
               />
             </div>
@@ -555,7 +618,7 @@ export default function ChargingStationNextStep() {
                 className="bg-[#121212] cursor-pointer flex w-full gap-2 h-[44px] sm:h-[48px] items-center justify-center px-5 rounded-[4px] hover:bg-black transition-colors"
               >
                 <span className="font-display font-semibold text-[13px] sm:text-[14px] text-white whitespace-nowrap">
-                  Continue
+                  {ctaLabel}
                 </span>
                 <div className="h-[12px] relative shrink-0 w-[18px]">
                   <Image
@@ -567,74 +630,52 @@ export default function ChargingStationNextStep() {
                 </div>
               </Link>
               <p className="font-sans font-medium leading-normal text-[#121212] text-[11px] sm:text-[12px] text-center w-full">
-                We never share your number with anyone else. No spam calls.
+                {disclaimer}
               </p>
             </div>
           </div>
           <div className="flex flex-col gap-2.5 sm:gap-3 items-stretch w-full shrink-0">
-            <div className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3">
-              <div className="bg-[#0c2c66] relative rounded-[6px] sm:rounded-lg shrink-0 size-[42px] sm:size-[46px] flex items-center justify-center">
-                <div className="relative size-[18px]">
-                  <Image
-                    src="/assets/about-euler/next-step-phone.svg"
-                    alt=""
-                    fill
-                    className="object-contain"
-                  />
+            {cards.map((card, i) => {
+              const isLocation = card.icon === "location" || card.icon.includes("location");
+              const iconAsset = isLocation
+                ? "/assets/about-euler/next-step-location.svg"
+                : card.icon === "phone" || card.icon.includes("phone")
+                ? "/assets/about-euler/next-step-phone.svg"
+                : "/assets/about-euler/next-step-email.svg";
+
+              const content = (
+                <div className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3 hover:bg-[#e9ebed] transition-colors">
+                  <div className="bg-[#0c2c66] relative rounded-[6px] sm:rounded-lg shrink-0 size-[42px] sm:size-[46px] flex items-center justify-center">
+                    <div className="relative size-[18px]">
+                      <Image
+                        src={iconAsset}
+                        alt=""
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-0.5 items-start justify-center leading-[1.2] text-[#121212]">
+                    <p className="font-sans font-bold text-[14px] sm:text-[15px] tracking-[-0.28px]">
+                      {card.title}
+                    </p>
+                    <p className="font-sans font-medium text-[12px] tracking-[-0.24px] text-[#5c6675]">
+                      {card.detail}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col gap-0.5 items-start justify-center leading-[1.2] text-[#121212]">
-                <p className="font-sans font-bold text-[14px] sm:text-[15px] tracking-[-0.28px]">
-                  1800 000 0000
-                </p>
-                <p className="font-sans font-medium text-[12px] tracking-[-0.24px] text-[#5c6675]">
-                  9 am to 8 pm Monday to Saturday
-                </p>
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3">
-              <div className="bg-[#0c2c66] relative rounded-[6px] sm:rounded-lg shrink-0 size-[42px] sm:size-[46px] flex items-center justify-center">
-                <div className="relative size-[18px]">
-                  <Image
-                    src="/assets/about-euler/next-step-email.svg"
-                    alt=""
-                    fill
-                    className="object-contain"
-                  />
+              );
+
+              return isLocation ? (
+                <Link key={card.id || i} href="/dealer-locator" className="w-full">
+                  {content}
+                </Link>
+              ) : (
+                <div key={card.id || i} className="w-full">
+                  {content}
                 </div>
-              </div>
-              <div className="flex flex-col gap-0.5 items-start justify-center leading-[1.2] text-[#121212]">
-                <p className="font-sans font-bold text-[14px] sm:text-[15px] tracking-[-0.28px]">
-                  fleet@eulermotors.com
-                </p>
-                <p className="font-sans font-medium text-[12px] tracking-[-0.24px] text-[#5c6675]">
-                  For fleets over 50 vehicles
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/dealer-locator"
-              className="flex w-full items-center gap-3 rounded-[8px] sm:rounded-xl bg-[#f3f4f5] p-2.5 sm:p-3 hover:bg-[#e9ebed] transition-colors"
-            >
-              <div className="bg-[#0c2c66] relative rounded-[6px] sm:rounded-lg shrink-0 size-[42px] sm:size-[46px] flex items-center justify-center">
-                <div className="relative size-[18px]">
-                  <Image
-                    src="/assets/about-euler/next-step-location.svg"
-                    alt=""
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-0.5 items-start justify-center leading-[1.2] text-[#121212]">
-                <p className="font-sans font-bold text-[14px] sm:text-[15px] tracking-[-0.28px]">
-                  Find your nearest dealer
-                </p>
-                <p className="font-sans font-medium text-[12px] tracking-[-0.24px] text-[#5c6675]">
-                  112 locations, 24 states
-                </p>
-              </div>
-            </Link>
+              );
+            })}
           </div>
         </div>
       </div>

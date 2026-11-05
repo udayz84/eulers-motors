@@ -239,6 +239,56 @@ export async function seedStrapi(strapi: any) {
       'Priya Sharma'
     );
 
+    // Charging Station & Partners WebP Assets
+    const chargingFaqMapId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/charging-station-faq/location-map-hq.webp',
+      'charging-faq-location-map-hq.webp',
+      'Euler Charging Station Network Map'
+    );
+    const chargingContactBgId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/charging-station-next-step/background.webp',
+      'charging-contact-background.webp',
+      'Euler Commercial Vehicle Interior'
+    );
+    const dealerContactBgId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/dealer-contact/background.webp',
+      'dealer-contact-background.webp',
+      'Euler Showroom Commercial Vehicle Interior'
+    );
+    const partnerQrgId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/partners-investors/qrg.webp',
+      'partner-qrg.webp',
+      'QRG'
+    );
+    const partnerMoglixId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/partners-investors/moglix.webp',
+      'partner-moglix.webp',
+      'Moglix'
+    );
+    const partnerJettyId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/partners-investors/jetty.webp',
+      'partner-jetty.webp',
+      'JETTY Ventures'
+    );
+    const partnerBlumeId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/partners-investors/blume.webp',
+      'partner-blume.webp',
+      'BLUME'
+    );
+    const partnerGicId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/partners-investors/gic.webp',
+      'partner-gic.webp',
+      'GIC'
+    );
+
     // 1. Seed Customer Reviews (Reused by Home Page, Products, and Technology Pages)
     const existingReviews = await strapi.documents('api::review.review').findMany();
     const reviewIds: string[] = [];
@@ -618,12 +668,8 @@ export async function seedStrapi(strapi: any) {
         enterpriseTitle: 'Need 50+ vehicles?',
         enterpriseDesc:
           'We assess your business needs and recommend the right vehicle for your operations.',
-        enterpriseBullets: [
-          'Vehicle recommendations for your business',
-          'Charging setup at your warehouse',
-          'Spare parts support',
-          'Dedicated account manager',
-        ],
+        enterpriseBullets:
+          'Vehicle recommendations for your business\nCharging setup at your warehouse\nSpare parts support\nDedicated account manager',
         enterpriseCta: {
           label: 'Talk to our team',
           href: '/products',
@@ -654,8 +700,69 @@ export async function seedStrapi(strapi: any) {
         form: {
           heading: 'What are you looking for?',
           subheading: 'Two steps. We call you within one working day.',
-          options: ['Test drive', 'Price enquiry', 'Fleet solutions'],
-          ctaLabel: 'Submit enquiry',
+          vehicleOptions:
+            'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
+          tabs: [
+            {
+              tabTitle: 'Test drive',
+              nameLabel: 'Name',
+              namePlaceholder: 'Full name',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Kilometres per day',
+              customFieldPlaceholder: '150',
+              customFieldRequired: true,
+              ctaLabel: 'Confirm test drive',
+            },
+            {
+              tabTitle: 'Price enquiry',
+              nameLabel: 'Name',
+              namePlaceholder: 'Full name',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Quantity of vehicles',
+              customFieldPlaceholder: '5',
+              customFieldRequired: true,
+              ctaLabel: 'Get price list',
+            },
+            {
+              tabTitle: 'Fleet solutions',
+              nameLabel: 'Company name',
+              namePlaceholder: 'Company',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Fleet size',
+              customFieldPlaceholder: 'Number of vehicles',
+              customFieldRequired: true,
+              ctaLabel: 'Talk to our fleet team',
+            },
+          ],
+          privacyNotice:
+            'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
           disclaimer: 'We never share your number with anyone else. No spam calls.',
         },
       },
@@ -933,29 +1040,219 @@ export async function seedStrapi(strapi: any) {
       serviceCenterIds.push(doc.documentId);
     }
 
+    const CHARGING_POINT_FAQS = [
+      // 1. General
+      {
+        question: 'What makes Euler Motors different from other commercial EV manufacturers?',
+        answer: 'Euler Motors focuses on electric commercial vehicles designed for Indian business operations, combining high payload capacity, real-world range, connected technology, and reliable charging and service support.',
+        category: 'General',
+        order: 1,
+      },
+      {
+        question: 'Which Euler electric goods vehicles can I choose from?',
+        answer: 'Euler Motors’ current product portfolio is divided into two categories: 4-wheelers (4W) and 3-wheelers (3W). The 4W category includes the Turbo EV 1000, Storm EV LongRange 200, and Storm EV T1500, while the 3W category comprises the HiLoad EV. Each vehicle is designed to meet different cargo and operational requirements.',
+        category: 'General',
+        order: 2,
+      },
+      {
+        question: 'How can I calculate whether an Euler EV will be profitable for my business?',
+        answer: 'Use the Total Cost of Ownership (TCO) Calculator on the website. Enter your vehicle choice, daily distance and ownership period to compare estimated operating economics. Actual results depend on your inputs and operating conditions.',
+        category: 'General',
+        order: 3,
+      },
+      {
+        question: 'How can I find the right Euler vehicle for my business needs?',
+        answer: 'Share your daily running distance, load requirements and delivery routes with the Euler Motors team. You can also book a test drive to assess which vehicle best suits your business.',
+        category: 'General',
+        order: 4,
+      },
+      {
+        question: 'How can I find charging stations or get service support for my Euler vehicle?',
+        answer: 'Use the Charging Station Locator to find charging points near you. For service-related assistance and vehicle queries, explore Euler Prime or contact the customer support team.',
+        category: 'General',
+        order: 5,
+      },
+      {
+        question: 'How can I contact Euler Motors for sales or service support?',
+        answer: 'For new vehicle enquiries, call 1800-1238-1238. For service complaints, call 1800-2128-2128 or email customer.help@eulermotors.com',
+        category: 'General',
+        order: 6,
+      },
+
+      // 2. Vehicles
+      {
+        question: 'Which Euler EV is suitable for carrying loads of approximately one tonne?',
+        answer: 'The Euler Turbo EV 1000 is designed for commercial cargo operations with a payload capacity of approximately 1,000 kg. It is suitable for businesses involved in deliveries, logistics and goods transportation. Explore its specifications to check whether it meets your load capacity, range and operational requirements.',
+        category: 'Vehicles',
+        order: 7,
+      },
+      {
+        question: 'Which Euler vehicle should I consider for heavier cargo?',
+        answer: 'The Storm EV LR200 and Storm EV T1500 both offer a payload capacity of up to 1,500 kg. The LR200 offers a 200+ km real-world range and a 10-foot load deck, while the T1500 offers a 140+ km real-world range and 220 or 260 cu. ft. cargo options. Choose based on your typical load, daily distance and cargo-space requirements.',
+        category: 'Vehicles',
+        order: 8,
+      },
+      {
+        question: 'What is the advertised real-world range of Euler’s current goods vehicles?',
+        answer: 'Euler Motors’ RealRange™ claims are based on certified payload and driving behaviour under real-world test conditions. The listed ranges are 180+ km* for the Turbo EV 1000, 200+ km* for the Storm EV LongRange200 and 140+ km* for the Storm EV T1500. Actual range may vary depending on load, driving behaviour and operating conditions.',
+        category: 'Vehicles',
+        order: 9,
+      },
+      {
+        question: 'How do I choose between Storm EV LongRange200 and Storm EV T1500?',
+        answer: 'Compare both vehicles based on RealRange™, deck length, charging infrastructure available on your routes, ground clearance and battery capacity. The Storm EV LongRange200 offers a listed RealRange™ of 200+ km*, while the Storm EV T1500 offers 140+ km*. Both are listed with a payload capacity of up to 1,500 kg. Consider your daily travel distance, cargo dimensions, road conditions and charging access before deciding.',
+        category: 'Vehicles',
+        order: 10,
+      },
+      {
+        question: 'Can I book a test drive before purchasing an Euler vehicle?',
+        answer: 'Yes. Use the Book a Test Ride page to submit an enquiry and connect with the team about a test drive near you.',
+        category: 'Vehicles',
+        order: 11,
+      },
+      {
+        question: 'Where can I find the detailed specifications of an Euler vehicle?',
+        answer: 'Visit the relevant product page or download the official brochure from Euler Motors for model-specific features and specifications.',
+        category: 'Vehicles',
+        order: 12,
+      },
+
+      // 3. Charging
+      {
+        question: 'Where can I find an Euler-compatible charging station near me?',
+        answer: 'Use the Charging Network locator or Shepherd App to search for nearby stations, check location information and navigate to a selected charging point.',
+        category: 'Charging',
+        order: 13,
+      },
+      {
+        question: 'How much range can I add in 15 minutes at an Euler fast charger?',
+        answer: 'Euler Motors offers two fast-charging connector options: CCS2 and GB/T. The range added in 15 minutes varies by vehicle and connector type:\n- CCS2: Turbo EV 1000 adds up to 50 km, while Storm EV LongRange200 adds up to 100 km.\n- GB/T: Storm EV T1500 adds up to 50 km.\nActual range gained may vary depending on charging conditions, battery state of charge and operating conditions.',
+        category: 'Charging',
+        order: 14,
+      },
+      {
+        question: 'Can I charge my Euler goods vehicle at home, at my shop or at my warehouse?',
+        answer: 'Euler lists onboard charging for home charging. The vehicle’s charger specifications and your electrical setup determine what installation or connection is suitable. Confirm the requirements for your particular model.',
+        category: 'Charging',
+        order: 15,
+      },
+      {
+        question: 'Which public charging connectors are supported by Euler vehicles?',
+        answer: 'Euler Motors offers two public fast-charging connector options: CCS2 and GB/T. Compatibility varies by vehicle model, so check your vehicle’s specifications and the charging station’s connector type before charging.',
+        category: 'Charging',
+        order: 16,
+      },
+      {
+        question: 'How do I plan charging stops for my delivery fleet?',
+        answer: 'Use the charging locator and Shepherd App to identify stations around your routes. Factor in daily distance, load, charging time and operating schedules when planning stops.',
+        category: 'Charging',
+        order: 17,
+      },
+      {
+        question: 'Who are Euler Motors’ charging network partners?',
+        answer: 'Euler motors have charging network partners in multiple domains such as CPO, Charger manufacturers and Aggregators. This includes TATA Power EZ, Jio bp, Kazam, Delta Electronics, Exicom, Statiq, Pulse Energy, Spotcharge and more. Euler motors Shepherd application provides charging station locator for stations available at your route.',
+        category: 'Charging',
+        order: 18,
+      },
+
+      // 4. Service
+      {
+        question: 'What is Euler Prime?',
+        answer: 'Euler Prime is Euler Motors’ doorstep service solution, bringing trained technicians and vehicle servicing directly to your location to help minimise downtime and keep your business moving.',
+        category: 'Service',
+        order: 19,
+      },
+      {
+        question: 'Can Euler Motors service my vehicle at my warehouse/shop/store?',
+        answer: 'Euler Prime is designed to bring service to your location. Contact Euler’s service team to confirm coverage and arrange support for your vehicle at warehouse/shop/store.',
+        category: 'Service',
+        order: 20,
+      },
+      {
+        question: 'How do I request repair or maintenance support through Shepherd?',
+        answer: 'Euler describes the Shepherd App as a way to request repair and maintenance support. Its connected features also include maintenance alerts and vehicle performance information.',
+        category: 'Service',
+        order: 21,
+      },
+      {
+        question: 'How do I find the nearest authorised Euler service centre?',
+        answer: 'Visit the Service Network page and search by city to find listed centres and their contact details.',
+        category: 'Service',
+        order: 22,
+      },
+      {
+        question: 'How do I report a service complaint?',
+        answer: 'Call Euler Motors’ service complaints helpline at 1800-2128-2128, or contact customer.help@eulermotors.com',
+        category: 'Service',
+        order: 23,
+      },
+      {
+        question: 'Where can I check my Euler vehicle’s battery warranty?',
+        answer: 'Check the warranty documentation for your specific model or contact an authorised Euler representative. Warranty coverage and duration should be confirmed against the applicable vehicle terms.',
+        category: 'Service',
+        order: 24,
+      },
+    ];
+
+    strapi.log.info('[Seeder] Seeding 24 Charging Point FAQs into collection api::faq.faq...');
+    for (const faq of CHARGING_POINT_FAQS) {
+      const existing = await strapi.documents('api::faq.faq').findFirst({
+        filters: { question: faq.question },
+      });
+      if (!existing) {
+        await strapi.documents('api::faq.faq').create({
+          data: faq,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Created FAQ: "${faq.question.slice(0, 45)}..."`);
+      } else {
+        await strapi.documents('api::faq.faq').update({
+          documentId: existing.documentId,
+          data: faq,
+          status: 'published',
+        });
+        strapi.log.info(`[Seeder] Updated FAQ: "${faq.question.slice(0, 45)}..."`);
+      }
+    }
+
     const dealerLocatorPageData = {
       hero: {
         supportBadge: 'Support',
-        dealerTabTitle: 'Find your nearest dealer.',
-        dealerTabSubtitle: 'Every dealer brings the vehicle to you for a test drive.',
+        dealerTabTitle: 'Find your nearest Euler showroom',
+        dealerTabSubtitle:
+          'Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.',
         dealerSearchPlaceholder: 'Search dealers by area',
-        chargingTabTitle: 'Find a charging point.',
-        chargingTabSubtitle: '1,412 points across India, with live status on each one.',
+        chargingTabTitle: 'Find a charging station near you.',
+        chargingTabSubtitle: 'Locate nearby charging points and plan your next stop with confidence.',
         chargingSearchPlaceholder: 'Search charging points by area',
-        serviceTabTitle: 'Find a service center.',
-        serviceTabSubtitle: 'Authorized Euler service centers with genuine parts and certified experts.',
+        serviceTabTitle: 'Find a service centre near you.',
+        serviceTabSubtitle:
+          'Get the right support for your Euler vehicle, from routine maintenance to service and repairs.',
         serviceSearchPlaceholder: 'Search service centers by area',
-        cities: ['Hyderabad', 'Delhi NCR', 'Bengaluru', 'Mumbai', 'Ahmedabad', 'Kolkata'],
+        cities: 'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata',
         dealers: dealerIds,
         chargingStations: chargingStationIds,
         serviceCenters: serviceCenterIds,
       },
+      faqSection: {
+        eyebrow: 'FAQ',
+        title: 'Frequently Asked Questions',
+        image: chargingFaqMapId,
+        items: CHARGING_POINT_FAQS.map((f) => ({
+          question: f.question,
+          answer: f.answer,
+          category: f.category,
+        })),
+      },
       contactSection: {
-        eyebrow: 'Next step',
-        desktopTitle: 'Not sure which dealer to use?',
-        mobileTitle: 'Tell us what you need!',
-        desktopDescription: 'Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.',
-        mobileDescription: 'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.',
+        eyebrow: 'Need help choosing the best',
+        desktopTitle: 'Let’s find the right Euler showroom for you',
+        mobileTitle: 'Let’s find the right Euler showroom for you',
+        desktopDescription:
+          'Share your location and contact details. We’ll help you find and connect with the nearest Euler Motors showroom.',
+        mobileDescription:
+          'Share your location and contact details. We’ll help you find and connect with the nearest Euler Motors showroom.',
+        backgroundImage: dealerContactBgId,
         cards: [
           {
             icon: 'phone',
@@ -978,18 +1275,245 @@ export async function seedStrapi(strapi: any) {
         ],
         formHeading: 'Book a test drive',
         formSubheading: 'Two steps. We call you within one working day.',
-        formTabs: ['Test drive', 'Price Enquiry', 'Fleet'],
-        vehicleOptions: [
-          'Storm EV LongRange 200',
-          'Storm EV T1500',
-          'HiLoad EV',
-          'Turbo EV 1000',
-          'Neo HiRange',
-          'Neo HiCity',
+        vehicleOptions:
+          'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
+        form: {
+          heading: 'Book a test drive',
+          subheading: 'Two steps. We call you within one working day.',
+          vehicleOptions:
+            'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
+          tabs: [
+            {
+              tabTitle: 'Test drive',
+              nameLabel: 'Name',
+              namePlaceholder: 'Full name',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Kilometres per day',
+              customFieldPlaceholder: '150',
+              customFieldRequired: true,
+              ctaLabel: 'Confirm test drive',
+            },
+            {
+              tabTitle: 'Price Enquiry',
+              nameLabel: 'Name',
+              namePlaceholder: 'Full name',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Quantity of vehicles',
+              customFieldPlaceholder: '5',
+              customFieldRequired: true,
+              ctaLabel: 'Get price list',
+            },
+            {
+              tabTitle: 'Fleet',
+              nameLabel: 'Company name',
+              namePlaceholder: 'Company',
+              nameRequired: true,
+              phoneLabel: 'Mobile number',
+              phonePlaceholder: '10 digit',
+              phoneRequired: true,
+              vehicleLabel: 'Which vehicle',
+              vehiclePlaceholder: 'Not sure, please suggest one',
+              vehicleRequired: true,
+              cityLabel: 'City',
+              cityPlaceholder: 'Mumbai',
+              cityRequired: true,
+              customFieldLabel: 'Fleet size',
+              customFieldPlaceholder: 'Number of vehicles',
+              customFieldRequired: true,
+              ctaLabel: 'Talk to our fleet team',
+            },
+          ],
+          privacyNotice:
+            'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
+          disclaimer: 'We never share your number with anyone else. No spam calls.',
+        },
+        tabs: [
+          {
+            tabTitle: 'Test drive',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Kilometres per day',
+            customFieldPlaceholder: '150',
+            customFieldRequired: true,
+            ctaLabel: 'Confirm test drive',
+          },
+          {
+            tabTitle: 'Price Enquiry',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Quantity of vehicles',
+            customFieldPlaceholder: '5',
+            customFieldRequired: true,
+            ctaLabel: 'Get price list',
+          },
+          {
+            tabTitle: 'Fleet',
+            nameLabel: 'Company name',
+            namePlaceholder: 'Company',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Fleet size',
+            customFieldPlaceholder: 'Number of vehicles',
+            customFieldRequired: true,
+            ctaLabel: 'Talk to our fleet team',
+          },
         ],
-        ctaLabel: 'Confirm test drive',
-        privacyNotice: 'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
+        privacyNotice:
+          'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
         disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+      chargingContactSection: {
+        eyebrow: 'NEXT STEP',
+        title: 'Host a charging point.',
+        mobileTitle: 'Host a charging point.',
+        description:
+          'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
+        mobileDescription:
+          'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
+        backgroundImage: chargingContactBgId,
+        cards: [
+          {
+            icon: 'phone',
+            title: '1800 000 0000',
+            detail: '9 am to 8 pm Monday to Saturday',
+            mobileOrder: 'order-1',
+          },
+          {
+            icon: 'email',
+            title: 'partners@eulermotors.com',
+            detail: 'For charging and depot partners',
+            mobileOrder: 'order-2',
+          },
+          {
+            icon: 'location',
+            title: 'Find your nearest dealer',
+            detail: '112 locations, 24 states',
+            mobileOrder: 'order-3',
+          },
+        ],
+        form: {
+          heading: 'Book a test drive',
+          subheading: 'Two steps. We call you within one working day.',
+          nameLabel: 'Name',
+          namePlaceholder: 'Full name',
+          nameRequired: true,
+          mobileLabel: 'Mobile number',
+          mobilePlaceholder: '10 digit',
+          mobileRequired: true,
+          cityLabel: 'City',
+          cityPlaceholder: 'Mumbai',
+          cityRequired: true,
+          dropdownLabel: 'What you have',
+          dropdownOptions: 'Petrol Pump, Warehouse, Land',
+          dropdownRequired: false,
+          ctaLabel: 'Send enquiry',
+          privacyNotice: 'Euler Motors may contact me about this enquiry.',
+          disclaimer: 'We never share your number with anyone else. No spam calls.',
+        },
+        formHeading: 'Book a test drive',
+        formSubheading: 'Two steps. We call you within one working day.',
+        nameLabel: 'Name',
+        namePlaceholder: 'Full name',
+        nameRequired: true,
+        mobileLabel: 'Mobile number',
+        mobilePlaceholder: '10 digit',
+        mobileRequired: true,
+        cityLabel: 'City',
+        cityPlaceholder: 'Mumbai',
+        cityRequired: true,
+        dropdownLabel: 'What you have',
+        dropdownOptions: 'Petrol Pump, Warehouse, Land',
+        dropdownRequired: false,
+        ctaLabel: 'Send enquiry',
+        privacyNotice: 'Euler Motors may contact me about this enquiry.',
+        disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+      partnersSection: {
+        eyebrow: 'PARTNERS AND INVESTORS',
+        title: 'Trusted network partners',
+        partners: [
+          {
+            name: 'QRG',
+            logo: partnerQrgId,
+            logoUrl: '/assets/partners-investors/qrg.webp',
+            width: 79.834,
+            desktopWidth: 223.602,
+          },
+          {
+            name: 'Moglix',
+            logo: partnerMoglixId,
+            logoUrl: '/assets/partners-investors/moglix.webp',
+            width: 64.224,
+            desktopWidth: 179.88,
+          },
+          {
+            name: 'JETTY Ventures',
+            logo: partnerJettyId,
+            logoUrl: '/assets/partners-investors/jetty.webp',
+            width: 58.531,
+            desktopWidth: 163.934,
+          },
+          {
+            name: 'BLUME',
+            logo: partnerBlumeId,
+            logoUrl: '/assets/partners-investors/blume.webp',
+            width: 58.531,
+            desktopWidth: 163.934,
+          },
+          {
+            name: 'GIC',
+            logo: partnerGicId,
+            logoUrl: '/assets/partners-investors/gic.webp',
+            width: 58.531,
+            desktopWidth: 163.934,
+          },
+        ],
       },
       seo: {
         metaTitle: 'Find an Euler Motors Dealer, Charging Station, or Service Center Near You',
@@ -1016,6 +1540,53 @@ export async function seedStrapi(strapi: any) {
       strapi.log.info(`[Seeder] Updated Dealer Locator Page singleType successfully! (${updated.documentId})`);
     }
 
+    const chargingStationsPageData = {
+      hero: {
+        supportBadge: 'Support',
+        dealerTabTitle: 'Find your nearest Euler showroom',
+        dealerTabSubtitle:
+          'Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.',
+        dealerSearchPlaceholder: 'Search dealers by area',
+        chargingTabTitle: 'Find a charging station near you.',
+        chargingTabSubtitle: 'Locate nearby charging points and plan your next stop with confidence.',
+        chargingSearchPlaceholder: 'Search charging points by area',
+        serviceTabTitle: 'Find a service centre near you.',
+        serviceTabSubtitle:
+          'Get the right support for your Euler vehicle, from routine maintenance to service and repairs.',
+        serviceSearchPlaceholder: 'Search service centers by area',
+        cities: 'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata',
+        dealers: dealerIds,
+        chargingStations: chargingStationIds,
+        serviceCenters: serviceCenterIds,
+      },
+      partnersSection: dealerLocatorPageData.partnersSection,
+      faqSection: dealerLocatorPageData.faqSection,
+      chargingContactSection: dealerLocatorPageData.chargingContactSection,
+      seo: {
+        metaTitle: 'Find an EV Charging Point Across India | Euler Motors',
+        metaDescription: '1,412 fast charging points across India, with live status on each one.',
+        keywords: 'ev charging station, euler fast charge, commercial ev charger, ccs2 charging india',
+      },
+    };
+
+    const existingChargingPage = await strapi.documents('api::charging-stations-page.charging-stations-page').findFirst({
+      fields: ['documentId'],
+    });
+    if (!existingChargingPage) {
+      const created = await strapi.documents('api::charging-stations-page.charging-stations-page').create({
+        data: chargingStationsPageData,
+        status: 'published',
+      });
+      strapi.log.info(`[Seeder] Created Charging Stations Page singleType successfully! (${created.documentId})`);
+    } else {
+      const updated = await strapi.documents('api::charging-stations-page.charging-stations-page').update({
+        documentId: existingChargingPage.documentId,
+        data: chargingStationsPageData,
+        status: 'published',
+      });
+      strapi.log.info(`[Seeder] Updated Charging Stations Page singleType successfully! (${updated.documentId})`);
+    }
+
     // 5. Grant Public Read Permissions in users-permissions plugin
     const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
       where: { type: 'public' },
@@ -1035,12 +1606,15 @@ export async function seedStrapi(strapi: any) {
         'api::career-position.career-position.find',
         'api::career-position.career-position.findOne',
         'api::dealer-locator-page.dealer-locator-page.find',
+        'api::charging-stations-page.charging-stations-page.find',
         'api::dealer.dealer.find',
         'api::dealer.dealer.findOne',
         'api::charging-station.charging-station.find',
         'api::charging-station.charging-station.findOne',
         'api::service-center.service-center.find',
         'api::service-center.service-center.findOne',
+        'api::faq.faq.find',
+        'api::faq.faq.findOne',
         'plugin::upload.content-api.find',
         'plugin::upload.content-api.findOne',
       ];

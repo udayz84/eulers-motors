@@ -1,18 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { StrapiMedia } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
-const categories = [
-  { label: "All", count: "78" },
-  { label: "General", count: "7" },
-  { label: "Vehicles", count: "8" },
-  { label: "Charging", count: "8" },
-  { label: "Service", count: "47" },
-  { label: "Warranty", count: "8" },
-];
+export interface FaqItemData {
+  question: string;
+  answer: string;
+  category?: string;
+  categories?: string[];
+  order?: number;
+}
 
-const questions = [
+export interface ChargingStationFaqProps {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  items?: FaqItemData[];
+  image?: StrapiMedia | string;
+}
+
+const defaultQuestions: FaqItemData[] = [
   {
     question: "How long does it take to fully charge an EV?",
     answer:
@@ -51,7 +60,7 @@ const questions = [
   },
 ];
 
-function FaqBadge() {
+function FaqBadge({ text = "FAQ" }: { text?: string }) {
   return (
     <div className="relative flex h-[20.355px] items-center gap-[6px]">
       <Image
@@ -71,13 +80,23 @@ function FaqBadge() {
         />
       </span>
       <span className="relative font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0e2f6d]">
-        FAQ
+        {text}
       </span>
     </div>
   );
 }
 
-export default function ChargingStationFaq() {
+export default function ChargingStationFaq({
+  eyebrow = "FAQ",
+  title = "Frequently asked questions",
+  subtitle = "Find answers to the most common questions about our vehicles, charging, service, warranty and more.",
+  items,
+  image,
+}: ChargingStationFaqProps = {}) {
+  const faqImageSrc = image
+    ? mediaUrl(image, "/assets/charging-station-faq/location-map-hq.webp")
+    : "/assets/charging-station-faq/location-map-hq.webp";
+
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [openQuestion, setOpenQuestion] = useState<number | null>(1);
   const listRef = useRef<HTMLDivElement>(null);
@@ -89,12 +108,56 @@ export default function ChargingStationFaq() {
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(true);
 
-  const visibleQuestions =
-    selectedCategory === "All"
-      ? questions
-      : questions.filter(({ categories: questionCategories }) =>
-          questionCategories.includes(selectedCategory)
-        );
+  const allItems = useMemo(() => {
+    return items && items.length > 0 ? items : defaultQuestions;
+  }, [items]);
+
+  // Dynamically compute categories and counts based on provided questions
+  const categories = useMemo(() => {
+    const catMap = new Map<string, number>();
+    for (const item of allItems) {
+      const cats =
+        Array.isArray(item.categories) && item.categories.length > 0
+          ? item.categories
+          : item.category
+          ? [item.category]
+          : ["General"];
+      for (const c of cats) {
+        catMap.set(c, (catMap.get(c) || 0) + 1);
+      }
+    }
+
+    const preferredOrder = ["General", "Vehicles", "Charging", "Service", "Warranty"];
+    const orderedCats: { label: string; count: string }[] = [
+      { label: "All", count: String(allItems.length) },
+    ];
+
+    for (const p of preferredOrder) {
+      if (catMap.has(p)) {
+        orderedCats.push({ label: p, count: String(catMap.get(p)) });
+        catMap.delete(p);
+      }
+    }
+
+    for (const [cat, count] of Array.from(catMap.entries())) {
+      orderedCats.push({ label: cat, count: String(count) });
+    }
+
+    return orderedCats;
+  }, [allItems]);
+
+  const visibleQuestions = useMemo(() => {
+    if (selectedCategory === "All") return allItems;
+    return allItems.filter((item) => {
+      const cats =
+        Array.isArray(item.categories) && item.categories.length > 0
+          ? item.categories
+          : item.category
+          ? [item.category]
+          : ["General"];
+      return cats.includes(selectedCategory);
+    });
+  }, [allItems, selectedCategory]);
 
   const updateScrollbar = useCallback(() => {
     const list = listRef.current;
@@ -183,17 +246,16 @@ export default function ChargingStationFaq() {
         {/* Left Column: Heading, Categories & Map */}
         <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
           <div className="flex w-full flex-col items-start">
-            <FaqBadge />
+            <FaqBadge text={eyebrow} />
             <div className="mt-4 flex flex-col gap-3 text-[#121212] sm:gap-4">
               <h2
                 id="charging-faq-title"
                 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] sm:text-[34px] sm:tracking-[-0.68px] lg:text-[40px] lg:tracking-[-0.8px] xl:text-[42px] xl:tracking-[-0.84px]"
               >
-                Frequently asked questions
+                {title}
               </h2>
               <p className="max-w-[474px] font-sans text-[14px] leading-normal sm:text-[15px] lg:text-[16px] text-[#121212]/80">
-                Find answers to the most common questions about our vehicles,
-                charging, service, warranty and more.
+                {subtitle}
               </p>
             </div>
           </div>
@@ -260,7 +322,7 @@ export default function ChargingStationFaq() {
             className="relative w-full flex-none self-stretch overflow-hidden rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
           >
             <Image
-              src="/assets/charging-station-faq/location-map-hq.jpg"
+              src={faqImageSrc}
               alt="Euler charging station location network map"
               fill
               sizes="(min-width: 1024px) 587px, (min-width: 768px) calc(100vw - 64px), (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)"
@@ -322,7 +384,7 @@ export default function ChargingStationFaq() {
                   </button>
                   <div className="accordion-grid" data-open={expanded}>
                     <div className="accordion-inner">
-                      <p className="mt-3 font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
+                      <p className="mt-3 font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3 whitespace-pre-line">
                         {faq.answer}
                       </p>
                     </div>

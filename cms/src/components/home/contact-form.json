@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Contact Form",
     "icon": "mail",
-    "description": "Configurable contact form card"
+    "description": "Configurable contact form card with internally grouped tabs"
   },
   "options": {},
   "attributes": {
@@ -15,12 +15,18 @@
       "type": "string",
       "default": "Two steps. We call you within one working day."
     },
-    "options": {
-      "type": "json"
+    "vehicleOptions": {
+      "type": "text",
+      "default": "Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity"
     },
-    "ctaLabel": {
+    "tabs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.form-tab"
+    },
+    "privacyNotice": {
       "type": "string",
-      "default": "Submit enquiry"
+      "default": "Euler Motors and its dealers may contact me about this enquiry. Privacy policy."
     },
     "disclaimer": {
       "type": "string",
@@ -28,4 +34,3 @@
     }
   }
 }
-

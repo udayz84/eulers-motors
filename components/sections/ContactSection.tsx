@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
+import { HomeContactFormData } from "@/types/strapi";
 
 /** Vehicles listed on the page (navbar Product menu / showcase) */
-const VEHICLES = [
+const DEFAULT_VEHICLES = [
   "Storm EV LongRange 200",
   "Storm EV T1500",
   "HiLoad EV",
@@ -21,14 +22,6 @@ export interface ContactItem {
   sub: string;
 }
 
-export interface ContactFormData {
-  heading?: string;
-  subheading?: string;
-  options?: string[];
-  ctaLabel?: string;
-  disclaimer?: string;
-}
-
 export interface ContactSectionProps {
   eyebrow?: string;
   title?: string;
@@ -36,48 +29,12 @@ export interface ContactSectionProps {
   phone?: string;
   email?: string;
   contacts?: ContactItem[];
-  form?: ContactFormData;
+  form?: HomeContactFormData;
   formHeading?: string;
   formSubheading?: string;
-  formOptions?: string[];
   formCtaLabel?: string;
   formDisclaimer?: string;
 }
-
-const getTabConfig = (tabName: string) => {
-  const lower = (tabName || "").toLowerCase();
-  if (lower.includes("fleet")) {
-    return {
-      fields: [
-        ["Company name *", "Company"],
-        ["Mobile number *", "10 digit"],
-      ] as [string, string][],
-      secondRow: ["City *", "Mumbai"] as [string, string],
-      thirdField: ["Fleet size *", "Number of vehicles"] as [string, string],
-      vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
-    };
-  }
-  if (lower.includes("price")) {
-    return {
-      fields: [
-        ["Name *", "Full name"],
-        ["Mobile number *", "10 digit"],
-      ] as [string, string][],
-      secondRow: ["City *", "Mumbai"] as [string, string],
-      thirdField: ["Quantity of vehicles *", "5"] as [string, string],
-      vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
-    };
-  }
-  return {
-    fields: [
-      ["Name *", "Full name"],
-      ["Mobile number *", "10 digit"],
-    ] as [string, string][],
-    secondRow: ["City *", "Mumbai"] as [string, string],
-    thirdField: ["Kilometres per day *", "150"] as [string, string],
-    vehicleSelect: ["Which vehicle *", "Not sure, please suggest one"] as [string, string],
-  };
-};
 
 export default function ContactSection({
   eyebrow = "Next step",
@@ -89,23 +46,132 @@ export default function ContactSection({
   form,
   formHeading,
   formSubheading,
-  formOptions,
   formCtaLabel,
   formDisclaimer,
 }: ContactSectionProps = {}) {
   const effectiveHeading = form?.heading || formHeading || "What are you looking for?";
   const effectiveSubheading = form?.subheading || formSubheading || "Two steps. We call you within one working day.";
-  const rawOptions = form?.options || formOptions;
-  const effectiveOptions: string[] =
-    Array.isArray(rawOptions) && rawOptions.length > 0
-      ? rawOptions
-      : ["Test drive", "Price enquiry", "Fleet solutions"];
-  const effectiveCtaLabel = form?.ctaLabel || formCtaLabel || "Submit enquiry";
   const effectiveDisclaimer =
     form?.disclaimer || formDisclaimer || "We never share your number with anyone else. No spam calls.";
+  const effectivePrivacyNotice =
+    form?.privacyNotice || "Euler Motors and its dealers may contact me about this enquiry. Privacy policy.";
 
-  const [tab, setTab] = useState<string>(effectiveOptions[0] || "Test drive");
-  const activeConfig = getTabConfig(tab);
+  // Vehicle options parsing: supports comma-separated string or array
+  const activeVehicles = useMemo(() => {
+    const raw = form?.vehicleOptions;
+    if (typeof raw === "string") {
+      const parsed = raw
+        .split(/[\n,]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return parsed.length > 0 ? parsed : DEFAULT_VEHICLES;
+    }
+    if (Array.isArray(raw) && raw.length > 0) {
+      return raw;
+    }
+    return DEFAULT_VEHICLES;
+  }, [form?.vehicleOptions]);
+
+  // Tab configurations (supports repeatable tabs, internally grouped tab1/tab2/tab3, or flat fields)
+  const tabConfigs = useMemo(() => {
+    const rawConfigs = [
+      {
+        id: "tab1",
+        defaultTitle: "Test drive",
+        defaultField1: ["Name", "Full name"],
+        defaultField2: ["Mobile number", "10 digit"],
+        defaultVehicle: ["Which vehicle", "Not sure, please suggest one"],
+        defaultCity: ["City", "Mumbai"],
+        defaultCustom: ["Kilometres per day", "150"],
+        defaultCta: "Confirm test drive",
+      },
+      {
+        id: "tab2",
+        defaultTitle: "Price enquiry",
+        defaultField1: ["Name", "Full name"],
+        defaultField2: ["Mobile number", "10 digit"],
+        defaultVehicle: ["Which vehicle", "Not sure, please suggest one"],
+        defaultCity: ["City", "Mumbai"],
+        defaultCustom: ["Quantity of vehicles", "5"],
+        defaultCta: "Get price list",
+      },
+      {
+        id: "tab3",
+        defaultTitle: "Fleet solutions",
+        defaultField1: ["Company name", "Company"],
+        defaultField2: ["Mobile number", "10 digit"],
+        defaultVehicle: ["Which vehicle", "Not sure, please suggest one"],
+        defaultCity: ["City", "Mumbai"],
+        defaultCustom: ["Fleet size", "Number of vehicles"],
+        defaultCta: "Talk to our fleet team",
+      },
+    ];
+
+    return rawConfigs.map((cfg, idx) => {
+      const tabData =
+        (form?.tabs && form.tabs[idx]) ||
+        (idx === 0 ? form?.tab1 : idx === 1 ? form?.tab2 : form?.tab3);
+
+      const flatTitle =
+        idx === 0 ? form?.tab1Title : idx === 1 ? form?.tab2Title : form?.tab3Title;
+      const flatField1 =
+        idx === 0 ? form?.tab1NameLabel : idx === 1 ? form?.tab2NameLabel : form?.tab3NameLabel;
+      const flatField1Placeholder =
+        idx === 0 ? form?.tab1NamePlaceholder : idx === 1 ? form?.tab2NamePlaceholder : form?.tab3NamePlaceholder;
+      const flatField2 =
+        idx === 0 ? form?.tab1PhoneLabel : idx === 1 ? form?.tab2PhoneLabel : form?.tab3PhoneLabel;
+      const flatField2Placeholder =
+        idx === 0 ? form?.tab1PhonePlaceholder : idx === 1 ? form?.tab2PhonePlaceholder : form?.tab3PhonePlaceholder;
+      const flatVehicle =
+        idx === 0 ? form?.tab1VehicleLabel : idx === 1 ? form?.tab2VehicleLabel : form?.tab3VehicleLabel;
+      const flatVehiclePlaceholder =
+        idx === 0 ? form?.tab1VehiclePlaceholder : idx === 1 ? form?.tab2VehiclePlaceholder : form?.tab3VehiclePlaceholder;
+      const flatCity =
+        idx === 0 ? form?.tab1CityLabel : idx === 1 ? form?.tab2CityLabel : form?.tab3CityLabel;
+      const flatCityPlaceholder =
+        idx === 0 ? form?.tab1CityPlaceholder : idx === 1 ? form?.tab2CityPlaceholder : form?.tab3CityPlaceholder;
+      const flatCustom =
+        idx === 0 ? form?.tab1CustomLabel : idx === 1 ? form?.tab2CustomLabel : form?.tab3CustomLabel;
+      const flatCustomPlaceholder =
+        idx === 0 ? form?.tab1CustomPlaceholder : idx === 1 ? form?.tab2CustomPlaceholder : form?.tab3CustomPlaceholder;
+      const flatCta =
+        idx === 0 ? form?.tab1CtaLabel : idx === 1 ? form?.tab2CtaLabel : form?.tab3CtaLabel;
+
+      return {
+        id: cfg.id,
+        title: tabData?.tabTitle || flatTitle || cfg.defaultTitle,
+        field1: [
+          tabData?.nameLabel || flatField1 || cfg.defaultField1[0],
+          tabData?.namePlaceholder || flatField1Placeholder || cfg.defaultField1[1],
+        ] as [string, string],
+        field1Required: tabData?.nameRequired ?? true,
+        field2: [
+          tabData?.phoneLabel || flatField2 || cfg.defaultField2[0],
+          tabData?.phonePlaceholder || flatField2Placeholder || cfg.defaultField2[1],
+        ] as [string, string],
+        field2Required: tabData?.phoneRequired ?? true,
+        vehicleSelect: [
+          tabData?.vehicleLabel || flatVehicle || cfg.defaultVehicle[0],
+          tabData?.vehiclePlaceholder || flatVehiclePlaceholder || cfg.defaultVehicle[1],
+        ] as [string, string],
+        vehicleRequired: tabData?.vehicleRequired ?? true,
+        city: [
+          tabData?.cityLabel || flatCity || cfg.defaultCity[0],
+          tabData?.cityPlaceholder || flatCityPlaceholder || cfg.defaultCity[1],
+        ] as [string, string],
+        cityRequired: tabData?.cityRequired ?? true,
+        custom: [
+          tabData?.customFieldLabel || flatCustom || cfg.defaultCustom[0],
+          tabData?.customFieldPlaceholder || flatCustomPlaceholder || cfg.defaultCustom[1],
+        ] as [string, string],
+        customRequired: tabData?.customFieldRequired ?? true,
+        cta: tabData?.ctaLabel || flatCta || form?.ctaLabel || formCtaLabel || cfg.defaultCta,
+      };
+    });
+  }, [form, formCtaLabel]);
+
+  const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const currentTab = tabConfigs[activeTabIdx] || tabConfigs[0];
 
   const currentContacts =
     contacts !== undefined
@@ -130,15 +196,9 @@ export default function ContactSection({
 
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
-      {/* Figma 1:1974 — width 1440 · padding 64px 80px 42px 80px ·
-          justify-between · items-center (columns 613 + 150 gap + 517 = 1280) */}
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-stretch lg:justify-between lg:gap-10 lg:px-[80px] lg:pb-[42px] lg:pt-[64px]">
         {/* left column — heading top · contacts bottom */}
         <div className="relative flex flex-col gap-6 lg:justify-between lg:gap-0">
-          {/* photo wash — Figma 1:1976 exact box: 630.733×441 at (-8, 139.55).
-              Asset is Figma's own composited export of that node (photo, four
-              white fades and 30.83px blur baked in) so the wash renders exactly
-              as designed instead of approximating the gradients in CSS. */}
           <Image
             aria-hidden
             src="/assets/enterprise/truck-wash.png"
@@ -160,30 +220,62 @@ export default function ContactSection({
             </div>
           </div>
 
-          {/* mobile (Figma 1:5028/1:5037): the form card sits above the contact rows;
-              lg:contents dissolves the group on desktop */}
+          {/* mobile: the form card sits above the contact rows */}
           <div className="flex flex-col gap-2.5 lg:contents">
-            {/* form card — mobile variant (Figma 1:5038) */}
+            {/* form card — mobile variant */}
             <div className="flex w-full flex-col gap-3 rounded-[10px] bg-surface p-4 lg:hidden">
               <div className="flex flex-col gap-1.5">
-                <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">{effectiveHeading}</h3>
+                <h3 className="text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-ink">
+                  {effectiveHeading}
+                </h3>
                 <p className="text-[12px] text-ink">{effectiveSubheading}</p>
               </div>
-              <FormTabs active={tab} tabs={effectiveOptions} onSelect={setTab} mobile />
+              <div className="flex w-full gap-2" role="tablist" aria-label="Enquiry type">
+                {tabConfigs.map((t, idx) => {
+                  const on = idx === activeTabIdx;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={on}
+                      onClick={() => setActiveTabIdx(idx)}
+                      className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none h-8 text-[12px] ${
+                        on
+                          ? "bg-deep-card text-white"
+                          : "border border-white/50 bg-white/80 text-ink backdrop-blur-[10px]"
+                      }`}
+                    >
+                      {t.title}
+                    </button>
+                  );
+                })}
+              </div>
               <div className="flex gap-1.5">
-                {activeConfig.fields.map(([label, ph]) => (
-                  <Field key={label} label={label} placeholder={ph} mobile />
-                ))}
+                <Field
+                  key={`${currentTab.id}-mob-f1`}
+                  label={currentTab.field1[0]}
+                  placeholder={currentTab.field1[1]}
+                  required={currentTab.field1Required}
+                  mobile
+                />
+                <Field
+                  key={`${currentTab.id}-mob-f2`}
+                  label={currentTab.field2[0]}
+                  placeholder={currentTab.field2[1]}
+                  required={currentTab.field2Required}
+                  mobile
+                />
               </div>
               <Button href="/products" variant="dark" arrow="white" className="w-full">
-                {effectiveCtaLabel}
+                {currentTab.cta}
               </Button>
               <p className="text-center text-[12px] font-medium text-ink">
                 {effectiveDisclaimer}
               </p>
             </div>
 
-            {/* contact cards — relative keeps them above the absolute photo wash */}
+            {/* contact cards */}
             {currentContacts.length > 0 && (
               <div className="relative flex flex-col gap-2.5 lg:flex-row lg:flex-wrap lg:items-start lg:gap-2.5">
                 <div className="flex flex-col gap-2.5 lg:gap-2.5">
@@ -200,7 +292,7 @@ export default function ContactSection({
           </div>
         </div>
 
-        {/* form card — desktop variant, Figma 1:2006/1:2007 exact */}
+        {/* form card — desktop variant */}
         <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
@@ -208,23 +300,56 @@ export default function ContactSection({
             </h3>
             <p className="text-[16px] text-ink">{effectiveSubheading}</p>
           </div>
-          <FormTabs active={tab} tabs={effectiveOptions} onSelect={setTab} />
+          <div className="flex gap-3" role="tablist" aria-label="Enquiry type">
+            {tabConfigs.map((t, idx) => {
+              const on = idx === activeTabIdx;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => setActiveTabIdx(idx)}
+                  className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none h-[42px] text-[16px] ${
+                    on
+                      ? "bg-deep-card text-white"
+                      : "border border-white/50 bg-white/80 text-ink backdrop-blur-[10px]"
+                  }`}
+                >
+                  {t.title}
+                </button>
+              );
+            })}
+          </div>
           <div className="flex gap-3">
-            {activeConfig.fields.map(([label, ph]) => (
-              <Field key={label} label={label} placeholder={ph} />
-            ))}
+            <Field
+              key={`${currentTab.id}-desk-f1`}
+              label={currentTab.field1[0]}
+              placeholder={currentTab.field1[1]}
+              required={currentTab.field1Required}
+            />
+            <Field
+              key={`${currentTab.id}-desk-f2`}
+              label={currentTab.field2[0]}
+              placeholder={currentTab.field2[1]}
+              required={currentTab.field2Required}
+            />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[12px] font-medium text-[#212125]">{activeConfig.vehicleSelect[0]}</span>
+            <span className="text-[12px] font-medium text-[#212125]">
+              {currentTab.vehicleSelect[0].replace(/\s*\*+\s*$/, "").trim()}
+              {currentTab.vehicleRequired ? " *" : ""}
+            </span>
             <div className="relative">
               <select
                 defaultValue=""
+                required={currentTab.vehicleRequired}
                 className="h-[46px] w-full appearance-none rounded-[13px] border border-hairline bg-white px-4 text-[12px] font-medium text-ink backdrop-blur-[8.15px] outline-none"
               >
                 <option value="" disabled>
-                  {activeConfig.vehicleSelect[1]}
+                  {currentTab.vehicleSelect[1]}
                 </option>
-                {VEHICLES.map((v) => (
+                {activeVehicles.map((v) => (
                   <option key={v} value={v}>
                     {v}
                   </option>
@@ -241,8 +366,18 @@ export default function ContactSection({
             </div>
           </div>
           <div className="flex gap-3">
-            <Field label={activeConfig.secondRow[0]} placeholder={activeConfig.secondRow[1]} />
-            <Field label={activeConfig.thirdField[0]} placeholder={activeConfig.thirdField[1]} />
+            <Field
+              key={`${currentTab.id}-desk-city`}
+              label={currentTab.city[0]}
+              placeholder={currentTab.city[1]}
+              required={currentTab.cityRequired}
+            />
+            <Field
+              key={`${currentTab.id}-desk-custom`}
+              label={currentTab.custom[0]}
+              placeholder={currentTab.custom[1]}
+              required={currentTab.customRequired}
+            />
           </div>
           <label className="flex items-start gap-2.5">
             <input
@@ -250,19 +385,18 @@ export default function ContactSection({
               className="mt-0.5 size-5 shrink-0 cursor-pointer appearance-none rounded-full border border-[#0c1530] bg-[rgba(12,21,48,0.04)] bg-no-repeat bg-center checked:border-deep-card checked:bg-deep-card checked:bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3E%3Cpath d=%27M4 10.5 8 14.5 16 6%27 stroke=%27white%27 stroke-width=%272%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E')]"
             />
             <span className="text-[14px] leading-snug text-ink">
-              Euler Motors and its dealers may contact me about this enquiry. Privacy policy.
+              {effectivePrivacyNotice}
             </span>
           </label>
           <div className="flex flex-col gap-3">
             <Button href="/products" variant="dark" arrow="white" className="w-full">
-              {effectiveCtaLabel}
+              {currentTab.cta}
             </Button>
             <p className="text-center text-[12px] text-ink">
               {effectiveDisclaimer}
             </p>
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -270,9 +404,6 @@ export default function ContactSection({
 
 function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: string }) {
   return (
-    /* Figma sizes each row by content — 301/301/302px wide (1:1988/1:1994/1:2000),
-       98px tall: p-20 + 58px icon · mobile rows (1:5040/1:5046/1:5052) pad 8px —
-       the 42px icon sits at x=8, y=8 in the 58px-tall row */
     <div className="flex w-full items-center gap-2.5 rounded-[8px] bg-surface p-2 lg:w-auto lg:gap-6 lg:rounded-2xl lg:p-5">
       <span className="flex size-[42px] shrink-0 items-center justify-center rounded-[6px] bg-deep-card lg:size-[58px] lg:rounded-[8.12px] lg:bg-white">
         <Image src={icon} alt="" width={16} height={16} aria-hidden className="size-4 brightness-0 invert lg:hidden" />
@@ -286,64 +417,43 @@ function ContactCard({ icon, title, sub }: { icon: string; title: string; sub: s
   );
 }
 
-function FormTabs({
-  active,
-  tabs,
-  onSelect,
+function Field({
+  label,
+  placeholder,
   mobile = false,
+  required = true,
 }: {
-  active: string;
-  tabs: string[];
-  onSelect: (t: string) => void;
+  label: string;
+  placeholder: string;
   mobile?: boolean;
+  required?: boolean;
 }) {
-  return (
-    <div className={mobile ? "flex w-full gap-2" : "flex gap-3"} role="tablist" aria-label="Enquiry type">
-      {tabs.map((t) => {
-        const on = t === active;
-        return (
-          <button
-            key={t}
-            type="button"
-            role="tab"
-            aria-selected={on}
-            onClick={() => onSelect(t)}
-            className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none ${
-              mobile ? "h-8 text-[12px]" : "h-[42px] text-[16px]"
-            } ${
-              on ? "bg-deep-card text-white" : "border border-white/50 bg-white/80 text-ink backdrop-blur-[10px]"
-            }`}
-          >
-            {t}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function Field({ label, placeholder, mobile = false }: { label: string; placeholder: string; mobile?: boolean }) {
-  const isPhone = label.startsWith("Mobile");
-  /* City: letters + spaces only · count fields (km/quantity/fleet): digits only */
-  const isAlpha = label.startsWith("City");
-  const isNum = /Kilometres|Quantity|Fleet size/.test(label);
+  const isPhone = label.toLowerCase().includes("mobile") || label.toLowerCase().includes("phone");
+  const isAlpha = label.toLowerCase().includes("city");
+  const isNum = /kilometres|quantity|fleet size/i.test(label);
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
-  /* Indian mobile: 10 digits, first digit 6-9 — anything else is stripped */
   const invalid = isPhone && touched && value.length !== 10;
 
   const base = mobile
     ? "h-9 w-full rounded-[8px] px-4"
     : "h-[46px] w-full rounded-[13px] px-4";
 
+  const cleanLabel = label.replace(/\s*\*+\s*$/, "").trim();
+  const showAsterisk = required !== false;
+
   return (
     <label className="flex flex-1 flex-col gap-1">
-      <span className="text-[12px] font-medium text-[#212125]">{label}</span>
+      <span className="text-[12px] font-medium text-[#212125]">
+        {cleanLabel}
+        {showAsterisk ? " *" : ""}
+      </span>
       <input
         type={isPhone ? "tel" : "text"}
         inputMode={isPhone || isNum ? "numeric" : undefined}
         placeholder={placeholder}
         value={value}
+        required={showAsterisk}
         maxLength={isPhone ? 10 : undefined}
         onChange={(e) => {
           if (isPhone) {

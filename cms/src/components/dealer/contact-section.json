@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Dealer Contact Section",
     "icon": "mail",
-    "description": "Dealer enquiry, book test drive form and contact cards"
+    "description": "Dealer enquiry, book test drive form and contact cards with internally grouped tabs"
   },
   "options": {},
   "attributes": {
@@ -27,10 +27,23 @@
       "type": "text",
       "default": "We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report."
     },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "cards": {
       "type": "component",
       "repeatable": true,
       "component": "dealer.contact-card"
+    },
+    "form": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.contact-form"
     },
     "formHeading": {
       "type": "string",
@@ -40,15 +53,14 @@
       "type": "string",
       "default": "Two steps. We call you within one working day."
     },
-    "formTabs": {
-      "type": "json"
-    },
     "vehicleOptions": {
-      "type": "json"
+      "type": "text",
+      "default": "Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity"
     },
-    "ctaLabel": {
-      "type": "string",
-      "default": "Confirm test drive"
+    "tabs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.form-tab"
     },
     "privacyNotice": {
       "type": "string",

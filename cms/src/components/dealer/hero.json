@@ -48,7 +48,8 @@
       "default": "Search service centers by area"
     },
     "cities": {
-      "type": "json"
+      "type": "string",
+      "default": "Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata"
     },
     "dealers": {
       "type": "relation",

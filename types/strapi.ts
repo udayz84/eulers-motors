@@ -123,7 +123,7 @@ export interface PrimeBannerData {
   title: string;
   description?: string;
   cta?: StrapiCTA;
-  backgroundImage?: StrapiMedia;
+  backgroundImage?: StrapiMedia | string;
   features?: { value: string; label: string }[];
 }
 
@@ -170,6 +170,82 @@ export interface TechnologySectionData {
   cards?: TechnologyCardData[];
 }
 
+export interface FormTabFields {
+  tab1Title?: string;
+  tab1NameLabel?: string;
+  tab1NamePlaceholder?: string;
+  tab1PhoneLabel?: string;
+  tab1PhonePlaceholder?: string;
+  tab1VehicleLabel?: string;
+  tab1VehiclePlaceholder?: string;
+  tab1CityLabel?: string;
+  tab1CityPlaceholder?: string;
+  tab1CustomLabel?: string;
+  tab1CustomPlaceholder?: string;
+  tab1CtaLabel?: string;
+
+  tab2Title?: string;
+  tab2NameLabel?: string;
+  tab2NamePlaceholder?: string;
+  tab2PhoneLabel?: string;
+  tab2PhonePlaceholder?: string;
+  tab2VehicleLabel?: string;
+  tab2VehiclePlaceholder?: string;
+  tab2CityLabel?: string;
+  tab2CityPlaceholder?: string;
+  tab2CustomLabel?: string;
+  tab2CustomPlaceholder?: string;
+  tab2CtaLabel?: string;
+
+  tab3Title?: string;
+  tab3NameLabel?: string;
+  tab3NamePlaceholder?: string;
+  tab3PhoneLabel?: string;
+  tab3PhonePlaceholder?: string;
+  tab3VehicleLabel?: string;
+  tab3VehiclePlaceholder?: string;
+  tab3CityLabel?: string;
+  tab3CityPlaceholder?: string;
+  tab3CustomLabel?: string;
+  tab3CustomPlaceholder?: string;
+  tab3CtaLabel?: string;
+}
+
+export interface FormTabConfig {
+  id?: number;
+  tabTitle?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  nameRequired?: boolean;
+  phoneLabel?: string;
+  phonePlaceholder?: string;
+  phoneRequired?: boolean;
+  vehicleLabel?: string;
+  vehiclePlaceholder?: string;
+  vehicleRequired?: boolean;
+  cityLabel?: string;
+  cityPlaceholder?: string;
+  cityRequired?: boolean;
+  customFieldLabel?: string;
+  customFieldPlaceholder?: string;
+  customFieldRequired?: boolean;
+  ctaLabel?: string;
+}
+
+export interface HomeContactFormData extends Partial<FormTabFields> {
+  heading?: string;
+  subheading?: string;
+  vehicleOptions?: string[] | string;
+  tabs?: FormTabConfig[];
+  tab1?: FormTabConfig;
+  tab2?: FormTabConfig;
+  tab3?: FormTabConfig;
+  options?: string[] | string;
+  ctaLabel?: string;
+  privacyNotice?: string;
+  disclaimer?: string;
+}
+
 export interface HomePageData {
   seo?: StrapiSEO;
   hero?: {
@@ -209,13 +285,7 @@ export interface HomePageData {
     description?: string;
     phone?: string;
     email?: string;
-    form?: {
-      heading?: string;
-      subheading?: string;
-      options?: string[];
-      ctaLabel?: string;
-      disclaimer?: string;
-    };
+    form?: HomeContactFormData;
   };
   enterpriseDealer?: {
     enterpriseEyebrow?: string;
@@ -224,7 +294,7 @@ export interface HomePageData {
     enterpriseCta?: StrapiCTA;
     enterpriseCtaLabel?: string;
     enterpriseCtaHref?: string;
-    enterpriseBullets?: string[];
+    enterpriseBullets?: string[] | string;
     dealerEyebrow?: string;
     dealerTitle?: string;
     dealerDesc?: string;
@@ -298,17 +368,23 @@ export interface DealerContactCard {
   mobileOrder?: string;
 }
 
-export interface DealerContactSectionData {
+export interface DealerContactSectionData extends Partial<FormTabFields> {
   eyebrow?: string;
   desktopTitle?: string;
   mobileTitle?: string;
   desktopDescription?: string;
   mobileDescription?: string;
+  backgroundImage?: StrapiMedia | string;
   cards?: DealerContactCard[];
+  form?: HomeContactFormData;
   formHeading?: string;
   formSubheading?: string;
-  formTabs?: string[];
-  vehicleOptions?: string[];
+  vehicleOptions?: string[] | string;
+  tabs?: FormTabConfig[];
+  tab1?: FormTabConfig;
+  tab2?: FormTabConfig;
+  tab3?: FormTabConfig;
+  formTabs?: string[] | string;
   ctaLabel?: string;
   privacyNotice?: string;
   disclaimer?: string;
@@ -325,10 +401,93 @@ export interface DealerLocatorHeroData {
   serviceTabTitle?: string;
   serviceTabSubtitle?: string;
   serviceSearchPlaceholder?: string;
-  cities?: string[];
+  cities?: string[] | string;
   dealers?: StrapiDealer[];
   chargingStations?: StrapiChargingStation[];
   serviceCenters?: StrapiServiceCenter[];
+}
+
+export interface StrapiFaqItem {
+  id?: number;
+  question: string;
+  answer: string;
+  category?: string;
+  categories?: string[];
+  order?: number;
+}
+
+export interface StrapiFaqSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  image?: StrapiMedia;
+  items?: StrapiFaqItem[];
+}
+
+export interface ChargingFormData {
+  id?: number;
+  heading?: string;
+  subheading?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  nameRequired?: boolean;
+  mobileLabel?: string;
+  mobilePlaceholder?: string;
+  mobileRequired?: boolean;
+  cityLabel?: string;
+  cityPlaceholder?: string;
+  cityRequired?: boolean;
+  dropdownLabel?: string;
+  dropdownOptions?: string[] | string;
+  dropdownRequired?: boolean;
+  ctaLabel?: string;
+  privacyNotice?: string;
+  disclaimer?: string;
+}
+
+export interface ChargingContactSectionData {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  mobileTitle?: string;
+  description?: string;
+  mobileDescription?: string;
+  backgroundImage?: StrapiMedia | string;
+  cards?: DealerContactCard[];
+  form?: ChargingFormData;
+  formHeading?: string;
+  formSubheading?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  nameRequired?: boolean;
+  mobileLabel?: string;
+  mobilePlaceholder?: string;
+  mobileRequired?: boolean;
+  cityLabel?: string;
+  cityPlaceholder?: string;
+  cityRequired?: boolean;
+  dropdownLabel?: string;
+  dropdownOptions?: string[] | string;
+  dropdownRequired?: boolean;
+  ctaLabel?: string;
+  privacyNotice?: string;
+  disclaimer?: string;
+}
+
+export interface PartnerLogoItem {
+  id?: number;
+  name: string;
+  logoUrl?: string;
+  logo?: StrapiMedia;
+  width?: number;
+  desktopWidth?: number;
+}
+
+export interface PartnersSectionData {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  partners?: PartnerLogoItem[];
 }
 
 export interface DealerLocatorPageData {
@@ -336,6 +495,9 @@ export interface DealerLocatorPageData {
   documentId?: string;
   hero?: DealerLocatorHeroData;
   contactSection?: DealerContactSectionData;
+  chargingContactSection?: ChargingContactSectionData;
+  partnersSection?: PartnersSectionData;
+  faqSection?: StrapiFaqSection;
   seo?: StrapiSEO;
 }
 

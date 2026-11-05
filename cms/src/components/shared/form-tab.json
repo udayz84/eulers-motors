@@ -1,0 +1,75 @@
+{
+  "collectionName": "components_shared_form_tabs",
+  "info": {
+    "displayName": "Form Tab",
+    "icon": "bulletList",
+    "description": "Per-tab form field labels, placeholders, required flags, and CTA"
+  },
+  "options": {},
+  "attributes": {
+    "tabTitle": {
+      "type": "string"
+    },
+    "nameLabel": {
+      "type": "string",
+      "default": "Name"
+    },
+    "namePlaceholder": {
+      "type": "string",
+      "default": "Full name"
+    },
+    "nameRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "phoneLabel": {
+      "type": "string",
+      "default": "Mobile number"
+    },
+    "phonePlaceholder": {
+      "type": "string",
+      "default": "10 digit"
+    },
+    "phoneRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "vehicleLabel": {
+      "type": "string",
+      "default": "Which vehicle"
+    },
+    "vehiclePlaceholder": {
+      "type": "string",
+      "default": "Not sure, please suggest one"
+    },
+    "vehicleRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "cityLabel": {
+      "type": "string",
+      "default": "City"
+    },
+    "cityPlaceholder": {
+      "type": "string",
+      "default": "Mumbai"
+    },
+    "cityRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "customFieldLabel": {
+      "type": "string"
+    },
+    "customFieldPlaceholder": {
+      "type": "string"
+    },
+    "customFieldRequired": {
+      "type": "boolean",
+      "default": true
+    },
+    "ctaLabel": {
+      "type": "string"
+    }
+  }
+}

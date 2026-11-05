@@ -127,6 +127,98 @@ export interface CareersTestimonialsSection extends Struct.ComponentSchema {
   };
 }
 
+export interface DealerChargingContactSection extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_charging_contact_sections';
+  info: {
+    description: 'Host a charging point enquiry and contact cards';
+    displayName: 'Charging Contact Section';
+    icon: 'lightningBolt';
+  };
+  attributes: {
+    backgroundImage: Schema.Attribute.Media<'images'>;
+    cards: Schema.Attribute.Component<'dealer.contact-card', true>;
+    cityLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'City'>;
+    cityPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mumbai'>;
+    cityRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Send enquiry'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.'>;
+    disclaimer: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
+    dropdownLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'What you have'>;
+    dropdownOptions: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Petrol Pump, Warehouse, Land'>;
+    dropdownRequired: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
+    form: Schema.Attribute.Component<'dealer.charging-form', false>;
+    formHeading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Book a test drive'>;
+    formSubheading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+    mobileDescription: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.'>;
+    mobileLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mobile number'>;
+    mobilePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'10 digit'>;
+    mobileRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    mobileTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Host a charging point.'>;
+    nameLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Name'>;
+    namePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Full name'>;
+    nameRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    privacyNotice: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Euler Motors may contact me about this enquiry.'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Host a charging point.'>;
+  };
+}
+
+export interface DealerChargingForm extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_charging_forms';
+  info: {
+    description: 'Host a charging point enquiry form card';
+    displayName: 'Charging Form';
+    icon: 'mail';
+  };
+  attributes: {
+    cityLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'City'>;
+    cityPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mumbai'>;
+    cityRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Send enquiry'>;
+    disclaimer: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
+    dropdownLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'What you have'>;
+    dropdownOptions: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Petrol Pump, Warehouse, Land'>;
+    dropdownRequired: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Book a test drive'>;
+    mobileLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mobile number'>;
+    mobilePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'10 digit'>;
+    mobileRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    nameLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Name'>;
+    namePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Full name'>;
+    nameRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    privacyNotice: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Euler Motors may contact me about this enquiry.'>;
+    subheading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+  };
+}
+
 export interface DealerContactCard extends Struct.ComponentSchema {
   collectionName: 'components_dealer_contact_cards';
   info: {
@@ -145,14 +237,13 @@ export interface DealerContactCard extends Struct.ComponentSchema {
 export interface DealerContactSection extends Struct.ComponentSchema {
   collectionName: 'components_dealer_contact_sections';
   info: {
-    description: 'Dealer enquiry, book test drive form and contact cards';
+    description: 'Dealer enquiry, book test drive form and contact cards with internally grouped tabs';
     displayName: 'Dealer Contact Section';
     icon: 'mail';
   };
   attributes: {
+    backgroundImage: Schema.Attribute.Media<'images'>;
     cards: Schema.Attribute.Component<'dealer.contact-card', true>;
-    ctaLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Confirm test drive'>;
     desktopDescription: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.'>;
     desktopTitle: Schema.Attribute.String &
@@ -160,18 +251,36 @@ export interface DealerContactSection extends Struct.ComponentSchema {
     disclaimer: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
+    form: Schema.Attribute.Component<'home.contact-form', false>;
     formHeading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Book a test drive'>;
     formSubheading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
-    formTabs: Schema.Attribute.JSON;
     mobileDescription: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.'>;
     mobileTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Tell us what you need!'>;
     privacyNotice: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.'>;
-    vehicleOptions: Schema.Attribute.JSON;
+    tabs: Schema.Attribute.Component<'shared.form-tab', true>;
+    vehicleOptions: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity'>;
+  };
+}
+
+export interface DealerFaqSection extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_faq_sections';
+  info: {
+    description: 'Dealer & charging station FAQ section';
+    displayName: 'Dealer FAQ Section';
+    icon: 'question';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'FAQ'>;
+    image: Schema.Attribute.Media<'images'>;
+    items: Schema.Attribute.Component<'technology.faq-item', true>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Frequently Asked Questions'>;
   };
 }
 
@@ -193,7 +302,8 @@ export interface DealerHero extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'1,412 points across India, with live status on each one.'>;
     chargingTabTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Find a charging point.'>;
-    cities: Schema.Attribute.JSON;
+    cities: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata'>;
     dealers: Schema.Attribute.Relation<'oneToMany', 'api::dealer.dealer'>;
     dealerSearchPlaceholder: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Search dealers by area'>;
@@ -241,20 +351,22 @@ export interface HomeCompareSection extends Struct.ComponentSchema {
 export interface HomeContactForm extends Struct.ComponentSchema {
   collectionName: 'components_home_contact_forms';
   info: {
-    description: 'Configurable contact form card';
+    description: 'Configurable contact form card with internally grouped tabs';
     displayName: 'Contact Form';
     icon: 'mail';
   };
   attributes: {
-    ctaLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Submit enquiry'>;
     disclaimer: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
     heading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'What are you looking for?'>;
-    options: Schema.Attribute.JSON;
+    privacyNotice: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.'>;
     subheading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+    tabs: Schema.Attribute.Component<'shared.form-tab', true>;
+    vehicleOptions: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity'>;
   };
 }
 
@@ -292,7 +404,7 @@ export interface HomeEnterpriseDealer extends Struct.ComponentSchema {
     dealerSecondaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
     dealerTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Want to become a dealer?'>;
-    enterpriseBullets: Schema.Attribute.JSON;
+    enterpriseBullets: Schema.Attribute.Text;
     enterpriseCta: Schema.Attribute.Component<'shared.cta-button', false>;
     enterpriseDesc: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'We check your routes on your own data first. Then connect with you.'>;
@@ -717,6 +829,74 @@ export interface SharedCtaButton extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedFormTab extends Struct.ComponentSchema {
+  collectionName: 'components_shared_form_tabs';
+  info: {
+    description: 'Per-tab form field labels, placeholders, required flags, and CTA';
+    displayName: 'Form Tab';
+    icon: 'bulletList';
+  };
+  attributes: {
+    cityLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'City'>;
+    cityPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mumbai'>;
+    cityRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    ctaLabel: Schema.Attribute.String;
+    customFieldLabel: Schema.Attribute.String;
+    customFieldPlaceholder: Schema.Attribute.String;
+    customFieldRequired: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    nameLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Name'>;
+    namePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Full name'>;
+    nameRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    phoneLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mobile number'>;
+    phonePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'10 digit'>;
+    phoneRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    tabTitle: Schema.Attribute.String;
+    vehicleLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Which vehicle'>;
+    vehiclePlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Not sure, please suggest one'>;
+    vehicleRequired: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+  };
+}
+
+export interface SharedPartnerLogo extends Struct.ComponentSchema {
+  collectionName: 'components_shared_partner_logos';
+  info: {
+    description: 'Partner or investor logo item';
+    displayName: 'Partner Logo';
+    icon: 'picture';
+  };
+  attributes: {
+    desktopWidth: Schema.Attribute.Decimal;
+    logo: Schema.Attribute.Media<'images'>;
+    logoUrl: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    width: Schema.Attribute.Decimal;
+  };
+}
+
+export interface SharedPartnersSection extends Struct.ComponentSchema {
+  collectionName: 'components_shared_partners_sections';
+  info: {
+    description: 'Partners and investors logo carousel section';
+    displayName: 'Partners and Investors Section';
+    icon: 'briefcase';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Partners and investors'>;
+    partners: Schema.Attribute.Component<'shared.partner-logo', true>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Trusted network partners'>;
+  };
+}
+
 export interface SharedSavingsCalculator extends Struct.ComponentSchema {
   collectionName: 'components_shared_savings_calculators';
   info: {
@@ -997,8 +1177,11 @@ declare module '@strapi/strapi' {
       'careers.support-section': CareersSupportSection;
       'careers.testimonial-item': CareersTestimonialItem;
       'careers.testimonials-section': CareersTestimonialsSection;
+      'dealer.charging-contact-section': DealerChargingContactSection;
+      'dealer.charging-form': DealerChargingForm;
       'dealer.contact-card': DealerContactCard;
       'dealer.contact-section': DealerContactSection;
+      'dealer.faq-section': DealerFaqSection;
       'dealer.hero': DealerHero;
       'home.compare-section': HomeCompareSection;
       'home.contact-form': HomeContactForm;
@@ -1028,6 +1211,9 @@ declare module '@strapi/strapi' {
       'product.variant-option': ProductVariantOption;
       'product.variants-compare': ProductVariantsCompare;
       'shared.cta-button': SharedCtaButton;
+      'shared.form-tab': SharedFormTab;
+      'shared.partner-logo': SharedPartnerLogo;
+      'shared.partners-section': SharedPartnersSection;
       'shared.savings-calculator': SharedSavingsCalculator;
       'shared.seo': SharedSeo;
       'shared.stat-item': SharedStatItem;

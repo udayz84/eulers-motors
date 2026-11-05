@@ -608,7 +608,7 @@ export default function DealerLocator({
     >
       <div className="absolute inset-0 size-full overflow-hidden">
         <Image
-          src={`${ASSET}map-hq.png`}
+          src={`${ASSET}map-hq.webp`}
           alt=""
           fill
           priority

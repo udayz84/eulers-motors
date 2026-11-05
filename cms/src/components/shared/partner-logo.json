@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_shared_partner_logos",
+  "info": {
+    "displayName": "Partner Logo",
+    "icon": "picture",
+    "description": "Partner or investor logo item"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "logoUrl": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "width": {
+      "type": "decimal"
+    },
+    "desktopWidth": {
+      "type": "decimal"
+    }
+  }
+}
+

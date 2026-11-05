@@ -313,7 +313,14 @@ export async function getHomePageData(): Promise<HomePageData> {
     enterpriseDealer: { populate: "*" },
     contactSection: {
       populate: {
-        form: { populate: "*" },
+        form: {
+          populate: {
+            tabs: { populate: "*" },
+            tab1: { populate: "*" },
+            tab2: { populate: "*" },
+            tab3: { populate: "*" },
+          },
+        },
       },
     },
     socialWall: {
@@ -391,12 +398,91 @@ export async function getDealerLocatorPageData(): Promise<DealerLocatorPageData>
     contactSection: {
       populate: {
         cards: { populate: "*" },
+        backgroundImage: { populate: "*" },
+        form: {
+          populate: {
+            tabs: { populate: "*" },
+          },
+        },
+        tabs: { populate: "*" },
+        tab1: { populate: "*" },
+        tab2: { populate: "*" },
+        tab3: { populate: "*" },
+      },
+    },
+    chargingContactSection: {
+      populate: {
+        cards: { populate: "*" },
+        backgroundImage: { populate: "*" },
+        form: { populate: "*" },
+      },
+    },
+    partnersSection: {
+      populate: {
+        partners: {
+          populate: {
+            logo: { populate: "*" },
+          },
+        },
+      },
+    },
+    faqSection: {
+      populate: {
+        items: { populate: "*" },
+        image: { populate: "*" },
       },
     },
   };
 
   return getSingleType<DealerLocatorPageData>(
     "dealer-locator-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    DEFAULT_DEALER_LOCATOR_PAGE
+  );
+}
+
+/**
+ * Fetch Charging Stations Page Single Type
+ */
+export async function getChargingStationsPageData(): Promise<DealerLocatorPageData> {
+  const populate = {
+    seo: { populate: "*" },
+    hero: {
+      populate: {
+        dealers: { populate: "*" },
+        chargingStations: { populate: "*" },
+        serviceCenters: { populate: "*" },
+      },
+    },
+    chargingContactSection: {
+      populate: {
+        cards: { populate: "*" },
+        backgroundImage: { populate: "*" },
+        form: { populate: "*" },
+      },
+    },
+    partnersSection: {
+      populate: {
+        partners: {
+          populate: {
+            logo: { populate: "*" },
+          },
+        },
+      },
+    },
+    faqSection: {
+      populate: {
+        items: { populate: "*" },
+        image: { populate: "*" },
+      },
+    },
+  };
+
+  return getSingleType<DealerLocatorPageData>(
+    "charging-stations-page",
     {
       populate,
       revalidate: 60,

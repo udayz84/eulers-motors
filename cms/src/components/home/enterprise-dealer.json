@@ -20,7 +20,7 @@
       "default": "We check your routes on your own data first. Then connect with you."
     },
     "enterpriseBullets": {
-      "type": "json"
+      "type": "text"
     },
     "enterpriseCta": {
       "type": "component",

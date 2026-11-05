@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_partners_sections",
+  "info": {
+    "displayName": "Partners and Investors Section",
+    "icon": "briefcase",
+    "description": "Partners and investors logo carousel section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Partners and investors"
+    },
+    "title": {
+      "type": "string",
+      "default": "Trusted network partners"
+    },
+    "partners": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.partner-logo"
+    }
+  }
+}
+
