@@ -43,7 +43,7 @@ function TestimonialCard({
     <article
       aria-hidden={isDuplicate || undefined}
       data-testimonial={isDuplicate ? undefined : true}
-      className="flex h-auto min-h-[338px] w-[353px] min-w-[353px] shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-[443px] lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:items-stretch lg:gap-8 lg:p-8 select-none"
+      className="flex h-auto min-h-[338px] w-[calc(100vw-40px)] max-w-[353px] min-w-0 shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-[443px] lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:max-w-[620px] lg:items-stretch lg:gap-8 lg:p-8 select-none"
     >
       <div className="flex items-center justify-between self-stretch">
         <svg

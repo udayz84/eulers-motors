@@ -49,24 +49,24 @@ function CareerCard({
   };
 
   return (
-    <article className={`${mobileHidden ? "hidden lg:flex" : "flex"} min-w-0 flex-col items-start justify-center gap-3 self-stretch rounded-xl bg-[#f3f4f5] p-4 lg:min-h-[204px] lg:w-full lg:justify-start lg:gap-5`}>
-      <div className="flex flex-col items-start gap-3 lg:self-stretch">
-        <div className="flex flex-wrap items-center gap-2.5">
+    <article className={`${mobileHidden ? "hidden lg:flex" : "flex"} min-w-0 flex-col items-start justify-between self-stretch rounded-[12px] bg-[#f3f4f5] p-4 lg:min-h-[204px] lg:h-full lg:w-full lg:gap-[12px]`}>
+      <div className="flex w-full flex-col items-start gap-2.5 lg:gap-[12px]">
+        <div className="flex flex-wrap items-center gap-1.5 lg:gap-2 xl:gap-[10px]">
           {[opening.department, opening.location, "Full time", opening.experience].map((tag) => (
-            <span className="flex flex-col items-start gap-2.5 rounded-[50px] bg-[#d4dbec] px-2.5 py-1 font-sans text-xs font-bold leading-[1.3] text-ink" key={tag}>{tag}</span>
+            <span className="flex items-center rounded-[50px] bg-[#d4dbec] px-2 py-0.5 text-[11px] font-bold leading-normal text-black xl:px-[10px] xl:py-[4px] xl:text-xs" key={tag}>{tag}</span>
           ))}
         </div>
-        <h3 className="m-0 font-display text-base font-semibold leading-[1.4] text-[#121212] lg:self-stretch lg:text-xl lg:leading-[1.4]">{opening.title}</h3>
-        <p className="m-0 h-[34.926px] w-[279.543px] max-w-full truncate font-sans text-xs font-normal leading-[1.4] text-[#121212] lg:h-auto lg:w-auto lg:max-w-none lg:self-stretch lg:overflow-visible lg:whitespace-normal lg:text-sm lg:leading-[1.4] lg:[text-overflow:clip]">{opening.description}</p>
+        <h3 className="m-0 w-full truncate font-display text-base font-semibold leading-[1.4] text-[#121212] lg:h-[28px] lg:text-xl lg:leading-[1.4]">{opening.title}</h3>
+        <p className="m-0 line-clamp-2 w-full font-sans text-xs font-normal leading-[1.4] text-[#121212] lg:h-[40px] lg:text-sm lg:leading-[1.4]">{opening.description}</p>
       </div>
-      <div className="mt-auto flex items-start gap-2.5 self-stretch lg:mt-0 lg:self-stretch">
-        <button type="button" className="flex h-11 min-w-0 flex-[1_0_0] items-center justify-center gap-2 rounded bg-ink px-5 font-display text-xs font-bold text-white transition-colors duration-[160ms] hover:bg-navy" onClick={() => onApply(opening)}>
+      <div className="flex w-full items-center gap-[10px] pt-1 lg:pt-0">
+        <button type="button" className="flex h-[44px] min-w-0 flex-[1_0_0] items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 font-display text-xs font-bold text-white transition-colors duration-[160ms] hover:bg-navy" onClick={() => onApply(opening)}>
           Apply now
           <span aria-hidden="true">↗</span>
         </button>
         <button
           type="button"
-          className="flex size-11 aspect-square shrink-0 items-center justify-center gap-2.5 rounded border border-ink/50 bg-white p-[11px_12px] text-ink hover:bg-mist"
+          className="flex size-[44px] aspect-square shrink-0 items-center justify-center rounded-[4px] border border-black/50 bg-white text-ink hover:bg-mist"
           onClick={shareOpening}
           aria-label={`Share ${opening.title}`}
           title="Share this opening"
@@ -117,17 +117,17 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
   const pageStart = (currentPage - 1) * PAGE_SIZE;
 
   return (
-    <section id="open-positions" className="relative flex scroll-mt-[88px] flex-col items-start justify-start gap-6 bg-white px-5 py-8 lg:w-full lg:gap-[10px] lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
+    <section id="open-positions" className="relative flex scroll-mt-[88px] flex-col items-start justify-start gap-6 bg-white px-5 py-8 lg:w-full lg:gap-[10px] lg:px-[max(40px,calc((100vw-1440px)/2+80px))] xl:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
       <div className="flex w-full flex-col gap-6 lg:items-start lg:gap-[42px] lg:self-stretch">
-        <div className="flex self-stretch flex-col gap-6 lg:w-full lg:flex-row lg:items-end lg:justify-between lg:gap-10">
-          <div className="flex flex-col items-start justify-center self-stretch gap-3 lg:w-[646.448px] lg:shrink-0 lg:justify-start lg:gap-4">
+        <div className="flex w-full flex-col gap-6 self-stretch lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+          <div className="flex flex-col items-start justify-center self-stretch gap-3 lg:self-auto lg:flex-1 lg:min-w-0 lg:max-w-[646.448px] lg:justify-end lg:gap-4">
             <Eyebrow label="Open positions" />
-            <h2 id="positions-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[646.448px] lg:text-[42px] lg:tracking-[-0.84px]">Build Your Career with Us</h2>
-            <p className="m-0 font-sans text-xs font-normal leading-normal text-ink lg:w-[474.189px] lg:text-base">Take the next step with a role where your ideas and work can make a real impact.</p>
+            <h2 id="positions-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">Build Your Career with Us</h2>
+            <p className="m-0 font-sans text-xs font-normal leading-normal text-ink lg:max-w-[474.189px] lg:text-base">Take the next step with a role where your ideas and work can make a real impact.</p>
           </div>
 
-          <div className="flex min-w-0 flex-col gap-4 lg:relative lg:w-[587px] lg:shrink-0 lg:items-start lg:gap-[19px]">
-            <label className="flex h-[46px] items-center gap-3 rounded-[500px] border border-black/[0.04] bg-[#f3f4f5] px-4 text-ink/80 shadow-[0_2px_2px_rgb(0_0_0_/_10%)] focus-within:outline-2 focus-within:outline-brand focus-within:outline-offset-2 lg:justify-between lg:self-stretch lg:py-[3px] lg:pr-[3px] lg:pl-4 lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
+          <div className="flex min-w-0 flex-col gap-4 lg:relative lg:w-full lg:max-w-[587px] lg:shrink-0 lg:items-start lg:gap-[19px]">
+            <label className="flex h-[46px] w-full items-center gap-3 rounded-[500px] border border-black/[0.04] bg-[#f3f4f5] px-4 text-ink/80 shadow-[0_2px_2px_rgb(0_0_0_/_10%)] focus-within:outline-2 focus-within:outline-brand focus-within:outline-offset-2 lg:justify-between lg:self-stretch lg:py-[3px] lg:pr-[3px] lg:pl-4 lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
               <svg aria-hidden="true" viewBox="0 0 20 20" className="size-5 shrink-0">
                 <circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <path d="m13 13 4 4" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -142,8 +142,8 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
               />
             </label>
             <div className="flex flex-col items-start self-stretch gap-[12px] lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
-            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
-              <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Team</span>
+            <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
+              <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">Team</span>
               <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
                 <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
@@ -178,8 +178,8 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 />
               </div>
             </div>
-            <div className="flex w-full min-w-0 items-start gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
-              <span className="shrink-0 pt-[11px] font-sans text-sm font-semibold leading-5 text-ink lg:pt-[13px] lg:text-base lg:leading-4">Where</span>
+            <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
+              <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">Where</span>
               <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
                 <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
                 <button
@@ -218,6 +218,9 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
             <div aria-hidden="true" className="pointer-events-none hidden lg:absolute lg:right-0 lg:bottom-0 lg:block lg:h-[105px] lg:w-[93px] lg:bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)]" />
           </div>
         </div>
+
+        {/* Separation line matching Figma Line 110 (node 3568:24234) */}
+        <div className="h-px w-full bg-[#D4DBEC]" aria-hidden="true" />
 
         <div className="flex self-stretch items-center justify-center gap-2.5 lg:w-full lg:justify-between">
           <h3 className="m-0 flex-[1_0_0] font-display text-base font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:flex-none lg:text-2xl lg:leading-[1.15] lg:tracking-[-0.48px]">
@@ -314,31 +317,39 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
         )}
 
         {totalPages > 1 && (
-          <nav className="flex self-stretch items-center justify-center gap-2 lg:hidden" aria-label="Open positions pagination">
+          <nav className="flex self-stretch items-center justify-center gap-[8px] lg:hidden" aria-label="Open positions pagination">
             <button
               type="button"
-              className="flex size-8 aspect-square shrink-0 items-center justify-center rounded-[4.655px] bg-[#212121] p-[13.964px] text-white transition-opacity disabled:opacity-40"
+              className={`flex size-[32px] shrink-0 items-center justify-center rounded-[8px] text-white transition-all ${
+                currentPage === 1
+                  ? "bg-[#A6A6A6] cursor-not-allowed"
+                  : "bg-[#212121] hover:bg-black active:scale-95 cursor-pointer"
+              }`}
               onClick={() => setPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
               aria-label="Previous page"
             >
-              <svg aria-hidden="true" viewBox="0 0 4 4" className="size-1 -scale-x-100">
-                <path d="M1 .5 3 2 1 3.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg aria-hidden="true" viewBox="0 0 5 9" className="h-[9px] w-[5px] -scale-x-100 fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round">
+                <path d="m1 1 3 3.5-3 3.5" />
               </svg>
             </button>
-            <span className="flex w-[38px] items-center justify-center gap-0.5 font-display text-[#121212]" aria-live="polite">
-              <span className="text-base font-bold leading-[1.15] tracking-[-0.32px]">{currentPage}</span>
-              <span className="text-xs font-normal leading-[1.15] tracking-[-0.24px]">/ {totalPages}</span>
+            <span className="flex w-[42px] items-baseline justify-center font-display text-[#121212] tracking-[-0.54px]" aria-live="polite">
+              <span className="text-[16px] font-bold leading-none">{String(currentPage).padStart(2, "0")}</span>
+              <span className="text-[12px] font-normal leading-none">/{String(totalPages).padStart(2, "0")}</span>
             </span>
             <button
               type="button"
-              className="flex size-8 aspect-square shrink-0 items-center justify-center rounded-[4.655px] bg-[#212121] p-[13.964px] text-white transition-opacity disabled:opacity-40"
+              className={`flex size-[32px] shrink-0 items-center justify-center rounded-[8px] text-white transition-all ${
+                currentPage === totalPages
+                  ? "bg-[#A6A6A6] cursor-not-allowed"
+                  : "bg-[#212121] hover:bg-black active:scale-95 cursor-pointer"
+              }`}
               onClick={() => setPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
               aria-label="Next page"
             >
-              <svg aria-hidden="true" viewBox="0 0 4 4" className="size-1">
-                <path d="M1 .5 3 2 1 3.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg aria-hidden="true" viewBox="0 0 5 9" className="h-[9px] w-[5px] fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round">
+                <path d="m1 1 3 3.5-3 3.5" />
               </svg>
             </button>
           </nav>
