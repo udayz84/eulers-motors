@@ -11,9 +11,6 @@
       "type": "string",
       "required": true
     },
-    "logoUrl": {
-      "type": "string"
-    },
     "logo": {
       "type": "media",
       "multiple": false,
@@ -21,12 +18,6 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "width": {
-      "type": "decimal"
-    },
-    "desktopWidth": {
-      "type": "decimal"
     }
   }
 }

@@ -1273,12 +1273,12 @@ export async function seedStrapi(strapi: any) {
             mobileOrder: 'order-3 lg:order-2',
           },
         ],
-        formHeading: 'Book a test drive',
+        formHeading: 'What are you looking for?',
         formSubheading: 'Two steps. We call you within one working day.',
         vehicleOptions:
           'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
         form: {
-          heading: 'Book a test drive',
+          heading: 'What are you looking for?',
           subheading: 'Two steps. We call you within one working day.',
           vehicleOptions:
             'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
@@ -1303,7 +1303,7 @@ export async function seedStrapi(strapi: any) {
               ctaLabel: 'Confirm test drive',
             },
             {
-              tabTitle: 'Price Enquiry',
+              tabTitle: 'Price enquiry',
               nameLabel: 'Name',
               namePlaceholder: 'Full name',
               nameRequired: true,
@@ -1322,7 +1322,7 @@ export async function seedStrapi(strapi: any) {
               ctaLabel: 'Get price list',
             },
             {
-              tabTitle: 'Fleet',
+              tabTitle: 'Fleet solutions',
               nameLabel: 'Company name',
               namePlaceholder: 'Company',
               nameRequired: true,
@@ -1366,7 +1366,7 @@ export async function seedStrapi(strapi: any) {
             ctaLabel: 'Confirm test drive',
           },
           {
-            tabTitle: 'Price Enquiry',
+            tabTitle: 'Price enquiry',
             nameLabel: 'Name',
             namePlaceholder: 'Full name',
             nameRequired: true,
@@ -1385,7 +1385,7 @@ export async function seedStrapi(strapi: any) {
             ctaLabel: 'Get price list',
           },
           {
-            tabTitle: 'Fleet',
+            tabTitle: 'Fleet solutions',
             nameLabel: 'Company name',
             namePlaceholder: 'Company',
             nameRequired: true,
@@ -1481,37 +1481,22 @@ export async function seedStrapi(strapi: any) {
           {
             name: 'QRG',
             logo: partnerQrgId,
-            logoUrl: '/assets/partners-investors/qrg.webp',
-            width: 79.834,
-            desktopWidth: 223.602,
           },
           {
             name: 'Moglix',
             logo: partnerMoglixId,
-            logoUrl: '/assets/partners-investors/moglix.webp',
-            width: 64.224,
-            desktopWidth: 179.88,
           },
           {
             name: 'JETTY Ventures',
             logo: partnerJettyId,
-            logoUrl: '/assets/partners-investors/jetty.webp',
-            width: 58.531,
-            desktopWidth: 163.934,
           },
           {
             name: 'BLUME',
             logo: partnerBlumeId,
-            logoUrl: '/assets/partners-investors/blume.webp',
-            width: 58.531,
-            desktopWidth: 163.934,
           },
           {
             name: 'GIC',
             logo: partnerGicId,
-            logoUrl: '/assets/partners-investors/gic.webp',
-            width: 58.531,
-            desktopWidth: 163.934,
           },
         ],
       },

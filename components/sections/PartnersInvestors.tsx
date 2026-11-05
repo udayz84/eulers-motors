@@ -49,12 +49,19 @@ export default function PartnersInvestors({
 
   const partnersList =
     data?.partners && data.partners.length > 0
-      ? data.partners.map((p) => ({
-          src: p.logo ? mediaUrl(p.logo, p.logoUrl || "") : p.logoUrl || "",
-          alt: p.name || "",
-          width: p.width || 60,
-          desktopWidth: p.desktopWidth || 164,
-        }))
+      ? data.partners.map((p) => {
+          const matchedDefault = DEFAULT_PARTNERS.find(
+            (d) => d.alt.toLowerCase() === (p.name || "").toLowerCase()
+          );
+          return {
+            src: p.logo
+              ? mediaUrl(p.logo, matchedDefault?.src || "")
+              : p.logoUrl || matchedDefault?.src || "",
+            alt: p.name || matchedDefault?.alt || "",
+            width: p.width || matchedDefault?.width || 60,
+            desktopWidth: p.desktopWidth || matchedDefault?.desktopWidth || 164,
+          };
+        })
       : DEFAULT_PARTNERS;
 
   return (

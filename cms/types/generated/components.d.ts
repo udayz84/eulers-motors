@@ -873,11 +873,8 @@ export interface SharedPartnerLogo extends Struct.ComponentSchema {
     icon: 'picture';
   };
   attributes: {
-    desktopWidth: Schema.Attribute.Decimal;
     logo: Schema.Attribute.Media<'images'>;
-    logoUrl: Schema.Attribute.String;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    width: Schema.Attribute.Decimal;
   };
 }
 

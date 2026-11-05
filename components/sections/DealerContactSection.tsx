@@ -98,9 +98,8 @@ function Field({
           setValue(e.target.value);
         }}
         onBlur={() => isPhone && setTouched(true)}
-        className={`h-[36px] w-full rounded-[8px] border bg-white px-4 font-sans text-xs leading-[1.15] backdrop-blur-[8.15px] outline-none lg:h-[46px] lg:rounded-[13px] ${
-          value ? "text-[#121212]" : "text-[#9ca3af]"
-        } ${invalid ? "border-chip-red" : "border-[#ededed]"}`}
+        className={`h-[36px] w-full rounded-[8px] border bg-white px-4 font-sans text-xs leading-[1.15] backdrop-blur-[8.15px] outline-none lg:h-[46px] lg:rounded-[13px] ${value ? "text-[#121212]" : "text-[#9ca3af]"
+          } ${invalid ? "border-chip-red" : "border-[#ededed]"}`}
       />
       {invalid && (
         <span className="mt-1 block font-sans text-[10px] font-medium text-chip-red">
@@ -159,7 +158,7 @@ function SelectField({
   );
 }
 
-export interface DealerContactSectionProps extends Partial<DealerContactSectionData> {}
+export interface DealerContactSectionProps extends Partial<DealerContactSectionData> { }
 
 const DEFAULT_CARDS = [
   { icon: "phone.svg", title: "1800 000 0000", detail: "9 am to 8 pm Monday to Saturday", mobileOrder: "order-1" },
@@ -176,7 +175,7 @@ export default function DealerContactSection({
   backgroundImage,
   cards,
   form,
-  formHeading = "Book a test drive",
+  formHeading = "What are you looking for?",
   formSubheading = "Two steps. We call you within one working day.",
   vehicleOptions,
   tabs,
@@ -196,7 +195,7 @@ export default function DealerContactSection({
   tab1CustomPlaceholder = "150",
   tab1CtaLabel = "Confirm test drive",
 
-  tab2Title = "Price Enquiry",
+  tab2Title = "Price enquiry",
   tab2NameLabel = "Name *",
   tab2NamePlaceholder = "Full name",
   tab2PhoneLabel = "Mobile number *",
@@ -209,7 +208,7 @@ export default function DealerContactSection({
   tab2CustomPlaceholder = "5",
   tab2CtaLabel = "Get price list",
 
-  tab3Title = "Fleet",
+  tab3Title = "Fleet solutions",
   tab3NameLabel = "Company name *",
   tab3NamePlaceholder = "Company",
   tab3PhoneLabel = "Mobile number *",
@@ -263,7 +262,7 @@ export default function DealerContactSection({
       },
       {
         id: "tab2",
-        defaultTitle: "Price Enquiry",
+        defaultTitle: "Price enquiry",
         defaultField1: ["Name", "Full name"],
         defaultField2: ["Mobile number", "10 digit"],
         defaultVehicle: ["Which vehicle", "Not sure, please suggest one"],
@@ -273,7 +272,7 @@ export default function DealerContactSection({
       },
       {
         id: "tab3",
-        defaultTitle: "Fleet",
+        defaultTitle: "Fleet solutions",
         defaultField1: ["Company name", "Company"],
         defaultField2: ["Mobile number", "10 digit"],
         defaultVehicle: ["Which vehicle", "Not sure, please suggest one"],
@@ -492,7 +491,7 @@ export default function DealerContactSection({
               {effectiveSubheading}
             </p>
           </div>
-          <div className="flex w-full gap-3" role="tablist" aria-label="Enquiry type">
+          <div className="flex w-full gap-2 sm:gap-3" role="tablist" aria-label="Enquiry type">
             {tabConfigs.map((t, idx) => {
               const on = idx === activeTabIdx;
               return (
@@ -502,11 +501,10 @@ export default function DealerContactSection({
                   role="tab"
                   aria-selected={on}
                   onClick={() => setActiveTabIdx(idx)}
-                  className={`h-[34px] flex-1 rounded-full px-2 font-display text-xs font-semibold lg:h-[42px] lg:px-3 lg:text-base ${
-                    on
-                      ? "bg-[#0c2c66] text-white"
-                      : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px]"
-                  }`}
+                  className={`h-[34px] flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 sm:px-2 font-display text-[11px] sm:text-xs font-semibold leading-none lg:h-[42px] lg:px-3 lg:text-base ${on
+                    ? "bg-[#0c2c66] text-white"
+                    : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px]"
+                    }`}
                 >
                   {t.title}
                 </button>
@@ -562,10 +560,9 @@ export default function DealerContactSection({
             <div className="flex w-full flex-col items-center gap-3">
               <button
                 type="button"
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-fit lg:px-6 lg:text-base lg:font-semibold"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-full lg:px-6 lg:text-base lg:font-semibold hover:bg-black transition-colors"
               >
-                <span className="lg:hidden">Continue</span>
-                <span className="hidden lg:inline">{currentTab.cta}</span>
+                <span>{currentTab.cta}</span>
                 <Image
                   src={`${ASSET}arrow-mobile.svg`}
                   alt=""
