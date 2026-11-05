@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -136,7 +136,7 @@ const MEDIA_KIT_ITEMS = [
 function SectionEyebrow({ children, light = false, className = "", readingAccent = false, mediaAccent = false }: { children: ReactNode; light?: boolean; className?: string; readingAccent?: boolean; mediaAccent?: boolean }) {
   return (
     <div className={`relative flex items-center gap-2 font-sans text-[12px] font-bold uppercase tracking-[0.6px] ${light ? "text-white" : "text-[#0e2f6d]"} ${readingAccent || mediaAccent ? "gap-[6px]" : ""} ${className}`}>
-      {(readingAccent || mediaAccent) && <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={21} className={`absolute top-0 h-[21px] w-[148.821px] ${mediaAccent ? "left-[4px] origin-left scale-x-[2]" : "left-[3.43px]"}`} />}
+      {(readingAccent || mediaAccent) && <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={21} className={`absolute top-0 w-[148.821px] max-w-none ${mediaAccent ? "left-[4px] h-[20.355px] origin-left scale-x-[2]" : "left-[3.43px] h-[21px]"}`} />}
       {mediaAccent ? (
         <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" aria-hidden width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
       ) : readingAccent ? (
@@ -158,19 +158,19 @@ function ArrowIcon({ className = "size-4" }: { className?: string }) {
 }
 
 
-function FeaturedArrowIcon({ direction }: { direction: "left" | "right" }) {
+function StoryArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="9"
-      height="17"
-      viewBox="0 0 9 17"
-      fill="none"
-      className="h-[10px] w-[22px] shrink-0"
-      style={{ transform: direction === "left" ? "scaleX(-1)" : "none" }}
-      aria-hidden="true"
-    >
-      <path d="M1.25 15.25L6.58061 9.03095C6.9658 8.58156 6.9658 7.91844 6.58061 7.46905L1.25 1.25" strokeWidth="3.5" strokeLinecap="round" stroke="white" />
+    <svg viewBox="0 0 55 55" fill="none" className="absolute inset-0 size-full" aria-hidden="true">
+      <path
+        d={
+          direction === "left"
+            ? "M30.3097 34.5L24.9791 28.2809C24.5939 27.8316 24.5939 27.1684 24.9791 26.7191L30.3097 20.5"
+            : "M24.6903 34.5L30.0209 28.2809C30.4061 27.8316 30.4061 27.1684 30.0209 26.7191L24.6903 20.5"
+        }
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -184,6 +184,34 @@ export default function InPressPage() {
   const featuredRef = useRef<HTMLDivElement>(null);
   const pressRef = useRef<HTMLDivElement>(null);
   const kitRef = useRef<HTMLDivElement>(null);
+  const [arrowTops, setArrowTops] = useState<{ featured?: number; kit?: number }>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    const topFor = (row: HTMLDivElement | null) => {
+      const section = row?.closest("section");
+      const card = row?.querySelector<HTMLElement>("article");
+      if (!section || !card) return undefined;
+      const sectionRect = section.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const zoom = Number.parseFloat(window.getComputedStyle(document.documentElement).zoom) || 1;
+      return Math.round((cardRect.top - sectionRect.top + cardRect.height / 2) / zoom - 27.5);
+    };
+    const measure = () => {
+      if (!cancelled) setArrowTops({ featured: topFor(featuredRef.current), kit: topFor(kitRef.current) });
+    };
+    measure();
+    const frame = requestAnimationFrame(measure);
+    const timer = window.setTimeout(measure, 400);
+    document.fonts?.ready.then(measure);
+    window.addEventListener("resize", measure);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
 
   const visibleArticles = ARTICLES.filter((article) => activeCategory === "All" || article.category === activeCategory);
 
@@ -215,7 +243,7 @@ export default function InPressPage() {
             titleId="in-press-title-mobile"
             className="!h-[324px] sm:!h-[324px]"
             description="See the latest media coverage, company announcements and industry updates from Euler Motors."
-            action={<a href="#media-kit" className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-[3px] bg-white px-5 text-[12px] font-semibold text-[#121212] transition-colors hover:bg-[#e9edf3]">Download Media Kit <Arrow color="ink" /></a>}
+            action={<a href="#media-kit" className="flex h-[44px] w-[313px] items-center justify-center gap-2 whitespace-nowrap rounded-[3px] bg-white px-5 font-display text-[12px] font-bold leading-[100%] text-[#121212] transition-colors hover:bg-[#e9edf3]">Download Media Kit <Arrow color="ink" /></a>}
             hasWidget
           />
         </div>
@@ -231,12 +259,12 @@ export default function InPressPage() {
           />
         </div>
 
-        <section className="relative overflow-hidden bg-[#f3f4f5] py-8 pl-[10px] pr-0 sm:py-12 sm:pl-8 sm:pr-8 md:h-[545px] md:px-[60px] md:py-[62px]">
+        <section className="relative overflow-hidden bg-[#f3f4f5] py-8 pl-[10px] pr-0 sm:py-12 sm:pl-8 sm:pr-8 md:flex md:h-[545px] md:flex-col md:items-center md:justify-center md:gap-8 md:px-[80px] md:pb-[62px] md:pt-[64px]">
           <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-4 md:block">
             <h2 className="self-stretch font-display text-[20px] font-semibold leading-[1.15] tracking-[-0.4px] text-[#121212] md:text-[28px] md:leading-[115%] md:tracking-[-0.56px]">Featured story</h2>
             <div className="relative w-full md:mt-7 md:w-auto">
-              <div ref={featuredRef} onScroll={() => updateProgress(featuredRef, setFeaturedProgress)} className="press-snap-row no-scrollbar -ml-[10px] flex w-[calc(100%+10px)] min-w-0 scroll-pl-[10px] gap-[10px] overflow-x-auto scroll-smooth pb-1 pl-[10px] snap-x snap-mandatory sm:ml-0 sm:w-full sm:scroll-pl-8 sm:pl-8 md:relative md:left-1/2 md:mx-0 md:flex-row md:w-screen md:-translate-x-1/2 md:items-center md:gap-[10px] md:overflow-x-auto md:scroll-smooth md:px-0 md:pb-1 md:snap-x md:snap-mandatory md:[scroll-padding-left:max(60px,calc((100vw_-_1280px)_/_2))]">
-                <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(50px,calc((100vw_-_1280px)_/_2_-_10px))]" />
+              <div ref={featuredRef} onScroll={() => updateProgress(featuredRef, setFeaturedProgress)} className="press-snap-row no-scrollbar -ml-[10px] flex w-[calc(100%+10px)] min-w-0 scroll-pl-[10px] gap-[10px] overflow-x-auto scroll-smooth pb-1 pl-[10px] snap-x snap-mandatory sm:ml-0 sm:w-full sm:scroll-pl-8 sm:pl-8 md:relative md:left-1/2 md:mx-0 md:flex-row md:w-[max(calc(100%_+_160px),100vw)] md:-translate-x-1/2 md:items-center md:gap-[10px] md:overflow-x-auto md:scroll-smooth md:px-0 md:pb-1 md:snap-x md:snap-mandatory md:[scroll-padding-left:max(80px,calc(50vw_-_640px))]">
+                <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(70px,calc(50vw_-_650px))]" />
                 {FEATURED_STORIES.map((story) => (
                   <article key={story.title} className="flex h-[436px] w-[373px] shrink-0 snap-start flex-col items-start gap-3 overflow-hidden rounded-[12px] bg-white p-2 sm:h-[480px] sm:w-[520px] sm:gap-4 sm:p-3 md:h-[303px] md:w-[927px] md:flex-row md:items-start md:gap-[24px] md:rounded-[12px] md:p-[20px]">
                     <div className="relative h-[200px] w-full shrink-0 sm:h-[250px] md:h-[263px] md:w-[443.5px] md:flex-[1_0_0] md:self-stretch md:overflow-hidden md:rounded-[8px] md:p-3">
@@ -261,36 +289,39 @@ export default function InPressPage() {
             </div>
             <div className="mt-4 hidden justify-center md:mt-8 md:flex"><Progress value={featuredProgress} /></div>
           </div>
-          <button type="button" onClick={() => scrollRow(featuredRef, -1, "article")} aria-label="Previous featured story" className="absolute left-[50px] top-[245px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="left" /></button>
-          <button type="button" onClick={() => scrollRow(featuredRef, 1, "article")} aria-label="Next featured story" className="absolute right-[50px] top-[245px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="right" /></button>
-          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15vw)] max-w-[210.811px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] backdrop-blur-[0px] md:block" />
+          <button type="button" onClick={() => scrollRow(featuredRef, -1, "article")} aria-label="Previous featured story" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121", top: arrowTops.featured }} className="absolute left-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex"><StoryArrowIcon direction="left" /></button>
+          <button type="button" onClick={() => scrollRow(featuredRef, 1, "article")} aria-label="Next featured story" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121", top: arrowTops.featured }} className="absolute right-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex"><StoryArrowIcon direction="right" /></button>
+          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15%)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] backdrop-blur-[0px] md:block" />
         </section>
 
-        <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-12 md:flex md:flex-col md:items-center md:justify-start md:gap-[42px] md:px-[60px] md:py-[62px]">
+        <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-12 md:mx-auto md:flex md:w-full md:max-w-none md:flex-col md:items-center md:justify-center md:gap-[42px] md:px-[60px] md:py-[62px]">
           <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-6 md:flex md:w-full md:max-w-[1280px] md:flex-col md:items-start md:justify-start md:gap-[26px]">
             <div className="flex flex-col items-start justify-center gap-3 self-stretch md:flex md:flex-col md:items-start md:justify-start md:gap-3">
               <SectionEyebrow readingAccent className="md:font-sans md:text-[14px] md:tracking-[0.7px]">Latest press coverage</SectionEyebrow>
-              <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] md:mt-0 md:text-[52px] md:leading-[115%] md:tracking-[-1.04px]">News &amp; Media Coverage</h2>
+              <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] md:mt-0 md:max-w-full md:truncate md:text-[52px] md:leading-[115%] md:tracking-[-1.04px]">News &amp; Media Coverage</h2>
             </div>
-            <div className="no-scrollbar -mx-5 flex h-8 items-center gap-2 overflow-x-auto px-5 sm:-mx-8 sm:px-8 md:mx-0 md:mt-0 md:flex-wrap md:items-center md:justify-start md:gap-2 md:overflow-visible md:px-0">
+            <div className="relative w-full">
+              <div className="no-scrollbar -mx-5 flex h-8 w-[calc(100%_+_40px)] items-center gap-2 overflow-x-auto px-5 sm:-mx-8 sm:w-[calc(100%_+_64px)] sm:px-8 md:mx-0 md:mt-0 md:w-auto md:flex-wrap md:items-center md:justify-start md:gap-2 md:overflow-visible md:px-0">
               {CATEGORIES.map(({ label, count }) => (
                 <button key={label} type="button" onClick={() => { setActiveCategory(label); setPressIndex(0); pressRef.current?.scrollTo({ left: 0 }); }} aria-pressed={activeCategory === label} className={`inline-flex h-8 shrink-0 items-center justify-center gap-[6.4px] rounded-[400px] px-3 font-sans text-[12px] font-semibold leading-[100%] transition-colors sm:h-9 sm:px-4 sm:text-[14px] md:h-auto md:gap-[6.4px] md:rounded-[400px] md:px-4 md:py-[13px] md:font-sans md:text-[16px] md:font-semibold md:leading-[100%] ${activeCategory === label ? "border-[0.4px] border-white text-white" : "bg-[rgba(204,204,204,0.32)] text-[#121212] hover:bg-[rgba(204,204,204,0.45)]"}`} style={activeCategory === label ? { background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #121212" } : undefined}>
-                  {label}<span className={`size-1 rounded-full ${activeCategory === label ? "bg-white/70" : "bg-[#858585]"}`} />{count}
-                </button>
-              ))}
+                    {label}<span className={`size-1 rounded-full ${activeCategory === label ? "bg-white/70" : "bg-[#858585]"}`} />{count}
+                  </button>
+                ))}
+              </div>
+              <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-[-19.994px] z-10 h-[49.664px] w-[54.598px] bg-[linear-gradient(270deg,#FFF_13.62%,rgba(255,255,255,0)_100%)] sm:right-[-31.994px] md:hidden" />
             </div>
           </div>
           <div className="mx-auto w-full max-w-[1280px] md:w-full md:max-w-[1280px]">
-            <p className="mt-4 text-[12px] font-semibold text-[#5c6675] md:hidden">{visibleArticles.length} recent stories</p>
-            <div ref={pressRef} data-press-row onScroll={() => updateProgress(pressRef, setPressProgress)} className="press-snap-row no-scrollbar mt-3 flex flex-col gap-2 overflow-hidden sm:gap-3 md:relative md:left-1/2 md:mt-0 md:w-screen md:-translate-x-1/2 md:flex-row md:items-center md:gap-3 md:overflow-x-auto md:scroll-smooth md:[scroll-padding-left:max(60px,calc((100vw_-_1280px)_/_2))]">
-              <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(48px,calc((100vw_-_1280px)_/_2_-_12px))]" />
+            <p className="mt-4 font-display text-[16px] font-semibold leading-[115%] tracking-[-0.32px] text-[#121212] md:hidden">{visibleArticles.length} recent stories</p>
+            <div ref={pressRef} data-press-row onScroll={() => updateProgress(pressRef, setPressProgress)} className="press-snap-row no-scrollbar mt-3 flex flex-col gap-2 overflow-hidden sm:gap-3 md:relative md:left-1/2 md:mt-0 md:w-[max(calc(100%_+_160px),100vw)] md:-translate-x-1/2 md:flex-row md:items-center md:gap-3 md:overflow-x-auto md:scroll-smooth md:[scroll-padding-left:max(80px,calc(50vw_-_640px))]">
+              <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(68px,calc(50vw_-_652px))]" />
               {visibleArticles.map((article, index) => (
-                  <article key={article.id} className={`press-card relative flex h-[174px] w-full shrink-0 flex-col items-start gap-3 self-stretch rounded-[12px] bg-[#f3f4f5] p-3 transition-shadow hover:shadow-md sm:h-[202px] sm:gap-4 sm:p-4 md:h-[202px] md:w-[420px] md:items-start md:justify-start md:self-auto md:gap-3 md:rounded-[12px] md:p-4 ${Math.floor(index / 5) === pressIndex ? "" : "max-md:hidden"}`}>
+                  <article key={article.id} className={`press-card relative flex h-[174px] w-full shrink-0 flex-col items-start gap-3 self-stretch rounded-[12px] bg-[#f3f4f5] p-3 transition-shadow hover:shadow-md sm:h-[202px] sm:gap-4 sm:p-4 md:h-[202px] md:w-[420px] md:items-start md:justify-start md:self-auto md:gap-3 md:rounded-[12px] md:p-4 `}>
                   <span className="flex w-fit flex-col items-start gap-[10px] rounded-[50px] bg-[#d4dbec] px-[10px] py-1 font-sans text-[12px] font-bold leading-[normal] text-black md:h-[24px] md:w-fit md:flex-col md:items-start md:justify-center md:gap-[10px] md:whitespace-nowrap md:rounded-[50px] md:bg-[#D4DBEC] md:px-[10px] md:py-1 md:font-sans md:text-[12px] md:font-bold md:leading-normal md:text-black">{article.source}</span>
                   <a href={article.url} aria-label={`Read ${article.title}`} className="absolute bottom-auto right-6 top-[130.263px] flex size-8 items-center justify-center rounded-[4px] bg-[#121212] text-white hover:bg-[#121212] md:bottom-[14px] md:right-[14px] md:top-auto md:h-[36px] md:w-[36px] md:gap-[11.25px] md:rounded-[4.5px] md:bg-[#121212] md:p-[12.375px_13.5px] md:text-white md:hover:bg-[#121212]"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" className="size-[14px] shrink-0 md:hidden" aria-hidden="true"><path d="M6.47514 1.75C4.34617 1.75383 3.23133 1.8061 2.51887 2.51856C1.75 3.28743 1.75 4.5249 1.75 6.99985C1.75 9.47479 1.75 10.7123 2.51887 11.4811C3.28773 12.25 4.52521 12.25 7.00015 12.25C9.4751 12.25 10.7126 12.25 11.4814 11.4811C12.1939 10.7687 12.2462 9.65384 12.25 7.52486" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" /><path d="M11.9823 2.04167L6.41602 7.58333M12.2494 4.66667C12.2494 4.66667 12.2494 3.06552 12.1169 2.31685C12.0978 2.20892 12.0507 2.11499 11.9823 2.04167C11.9059 1.9599 11.803 1.90377 11.6826 1.88245C10.9339 1.74986 9.33269 1.75 9.33269 1.75" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" /></svg><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="hidden size-[18px] shrink-0 aspect-square md:block" aria-hidden="true"><path d="M8.32517 2.25C5.58793 2.25493 4.15457 2.32213 3.23854 3.23815C2.25 4.2267 2.25 5.81773 2.25 8.9998C2.25 12.1819 2.25 13.7729 3.23854 14.7615C4.22708 15.75 5.81812 15.75 9.00018 15.75H9.00019H9.0002C12.1823 15.75 13.7733 15.75 14.7618 14.7615C15.6779 13.8454 15.7451 12.4121 15.75 9.67483" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" /><path d="M15.4066 2.625L8.25 9.75M15.75 6C15.75 6 15.75 3.94138 15.5797 2.97881C15.5552 2.84004 15.4946 2.71927 15.4066 2.625C15.3085 2.51987 15.1761 2.4477 15.0214 2.4203C14.0588 2.24982 12 2.25 12 2.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" /></svg></a>
                   <div className="flex flex-col items-start gap-3 self-stretch">
-                  <h3 className="line-clamp-2 self-stretch font-display text-[16px] font-semibold leading-[1.4] text-[#121212] sm:text-[18px] md:mt-0 md:self-stretch md:overflow-hidden md:pr-0 md:text-ellipsis md:text-[20px] md:leading-[140%] md:tracking-normal">{article.title}</h3>
-                    <p className="font-sans text-[12px] font-medium leading-[100%] text-[rgba(18,18,18,0.60)] md:mt-0 md:font-sans md:text-[12px] md:font-medium md:leading-[100%] md:text-[rgba(18,18,18,0.60)]">{article.date}<span aria-hidden className="mx-1.5 inline-block size-1 shrink-0 rounded-full bg-[rgba(18,18,18,0.30)] align-middle md:hidden" /><span className="mx-1.5 hidden md:inline">·</span>{article.category}</p>
+                  <h3 className="line-clamp-2 self-stretch font-display text-[16px] font-semibold leading-[1.4] text-[#121212] sm:text-[18px] md:mt-0 md:self-stretch md:line-clamp-none md:overflow-hidden md:whitespace-nowrap md:pr-0 md:text-ellipsis md:text-[20px] md:leading-[140%] md:tracking-normal">{article.title}</h3>
+                    <p className="font-sans text-[12px] font-medium leading-[100%] text-[rgba(18,18,18,0.60)] md:mt-0 md:font-sans md:text-[12px] md:font-medium md:leading-[100%] md:text-[rgba(18,18,18,0.60)]">{article.date}<span aria-hidden className="mx-1.5 inline-block size-1 aspect-square shrink-0 rounded-[500px] bg-[rgba(18,18,18,0.30)] align-middle" />{article.category}</p>
                   <p className="line-clamp-2 h-[34.926px] w-[279.543px] overflow-hidden text-ellipsis font-sans text-[12px] font-normal leading-[1.4] text-[#121212] sm:h-[39.2px] sm:w-full sm:text-[14px] md:mt-0 md:h-[41.02px] md:w-[347.56px] md:line-clamp-2 md:overflow-hidden md:whitespace-normal md:pr-0 md:text-ellipsis md:font-sans md:text-[14px] md:font-normal md:leading-[140%] md:text-[#121212]">{article.summary}</p>
                   </div>
                 </article>
@@ -314,20 +345,20 @@ export default function InPressPage() {
               </button>
             </div>
           </div>
-          <button type="button" onClick={() => scrollRow(pressRef, -1, ".press-card")} aria-label="Previous press coverage" className="absolute left-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="left" /></button>
-          <button type="button" onClick={() => scrollRow(pressRef, 1, ".press-card")} aria-label="Next press coverage" className="absolute right-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="right" /></button>
-          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15vw)] max-w-[210.811px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] backdrop-blur-[0px] md:block" />
+          <button type="button" onClick={() => scrollRow(pressRef, -1, ".press-card")} aria-label="Previous press coverage" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121" }} className="absolute left-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex min-[768px]:max-[1279.98px]:translate-y-[24px]"><StoryArrowIcon direction="left" /></button>
+          <button type="button" onClick={() => scrollRow(pressRef, 1, ".press-card")} aria-label="Next press coverage" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121" }} className="absolute right-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex min-[768px]:max-[1279.98px]:translate-y-[24px]"><StoryArrowIcon direction="right" /></button>
+          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15%)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] backdrop-blur-[0px] md:block" />
         </section>
 
         <section id="media-kit" className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-[#f3f4f5] px-5 py-8 sm:gap-8 sm:px-8 sm:py-12 md:h-[502.35px] md:gap-[42px] md:px-[60px] md:pb-[32px] md:pt-[62px]">
           <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-center gap-3 max-md:self-stretch md:max-w-[1280px] md:justify-start md:gap-4">
-            <SectionEyebrow mediaAccent className="max-md:text-[12px] max-md:tracking-[0.6px] md:font-sans md:text-[14px] md:tracking-[0.7px]">Media kit</SectionEyebrow>
+            <SectionEyebrow readingAccent className="max-md:text-[12px] max-md:tracking-[0.6px] md:font-sans md:text-[14px] md:tracking-[0.7px]">Media kit</SectionEyebrow>
             <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] max-md:self-stretch sm:text-[34px] md:text-[52px] md:leading-[115%] md:tracking-[-1.04px]">Everything you need to cover Euler</h2>
             <p className="text-[12px] leading-normal text-[#121212] max-md:self-stretch sm:text-[14px] md:font-sans md:text-[16px] md:font-normal md:leading-normal md:text-[#121212]">Official company information, brand assets and media resources, all in one place.</p>
           </div>
           <div className="mx-auto w-full max-w-[1280px] md:w-full md:max-w-[1280px]">
-            <div ref={kitRef} onScroll={() => updateProgress(kitRef, setKitProgress)} className="press-snap-row no-scrollbar -mx-5 mt-0 flex snap-x snap-mandatory flex-col gap-2 overflow-x-auto scroll-smooth px-5 sm:-mx-8 sm:gap-3 sm:px-8 md:relative md:left-1/2 md:mx-0 md:mt-0 md:w-screen md:-translate-x-1/2 md:flex-row md:items-center md:gap-3 md:px-0 md:scroll-smooth md:[scroll-padding-left:max(60px,calc((100vw_-_1280px)_/_2))]">
-              <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(48px,calc((100vw_-_1280px)_/_2_-_12px))]" />
+            <div ref={kitRef} onScroll={() => updateProgress(kitRef, setKitProgress)} className="press-snap-row no-scrollbar -mx-5 mt-0 flex snap-x snap-mandatory flex-col gap-2 overflow-x-auto scroll-smooth px-5 sm:-mx-8 sm:gap-3 sm:px-8 md:relative md:left-1/2 md:mx-0 md:mt-0 md:w-[max(calc(100%_+_160px),100vw)] md:-translate-x-1/2 md:flex-row md:items-center md:gap-3 md:px-0 md:scroll-smooth md:[scroll-padding-left:max(80px,calc(50vw_-_640px))]">
+              <div aria-hidden="true" className="hidden shrink-0 md:block md:w-[max(68px,calc(50vw_-_652px))]" />
               {MEDIA_KIT_ITEMS.map((item, index) => (
                 <article key={`${item.filename}-${index}`} className="flex h-[156px] w-full max-w-[353px] shrink-0 flex-col items-start justify-center gap-3 self-stretch rounded-[10px] bg-white px-3 py-2 sm:h-[170px] sm:max-w-[560px] sm:gap-4 sm:p-4 md:h-[170px] md:w-[353px] md:max-w-none md:shrink-0 md:self-stretch md:items-start md:gap-3 md:rounded-[12px] md:p-4">
                   <span className="w-fit rounded-full bg-[#e4e8f0] px-2 py-1 text-[9px] font-semibold leading-none text-[#293c60] max-md:flex max-md:flex-col max-md:items-start max-md:gap-[10px] max-md:rounded-[50px] max-md:bg-[#d4dbec] max-md:px-[10px] max-md:py-[4px] max-md:text-[12px] max-md:font-bold max-md:leading-normal max-md:text-[#000] md:h-6 md:items-center md:px-[10px] md:py-1 md:font-sans md:text-[12px] md:font-bold md:text-[#000] md:bg-[#d4dbec]">{item.label}</span>
@@ -345,9 +376,9 @@ export default function InPressPage() {
             </div>
             <div className="mt-4 hidden justify-center md:mt-[42px] md:flex"><Progress value={kitProgress} /></div>
           </div>
-          <button type="button" onClick={() => scrollRow(kitRef, -1, "article")} aria-label="Previous media kit items" className="absolute left-[50px] top-[292px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="left" /></button>
-          <button type="button" onClick={() => scrollRow(kitRef, 1, "article")} aria-label="Next media kit items" className="absolute right-[50px] top-[292px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] bg-[linear-gradient(258deg,#1D6FFF_0%,#347EFF_100%)] p-6 md:flex"><FeaturedArrowIcon direction="right" /></button>
-          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15vw)] max-w-[210.811px] bg-[linear-gradient(270deg,#F3F4F5_0%,rgba(243,244,245,0)_100%)] backdrop-blur-[0px] md:block" />
+          <button type="button" onClick={() => scrollRow(kitRef, -1, "article")} aria-label="Previous media kit items" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121", top: arrowTops.kit }} className="absolute left-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex"><StoryArrowIcon direction="left" /></button>
+          <button type="button" onClick={() => scrollRow(kitRef, 1, "article")} aria-label="Next media kit items" style={{ background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #212121", top: arrowTops.kit }} className="absolute right-[50px] top-[324px] z-20 hidden size-[55px] items-center justify-center gap-5 rounded-[8px] p-6 md:flex"><StoryArrowIcon direction="right" /></button>
+          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[-3px] z-10 hidden h-[551px] w-[min(210.811px,15%)] bg-[linear-gradient(270deg,#F3F4F5_0%,rgba(243,244,245,0)_100%)] backdrop-blur-[0px] md:block" />
         </section>
 
         <section className="mx-auto flex w-full max-w-[393px] p-[10px] flex-col justify-center items-center gap-24 bg-[linear-gradient(0deg,#F3F4F5_0%,#F3F4F5_100%),linear-gradient(180deg,#FFF_18.31%,#D4DBEC_38.3%)] sm:max-w-[560px] sm:gap-8 sm:p-3 lg:flex lg:flex-col lg:items-start lg:justify-start lg:gap-[10px] lg:self-stretch lg:pt-0 lg:px-[80px] lg:pb-8 lg:w-full lg:max-w-none lg:bg-[#f3f4f5]">
