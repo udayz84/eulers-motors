@@ -45,7 +45,7 @@ const ALL_ARTICLES: Article[] = [
 function Metadata({ article, mobile = false }: { article: Article; mobile?: boolean }) {
   return (
     <div className={`flex items-center gap-2.5 text-[rgba(18,18,18,0.60)] ${mobile ? "text-[12px] lg:text-[14px]" : "text-[14px]"} font-bold leading-normal`}>
-      <span>{article.date}</span><span aria-hidden className="size-[3px] shrink-0 rounded-full bg-black/50" /><span>{article.readTime}</span>
+      <span>{article.date}</span><span aria-hidden className="aspect-square size-[3.145px] shrink-0 rounded-[393.12px] bg-[rgba(0,0,0,0.50)]" /><span>{article.readTime}</span>
     </div>
   );
 }
@@ -53,19 +53,26 @@ function Metadata({ article, mobile = false }: { article: Article; mobile?: bool
 function Eyebrow({ label, variant }: { label: string; variant: "hero" | "featured" }) {
   const hero = variant === "hero";
   return (
-    <div className={`relative flex items-center gap-1 ${hero ? "text-white" : "text-[#0e2f6d]"}`}>
-      <Image src={`/assets/insights/eyebrow-${hero ? "1" : "3"}.svg`} alt="" aria-hidden width={149} height={21} className="absolute left-[3px] top-0 h-5 w-[149px]" />
-      <Image src={`/assets/insights/eyebrow-${hero ? "2" : "4"}.svg`} alt="" aria-hidden width={19} height={21} className="relative h-5 w-[19px]" />
+    <div className={`relative flex items-center gap-1 lg:gap-[6px] ${hero ? "text-white" : "text-[#0e2f6d]"}`}>
+      <Image src={`/assets/insights/eyebrow-${hero ? "1" : "3"}.svg`} alt="" aria-hidden width={149} height={21} className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]" />
+      <Image src={`/assets/insights/eyebrow-${hero ? "2" : "4"}.svg`} alt="" aria-hidden width={19} height={21} className="relative h-4 w-[14.8px] lg:h-[20.355px] lg:w-[18.821px]" />
       <span className="relative whitespace-nowrap text-[12px] font-bold uppercase tracking-[0.6px] lg:text-[14px] lg:tracking-[0.7px]">{label}</span>
     </div>
   );
 }
 
-function ArticleCard({ article }: { article: Article }) {
+function ArticleCard({ article, mobileImg }: { article: Article; mobileImg?: string }) {
   return (
     <Link href={`/insights/${article.slug}`} className="flex h-[286.32px] w-full min-w-0 flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg lg:h-[432px] lg:w-auto lg:flex-[1_0_0] lg:gap-[24px] lg:p-[20px]">
       <div className="relative h-[160px] shrink-0 overflow-hidden rounded-[8px] bg-[lightgray] lg:h-[233px] lg:w-full lg:self-stretch lg:p-[12px]">
-        <Image src={article.img} alt="" fill sizes="(max-width: 767px) 90vw, (max-width: 1279px) 42vw, 413px" className="object-cover" />
+        {mobileImg ? (
+          <>
+            <Image src={mobileImg} alt="" fill sizes="(max-width: 767px) 90vw" className="object-cover lg:hidden" />
+            <Image src={article.img} alt="" fill sizes="(min-width: 768px) 42vw, 413px" className={`hidden object-cover lg:block ${article.id === 2 || article.id === 4 ? "lg:scale-[1.04]" : ""}`} />
+          </>
+        ) : (
+          <Image src={article.img} alt="" fill sizes="(max-width: 767px) 90vw, (max-width: 1279px) 42vw, 413px" className={`object-cover ${article.id === 2 ? "max-lg:scale-x-[1.04] max-lg:object-[50%_60%]" : ""} ${article.id === 2 || article.id === 4 ? "lg:scale-[1.04]" : ""}`} />
+        )}
         <span className="absolute left-2 top-2 flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[12px] font-bold text-black lg:left-3 lg:top-3 lg:text-[14px]">{article.category}</span>
         <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-[12.333px] lg:top-[11.645px] lg:size-9 lg:p-[11px_12px]">
           <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0 lg:hidden" />
@@ -117,7 +124,7 @@ export default function BlogListingPage() {
   const clearFilters = () => { setSearchQuery(""); setActiveCategory("All"); setVisibleCount(6); };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-clip bg-white">
       <Navbar />
       <main>
         <section className="relative flex h-[324px] items-center justify-center overflow-visible bg-[linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)] px-5 pt-[120.32px] pb-[57.68px] lg:block lg:h-[420px] lg:px-20 lg:py-0">
@@ -153,8 +160,9 @@ export default function BlogListingPage() {
             <div ref={featuredRowRef} onScroll={(event) => handleFeaturedScroll(event.currentTarget)} className="snap-row w-full items-center gap-8">
               <div aria-hidden className="shrink-0" style={{ width: "max(48px, calc(50% - 672px))" }} />
               {FEATURED_ARTICLES.map((article) => <article key={article.id} data-featured-card className="featured-card flex h-[273px] w-[807px] shrink-0 snap-start items-start gap-[24px] rounded-[12px] bg-white p-[20px] transition-shadow hover:shadow-lg">
-                <div className="relative flex h-[233px] w-[353px] shrink-0 flex-col items-start gap-[24px] rounded-[8px] bg-[lightgray] bg-cover bg-center bg-no-repeat p-[12px]" style={{ backgroundImage: `url('${article.img}')` }}>
-                  <span className="flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[14px] font-bold text-black">{article.category}</span>
+                <div className="relative flex h-[233px] w-[353px] shrink-0 flex-col items-start gap-[24px] overflow-hidden rounded-[8px] bg-[lightgray] p-[12px]">
+                  <div aria-hidden className={`absolute inset-0 bg-cover bg-center bg-no-repeat ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`} style={{ backgroundImage: `url('${article.img}')` }} />
+                  <span className="relative flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[14px] font-bold text-black">{article.category}</span>
                   <span className="absolute right-3 top-[11.645px] flex size-9 items-center justify-center rounded-[4px] bg-white p-[11px_12px]"><Image src="/assets/insights/arrow-icon.svg" alt="" width={20} height={20} className="shrink-0 -rotate-90 -scale-x-100" /></span>
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col items-start gap-[6px] self-stretch"><h3 className="self-stretch font-display text-[26px] font-semibold leading-[115%] tracking-[-0.52px] text-[#121212]">{article.title}</h3><Metadata article={article} /><p className="self-stretch text-[16px] leading-normal text-[#121212]">{article.excerpt}</p></div>
@@ -167,17 +175,17 @@ export default function BlogListingPage() {
           <button onClick={() => scrollFeatured(1)} aria-label="Next featured articles" className="absolute bottom-[223px] right-[50px] z-20 hidden size-[55px] items-center justify-center lg:flex"><Image src="/assets/insights/carousel-arrow-right.svg" alt="" width={55} height={55} /></button>
         </section>
 
-        <section className="relative bg-white px-5 pt-8 lg:px-[60px] lg:py-[62px]">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-4 lg:gap-[20px]">
+        <section className="relative bg-white px-5 pt-8 lg:mx-auto lg:flex lg:w-full lg:max-w-[1440px] lg:flex-col lg:items-center lg:justify-center lg:gap-[42px] lg:px-[60px] lg:pb-[42px] lg:pt-[62px]">
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 lg:gap-5">
             <label className="flex h-[42px] w-full items-center justify-between rounded-[500px] border border-black/[0.06] bg-[#f3f4f5] p-3 shadow-[0_2px_4px_0_rgba(0,0,0,0.10)] lg:h-[46px] lg:w-[1320px] lg:max-w-full lg:py-[3px] lg:pl-4 lg:pr-[3px]">
-              <span className="flex min-w-0 flex-1 items-center gap-3 text-[#121212]/70"><Image src="/assets/insights/search-icon.svg" alt="" width={20} height={20} /><input aria-label="Search articles" type="search" placeholder="Search articles" value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-[14px] font-semibold outline-none placeholder:text-[#121212]/80 lg:text-[16px]" /></span>
+              <span className="flex min-w-0 flex-1 items-center gap-3 text-[#121212]/70"><Image src="/assets/insights/search-icon.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0" /><input aria-label="Search articles" type="search" placeholder="Search articles" value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value); }} className="min-w-0 flex-1 bg-transparent font-sans text-[14px] font-semibold outline-none placeholder:text-[rgba(18,18,18,0.80)] lg:text-[16px] lg:font-semibold lg:leading-normal lg:text-[rgba(18,18,18,0.80)]" /></span>
               {searchQuery && <button type="button" onClick={() => setSearchQuery("")} aria-label="Clear search" className="ml-2 px-2 text-xl leading-none text-[#121212]/60">×</button>}
             </label>
             <div className="relative -mx-5 lg:mx-0">
               <Image src="/assets/insights/tabs-row-decoration.svg" alt="" aria-hidden width={752} height={76} className="pointer-events-none absolute left-1/2 top-[-20px] z-0 hidden h-[76px] w-[751.148px] max-w-none -translate-x-1/2 lg:block" />
               <div className="no-scrollbar relative z-10 flex h-8 w-full items-center justify-start gap-2 overflow-x-auto pl-5 pr-0 lg:h-[42px] lg:justify-center lg:overflow-visible lg:px-0">
                 {CATEGORIES.map((category) => <button key={category.name} type="button" onClick={() => setActiveCategory(category.name)} className={`flex h-8 shrink-0 items-center gap-[6.4px] rounded-[400px] px-3 transition-opacity lg:h-auto lg:px-4 lg:py-[13px] ${activeCategory === category.name ? "border-[0.4px] border-white text-white" : "bg-black/[0.08] text-[#121212] hover:bg-black/[0.14]"}`} style={activeCategory === category.name ? { background: "linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), linear-gradient(258deg, #0E2F6D -138.16%, #1D6FFF 87.02%), #121212" } : undefined}>
-                  <span className="whitespace-nowrap text-[12px] font-semibold leading-none lg:text-[16px]">{category.name}</span><span className={`size-[3px] rounded-full ${activeCategory === category.name ? "bg-white/50" : "bg-black/50"}`} /><span className="whitespace-nowrap text-[10px] leading-none lg:text-[14px]">{category.count}</span>
+                  <span className="whitespace-nowrap text-[12px] font-semibold leading-none lg:text-[16px]">{category.name}</span><span className={`aspect-square size-[3.145px] rounded-[393.12px] ${activeCategory === category.name ? "bg-[rgba(255,255,255,0.50)]" : "bg-[rgba(0,0,0,0.50)]"}`} /><span className="whitespace-nowrap text-[10px] leading-none lg:text-[14px]">{category.count}</span>
                 </button>)}
               </div>
             </div>
@@ -185,10 +193,17 @@ export default function BlogListingPage() {
           <div aria-hidden className="pointer-events-none absolute right-0 top-[80px] z-20 h-[49.664px] w-[54.598px] bg-[linear-gradient(270deg,#FFF_13.62%,rgba(255,255,255,0)_100%)] lg:hidden" />
         </section>
 
-        <section className="bg-white px-5 pb-8 pt-5 lg:px-[60px] lg:pb-[62px] lg:pt-5">
+        <section className="bg-white px-5 pb-8 pt-4 lg:px-[60px] lg:pb-[62px] lg:pt-0">
           <div className="mx-auto max-w-[1280px]">
-            {shownArticles.length === 0 ? <div className="py-20 text-center"><p className="text-[18px] font-semibold text-black/60">No articles found matching your criteria.</p><button onClick={clearFilters} className="mt-4 text-[16px] font-semibold text-[#1d6fff] hover:underline">Clear filters</button></div> : <div className="grid grid-cols-1 gap-2 md:grid-cols-3 lg:gap-5">{shownArticles.map((article) => <ArticleCard key={article.id} article={article} />)}</div>}
-            {filteredArticles.length > 0 && <div className="mt-5 flex justify-center lg:mt-[42px]">
+            {shownArticles.length === 0 ? <div className="py-20 text-center"><p className="text-[18px] font-semibold text-black/60">No articles found matching your criteria.</p><button onClick={clearFilters} className="mt-4 text-[16px] font-semibold text-[#1d6fff] hover:underline">Clear filters</button></div> : <div className="grid grid-cols-1 gap-2 md:grid-cols-3 lg:gap-5">{shownArticles.map((article, index) => {
+              const mobileImg = index === 0
+                ? "/assets/insights/figma-mobile-article-3.png"
+                : index === shownArticles.length - 1
+                  ? shownArticles[0]?.img
+                  : undefined;
+              return <ArticleCard key={article.id} article={article} mobileImg={mobileImg} />;
+            })}</div>}
+            {filteredArticles.length > 0 && <div className="mt-4 flex justify-center lg:mt-[42px]">
               <Link href="/insights/charging-network" className="inline-flex h-8 items-center justify-center gap-2 rounded-[4px] border border-[#121212]/50 bg-[#f3f4f5] px-5 font-display text-[12px] font-bold leading-none text-[#121212] transition-colors hover:bg-[#ededed] lg:h-[50px] lg:gap-[8px] lg:px-6 lg:text-[16px] lg:font-semibold">Load More</Link>
             </div>}
           </div>
