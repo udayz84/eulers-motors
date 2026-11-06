@@ -414,7 +414,7 @@ function RelatedArticles() {
           </div>
         </header>
 
-        <div className="relative -mr-5 w-[calc(100%+20px)] lg:left-[calc(50%-50vw)] lg:w-screen">
+        <div className="relative -mr-5 w-[calc(100%+20px)] lg:-ml-20 lg:mr-0 lg:w-[calc(100%+160px)] xl:left-[calc(50%-50vw)] xl:ml-0 xl:mr-0 xl:w-screen">
           <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto scroll-smooth pb-2 touch-pan-x lg:gap-8 lg:overflow-y-hidden lg:pb-0 lg:pl-20 lg:pr-0 lg:[scroll-padding-left:80px]">
             {FIGMA_RELATED_CARDS.map((article) => (
               <Link key={article.id} data-related-card href={article.href} className="flex h-[282px] w-full shrink-0 snap-start flex-col gap-2 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg lg:h-[273px] lg:w-[807px] lg:flex-row lg:items-start lg:gap-6 lg:p-5">
@@ -521,7 +521,7 @@ function FigmaArticleBody({ title }: { title: string }) {
   const section = "flex flex-col gap-[10px]";
 
   return (
-    <section id="article-body" className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-8 pb-[42px] pt-8 lg:items-center lg:justify-center lg:gap-10 lg:px-[200px] lg:pt-16">
+    <section id="article-body" className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-8 pb-8 pt-8 lg:items-center lg:justify-center lg:gap-10 lg:px-[200px] lg:pb-[42px] lg:pt-16">
       <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <label className="order-2 -mx-3 flex h-[42px] w-[calc(100%+24px)] max-w-[353px] min-w-0 flex-1 items-center justify-start gap-2 rounded-[50px] border border-[rgba(0,0,0,0.06)] bg-[#f3f4f5] p-3 lg:order-none lg:mx-0 lg:h-[46px] lg:w-auto lg:max-w-none lg:flex-[1_0_0] lg:justify-between lg:gap-3 lg:border-[rgba(0,0,0,0.04)] lg:py-[3px] lg:pl-4 lg:pr-[3px] lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
           <span className="flex min-w-0 flex-1 items-center gap-2 lg:gap-3">
@@ -656,7 +656,7 @@ function FigmaArticleBody({ title }: { title: string }) {
 export default function BlogDetailsPage() {
   const title = "How to Charge Your Electric Truck: Home vs Public Charging";
   return (
-    <div className="min-h-screen bg-white text-[#121212]">
+    <div className="min-h-screen overflow-x-clip bg-white text-[#121212]">
       <Navbar />
       <main>
         <section className="relative isolate h-[594px] overflow-x-clip overflow-y-visible bg-[#101923] sm:h-[594px] lg:h-[650px] lg:overflow-visible" aria-label="Article header">
@@ -686,12 +686,12 @@ export default function BlogDetailsPage() {
             <span aria-current="page" className="min-w-0 max-w-[calc(100vw-205px)] truncate whitespace-nowrap text-[#ccc] sm:max-w-[240px] lg:max-w-none">How to Charge...</span>
           </nav>
           <div className="absolute bottom-[24px] left-5 flex max-w-[calc(100%-40px)] -translate-x-0 flex-col items-start justify-center gap-3 lg:bottom-[62px] lg:left-[calc(50%-360.54px)] lg:max-w-none lg:-translate-x-1/2 lg:gap-5">
-            <div className="relative flex h-[20.355px] items-center gap-[6px]">
-              <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
-              <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
+            <div className="relative flex h-4 items-center gap-1 lg:h-[20.355px] lg:gap-[6px]">
+              <Image src="/assets/insights/figma-eyebrow-wide.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-4 w-[116.978px] lg:h-[20.355px] lg:w-[148.821px]" />
+              <Image src="/assets/insights/figma-eyebrow-dot.svg" alt="" width={19} height={21} className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]" />
               <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-white lg:text-[14px] lg:tracking-[0.7px]">Charging</span>
             </div>
-            <h1 className="w-[353px] max-w-full font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.48px] text-white lg:w-[558.925px] lg:text-[32px] lg:leading-[115%] lg:tracking-[-0.64px]">{title}</h1>
+            <h1 className="w-[353px] max-w-full font-display text-[24px] font-semibold leading-[1.15] tracking-[-2px] text-white min-[375px]:tracking-[-1.5px] min-[393px]:tracking-[-1px] lg:w-[558.925px] lg:text-[32px] lg:leading-[115%] lg:tracking-[-0.64px]">{title}</h1>
             <div className="flex flex-wrap items-center justify-start gap-2 text-[12px] font-semibold leading-normal text-white/60 lg:gap-4 lg:text-[16px]">
               <div className="flex items-center gap-1">
                 <Image src="/assets/insights/figma-mobile-author.png" alt="Aditi Singh" width={20} height={20} className="size-5 shrink-0 rounded-full object-cover lg:size-8" />
