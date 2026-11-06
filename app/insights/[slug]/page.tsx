@@ -459,53 +459,53 @@ function RelatedArticles() {
 function FleetBanner() {
   return (
     <>
-    <section className="bg-white px-5 pb-5 pt-2 lg:hidden">
-      <div className="relative mx-auto h-[384px] w-full max-w-[353px] overflow-hidden rounded-[8px] bg-[linear-gradient(175.729deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
-        <div aria-hidden="true" className="absolute left-[14.164%] top-[175px] h-[249px] w-[88.385%] overflow-hidden">
-          <Image src="/assets/insights/figma-fleet-banner.png" alt="" width={520} height={415} className="absolute left-0 top-0 h-[125.24%] w-full max-w-none object-fill" />
-        </div>
-        <div className="absolute left-1/2 top-5 flex w-[calc(100%-40px)] max-w-[313px] -translate-x-1/2 flex-col items-start gap-4">
-          <div className="flex w-full flex-col items-start gap-3">
-            <div className="relative flex h-4 w-full items-center gap-1">
-              <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={117} height={16} aria-hidden="true" className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
-              <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[14.794px]" />
-              <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">38 cities open</span>
+      <section className="bg-white px-5 pb-5 pt-2 lg:hidden">
+        <div className="relative mx-auto h-[384px] w-full max-w-[353px] overflow-hidden rounded-[8px] bg-[linear-gradient(175.729deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%)]">
+          <div aria-hidden="true" className="absolute left-[14.164%] top-[175px] h-[249px] w-[88.385%] overflow-hidden">
+            <Image src="/assets/insights/figma-fleet-banner.png" alt="" width={520} height={415} className="absolute left-0 top-0 h-[125.24%] w-full max-w-none object-fill" />
+          </div>
+          <div className="absolute left-1/2 top-5 flex w-[calc(100%-40px)] max-w-[313px] -translate-x-1/2 flex-col items-start gap-4">
+            <div className="flex w-full flex-col items-start gap-3">
+              <div className="relative flex h-4 w-full items-center gap-1">
+                <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={117} height={16} aria-hidden="true" className="absolute left-[3.43px] top-0 h-4 w-[116.978px]" />
+                <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={15} height={16} aria-hidden="true" className="relative h-4 w-[14.794px]" />
+                <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">38 cities open</span>
+              </div>
+              <h2 className="w-full max-w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212]">See how Euler fits your fleet</h2>
             </div>
-            <h2 className="w-full max-w-[254px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212]">See how Euler fits your fleet</h2>
-          </div>
-          <div className="grid w-full grid-cols-[151.5fr_149.5fr] items-center gap-3">
-            <Link href="/dealer-locator" className="flex h-11 min-w-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-3 font-display text-[12px] font-bold leading-none text-[#121212]">Find a dealer</Link>
-            <Link href="/products" className="flex h-11 min-w-0 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-3 font-display text-[12px] font-bold leading-none text-white">
-              <span className="whitespace-nowrap">Explore vehicles</span>
-              <Image src="/assets/insights/figma-fleet-arrow.svg" alt="" width={19} height={12} aria-hidden="true" className="shrink-0" />
-            </Link>
+            <div className="grid w-full grid-cols-[151.5fr_149.5fr] items-center gap-3">
+              <Link href="/dealer-locator" className="flex h-11 min-w-0 items-center justify-center rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-3 font-display text-[12px] font-bold leading-none text-[#121212]">Find a dealer</Link>
+              <Link href="/products" className="flex h-11 min-w-0 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-3 font-display text-[12px] font-bold leading-none text-white">
+                <span className="whitespace-nowrap">Explore vehicles</span>
+                <Image src="/assets/insights/figma-fleet-arrow.svg" alt="" width={19} height={12} aria-hidden="true" className="shrink-0" />
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="hidden bg-[#f3f4f5] px-5 py-6 lg:block lg:h-[339px] lg:px-20 lg:py-8">
-      <div className="relative mx-auto flex min-h-[300px] w-full max-w-[1280px] items-center overflow-hidden rounded-[12px] bg-[linear-gradient(179.155deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%),linear-gradient(90deg,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.4)_100%),linear-gradient(-82.341deg,#0e2f6d_63.511%,#1d6fff_87.226%)] px-5 py-8 lg:h-[275px] lg:min-h-0 lg:px-10 lg:py-8">
-        <div className="relative z-10 flex w-full flex-col items-start gap-4 lg:w-[414.434px]">
-          <div className="relative flex h-[20.355px] items-center gap-[6px]">
-            <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
-            <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
-            <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d] lg:text-[14px] lg:tracking-[0.7px]">38 cities open</span>
+      <section className="hidden bg-[#f3f4f5] px-5 py-6 lg:block lg:h-[339px] lg:px-20 lg:py-8">
+        <div className="relative mx-auto flex min-h-[300px] w-full max-w-[1280px] items-center overflow-hidden rounded-[12px] bg-[linear-gradient(179.155deg,rgba(194,211,241,0.8)_21.28%,rgba(91,148,214,0.8)_151.97%),linear-gradient(90deg,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.4)_100%),linear-gradient(-82.341deg,#0e2f6d_63.511%,#1d6fff_87.226%)] px-5 py-8 lg:h-[275px] lg:min-h-0 lg:px-10 lg:py-8">
+          <div className="relative z-10 flex w-full flex-col items-start gap-4 lg:w-[414.434px]">
+            <div className="relative flex h-[20.355px] items-center gap-[6px]">
+              <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={149} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
+              <Image src="/assets/insights/figma-eyebrow-reading-dot.svg" alt="" width={19} height={21} className="relative h-[20.355px] w-[18.821px]" />
+              <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d] lg:text-[14px] lg:tracking-[0.7px]">38 cities open</span>
+            </div>
+            <h2 className="font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.48px] text-[#121212] sm:text-[28px] lg:whitespace-nowrap lg:text-[32px] lg:leading-normal lg:tracking-[-0.64px]">See how Euler fits your fleet</h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/dealer-locator" className="inline-flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-6 font-display text-[14px] font-semibold leading-none text-[#121212] transition-colors hover:bg-white lg:text-[16px]">Find a dealer</Link>
+              <Link href="/products" className="inline-flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 font-display text-[14px] font-semibold leading-none text-white transition-colors hover:bg-[#0e2f6d] lg:text-[16px]">
+                Explore vehicles
+                <Image src="/assets/insights/figma-fleet-arrow.svg" alt="" width={22} height={14} />
+              </Link>
+            </div>
           </div>
-          <h2 className="font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.48px] text-[#121212] sm:text-[28px] lg:whitespace-nowrap lg:text-[32px] lg:leading-normal lg:tracking-[-0.64px]">See how Euler fits your fleet</h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href="/dealer-locator" className="inline-flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-6 font-display text-[14px] font-semibold leading-none text-[#121212] transition-colors hover:bg-white lg:text-[16px]">Find a dealer</Link>
-            <Link href="/products" className="inline-flex h-[50.477px] items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-6 font-display text-[14px] font-semibold leading-none text-white transition-colors hover:bg-[#0e2f6d] lg:text-[16px]">
-              Explore vehicles
-              <Image src="/assets/insights/figma-fleet-arrow.svg" alt="" width={22} height={14} />
-            </Link>
+          <div aria-hidden="true" className="pointer-events-none absolute right-[-30px] top-[84px] h-[260px] w-[326px] sm:right-0 sm:top-[50px] sm:h-[320px] sm:w-[400px] lg:right-[48.51px] lg:top-[-64.48px] lg:h-[415.255px] lg:w-[520.047px]">
+            <Image src="/assets/insights/figma-fleet-banner.png" alt="" width={520} height={415} className="absolute left-0 top-0 h-[125.24%] w-full max-w-none object-fill" />
           </div>
         </div>
-        <div aria-hidden="true" className="pointer-events-none absolute right-[-30px] top-[84px] h-[260px] w-[326px] sm:right-0 sm:top-[50px] sm:h-[320px] sm:w-[400px] lg:right-[48.51px] lg:top-[-64.48px] lg:h-[415.255px] lg:w-[520.047px]">
-          <Image src="/assets/insights/figma-fleet-banner.png" alt="" width={520} height={415} className="absolute left-0 top-0 h-[125.24%] w-full max-w-none object-fill" />
-        </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }
