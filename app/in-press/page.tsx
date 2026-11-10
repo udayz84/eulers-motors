@@ -619,17 +619,36 @@ export default function InPressPage() {
           <ProgressPill value={kit.progress} label="Media kit" />
         </section>
 
-        <section className="w-full bg-[#f3f4f5] px-5 py-6 sm:px-8 sm:py-8 md:py-10 lg:px-20 lg:pb-16 lg:pt-0">
-          <div className="mx-auto flex min-h-[288px] w-full max-w-[373px] flex-col items-start gap-[10px] rounded-[12px] bg-[linear-gradient(0deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.40)_100%),linear-gradient(272deg,#0E2F6D_-63.51%,#1D6FFF_87.23%)] px-[19px] py-8 text-white sm:min-h-[320px] sm:max-w-[520px] sm:px-8 md:max-w-[680px] lg:h-[200px] lg:min-h-0 lg:w-full lg:max-w-[1280px] lg:flex-row lg:items-center lg:justify-between lg:gap-[10px] lg:self-stretch lg:rounded-[12px] lg:px-10 lg:py-8">
-            <div className="flex w-full flex-col items-center justify-center gap-[14px] self-stretch lg:flex lg:w-[414.434px] lg:shrink-0 lg:flex-col lg:items-start lg:justify-center lg:gap-4 lg:self-auto">
-              <h2 className="font-display self-stretch text-center text-[28px] font-semibold leading-normal tracking-[-0.56px] sm:text-[32px] lg:w-[414.434px] lg:text-left lg:text-[32px] lg:font-semibold lg:leading-normal lg:tracking-[-0.64px]">Looking to speak with<br className="hidden md:block" /> Euler Motors?</h2>
-              <p className="self-stretch text-center text-[14px] font-sans font-normal leading-normal text-white capitalize sm:text-[16px] md:w-[425.72px] md:text-[16px] md:font-normal md:leading-normal md:text-white md:text-left md:normal-case md:mt-0">For media enquiries, interviews or press requests, our communications team is here to help.</p>
+        <section className="w-full bg-[#f3f4f5] px-5 py-6 sm:px-8 sm:py-8 md:py-10 lg:px-10 lg:pb-16 lg:pt-0 xl:px-20">
+          <div className="mx-auto flex min-h-[288px] w-full max-w-[373px] flex-col items-start gap-6 rounded-[12px] bg-[linear-gradient(0deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.40)_100%),linear-gradient(272deg,#0E2F6D_-63.51%,#1D6FFF_87.23%)] px-5 py-8 text-white sm:min-h-[300px] sm:max-w-[520px] sm:px-8 md:max-w-[1280px] lg:min-h-[200px] lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-6">
+            <div className="flex w-full flex-col items-center justify-center gap-3 text-center sm:gap-4 lg:w-[414.434px] lg:shrink-0 lg:items-start lg:text-left">
+              <h2 className="font-display self-stretch text-[26px] font-semibold leading-tight tracking-[-0.56px] sm:text-[30px] lg:text-[32px] lg:tracking-[-0.64px]">
+                Looking to speak with<br className="hidden md:block" /> Euler Motors?
+              </h2>
+              <p className="self-stretch font-sans text-[13px] font-normal leading-relaxed text-white/90 sm:text-[14px] md:max-w-[425.72px] lg:text-[16px] lg:text-white">
+                For media enquiries, interviews or press requests, our communications team is here to help.
+              </p>
             </div>
-            <div className="flex w-full flex-col gap-3 self-stretch lg:ml-auto lg:w-auto lg:flex-row lg:items-center lg:justify-center lg:gap-[14px] lg:self-center">
-              <a href="mailto:press@eulermotors.com" className="flex h-[44px] w-full self-stretch items-center justify-center gap-2 rounded-[4px] bg-white px-[20px] font-display text-[12px] font-bold leading-[100%] text-[#0e2f6d] hover:bg-[#e9edf3] sm:h-12 sm:gap-2 sm:px-6 sm:text-[14px] md:h-[50.477px] md:gap-8 md:rounded-[4px] md:px-6 md:text-[16px] md:font-display md:font-semibold md:leading-[100%] md:text-[#0E2F6D] md:w-auto">Contact communications <Arrow color="ink" /></a>
-              <div className="flex items-center justify-center gap-2 md:justify-center md:gap-[14px]">
-                <a href="mailto:press@eulermotors.com" className="font-display text-[12px] font-semibold leading-[100%] text-white md:text-left md:text-[18px] md:font-display md:font-semibold md:leading-[100%]">press@eulermotors.com</a>
-                <button type="button" onClick={() => navigator.clipboard.writeText("press@eulermotors.com")} aria-label="Copy press email" className="inline-flex size-[14px] shrink-0 items-center justify-center md:size-[20.16px]">
+            <div className="flex w-full flex-col items-center justify-center gap-3 sm:gap-3.5 lg:ml-auto lg:w-auto lg:items-end xl:flex-row xl:items-center xl:gap-4">
+              <a
+                href="mailto:press@eulermotors.com"
+                className="inline-flex h-[44px] w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-[4px] bg-white px-5 font-display text-[13px] font-bold leading-none text-[#0e2f6d] transition-colors hover:bg-[#e9edf3] sm:h-12 sm:px-6 sm:text-[14px] md:h-[50.477px] md:w-auto md:text-[16px]"
+              >
+                Contact communications <Arrow color="ink" />
+              </a>
+              <div className="flex shrink-0 items-center justify-center gap-2 md:gap-[10px]">
+                <a
+                  href="mailto:press@eulermotors.com"
+                  className="font-display text-[13px] font-semibold leading-none text-white transition-opacity hover:opacity-80 sm:text-[14px] md:text-[16px] lg:text-[18px]"
+                >
+                  press@eulermotors.com
+                </a>
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard.writeText("press@eulermotors.com")}
+                  aria-label="Copy press email"
+                  className="inline-flex size-[14px] shrink-0 items-center justify-center text-white hover:opacity-80 md:size-[20.16px]"
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className="size-[14px] md:hidden">
                     <path d="M8.75 12.8333H9.33333C10.9832 12.8333 11.8082 12.8333 12.3208 12.3208C12.8333 11.8082 12.8333 10.9832 12.8333 9.33333V8.75C12.8333 7.10008 12.8333 6.27513 12.3208 5.76256C11.8082 5.25 10.9832 5.25 9.33333 5.25L8.75 5.25C7.10008 5.25 6.27513 5.25 5.76256 5.76256C5.25 6.27513 5.25 7.10008 5.25 8.75L5.25 9.33333C5.25 10.9832 5.25 11.8082 5.76256 12.3208C6.27513 12.8333 7.10008 12.8333 8.75 12.8333Z" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" />
                     <path d="M9.91594 5.25008C9.91458 3.52511 9.88846 2.63162 9.38638 2.01983C9.28942 1.90168 9.18108 1.79335 9.06293 1.69639C8.41756 1.16675 7.45871 1.16675 5.54102 1.16675C3.62332 1.16675 2.66447 1.16675 2.0191 1.69639C1.90095 1.79335 1.79262 1.90168 1.69566 2.01983C1.16602 2.6652 1.16602 3.62405 1.16602 5.54175C1.16602 7.45944 1.16602 8.41829 1.69566 9.06366C1.79262 9.18181 1.90095 9.29014 2.0191 9.3871C2.63089 9.88919 3.52438 9.91531 5.24935 9.91667" strokeLinecap="round" strokeLinejoin="round" stroke="#FAFAFA" />
