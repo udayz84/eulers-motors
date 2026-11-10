@@ -455,8 +455,8 @@ export default function InPressPage() {
         </section>
 
         {/* Latest Press Coverage Section */}
-        <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-12 md:gap-[42px] md:py-[62px]">
-          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-6 md:gap-[26px]">
+        <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-white py-8 sm:gap-8 sm:py-12 md:gap-[42px] md:py-[62px]">
+          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-6 px-5 sm:px-8 md:gap-[26px]">
             <div className="flex flex-col items-start justify-center gap-3 self-stretch">
               <SectionEyebrow readingAccent className="md:font-sans md:text-[14px] md:tracking-[0.7px]">
                 Latest press coverage
@@ -543,8 +543,8 @@ export default function InPressPage() {
         </section>
 
         {/* Media Kit Section */}
-        <section id="media-kit" className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-[#f3f4f5] px-5 py-8 sm:gap-8 sm:px-8 sm:py-12 md:gap-[42px] md:py-[62px]">
-          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-center gap-3">
+        <section id="media-kit" className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-[#f3f4f5] py-8 sm:gap-8 sm:py-12 md:gap-[42px] md:py-[62px]">
+          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-center gap-3 px-5 sm:px-8">
             <SectionEyebrow readingAccent className="max-md:text-[12px] max-md:tracking-[0.6px] md:font-sans md:text-[14px] md:tracking-[0.7px]">
               Media kit
             </SectionEyebrow>
