@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import FloatingWidget from "@/components/FloatingWidget";
+import CarouselArrows from "@/components/ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const HERO_IMAGE = "/assets/insights/article-featured-3.png";
 const ARTICLE_IMAGES = {
@@ -347,26 +349,127 @@ const MOBILE_RELATED_CARDS = [
 
 function RelatedArticles() {
   const rowRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
 
-  const scroll = (direction: -1 | 1) => {
-    const row = rowRef.current;
-    const card = row?.querySelector<HTMLElement>("[data-related-card]");
-    if (!row || !card) return;
-    const gap = Number.parseFloat(getComputedStyle(row).columnGap) || 0;
-    row.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: "smooth" });
-  };
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const isVisibleRef = useRef(true);
 
-  const updateProgress = () => {
+  const updateProgress = useCallback(() => {
     const row = rowRef.current;
     if (!row) return;
     const maxScroll = row.scrollWidth - row.clientWidth;
     setProgress(maxScroll > 0 ? Math.min(Math.max(row.scrollLeft / maxScroll, 0), 1) : 0);
-  };
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(rowRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  useEffect(() => {
+    updateProgress();
+    const row = rowRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    row.addEventListener("carousel-step", onStep);
+    window.addEventListener("resize", updateProgress);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-scroll loop (speed = 50px/s)
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+      const el = rowRef.current;
+
+      if (
+        isDesktop &&
+        el &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll > 1) {
+          accumulator += 50 * delta;
+          if (accumulator >= 1) {
+            const advance = Math.floor(accumulator);
+            if (el.scrollLeft < maxScroll - 1) {
+              el.scrollLeft = Math.min(maxScroll, el.scrollLeft + advance);
+              accumulator -= advance;
+              updateProgress();
+            } else {
+              accumulator = 0;
+            }
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(animId);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [updateProgress]);
 
   return (
-    <section className="relative overflow-hidden bg-white lg:h-[579.356px] lg:pb-[62px] lg:pt-16" aria-labelledby="related-heading">
+    <section ref={sectionRef} className="relative overflow-hidden bg-white py-8 sm:py-12 lg:pb-[62px] lg:pt-16" aria-labelledby="related-heading">
       <div className="relative flex flex-col items-center gap-4 px-5 py-8 lg:hidden">
         <div className="relative flex h-[20.355px] w-full items-center gap-[6px]">
           <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" aria-hidden width={147} height={21} className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]" />
@@ -374,22 +477,22 @@ function RelatedArticles() {
           <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] text-[#0e2f6d]">Keep reading</span>
         </div>
         <h2 id="related-heading-mobile" className="w-full font-sans text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#121212]">Related articles</h2>
-        <div className="flex w-full flex-col gap-2">
+        <div className="grid w-full grid-cols-1 gap-3 min-[550px]:grid-cols-2 min-[550px]:gap-4">
           {MOBILE_RELATED_CARDS.slice(0, mobileVisibleCount).map((article) => (
-            <Link key={article.id} href={article.href} className="flex h-[282px] w-full shrink-0 flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2">
-              <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-[8px]">
-                <Image src={article.image} alt="" fill sizes="353px" className={`rounded-[8px] object-cover ${article.id === "real-cost-electric" ? "scale-x-[1.12] object-[50%_60%]" : ""}`} />
+            <Link key={article.id} href={article.href} className="flex h-auto min-h-[290px] w-full shrink-0 flex-col gap-3 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg min-[550px]:p-2.5 sm:min-h-[310px] sm:p-3">
+              <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-[8px] min-[550px]:h-[170px] sm:h-[180px]">
+                <Image src={article.image} alt="" fill sizes="(max-width: 549px) 100vw, 380px" className={`rounded-[8px] object-cover ${article.id === "real-cost-electric" ? "scale-x-[1.12] object-[50%_60%]" : ""}`} />
                 <span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] items-center justify-center rounded-[39.312px] bg-white p-0 text-[12px] font-semibold leading-normal text-black">{article.category}</span>
                 <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-[12.333px] lg:top-[11.645px] lg:size-9 lg:p-[11px_12px]">
                   <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="size-5 shrink-0 aspect-square" />
                 </span>
               </div>
-              <div className="flex min-h-0 flex-col gap-[6px] px-3 pb-0 pt-1">
-                <h3 className="shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-display text-[16px] font-semibold leading-[1.5] tracking-[-0.32px] text-[#121212]">{article.title}</h3>
+              <div className="flex min-h-0 flex-col gap-[6px] px-2 pb-2 pt-1 min-[550px]:px-2.5 sm:px-3 sm:pb-3">
+                <h3 className="line-clamp-2 font-display text-[15px] font-semibold leading-[1.35] tracking-[-0.32px] text-[#121212] min-[550px]:text-[16px] sm:text-[18px]">{article.title}</h3>
                 <div className="flex items-center gap-2 text-[12px] font-semibold leading-normal text-[rgba(18,18,18,0.6)]">
                   <span>{article.date}</span><span aria-hidden="true" className="size-[3.145px] shrink-0 rounded-full bg-black/50" /><span>{article.readTime}</span>
                 </div>
-                <p className="line-clamp-2 text-[12px] leading-[1.4] text-[#121212]">{article.excerpt}</p>
+                <p className="line-clamp-2 text-[12px] leading-[1.4] text-[#121212] sm:text-[13px]">{article.excerpt}</p>
               </div>
             </Link>
           ))}
@@ -399,11 +502,10 @@ function RelatedArticles() {
             Load More
           </button>
         )}
-        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[80px] z-10 h-[49.664px] w-[54.598px] bg-[linear-gradient(270deg,#fff_13.618%,rgba(255,255,255,0)_100%)]" />
       </div>
 
-      <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-5 px-5 lg:flex lg:gap-8 lg:px-20">
-        <header className="flex w-full flex-col items-start lg:h-[96.355px] lg:items-start lg:justify-between">
+      <div className="hidden w-full flex-col gap-5 lg:flex lg:gap-8">
+        <header className="mx-auto flex w-full max-w-[1280px] flex-col items-start px-5 sm:px-8 lg:px-0">
           <div className="flex flex-col items-start gap-3 lg:items-start lg:gap-4">
             <div className="relative flex h-[20.355px] items-center gap-[6px]">
               <Image src="/assets/insights/figma-eyebrow-reading.svg" alt="" width={147} height={21} className="absolute left-[-2px] top-0 h-[20.355px] w-[148.821px] lg:left-[3.43px]" />
@@ -414,44 +516,85 @@ function RelatedArticles() {
           </div>
         </header>
 
-        <div className="relative -mr-5 w-[calc(100%+20px)] lg:-ml-20 lg:mr-0 lg:w-[calc(100%+160px)] xl:left-[calc(50%-50vw)] xl:ml-0 xl:mr-0 xl:w-screen">
-          <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto scroll-smooth pb-2 touch-pan-x lg:gap-8 lg:overflow-y-hidden lg:pb-0 lg:pl-20 lg:pr-0 lg:[scroll-padding-left:80px]">
+        <div className="relative w-full">
+          <div
+            id="related-articles-row"
+            ref={rowRef}
+            onScroll={() => {
+              if (isDraggingRef.current) {
+                pauseAutoScroll();
+              }
+            }}
+            className="no-scrollbar flex w-full items-center gap-4 overflow-x-auto cursor-grab active:cursor-grabbing select-none sm:gap-6 lg:gap-8"
+          >
+            <div
+              aria-hidden
+              className="shrink-0"
+              style={{ width: "max(20px, calc(50% - 640px))" }}
+            />
             {FIGMA_RELATED_CARDS.map((article) => (
-              <Link key={article.id} data-related-card href={article.href} className="flex h-[282px] w-full shrink-0 snap-start flex-col gap-2 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-2 transition-shadow hover:shadow-lg lg:h-[273px] lg:w-[807px] lg:flex-row lg:items-start lg:gap-6 lg:p-5">
-                <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-[8px] p-2 lg:h-[233px] lg:w-[353px] lg:p-3">
-                  <Image src={article.id.endsWith("b") ? "/assets/insights/figma-mobile-article-3.png" : "/assets/insights/figma-mobile-article-1.png"} alt="" fill sizes="(max-width: 767px) 90vw, 353px" className="object-cover lg:hidden" />
-                  <Image src={article.image} alt="" fill sizes="(max-width: 767px) 90vw, 353px" className="hidden object-cover lg:block" />
-                  <span className="absolute left-2 top-2 rounded-[50px] bg-white px-[10px] py-2 text-[12px] font-bold text-black lg:left-3 lg:top-3 lg:py-1 lg:text-[14px]">{article.category}</span>
-                  <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white lg:right-[12px] lg:top-[11.645px] lg:size-9 lg:aspect-square lg:gap-[10px] lg:px-3 lg:py-[11px]">
+              <Link
+                key={article.id}
+                data-related-card
+                href={article.href}
+                className="flex h-[273px] w-[720px] shrink-0 flex-row items-start gap-6 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 transition-shadow hover:shadow-lg lg:w-[807px]"
+              >
+                <div className="relative h-[233px] w-[353px] shrink-0 overflow-hidden rounded-[8px] p-3">
+                  <Image src={article.image} alt="" fill sizes="353px" className="object-cover" />
+                  <span className="absolute left-3 top-3 rounded-[50px] bg-white px-[10px] py-1 text-[14px] font-bold text-black">{article.category}</span>
+                  <span className="absolute right-[12px] top-[11.645px] flex size-9 items-center justify-center rounded-[4px] bg-white p-[11px_12px]">
                     <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="size-5 shrink-0 aspect-square" />
                   </span>
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col items-start gap-1 px-3 pb-1 pt-0 lg:w-[390px] lg:gap-1.5 lg:px-0 lg:pb-0 lg:pt-0">
-                  <h3 className="line-clamp-1 font-display text-[16px] font-semibold leading-[1.3] tracking-[-0.32px] text-[#121212] lg:line-clamp-none lg:text-[26px] lg:leading-[1.15] lg:tracking-[-0.52px]">{article.title}</h3>
-                  <div className="flex items-center gap-[10px] text-[12px] font-bold leading-normal text-[rgba(18,18,18,0.6)] lg:text-[14px]">
+                <div className="flex min-w-0 flex-1 flex-col items-start gap-1.5 self-stretch">
+                  <h3 className="line-clamp-2 self-stretch font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.52px] text-[#121212] transition-colors hover:text-[#1d6fff]">{article.title}</h3>
+                  <div className="flex items-center gap-[10px] text-[14px] font-bold leading-normal text-[rgba(18,18,18,0.6)]">
                     <span>{article.date}</span><span aria-hidden="true" className="size-[3.145px] shrink-0 rounded-full bg-black/50" /><span>{article.readTime}</span>
                   </div>
-                  <p className="text-[12px] leading-[1.4] text-[#121212] lg:text-[16px] lg:leading-normal">{article.excerpt}</p>
+                  <p className="line-clamp-2 self-stretch text-[16px] leading-normal text-[#121212]">{article.excerpt}</p>
                 </div>
               </Link>
             ))}
+            <div aria-hidden className="shrink-0 w-8 md:w-16" />
           </div>
 
-          <button type="button" onClick={() => scroll(-1)} aria-label="Previous related articles" className="absolute left-5 top-1/2 z-20 hidden size-[55px] -translate-y-1/2 items-center justify-center lg:left-[50px] lg:flex">
-            <Image src="/assets/insights/figma-related-nav-left.svg" alt="" width={55} height={55} className="rotate-180" />
-          </button>
-          <button type="button" onClick={() => scroll(1)} aria-label="Next related articles" className="absolute right-5 top-1/2 z-20 hidden size-[55px] -translate-y-1/2 items-center justify-center lg:right-[50px] lg:flex">
-            <Image src="/assets/insights/figma-related-nav-right.svg" alt="" width={55} height={55} />
-          </button>
+          {/* Edge fade gradients */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 left-0 top-0 z-[5] hidden w-[140px] bg-gradient-to-r from-white to-transparent lg:block"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[140px] bg-gradient-to-l from-white to-transparent lg:block"
+          />
+
+          {/* Blue Navigation Arrows with boundary auto-hide */}
+          <CarouselArrows
+            rowId="related-articles-row"
+            label="related articles"
+            variant="blue"
+            onStep={() => pauseAutoScroll(600)}
+          />
         </div>
 
-        <div className="hidden justify-center lg:mt-0 lg:flex">
-          <div className="relative flex h-5 w-[116.199px] items-center rounded-[14.4px] bg-[rgba(204,204,204,0.5)] p-1">
-            <div className="h-3 w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-300" style={{ transform: `translateX(${progress * 78.308}px)` }} />
+        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-2 md:pt-4 lg:pt-6">
+          <div
+            role="progressbar"
+            aria-label="Related articles scroll progress"
+            aria-valuenow={Math.round(progress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[#9ca3af]/40 p-1"
+          >
+            <div
+              className="h-full w-[29.891px] rounded-[23.04px] bg-[#121212] transition-transform duration-75 ease-out will-change-transform"
+              style={{
+                transform: `translateX(${progress * 78.308}px)`,
+              }}
+            />
           </div>
         </div>
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[14px] z-10 hidden h-[551px] w-[210.811px] bg-[linear-gradient(270deg,#fff_0%,rgba(255,255,255,0)_100%)] lg:block" />
     </section>
   );
 }

@@ -97,7 +97,6 @@ export default function BlogListingPage() {
 
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const mobileScrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const isVisibleRef = useRef(true);
@@ -106,8 +105,7 @@ export default function BlogListingPage() {
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const updateProgress = useCallback(() => {
-    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
-    const el = isDesktop ? scrollRef.current : mobileScrollRef.current;
+    const el = scrollRef.current;
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
     if (max > 0) {
@@ -137,43 +135,20 @@ export default function BlogListingPage() {
     },
   });
 
-  useDraggableScroll(mobileScrollRef, {
-    onDragStart: () => {
-      isDraggingRef.current = true;
-      pauseAutoScroll(600);
-    },
-    onDragEnd: () => {
-      isDraggingRef.current = false;
-      pauseAutoScroll(400);
-      updateProgress();
-    },
-  });
-
   // Track initial scroll progress and attach resize/scroll sync
   useEffect(() => {
     updateProgress();
     const row = scrollRef.current;
-    const mRow = mobileScrollRef.current;
+    if (!row) return;
 
     const onStep = () => pauseAutoScroll(600);
-
-    if (row) {
-      row.addEventListener("scroll", updateProgress, { passive: true });
-      row.addEventListener("carousel-step", onStep);
-    }
-    if (mRow) {
-      mRow.addEventListener("scroll", updateProgress, { passive: true });
-    }
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    row.addEventListener("carousel-step", onStep);
     window.addEventListener("resize", updateProgress);
 
     return () => {
-      if (row) {
-        row.removeEventListener("scroll", updateProgress);
-        row.removeEventListener("carousel-step", onStep);
-      }
-      if (mRow) {
-        mRow.removeEventListener("scroll", updateProgress);
-      }
+      row.removeEventListener("scroll", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
       window.removeEventListener("resize", updateProgress);
     };
   }, [updateProgress, pauseAutoScroll]);
@@ -196,7 +171,7 @@ export default function BlogListingPage() {
     return () => observer.disconnect();
   }, []);
 
-  // Continuous auto-scroll loop (speed = 50px/s, loops continuously, pauses on drag or manual arrow navigation)
+  // Continuous auto-scroll loop (speed = 50px/s, loops continuously, pauses on drag, hover, or manual arrow navigation)
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
@@ -213,9 +188,10 @@ export default function BlogListingPage() {
       lastTime = now;
 
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
-      const el = isDesktop ? scrollRef.current : mobileScrollRef.current;
+      const el = scrollRef.current;
 
       if (
+        isDesktop &&
         el &&
         isVisibleRef.current &&
         !isInteractingRef.current &&
@@ -281,40 +257,21 @@ export default function BlogListingPage() {
           </div>
         </section>
 
-        <section ref={sectionRef} className="relative flex h-auto w-full flex-col items-center justify-center gap-4 overflow-hidden bg-[#f3f4f5] px-5 py-8 lg:block lg:h-auto lg:px-20 lg:pb-[62px] lg:pt-16" aria-label="Featured articles">
-          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-4 lg:gap-8">
-            <header className="flex w-full flex-col items-center justify-center gap-3 self-stretch text-center lg:items-start lg:gap-4 lg:text-left">
+        <section
+          ref={sectionRef}
+          className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-[#f3f4f5] py-8 sm:py-12 md:gap-[32px] md:py-[62px]"
+          aria-label="Featured articles"
+        >
+          <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-4 px-5 sm:px-8 lg:gap-8 lg:px-0">
+            <header className="flex w-full flex-col items-start justify-center gap-3 self-stretch text-left lg:gap-4">
               <Eyebrow label="Featured" variant="featured" />
-              <h2 className="self-stretch whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] lg:text-[52px] lg:tracking-[-1.04px]">Editor&apos;s picks</h2>
+              <h2 className="self-stretch whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] lg:text-[52px] lg:tracking-[-1.04px]">
+                Editor&apos;s picks
+              </h2>
             </header>
-            <div className="relative -mx-5 w-[calc(100%+40px)] lg:hidden">
-              <div
-                ref={mobileScrollRef}
-                onScroll={updateProgress}
-                className="no-scrollbar flex w-full items-center gap-3 overflow-x-auto px-5 pb-2 cursor-grab active:cursor-grabbing select-none"
-              >
-                {FEATURED_ARTICLES.map((article) => (
-                  <Link key={article.id} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
-                    <div className="relative h-[160px] w-full shrink-0 self-stretch overflow-hidden rounded-[8px] bg-[lightgray]">
-                      <Image src={article.img} alt="" fill sizes="320px" className={`object-cover ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`} />
-                      <span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] flex-col items-start justify-center gap-[7.862px] rounded-[39.312px] bg-white px-2 text-[12px] font-semibold text-black">{article.category}</span>
-                      <span className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-[4px] bg-white">
-                        <Image src="/assets/insights/article-arrow.svg" alt="" width={20} height={20} className="aspect-square size-5 shrink-0" />
-                      </span>
-                    </div>
-                    <div className="flex w-full flex-col gap-1.5 px-3 pb-1 pt-1">
-                      <h3 className="self-stretch font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212]">{article.title}</h3>
-                      <Metadata article={article} mobile />
-                      <p className="self-stretch text-[12px] leading-[1.4] text-[#121212]">{article.excerpt}</p>
-                    </div>
-                  </Link>
-                ))}
-                <div aria-hidden="true" className="w-1 shrink-0" />
-              </div>
-            </div>
           </div>
 
-          <div className="relative mt-4 hidden lg:-mx-20 lg:mt-8 lg:block">
+          <div className="relative w-full">
             <div
               id="featured-articles-row"
               ref={scrollRef}
@@ -323,44 +280,66 @@ export default function BlogListingPage() {
                   pauseAutoScroll();
                 }
               }}
-              className="no-scrollbar flex w-full items-center gap-8 overflow-x-auto cursor-grab active:cursor-grabbing select-none"
+              className="no-scrollbar flex w-full items-center gap-4 overflow-x-auto cursor-grab active:cursor-grabbing select-none sm:gap-6 lg:gap-8"
             >
-              <div aria-hidden className="shrink-0" style={{ width: "max(48px, calc(50% - 672px))" }} />
+              <div
+                aria-hidden
+                className="shrink-0"
+                style={{ width: "max(20px, calc(50% - 640px))" }}
+              />
               {FEATURED_ARTICLES.map((article) => (
                 <article
                   key={article.id}
                   data-featured-card
-                  className="featured-card flex h-[273px] w-[807px] shrink-0 items-start gap-[24px] rounded-[12px] bg-white p-[20px] transition-shadow hover:shadow-lg"
+                  className="featured-card flex h-[330px] w-[320px] shrink-0 flex-col gap-3 rounded-[12px] bg-white p-3 transition-shadow hover:shadow-lg sm:h-[350px] sm:w-[380px] sm:gap-4 sm:p-4 md:h-[273px] md:w-[720px] md:flex-row md:items-start md:gap-6 md:p-5 lg:w-[807px] lg:gap-[24px]"
                 >
                   <Link
                     href={`/insights/${article.slug}`}
-                    className="relative flex h-[233px] w-[353px] shrink-0 flex-col items-start gap-[24px] overflow-hidden rounded-[8px] bg-[lightgray] p-[12px] group"
+                    className="relative flex h-[170px] w-full shrink-0 flex-col items-start gap-3 overflow-hidden rounded-[8px] bg-[lightgray] p-3 sm:h-[185px] md:h-[233px] md:w-[320px] lg:h-[233px] lg:w-[353px] group"
                   >
                     <div
                       aria-hidden
                       className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105 ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`}
                       style={{ backgroundImage: `url('${article.img}')` }}
                     />
-                    <span className="relative flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[14px] font-bold text-black">
+                    <span className="relative flex flex-col items-start gap-[10px] rounded-[50px] bg-white px-[10px] py-1 text-[12px] font-bold text-black sm:text-[14px]">
                       {article.category}
                     </span>
-                    <span className="absolute right-3 top-[11.645px] flex size-9 items-center justify-center rounded-[4px] bg-white p-[11px_12px] transition-transform duration-200 group-hover:scale-105">
-                      <Image src="/assets/insights/arrow-icon.svg" alt="" width={20} height={20} className="shrink-0 -rotate-90 -scale-x-100" />
+                    <span className="absolute right-3 top-[11.645px] flex size-8 items-center justify-center rounded-[4px] bg-white p-[8px] transition-transform duration-200 group-hover:scale-105 sm:size-9 sm:p-[11px_12px]">
+                      <Image
+                        src="/assets/insights/arrow-icon.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="shrink-0 -rotate-90 -scale-x-100"
+                      />
                     </span>
                   </Link>
                   <div className="flex min-w-0 flex-1 flex-col items-start gap-[6px] self-stretch">
                     <Link href={`/insights/${article.slug}`} className="self-stretch">
-                      <h3 className="self-stretch font-display text-[26px] font-semibold leading-[115%] tracking-[-0.52px] text-[#121212] transition-colors hover:text-[#1d6fff]">
+                      <h3 className="line-clamp-2 self-stretch font-display text-[16px] font-semibold leading-[1.35] tracking-[-0.32px] text-[#121212] transition-colors hover:text-[#1d6fff] sm:text-[18px] md:text-[22px] lg:text-[26px] lg:leading-[115%] lg:tracking-[-0.52px]">
                         {article.title}
                       </h3>
                     </Link>
                     <Metadata article={article} />
-                    <p className="self-stretch text-[16px] leading-normal text-[#121212]">{article.excerpt}</p>
+                    <p className="line-clamp-2 self-stretch text-[12px] leading-normal text-[#121212] sm:text-[14px] lg:text-[16px]">
+                      {article.excerpt}
+                    </p>
                   </div>
                 </article>
               ))}
-              <div aria-hidden className="shrink-0 w-8 lg:w-16" />
+              <div aria-hidden className="shrink-0 w-8 md:w-16" />
             </div>
+
+            {/* Edge fade gradients so cards never look sliced off */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute bottom-0 left-0 top-0 z-[5] hidden w-[140px] bg-gradient-to-r from-[#f3f4f5] to-transparent lg:block"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[140px] bg-gradient-to-l from-[#f3f4f5] to-transparent lg:block"
+            />
 
             {/* Blue Navigation Arrows with boundary auto-hide */}
             <CarouselArrows
@@ -372,7 +351,7 @@ export default function BlogListingPage() {
           </div>
 
           {/* Carousel Progress Indicator Pill (Figma 3321:13258) */}
-          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-4 lg:pt-8">
+          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-2 md:pt-4 lg:pt-6">
             <div
               role="progressbar"
               aria-label="Featured articles scroll progress"
