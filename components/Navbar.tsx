@@ -315,6 +315,9 @@ function MenuCardLink({
 export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/" || pathname === "/about";
+  const isTechnology = pathname === "/technology";
+  const isBlogDetails = pathname.startsWith("/insights/");
+  const isDarkNav = isHome || isTechnology || isBlogDetails;
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
@@ -392,9 +395,11 @@ export default function Navbar() {
       <div ref={navRef} onMouseLeave={() => { if (!menuOpen) setOpenDropdown(null); }}>
         <nav
           className={`relative flex items-center justify-between border-b py-0.5 pl-5 pr-0.5 lg:py-0 lg:pl-20 lg:pr-0 ${
-            isHome
-              ? "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:bg-black/40 lg:backdrop-blur-[30px]"
-              : "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:border-[#EAECEF] lg:bg-white lg:shadow-[0_2px_16px_rgba(15,23,42,0.06)] lg:backdrop-blur-[30px]"
+            isBlogDetails || isTechnology
+              ? "border-white/[0.32] bg-black/20 backdrop-blur-[15px]"
+              : isHome
+                ? "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:bg-black/40 lg:backdrop-blur-[30px]"
+                : "border-white/[0.32] bg-black/20 backdrop-blur-[15px] lg:border-[#EAECEF] lg:bg-white lg:shadow-[0_2px_16px_rgba(15,23,42,0.06)] lg:backdrop-blur-[30px]"
           }`}
           aria-label="Main navigation"
         >
@@ -450,7 +455,7 @@ export default function Navbar() {
                 alt="Euler Motors"
                 width={145}
                 height={24}
-                className={`h-6 w-[144.889px] ${isHome ? "" : "brightness-0"}`}
+                className={`h-6 w-[144.889px] ${isDarkNav ? "" : "brightness-0"}`}
                 priority
               />
             </Link>
@@ -467,7 +472,7 @@ export default function Navbar() {
                     href="/products"
                     onClick={() => setOpenDropdown(null)}
                     className={`flex items-center text-[14px] font-semibold transition-colors ${
-                      isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"
+                      isDarkNav ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"
                     }`}
                   >
                     Product
@@ -481,9 +486,9 @@ export default function Navbar() {
                       e.stopPropagation();
                       toggleDropdown("Product");
                     }}
-                    className={`ml-1 flex items-center p-1 ${isHome ? "text-white" : "text-ink"}`}
+                    className={`ml-1 flex items-center p-1 ${isDarkNav ? "text-white" : "text-ink"}`}
                   >
-                    {chevron(openDropdown === "Product", isHome)}
+                    {chevron(openDropdown === "Product", isDarkNav)}
                   </button>
                 </li>
                 {/* Company dropdown */}
@@ -496,16 +501,16 @@ export default function Navbar() {
                     aria-haspopup="menu"
                     aria-expanded={openDropdown === "Company"}
                     onClick={() => toggleDropdown("Company")}
-                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
+                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isDarkNav ? "text-white" : "text-ink"}`}
                   >
                     Company
-                    {chevron(openDropdown === "Company", isHome)}
+                    {chevron(openDropdown === "Company", isDarkNav)}
                   </button>
                 </li>
                 <li>
                   <Link
                     href="/technology"
-                    className={`text-[14px] font-semibold ${isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"}`}
+                    className={`text-[14px] font-semibold ${isDarkNav ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"}`}
                   >
                     Technology
                   </Link>
@@ -516,7 +521,7 @@ export default function Navbar() {
                     aria-haspopup="menu"
                     aria-expanded={openDropdown === "Support"}
                     onClick={() => toggleDropdown("Support")}
-                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
+                    className={`flex items-center gap-2.5 text-[14px] font-semibold ${isDarkNav ? "text-white" : "text-ink"}`}
                   >
                     {/* Iconex/Light/Call — 17.46×17.31 in a 23×23.28 box (Figma) */}
                     <Image
@@ -525,10 +530,10 @@ export default function Navbar() {
                       width={18}
                       height={18}
                       aria-hidden
-                      className={`h-[17.31px] w-[17.46px] ${isHome ? "" : "brightness-0"}`}
+                      className={`h-[17.31px] w-[17.46px] ${isDarkNav ? "" : "brightness-0"}`}
                     />
                     Support
-                    {chevron(openDropdown === "Support", isHome)}
+                    {chevron(openDropdown === "Support", isDarkNav)}
                   </button>
                 </li>
               </ul>
@@ -540,7 +545,7 @@ export default function Navbar() {
             <form
               role="search"
               action="/"
-              className={`hidden items-center gap-1 border-b pb-1.5 pr-10 lg:flex ${isHome ? "border-white/80" : "border-ink/40"}`}
+              className={`hidden items-center gap-1 border-b pb-1.5 pr-10 lg:flex ${isDarkNav ? "border-white/80" : "border-ink/40"}`}
             >
               <Image
                 src="/assets/nav/search.svg"
@@ -548,7 +553,7 @@ export default function Navbar() {
                 width={14}
                 height={14}
                 aria-hidden
-                className={`h-3.5 w-3.5 scale-x-[-1] ${isHome ? "" : "brightness-0"}`}
+                className={`h-3.5 w-3.5 scale-x-[-1] ${isDarkNav ? "" : "brightness-0"}`}
               />
               <label htmlFor="nav-search" className="sr-only">
                 Search
@@ -558,17 +563,17 @@ export default function Navbar() {
                 type="search"
                 name="q"
                 placeholder="Search here..."
-                className={`w-[110px] bg-transparent text-[14px] font-semibold focus:outline-none ${isHome ? "text-white placeholder:text-white/80" : "text-ink placeholder:text-ink/60"}`}
+                className={`w-[110px] bg-transparent text-[14px] font-semibold focus:outline-none ${isDarkNav ? "text-white placeholder:text-white/80" : "text-ink placeholder:text-ink/60"}`}
               />
             </form>
             <Link
               href="#book-test-drive"
-              className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isHome ? "bg-white text-ink" : "bg-white text-ink lg:bg-ink lg:text-white"}`}
+              className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isDarkNav ? "bg-white text-ink" : "bg-white text-ink lg:bg-ink lg:text-white"}`}
             >
-              <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isHome ? "text-ink" : "text-ink lg:text-white"}`}>
+              <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isDarkNav ? "text-ink" : "text-ink lg:text-white"}`}>
                 Book a Test Drive
               </span>
-              {isHome ? (
+              {isDarkNav ? (
                 <Arrow color="ink" />
               ) : (
                 <>
@@ -585,20 +590,20 @@ export default function Navbar() {
           <MenuPanel
             heading={DROPDOWNS[openDropdown].heading}
             items={DROPDOWNS[openDropdown].items}
-            isHome={isHome}
+            isHome={isDarkNav}
           />
         )}
 
         {/* Product mega-menu (Figma "Property 1=Component 4"): full-width glass
             panel, 420px tall, 80px side padding, vehicle cards + Neo promo */}
         {openDropdown === "Product" && (
-          <div className={isHome ? "hidden bg-black/40 backdrop-blur-[30px] lg:block" : "hidden bg-white backdrop-blur-[30px] lg:block"}>
+          <div className={isDarkNav ? "hidden bg-black/40 backdrop-blur-[30px] lg:block" : "hidden bg-white backdrop-blur-[30px] lg:block"}>
             <div className="flex items-start px-20 py-8">
               <div className="flex w-[632px] flex-col gap-[26px]">
                 <Link
                   href="/products"
                   onClick={() => setOpenDropdown(null)}
-                  className={`transition-opacity hover:opacity-80 ${isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
+                  className={`transition-opacity hover:opacity-80 ${isDarkNav ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
                 >
                   4 WHEELER GOODS VEHICLES
                 </Link>
@@ -615,7 +620,7 @@ export default function Navbar() {
                 <Link
                   href="/products"
                   onClick={() => setOpenDropdown(null)}
-                  className={`whitespace-nowrap transition-opacity hover:opacity-80 ${isHome ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
+                  className={`whitespace-nowrap transition-opacity hover:opacity-80 ${isDarkNav ? "text-[16px] font-bold leading-[22px] text-white" : "text-[16px] font-bold leading-[22px] text-ink"}`}
                 >
                   3 WHEELER GOODS VEHICLES
                 </Link>
