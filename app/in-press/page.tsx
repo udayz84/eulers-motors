@@ -313,12 +313,11 @@ export default function InPressPage() {
           aria-label="Newsroom Banner"
           className="relative flex h-[324px] w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] px-5 sm:px-8 pt-[119.99px] pb-[59.01px] text-center text-white lg:hidden"
           style={{
-            backgroundImage:
-              "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
+            background: "linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%)",
           }}
         >
           <div className="flex flex-col items-center gap-3">
-            <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px]">
+            <div className="relative inline-flex items-center gap-1 font-sans text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px]">
               <Image
                 src="/assets/products/badge-line-white.svg"
                 alt=""
@@ -335,7 +334,7 @@ export default function InPressPage() {
                 aria-hidden
                 className="relative h-4 w-[14.794px]"
               />
-              Newsroom
+              NEWSROOM
             </div>
             <h1 id="in-press-title-mobile" className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white sm:text-[40px] sm:tracking-[-0.8px]">
               In the News
@@ -350,43 +349,52 @@ export default function InPressPage() {
           <FloatingWidget boundary mobileOnly mobileClassName="top-[506.33px]" />
         </section>
 
-        {/* Desktop Hero */}
+        {/* Desktop Hero — Figma node 3538:28910 / 3538:28911 */}
         <section
           aria-label="In the News Banner"
-          className="policy-hero relative hidden w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] text-white lg:flex lg:h-[420px] lg:w-full lg:max-w-full"
+          className="relative hidden w-full overflow-hidden bg-[#1d6fff] text-white lg:flex lg:h-[420px]"
           style={{
-            backgroundImage:
-              "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
+            background: "linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%)",
           }}
         >
-          <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[420px] lg:w-full lg:max-w-full lg:items-center lg:justify-center lg:px-0 lg:pt-0 lg:pb-0">
-            <div className="lg:inline-flex lg:flex-col lg:items-center lg:gap-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
-              <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]">
+          <div className="relative z-10 mx-auto flex w-full max-w-[1440px] justify-center px-5 pt-[116.58px] pb-[56.59px]">
+            <div className="flex w-full max-w-[493.019px] flex-col items-center gap-6 text-center">
+              {/* Eyebrow badge — Figma node 3538:28912 */}
+              <div className="relative inline-flex h-[20.355px] items-center gap-[6px] font-sans text-[14px] font-bold uppercase leading-none tracking-[0.7px] text-white">
                 <Image
                   src="/assets/products/badge-line-white.svg"
                   alt=""
-                  width={117}
-                  height={16}
+                  width={149}
+                  height={20}
                   aria-hidden
-                  className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]"
+                  className="absolute left-[3.43px] top-0 h-[20.355px] w-[148.821px]"
                 />
                 <Image
                   src="/assets/products/badge-cap-white.svg"
                   alt=""
-                  width={14.794}
-                  height={16}
+                  width={19}
+                  height={20}
                   aria-hidden
-                  className="relative h-4 w-[14.794px] lg:h-[20.355px] lg:w-[18.821px]"
+                  className="relative h-[20.355px] w-[18.821px]"
                 />
-                Newsroom
+                NEWSROOM
               </div>
-              <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-0 lg:text-[52px] lg:tracking-[-1.04px]">
+
+              {/* Title Heading — Figma node 3538:28916 */}
+              <h1 className="font-display text-[52px] font-semibold leading-[115%] tracking-[-1.04px] text-white whitespace-nowrap">
                 In the News
               </h1>
-              <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90">
+
+              {/* Description — Figma node 3538:28917 */}
+              <p className="w-full max-w-[493.019px] font-sans text-[16px] font-normal leading-[1.375] text-white">
                 See the latest media coverage, company announcements and industry updates from Euler Motors.
               </p>
-              <a href="#media-kit" className="flex h-[50.477px] w-[241px] items-center justify-center gap-2 whitespace-nowrap rounded-[4px] border-[0.5px] border-white bg-[#f2f2f2] px-6 font-display text-[16px] font-semibold leading-[100%] text-[#121212] transition-colors hover:bg-[#e9edf3]">
+
+              {/* Button — Figma node 3538:29576 */}
+              <a
+                href="#media-kit"
+                className="flex h-[50.477px] w-[241px] items-center justify-center gap-2 whitespace-nowrap rounded-[4px] border-[0.5px] border-white bg-[#f2f2f2] px-6 font-display text-[16px] font-semibold leading-[100%] text-[#121212] transition-colors hover:bg-[#e9edf3]"
+              >
                 Download Media Kit <Arrow color="ink" />
               </a>
             </div>
