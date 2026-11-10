@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_careers_positions_sections",
+  "info": {
+    "displayName": "Positions Section",
+    "icon": "briefcase",
+    "description": "Careers page open positions section headings"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Open positions"
+    },
+    "title": {
+      "type": "string",
+      "default": "Build Your Career with Us"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Take the next step with a role where your ideas and work can make a real impact."
+    }
+  }
+}
+

@@ -15,6 +15,10 @@
       "type": "string",
       "default": "Engineering Impact, Every Day"
     },
+    "description": {
+      "type": "text",
+      "default": "At Euler Motors, we build commercial vehicles that drive micro-economies forward. Our team integrates engineering, software, and real operations to deliver reliability where it matters most."
+    },
     "benefits": {
       "type": "component",
       "repeatable": true,

@@ -9,11 +9,15 @@
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Our Team"
+      "default": "Employee voices"
     },
     "title": {
       "type": "string",
-      "default": "Hear from the team."
+      "default": "What Our People Say"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Read unfiltered feedback and experiences shared by members of the Euler Motors tech, manufacturing, and support divisions."
     },
     "testimonials": {
       "type": "component",

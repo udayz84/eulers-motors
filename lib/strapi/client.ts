@@ -6,9 +6,12 @@ import {
   StrapiDealer,
   StrapiChargingStation,
   StrapiServiceCenter,
+  StrapiCareersPageData,
+  StrapiCareerPosition,
 } from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
 import { DEFAULT_DEALER_LOCATOR_PAGE } from "./defaults/dealer-locator";
+import { defaultCareersPageData, defaultCareerPositions } from "./defaults/careers";
 
 const STRAPI_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
@@ -488,5 +491,67 @@ export async function getChargingStationsPageData(): Promise<DealerLocatorPageDa
       revalidate: 60,
     },
     DEFAULT_DEALER_LOCATOR_PAGE
+  );
+}
+
+/**
+ * Fetch Careers Page Single Type
+ */
+export async function getCareersPageData(): Promise<StrapiCareersPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        cta: { populate: "*" },
+      },
+    },
+    benefitsSection: {
+      populate: {
+        benefits: { populate: "*" },
+      },
+    },
+    supportSection: {
+      populate: {
+        items: { populate: "*" },
+      },
+    },
+    positionsSection: { populate: "*" },
+    gallerySection: {
+      populate: {
+        images: { populate: "*" },
+      },
+    },
+    testimonialsSection: {
+      populate: {
+        testimonials: {
+          populate: {
+            image: { populate: "*" },
+          },
+        },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiCareersPageData>(
+    "careers-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultCareersPageData
+  );
+}
+
+/**
+ * Fetch all Career Positions from Strapi collection.
+ */
+export async function getCareerPositions(): Promise<StrapiCareerPosition[]> {
+  return getCollection<StrapiCareerPosition>(
+    "career-positions",
+    {
+      sort: ["order:asc", "id:asc"],
+      revalidate: 60,
+    },
+    defaultCareerPositions
   );
 }

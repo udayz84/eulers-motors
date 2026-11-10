@@ -9,10 +9,18 @@ import {
   type CareerFilters,
   type CareerOpening,
 } from "./types";
+import type { StrapiCareerPosition, StrapiCareerPositionsSection } from "@/types/strapi";
+import { defaultCareersPageData, defaultCareerPositions } from "@/lib/strapi/defaults/careers";
+
+type ExtendedCareerOpening = CareerOpening & {
+  applyUrl?: string;
+};
 
 type CareerOpenPositionsProps = {
   filters: CareerFilters;
   onChange: (filters: CareerFilters) => void;
+  positions?: StrapiCareerPosition[];
+  sectionData?: StrapiCareerPositionsSection;
 };
 
 const PAGE_SIZE = 3;
@@ -22,8 +30,8 @@ function CareerCard({
   onApply,
   mobileHidden = false,
 }: {
-  opening: CareerOpening;
-  onApply: (opening: CareerOpening) => void;
+  opening: ExtendedCareerOpening;
+  onApply: (opening: ExtendedCareerOpening) => void;
   mobileHidden?: boolean;
 }) {
   const [shareMessage, setShareMessage] = useState("");
@@ -48,19 +56,44 @@ function CareerCard({
     }
   };
 
+  const handleApplyClick = () => {
+    if (opening.applyUrl) {
+      window.open(opening.applyUrl, "_blank", "noopener,noreferrer");
+    } else {
+      onApply(opening);
+    }
+  };
+
   return (
-    <article className={`${mobileHidden ? "hidden lg:flex" : "flex"} min-w-0 flex-col items-start justify-between self-stretch rounded-[12px] bg-[#f3f4f5] p-4 lg:min-h-[204px] lg:h-full lg:w-full lg:gap-[12px]`}>
+    <article
+      className={`${
+        mobileHidden ? "hidden lg:flex" : "flex"
+      } min-w-0 flex-col items-start justify-between self-stretch rounded-[12px] bg-[#f3f4f5] p-4 lg:min-h-[204px] lg:h-full lg:w-full lg:gap-[12px]`}
+    >
       <div className="flex w-full flex-col items-start gap-2.5 lg:gap-[12px]">
         <div className="flex flex-wrap items-center gap-1.5 lg:gap-2 xl:gap-[10px]">
           {[opening.department, opening.location, "Full time", opening.experience].map((tag) => (
-            <span className="flex items-center rounded-[50px] bg-[#d4dbec] px-2 py-0.5 text-[11px] font-bold leading-normal text-black xl:px-[10px] xl:py-[4px] xl:text-xs" key={tag}>{tag}</span>
+            <span
+              className="flex items-center rounded-[50px] bg-[#d4dbec] px-2 py-0.5 text-[11px] font-bold leading-normal text-black xl:px-[10px] xl:py-[4px] xl:text-xs"
+              key={tag}
+            >
+              {tag}
+            </span>
           ))}
         </div>
-        <h3 className="m-0 w-full truncate font-display text-base font-semibold leading-[1.4] text-[#121212] lg:h-[28px] lg:text-xl lg:leading-[1.4]">{opening.title}</h3>
-        <p className="m-0 line-clamp-2 w-full font-sans text-xs font-normal leading-[1.4] text-[#121212] lg:h-[40px] lg:text-sm lg:leading-[1.4]">{opening.description}</p>
+        <h3 className="m-0 w-full truncate font-display text-base font-semibold leading-[1.4] text-[#121212] lg:min-h-[28px] lg:h-auto lg:text-xl lg:leading-[1.4]">
+          {opening.title}
+        </h3>
+        <p className="m-0 line-clamp-2 w-full font-sans text-xs font-normal leading-[1.4] text-[#121212] lg:min-h-[40px] lg:h-auto lg:text-sm lg:leading-[1.4]">
+          {opening.description}
+        </p>
       </div>
       <div className="flex w-full items-center gap-[10px] pt-1 lg:pt-0">
-        <button type="button" className="flex h-[44px] min-w-0 flex-[1_0_0] items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 font-display text-xs font-bold text-white transition-colors duration-[160ms] hover:bg-navy" onClick={() => onApply(opening)}>
+        <button
+          type="button"
+          className="flex h-[44px] min-w-0 flex-[1_0_0] items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 font-display text-xs font-bold text-white transition-colors duration-[160ms] hover:bg-navy"
+          onClick={handleApplyClick}
+        >
           Apply now
           <span aria-hidden="true">↗</span>
         </button>
@@ -90,13 +123,50 @@ function CareerCard({
   );
 }
 
-export default function CareerOpenPositions({ filters, onChange }: CareerOpenPositionsProps) {
-  const [applicationRole, setApplicationRole] = useState<CareerOpening | null>(null);
+export default function CareerOpenPositions({
+  filters,
+  onChange,
+  positions,
+  sectionData,
+}: CareerOpenPositionsProps) {
+  const [applicationRole, setApplicationRole] = useState<ExtendedCareerOpening | null>(null);
   const [page, setPage] = useState(1);
+
+  const eyebrow =
+    sectionData?.eyebrow || defaultCareersPageData.positionsSection?.eyebrow || "Open positions";
+  const title =
+    sectionData?.title || defaultCareersPageData.positionsSection?.title || "Build Your Career with Us";
+  const subtitle =
+    sectionData?.subtitle ||
+    defaultCareersPageData.positionsSection?.subtitle ||
+    "Take the next step with a role where your ideas and work can make a real impact.";
+
+  const openingsList: ExtendedCareerOpening[] = useMemo(() => {
+    const list = positions?.length ? positions : defaultCareerPositions;
+    return list.map((p) => ({
+      id: p.slug || String(p.id),
+      title: p.title,
+      department: p.department,
+      location: p.location,
+      experience: p.experience || "Full time",
+      description: p.description,
+      applyUrl: p.applyUrl,
+    }));
+  }, [positions]);
+
+  const departments = useMemo(() => {
+    const fromOpenings = Array.from(new Set(openingsList.map((o) => o.department))).filter(Boolean);
+    return fromOpenings.length ? fromOpenings : CAREER_DEPARTMENTS;
+  }, [openingsList]);
+
+  const locations = useMemo(() => {
+    const fromOpenings = Array.from(new Set(openingsList.map((o) => o.location))).filter(Boolean);
+    return fromOpenings.length ? fromOpenings : CAREER_LOCATIONS;
+  }, [openingsList]);
 
   const filteredOpenings = useMemo(() => {
     const query = filters.search.trim().toLowerCase();
-    return CAREER_OPENINGS.filter((opening) => {
+    return openingsList.filter((opening) => {
       const matchesDepartment = !filters.department || opening.department === filters.department;
       const matchesLocation = !filters.location || opening.location === filters.location;
       const matchesSearch =
@@ -106,7 +176,7 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
           .includes(query);
       return matchesDepartment && matchesLocation && matchesSearch;
     });
-  }, [filters]);
+  }, [filters, openingsList]);
 
   useEffect(() => {
     setPage(1);
@@ -117,13 +187,24 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
   const pageStart = (currentPage - 1) * PAGE_SIZE;
 
   return (
-    <section id="open-positions" className="relative flex scroll-mt-[88px] flex-col items-start justify-start gap-6 bg-white px-5 py-8 lg:w-full lg:gap-[10px] lg:px-[max(40px,calc((100vw-1440px)/2+80px))] xl:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]" aria-labelledby="positions-heading">
+    <section
+      id="open-positions"
+      className="relative flex scroll-mt-[88px] flex-col items-start justify-start gap-6 bg-white px-5 py-8 lg:w-full lg:gap-[10px] lg:px-[max(40px,calc((100vw-1440px)/2+80px))] xl:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:py-[62px]"
+      aria-labelledby="positions-heading"
+    >
       <div className="flex w-full flex-col gap-6 lg:items-start lg:gap-[42px] lg:self-stretch">
         <div className="flex w-full flex-col gap-6 self-stretch lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col items-start justify-center self-stretch gap-3 lg:self-auto lg:flex-1 lg:min-w-0 lg:max-w-[646.448px] lg:justify-end lg:gap-4">
-            <Eyebrow label="Open positions" />
-            <h2 id="positions-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">Build Your Career with Us</h2>
-            <p className="m-0 font-sans text-xs font-normal leading-normal text-ink lg:max-w-[474.189px] lg:text-base">Take the next step with a role where your ideas and work can make a real impact.</p>
+            <Eyebrow label={eyebrow} />
+            <h2
+              id="positions-heading"
+              className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]"
+            >
+              {title}
+            </h2>
+            <p className="m-0 font-sans text-xs font-normal leading-normal text-ink lg:max-w-[474.189px] lg:text-base">
+              {subtitle}
+            </p>
           </div>
 
           <div className="flex min-w-0 flex-col gap-4 lg:relative lg:w-full lg:max-w-[587px] lg:shrink-0 lg:items-start lg:gap-[19px]">
@@ -142,80 +223,133 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
               />
             </label>
             <div className="flex flex-col items-start self-stretch gap-[12px] lg:flex lg:flex-col lg:items-start lg:gap-[21px] lg:self-stretch">
-            <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
-              <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">Team</span>
-              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
-                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
-                <button
-                  type="button"
-                  className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.department ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
-                  aria-pressed={!filters.department}
-                  onClick={() => onChange({ ...filters, department: "" })}
-                >
-                  All
-                </button>
-                {CAREER_DEPARTMENTS.map((department) => (
-                  <button
-                    type="button"
-                    key={department}
-                    className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${filters.department === department ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
-                    aria-pressed={filters.department === department}
-                    onClick={() =>
-                      onChange({
-                        ...filters,
-                        department: filters.department === department ? "" : department,
-                      })
-                    }
+              <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
+                <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">
+                  Team
+                </span>
+                <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                  <div
+                    className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0"
+                    style={{
+                      overscrollBehaviorX: "contain",
+                      WebkitOverflowScrolling: "touch",
+                      touchAction: "pan-x pan-y",
+                    }}
                   >
-                    {department}
-                  </button>
-                ))}
+                    <button
+                      type="button"
+                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                        !filters.department
+                          ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
+                          : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
+                      }`}
+                      aria-pressed={!filters.department}
+                      onClick={() => onChange({ ...filters, department: "" })}
+                    >
+                      All
+                    </button>
+                    {departments.map((department) => (
+                      <button
+                        type="button"
+                        key={department}
+                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                          filters.department === department
+                            ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
+                            : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
+                        }`}
+                        aria-pressed={filters.department === department}
+                        onClick={() =>
+                          onChange({
+                            ...filters,
+                            department: filters.department === department ? "" : department,
+                          })
+                        }
+                      >
+                        {department}
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute lg:hidden"
+                    style={{
+                      width: "54.598px",
+                      height: "84.271px",
+                      right: "-5px",
+                      bottom: "0",
+                      background:
+                        "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)",
+                      zIndex: 10,
+                    }}
+                  />
                 </div>
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute lg:hidden"
-                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
-                />
+              </div>
+              <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
+                <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">
+                  Where
+                </span>
+                <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
+                  <div
+                    className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0"
+                    style={{
+                      overscrollBehaviorX: "contain",
+                      WebkitOverflowScrolling: "touch",
+                      touchAction: "pan-x pan-y",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                        !filters.location
+                          ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
+                          : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
+                      }`}
+                      aria-pressed={!filters.location}
+                      onClick={() => onChange({ ...filters, location: "" })}
+                    >
+                      All
+                    </button>
+                    {locations.map((location) => (
+                      <button
+                        type="button"
+                        key={location}
+                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                          filters.location === location
+                            ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
+                            : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
+                        }`}
+                        aria-pressed={filters.location === location}
+                        onClick={() =>
+                          onChange({
+                            ...filters,
+                            location: filters.location === location ? "" : location,
+                          })
+                        }
+                      >
+                        {location}
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute lg:hidden"
+                    style={{
+                      width: "54.598px",
+                      height: "84.271px",
+                      right: "-5px",
+                      bottom: "0",
+                      background:
+                        "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)",
+                      zIndex: 10,
+                    }}
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex w-full min-w-0 items-center gap-2 overflow-hidden lg:w-full lg:overflow-hidden">
-              <span className="w-[52px] shrink-0 font-sans text-sm font-semibold leading-none text-ink lg:text-base">Where</span>
-              <div className="relative min-w-0 max-w-full flex-1 overflow-hidden">
-                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-0.5 pb-1.5 pr-5 lg:py-0 lg:pr-[93px] lg:pb-0" style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}>
-                <button
-                  type="button"
-                  className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${!filters.location ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
-                  aria-pressed={!filters.location}
-                  onClick={() => onChange({ ...filters, location: "" })}
-                >
-                  All
-                </button>
-                {CAREER_LOCATIONS.map((location) => (
-                  <button
-                    type="button"
-                    key={location}
-                    className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${filters.location === location ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white" : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"}`}
-                    aria-pressed={filters.location === location}
-                    onClick={() =>
-                      onChange({
-                        ...filters,
-                        location: filters.location === location ? "" : location,
-                      })
-                    }
-                  >
-                    {location}
-                  </button>
-                ))}
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute lg:hidden"
-                  style={{ width: "54.598px", height: "84.271px", right: "-5px", bottom: "0", background: "linear-gradient(270deg, #FFF 13.62%, rgba(255, 255, 255, 0.00) 100%)", zIndex: 10 }}
-                />
-              </div>
-            </div>
-            </div>
-            <div aria-hidden="true" className="pointer-events-none hidden lg:absolute lg:right-0 lg:bottom-0 lg:block lg:h-[105px] lg:w-[93px] lg:bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)]" />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none hidden lg:absolute lg:right-0 lg:bottom-0 lg:block lg:h-[105px] lg:w-[93px] lg:bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)]"
+            />
           </div>
         </div>
 
@@ -269,13 +403,22 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
                 <>
                   We don&apos;t have any active openings matching your selection
                   {filters.department ? (
-                    <> in <strong className="font-semibold text-ink">{filters.department}</strong></>
+                    <>
+                      {" "}
+                      in <strong className="font-semibold text-ink">{filters.department}</strong>
+                    </>
                   ) : null}
                   {filters.location ? (
-                    <> located in <strong className="font-semibold text-ink">{filters.location}</strong></>
+                    <>
+                      {" "}
+                      located in <strong className="font-semibold text-ink">{filters.location}</strong>
+                    </>
                   ) : null}
                   {filters.search ? (
-                    <> for &ldquo;<span className="font-semibold text-ink">{filters.search}</span>&rdquo;</>
+                    <>
+                      {" "}
+                      for &ldquo;<span className="font-semibold text-ink">{filters.search}</span>&rdquo;
+                    </>
                   ) : null}
                   . We are continuously expanding our teams—check back soon or browse all open roles.
                 </>
@@ -317,7 +460,10 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
         )}
 
         {totalPages > 1 && (
-          <nav className="flex self-stretch items-center justify-center gap-[8px] lg:hidden" aria-label="Open positions pagination">
+          <nav
+            className="flex self-stretch items-center justify-center gap-[8px] lg:hidden"
+            aria-label="Open positions pagination"
+          >
             <button
               type="button"
               className={`flex size-[32px] shrink-0 items-center justify-center rounded-[8px] text-white transition-all ${
@@ -329,13 +475,24 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
               disabled={currentPage === 1}
               aria-label="Previous page"
             >
-              <svg aria-hidden="true" viewBox="0 0 5 9" className="h-[9px] w-[5px] -scale-x-100 fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 5 9"
+                className="h-[9px] w-[5px] -scale-x-100 fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round"
+              >
                 <path d="m1 1 3 3.5-3 3.5" />
               </svg>
             </button>
-            <span className="flex w-[42px] items-baseline justify-center font-display text-[#121212] tracking-[-0.54px]" aria-live="polite">
-              <span className="text-[16px] font-bold leading-none">{String(currentPage).padStart(2, "0")}</span>
-              <span className="text-[12px] font-normal leading-none">/{String(totalPages).padStart(2, "0")}</span>
+            <span
+              className="flex w-[42px] items-baseline justify-center font-display text-[#121212] tracking-[-0.54px]"
+              aria-live="polite"
+            >
+              <span className="text-[16px] font-bold leading-none">
+                {String(currentPage).padStart(2, "0")}
+              </span>
+              <span className="text-[12px] font-normal leading-none">
+                /{String(totalPages).padStart(2, "0")}
+              </span>
             </span>
             <button
               type="button"
@@ -348,7 +505,11 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
               disabled={currentPage === totalPages}
               aria-label="Next page"
             >
-              <svg aria-hidden="true" viewBox="0 0 5 9" className="h-[9px] w-[5px] fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 5 9"
+                className="h-[9px] w-[5px] fill-none stroke-current stroke-[1.8] stroke-linecap-round stroke-linejoin-round"
+              >
                 <path d="m1 1 3 3.5-3 3.5" />
               </svg>
             </button>
@@ -357,7 +518,10 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
       </div>
 
       {applicationRole && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/[0.56] p-5" onMouseDown={() => setApplicationRole(null)}>
+        <div
+          className="fixed inset-0 z-[100] grid place-items-center bg-black/[0.56] p-5"
+          onMouseDown={() => setApplicationRole(null)}
+        >
           <section
             aria-labelledby="application-dialog-title"
             aria-modal="true"
@@ -365,14 +529,38 @@ export default function CareerOpenPositions({ filters, onChange }: CareerOpenPos
             onMouseDown={(event) => event.stopPropagation()}
             role="dialog"
           >
-            <h2 id="application-dialog-title" className="mb-3 mt-0 font-display text-2xl leading-[1.2] text-ink">Apply for {applicationRole.title}</h2>
+            <h2 id="application-dialog-title" className="mb-3 mt-0 font-display text-2xl leading-[1.2] text-ink">
+              Apply for {applicationRole.title}
+            </h2>
             <p className="mb-6 mt-0 font-sans text-sm leading-[1.5] text-ink-3">
-              Applications are not connected to this website yet. No application has been sent.
-              Please use Euler Motors&apos; official recruitment channels to apply.
+              Applications are managed directly by Euler Motors Recruitment. Please email your resume to{" "}
+              <a
+                href={`mailto:careers@eulermotors.com?subject=Application:%20${encodeURIComponent(
+                  applicationRole.title
+                )}`}
+                className="font-semibold text-brand underline"
+              >
+                careers@eulermotors.com
+              </a>
+              .
             </p>
-            <button type="button" className="min-h-[42px] rounded bg-ink px-5 font-sans text-sm font-bold text-white" onClick={() => setApplicationRole(null)}>
-              Close
-            </button>
+            <div className="flex gap-3">
+              <a
+                href={`mailto:careers@eulermotors.com?subject=Application:%20${encodeURIComponent(
+                  applicationRole.title
+                )}`}
+                className="inline-flex min-h-[42px] items-center justify-center rounded bg-brand px-5 font-sans text-sm font-bold text-white hover:bg-navy"
+              >
+                Open Email
+              </a>
+              <button
+                type="button"
+                className="min-h-[42px] rounded border border-black/20 bg-white px-5 font-sans text-sm font-bold text-ink hover:bg-mist"
+                onClick={() => setApplicationRole(null)}
+              >
+                Close
+              </button>
+            </div>
           </section>
         </div>
       )}

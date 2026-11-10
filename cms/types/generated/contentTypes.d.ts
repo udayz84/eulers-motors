@@ -570,6 +570,10 @@ export interface ApiCareersPageCareersPage extends Struct.SingleTypeSchema {
       'api::careers-page.careers-page'
     > &
       Schema.Attribute.Private;
+    positionsSection: Schema.Attribute.Component<
+      'careers.positions-section',
+      false
+    >;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     supportSection: Schema.Attribute.Component<

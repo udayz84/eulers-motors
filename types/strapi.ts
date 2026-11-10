@@ -502,6 +502,103 @@ export interface DealerLocatorPageData {
 }
 
 /**
+ * Careers Page Component Types
+ */
+export interface StrapiCareerBenefitItem {
+  id?: number;
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface StrapiCareerBenefitsSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  benefits?: StrapiCareerBenefitItem[];
+}
+
+export interface StrapiCareerSupportItem {
+  id?: number;
+  title: string;
+  description: string;
+}
+
+export interface StrapiCareerSupportSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  items?: StrapiCareerSupportItem[];
+}
+
+export interface StrapiCareerPositionsSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+export interface StrapiCareerGallerySection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  images?: StrapiMedia[];
+}
+
+export interface StrapiCareerTestimonialItem {
+  id?: number;
+  quote: string;
+  name: string;
+  role: string;
+  image?: StrapiMedia | null;
+}
+
+export interface StrapiCareerTestimonialsSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  testimonials?: StrapiCareerTestimonialItem[];
+}
+
+export interface StrapiCareerHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  cta?: StrapiCTA;
+}
+
+export interface StrapiCareersPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiCareerHero;
+  benefitsSection?: StrapiCareerBenefitsSection;
+  supportSection?: StrapiCareerSupportSection;
+  positionsSection?: StrapiCareerPositionsSection;
+  gallerySection?: StrapiCareerGallerySection;
+  testimonialsSection?: StrapiCareerTestimonialsSection;
+  seo?: StrapiSEO;
+}
+
+export interface StrapiCareerPosition {
+  id?: number;
+  documentId?: string;
+  title: string;
+  department: string;
+  location: string;
+  experience?: string;
+  description: string;
+  slug: string;
+  isActive?: boolean;
+  applyUrl?: string;
+  order?: number;
+}
+
+/**
  * Standard Strapi v5 API single & collection envelope structures
  */
 export interface StrapiResponse<T> {

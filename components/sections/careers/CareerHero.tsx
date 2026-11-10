@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 import FloatingWidget from "@/components/FloatingWidget";
 import Eyebrow from "@/components/ui/Eyebrow";
 import type { CareerFilters } from "./types";
+import type { StrapiCareerHero } from "@/types/strapi";
+import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 
 type SelectOption = {
   label: string;
@@ -13,7 +15,7 @@ type SelectOption = {
 };
 
 const DEPARTMENT_OPTIONS: SelectOption[] = [
-  { label: "Human Resource", value: "" },
+  { label: "All Teams", value: "" },
   { label: "Engineering", value: "Engineering" },
   { label: "Manufacturing", value: "Manufacturing" },
   { label: "Sales", value: "Sales" },
@@ -23,7 +25,7 @@ const DEPARTMENT_OPTIONS: SelectOption[] = [
 ];
 
 const LOCATION_OPTIONS: SelectOption[] = [
-  { label: "Not sure, please suggest one", value: "" },
+  { label: "All Locations", value: "" },
   { label: "New Delhi", value: "New Delhi" },
   { label: "Bengaluru", value: "Bengaluru" },
   { label: "Pune", value: "Pune" },
@@ -267,6 +269,9 @@ function FilterSelect({
 type CareerHeroProps = {
   filters: CareerFilters;
   onChange: (filters: CareerFilters) => void;
+  data?: StrapiCareerHero;
+  departments?: string[];
+  locations?: string[];
 };
 
 function SearchIcon() {
@@ -338,23 +343,103 @@ function ArrowIcon() {
   );
 }
 
-export default function CareerHero({ filters, onChange }: CareerHeroProps) {
+export default function CareerHero({
+  filters,
+  onChange,
+  data,
+  departments,
+  locations,
+}: CareerHeroProps) {
+  const textRef = useRef<HTMLDivElement>(null);
+  const [layoutMetrics, setLayoutMetrics] = useState({
+    desktopFormTop: 407,
+    desktopHeroHeight: 700,
+    mobileHeroHeight: 734,
+  });
+
+  const eyebrow = data?.eyebrow || defaultCareersPageData.hero?.eyebrow || "Grow with us";
+  const title = data?.title || defaultCareersPageData.hero?.title || "Shape the Future of Electric Mobility";
+  const subtitle =
+    data?.subtitle ||
+    defaultCareersPageData.hero?.subtitle ||
+    "Be part of a collaborative, focused team solving real infrastructure and engineering challenges to clean commercial transport across India.";
+  const ctaLabel = data?.cta?.label || "Find Jobs";
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const h = el.offsetHeight;
+      const isDesktop = window.innerWidth >= 1024;
+
+      if (isDesktop) {
+        // Desktop standard: text at 148px, height 216px, 43px gap to form (148 + 216 + 43 = 407px).
+        // Standard form height is 248px, 45px padding to bottom (407 + 248 + 45 = 700px).
+        const calcDesktopFormTop = Math.max(407, 148 + h + 43);
+        const calcDesktopHeroHeight = Math.max(700, calcDesktopFormTop + 248 + 45);
+
+        setLayoutMetrics((prev) => ({
+          ...prev,
+          desktopFormTop: calcDesktopFormTop,
+          desktopHeroHeight: calcDesktopHeroHeight,
+        }));
+      } else {
+        // Mobile standard: text at 552px, height 112px, 70px bottom spacing (552 + 112 + 70 = 734px).
+        const calcMobileHeroHeight = Math.max(734, 552 + h + 70);
+
+        setLayoutMetrics((prev) => ({
+          ...prev,
+          mobileHeroHeight: calcMobileHeroHeight,
+        }));
+      }
+    };
+
+    measure();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(measure);
+      ro.observe(el);
+      window.addEventListener("resize", measure);
+      return () => {
+        ro.disconnect();
+        window.removeEventListener("resize", measure);
+      };
+    }
+  }, [title, subtitle]);
+
+  const departmentOptions: SelectOption[] = departments?.length
+    ? [{ label: "All Teams", value: "" }, ...departments.map((d) => ({ label: d, value: d }))]
+    : DEPARTMENT_OPTIONS;
+
+  const locationOptions: SelectOption[] = locations?.length
+    ? [{ label: "All Locations", value: "" }, ...locations.map((l) => ({ label: l, value: l }))]
+    : LOCATION_OPTIONS;
+
   const findJobs = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     document.getElementById("open-positions")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative isolate h-[734px] overflow-hidden bg-black text-white lg:h-[700px]" aria-labelledby="careers-heading">
+    <section
+      className="relative isolate min-h-[734px] h-[var(--hero-mobile-height,734px)] overflow-hidden bg-black text-white lg:min-h-[700px] lg:h-[var(--desktop-hero-height,700px)]"
+      style={{
+        "--hero-mobile-height": `${layoutMetrics.mobileHeroHeight}px`,
+        "--desktop-hero-height": `${layoutMetrics.desktopHeroHeight}px`,
+        "--desktop-form-top": `${layoutMetrics.desktopFormTop}px`,
+      } as React.CSSProperties}
+      aria-labelledby="careers-heading"
+    >
       <div
         className="pointer-events-none absolute inset-0 z-[-1] overflow-hidden bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_31.136%,#041231_60.12%),linear-gradient(8.53deg,#0e2f6d_28.191%,#1d6fff_89.743%)] max-lg:bg-[linear-gradient(180deg,rgb(29_111_255_/_0%)_18%,rgba(4,18,49,0.55)_42%,#041231_68%),linear-gradient(5deg,#0e2f6d_28.19%,#1d6fff_89.74%)] lg:bg-[linear-gradient(-86.6deg,#0e2f6d_63.511%,#1d6fff_87.226%)]"
         aria-hidden="true"
       >
-        <div className="absolute inset-0 bg-[url('/assets/careers/hero-texture.png')] bg-[length:cover] bg-[position:center_bottom] bg-no-repeat opacity-[0.12] lg:bg-left-top lg:bg-[length:1440px_810.895px]" />
-        <div className="absolute inset-x-0 top-[155.67px] bottom-auto h-[579px] w-full overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
+        <div className="absolute inset-0 bg-[url('/assets/careers/hero-texture.webp')] bg-[length:cover] bg-[position:center_bottom] bg-no-repeat opacity-[0.12] lg:bg-left-top lg:bg-[length:1440px_810.895px]" />
+        <div className="absolute inset-x-0 top-[155.67px] bottom-0 min-h-[579px] w-full overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
           <div className="absolute inset-0 bg-black" />
           <Image
-            src="/assets/careers/hero-mobile.png"
+            src="/assets/careers/hero-mobile.webp"
             alt=""
             width={1440}
             height={1394}
@@ -368,7 +453,7 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
             }}
           />
           <Image
-            src="/assets/careers/hero-desktop.png"
+            src="/assets/careers/hero-desktop.webp"
             alt=""
             width={1440}
             height={1394}
@@ -385,7 +470,7 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
         </div>
       </div>
 
-      <div className="absolute top-[101.31px] left-5 w-[calc(100%_-_40px)] max-w-[518.52px] lg:top-[407px] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]">
+      <div className="absolute top-[101.31px] left-5 w-[calc(100%_-_40px)] max-w-[518.52px] lg:top-[var(--desktop-form-top,407px)] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]">
         <form className="flex flex-col items-stretch gap-3 lg:gap-2" onSubmit={findJobs}>
           <label className="flex h-[42px] items-center gap-2 rounded-[50px] border border-black/[0.06] bg-white px-3 text-ink">
             <SearchIcon />
@@ -402,30 +487,32 @@ export default function CareerHero({ filters, onChange }: CareerHeroProps) {
           <FilterSelect
             label="Department"
             value={filters.department}
-            options={DEPARTMENT_OPTIONS}
+            options={departmentOptions}
             onChange={(department) => onChange({ ...filters, department })}
           />
 
           <FilterSelect
             label="Location"
             value={filters.location}
-            options={LOCATION_OPTIONS}
+            options={locationOptions}
             onChange={(location) => onChange({ ...filters, location })}
           />
 
           <button type="submit" className="flex h-11 w-full shrink-0 items-center justify-center gap-2 rounded bg-white px-5 font-display text-xs font-bold text-ink transition-colors duration-[160ms] hover:bg-mist lg:h-[50px] lg:px-6 lg:text-base">
-            Find Jobs
+            {ctaLabel}
             <ArrowIcon />
           </button>
         </form>
       </div>
 
-      <div className="absolute top-[552px] left-5 flex w-[calc(100%_-_40px)] max-w-[518.52px] flex-col items-start gap-[14px] lg:top-[148px] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]">
-        <Eyebrow label="Grow with us" dark icons="white" className="h-4 lg:h-[20.36px]" />
-        <h1 id="careers-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:w-[498.92px] lg:text-[52px] lg:tracking-[-1.04px]">Shape the Future of Electric Mobility</h1>
+      <div
+        ref={textRef}
+        className="absolute top-[552px] left-5 flex w-[calc(100%_-_40px)] max-w-[518.52px] flex-col items-start gap-[14px] lg:top-[148px] lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:w-[518.52px]"
+      >
+        <Eyebrow label={eyebrow} dark icons="white" className="h-4 lg:h-[20.36px]" />
+        <h1 id="careers-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:w-[498.92px] lg:text-[52px] lg:tracking-[-1.04px]">{title}</h1>
         <p className="m-0 w-full font-sans text-xs font-normal leading-normal text-white lg:w-[518.52px] lg:text-base">
-          Be part of a collaborative, focused team solving real infrastructure and engineering
-          challenges to clean commercial transport across India.
+          {subtitle}
         </p>
       </div>
 

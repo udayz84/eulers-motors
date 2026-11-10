@@ -9,15 +9,15 @@
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Benefits & Perks"
+      "default": "Our offering"
     },
     "title": {
       "type": "string",
-      "default": "We take care of the team."
+      "default": "Support That Matters"
     },
     "subtitle": {
       "type": "text",
-      "default": "Comprehensive health, learning budgets, and equity support."
+      "default": "We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks."
     },
     "items": {
       "type": "component",

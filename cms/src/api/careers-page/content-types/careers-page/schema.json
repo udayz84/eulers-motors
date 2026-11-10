@@ -27,6 +27,11 @@
       "repeatable": false,
       "component": "careers.support-section"
     },
+    "positionsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "careers.positions-section"
+    },
     "gallerySection": {
       "type": "component",
       "repeatable": false,

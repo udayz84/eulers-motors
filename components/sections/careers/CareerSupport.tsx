@@ -5,71 +5,81 @@ import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import type { StrapiCareerSupportSection, StrapiCareerSupportItem } from "@/types/strapi";
+import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 
-const SUPPORT_ITEMS = [
-  {
-    title: "Medical Cover",
-    description: "Cover for you, spouse, children, and parents.",
-    left: "-62.93%",
-    top: "-8.32%",
-  },
-  {
-    title: "Learning Budget",
-    description: "Paid courses, workshops, and global certs.",
-    left: "-190.28%",
-    top: "-8.32%",
-  },
-  {
-    title: "Flexible Leave",
-    description: "Take the time you need comfortably.",
-    left: "-335.71%",
-    top: "-8.32%",
-  },
-  {
-    title: "Counseling",
-    description: "Confidential mental health support, free of cost.",
-    left: "-466.27%",
-    top: "-8.32%",
-  },
-  {
-    title: "Equity Options",
-    description: "Own a stake in the mobility revolution.",
-    left: "-57.4%",
-    top: "-101.96%",
-  },
-  {
-    title: "Modern Workspace",
-    description: "Spacious hubs in Delhi & Bangalore.",
-    left: "-177.8%",
-    top: "-96.38%",
-  },
-  {
-    title: "Parental Support",
-    description: "Helpful paid parent leave systems.",
-    left: "-332.54%",
-    top: "-103.95%",
-  },
-  {
-    title: "Recognition",
-    description: "Quarterly peer-voted awards & spot bonuses.",
-    left: "-466.18%",
-    top: "-104.68%",
-  },
+const SPRITE_COORDINATES = [
+  { left: "-62.93%", top: "-8.32%" },
+  { left: "-190.28%", top: "-8.32%" },
+  { left: "-335.71%", top: "-8.32%" },
+  { left: "-466.27%", top: "-8.32%" },
+  { left: "-57.4%", top: "-101.96%" },
+  { left: "-177.8%", top: "-96.38%" },
+  { left: "-332.54%", top: "-103.95%" },
+  { left: "-466.18%", top: "-104.68%" },
 ];
 
-type SupportItem = (typeof SUPPORT_ITEMS)[number];
+const DEFAULT_SUPPORT_ITEMS: StrapiCareerSupportItem[] =
+  defaultCareersPageData.supportSection?.items || [
+    {
+      title: "Medical Cover",
+      description: "Cover for you, spouse, children, and parents.",
+    },
+    {
+      title: "Learning Budget",
+      description: "Paid courses, workshops, and global certs.",
+    },
+    {
+      title: "Flexible Leave",
+      description: "Take the time you need comfortably.",
+    },
+    {
+      title: "Counseling",
+      description: "Confidential mental health support, free of cost.",
+    },
+    {
+      title: "Equity Options",
+      description: "Own a stake in the mobility revolution.",
+    },
+    {
+      title: "Modern Workspace",
+      description: "Spacious hubs in Delhi & Bangalore.",
+    },
+    {
+      title: "Parental Support",
+      description: "Helpful paid parent leave systems.",
+    },
+    {
+      title: "Recognition",
+      description: "Quarterly peer-voted awards & spot bonuses.",
+    },
+  ];
 
-function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDuplicate?: boolean }) {
+type CareerSupportProps = {
+  data?: StrapiCareerSupportSection;
+};
+
+function SupportCard({
+  item,
+  index,
+  isDuplicate = false,
+}: {
+  item: StrapiCareerSupportItem;
+  index: number;
+  isDuplicate?: boolean;
+}) {
+  const coords = SPRITE_COORDINATES[index % SPRITE_COORDINATES.length];
+
   return (
     <article
       aria-hidden={isDuplicate || undefined}
-      className={`flex h-[102px] w-full max-w-[353px] items-center gap-5 rounded-[12px] border-[0.5px] border-white/20 bg-white/[0.08] p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),inset_0_-1px_1px_rgba(255,255,255,0.08)] backdrop-blur-md select-none shrink-0 lg:h-[228px] lg:w-[412px] lg:min-w-[412px] lg:max-w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8 ${
+      className={`flex h-[102px] w-full max-w-[353px] items-center gap-5 rounded-[12px] border-[0.5px] border-white/20 bg-white/[0.08] p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),inset_0_-1px_1px_rgba(255,255,255,0.08)] backdrop-blur-md select-none shrink-0 lg:h-[228px] lg:w-[412px] lg:min-w-[412px] lg:max-w-[412px] lg:flex-col lg:items-start lg:justify-between lg:p-8 ${
         isDuplicate ? "hidden lg:flex" : "flex"
       }`}
     >
       <div className="relative h-[62px] w-[64.33px] shrink-0 overflow-hidden lg:h-[72px] lg:w-[74.71px]">
         <Image
-          src="/assets/careers/support-illustrations.png"
+          src="/assets/careers/support-illustrations.webp"
           alt=""
           width={630}
           height={218}
@@ -77,15 +87,19 @@ function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDupli
             position: "absolute",
             width: "629.2%",
             height: "217.63%",
-            left: item.left,
-            top: item.top,
+            left: coords.left,
+            top: coords.top,
             maxWidth: "none",
           }}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <h3 className="m-0 font-sans text-base font-bold leading-normal text-white lg:font-display lg:text-[26px] lg:font-semibold lg:leading-[1.15] lg:tracking-[-0.78px]">{item.title}</h3>
-        <p className="m-0 font-sans text-xs font-normal leading-normal text-white lg:text-base">{item.description}</p>
+        <h3 className="m-0 font-sans text-base font-bold leading-normal text-white lg:font-display lg:text-[26px] lg:font-semibold lg:leading-[1.15] lg:tracking-[-0.78px]">
+          {item.title}
+        </h3>
+        <p className="m-0 font-sans text-xs font-normal leading-normal text-white lg:text-base">
+          {item.description}
+        </p>
       </div>
     </article>
   );
@@ -97,7 +111,7 @@ function SupportCard({ item, isDuplicate = false }: { item: SupportItem; isDupli
  * continuous desktop auto-scroll (speed 50px/s), draggable mouse scroll,
  * responsive scroll snap, navigation arrows, and dynamic progress pill.
  */
-export default function CareerSupport() {
+export default function CareerSupport({ data }: CareerSupportProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -106,6 +120,14 @@ export default function CareerSupport() {
   const isDraggingRef = useRef(false);
   const isInteractingRef = useRef(false);
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const eyebrow = data?.eyebrow || defaultCareersPageData.supportSection?.eyebrow || "Our offering";
+  const title = data?.title || defaultCareersPageData.supportSection?.title || "Support That Matters";
+  const subtitle =
+    data?.subtitle ||
+    defaultCareersPageData.supportSection?.subtitle ||
+    "We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks.";
+  const items = data?.items?.length ? data.items : DEFAULT_SUPPORT_ITEMS;
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;
@@ -118,7 +140,7 @@ export default function CareerSupport() {
     }
   }, []);
 
-  const pauseAutoScroll = useCallback((duration = 5000) => {
+  const pauseAutoScroll = useCallback((duration = 600) => {
     isInteractingRef.current = true;
     if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
     interactionTimerRef.current = setTimeout(() => {
@@ -129,11 +151,11 @@ export default function CareerSupport() {
   useDraggableScroll(scrollRef, {
     onDragStart: () => {
       isDraggingRef.current = true;
-      pauseAutoScroll(5000);
+      pauseAutoScroll(600);
     },
     onDragEnd: () => {
       isDraggingRef.current = false;
-      pauseAutoScroll(3000);
+      pauseAutoScroll(400);
       updateProgress();
     },
   });
@@ -144,7 +166,7 @@ export default function CareerSupport() {
     const row = scrollRef.current;
     if (!row) return;
 
-    const onStep = () => pauseAutoScroll(5000);
+    const onStep = () => pauseAutoScroll(600);
 
     row.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
@@ -171,7 +193,7 @@ export default function CareerSupport() {
     return () => observer.disconnect();
   }, []);
 
-  // Smooth desktop auto-scroll loop (stops at end like homepage CustomerReviews)
+  // Desktop auto-scroll loop (speed = 50px/s, stops at end, non-infinite)
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
@@ -184,7 +206,7 @@ export default function CareerSupport() {
 
     const tick = (now: number) => {
       if (lastTime === null) lastTime = now;
-      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      const delta = (now - lastTime) / 1000;
       lastTime = now;
 
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
@@ -226,17 +248,21 @@ export default function CareerSupport() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col items-center gap-[24px] overflow-hidden bg-[linear-gradient(0deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.40)_100%),linear-gradient(272deg,#0E2F6D_-63.51%,#1D6FFF_87.23%)] bg-[#E9EDF3] px-5 py-[31.63px] text-white lg:h-[610.36px] lg:min-h-0 lg:justify-start lg:gap-[42px] lg:px-0 lg:py-[62px]"
+      className="relative flex flex-col items-center gap-[24px] overflow-hidden bg-[linear-gradient(0deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.40)_100%),linear-gradient(272deg,#0E2F6D_-63.51%,#1D6FFF_87.23%)] bg-[#E9EDF3] px-5 py-[31.63px] text-white lg:min-h-[610.36px] lg:h-auto lg:justify-start lg:gap-[42px] lg:px-0 lg:py-[62px]"
       aria-labelledby="career-support-heading"
     >
       <div className="flex w-full max-w-[353px] flex-col items-center justify-center gap-[14px] text-center lg:max-w-none lg:gap-6 lg:px-20">
         <div className="flex flex-col items-center justify-center gap-[14px] lg:gap-4">
-          <Eyebrow label="Our offering" dark icons="white" />
-          <h2 id="career-support-heading" className="m-0 font-display text-[28px] font-semibold leading-normal tracking-[-0.56px] text-white lg:text-[42px] lg:tracking-[-0.84px]">Support That Matters</h2>
+          <Eyebrow label={eyebrow} dark icons="white" />
+          <h2
+            id="career-support-heading"
+            className="m-0 font-display text-[28px] font-semibold leading-normal tracking-[-0.56px] text-white lg:text-[42px] lg:tracking-[-0.84px]"
+          >
+            {title}
+          </h2>
         </div>
         <p className="m-0 font-sans text-xs font-normal leading-normal text-[#ccc] w-full max-w-[295.77px] text-center lg:w-[493.14px] lg:max-w-[493.14px] lg:text-base lg:text-white">
-          We focus on complete physical, mental, and professional growth support. No standard
-          corporate fluff, just helpful baseline perks.
+          {subtitle}
         </p>
       </div>
 
@@ -244,19 +270,17 @@ export default function CareerSupport() {
         <div
           id="career-support-row"
           ref={scrollRef}
-          onMouseEnter={() => {
-            isInteractingRef.current = true;
-          }}
-          onMouseLeave={() => {
-            isInteractingRef.current = false;
-          }}
-          className="flex w-full max-w-[353px] flex-col items-center gap-2.5 mx-auto lg:no-scrollbar lg:flex-row lg:w-full lg:max-w-none lg:items-center lg:gap-3 lg:overflow-x-auto lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-default lg:cursor-grab active:lg:cursor-grabbing select-none"
+          className="no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex w-full max-w-[353px] flex-col items-center gap-2.5 mx-auto lg:flex-row lg:w-full lg:max-w-none lg:items-center lg:gap-3 lg:overflow-x-auto lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
           aria-label="Employee benefits"
         >
-          {SUPPORT_ITEMS.map((item) => (
-            <SupportCard key={item.title} item={item} />
+          {items.map((item, index) => (
+            <SupportCard
+              key={item.title || index}
+              item={item}
+              index={index}
+            />
           ))}
-          <div aria-hidden className="hidden shrink-0 lg:block lg:w-16" />
+          <div aria-hidden className="shrink-0 w-8 lg:w-16" />
         </div>
 
         {/* Navigation Arrows with boundary auto-hide (desktop only) */}
@@ -265,7 +289,7 @@ export default function CareerSupport() {
           label="support perks"
           variant="blue"
           className="hidden lg:block"
-          onStep={() => pauseAutoScroll(5000)}
+          onStep={() => pauseAutoScroll(600)}
         />
       </div>
 

@@ -23,6 +23,8 @@ export interface CareersBenefitsSection extends Struct.ComponentSchema {
   };
   attributes: {
     benefits: Schema.Attribute.Component<'careers.benefit-item', true>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'At Euler Motors, we build commercial vehicles that drive micro-economies forward. Our team integrates engineering, software, and real operations to deliver reliability where it matters most.'>;
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Why work with us'>;
     title: Schema.Attribute.String &
@@ -58,11 +60,28 @@ export interface CareersHero extends Struct.ComponentSchema {
   attributes: {
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
     eyebrow: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Careers at Euler'>;
+      Schema.Attribute.DefaultTo<'Grow with us'>;
     subtitle: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Join a passionate team of engineers, designers, and operators building electric commercial vehicles for India.'>;
+      Schema.Attribute.DefaultTo<'Be part of a collaborative, focused team solving real infrastructure and engineering challenges to clean commercial transport across India.'>;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Build the future of commercial mobility.'>;
+      Schema.Attribute.DefaultTo<'Shape the Future of Electric Mobility'>;
+  };
+}
+
+export interface CareersPositionsSection extends Struct.ComponentSchema {
+  collectionName: 'components_careers_positions_sections';
+  info: {
+    description: 'Careers page open positions section headings';
+    displayName: 'Positions Section';
+    icon: 'briefcase';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Open positions'>;
+    subtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Take the next step with a role where your ideas and work can make a real impact.'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Build Your Career with Us'>;
   };
 }
 
@@ -88,12 +107,12 @@ export interface CareersSupportSection extends Struct.ComponentSchema {
   };
   attributes: {
     eyebrow: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Benefits & Perks'>;
+      Schema.Attribute.DefaultTo<'Our offering'>;
     items: Schema.Attribute.Component<'careers.support-item', true>;
     subtitle: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Comprehensive health, learning budgets, and equity support.'>;
+      Schema.Attribute.DefaultTo<'We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks.'>;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'We take care of the team.'>;
+      Schema.Attribute.DefaultTo<'Support That Matters'>;
   };
 }
 
@@ -120,10 +139,13 @@ export interface CareersTestimonialsSection extends Struct.ComponentSchema {
     icon: 'quote';
   };
   attributes: {
-    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Our Team'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Employee voices'>;
+    subtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Read unfiltered feedback and experiences shared by members of the Euler Motors tech, manufacturing, and support divisions.'>;
     testimonials: Schema.Attribute.Component<'careers.testimonial-item', true>;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Hear from the team.'>;
+      Schema.Attribute.DefaultTo<'What Our People Say'>;
   };
 }
 
@@ -1170,6 +1192,7 @@ declare module '@strapi/strapi' {
       'careers.benefits-section': CareersBenefitsSection;
       'careers.gallery-section': CareersGallerySection;
       'careers.hero': CareersHero;
+      'careers.positions-section': CareersPositionsSection;
       'careers.support-item': CareersSupportItem;
       'careers.support-section': CareersSupportSection;
       'careers.testimonial-item': CareersTestimonialItem;

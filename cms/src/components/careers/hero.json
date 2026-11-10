@@ -9,15 +9,15 @@
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Careers at Euler"
+      "default": "Grow with us"
     },
     "title": {
       "type": "string",
-      "default": "Build the future of commercial mobility."
+      "default": "Shape the Future of Electric Mobility"
     },
     "subtitle": {
       "type": "text",
-      "default": "Join a passionate team of engineers, designers, and operators building electric commercial vehicles for India."
+      "default": "Be part of a collaborative, focused team solving real infrastructure and engineering challenges to clean commercial transport across India."
     },
     "cta": {
       "type": "component",

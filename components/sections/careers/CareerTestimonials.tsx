@@ -5,45 +5,57 @@ import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import type { StrapiCareerTestimonialsSection } from "@/types/strapi";
+import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
+import { mediaUrl } from "@/lib/strapi/client";
 
-const TESTIMONIALS = [
+type MappedTestimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  image: string;
+};
+
+const DEFAULT_TESTIMONIALS: MappedTestimonial[] = [
   {
     quote:
       "Joined to work on advanced electric powertrains. Stayed because of the collaborative culture and freedom to innovate. The team here genuinely values engineering excellence and new ideas.",
     name: "Rahul Deshmukh",
     role: "Senior Engineer, Euler Motors",
-    image: "/assets/careers/testimonial-rahul.png",
+    image: "/assets/careers/testimonial-rahul.webp",
   },
   {
     quote:
       "Joined to build cutting-edge battery packs. Stayed because of the high trust and low bureaucracy. The ownership given to engineers here is rare in the EV sector.",
     name: "Jahan Melad",
     role: "Project Manager, Euler Motors",
-    image: "/assets/careers/testimonial-jahan.png",
+    image: "/assets/careers/testimonial-jahan.webp",
   },
   {
     quote:
       "Came here to solve real-world mobility challenges. Stayed because of the supportive leadership and meaningful work. Every project gives us the opportunity to build technology that makes a difference.",
     name: "Priya Sharma",
     role: "Manufacturing Lead, Euler Motors",
-    image: "/assets/careers/testimonial-priya.png",
+    image: "/assets/careers/testimonial-priya.webp",
   },
 ];
 
-type Testimonial = (typeof TESTIMONIALS)[number];
+type CareerTestimonialsProps = {
+  data?: StrapiCareerTestimonialsSection;
+};
 
 function TestimonialCard({
   testimonial,
   isDuplicate = false,
 }: {
-  testimonial: Testimonial;
+  testimonial: MappedTestimonial;
   isDuplicate?: boolean;
 }) {
   return (
     <article
       aria-hidden={isDuplicate || undefined}
       data-testimonial={isDuplicate ? undefined : true}
-      className="flex h-auto min-h-[338px] w-[calc(100vw-40px)] max-w-[353px] min-w-0 shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-[443px] lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:max-w-[620px] lg:items-stretch lg:gap-8 lg:p-8 select-none"
+      className="flex h-auto min-h-[338px] w-[calc(100vw-40px)] max-w-[353px] min-w-0 shrink-0 snap-center flex-col items-start justify-between gap-5 overflow-hidden rounded-[12px] bg-[#f3f4f5] p-5 lg:h-auto lg:min-h-[443px] lg:w-[620px] lg:min-w-[620px] lg:max-w-[620px] lg:items-stretch lg:gap-8 lg:p-8 select-none"
     >
       <div className="flex items-center justify-between self-stretch">
         <svg
@@ -60,13 +72,25 @@ function TestimonialCard({
           4.5
         </span>
       </div>
-      <p className="m-0 self-stretch font-sans text-[18px] font-bold leading-[1.4] tracking-[-0.24px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">&quot;{testimonial.quote}&quot;</p>
+      <p className="m-0 self-stretch font-sans text-[18px] font-bold leading-[1.4] tracking-[-0.24px] text-ink lg:text-[26px] lg:tracking-[-0.52px]">
+        &quot;{testimonial.quote}&quot;
+      </p>
       <div className="h-px w-[86px] bg-ink/20 lg:h-0.5 lg:w-[121px]" />
       <div className="flex items-center gap-2.5 self-stretch">
-        <Image src={testimonial.image} alt="" width={62} height={62} className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]" />
+        <Image
+          src={testimonial.image}
+          alt={testimonial.name}
+          width={62}
+          height={62}
+          className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]"
+        />
         <div className="flex min-w-0 flex-1 flex-col">
-          <h3 className="mb-1 mt-0 self-stretch font-sans text-base font-bold leading-none tracking-[-0.32px] text-ink [transform:rotate(-0.772deg)] lg:text-2xl lg:leading-none lg:tracking-[-0.48px] lg:[transform:rotate(-0.77deg)]">{testimonial.name}</h3>
-          <p className="m-0 font-sans text-xs font-normal leading-none tracking-[-0.24px] text-ink/80 lg:text-sm lg:leading-none lg:tracking-[-0.28px]">{testimonial.role}</p>
+          <h3 className="mb-1 mt-0 self-stretch font-sans text-base font-bold leading-none tracking-[-0.32px] text-ink [transform:rotate(-0.772deg)] lg:text-2xl lg:leading-none lg:tracking-[-0.48px] lg:[transform:rotate(-0.77deg)]">
+            {testimonial.name}
+          </h3>
+          <p className="m-0 font-sans text-xs font-normal leading-none tracking-[-0.24px] text-ink/80 lg:text-sm lg:leading-none lg:tracking-[-0.28px]">
+            {testimonial.role}
+          </p>
         </div>
       </div>
     </article>
@@ -78,7 +102,7 @@ function TestimonialCard({
  * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
  * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
-export default function CareerTestimonials() {
+export default function CareerTestimonials({ data }: CareerTestimonialsProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -87,6 +111,25 @@ export default function CareerTestimonials() {
   const isDraggingRef = useRef(false);
   const isInteractingRef = useRef(false);
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const eyebrow = data?.eyebrow || defaultCareersPageData.testimonialsSection?.eyebrow || "Employee voices";
+  const title = data?.title || defaultCareersPageData.testimonialsSection?.title || "What Our People Say";
+  const subtitle =
+    data?.subtitle ||
+    defaultCareersPageData.testimonialsSection?.subtitle ||
+    "Read unfiltered feedback and experiences shared by members of the Euler Motors tech, manufacturing, and support divisions.";
+
+  const testimonials: MappedTestimonial[] = data?.testimonials?.length
+    ? data.testimonials.map((t, idx) => {
+        const def = DEFAULT_TESTIMONIALS[idx % DEFAULT_TESTIMONIALS.length];
+        return {
+          quote: t.quote || def.quote,
+          name: t.name || def.name,
+          role: t.role || def.role,
+          image: t.image?.url ? mediaUrl(t.image.url, def.image) : def.image,
+        };
+      })
+    : DEFAULT_TESTIMONIALS;
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;
@@ -182,14 +225,13 @@ export default function CareerTestimonials() {
             accumulator += 50 * delta;
             if (accumulator >= 1) {
               const advance = Math.floor(accumulator);
-              accumulator -= advance;
-
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
+              if (row.scrollLeft < maxScroll - 1) {
+                row.scrollLeft = Math.min(maxScroll, row.scrollLeft + advance);
+                accumulator -= advance;
+                updateProgress();
               } else {
-                row.scrollLeft += advance;
+                accumulator = 0;
               }
-              updateProgress();
             }
           }
         }
@@ -199,7 +241,10 @@ export default function CareerTestimonials() {
     };
 
     animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
   }, [updateProgress]);
 
   return (
@@ -209,11 +254,15 @@ export default function CareerTestimonials() {
       aria-labelledby="career-testimonials-heading"
     >
       <div className="flex w-[calc(100%-40px)] max-w-[518px] flex-col items-center gap-3 text-center lg:gap-4">
-        <Eyebrow label="Employee voices" />
-        <h2 id="career-testimonials-heading" className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]">What Our People Say</h2>
+        <Eyebrow label={eyebrow} />
+        <h2
+          id="career-testimonials-heading"
+          className="m-0 w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[42px] lg:tracking-[-0.84px]"
+        >
+          {title}
+        </h2>
         <p className="m-0 font-sans text-xs font-normal leading-normal text-ink lg:w-[518.28px] lg:text-base">
-          Read unfiltered feedback and experiences shared by members of the Euler Motors tech,
-          manufacturing, and support divisions.
+          {subtitle}
         </p>
       </div>
 
@@ -221,24 +270,27 @@ export default function CareerTestimonials() {
         <div
           id="career-testimonials-row"
           ref={scrollRef}
-          className="no-scrollbar flex w-full snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:gap-4 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
+          className="no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex w-full snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] items-center gap-2.5 overflow-x-auto px-[max(20px,calc((100vw-353px)/2))] lg:gap-4 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
           aria-label="Employee testimonials"
         >
-          {Array.from({ length: 4 }).map((_, setIndex) =>
-            TESTIMONIALS.map((testimonial) => (
-              <TestimonialCard
-                key={`${setIndex}-${testimonial.name}`}
-                testimonial={testimonial}
-                isDuplicate={setIndex > 0}
-              />
-            )),
-          )}
+          {testimonials.map((testimonial) => (
+            <TestimonialCard
+              key={testimonial.name}
+              testimonial={testimonial}
+            />
+          ))}
           <div aria-hidden className="shrink-0 w-8 lg:w-16" />
         </div>
 
         {/* Right and left edge gradients */}
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 top-0 z-[5] hidden w-[140px] [transform:scaleX(-1)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[140px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-0 top-0 z-[5] hidden w-[140px] [transform:scaleX(-1)] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] hidden w-[140px] bg-[linear-gradient(270deg,#FFF_0%,rgba(255,255,255,0)_100%)] lg:block"
+        />
 
         {/* Blue Navigation Arrows with boundary auto-hide */}
         <CarouselArrows
