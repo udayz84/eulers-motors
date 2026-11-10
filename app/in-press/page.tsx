@@ -352,7 +352,7 @@ export default function InPressPage() {
         {/* Desktop Hero — Figma node 3538:28910 / 3538:28911 */}
         <section
           aria-label="In the News Banner"
-          className="relative hidden w-full overflow-hidden bg-[#1d6fff] text-white lg:flex lg:h-[420px]"
+          className="relative z-20 hidden w-full overflow-x-clip overflow-y-visible bg-[#1d6fff] text-white lg:flex lg:h-[420px]"
           style={{
             background: "linear-gradient(272deg, #0e2f6d -63.51%, #1d6fff 87.23%)",
           }}
