@@ -141,25 +141,44 @@ export default function BlogListingPage() {
     },
   });
 
+  useDraggableScroll(mobileScrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
   // Track initial scroll progress and attach resize/scroll sync
   useEffect(() => {
     updateProgress();
     const row = scrollRef.current;
     const mRow = mobileScrollRef.current;
-    if (!row) return;
 
     const onStep = () => pauseAutoScroll(600);
 
-    row.addEventListener("scroll", updateProgress, { passive: true });
+    if (row) {
+      row.addEventListener("scroll", updateProgress, { passive: true });
+      row.addEventListener("carousel-step", onStep);
+    }
+    if (mRow) {
+      mRow.addEventListener("scroll", updateProgress, { passive: true });
+    }
     window.addEventListener("resize", updateProgress);
-    row.addEventListener("carousel-step", onStep);
-    if (mRow) mRow.addEventListener("scroll", updateProgress, { passive: true });
 
     return () => {
-      row.removeEventListener("scroll", updateProgress);
+      if (row) {
+        row.removeEventListener("scroll", updateProgress);
+        row.removeEventListener("carousel-step", onStep);
+      }
+      if (mRow) {
+        mRow.removeEventListener("scroll", updateProgress);
+      }
       window.removeEventListener("resize", updateProgress);
-      row.removeEventListener("carousel-step", onStep);
-      if (mRow) mRow.removeEventListener("scroll", updateProgress);
     };
   }, [updateProgress, pauseAutoScroll]);
 
@@ -168,25 +187,20 @@ export default function BlogListingPage() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      isVisibleRef.current = true;
-    }
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      ([entry]) => {
+        if (entry) {
           isVisibleRef.current = entry.isIntersecting;
-        });
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Continuous auto-scroll loop (speed = 50px/s, pauses on hover, drag, or interaction)
+  // Continuous auto-scroll loop (speed = 50px/s, loops continuously, pauses on drag or manual arrow navigation)
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
@@ -199,32 +213,31 @@ export default function BlogListingPage() {
 
     const tick = (now: number) => {
       if (lastTime === null) lastTime = now;
-      const delta = (now - lastTime) / 1000;
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
 
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+      const el = isDesktop ? scrollRef.current : mobileScrollRef.current;
+
       if (
-        isDesktop &&
+        el &&
         isVisibleRef.current &&
         !isInteractingRef.current &&
         !isDraggingRef.current
       ) {
-        const row = scrollRef.current;
-        if (row) {
-          const maxScroll = row.scrollWidth - row.clientWidth;
-          if (maxScroll > 1) {
-            accumulator += 50 * delta;
-            if (accumulator >= 1) {
-              const advance = Math.floor(accumulator);
-              accumulator -= advance;
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll > 1) {
+          accumulator += 50 * delta;
+          if (accumulator >= 1) {
+            const advance = Math.floor(accumulator);
+            accumulator -= advance;
 
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
-              } else {
-                row.scrollLeft += advance;
-              }
-              updateProgress();
+            if (el.scrollLeft >= maxScroll - 2) {
+              el.scrollLeft = 0;
+            } else {
+              el.scrollLeft += advance;
             }
+            updateProgress();
           }
         }
       }
@@ -283,10 +296,10 @@ export default function BlogListingPage() {
               <div
                 ref={mobileScrollRef}
                 onScroll={updateProgress}
-                className="snap-row no-scrollbar flex w-full items-center gap-3 overflow-x-auto px-5 pb-2 snap-x snap-mandatory"
+                className="no-scrollbar flex w-full items-center gap-3 overflow-x-auto px-5 pb-2 cursor-grab active:cursor-grabbing select-none"
               >
-                {FEATURED_ARTICLES.map((article) => (
-                  <Link key={article.id} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 snap-start flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
+                {displayFeatured.map((article, idx) => (
+                  <Link key={`${article.id}-${idx}`} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
                     <div className="relative h-[160px] w-full shrink-0 self-stretch overflow-hidden rounded-[8px] bg-[lightgray]">
                       <Image src={article.img} alt="" fill sizes="320px" className={`object-cover ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`} />
                       <span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] flex-col items-start justify-center gap-[7.862px] rounded-[39.312px] bg-white px-2 text-[12px] font-semibold text-black">{article.category}</span>
@@ -315,20 +328,14 @@ export default function BlogListingPage() {
                   pauseAutoScroll();
                 }
               }}
-              onMouseEnter={() => {
-                isInteractingRef.current = true;
-              }}
-              onMouseLeave={() => {
-                isInteractingRef.current = false;
-              }}
-              className="snap-row no-scrollbar flex w-full items-center gap-8 overflow-x-auto cursor-grab active:cursor-grabbing select-none"
+              className="no-scrollbar flex w-full items-center gap-8 overflow-x-auto cursor-grab active:cursor-grabbing select-none"
             >
               <div aria-hidden className="shrink-0" style={{ width: "max(48px, calc(50% - 672px))" }} />
               {displayFeatured.map((article, idx) => (
                 <article
                   key={`${article.id}-${idx}`}
                   data-featured-card
-                  className="featured-card flex h-[273px] w-[807px] shrink-0 snap-start items-start gap-[24px] rounded-[12px] bg-white p-[20px] transition-shadow hover:shadow-lg"
+                  className="featured-card flex h-[273px] w-[807px] shrink-0 items-start gap-[24px] rounded-[12px] bg-white p-[20px] transition-shadow hover:shadow-lg"
                 >
                   <Link
                     href={`/insights/${article.slug}`}
