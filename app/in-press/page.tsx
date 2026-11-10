@@ -500,7 +500,7 @@ export default function InPressPage() {
               {visibleArticles.map((article) => (
                 <article
                   key={article.id}
-                  className="press-card relative flex h-[174px] w-[320px] shrink-0 flex-col items-start gap-3 rounded-[12px] bg-[#f3f4f5] p-3 transition-shadow hover:shadow-md sm:h-[202px] sm:w-[380px] sm:gap-4 sm:p-4 md:h-[173.091px] md:w-[420px] md:gap-3 md:rounded-[12px] md:p-4"
+                  className="press-card relative flex h-[180px] w-[320px] shrink-0 flex-col items-start gap-3 rounded-[12px] bg-[#f3f4f5] p-3 transition-shadow hover:shadow-md sm:h-[202px] sm:w-[380px] sm:gap-4 sm:p-4 md:h-[190px] md:w-[420px] md:gap-3 md:rounded-[12px] md:p-4"
                 >
                   <span className="flex w-fit flex-col items-start gap-[10px] rounded-[50px] bg-[#d4dbec] px-[10px] py-1 font-sans text-[12px] font-bold leading-[normal] text-black">
                     {article.source}
@@ -516,7 +516,7 @@ export default function InPressPage() {
                     </svg>
                   </a>
                   <div className="flex flex-col items-start gap-1.5 self-stretch pr-10">
-                    <h3 className="line-clamp-2 self-stretch font-display text-[16px] font-semibold leading-[1.3] text-[#121212] sm:text-[18px] md:text-[20px]">
+                    <h3 className="line-clamp-2 self-stretch font-display text-[16px] font-semibold leading-[1.3] text-[#121212] sm:text-[18px] md:text-[20px] md:leading-[1.25]">
                       {article.title}
                     </h3>
                     <p className="font-sans text-[12px] font-medium leading-[100%] text-[rgba(18,18,18,0.60)]">
@@ -566,15 +566,15 @@ export default function InPressPage() {
               {MEDIA_KIT_ITEMS.map((item, index) => (
                 <article
                   key={`${item.filename}-${index}`}
-                  className="flex h-[156px] w-[320px] shrink-0 flex-col items-start justify-center gap-3 rounded-[10px] bg-white p-3 sm:h-[170px] sm:w-[353px] sm:gap-4 sm:p-4 md:h-[170px] md:w-[353px] md:rounded-[12px] transition-shadow hover:shadow-md"
+                  className="flex h-[180px] w-[320px] shrink-0 flex-col items-start gap-3 rounded-[10px] bg-white p-3.5 sm:h-[196px] sm:w-[353px] sm:gap-3 sm:p-4 md:h-[196px] md:w-[353px] md:rounded-[12px] transition-shadow hover:shadow-md"
                 >
                   <span className="w-fit rounded-full bg-[#d4dbec] px-[10px] py-1 text-[12px] font-bold text-black">
                     {item.label}
                   </span>
-                  <h3 className="line-clamp-2 font-display text-[16px] font-semibold leading-[1.4] text-[#121212] sm:text-[18px]">
+                  <h3 className="line-clamp-2 shrink-0 font-display text-[16px] font-semibold leading-[1.35] text-[#121212] sm:text-[18px] sm:leading-[1.3] md:min-h-[47px]">
                     {item.title}
                   </h3>
-                  <div className="mt-auto flex w-full items-center justify-between gap-2 pt-2">
+                  <div className="mt-auto flex w-full items-center justify-between gap-2 pt-1">
                     <span className="inline-flex items-baseline gap-1 font-sans text-[#121212]">
                       {item.size && (
                         <>
