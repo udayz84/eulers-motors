@@ -95,10 +95,6 @@ export default function BlogListingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(6);
 
-  // Runway for comfortable continuous scrolling
-  const repeats = Math.max(2, Math.ceil(8 / FEATURED_ARTICLES.length));
-  const displayFeatured = Array.from({ length: repeats }).flatMap(() => FEATURED_ARTICLES);
-
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const mobileScrollRef = useRef<HTMLDivElement>(null);
@@ -230,14 +226,13 @@ export default function BlogListingPage() {
           accumulator += 50 * delta;
           if (accumulator >= 1) {
             const advance = Math.floor(accumulator);
-            accumulator -= advance;
-
-            if (el.scrollLeft >= maxScroll - 2) {
-              el.scrollLeft = 0;
+            if (el.scrollLeft < maxScroll - 1) {
+              el.scrollLeft = Math.min(maxScroll, el.scrollLeft + advance);
+              accumulator -= advance;
+              updateProgress();
             } else {
-              el.scrollLeft += advance;
+              accumulator = 0;
             }
-            updateProgress();
           }
         }
       }
@@ -298,8 +293,8 @@ export default function BlogListingPage() {
                 onScroll={updateProgress}
                 className="no-scrollbar flex w-full items-center gap-3 overflow-x-auto px-5 pb-2 cursor-grab active:cursor-grabbing select-none"
               >
-                {displayFeatured.map((article, idx) => (
-                  <Link key={`${article.id}-${idx}`} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
+                {FEATURED_ARTICLES.map((article) => (
+                  <Link key={article.id} href={`/insights/${article.slug}`} className="flex h-[310px] w-[320px] shrink-0 flex-col gap-3 rounded-xl bg-white p-2 transition-shadow hover:shadow-lg">
                     <div className="relative h-[160px] w-full shrink-0 self-stretch overflow-hidden rounded-[8px] bg-[lightgray]">
                       <Image src={article.img} alt="" fill sizes="320px" className={`object-cover ${article.id === 2 || article.id === 4 ? "scale-[1.04]" : ""}`} />
                       <span className="absolute left-[6px] top-[6px] flex h-[25px] w-[83px] flex-col items-start justify-center gap-[7.862px] rounded-[39.312px] bg-white px-2 text-[12px] font-semibold text-black">{article.category}</span>
@@ -331,9 +326,9 @@ export default function BlogListingPage() {
               className="no-scrollbar flex w-full items-center gap-8 overflow-x-auto cursor-grab active:cursor-grabbing select-none"
             >
               <div aria-hidden className="shrink-0" style={{ width: "max(48px, calc(50% - 672px))" }} />
-              {displayFeatured.map((article, idx) => (
+              {FEATURED_ARTICLES.map((article) => (
                 <article
-                  key={`${article.id}-${idx}`}
+                  key={article.id}
                   data-featured-card
                   className="featured-card flex h-[273px] w-[807px] shrink-0 items-start gap-[24px] rounded-[12px] bg-white p-[20px] transition-shadow hover:shadow-lg"
                 >
