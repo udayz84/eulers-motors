@@ -1,7 +1,12 @@
 import Navbar from "@/components/Navbar";
 import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
+import ServiceNextStep from "@/components/sections/ServiceNextStep";
+import ServicePreventiveAdvice from "@/components/sections/ServicePreventiveAdvice";
+import ServiceInstantChat from "@/components/sections/ServiceInstantChat";
+import ServiceGuidelines from "@/components/sections/ServiceGuidelines";
 import Footer from "@/components/sections/Footer";
-import DealerContactSection from "@/components/sections/DealerContactSection";
+import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
+import PrimeBanner from "@/components/sections/PrimeBanner";
 
 export default function ServiceCentersPage() {
   return (
@@ -9,7 +14,14 @@ export default function ServiceCentersPage() {
       <Navbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="service" />
-        <DealerContactSection />
+        <ServiceNextStep />
+        <ServicePreventiveAdvice />
+        <PrimeBanner />
+
+        <ServiceInstantChat />
+        <ChargingStationFaq />
+        <ServiceGuidelines />
+
       </main>
       <Footer />
     </>

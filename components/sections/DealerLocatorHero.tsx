@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import DealerLocator from "@/components/sections/DealerLocator";
 import FloatingWidget from "@/components/FloatingWidget";
 
@@ -111,7 +112,7 @@ const tabContent = {
   },
   service: {
     title: "Find a service center.",
-    subtitle: "Authorized Euler service centers with genuine parts and certified experts.",
+    subtitle: "1,412 points across India, with live status on each one.",
     searchLabel: "Search service centers by area",
   },
 };
@@ -121,11 +122,34 @@ export default function DealerLocatorHero({
 }: {
   variant?: SupportTabType;
 }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<SupportTabType>(variant);
 
   useEffect(() => {
     setActiveTab(variant);
   }, [variant]);
+
+  const currentVariant: SupportTabType =
+    pathname === "/charging-stations"
+      ? "charging"
+      : pathname === "/service-centers"
+        ? "service"
+        : "dealer";
+
+  const tabRoutes: Record<SupportTabType, string> = {
+    dealer: "/dealer-locator",
+    charging: "/charging-stations",
+    service: "/service-centers",
+  };
+
+  const handleTabChange = (tab: SupportTabType) => {
+    if (tab !== currentVariant) {
+      router.push(tabRoutes[tab]);
+    } else {
+      setActiveTab(tab);
+    }
+  };
 
   const currentContent = tabContent[activeTab];
   const isCharging = activeTab === "charging";
@@ -160,11 +184,11 @@ export default function DealerLocatorHero({
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-6 lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
+      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-[14px] lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
         <SupportBadge />
         <SupportTabs
           active={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
         <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
           {currentContent.title}
@@ -172,6 +196,58 @@ export default function DealerLocatorHero({
         <p className="whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base">
           {currentContent.subtitle}
         </p>
+
+        {/* Service page only: desktop button + helpline */}
+        {currentVariant === "service" && (
+          <div className="pt-[12px] pb-[42px] hidden lg:flex lg:items-center lg:justify-center lg:w-full lg:gap-[14px]">
+            <div className="bg-white flex gap-[8px] w-[202px] h-[50.477px] items-center justify-center px-[24px] relative rounded-[4px] shrink-0">
+              <p className="font-display font-semibold leading-none text-[#0e2f6d] text-[16px] whitespace-nowrap shrink-0">
+                See Euler Prime
+              </p>
+              <div className="h-[14px] relative shrink-0 w-[22px]">
+                <Image
+                  src={`${ASSET}arrow-desktop.svg`}
+                  alt=""
+                  width={22}
+                  height={14}
+                  className="block max-w-none size-full"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-[2px] items-start justify-center relative shrink-0 text-center text-white whitespace-nowrap">
+              <p className="font-sans font-normal text-[12px]">Toll-Free Helpline</p>
+              <p className="font-display font-semibold leading-[1.15] tracking-[-0.36px] text-[18px]">
+                1800-2128-2128
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Service page only: mobile button + helpline */}
+        {currentVariant === "service" && (
+          <div className="pt-[12px] pb-[42px] flex flex-col gap-[8px] items-center justify-center relative w-full lg:hidden">
+            <div className="bg-white flex gap-[5.333px] h-[42px] items-center justify-center px-[12px] py-[10.667px] relative rounded-[2px] shrink-0">
+              <p className="font-display leading-none text-[#121212] text-[12px] whitespace-nowrap shrink-0">
+                Book a Service
+              </p>
+              <div className="h-[9.333px] relative shrink-0 w-[14.667px]">
+                <Image
+                  src={`${ASSET}arrow-mobile.svg`}
+                  alt=""
+                  width={14.667}
+                  height={9.333}
+                  className="block max-w-none size-full"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-[2px] items-center justify-center relative shrink-0 text-center text-white whitespace-nowrap">
+              <p className="font-sans font-normal text-[12px]">Toll-Free Helpline</p>
+              <p className="font-display font-semibold leading-[1.15] tracking-[-0.36px] text-[18px]">
+                1800-2128-2128
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="absolute left-1/2 top-[330.66px] z-10 w-full -translate-x-1/2 lg:top-[450px]">

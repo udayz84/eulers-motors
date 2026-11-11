@@ -145,6 +145,8 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
   const href =
     item.label === "Find a dealer" || item.label === "Dealer Locator"
       ? "/dealer-locator"
+      : item.label === "Service centres"
+        ? "/service-centers"
       : item.label === "Charging stations"
         ? "/charging-stations"
       : "#";

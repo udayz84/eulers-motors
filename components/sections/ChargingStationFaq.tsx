@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Eyebrow from "../ui/Eyebrow";
 
 const categories = [
   { label: "All", count: "78" },
@@ -50,32 +51,6 @@ const questions = [
     categories: ["General", "Charging"],
   },
 ];
-
-function FaqBadge() {
-  return (
-    <div className="relative flex h-[20.355px] items-center gap-[6px]">
-      <Image
-        src="/assets/charging-station-faq/badge-underline.svg"
-        alt=""
-        width={146}
-        height={20}
-        className="absolute left-[4.63px] top-0 h-[20.355px] w-[146.405px]"
-      />
-      <span className="relative h-[20.355px] w-[18.821px] shrink-0">
-        <Image
-          src="/assets/charging-station-faq/badge-mark.svg"
-          alt=""
-          width={18.2171}
-          height={20.3555}
-          className="absolute inset-y-0 left-[3.21%] h-[20.355px] w-[18.217px]"
-        />
-      </span>
-      <span className="relative font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0e2f6d]">
-        FAQ
-      </span>
-    </div>
-  );
-}
 
 export default function ChargingStationFaq() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -183,7 +158,7 @@ export default function ChargingStationFaq() {
         {/* Left Column: Heading, Categories & Map */}
         <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
           <div className="flex w-full flex-col items-start">
-            <FaqBadge />
+            <Eyebrow label="FAQ" />
             <div className="mt-4 flex flex-col gap-3 text-[#121212] sm:gap-4">
               <h2
                 id="charging-faq-title"
@@ -387,7 +362,7 @@ export default function ChargingStationFaq() {
                 alt=""
                 width={14}
                 height={7}
-                className="h-[6px] w-[13px] rotate-180 opacity-80 hover:opacity-100"
+                className="h-[6px] w-[13px] opacity-80 hover:opacity-100"
               />
             </button>
           </div>

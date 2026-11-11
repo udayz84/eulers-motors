@@ -55,11 +55,11 @@ export default function PagerBar({
 
   return (
     <div
-      className={`flex h-5 w-[116.199px] shrink-0 items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1 ${className}`}
+      className={`flex h-[20px] w-[116.199px] shrink-0 flex-col justify-center items-start gap-[14.4px] rounded-[14.4px] bg-[#FFF] mx-auto ${className}`}
       style={trackStyle}
     >
       <div
-        className="h-3 w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-150 ease-out"
+        className="w-[29.891px] h-[12px] shrink-0 rounded-[23.04px] bg-[#121212] transition-transform duration-150 ease-out"
         style={{ transform: `translateX(${progress * TRAVEL}px)` }}
       />
     </div>

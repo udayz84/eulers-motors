@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import PagerBar from "@/components/ui/PagerBar";
 
 interface Dealer {
   id: string;
@@ -114,46 +115,46 @@ interface ServiceCenter {
 const SERVICE_CENTERS: ServiceCenter[] = [
   {
     id: "kandivali-service",
-    name: "Euler Motors — Kandivali Service Hub",
+    name: "Euler Fast Charge, Andheri MIDC",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
     address: "Akurli Metro Station, Kandivali East, Mumbai",
-    hours: "Open until 8 pm",
-    badges: ["Service", "Spares", "Express Bay"],
+    hours: "Open until 7 pm",
     distance: "1.3",
     phone: "1800 000 0000",
   },
   {
     id: "andheri-service",
-    name: "Euler Authorized Service Center, Andheri",
+    name: "Euler Fast Charge, Andheri MIDC",
+    badges: ["CCS2", "11 of 14 free"],
     address: "Saki Vihar Road, Marol MIDC, Andheri East, Mumbai",
-    hours: "Open 8 am to 8 pm",
-    badges: ["Service", "Battery Check", "Body Shop"],
-    distance: "5.8",
+    hours: "Open until 7 pm",
+    distance: "52.5",
     phone: "1800 000 0000",
   },
   {
     id: "turbhe-service",
-    name: "Euler Service Point, Navi Mumbai",
+    name: "Euler Fast Charge, Andheri MIDC",
+    badges: ["CCS2", "Depot", "6 of 8 free"],
     address: "MIDC Industrial Area, Turbhe, Navi Mumbai",
     hours: "Open until 7 pm",
-    badges: ["Service", "Fleet Repair"],
-    distance: "21.4",
+    distance: "150",
     phone: "1800 000 0000",
   },
   {
     id: "thane-service",
-    name: "Euler Central Workshop, Thane",
+    name: "Euler Fast Charge, Andheri MIDC",
+    badges: ["CCS2", "60 kW", "4 of 6 free"],
     address: "Arun Arcade, Chitalsar, Manpada, Thane West",
-    hours: "Open 24 hours",
-    badges: ["Service", "Spares", "Major Repairs"],
-    distance: "32.0",
+    hours: "Open until 7 pm",
+    distance: "1,338",
     phone: "1800 000 0000",
   },
   {
     id: "ambattur-service",
-    name: "Euler Motors Service, Ambattur",
+    name: "Euler Fast Charge, Andheri MIDC",
+    badges: ["CCS2", "11 of 14 free"],
     address: "Ambattur Industrial Estate, Chennai 600058",
     hours: "Open until 7 pm",
-    badges: ["Service", "Authorized"],
     distance: "1,338",
     phone: "1800 000 0000",
   },
@@ -588,7 +589,7 @@ export default function DealerLocator({
   return (
     <section
       aria-label={charging ? "Charging station locator" : "Dealer locator"}
-      className="relative mx-auto h-[794px] w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-40px)] max-w-[1600px] overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.1)] bg-white lg:h-[815px] lg:rounded-[20px]"
+      className="relative mx-auto h-[794px] w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-40px)] lg:max-w-[1400px] max-w-[1600px] overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.1)] bg-white lg:h-[815px] lg:rounded-[20px]"
     >
       <div className="absolute inset-0 size-full overflow-hidden">
         <Image
@@ -629,7 +630,7 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[692px] lg:max-w-none">
+      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[846px] lg:max-w-none">
         <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">
           <Image
             src={`${ASSET}search-swoosh-mobile.svg`}
@@ -639,26 +640,99 @@ export default function DealerLocator({
             aria-hidden="true"
             className="absolute bottom-[-3.42px] left-1/2 h-[60px] w-[348.409px] max-w-none -translate-x-1/2 lg:hidden pointer-events-none"
           />
-          <Image
-            src={`${ASSET}search-swoosh-desktop.svg`}
-            alt=""
-            width={691.148}
-            height={69}
+          <svg
+            width="691.148"
+            height="69"
+            viewBox="0 0 692 69"
+            fill="none"
             aria-hidden="true"
-            className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-[691.148px] max-w-none -translate-x-1/2 lg:block pointer-events-none"
-          />
+            className="absolute bottom-[-12.422px] left-[77.426px] hidden h-[69px] w-[691.148px] lg:block pointer-events-none backdrop-blur-[26px]"
+            style={{ fill: "rgba(255, 255, 255, 0.50)" }}
+          >
+            <foreignObject
+              x={-52}
+              y={-52}
+              width="795.148"
+              height="173"
+              style={{ backdropFilter: "blur(26px)", height: "100%", width: "100%" }}
+            >
+              <div xmlns="http://www.w3.org/1999/xhtml" style={{ height: "100%", width: "100%" }} />
+            </foreignObject>
+            <g data-figma-bg-blur-radius="52">
+              <path
+                d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z"
+                fill="white"
+                fillOpacity={0.5}
+              />
+              <mask id="stroke0_5590_5879" fill="white">
+                <path
+                  d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z"
+                />
+              </mask>
+              <path
+                d="M0 0H691.148L672.389 43.1452C665.563 58.8449 650.075 69 632.955 69H58.1928C41.0734 69 25.5848 58.845 18.7588 43.1452L0 0Z"
+                strokeWidth="2"
+                stroke="url(#paint0_linear_5590_5879)"
+                mask="url(#stroke0_5590_5879)"
+              />
+            </g>
+            <defs>
+              <clipPath
+                id="bgblur_0_5590_5879_clip_path"
+                transform="translate(52 52)"
+              >
+                <path
+                  d="M690.386 0.5L671.931 42.9463C665.184 58.4632 649.875 68.5 632.955 68.5H58.1924C41.2724 68.4998 25.9644 58.463 19.2178 42.9463L0.762695 0.5H690.386Z"
+                />
+              </clipPath>
+              <linearGradient
+                id="paint0_linear_5590_5879"
+                x1="345.574"
+                y1="0"
+                x2="345.574"
+                y2="69"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#121212" stopOpacity={0} />
+                <stop offset="1" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+          </svg>
 
-          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 shadow-[0px_2px_12px_rgba(0,0,0,0.08)] lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
+          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between rounded-[20px] border border-[rgba(0,0,0,0.1)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
             <label className="flex w-[120px] sm:w-[160px] shrink-0 items-center gap-2 lg:w-[150px] lg:gap-3">
               <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
-                <Image
-                  src={`${ASSET}search-icon-desktop.svg`}
-                  alt=""
-                  width={18.1667}
-                  height={18.1667}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
                   aria-hidden="true"
-                  className="max-w-none"
-                />
+                  className="size-[20px] aspect-square"
+                >
+                  <g clipPath="url(#search-clip)">
+                    <path
+                      d="M14.5835 14.5834L18.3335 18.3334"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLineJoin="round"
+                      stroke="#121212"
+                      strokeOpacity={0.8}
+                    />
+                    <path
+                      d="M16.6665 9.16663C16.6665 5.02449 13.3086 1.66663 9.1665 1.66663C5.02437 1.66663 1.6665 5.02449 1.6665 9.16663C1.6665 13.3088 5.02437 16.6666 9.1665 16.6666C13.3086 16.6666 16.6665 13.3088 16.6665 9.16663Z"
+                      strokeWidth="1.5"
+                      strokeLineJoin="round"
+                      stroke="#121212"
+                      strokeOpacity={0.8}
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="search-clip">
+                      <rect width="20" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
               </span>
               <span className="flex size-3.5 shrink-0 items-center justify-center lg:hidden">
                 <Image
@@ -675,7 +749,7 @@ export default function DealerLocator({
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search here..."
-                className="w-full bg-transparent font-sans text-[13px] sm:text-[14px] font-normal sm:font-medium leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
+                className="w-full bg-transparent font-sans text-[13px] sm:text-[14px] font-semibold leading-normal text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
               />
             </label>
             <button
@@ -714,7 +788,7 @@ export default function DealerLocator({
                     key={city}
                     type="button"
                     onClick={() => setSelectedCity(city)}
-                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[38px] lg:text-[15px] ${
+                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[38px] lg:text-[16px] ${
                       selected
                         ? "bg-[#1363DF] text-white px-4 lg:px-5 shadow-sm"
                         : "text-[#121212] px-2.5 sm:px-3 hover:text-[#1363DF]"
@@ -852,7 +926,7 @@ export default function DealerLocator({
           />
 
           <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[36px] lg:top-auto lg:gap-[18px]">
-            <div className="flex items-center justify-between px-3 lg:px-[39px]">
+            <div className="flex items-center px-3 lg:px-[39px]">
               <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
                 {charging
                   ? "12 Charging Points"
@@ -860,32 +934,9 @@ export default function DealerLocator({
                   ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
                   : `${String(resultCount).padStart(2, "0")} Dealers Found`}
               </h2>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  aria-label="Previous locations"
-                  onClick={() => scrollByCard(-1)}
-                  disabled={activeCardIndex === 0}
-                  className="flex size-7 sm:size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M15 18l-6-6 6-6" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next locations"
-                  onClick={() => scrollByCard(1)}
-                  disabled={activeCardIndex >= resultCount - 1}
-                  className="flex size-7 sm:size-8 items-center justify-center rounded-full border border-[rgba(18,18,18,0.2)] bg-white text-[#121212] shadow-sm transition-all hover:bg-[#f3f4f5] disabled:cursor-not-allowed disabled:opacity-30 cursor-pointer"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 18l6-6-6-6" />
-                  </svg>
-                </button>
-              </div>
             </div>
             <div
+              id="dealer-locator-row"
               ref={scrollContainerRef}
               onScroll={handleScroll}
               onKeyDown={handleCardKeyDown}
@@ -912,13 +963,8 @@ export default function DealerLocator({
                     </div>
                   ))}
             </div>
+            <PagerBar rowId="dealer-locator-row" />
           </div>
-
-          {/* Bottom handle bar indicator matching Figma and screenshot */}
-          <div
-            className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 h-1.5 w-10 sm:w-12 rounded-full bg-[#121212]/35 pointer-events-none"
-            aria-hidden="true"
-          />
         </>
       )}
 
