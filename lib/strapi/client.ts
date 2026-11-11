@@ -3,15 +3,19 @@ import {
   StrapiMedia,
   StrapiResponse,
   DealerLocatorPageData,
+  ChargingStationsPageData,
   StrapiDealer,
   StrapiChargingStation,
   StrapiServiceCenter,
   StrapiCareersPageData,
+  StrapiTechnologyPageData,
   StrapiCareerPosition,
 } from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
-import { DEFAULT_DEALER_LOCATOR_PAGE } from "./defaults/dealer-locator";
-import { defaultCareersPageData, defaultCareerPositions } from "./defaults/careers";
+import {
+  DEFAULT_DEALER_LOCATOR_PAGE,
+  DEFAULT_CHARGING_STATIONS_PAGE,
+} from "./defaults/dealer-locator";
 
 const STRAPI_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
@@ -115,6 +119,7 @@ export interface StrapiFetchOptions {
   populate?: Record<string, unknown> | string;
   filters?: Record<string, unknown>;
   sort?: string | string[];
+  pagination?: Record<string, unknown>;
   revalidate?: number;
   tags?: string[];
   headers?: Record<string, string>;
@@ -132,6 +137,7 @@ export async function fetchStrapi<T>(
     populate,
     filters,
     sort,
+    pagination,
     revalidate = 60,
     tags = [],
     headers = {},
@@ -145,6 +151,7 @@ export async function fetchStrapi<T>(
 
   if (filters) queryParams.filters = filters;
   if (sort) queryParams.sort = sort;
+  if (pagination) queryParams.pagination = pagination;
 
   const queryString = stringifyQuery(queryParams);
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint;
@@ -351,6 +358,7 @@ export async function getDealers(): Promise<StrapiDealer[]> {
     "dealers",
     {
       sort: "order:asc",
+      pagination: { pageSize: 500 },
       revalidate: 60,
     },
     DEFAULT_DEALER_LOCATOR_PAGE.hero?.dealers || []
@@ -365,6 +373,7 @@ export async function getChargingStations(): Promise<StrapiChargingStation[]> {
     "charging-stations",
     {
       sort: "order:asc",
+      pagination: { pageSize: 500 },
       revalidate: 60,
     },
     DEFAULT_DEALER_LOCATOR_PAGE.hero?.chargingStations || []
@@ -379,10 +388,111 @@ export async function getServiceCenters(): Promise<StrapiServiceCenter[]> {
     "service-centers",
     {
       sort: "order:asc",
+      pagination: { pageSize: 500 },
       revalidate: 60,
     },
     DEFAULT_DEALER_LOCATOR_PAGE.hero?.serviceCenters || []
   );
+}
+
+const DEALER_HERO_POPULATE = {
+  mapImage: { populate: "*" },
+  dealers: { populate: "*" },
+  chargingStations: { populate: "*" },
+  serviceCenters: { populate: "*" },
+};
+
+const CONTACT_CARDS_POPULATE = {
+  populate: {
+    iconMedia: { populate: "*" },
+    mobileIconMedia: { populate: "*" },
+  },
+};
+
+/**
+ * Maps Strapi dealer hero content & live collections into DealerLocatorHero props.
+ */
+export function mapDealerLocatorHeroProps(
+  hero?: DealerLocatorPageData["hero"],
+  collections?: {
+    dealers?: StrapiDealer[];
+    chargingStations?: StrapiChargingStation[];
+    serviceCenters?: StrapiServiceCenter[];
+  }
+) {
+  const dealerSource = collections?.dealers ?? hero?.dealers;
+  const stationSource = collections?.chargingStations ?? hero?.chargingStations;
+  const serviceSource = collections?.serviceCenters ?? hero?.serviceCenters;
+
+  return {
+    supportBadgeText: hero?.supportBadge,
+    tabContent: hero
+      ? {
+          dealer: {
+            tabLabel: hero.dealerTabLabel,
+            title: hero.dealerTabTitle,
+            subtitle: hero.dealerTabSubtitle,
+            searchLabel: hero.dealerSearchPlaceholder,
+            resultsLabel: hero.dealerResultsLabel,
+          },
+          charging: {
+            tabLabel: hero.chargingTabLabel,
+            title: hero.chargingTabTitle,
+            subtitle: hero.chargingTabSubtitle,
+            searchLabel: hero.chargingSearchPlaceholder,
+            resultsLabel: hero.chargingResultsLabel,
+          },
+          service: {
+            tabLabel: hero.serviceTabLabel,
+            title: hero.serviceTabTitle,
+            subtitle: hero.serviceTabSubtitle,
+            searchLabel: hero.serviceSearchPlaceholder,
+            resultsLabel: hero.serviceResultsLabel,
+          },
+        }
+      : undefined,
+    cities: hero?.cities,
+    defaultCity: hero?.defaultCity,
+    locationButtonLabel: hero?.locationButtonLabel,
+    directionsButtonLabel: hero?.directionsButtonLabel,
+    distanceUnit: hero?.distanceUnit,
+    emptyStateText: hero?.emptyStateText,
+    mapImage: hero?.mapImage,
+    dealers: dealerSource?.map((d) => ({
+      id: d.slug || String(d.id),
+      name: d.name,
+      badges: d.badges || ["Dealer"],
+      address: d.address,
+      city: d.city,
+      state: d.state,
+      hours: d.hours || "Open until 7 pm",
+      operatingDays: d.operatingDays,
+      distance: d.distance || "1.3",
+      phone: d.phone || "1800 000 0000",
+    })),
+    chargingStations: stationSource?.map((s) => ({
+      id: s.slug || String(s.id),
+      name: s.name,
+      badges: s.badges || ["CCS2"],
+      address: s.address,
+      city: s.city,
+      hours: s.hours || "Open 24 hours",
+      operatingDays: s.operatingDays,
+      distance: s.distance || "13",
+      phone: s.phone || "1800 000 0000",
+    })),
+    serviceCenters: serviceSource?.map((sc) => ({
+      id: sc.slug || String(sc.id),
+      name: sc.name,
+      badges: sc.badges || ["Service"],
+      address: sc.address,
+      city: sc.city,
+      hours: sc.hours || "Open until 8 pm",
+      operatingDays: sc.operatingDays,
+      distance: sc.distance || "1.3",
+      phone: sc.phone || "1800 000 0000",
+    })),
+  };
 }
 
 /**
@@ -392,47 +502,17 @@ export async function getDealerLocatorPageData(): Promise<DealerLocatorPageData>
   const populate = {
     seo: { populate: "*" },
     hero: {
-      populate: {
-        dealers: { populate: "*" },
-        chargingStations: { populate: "*" },
-        serviceCenters: { populate: "*" },
-      },
+      populate: DEALER_HERO_POPULATE,
     },
     contactSection: {
       populate: {
-        cards: { populate: "*" },
+        cards: CONTACT_CARDS_POPULATE,
         backgroundImage: { populate: "*" },
         form: {
           populate: {
             tabs: { populate: "*" },
           },
         },
-        tabs: { populate: "*" },
-        tab1: { populate: "*" },
-        tab2: { populate: "*" },
-        tab3: { populate: "*" },
-      },
-    },
-    chargingContactSection: {
-      populate: {
-        cards: { populate: "*" },
-        backgroundImage: { populate: "*" },
-        form: { populate: "*" },
-      },
-    },
-    partnersSection: {
-      populate: {
-        partners: {
-          populate: {
-            logo: { populate: "*" },
-          },
-        },
-      },
-    },
-    faqSection: {
-      populate: {
-        items: { populate: "*" },
-        image: { populate: "*" },
       },
     },
   };
@@ -450,19 +530,15 @@ export async function getDealerLocatorPageData(): Promise<DealerLocatorPageData>
 /**
  * Fetch Charging Stations Page Single Type
  */
-export async function getChargingStationsPageData(): Promise<DealerLocatorPageData> {
+export async function getChargingStationsPageData(): Promise<ChargingStationsPageData> {
   const populate = {
     seo: { populate: "*" },
     hero: {
-      populate: {
-        dealers: { populate: "*" },
-        chargingStations: { populate: "*" },
-        serviceCenters: { populate: "*" },
-      },
+      populate: DEALER_HERO_POPULATE,
     },
     chargingContactSection: {
       populate: {
-        cards: { populate: "*" },
+        cards: CONTACT_CARDS_POPULATE,
         backgroundImage: { populate: "*" },
         form: { populate: "*" },
       },
@@ -484,13 +560,13 @@ export async function getChargingStationsPageData(): Promise<DealerLocatorPageDa
     },
   };
 
-  return getSingleType<DealerLocatorPageData>(
+  return getSingleType<ChargingStationsPageData>(
     "charging-stations-page",
     {
       populate,
       revalidate: 60,
     },
-    DEFAULT_DEALER_LOCATOR_PAGE
+    DEFAULT_CHARGING_STATIONS_PAGE
   );
 }
 
@@ -514,7 +590,11 @@ export async function getCareersPageData(): Promise<StrapiCareersPageData> {
         items: { populate: "*" },
       },
     },
-    positionsSection: { populate: "*" },
+    positionsSection: {
+      populate: {
+        positions: { populate: "*" },
+      },
+    },
     gallerySection: {
       populate: {
         images: { populate: "*" },
@@ -538,7 +618,7 @@ export async function getCareersPageData(): Promise<StrapiCareersPageData> {
       populate,
       revalidate: 60,
     },
-    defaultCareersPageData
+    {} as StrapiCareersPageData
   );
 }
 
@@ -552,6 +632,118 @@ export async function getCareerPositions(): Promise<StrapiCareerPosition[]> {
       sort: ["order:asc", "id:asc"],
       revalidate: 60,
     },
-    defaultCareerPositions
+    []
+  );
+}
+
+/**
+ * Fetch Technology Page Single Type with deeply populated components & relations.
+ */
+export async function getTechnologyPageData(): Promise<StrapiTechnologyPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        cta: { populate: "*" },
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+        philosophyCards: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
+      },
+    },
+    loadSection: {
+      populate: {
+        cards: {
+          populate: {
+            image: { populate: "*" },
+          },
+        },
+      },
+    },
+    indianRoads: {
+      populate: {
+        cards: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
+      },
+    },
+    manufacturing: {
+      populate: {
+        mainImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    knowVehicle: {
+      populate: {
+        vehicleImage: { populate: "*" },
+        parts: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
+      },
+    },
+    chargingSection: {
+      populate: {
+        homeImage: { populate: "*" },
+        publicImage: { populate: "*" },
+        actionTiles: { populate: "*" },
+        dos: { populate: "*" },
+        donts: { populate: "*" },
+      },
+    },
+    faqSection: {
+      populate: {
+        image: { populate: "*" },
+        items: { populate: "*" },
+      },
+    },
+    shepherdSection: {
+      populate: {
+        appImage: { populate: "*" },
+        cta: { populate: "*" },
+        secondaryCta: { populate: "*" },
+        features: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
+      },
+    },
+    proofSection: {
+      populate: {
+        stats: { populate: "*" },
+      },
+    },
+    reviewsSection: {
+      populate: {
+        reviews: {
+          populate: "*",
+        },
+      },
+    },
+    contactSection: {
+      populate: {
+        form: {
+          populate: {
+            tabs: { populate: "*" },
+          },
+        },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiTechnologyPageData>(
+    "technology-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    {} as StrapiTechnologyPageData
   );
 }

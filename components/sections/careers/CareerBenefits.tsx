@@ -1,32 +1,10 @@
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
 import type { StrapiCareerBenefitsSection } from "@/types/strapi";
-import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 
 type CareerBenefitsProps = {
   data?: StrapiCareerBenefitsSection;
 };
-
-const DEFAULT_BENEFITS = defaultCareersPageData.benefitsSection?.benefits || [
-  {
-    number: "01",
-    title: "Impact & Purpose",
-    description:
-      "Every vehicle we ship directly helps an independent business operator run better. Real-world physical impact you can witness on the streets.",
-  },
-  {
-    number: "02",
-    title: "Growth & Learning",
-    description:
-      "Work in a fast-evolving domain alongside seasoned leads across battery chemistry, commercial vehicle chassis design, and IoT firmware layers.",
-  },
-  {
-    number: "03",
-    title: "Innovation & Tech",
-    description:
-      "We build for Indian weather, roads, and high payloads. There was no textbook for what we do — we invent the infrastructure as we scale.",
-  },
-];
 
 const ILLUSTRATIONS = [
   "bg-[url('/assets/careers/impact-illustration-1.webp')]",
@@ -35,13 +13,10 @@ const ILLUSTRATIONS = [
 ];
 
 export default function CareerBenefits({ data }: CareerBenefitsProps) {
-  const eyebrow = data?.eyebrow || defaultCareersPageData.benefitsSection?.eyebrow || "Why work with us";
-  const title = data?.title || defaultCareersPageData.benefitsSection?.title || "Engineering Impact, Every Day";
-  const description =
-    data?.description ||
-    defaultCareersPageData.benefitsSection?.description ||
-    "At Euler Motors, we build commercial vehicles that drive micro-economies forward. Our team integrates engineering, software, and real operations to deliver reliability where it matters most.";
-  const benefits = data?.benefits?.length ? data.benefits : DEFAULT_BENEFITS;
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const description = data?.description || "";
+  const benefits = data?.benefits || [];
 
   return (
     <section
@@ -65,23 +40,23 @@ export default function CareerBenefits({ data }: CareerBenefitsProps) {
 
       <div
         id="career-benefits-row"
-        className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-5 items-center gap-2.5 overflow-x-auto px-5 lg:m-0 lg:flex lg:w-full lg:shrink-0 lg:items-center lg:gap-5 lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
+        className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-5 items-stretch gap-2.5 overflow-x-auto px-5 lg:m-0 lg:flex lg:w-full lg:shrink-0 lg:items-stretch lg:gap-5 lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
       >
         {benefits.map((benefit, index) => {
           const illustrationClass = ILLUSTRATIONS[index % ILLUSTRATIONS.length];
           return (
             <article
-              className="relative flex min-h-[200px] h-auto w-[282px] min-w-[282px] shrink-0 snap-start flex-col items-start justify-end gap-5 overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[54px] lg:min-h-[200px] lg:h-auto lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:gap-8 lg:rounded-[8px] lg:pt-[54px]"
+              className="relative flex min-h-[220px] h-auto w-[282px] min-w-[282px] shrink-0 snap-start flex-col items-start justify-start overflow-hidden rounded-[8px] bg-[#f3f4f5] p-5 pt-[72px] lg:min-h-[240px] lg:h-auto lg:w-auto lg:min-w-0 lg:flex-1 lg:items-start lg:rounded-[8px] lg:p-6 lg:pt-[94px]"
               key={benefit.number || index}
             >
-              <span className="absolute top-[9.818px] left-5 bg-[linear-gradient(2deg,rgb(29_111_255_/_0%)_-11.9%,rgb(29_111_255_/_20%)_87.54%)] bg-clip-text font-display text-[42px] font-bold leading-[1.15] tracking-[-0.84px] text-transparent lg:text-[62px] lg:tracking-[-1.24px]">
+              <span className="pointer-events-none select-none absolute top-[9.818px] left-5 bg-[linear-gradient(2deg,rgb(29_111_255_/_0%)_-11.9%,rgb(29_111_255_/_20%)_87.54%)] bg-clip-text font-display text-[42px] font-bold leading-[1.15] tracking-[-0.84px] text-transparent lg:left-6 lg:top-[12px] lg:text-[62px] lg:tracking-[-1.24px]">
                 {benefit.number}
               </span>
               <div
-                className={`absolute top-[2.566px] right-[5.139px] h-[68.434px] w-[71.009px] aspect-[71.01/68.43] bg-transparent bg-cover bg-center bg-no-repeat lg:top-[10px] lg:right-[25.073px] lg:h-[76.003px] lg:w-[78.863px] lg:bg-contain ${illustrationClass}`}
+                className={`pointer-events-none absolute top-[2.566px] right-[5.139px] h-[68.434px] w-[71.009px] aspect-[71.01/68.43] bg-transparent bg-cover bg-center bg-no-repeat lg:top-[10px] lg:right-[20px] lg:h-[76.003px] lg:w-[78.863px] lg:bg-contain ${illustrationClass}`}
               />
-              <div className="relative z-[1] flex w-full min-w-0 flex-col gap-5 lg:gap-2">
-                <h3 className="m-0 self-stretch font-display text-lg font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:mt-0 lg:bg-[linear-gradient(-54.6deg,#1d6fff_23.58%,#0e2f6d_93.09%)] lg:bg-clip-text lg:text-[26px] lg:leading-[1.4] lg:tracking-[-0.52px] lg:text-transparent">
+              <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col justify-start gap-2 lg:gap-3">
+                <h3 className="m-0 self-stretch line-clamp-2 font-display text-lg font-bold leading-[1.2] tracking-[-0.36px] text-ink lg:mt-0 lg:bg-[linear-gradient(-54.6deg,#1d6fff_23.58%,#0e2f6d_93.09%)] lg:bg-clip-text lg:text-[26px] lg:leading-[1.3] lg:tracking-[-0.52px] lg:text-transparent lg:min-h-[68px]">
                   {benefit.title}
                 </h3>
                 <p className="m-0 w-full max-w-[223.869px] font-sans text-xs font-normal leading-normal text-ink lg:max-w-[383.635px] lg:text-base lg:leading-[1.4]">

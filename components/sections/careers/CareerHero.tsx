@@ -7,31 +7,10 @@ import FloatingWidget from "@/components/FloatingWidget";
 import Eyebrow from "@/components/ui/Eyebrow";
 import type { CareerFilters } from "./types";
 import type { StrapiCareerHero } from "@/types/strapi";
-import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
-
 type SelectOption = {
   label: string;
   value: string;
 };
-
-const DEPARTMENT_OPTIONS: SelectOption[] = [
-  { label: "All Teams", value: "" },
-  { label: "Engineering", value: "Engineering" },
-  { label: "Manufacturing", value: "Manufacturing" },
-  { label: "Sales", value: "Sales" },
-  { label: "Software", value: "Software" },
-  { label: "Service", value: "Service" },
-  { label: "Warranty", value: "Warranty" },
-];
-
-const LOCATION_OPTIONS: SelectOption[] = [
-  { label: "All Locations", value: "" },
-  { label: "New Delhi", value: "New Delhi" },
-  { label: "Bengaluru", value: "Bengaluru" },
-  { label: "Pune", value: "Pune" },
-  { label: "Chennai", value: "Chennai" },
-  { label: "Mumbai", value: "Mumbai" },
-];
 
 function FilterSelect({
   label,
@@ -357,13 +336,10 @@ export default function CareerHero({
     mobileHeroHeight: 734,
   });
 
-  const eyebrow = data?.eyebrow || defaultCareersPageData.hero?.eyebrow || "Grow with us";
-  const title = data?.title || defaultCareersPageData.hero?.title || "Shape the Future of Electric Mobility";
-  const subtitle =
-    data?.subtitle ||
-    defaultCareersPageData.hero?.subtitle ||
-    "Be part of a collaborative, focused team solving real infrastructure and engineering challenges to clean commercial transport across India.";
-  const ctaLabel = data?.cta?.label || "Find Jobs";
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const subtitle = data?.subtitle || "";
+  const ctaLabel = data?.cta?.label || "";
 
   useEffect(() => {
     const el = textRef.current;
@@ -408,13 +384,15 @@ export default function CareerHero({
     }
   }, [title, subtitle]);
 
-  const departmentOptions: SelectOption[] = departments?.length
-    ? [{ label: "All Teams", value: "" }, ...departments.map((d) => ({ label: d, value: d }))]
-    : DEPARTMENT_OPTIONS;
+  const departmentOptions: SelectOption[] = [
+    { label: "All Teams", value: "" },
+    ...(departments?.map((d) => ({ label: d, value: d })) || []),
+  ];
 
-  const locationOptions: SelectOption[] = locations?.length
-    ? [{ label: "All Locations", value: "" }, ...locations.map((l) => ({ label: l, value: l }))]
-    : LOCATION_OPTIONS;
+  const locationOptions: SelectOption[] = [
+    { label: "All Locations", value: "" },
+    ...(locations?.map((l) => ({ label: l, value: l })) || []),
+  ];
 
   const findJobs = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

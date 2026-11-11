@@ -1,37 +1,69 @@
+"use client";
+
+import { useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
+import { mediaUrl } from "@/lib/strapi/client";
+import { StrapiTechnologyManufacturingSection } from "@/types/strapi";
 
 const A = "/assets/technology-page";
 
+export interface TechManufacturingProps {
+  data?: StrapiTechnologyManufacturingSection;
+}
+
 /** TECHNOLOGY page — "Manufacturing / Where Every Vehicle Begins" (Figma 2977:7420, 393×620). */
-export default function TechManufacturing() {
+export default function TechManufacturing({ data }: TechManufacturingProps) {
+  const [videoOpen, setVideoOpen] = useState(false);
+
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const description = data?.description || "";
+  const mainImage = mediaUrl(data?.mainImage);
+  const mobileImage = mediaUrl(data?.mobileImage) || mainImage;
+  const videoUrl = data?.videoUrl || "";
+  const videoBadgeLabel = data?.videoBadgeLabel || "";
+  const videoBadgeTag = data?.videoBadgeTag || "";
+
+  const handlePlay = () => {
+    if (videoUrl) {
+      setVideoOpen(true);
+    }
+  };
+
   return (
-    <section className="bg-white" aria-label="Manufacturing">
+    <section className="bg-white" aria-label={eyebrow || "Manufacturing"}>
       <div className="mx-auto hidden h-[560px] w-full max-w-[1440px] px-6 py-8 md:block md:h-[620px] md:px-10 md:py-10 min-[1440px]:flex min-[1440px]:h-[800px] min-[1440px]:flex-col min-[1440px]:items-start min-[1440px]:gap-[55px] min-[1440px]:px-[80px] min-[1440px]:py-[60px]">
         <div className="relative h-full w-full overflow-clip rounded-[16px] md:rounded-[20px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[16px] md:rounded-[20px]">
-            <img
-              src={`${A}/mfg__imgRectangle1618873365.png`}
-              alt=""
-              className="absolute inset-0 h-full w-full max-w-none object-cover object-[center_42%]"
-            />
+            {mainImage && (
+              <img
+                src={mainImage}
+                alt=""
+                className="absolute inset-0 h-full w-full max-w-none object-cover object-[center_42%]"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black" />
           </div>
 
           <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 lg:bottom-10 lg:left-10 flex max-w-[500px] lg:max-w-[636px] flex-col items-start gap-3 md:gap-4 text-white">
-            <Eyebrow label="Manufacturing" dark />
-            <h2 className="max-w-[488px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]">
-              Where Every Vehicle Begins
-            </h2>
-            <p className="max-w-[531px] font-sans text-[16px] font-normal leading-normal md:text-[16px] lg:text-[16px]">
-              Packs, drivetrains and final assembly in one building, so a fault found in the field
-              reaches the line that made it.
-            </p>
+            {eyebrow && <Eyebrow label={eyebrow} dark />}
+            {title && (
+              <h2 className="max-w-[488px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px]">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="max-w-[531px] font-sans text-[16px] font-normal leading-normal md:text-[16px] lg:text-[16px]">
+                {description}
+              </p>
+            )}
           </div>
 
           <button
             type="button"
-            aria-label="Play manufacturing film"
-            className="absolute left-1/2 top-1/2 size-[44px] -translate-x-1/2 -translate-y-1/2 md:size-[48px] lg:size-[52px]"
+            aria-label={title ? `Play ${title} film` : "Play manufacturing film"}
+            onClick={handlePlay}
+            className="absolute left-1/2 top-1/2 size-[44px] -translate-x-1/2 -translate-y-1/2 md:size-[48px] lg:size-[52px] cursor-pointer"
           >
             <img src={`${A}/mfg__imgContainer.svg`} alt="" className="absolute inset-0 size-full max-w-none" />
           </button>
@@ -41,9 +73,11 @@ export default function TechManufacturing() {
       <div className="relative mx-auto h-[620px] w-full max-w-[480px] overflow-clip bg-[#041231] md:hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[#041231]" />
-          <div className="absolute inset-0 overflow-hidden">
-            <img src={`${A}/mfg__imgEulerUiMobile.png`} alt="" className="absolute left-[-49.26%] top-0 h-full w-[192.4%] max-w-none" />
-          </div>
+          {mobileImage && (
+            <div className="absolute inset-0 overflow-hidden">
+              <img src={mobileImage} alt="" className="absolute left-[-49.26%] top-0 h-full w-[192.4%] max-w-none object-cover" />
+            </div>
+          )}
         </div>
 
         <div className="absolute left-[-66.16px] top-[409.47px] h-[285.986px] w-[534.271px] blur-[102.15px]">
@@ -52,29 +86,77 @@ export default function TechManufacturing() {
 
         <button
           type="button"
-          aria-label="Play factory film"
-          className="absolute left-1/2 top-1/2 size-[37.174px] -translate-x-1/2 -translate-y-1/2"
+          aria-label={title ? `Play ${title} film` : "Play factory film"}
+          onClick={handlePlay}
+          className="absolute left-1/2 top-1/2 size-[37.174px] -translate-x-1/2 -translate-y-1/2 cursor-pointer"
         >
           <img src={`${A}/mfg__imgContainer.svg`} alt="" className="absolute inset-0 size-full max-w-none" />
         </button>
 
-        <div className="absolute left-[17.36px] top-[17.8px] flex items-center justify-center gap-2 rounded-[54.247px] bg-white px-[6.51px] py-[2.17px]">
-          <span className="text-[12px] font-semibold leading-normal text-black">Factory film</span>
-          <span className="size-[3.145px] rounded-full bg-black/50" />
-          <span className="text-[12px] font-semibold leading-normal text-black">Placeholder</span>
-        </div>
+        {(videoBadgeLabel || videoBadgeTag) && (
+          <div className="absolute left-[17.36px] top-[17.8px] flex items-center justify-center gap-2 rounded-[54.247px] bg-white px-[6.51px] py-[2.17px]">
+            {videoBadgeLabel && (
+              <span className="text-[12px] font-semibold leading-normal text-black">{videoBadgeLabel}</span>
+            )}
+            {videoBadgeLabel && videoBadgeTag && (
+              <span className="size-[3.145px] rounded-full bg-black/50" />
+            )}
+            {videoBadgeTag && (
+              <span className="text-[12px] font-semibold leading-normal text-black">{videoBadgeTag}</span>
+            )}
+          </div>
+        )}
 
         <div className="absolute bottom-[39px] left-5 right-5 mx-auto max-w-[353px] flex flex-col items-start gap-3">
-          <Eyebrow label="Manufacturing" dark />
-          <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
-            Where Every Vehicle Begins
-          </h2>
-          <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
-            Packs, drivetrains and final assembly in one building, so a fault found in the field
-            reaches the line that made it.
-          </p>
+          {eyebrow && <Eyebrow label={eyebrow} dark />}
+          {title && (
+            <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
+              {description}
+            </p>
+          )}
         </div>
       </div>
+
+      {videoOpen && videoUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setVideoOpen(false)}
+              aria-label="Close video"
+              className="absolute right-3 top-3 z-10 rounded-full bg-black/70 px-3 py-1 text-sm font-semibold text-white hover:bg-black"
+            >
+              ✕
+            </button>
+            <div className="aspect-video w-full">
+              {videoUrl.endsWith(".mp4") || videoUrl.endsWith(".webm") ? (
+                <video src={videoUrl} controls autoPlay className="size-full object-cover" />
+              ) : (
+                <iframe
+                  src={videoUrl}
+                  title={title || "Manufacturing film"}
+                  className="size-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

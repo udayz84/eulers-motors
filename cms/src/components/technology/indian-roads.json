@@ -2,18 +2,29 @@
   "collectionName": "components_technology_indian_roads",
   "info": {
     "displayName": "Indian Roads Section",
-    "icon": "car",
-    "description": "Built for Indian roads problem-solution grid"
+    "icon": "earth",
+    "description": "Engineering for Indian road conditions"
   },
   "options": {},
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Made for India"
+      "default": "Built for here"
     },
     "title": {
       "type": "string",
-      "default": "Built for everyday commercial roads."
+      "default": "Built for Indian roads."
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "problemLabel": {
+      "type": "string",
+      "default": "The problem"
+    },
+    "solutionLabel": {
+      "type": "string",
+      "default": "What Euler does"
     },
     "cards": {
       "type": "component",
@@ -22,4 +33,3 @@
     }
   }
 }
-

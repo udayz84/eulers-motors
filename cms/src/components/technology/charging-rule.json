@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_technology_charging_rules",
+  "info": {
+    "displayName": "Charging Guideline Item",
+    "icon": "check",
+    "description": "Single Do or Don't item for charging guide"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
+

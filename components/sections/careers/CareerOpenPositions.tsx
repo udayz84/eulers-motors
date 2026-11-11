@@ -3,17 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import {
-  CAREER_DEPARTMENTS,
-  CAREER_LOCATIONS,
-  CAREER_OPENINGS,
   type CareerFilters,
   type CareerOpening,
 } from "./types";
 import type { StrapiCareerPosition, StrapiCareerPositionsSection } from "@/types/strapi";
-import { defaultCareersPageData, defaultCareerPositions } from "@/lib/strapi/defaults/careers";
 
 type ExtendedCareerOpening = CareerOpening & {
   applyUrl?: string;
+  employmentType?: string;
 };
 
 type CareerOpenPositionsProps = {
@@ -72,9 +69,9 @@ function CareerCard({
     >
       <div className="flex w-full flex-col items-start gap-2.5 lg:gap-[12px]">
         <div className="flex flex-wrap items-center gap-1.5 lg:gap-2 xl:gap-[10px]">
-          {[opening.department, opening.location, "Full time", opening.experience].map((tag) => (
+          {[opening.department, opening.location, opening.employmentType, opening.experience].filter(Boolean).map((tag) => (
             <span
-              className="flex items-center rounded-[50px] bg-[#d4dbec] px-2 py-0.5 text-[11px] font-bold leading-normal text-black xl:px-[10px] xl:py-[4px] xl:text-xs"
+              className="flex h-[24px] items-center rounded-[50px] bg-[#d4dbec] px-[10px] text-xs font-bold leading-4 text-black"
               key={tag}
             >
               {tag}
@@ -132,36 +129,29 @@ export default function CareerOpenPositions({
   const [applicationRole, setApplicationRole] = useState<ExtendedCareerOpening | null>(null);
   const [page, setPage] = useState(1);
 
-  const eyebrow =
-    sectionData?.eyebrow || defaultCareersPageData.positionsSection?.eyebrow || "Open positions";
-  const title =
-    sectionData?.title || defaultCareersPageData.positionsSection?.title || "Build Your Career with Us";
-  const subtitle =
-    sectionData?.subtitle ||
-    defaultCareersPageData.positionsSection?.subtitle ||
-    "Take the next step with a role where your ideas and work can make a real impact.";
+  const eyebrow = sectionData?.eyebrow || "";
+  const title = sectionData?.title || "";
+  const subtitle = sectionData?.subtitle || "";
 
   const openingsList: ExtendedCareerOpening[] = useMemo(() => {
-    const list = positions?.length ? positions : defaultCareerPositions;
-    return list.map((p) => ({
+    return (positions || []).map((p) => ({
       id: p.slug || String(p.id),
       title: p.title,
       department: p.department,
       location: p.location,
-      experience: p.experience || "Full time",
+      employmentType: p.employmentType,
+      experience: p.experience || "",
       description: p.description,
       applyUrl: p.applyUrl,
     }));
   }, [positions]);
 
   const departments = useMemo(() => {
-    const fromOpenings = Array.from(new Set(openingsList.map((o) => o.department))).filter(Boolean);
-    return fromOpenings.length ? fromOpenings : CAREER_DEPARTMENTS;
+    return Array.from(new Set(openingsList.map((o) => o.department))).filter(Boolean);
   }, [openingsList]);
 
   const locations = useMemo(() => {
-    const fromOpenings = Array.from(new Set(openingsList.map((o) => o.location))).filter(Boolean);
-    return fromOpenings.length ? fromOpenings : CAREER_LOCATIONS;
+    return Array.from(new Set(openingsList.map((o) => o.location))).filter(Boolean);
   }, [openingsList]);
 
   const filteredOpenings = useMemo(() => {
@@ -208,7 +198,7 @@ export default function CareerOpenPositions({
           </div>
 
           <div className="flex min-w-0 flex-col gap-4 lg:relative lg:w-full lg:max-w-[587px] lg:shrink-0 lg:items-start lg:gap-[19px]">
-            <label className="flex h-[46px] w-full items-center gap-3 rounded-[500px] border border-black/[0.04] bg-[#f3f4f5] px-4 text-ink/80 shadow-[0_2px_2px_rgb(0_0_0_/_10%)] focus-within:outline-2 focus-within:outline-brand focus-within:outline-offset-2 lg:justify-between lg:self-stretch lg:py-[3px] lg:pr-[3px] lg:pl-4 lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
+            <label className="flex h-[42px] w-full items-center gap-3 rounded-[500px] border border-black/[0.04] bg-[#f3f4f5] px-4 text-ink/80 shadow-[0_2px_2px_rgb(0_0_0_/_10%)] focus-within:outline-2 focus-within:outline-brand focus-within:outline-offset-2 lg:h-[42px] lg:justify-between lg:self-stretch lg:pr-[3px] lg:pl-4 lg:shadow-[0_2px_4px_0_rgba(0,0,0,0.10)]">
               <svg aria-hidden="true" viewBox="0 0 20 20" className="size-5 shrink-0">
                 <circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <path d="m13 13 4 4" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -238,7 +228,7 @@ export default function CareerOpenPositions({
                   >
                     <button
                       type="button"
-                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-[42px] lg:inline-flex lg:items-center lg:justify-center lg:gap-[6.4px] lg:px-4 lg:py-0 lg:text-[16px] lg:leading-none ${
                         !filters.department
                           ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
                           : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
@@ -252,7 +242,7 @@ export default function CareerOpenPositions({
                       <button
                         type="button"
                         key={department}
-                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-[42px] lg:inline-flex lg:items-center lg:justify-center lg:gap-[6.4px] lg:px-4 lg:py-0 lg:text-[16px] lg:leading-none ${
                           filters.department === department
                             ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
                             : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
@@ -299,7 +289,7 @@ export default function CareerOpenPositions({
                   >
                     <button
                       type="button"
-                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                      className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-[42px] lg:inline-flex lg:items-center lg:justify-center lg:gap-[6.4px] lg:px-4 lg:py-0 lg:text-[16px] lg:leading-none ${
                         !filters.location
                           ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
                           : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"
@@ -313,7 +303,7 @@ export default function CareerOpenPositions({
                       <button
                         type="button"
                         key={location}
-                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-auto lg:gap-[6.4px] lg:px-4 lg:py-[13px] lg:text-[16px] lg:leading-4 ${
+                        className={`h-9 shrink-0 whitespace-nowrap rounded-[400px] border-[0.4px] px-[14px] font-sans text-xs font-semibold transition-colors duration-[160ms] lg:h-[42px] lg:inline-flex lg:items-center lg:justify-center lg:gap-[6.4px] lg:px-4 lg:py-0 lg:text-[16px] lg:leading-none ${
                           filters.location === location
                             ? "border-white bg-[#121212] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%)] text-white"
                             : "border-transparent bg-[#ccc]/[0.32] text-ink hover:bg-[#d4dbec]"

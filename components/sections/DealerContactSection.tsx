@@ -18,22 +18,32 @@ const DEFAULT_VEHICLES = [
 
 function ContactCard({
   icon,
+  iconMedia,
+  mobileIconMedia,
   title,
   detail,
   mobileOrder,
 }: {
   icon: string;
+  iconMedia?: StrapiMedia | string;
+  mobileIconMedia?: StrapiMedia | string;
   title: string;
   detail: string;
   mobileOrder: string;
 }) {
+  const iconFile = icon.endsWith(".svg") ? icon : `${icon}.svg`;
+  const desktopFallback = `${ASSET}${iconFile}`;
+  const mobileFallback = `${ASSET}${iconFile.replace(".svg", "-mobile.svg")}`;
+  const desktopSrc = iconMedia ? mediaUrl(iconMedia, desktopFallback) : desktopFallback;
+  const mobileSrc = mobileIconMedia ? mediaUrl(mobileIconMedia, desktopSrc) : iconMedia ? desktopSrc : mobileFallback;
+
   return (
     <div
       className={`flex min-h-[58px] items-center gap-[10px] rounded-[8px] bg-[#f3f4f5] p-2 lg:min-h-[98px] lg:gap-6 lg:rounded-2xl lg:p-5 ${mobileOrder}`}
     >
       <div className="flex size-[42px] shrink-0 items-center justify-center rounded-[5.88px] bg-[#0c2c66] lg:size-[58px] lg:rounded-[8.12px] lg:bg-white">
         <Image
-          src={`${ASSET}${icon.replace(".svg", "-mobile.svg")}`}
+          src={mobileSrc}
           alt=""
           width={16}
           height={16}
@@ -41,7 +51,7 @@ function ContactCard({
           className="lg:hidden"
         />
         <Image
-          src={`${ASSET}${icon}`}
+          src={desktopSrc}
           alt=""
           width={24}
           height={24}
@@ -223,6 +233,7 @@ export default function DealerContactSection({
 
   privacyNotice = "Euler Motors and its dealers may contact me about this enquiry. Privacy policy.",
   disclaimer = "We never share your number with anyone else. No spam calls.",
+  thankYouMessage = "Thank you! We will call you within one working day.",
 }: DealerContactSectionProps) {
   const effectiveHeading = form?.heading || formHeading;
   const effectiveSubheading = form?.subheading || formSubheading;
@@ -230,6 +241,7 @@ export default function DealerContactSection({
   const effectiveTabs = form?.tabs || tabs;
   const effectivePrivacyNotice = form?.privacyNotice || privacyNotice;
   const effectiveDisclaimer = form?.disclaimer || disclaimer;
+  const effectiveThankYouMessage = form?.thankYouMessage || thankYouMessage;
 
   // Parse vehicle options: supports comma-separated string or array
   const activeVehicles = useMemo(() => {
@@ -387,9 +399,10 @@ export default function DealerContactSection({
   ]);
 
   const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
   const currentTab = tabConfigs[activeTabIdx] || tabConfigs[0];
 
-  const activeCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
+  const activeCards = cards !== undefined ? cards : DEFAULT_CARDS;
 
   const bgImageSrc = backgroundImage
     ? mediaUrl(backgroundImage, `${ASSET}background.webp`)
@@ -467,22 +480,21 @@ export default function DealerContactSection({
           </div>
 
           <div className="order-3 mt-0 grid grid-cols-1 gap-2.5 lg:order-none lg:mt-8 lg:grid-cols-2">
-            {activeCards.map((c, i) => {
-              const iconName = c.icon.endsWith(".svg") ? c.icon : `${c.icon}.svg`;
-              return (
-                <ContactCard
-                  key={`${c.title}-${i}`}
-                  icon={iconName}
-                  title={c.title}
-                  detail={c.detail}
-                  mobileOrder={c.mobileOrder || `order-${i + 1}`}
-                />
-              );
-            })}
+            {activeCards.map((c, i) => (
+              <ContactCard
+                key={`${c.title}-${i}`}
+                icon={c.icon || "phone"}
+                iconMedia={"iconMedia" in c ? c.iconMedia : undefined}
+                mobileIconMedia={"mobileIconMedia" in c ? c.mobileIconMedia : undefined}
+                title={c.title}
+                detail={c.detail}
+                mobileOrder={c.mobileOrder || `order-${i + 1}`}
+              />
+            ))}
           </div>
         </div>
 
-        <div className="order-2 mb-2.5 flex h-[294px] w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 lg:order-none lg:mb-0 lg:h-[683.477px] lg:min-h-0 lg:w-[517px] lg:shrink-0 lg:items-center lg:justify-center lg:gap-8 lg:rounded-2xl lg:p-8">
+        <div className="order-2 mb-2.5 flex min-h-[294px] w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4 lg:order-none lg:mb-0 lg:min-h-[683.477px] lg:w-[517px] lg:shrink-0 lg:items-center lg:justify-center lg:gap-8 lg:rounded-2xl lg:p-8">
           <div className="flex w-full flex-col gap-1.5 lg:gap-3">
             <h3 className="font-sans text-2xl font-bold leading-[1.15] tracking-[-0.48px] text-[#121212] lg:font-display lg:text-[32px] lg:font-semibold lg:tracking-[-0.64px]">
               {effectiveHeading}
@@ -500,7 +512,10 @@ export default function DealerContactSection({
                   type="button"
                   role="tab"
                   aria-selected={on}
-                  onClick={() => setActiveTabIdx(idx)}
+                  onClick={() => {
+                    setActiveTabIdx(idx);
+                    setSubmitted(false);
+                  }}
                   className={`h-[34px] flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 sm:px-2 font-display text-[11px] sm:text-xs font-semibold leading-none lg:h-[42px] lg:px-3 lg:text-base ${on
                     ? "bg-[#0c2c66] text-white"
                     : "border border-white/50 bg-white/80 text-[#121212] backdrop-blur-[10px]"
@@ -512,7 +527,27 @@ export default function DealerContactSection({
             })}
           </div>
 
-          <form className="contents">
+          <form
+            noValidate
+            className="contents"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const visibleControls = Array.from(
+                e.currentTarget.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")
+              ).filter((el) => el.offsetParent !== null);
+              for (const el of visibleControls) {
+                if (el.required && !el.value.trim()) {
+                  el.focus();
+                  return;
+                }
+                if (el.type === "tel" && el.value.length !== 10) {
+                  el.focus();
+                  return;
+                }
+              }
+              setSubmitted(true);
+            }}
+          >
             <div className="grid w-full grid-cols-2 gap-1.5 lg:gap-3">
               <Field
                 key={`${currentTab.id}-f1`}
@@ -559,8 +594,8 @@ export default function DealerContactSection({
             </label>
             <div className="flex w-full flex-col items-center gap-3">
               <button
-                type="button"
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-full lg:px-6 lg:text-base lg:font-semibold hover:bg-black transition-colors"
+                type="submit"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-[4px] border-[0.5px] border-white bg-[#121212] px-5 font-display text-xs font-bold text-white lg:h-[50.477px] lg:w-full lg:px-6 lg:text-base lg:font-semibold hover:bg-black transition-colors cursor-pointer"
               >
                 <span>{currentTab.cta}</span>
                 <Image
@@ -580,9 +615,15 @@ export default function DealerContactSection({
                   className="hidden lg:block"
                 />
               </button>
-              <p className="w-[271px] text-center font-sans text-xs leading-normal text-[#121212] lg:w-full">
-                {effectiveDisclaimer}
-              </p>
+              {submitted ? (
+                <p className="w-full text-center font-sans text-xs font-medium leading-normal text-[#0c2c66]">
+                  {effectiveThankYouMessage}
+                </p>
+              ) : (
+                <p className="w-[271px] text-center font-sans text-xs leading-normal text-[#121212] lg:w-full">
+                  {effectiveDisclaimer}
+                </p>
+              )}
             </div>
           </form>
         </div>

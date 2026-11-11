@@ -44,31 +44,6 @@
       "type": "component",
       "repeatable": false,
       "component": "home.contact-form"
-    },
-    "formHeading": {
-      "type": "string",
-      "default": "Book a test drive"
-    },
-    "formSubheading": {
-      "type": "string",
-      "default": "Two steps. We call you within one working day."
-    },
-    "vehicleOptions": {
-      "type": "text",
-      "default": "Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity"
-    },
-    "tabs": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.form-tab"
-    },
-    "privacyNotice": {
-      "type": "string",
-      "default": "Euler Motors and its dealers may contact me about this enquiry. Privacy policy."
-    },
-    "disclaimer": {
-      "type": "string",
-      "default": "We never share your number with anyone else. No spam calls."
     }
   }
 }

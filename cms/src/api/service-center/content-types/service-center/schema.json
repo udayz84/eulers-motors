@@ -31,6 +31,10 @@
       "type": "string",
       "default": "Open until 8 pm"
     },
+    "operatingDays": {
+      "type": "string",
+      "default": "Mon - Sat"
+    },
     "distance": {
       "type": "string"
     },

@@ -6,7 +6,6 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import type { StrapiCareerSupportSection, StrapiCareerSupportItem } from "@/types/strapi";
-import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 
 const SPRITE_COORDINATES = [
   { left: "-62.93%", top: "-8.32%" },
@@ -18,42 +17,6 @@ const SPRITE_COORDINATES = [
   { left: "-332.54%", top: "-103.95%" },
   { left: "-466.18%", top: "-104.68%" },
 ];
-
-const DEFAULT_SUPPORT_ITEMS: StrapiCareerSupportItem[] =
-  defaultCareersPageData.supportSection?.items || [
-    {
-      title: "Medical Cover",
-      description: "Cover for you, spouse, children, and parents.",
-    },
-    {
-      title: "Learning Budget",
-      description: "Paid courses, workshops, and global certs.",
-    },
-    {
-      title: "Flexible Leave",
-      description: "Take the time you need comfortably.",
-    },
-    {
-      title: "Counseling",
-      description: "Confidential mental health support, free of cost.",
-    },
-    {
-      title: "Equity Options",
-      description: "Own a stake in the mobility revolution.",
-    },
-    {
-      title: "Modern Workspace",
-      description: "Spacious hubs in Delhi & Bangalore.",
-    },
-    {
-      title: "Parental Support",
-      description: "Helpful paid parent leave systems.",
-    },
-    {
-      title: "Recognition",
-      description: "Quarterly peer-voted awards & spot bonuses.",
-    },
-  ];
 
 type CareerSupportProps = {
   data?: StrapiCareerSupportSection;
@@ -121,13 +84,10 @@ export default function CareerSupport({ data }: CareerSupportProps) {
   const isInteractingRef = useRef(false);
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const eyebrow = data?.eyebrow || defaultCareersPageData.supportSection?.eyebrow || "Our offering";
-  const title = data?.title || defaultCareersPageData.supportSection?.title || "Support That Matters";
-  const subtitle =
-    data?.subtitle ||
-    defaultCareersPageData.supportSection?.subtitle ||
-    "We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks.";
-  const items = data?.items?.length ? data.items : DEFAULT_SUPPORT_ITEMS;
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const subtitle = data?.subtitle || "";
+  const items = data?.items || [];
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;

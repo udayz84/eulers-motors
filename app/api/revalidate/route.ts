@@ -34,6 +34,28 @@ export async function POST(req: NextRequest) {
         revalidatePath("/");
         revalidated.push("/");
       }
+      if (model === "technology-page" || model === "review") {
+        revalidatePath("/technology");
+        revalidated.push("/technology");
+      }
+      if (model === "careers-page" || model === "career-position") {
+        revalidatePath("/careers");
+        revalidated.push("/careers");
+      }
+      if (
+        model === "dealer-locator-page" ||
+        model === "dealer" ||
+        model === "charging-station" ||
+        model === "service-center"
+      ) {
+        revalidatePath("/dealer-locator");
+        revalidatePath("/service-centers");
+        revalidated.push("/dealer-locator", "/service-centers");
+      }
+      if (model === "charging-stations-page" || model === "charging-station") {
+        revalidatePath("/charging-stations");
+        revalidated.push("/charging-stations");
+      }
     }
 
     // Revalidate by explicit path

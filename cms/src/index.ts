@@ -1,4 +1,4 @@
-import { seedStrapi } from './bootstrap-seed';
+import { seedStrapi, seedTechnologyPage } from './bootstrap-seed';
 
 export default {
   register() {},
@@ -7,6 +7,8 @@ export default {
     // Only auto-seed if explicitly requested, to keep dev server restarts fast
     if (process.env.AUTO_SEED === 'true') {
       await seedStrapi(strapi);
+    } else if (process.env.SEED_TECHNOLOGY === 'true') {
+      await seedTechnologyPage(strapi);
     }
   },
 };

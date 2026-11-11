@@ -1,20 +1,31 @@
-import { DealerLocatorPageData } from "@/types/strapi";
+import { ChargingStationsPageData, DealerLocatorPageData } from "@/types/strapi";
 
 export const DEFAULT_DEALER_LOCATOR_PAGE: DealerLocatorPageData = {
   hero: {
     supportBadge: "Support",
+    dealerTabLabel: "Dealer Locator",
     dealerTabTitle: "Find your nearest Euler showroom",
     dealerTabSubtitle:
       "Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.",
     dealerSearchPlaceholder: "Search dealers by area",
+    chargingTabLabel: "Charging Stations",
     chargingTabTitle: "Find a charging station near you.",
     chargingTabSubtitle: "Locate nearby charging points and plan your next stop with confidence.",
     chargingSearchPlaceholder: "Search charging points by area",
+    serviceTabLabel: "Service Centers",
     serviceTabTitle: "Find a service centre near you.",
     serviceTabSubtitle:
       "Get the right support for your Euler vehicle, from routine maintenance to service and repairs.",
     serviceSearchPlaceholder: "Search service centers by area",
     cities: ["Hyderabad", "Delhi NCR", "Bengaluru", "Mumbai", "Ahmedabad", "Kolkata"],
+    defaultCity: "Mumbai",
+    locationButtonLabel: "Use my current location",
+    dealerResultsLabel: "Dealers Found",
+    chargingResultsLabel: "Charging Points",
+    serviceResultsLabel: "Service Centers Found",
+    directionsButtonLabel: "Get Directions",
+    distanceUnit: "km",
+    emptyStateText: "No matching locations found.",
     dealers: [
       {
         id: 1,
@@ -200,10 +211,6 @@ export const DEFAULT_DEALER_LOCATOR_PAGE: DealerLocatorPageData = {
         mobileOrder: "order-3 lg:order-2",
       },
     ],
-    formHeading: "What are you looking for?",
-    formSubheading: "Two steps. We call you within one working day.",
-    vehicleOptions:
-      "Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity",
     form: {
       heading: "What are you looking for?",
       subheading: "Two steps. We call you within one working day.",
@@ -271,47 +278,19 @@ export const DEFAULT_DEALER_LOCATOR_PAGE: DealerLocatorPageData = {
           ctaLabel: "Talk to our fleet team",
         },
       ],
+      thankYouMessage: "Thank you! We will call you within one working day.",
     },
-    tab1Title: "Test drive",
-    tab1NameLabel: "Name *",
-    tab1NamePlaceholder: "Full name",
-    tab1PhoneLabel: "Mobile number *",
-    tab1PhonePlaceholder: "10 digit",
-    tab1VehicleLabel: "Which vehicle *",
-    tab1VehiclePlaceholder: "Not sure, please suggest one",
-    tab1CityLabel: "City *",
-    tab1CityPlaceholder: "Mumbai",
-    tab1CustomLabel: "Kilometres per day *",
-    tab1CustomPlaceholder: "150",
-    tab1CtaLabel: "Confirm test drive",
-    tab2Title: "Price enquiry",
-    tab2NameLabel: "Name *",
-    tab2NamePlaceholder: "Full name",
-    tab2PhoneLabel: "Mobile number *",
-    tab2PhonePlaceholder: "10 digit",
-    tab2VehicleLabel: "Which vehicle *",
-    tab2VehiclePlaceholder: "Not sure, please suggest one",
-    tab2CityLabel: "City *",
-    tab2CityPlaceholder: "Mumbai",
-    tab2CustomLabel: "Quantity of vehicles *",
-    tab2CustomPlaceholder: "5",
-    tab2CtaLabel: "Get price list",
-    tab3Title: "Fleet solutions",
-    tab3NameLabel: "Company name *",
-    tab3NamePlaceholder: "Company",
-    tab3PhoneLabel: "Mobile number *",
-    tab3PhonePlaceholder: "10 digit",
-    tab3VehicleLabel: "Which vehicle *",
-    tab3VehiclePlaceholder: "Not sure, please suggest one",
-    tab3CityLabel: "City *",
-    tab3CityPlaceholder: "Mumbai",
-    tab3CustomLabel: "Fleet size *",
-    tab3CustomPlaceholder: "Number of vehicles",
-    tab3CtaLabel: "Talk to our fleet team",
-    ctaLabel: "Confirm test drive",
-    privacyNotice: "Euler Motors and its dealers may contact me about this enquiry. Privacy policy.",
-    disclaimer: "We never share your number with anyone else. No spam calls.",
   },
+  seo: {
+    metaTitle: "Find an Euler Motors Dealer, Charging Station, or Service Center Near You",
+    metaDescription:
+      "Locate authorized Euler Motors dealers, fast charging stations, and certified service centers across India. Book a doorstep test drive today.",
+    keywords: "euler dealer locator, euler service center, ev charging station, euler motors showroom",
+  },
+};
+
+export const DEFAULT_CHARGING_STATIONS_PAGE: ChargingStationsPageData = {
+  hero: DEFAULT_DEALER_LOCATOR_PAGE.hero,
   chargingContactSection: {
     eyebrow: "NEXT STEP",
     title: "Host a charging point.",

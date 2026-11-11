@@ -2,8 +2,8 @@
   "collectionName": "components_technology_road_condition_cards",
   "info": {
     "displayName": "Road Condition Card",
-    "icon": "shield",
-    "description": "Comparison between harsh Indian condition and Euler solution"
+    "icon": "globe",
+    "description": "Specific road challenge and Euler solution"
   },
   "options": {},
   "attributes": {
@@ -18,7 +18,12 @@
     "solution": {
       "type": "text",
       "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
     }
   }
 }
-

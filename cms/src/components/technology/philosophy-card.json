@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_technology_philosophy_cards",
+  "info": {
+    "displayName": "Philosophy Card",
+    "icon": "bulletList",
+    "description": "Engineering philosophy card inside Technology Hero"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

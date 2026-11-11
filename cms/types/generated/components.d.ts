@@ -78,6 +78,10 @@ export interface CareersPositionsSection extends Struct.ComponentSchema {
   attributes: {
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Open positions'>;
+    positions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::career-position.career-position'
+    >;
     subtitle: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Take the next step with a role where your ideas and work can make a real impact.'>;
     title: Schema.Attribute.String &
@@ -251,6 +255,8 @@ export interface DealerContactCard extends Struct.ComponentSchema {
   attributes: {
     detail: Schema.Attribute.String & Schema.Attribute.Required;
     icon: Schema.Attribute.String & Schema.Attribute.DefaultTo<'phone'>;
+    iconMedia: Schema.Attribute.Media<'images'>;
+    mobileIconMedia: Schema.Attribute.Media<'images'>;
     mobileOrder: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
@@ -270,23 +276,12 @@ export interface DealerContactSection extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.'>;
     desktopTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Not sure which dealer to use?'>;
-    disclaimer: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'We never share your number with anyone else. No spam calls.'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
     form: Schema.Attribute.Component<'home.contact-form', false>;
-    formHeading: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Book a test drive'>;
-    formSubheading: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
     mobileDescription: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.'>;
     mobileTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Tell us what you need!'>;
-    privacyNotice: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.'>;
-    tabs: Schema.Attribute.Component<'shared.form-tab', true>;
-    vehicleOptions: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity'>;
   };
 }
 
@@ -314,31 +309,52 @@ export interface DealerHero extends Struct.ComponentSchema {
     icon: 'pinMap';
   };
   attributes: {
+    chargingResultsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Charging Points'>;
     chargingSearchPlaceholder: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Search charging points by area'>;
     chargingStations: Schema.Attribute.Relation<
       'oneToMany',
       'api::charging-station.charging-station'
     >;
+    chargingTabLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Charging Stations'>;
     chargingTabSubtitle: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'1,412 points across India, with live status on each one.'>;
     chargingTabTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Find a charging point.'>;
     cities: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata'>;
+    dealerResultsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Dealers Found'>;
     dealers: Schema.Attribute.Relation<'oneToMany', 'api::dealer.dealer'>;
     dealerSearchPlaceholder: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Search dealers by area'>;
+    dealerTabLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Dealer Locator'>;
     dealerTabSubtitle: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Every dealer brings the vehicle to you for a test drive.'>;
     dealerTabTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Find your nearest dealer.'>;
+    defaultCity: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Mumbai'>;
+    directionsButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Get Directions'>;
+    distanceUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'km'>;
+    emptyStateText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'No matching locations found.'>;
+    locationButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Use my current location'>;
+    mapImage: Schema.Attribute.Media<'images'>;
     serviceCenters: Schema.Attribute.Relation<
       'oneToMany',
       'api::service-center.service-center'
     >;
+    serviceResultsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Service Centers Found'>;
     serviceSearchPlaceholder: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Search service centers by area'>;
+    serviceTabLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Service Centers'>;
     serviceTabSubtitle: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Authorized Euler service centers with genuine parts and certified experts.'>;
     serviceTabTitle: Schema.Attribute.String &
@@ -387,6 +403,8 @@ export interface HomeContactForm extends Struct.ComponentSchema {
     subheading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
     tabs: Schema.Attribute.Component<'shared.form-tab', true>;
+    thankYouMessage: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Thank you! We will call you within one working day.'>;
     vehicleOptions: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity'>;
   };
@@ -969,21 +987,58 @@ export interface SharedStatItem extends Struct.ComponentSchema {
   };
 }
 
+export interface TechnologyChargingRule extends Struct.ComponentSchema {
+  collectionName: 'components_technology_charging_rules';
+  info: {
+    description: "Single Do or Don't item for charging guide";
+    displayName: 'Charging Guideline Item';
+    icon: 'check';
+  };
+  attributes: {
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
 export interface TechnologyChargingSection extends Struct.ComponentSchema {
   collectionName: 'components_technology_charging_sections';
   info: {
-    description: 'Charging guidance with dos and donts';
+    description: "Charging guidance with Home/Public toggle, action tiles, Do's and Don'ts";
     displayName: 'Charging Section';
-    icon: 'lightning';
+    icon: 'bolt';
   };
   attributes: {
-    donts: Schema.Attribute.JSON;
-    dos: Schema.Attribute.JSON;
+    actionTiles: Schema.Attribute.Component<'technology.charging-tile', true>;
+    donts: Schema.Attribute.Component<'technology.charging-rule', true>;
+    dontsTitle: Schema.Attribute.String & Schema.Attribute.DefaultTo<"Don'ts">;
+    dos: Schema.Attribute.Component<'technology.charging-rule', true>;
+    dosTitle: Schema.Attribute.String & Schema.Attribute.DefaultTo<"Do's">;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Charging'>;
-    subtitle: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Different businesses have different needs. Choose the charging setup that works best for your operations.'>;
+    homeImage: Schema.Attribute.Media<'images'>;
+    homeTabLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Home'>;
+    publicImage: Schema.Attribute.Media<'images'>;
+    publicTabLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Public'>;
+    subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Where Will I Charge?'>;
+  };
+}
+
+export interface TechnologyChargingTile extends Struct.ComponentSchema {
+  collectionName: 'components_technology_charging_tiles';
+  info: {
+    description: 'Quick action link tile in Charging showcase card';
+    displayName: 'Charging Action Tile';
+    icon: 'cursor';
+  };
+  attributes: {
+    href: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'/products'>;
+    iconType: Schema.Attribute.Enumeration<['app', 'station']> &
+      Schema.Attribute.DefaultTo<'app'>;
+    subtitle: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -1004,82 +1059,111 @@ export interface TechnologyFaqItem extends Struct.ComponentSchema {
 export interface TechnologyFaqSection extends Struct.ComponentSchema {
   collectionName: 'components_technology_faq_sections';
   info: {
-    description: 'Technology page categorized FAQ section';
-    displayName: 'Technology FAQ Section';
+    description: 'Categorized technology FAQ accordion section';
+    displayName: 'FAQ Section';
     icon: 'question';
   };
   attributes: {
+    allCategoryLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'All'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'FAQ'>;
+    image: Schema.Attribute.Media<'images'>;
     items: Schema.Attribute.Component<'technology.faq-item', true>;
+    subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Frequently Asked Questions'>;
+      Schema.Attribute.DefaultTo<'Frequently asked questions'>;
   };
 }
 
 export interface TechnologyHero extends Struct.ComponentSchema {
   collectionName: 'components_technology_heroes';
   info: {
-    description: 'Technology page hero and engineering philosophy section';
+    description: 'Technology page hero, uptime banner, and philosophy cards';
     displayName: 'Technology Hero';
-    icon: 'shield';
+    icon: 'rocket';
   };
   attributes: {
+    cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    desktopImage: Schema.Attribute.Media<'images'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Technology'>;
-    philosophyDescription: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<"Commercial electric vehicles don't get gentle treatment. They run 14 hours a day, through monsoon waterlogging and summer heat, carrying every kilogram they are rated for and sometimes more.">;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    philosophyCards: Schema.Attribute.Component<
+      'technology.philosophy-card',
+      true
+    >;
+    philosophyDescription: Schema.Attribute.Text;
     philosophyEyebrow: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'OUR PHILOSOPHY'>;
+      Schema.Attribute.DefaultTo<'Philosophy'>;
     philosophyTitle: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Designed for commercial reality.'>;
-    subtitle: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Every innovation is designed for everyday business.'>;
-    title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Built Smarter.\nBuilt for Business.'>;
+      Schema.Attribute.DefaultTo<'Technology That Helps You Earn More'>;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.Text & Schema.Attribute.Required;
+    uptimeDescription: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Fleet uptime last year, across 15,000 vehicles'>;
+    uptimeUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'%'>;
+    uptimeValue: Schema.Attribute.String & Schema.Attribute.DefaultTo<'96.4'>;
   };
 }
 
 export interface TechnologyIndianRoads extends Struct.ComponentSchema {
   collectionName: 'components_technology_indian_roads';
   info: {
-    description: 'Built for Indian roads problem-solution grid';
+    description: 'Engineering for Indian road conditions';
     displayName: 'Indian Roads Section';
-    icon: 'car';
+    icon: 'earth';
   };
   attributes: {
     cards: Schema.Attribute.Component<'technology.road-condition-card', true>;
     eyebrow: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Made for India'>;
+      Schema.Attribute.DefaultTo<'Built for here'>;
+    problemLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'The problem'>;
+    solutionLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'What Euler does'>;
+    subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Built for everyday commercial roads.'>;
+      Schema.Attribute.DefaultTo<'Built for Indian roads.'>;
   };
 }
 
 export interface TechnologyKnowVehicle extends Struct.ComponentSchema {
   collectionName: 'components_technology_know_vehicles';
   info: {
-    description: 'Interactive technical teardown for motor, battery, and charging';
-    displayName: 'Know Your Vehicle Section';
+    description: 'Interactive diagram and technical breakdown of key vehicle parts';
+    displayName: 'Know Vehicle Section';
     icon: 'cog';
   };
   attributes: {
-    eyebrow: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Know your vehicle'>;
+    businessMeaningLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'WHAT IT MEANS FOR YOUR BUSINESS'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'The parts'>;
     parts: Schema.Attribute.Component<'technology.vehicle-part', true>;
+    subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Built for the driver, engineered for the fleet.'>;
+      Schema.Attribute.DefaultTo<'Know Your Vehicle Better'>;
+    vehicleImage: Schema.Attribute.Media<'images'>;
+    whatIsItLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'WHAT IS IT'>;
+    whyMatterLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'WHY DOES IT MATTER'>;
   };
 }
 
 export interface TechnologyLoadCard extends Struct.ComponentSchema {
   collectionName: 'components_technology_load_cards';
   info: {
-    description: 'Card showing payload capability';
+    description: 'Engineering test card inside Load section';
     displayName: 'Load Card';
-    icon: 'truck';
+    icon: 'layers';
   };
   attributes: {
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Load'>;
     image: Schema.Attribute.Media<'images'>;
+    statLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'payload, rated'>;
+    statUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'kg'>;
+    statValue: Schema.Attribute.String & Schema.Attribute.DefaultTo<'1,500'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -1104,19 +1188,36 @@ export interface TechnologyLoadSection extends Struct.ComponentSchema {
 export interface TechnologyManufacturing extends Struct.ComponentSchema {
   collectionName: 'components_technology_manufacturings';
   info: {
-    description: 'Manufacturing plant and engineering film section';
+    description: 'In-house manufacturing facility section';
     displayName: 'Manufacturing Section';
-    icon: 'house';
+    icon: 'store';
   };
   attributes: {
-    description: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Packs, drivetrains and final assembly in one building, so a fault found in the field reaches the line that made it.'>;
+    description: Schema.Attribute.Text;
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Manufacturing'>;
     mainImage: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Where Every Vehicle Begins'>;
+    videoBadgeLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Factory film'>;
+    videoBadgeTag: Schema.Attribute.String;
     videoUrl: Schema.Attribute.String;
+  };
+}
+
+export interface TechnologyPhilosophyCard extends Struct.ComponentSchema {
+  collectionName: 'components_technology_philosophy_cards';
+  info: {
+    description: 'Engineering philosophy card inside Technology Hero';
+    displayName: 'Philosophy Card';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -1138,31 +1239,47 @@ export interface TechnologyProofSection extends Struct.ComponentSchema {
 export interface TechnologyRoadConditionCard extends Struct.ComponentSchema {
   collectionName: 'components_technology_road_condition_cards';
   info: {
-    description: 'Comparison between harsh Indian condition and Euler solution';
+    description: 'Specific road challenge and Euler solution';
     displayName: 'Road Condition Card';
-    icon: 'shield';
+    icon: 'globe';
   };
   attributes: {
     condition: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
     problem: Schema.Attribute.Text & Schema.Attribute.Required;
     solution: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface TechnologyShepherdFeature extends Struct.ComponentSchema {
+  collectionName: 'components_technology_shepherd_features';
+  info: {
+    description: 'Individual telemetry/fleet management feature card in Shepherd section';
+    displayName: 'Shepherd Feature';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
 export interface TechnologyShepherdSection extends Struct.ComponentSchema {
   collectionName: 'components_technology_shepherd_sections';
   info: {
-    description: 'Shepherd IoT fleet management app showcase';
+    description: 'Shepherd IoT fleet management dashboard showcase';
     displayName: 'Shepherd Section';
-    icon: 'phone';
+    icon: 'mobile';
   };
   attributes: {
     appImage: Schema.Attribute.Media<'images'>;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Shepherd app'>;
-    subtitle: Schema.Attribute.Text &
-      Schema.Attribute.DefaultTo<'Track your vehicles, battery, trips, charging and service updates from one simple dashboard.'>;
+    features: Schema.Attribute.Component<'technology.shepherd-feature', true>;
+    secondaryCta: Schema.Attribute.Component<'shared.cta-button', false>;
+    subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Manage Everything in One Place'>;
   };
@@ -1237,7 +1354,9 @@ declare module '@strapi/strapi' {
       'shared.savings-calculator': SharedSavingsCalculator;
       'shared.seo': SharedSeo;
       'shared.stat-item': SharedStatItem;
+      'technology.charging-rule': TechnologyChargingRule;
       'technology.charging-section': TechnologyChargingSection;
+      'technology.charging-tile': TechnologyChargingTile;
       'technology.faq-item': TechnologyFaqItem;
       'technology.faq-section': TechnologyFaqSection;
       'technology.hero': TechnologyHero;
@@ -1246,8 +1365,10 @@ declare module '@strapi/strapi' {
       'technology.load-card': TechnologyLoadCard;
       'technology.load-section': TechnologyLoadSection;
       'technology.manufacturing': TechnologyManufacturing;
+      'technology.philosophy-card': TechnologyPhilosophyCard;
       'technology.proof-section': TechnologyProofSection;
       'technology.road-condition-card': TechnologyRoadConditionCard;
+      'technology.shepherd-feature': TechnologyShepherdFeature;
       'technology.shepherd-section': TechnologyShepherdSection;
       'technology.vehicle-part': TechnologyVehiclePart;
     }

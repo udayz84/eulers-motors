@@ -31,6 +31,10 @@
     "disclaimer": {
       "type": "string",
       "default": "We never share your number with anyone else. No spam calls."
+    },
+    "thankYouMessage": {
+      "type": "string",
+      "default": "Thank you! We will call you within one working day."
     }
   }
 }

@@ -12,7 +12,13 @@ import Button from "./ui/Button";
  * and the parked Support column draft. Items are label + description pairs
  * laid out in a horizontal row with white/40 hairline dividers.
  */
-const DROPDOWNS = {
+type DropdownItem = {
+  label: string;
+  desc: string;
+  href?: string;
+};
+
+const DROPDOWNS: Record<"Product" | "Company" | "Support", { heading: string; items: readonly DropdownItem[] }> = {
   Product: {
     heading: "EULER MOTORS",
     items: [],
@@ -20,23 +26,23 @@ const DROPDOWNS = {
   Company: {
     heading: "EULER MOTORS",
     items: [
-      { label: "About us", desc: "EV Revolution for India" },
-      { label: "Leadership", desc: "Founders and board" },
-      { label: "Careers", desc: "Find the right role for you." },
-      { label: "In press", desc: "News and media kit" },
+      { label: "About us", desc: "EV Revolution for India", href: "/about" },
+      { label: "Leadership", desc: "Founders and board", href: "#" },
+      { label: "Careers", desc: "Find the right role for you.", href: "/careers" },
+      { label: "In press", desc: "News and media kit", href: "/in-press" },
     ],
   },
   Support: {
     heading: "HELP AND SERVICE",
     items: [
-      { label: "Find a dealer", desc: "112 dealers, 24 states" },
-      { label: "Service centres", desc: "On the spot repair" },
-      { label: "Charging stations", desc: "1,412 points on the app" },
-      { label: "Media Kit", desc: "Brochure and manuals" },
-      { label: "FAQs", desc: "Common questions" },
+      { label: "Find a dealer", desc: "112 dealers, 24 states", href: "/dealer-locator" },
+      { label: "Service centres", desc: "On the spot repair", href: "/service-centers" },
+      { label: "Charging stations", desc: "1,412 points on the app", href: "/charging-stations" },
+      { label: "Media Kit", desc: "Brochure and manuals", href: "/in-press#media-kit" },
+      { label: "FAQs", desc: "Common questions", href: "/faq" },
     ],
   },
-} as const;
+};
 
 type DropdownKey = keyof typeof DROPDOWNS;
 
@@ -101,10 +107,12 @@ function MenuPanel({
   heading,
   items,
   isHome,
+  onNavigate,
 }: {
   heading: string;
-  items: readonly { label: string; desc: string }[];
+  items: readonly DropdownItem[];
   isHome: boolean;
+  onNavigate: () => void;
 }) {
   return (
     <div
@@ -129,9 +137,9 @@ function MenuPanel({
           <div className="flex items-center gap-5">
             {items.map((item) => (
               heading === "HELP AND SERVICE" ? (
-                <SupportMenuCard key={item.label} item={item} isHome={isHome} />
+                <SupportMenuCard key={item.label} item={item} onNavigate={onNavigate} />
               ) : (
-                <MenuCard key={item.label} item={item} isHome={isHome} />
+                <MenuCard key={item.label} item={item} onNavigate={onNavigate} />
               )
             ))}
           </div>
@@ -141,17 +149,13 @@ function MenuPanel({
   );
 }
 
-function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
-  const href =
-    item.label === "Find a dealer" || item.label === "Dealer Locator"
-      ? "/dealer-locator"
-      : item.label === "Charging stations"
-        ? "/charging-stations"
-      : "#";
+function SupportMenuCard({ item, onNavigate }: { item: DropdownItem; onNavigate: () => void }) {
+  const href = item.href || "#";
   return (
     <Link
       href={href}
-      className="flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
+      onClick={onNavigate}
+      className="group flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
     >
       <div className="flex w-full justify-end">
         <span className="flex size-[48px] shrink-0 items-center justify-center rounded-full bg-ink transition-transform duration-200 group-hover:scale-110">
@@ -173,12 +177,12 @@ function SupportMenuCard({ item, isHome }: { item: { label: string; desc: string
   );
 }
 
-function MenuCard({ item, isHome }: { item: { label: string; desc: string }; isHome: boolean }) {
-  const href =
-    item.label === "About us" ? "/about" : item.label === "Careers" ? "/careers" : "#";
+function MenuCard({ item, onNavigate }: { item: DropdownItem; onNavigate: () => void }) {
+  const href = item.href || "#";
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className="group flex h-[160px] w-[220px] flex-col justify-between rounded-[24px] bg-[#F3F4F5] p-6 transition-all duration-200 hover:bg-[#EAECEF]"
     >
       <div className="flex w-full justify-end">
@@ -274,24 +278,15 @@ function MenuCardLink({
   href: propHref,
   onNavigate,
 }: {
-  item: { label: string; desc?: string };
+  item: { label: string; desc?: string; href?: string };
   isHome: boolean;
   href?: string;
   onNavigate?: () => void;
 }) {
   const href =
     propHref ||
-    (item.label === "Find a dealer" || item.label === "Dealer Locator"
-      ? "/dealer-locator"
-      : item.label === "Charging stations"
-        ? "/charging-stations"
-      : item.label === "About us"
-        ? "/about"
-        : item.label === "Careers"
-          ? "/careers"
-        : PRODUCT_MOBILE.some((p) => p.label === item.label)
-          ? "/products"
-      : "#");
+    item.href ||
+    (PRODUCT_MOBILE.some((p) => p.label === item.label) ? "/products" : "#");
   return (
     <Link
       href={href}
@@ -586,6 +581,7 @@ export default function Navbar() {
             heading={DROPDOWNS[openDropdown].heading}
             items={DROPDOWNS[openDropdown].items}
             isHome={isHome}
+            onNavigate={() => setOpenDropdown(null)}
           />
         )}
 
@@ -769,7 +765,15 @@ export default function Navbar() {
                 <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")} isHome={isHome}>
                   <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
                     {DROPDOWNS.Company.items.map((item) => (
-                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
+                      <MenuCardLink
+                        key={item.label}
+                        item={item}
+                        isHome={isHome}
+                        onNavigate={() => {
+                          setMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                      />
                     ))}
                   </div>
                 </MenuRow>
@@ -777,7 +781,15 @@ export default function Navbar() {
                 <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")} isHome={isHome}>
                   <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
                     {DROPDOWNS.Support.items.map((item) => (
-                      <MenuCardLink key={item.label} item={item} isHome={isHome} />
+                      <MenuCardLink
+                        key={item.label}
+                        item={item}
+                        isHome={isHome}
+                        onNavigate={() => {
+                          setMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                      />
                     ))}
                   </div>
                 </MenuRow>

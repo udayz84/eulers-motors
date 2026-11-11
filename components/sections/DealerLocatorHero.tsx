@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import DealerLocator, { Dealer, ChargingStation, ServiceCenter } from "@/components/sections/DealerLocator";
 import FloatingWidget from "@/components/FloatingWidget";
+import { StrapiMedia } from "@/types/strapi";
 
 const ASSET = "/assets/dealer-locator-hero/";
 
@@ -27,9 +28,11 @@ export type SupportTabType = "dealer" | "charging" | "service";
 
 function SupportTabs({
   active = "dealer",
+  labels,
   onTabChange,
 }: {
   active?: SupportTabType;
+  labels?: { dealer: string; charging: string; service: string };
   onTabChange?: (tab: SupportTabType) => void;
 }) {
   const pad = "px-2 max-[359px]:px-1.5 sm:px-3.5";
@@ -66,7 +69,7 @@ function SupportTabs({
             : "text-white hover:text-white/80"
         }`}
       >
-        Dealer Locator
+        {labels?.dealer || "Dealer Locator"}
       </button>
       <button
         type="button"
@@ -79,7 +82,7 @@ function SupportTabs({
             : "text-white hover:text-white/80"
         }`}
       >
-        Charging Stations
+        {labels?.charging || "Charging Stations"}
       </button>
       <button
         type="button"
@@ -92,7 +95,7 @@ function SupportTabs({
             : "text-white hover:text-white/80"
         }`}
       >
-        Service Centers
+        {labels?.service || "Service Centers"}
       </button>
     </div>
   );
@@ -100,21 +103,27 @@ function SupportTabs({
 
 const DEFAULT_TAB_CONTENT = {
   dealer: {
+    tabLabel: "Dealer Locator",
     title: "Find your nearest Euler showroom",
     subtitle:
       "Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.",
     searchLabel: "Search dealers by area",
+    resultsLabel: "Dealers Found",
   },
   charging: {
+    tabLabel: "Charging Stations",
     title: "Find a charging station near you.",
     subtitle: "Locate nearby charging points and plan your next stop with confidence.",
     searchLabel: "Search charging points by area",
+    resultsLabel: "Charging Points",
   },
   service: {
+    tabLabel: "Service Centers",
     title: "Find a service centre near you.",
     subtitle:
       "Get the right support for your Euler vehicle, from routine maintenance to service and repairs.",
     searchLabel: "Search service centers by area",
+    resultsLabel: "Service Centers Found",
   },
 };
 
@@ -122,11 +131,17 @@ export interface DealerLocatorHeroProps {
   variant?: SupportTabType;
   supportBadgeText?: string;
   tabContent?: {
-    dealer?: { title?: string; subtitle?: string; searchLabel?: string };
-    charging?: { title?: string; subtitle?: string; searchLabel?: string };
-    service?: { title?: string; subtitle?: string; searchLabel?: string };
+    dealer?: { tabLabel?: string; title?: string; subtitle?: string; searchLabel?: string; resultsLabel?: string };
+    charging?: { tabLabel?: string; title?: string; subtitle?: string; searchLabel?: string; resultsLabel?: string };
+    service?: { tabLabel?: string; title?: string; subtitle?: string; searchLabel?: string; resultsLabel?: string };
   };
   cities?: string[] | string;
+  defaultCity?: string;
+  locationButtonLabel?: string;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+  emptyStateText?: string;
+  mapImage?: StrapiMedia | string;
   dealers?: Dealer[];
   chargingStations?: ChargingStation[];
   serviceCenters?: ServiceCenter[];
@@ -137,6 +152,12 @@ export default function DealerLocatorHero({
   supportBadgeText = "Support",
   tabContent,
   cities,
+  defaultCity,
+  locationButtonLabel,
+  directionsButtonLabel,
+  distanceUnit,
+  emptyStateText,
+  mapImage,
   dealers,
   chargingStations,
   serviceCenters,
@@ -198,6 +219,11 @@ export default function DealerLocatorHero({
         <SupportBadge text={supportBadgeText} />
         <SupportTabs
           active={activeTab}
+          labels={{
+            dealer: activeContent.dealer.tabLabel,
+            charging: activeContent.charging.tabLabel,
+            service: activeContent.service.tabLabel,
+          }}
           onTabChange={setActiveTab}
         />
         <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
@@ -212,6 +238,13 @@ export default function DealerLocatorHero({
         <DealerLocator
           variant={activeTab}
           searchLabel={currentContent.searchLabel}
+          locationButtonLabel={locationButtonLabel}
+          resultsLabel={currentContent.resultsLabel}
+          directionsButtonLabel={directionsButtonLabel}
+          distanceUnit={distanceUnit}
+          emptyStateText={emptyStateText}
+          defaultCity={defaultCity}
+          mapImage={mapImage}
           cities={activeCities}
           dealers={dealers}
           chargingStations={chargingStations}

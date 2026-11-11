@@ -46,6 +46,10 @@
     "experience": {
       "type": "string"
     },
+    "employmentType": {
+      "type": "string",
+      "default": "Full time"
+    },
     "description": {
       "type": "text",
       "required": true

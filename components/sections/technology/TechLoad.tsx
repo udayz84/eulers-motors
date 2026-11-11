@@ -1,27 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
+import { mediaUrl } from "@/lib/strapi/client";
+import { StrapiTechnologyLoadCard, StrapiTechnologyLoadSection } from "@/types/strapi";
 
 const A = "/assets/technology-page";
-const LOAD_CARD_IMAGES = {
-  load: `${A}/load-card-drive-exact.png`,
-  payload: `${A}/load-card-payload-exact.png`,
-} as const;
 
-type CardVariant = "load" | "payload";
-const CARDS_CYCLE: CardVariant[] = ["load", "payload", "load", "payload"];
-const SET_SIZE = CARDS_CYCLE.length;
-const LOOPED_CARDS: CardVariant[] = [...CARDS_CYCLE, ...CARDS_CYCLE, ...CARDS_CYCLE];
+export interface TechLoadProps {
+  data?: StrapiTechnologyLoadSection;
+}
+
+function renderMultiline(text: string) {
+  const lines = text.split("\n");
+  return lines.map((line, i) => (
+    <Fragment key={i}>
+      {i > 0 && <br />}
+      {line}
+    </Fragment>
+  ));
+}
 
 /** TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885, 393×601). */
-export default function TechLoad() {
+export default function TechLoad({ data }: TechLoadProps) {
+  const cards = data?.cards || [];
+  const uniqueCount = Math.max(cards.length, 1);
+  const baseCycle =
+    cards.length > 0
+      ? Array.from({ length: Math.max(4, cards.length) }, (_, i) => cards[i % cards.length])
+      : [];
+  const setSize = baseCycle.length;
+  const loopedCards = setSize > 0 ? [...baseCycle, ...baseCycle, ...baseCycle] : [];
+
   const sectionRef = useRef<HTMLElement>(null);
   const desktopCarousel = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const virtualIndexRef = useRef(SET_SIZE);
+  const virtualIndexRef = useRef(setSize);
   const isVisibleRef = useRef(false);
   const isHoveredRef = useRef(false);
   const isInteractingRef = useRef(false);
@@ -40,15 +56,15 @@ export default function TechLoad() {
   // Center on middle set (Set 1) on initial client mount
   useEffect(() => {
     const container = desktopCarousel.current;
-    if (!container) return;
+    if (!container || setSize === 0) return;
     const step = getCardStep();
-    container.scrollLeft = SET_SIZE * step;
-    virtualIndexRef.current = SET_SIZE;
-  }, []);
+    container.scrollLeft = setSize * step;
+    virtualIndexRef.current = setSize;
+  }, [setSize]);
 
   const scrollToVirtualIndex = (vIndex: number, behavior: ScrollBehavior = "smooth") => {
     const container = desktopCarousel.current;
-    if (!container) return;
+    if (!container || setSize === 0) return;
     const step = getCardStep();
     virtualIndexRef.current = vIndex;
 
@@ -57,15 +73,15 @@ export default function TechLoad() {
       behavior,
     });
 
-    const normalized = ((vIndex % 2) + 2) % 2;
+    const normalized = ((vIndex % uniqueCount) + uniqueCount) % uniqueCount;
     setActiveIndex(normalized);
 
     // If scrolled past the center set into Set 0 or Set 2, seamlessly jump back to Set 1
     if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
-    if (vIndex >= 2 * SET_SIZE || vIndex < SET_SIZE) {
+    if (vIndex >= 2 * setSize || vIndex < setSize) {
       jumpTimeoutRef.current = setTimeout(() => {
         if (!desktopCarousel.current) return;
-        const resetIndex = (((vIndex % SET_SIZE) + SET_SIZE) % SET_SIZE) + SET_SIZE;
+        const resetIndex = (((vIndex % setSize) + setSize) % setSize) + setSize;
         virtualIndexRef.current = resetIndex;
         desktopCarousel.current.style.scrollSnapType = "none";
         desktopCarousel.current.scrollLeft = resetIndex * getCardStep();
@@ -97,7 +113,7 @@ export default function TechLoad() {
     const reducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return;
+    if (reducedMotion || setSize === 0) return;
 
     const interval = setInterval(() => {
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
@@ -116,7 +132,9 @@ export default function TechLoad() {
       if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
       if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
     };
-  }, []);
+  }, [setSize, uniqueCount]);
+
+  if (cards.length === 0) return null;
 
   const scroll = (direction: -1 | 1) => {
     isInteractingRef.current = true;
@@ -136,7 +154,7 @@ export default function TechLoad() {
     const step = getCardStep();
     if (step <= 0) return;
     const vIndex = Math.round(scrollLeft / step);
-    const normalized = ((vIndex % 2) + 2) % 2;
+    const normalized = ((vIndex % uniqueCount) + uniqueCount) % uniqueCount;
     setActiveIndex(normalized);
 
     if (isInteractingRef.current) {
@@ -148,7 +166,7 @@ export default function TechLoad() {
     <section
       ref={sectionRef}
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)] overflow-hidden"
-      aria-label="Load"
+      aria-label={data?.eyebrow || "Load"}
     >
       <div
         className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 min-[1440px]:gap-[42px] min-[1440px]:pb-[62px]"
@@ -167,10 +185,10 @@ export default function TechLoad() {
             className="snap-row w-full items-center gap-3.5 md:gap-5 lg:gap-5 min-[1440px]:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))]"
             style={{ scrollSnapType: "x mandatory" }}
           >
-            {LOOPED_CARDS.map((variant, index) => (
+            {loopedCards.map((card, index) => (
               <DesktopLoadCard
-                key={`${variant}-${index}`}
-                variant={variant}
+                key={`${card.id ?? card.title}-${index}`}
+                card={card}
               />
             ))}
           </div>
@@ -179,7 +197,6 @@ export default function TechLoad() {
             aria-hidden="true"
             className="pointer-events-none absolute right-0 bottom-[-20px] z-20 hidden h-[532.059px] w-[210.81px] bg-black/[0.01] backdrop-blur-[8px] [-webkit-mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] [mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] md:block"
           />
-
 
           <button
             type="button"
@@ -205,7 +222,7 @@ export default function TechLoad() {
             <div
               className="h-full rounded-[23px] bg-white transition-all duration-300"
               style={{
-                width: "50%",
+                width: `${100 / uniqueCount}%`,
                 transform: `translateX(${activeIndex * 100}%)`,
               }}
             />
@@ -216,9 +233,9 @@ export default function TechLoad() {
       <div className="mx-auto flex w-full max-w-[480px] flex-col items-center justify-center gap-6 px-5 py-[35px] md:hidden">
         <div className="relative -mx-5 w-[calc(100%+40px)]">
           <div id="load-carousel-mobile" className="snap-row snap-center-mobile gap-3 px-5">
-            <MobileLoadCard variant="load" />
-            <MobileLoadCard variant="payload" />
-            <MobileLoadCard variant="load" />
+            {cards.map((card, i) => (
+              <MobileLoadCard key={card.id ?? `${card.title}-${i}`} card={card} />
+            ))}
           </div>
         </div>
 
@@ -228,55 +245,51 @@ export default function TechLoad() {
   );
 }
 
-function MobileLoadCard({ variant }: { variant: "load" | "payload" }) {
-  const payload = variant === "payload";
-  const title = payload ? "Carry More Every Trip" : "Rated with weight on it.";
-  const body = payload ? (
-    "Built to carry heavy loads without compromising performance."
-  ) : (
-    <>
-      Payload, range and gradient are quoted
-      <br />
-      loaded. Empty numbers help nobody.
-    </>
-  );
+function MobileLoadCard({ card }: { card: StrapiTechnologyLoadCard }) {
+  const imgUrl = mediaUrl(card.image);
+  const unitAndLabel = [card.statUnit, card.statLabel].filter(Boolean).join(" ");
 
   return (
     <div className="relative flex h-[488px] w-full shrink-0 flex-col items-center justify-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-3 pb-3 pt-[252px]">
       <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[12px]">
-        <div className="absolute inset-0 overflow-hidden rounded-[12px]">
-          <img src={LOAD_CARD_IMAGES[variant]} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
-        </div>
+        {imgUrl && (
+          <div className="absolute inset-0 overflow-hidden rounded-[12px]">
+            <img src={imgUrl} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
+          </div>
+        )}
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
 
       <div className="relative flex w-full shrink-0 flex-col items-start gap-3 overflow-clip">
-        <Eyebrow label={payload ? "Payload" : "Load"} dark />
+        {card.eyebrow && <Eyebrow label={card.eyebrow} dark />}
         <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
-          {title}
+          {card.title}
         </h2>
-        <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">{body}</p>
+        <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">
+          {renderMultiline(card.description)}
+        </p>
       </div>
 
-      <div className="relative flex w-full shrink-0 flex-col items-start overflow-clip rounded-[8px] border border-white/20 bg-white/[0.04] p-3">
-        <div className="flex w-full items-baseline gap-[8px] leading-[1.15] text-white">
-          <p className="shrink-0 font-display text-[36px] font-semibold tracking-[-0.72px]">1,500</p>
-          <p className="shrink-0 font-display text-[14px] font-normal tracking-[-0.28px]">
-            {payload ? "kg maximum payload" : "kg payload, rated"}
-          </p>
+      {(card.statValue || unitAndLabel) && (
+        <div className="relative flex w-full shrink-0 flex-col items-start overflow-clip rounded-[8px] border border-white/20 bg-white/[0.04] p-3">
+          <div className="flex w-full items-baseline gap-[8px] leading-[1.15] text-white">
+            {card.statValue && (
+              <p className="shrink-0 font-display text-[36px] font-semibold tracking-[-0.72px]">{card.statValue}</p>
+            )}
+            {unitAndLabel && (
+              <p className="shrink-0 font-display text-[14px] font-normal tracking-[-0.28px]">
+                {unitAndLabel}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
-function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
-  const payload = variant === "payload";
-  const label = payload ? "Payload" : "Load";
-  const title = payload ? "Carry More Every Trip" : "Rated with weight on it.";
-  const body = payload
-    ? "Built to carry heavy loads without compromising performance."
-    : "Payload, range and gradient are quoted loaded. Empty numbers help nobody.";
+function DesktopLoadCard({ card }: { card: StrapiTechnologyLoadCard }) {
+  const imgUrl = mediaUrl(card.image);
 
   return (
     <article
@@ -285,31 +298,43 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
       style={{ borderTopWidth: 0 }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
-        <img
-          src={LOAD_CARD_IMAGES[variant]}
-          alt=""
-          className="absolute left-[0.117px] top-[-32.237px] h-[106.547%] w-[99.951%] max-w-none rounded-[12px] object-cover"
-        />
+        {imgUrl && (
+          <img
+            src={imgUrl}
+            alt=""
+            className="absolute left-[0.117px] top-[-32.237px] h-[106.547%] w-[99.951%] max-w-none rounded-[12px] object-cover"
+          />
+        )}
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
 
       <div className="relative flex min-w-0 flex-1 flex-col items-start gap-[12px] overflow-clip text-white">
-        <div className="relative flex h-4 items-center gap-1">
-          <img src={`${A}/load__imgRectangle42112.svg`} alt="" width="114.561" height="16" className="absolute left-[3.43px] top-[0.33px] max-w-none" />
-          <img src={`${A}/load__imgRectangle42113.svg`} alt="" width="14.1899" height="16" className="relative max-w-none" />
-          <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase tracking-[0.6px]">{label}</span>
-        </div>
-        <h2 className="whitespace-nowrap font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.52px]">{title}</h2>
-        <p className="max-w-[340px] font-sans text-[16px] leading-[1.4]">{body}</p>
+        {card.eyebrow && (
+          <div className="relative flex h-4 items-center gap-1">
+            <img src={`${A}/load__imgRectangle42112.svg`} alt="" width="114.561" height="16" className="absolute left-[3.43px] top-[0.33px] max-w-none" />
+            <img src={`${A}/load__imgRectangle42113.svg`} alt="" width="14.1899" height="16" className="relative max-w-none" />
+            <span className="relative whitespace-nowrap font-sans text-[12px] font-bold uppercase tracking-[0.6px]">{card.eyebrow}</span>
+          </div>
+        )}
+        <h2 className="whitespace-nowrap font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.52px]">{card.title}</h2>
+        <p className="max-w-[340px] font-sans text-[16px] leading-[1.4]">{card.description.replace(/\n+/g, " ")}</p>
       </div>
 
-      <div className="relative flex h-[100px] w-[184px] shrink-0 flex-col gap-[10px] items-start overflow-clip rounded-[8px] border border-white/20 bg-white/[0.04] p-[12px] text-white">
-        <div className="flex items-baseline gap-[6px] text-white leading-[1.15]">
-          <span className="font-display text-[42px] font-semibold tracking-[-0.84px]">1,500</span>
-          <span className="font-display text-[20px] font-normal tracking-[-0.4px]">kg</span>
+      {(card.statValue || card.statLabel) && (
+        <div className="relative flex h-[100px] w-[184px] shrink-0 flex-col gap-[10px] items-start overflow-clip rounded-[8px] border border-white/20 bg-white/[0.04] p-[12px] text-white">
+          <div className="flex items-baseline gap-[6px] text-white leading-[1.15]">
+            {card.statValue && (
+              <span className="font-display text-[42px] font-semibold tracking-[-0.84px]">{card.statValue}</span>
+            )}
+            {card.statUnit && (
+              <span className="font-display text-[20px] font-normal tracking-[-0.4px]">{card.statUnit}</span>
+            )}
+          </div>
+          {card.statLabel && (
+            <p className="whitespace-nowrap font-display text-[16px] font-normal leading-[1.15] tracking-[-0.32px]">{card.statLabel}</p>
+          )}
         </div>
-        <p className="whitespace-nowrap font-display text-[16px] font-normal leading-[1.15] tracking-[-0.32px]">{payload ? "Maximum Payload" : "payload, rated"}</p>
-      </div>
+      )}
     </article>
   );
 }

@@ -294,6 +294,12 @@ export async function seedStrapi(strapi: any) {
       'dealer-contact-background.webp',
       'Euler Showroom Commercial Vehicle Interior'
     );
+    const dealerMapId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/dealer-locator/map-hq.webp',
+      'dealer-locator-map-hq.webp',
+      'Euler Motors India Locator Map'
+    );
     const partnerQrgId = await uploadMediaIfMissing(
       strapi,
       'public/assets/partners-investors/qrg.webp',
@@ -868,6 +874,7 @@ export async function seedStrapi(strapi: any) {
         city: 'Mumbai',
         state: 'Maharashtra',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Fri',
         distance: '1.3',
         phone: '1800 000 0000',
         order: 1,
@@ -880,6 +887,7 @@ export async function seedStrapi(strapi: any) {
         city: 'Mumbai',
         state: 'Maharashtra',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Fri',
         distance: '52.5',
         phone: '1800 000 0000',
         order: 2,
@@ -892,6 +900,7 @@ export async function seedStrapi(strapi: any) {
         city: 'Mumbai',
         state: 'Maharashtra',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Fri',
         distance: '150',
         phone: '1800 000 0000',
         order: 3,
@@ -904,6 +913,7 @@ export async function seedStrapi(strapi: any) {
         city: 'Chennai',
         state: 'Tamil Nadu',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Fri',
         distance: '1,338',
         phone: '1800 000 0000',
         order: 4,
@@ -1006,6 +1016,7 @@ export async function seedStrapi(strapi: any) {
         address: 'Akurli Metro Station, Kandivali East, Mumbai',
         city: 'Mumbai',
         hours: 'Open until 8 pm',
+        operatingDays: 'Mon - Sat',
         badges: ['Service', 'Spares', 'Express Bay'],
         distance: '1.3',
         phone: '1800 000 0000',
@@ -1017,6 +1028,7 @@ export async function seedStrapi(strapi: any) {
         address: 'Saki Vihar Road, Marol MIDC, Andheri East, Mumbai',
         city: 'Mumbai',
         hours: 'Open 8 am to 8 pm',
+        operatingDays: 'Mon - Sat',
         badges: ['Service', 'Battery Check', 'Body Shop'],
         distance: '5.8',
         phone: '1800 000 0000',
@@ -1028,6 +1040,7 @@ export async function seedStrapi(strapi: any) {
         address: 'MIDC Industrial Area, Turbhe, Navi Mumbai',
         city: 'Mumbai',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Sat',
         badges: ['Service', 'Fleet Repair'],
         distance: '21.4',
         phone: '1800 000 0000',
@@ -1039,6 +1052,7 @@ export async function seedStrapi(strapi: any) {
         address: 'Arun Arcade, Chitalsar, Manpada, Thane West',
         city: 'Mumbai',
         hours: 'Open 24 hours',
+        operatingDays: 'Mon - Sat',
         badges: ['Service', 'Spares', 'Major Repairs'],
         distance: '32.0',
         phone: '1800 000 0000',
@@ -1050,6 +1064,7 @@ export async function seedStrapi(strapi: any) {
         address: 'Ambattur Industrial Estate, Chennai 600058',
         city: 'Chennai',
         hours: 'Open until 7 pm',
+        operatingDays: 'Mon - Sat',
         badges: ['Service', 'Authorized'],
         distance: '1,338',
         phone: '1800 000 0000',
@@ -1251,34 +1266,141 @@ export async function seedStrapi(strapi: any) {
       }
     }
 
+    const sharedChargingFaqSection = {
+      eyebrow: 'FAQ',
+      title: 'Frequently Asked Questions',
+      image: chargingFaqMapId,
+      items: CHARGING_POINT_FAQS.map((f) => ({
+        question: f.question,
+        answer: f.answer,
+        category: f.category,
+      })),
+    };
+
+    const sharedChargingContactSection = {
+      eyebrow: 'NEXT STEP',
+      title: 'Host a charging point.',
+      mobileTitle: 'Host a charging point.',
+      description:
+        'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
+      mobileDescription:
+        'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
+      backgroundImage: chargingContactBgId,
+      cards: [
+        {
+          icon: 'phone',
+          title: '1800 000 0000',
+          detail: '9 am to 8 pm Monday to Saturday',
+          mobileOrder: 'order-1',
+        },
+        {
+          icon: 'email',
+          title: 'partners@eulermotors.com',
+          detail: 'For charging and depot partners',
+          mobileOrder: 'order-2',
+        },
+        {
+          icon: 'location',
+          title: 'Find your nearest dealer',
+          detail: '112 locations, 24 states',
+          mobileOrder: 'order-3',
+        },
+      ],
+      form: {
+        heading: 'Book a test drive',
+        subheading: 'Two steps. We call you within one working day.',
+        nameLabel: 'Name',
+        namePlaceholder: 'Full name',
+        nameRequired: true,
+        mobileLabel: 'Mobile number',
+        mobilePlaceholder: '10 digit',
+        mobileRequired: true,
+        cityLabel: 'City',
+        cityPlaceholder: 'Mumbai',
+        cityRequired: true,
+        dropdownLabel: 'What you have',
+        dropdownOptions: 'Petrol Pump, Warehouse, Land',
+        dropdownRequired: false,
+        ctaLabel: 'Send enquiry',
+        privacyNotice: 'Euler Motors may contact me about this enquiry.',
+        disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+      formHeading: 'Book a test drive',
+      formSubheading: 'Two steps. We call you within one working day.',
+      nameLabel: 'Name',
+      namePlaceholder: 'Full name',
+      nameRequired: true,
+      mobileLabel: 'Mobile number',
+      mobilePlaceholder: '10 digit',
+      mobileRequired: true,
+      cityLabel: 'City',
+      cityPlaceholder: 'Mumbai',
+      cityRequired: true,
+      dropdownLabel: 'What you have',
+      dropdownOptions: 'Petrol Pump, Warehouse, Land',
+      dropdownRequired: false,
+      ctaLabel: 'Send enquiry',
+      privacyNotice: 'Euler Motors may contact me about this enquiry.',
+      disclaimer: 'We never share your number with anyone else. No spam calls.',
+    };
+
+    const sharedPartnersSection = {
+      eyebrow: 'PARTNERS AND INVESTORS',
+      title: 'Trusted network partners',
+      partners: [
+        {
+          name: 'QRG',
+          logo: partnerQrgId,
+        },
+        {
+          name: 'Moglix',
+          logo: partnerMoglixId,
+        },
+        {
+          name: 'JETTY Ventures',
+          logo: partnerJettyId,
+        },
+        {
+          name: 'BLUME',
+          logo: partnerBlumeId,
+        },
+        {
+          name: 'GIC',
+          logo: partnerGicId,
+        },
+      ],
+    };
+
     const dealerLocatorPageData = {
       hero: {
         supportBadge: 'Support',
+        dealerTabLabel: 'Dealer Locator',
         dealerTabTitle: 'Find your nearest Euler showroom',
         dealerTabSubtitle:
           'Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.',
         dealerSearchPlaceholder: 'Search dealers by area',
+        chargingTabLabel: 'Charging Stations',
         chargingTabTitle: 'Find a charging station near you.',
         chargingTabSubtitle: 'Locate nearby charging points and plan your next stop with confidence.',
         chargingSearchPlaceholder: 'Search charging points by area',
+        serviceTabLabel: 'Service Centers',
         serviceTabTitle: 'Find a service centre near you.',
         serviceTabSubtitle:
           'Get the right support for your Euler vehicle, from routine maintenance to service and repairs.',
         serviceSearchPlaceholder: 'Search service centers by area',
         cities: 'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata',
+        defaultCity: 'Mumbai',
+        locationButtonLabel: 'Use my current location',
+        dealerResultsLabel: 'Dealers Found',
+        chargingResultsLabel: 'Charging Points',
+        serviceResultsLabel: 'Service Centers Found',
+        directionsButtonLabel: 'Get Directions',
+        distanceUnit: 'km',
+        emptyStateText: 'No matching locations found.',
+        mapImage: dealerMapId,
         dealers: dealerIds,
         chargingStations: chargingStationIds,
         serviceCenters: serviceCenterIds,
-      },
-      faqSection: {
-        eyebrow: 'FAQ',
-        title: 'Frequently Asked Questions',
-        image: chargingFaqMapId,
-        items: CHARGING_POINT_FAQS.map((f) => ({
-          question: f.question,
-          answer: f.answer,
-          category: f.category,
-        })),
       },
       contactSection: {
         eyebrow: 'Need help choosing the best',
@@ -1309,10 +1431,6 @@ export async function seedStrapi(strapi: any) {
             mobileOrder: 'order-3 lg:order-2',
           },
         ],
-        formHeading: 'What are you looking for?',
-        formSubheading: 'Two steps. We call you within one working day.',
-        vehicleOptions:
-          'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
         form: {
           heading: 'What are you looking for?',
           subheading: 'Two steps. We call you within one working day.',
@@ -1380,161 +1498,8 @@ export async function seedStrapi(strapi: any) {
           privacyNotice:
             'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
           disclaimer: 'We never share your number with anyone else. No spam calls.',
+          thankYouMessage: 'Thank you! We will call you within one working day.',
         },
-        tabs: [
-          {
-            tabTitle: 'Test drive',
-            nameLabel: 'Name',
-            namePlaceholder: 'Full name',
-            nameRequired: true,
-            phoneLabel: 'Mobile number',
-            phonePlaceholder: '10 digit',
-            phoneRequired: true,
-            vehicleLabel: 'Which vehicle',
-            vehiclePlaceholder: 'Not sure, please suggest one',
-            vehicleRequired: true,
-            cityLabel: 'City',
-            cityPlaceholder: 'Mumbai',
-            cityRequired: true,
-            customFieldLabel: 'Kilometres per day',
-            customFieldPlaceholder: '150',
-            customFieldRequired: true,
-            ctaLabel: 'Confirm test drive',
-          },
-          {
-            tabTitle: 'Price enquiry',
-            nameLabel: 'Name',
-            namePlaceholder: 'Full name',
-            nameRequired: true,
-            phoneLabel: 'Mobile number',
-            phonePlaceholder: '10 digit',
-            phoneRequired: true,
-            vehicleLabel: 'Which vehicle',
-            vehiclePlaceholder: 'Not sure, please suggest one',
-            vehicleRequired: true,
-            cityLabel: 'City',
-            cityPlaceholder: 'Mumbai',
-            cityRequired: true,
-            customFieldLabel: 'Quantity of vehicles',
-            customFieldPlaceholder: '5',
-            customFieldRequired: true,
-            ctaLabel: 'Get price list',
-          },
-          {
-            tabTitle: 'Fleet solutions',
-            nameLabel: 'Company name',
-            namePlaceholder: 'Company',
-            nameRequired: true,
-            phoneLabel: 'Mobile number',
-            phonePlaceholder: '10 digit',
-            phoneRequired: true,
-            vehicleLabel: 'Which vehicle',
-            vehiclePlaceholder: 'Not sure, please suggest one',
-            vehicleRequired: true,
-            cityLabel: 'City',
-            cityPlaceholder: 'Mumbai',
-            cityRequired: true,
-            customFieldLabel: 'Fleet size',
-            customFieldPlaceholder: 'Number of vehicles',
-            customFieldRequired: true,
-            ctaLabel: 'Talk to our fleet team',
-          },
-        ],
-        privacyNotice:
-          'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
-        disclaimer: 'We never share your number with anyone else. No spam calls.',
-      },
-      chargingContactSection: {
-        eyebrow: 'NEXT STEP',
-        title: 'Host a charging point.',
-        mobileTitle: 'Host a charging point.',
-        description:
-          'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
-        mobileDescription:
-          'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.',
-        backgroundImage: chargingContactBgId,
-        cards: [
-          {
-            icon: 'phone',
-            title: '1800 000 0000',
-            detail: '9 am to 8 pm Monday to Saturday',
-            mobileOrder: 'order-1',
-          },
-          {
-            icon: 'email',
-            title: 'partners@eulermotors.com',
-            detail: 'For charging and depot partners',
-            mobileOrder: 'order-2',
-          },
-          {
-            icon: 'location',
-            title: 'Find your nearest dealer',
-            detail: '112 locations, 24 states',
-            mobileOrder: 'order-3',
-          },
-        ],
-        form: {
-          heading: 'Book a test drive',
-          subheading: 'Two steps. We call you within one working day.',
-          nameLabel: 'Name',
-          namePlaceholder: 'Full name',
-          nameRequired: true,
-          mobileLabel: 'Mobile number',
-          mobilePlaceholder: '10 digit',
-          mobileRequired: true,
-          cityLabel: 'City',
-          cityPlaceholder: 'Mumbai',
-          cityRequired: true,
-          dropdownLabel: 'What you have',
-          dropdownOptions: 'Petrol Pump, Warehouse, Land',
-          dropdownRequired: false,
-          ctaLabel: 'Send enquiry',
-          privacyNotice: 'Euler Motors may contact me about this enquiry.',
-          disclaimer: 'We never share your number with anyone else. No spam calls.',
-        },
-        formHeading: 'Book a test drive',
-        formSubheading: 'Two steps. We call you within one working day.',
-        nameLabel: 'Name',
-        namePlaceholder: 'Full name',
-        nameRequired: true,
-        mobileLabel: 'Mobile number',
-        mobilePlaceholder: '10 digit',
-        mobileRequired: true,
-        cityLabel: 'City',
-        cityPlaceholder: 'Mumbai',
-        cityRequired: true,
-        dropdownLabel: 'What you have',
-        dropdownOptions: 'Petrol Pump, Warehouse, Land',
-        dropdownRequired: false,
-        ctaLabel: 'Send enquiry',
-        privacyNotice: 'Euler Motors may contact me about this enquiry.',
-        disclaimer: 'We never share your number with anyone else. No spam calls.',
-      },
-      partnersSection: {
-        eyebrow: 'PARTNERS AND INVESTORS',
-        title: 'Trusted network partners',
-        partners: [
-          {
-            name: 'QRG',
-            logo: partnerQrgId,
-          },
-          {
-            name: 'Moglix',
-            logo: partnerMoglixId,
-          },
-          {
-            name: 'JETTY Ventures',
-            logo: partnerJettyId,
-          },
-          {
-            name: 'BLUME',
-            logo: partnerBlumeId,
-          },
-          {
-            name: 'GIC',
-            logo: partnerGicId,
-          },
-        ],
       },
       seo: {
         metaTitle: 'Find an Euler Motors Dealer, Charging Station, or Service Center Near You',
@@ -1564,25 +1529,37 @@ export async function seedStrapi(strapi: any) {
     const chargingStationsPageData = {
       hero: {
         supportBadge: 'Support',
+        dealerTabLabel: 'Dealer Locator',
         dealerTabTitle: 'Find your nearest Euler showroom',
         dealerTabSubtitle:
           'Explore our showroom network to find the right team for vehicle enquiries, purchases, and support near you.',
         dealerSearchPlaceholder: 'Search dealers by area',
+        chargingTabLabel: 'Charging Stations',
         chargingTabTitle: 'Find a charging station near you.',
         chargingTabSubtitle: 'Locate nearby charging points and plan your next stop with confidence.',
         chargingSearchPlaceholder: 'Search charging points by area',
+        serviceTabLabel: 'Service Centers',
         serviceTabTitle: 'Find a service centre near you.',
         serviceTabSubtitle:
           'Get the right support for your Euler vehicle, from routine maintenance to service and repairs.',
         serviceSearchPlaceholder: 'Search service centers by area',
         cities: 'Hyderabad, Delhi NCR, Bengaluru, Mumbai, Ahmedabad, Kolkata',
+        defaultCity: 'Mumbai',
+        locationButtonLabel: 'Use my current location',
+        dealerResultsLabel: 'Dealers Found',
+        chargingResultsLabel: 'Charging Points',
+        serviceResultsLabel: 'Service Centers Found',
+        directionsButtonLabel: 'Get Directions',
+        distanceUnit: 'km',
+        emptyStateText: 'No matching locations found.',
+        mapImage: dealerMapId,
         dealers: dealerIds,
         chargingStations: chargingStationIds,
         serviceCenters: serviceCenterIds,
       },
-      partnersSection: dealerLocatorPageData.partnersSection,
-      faqSection: dealerLocatorPageData.faqSection,
-      chargingContactSection: dealerLocatorPageData.chargingContactSection,
+      partnersSection: sharedPartnersSection,
+      faqSection: sharedChargingFaqSection,
+      chargingContactSection: sharedChargingContactSection,
       seo: {
         metaTitle: 'Find an EV Charging Point Across India | Euler Motors',
         metaDescription: '1,412 fast charging points across India, with live status on each one.',
@@ -1615,6 +1592,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Engineering',
         location: 'New Delhi',
         experience: '5 to 8 years',
+        employmentType: 'Full time',
         description: 'Own the thermal and cell balancing behaviour of the pack across our range.',
         slug: 'senior-engineer-battery-systems',
         isActive: true,
@@ -1626,6 +1604,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Manufacturing',
         location: 'New Delhi',
         experience: '3 to 6 years',
+        employmentType: 'Full time',
         description: 'Improve the assembly line that builds every Euler vehicle, one station at a time.',
         slug: 'manufacturing-engineer-assembly',
         isActive: true,
@@ -1637,6 +1616,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Sales',
         location: 'Chennai',
         experience: '4 to 8 years',
+        employmentType: 'Full time',
         description: 'Drive commercial vehicle fleet adoption with enterprise logistics and cargo clients across South India.',
         slug: 'fleet-sales-manager',
         isActive: true,
@@ -1648,6 +1628,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Software',
         location: 'Bengaluru',
         experience: '5 to 8 years',
+        employmentType: 'Full time',
         description: 'Architect vehicle telematics, BMS integration, and real-time charging telemetry platforms.',
         slug: 'lead-firmware-engineer-iot',
         isActive: true,
@@ -1659,6 +1640,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Manufacturing',
         location: 'Pune',
         experience: '3 to 6 years',
+        employmentType: 'Full time',
         description: 'Implement endurance testing and quality control for commercial electric drive trains.',
         slug: 'qa-engineer-powertrain',
         isActive: true,
@@ -1670,6 +1652,7 @@ export async function seedStrapi(strapi: any) {
         department: 'Service',
         location: 'Mumbai',
         experience: '4 to 8 years',
+        employmentType: 'Full time',
         description: 'Lead regional service depot operations, warranty resolution, and depot technician readiness.',
         slug: 'regional-service-manager',
         isActive: true,
@@ -1678,21 +1661,24 @@ export async function seedStrapi(strapi: any) {
       },
     ];
 
+    const seededPositionDocIds: string[] = [];
     for (const pos of careerPositionsData) {
       const existing = await strapi.documents('api::career-position.career-position').findFirst({
         filters: { slug: pos.slug },
       });
       if (!existing) {
-        await strapi.documents('api::career-position.career-position').create({
+        const created = await strapi.documents('api::career-position.career-position').create({
           data: pos,
           status: 'published',
         });
+        seededPositionDocIds.push(created.documentId);
       } else {
-        await strapi.documents('api::career-position.career-position').update({
+        const updated = await strapi.documents('api::career-position.career-position').update({
           documentId: existing.documentId,
           data: pos,
           status: 'published',
         });
+        seededPositionDocIds.push(updated.documentId);
       }
     }
     strapi.log.info('[Seeder] Populated Career Positions collection entries successfully!');
@@ -1704,7 +1690,6 @@ export async function seedStrapi(strapi: any) {
       galleryTeamId,
       galleryTeamWorkId,
       galleryWorkspaceId,
-      galleryDocShowcaseId,
     ].filter(Boolean);
 
     const careersPageData = {
@@ -1790,6 +1775,7 @@ export async function seedStrapi(strapi: any) {
         title: 'Find Your Place at Euler.',
         subtitle:
           'Explore opportunities across teams and locations. Find a role that matches your skills and helps shape the future of electric mobility.',
+        positions: seededPositionDocIds,
       },
       gallerySection: {
         eyebrow: 'LIFE AT EULER',
@@ -1852,6 +1838,9 @@ export async function seedStrapi(strapi: any) {
       });
       strapi.log.info(`[Seeder] Updated Careers Page singleType successfully! (${updated.documentId})`);
     }
+
+    // 4.6. Seed Technology Page Single Type
+    await seedTechnologyPage(strapi);
 
     // 5. Grant Public Read Permissions in users-permissions plugin
     const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
@@ -1921,5 +1910,585 @@ export async function seedStrapi(strapi: any) {
     strapi.log.error(`[Seeder] Error during seeding: ${error.message}`);
     fs.writeFileSync('./seed.log', `ERROR: ${error.message}\n${error.stack}\n`);
     console.error(error);
+  }
+}
+
+/**
+ * Targeted Technology Page Seeder
+ * Uploads Technology Page WebP assets and creates/publishes `api::technology-page.technology-page`
+ * without disturbing existing data on other pages.
+ */
+export async function seedTechnologyPage(strapi: any) {
+  strapi.log.info('[Seeder] Starting Technology Page singleType seeding...');
+
+  async function resolveExistingOrUpload(relPath: string, targetFilename: string, altText: string) {
+    const existing = await strapi.query('plugin::upload.file').findOne({
+      where: { name: targetFilename },
+    });
+    if (existing) return existing.id;
+    return uploadMediaIfMissing(strapi, relPath, targetFilename, altText);
+  }
+
+  // Reused Technology media IDs (17..23 if already uploaded)
+  const mfgPlantImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/mfg__imgRectangle1618873365.png',
+    'mfg-plant.webp',
+    'Euler Motors Manufacturing Facility'
+  );
+  const shepDashboardImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/shep__imgImage749.png',
+    'shepherd-dashboard.webp',
+    'Shepherd Fleet Dashboard'
+  );
+  const loadDriveImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/load-card-drive-exact.png',
+    'load-card-drive.webp',
+    'Euler Full Load Drive Performance'
+  );
+  const loadPayloadImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/load-card-payload-exact.png',
+    'load-card-payload.webp',
+    'Euler Heavy Payload Handling'
+  );
+  const kvMotorImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/kv__imgChatGpt2.png',
+    'kv-motor.webp',
+    'Euler Electric Motor'
+  );
+  const kvBatteryImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/kv__imgChatGpt3.png',
+    'kv-battery.webp',
+    'Euler Liquid Cooled Battery'
+  );
+  const kvChargingImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/kv__imgChatGpt4.png',
+    'kv-charging.webp',
+    'Euler Fast Charging'
+  );
+
+  // Dedicated Technology Page WebP assets
+  const techHeroDesktopImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/tech-hero-desktop.webp',
+    'tech-hero-desktop.webp',
+    'Euler Motors Technology Hero'
+  );
+  const techHeroMobileImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/tech-hero-mobile.webp',
+    'tech-hero-mobile.webp',
+    'Euler Motors Technology Mobile Hero'
+  );
+  const philCostIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/philosophy-cost.webp',
+    'tech-philosophy-cost.webp',
+    'Lower Running Cost'
+  );
+  const philDowntimeIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/philosophy-downtime.webp',
+    'tech-philosophy-downtime.webp',
+    'Less Downtime'
+  );
+  const philServiceIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/philosophy-service.webp',
+    'tech-philosophy-service.webp',
+    'Easy to Service'
+  );
+  const roadDustIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/road-dust.webp',
+    'tech-road-dust.webp',
+    'Dust Protection IP67'
+  );
+  const roadRainIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/road-rain.webp',
+    'tech-road-rain.webp',
+    'Monsoon & Water Sealing'
+  );
+  const roadLoadIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/road-load.webp',
+    'tech-road-load.webp',
+    'Heavy Load Steel Frame'
+  );
+  const roadDailyIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/road-daily.webp',
+    'tech-road-daily.webp',
+    'Daily Commercial Use'
+  );
+  const roadHeatIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/road-heat.webp',
+    'tech-road-heat.webp',
+    'Liquid Cooling Heat Management'
+  );
+  const kvDiagramImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/tech-kv-diagram.webp',
+    'tech-kv-diagram.webp',
+    'Euler Commercial EV Component Diagram'
+  );
+  const chargingShowcaseImgId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/tech-charging-showcase.webp',
+    'tech-charging-showcase.webp',
+    'Euler Charging Station Setup'
+  );
+  const techFaqImgId = await resolveExistingOrUpload(
+    'public/assets/charging-station-faq/location-map.webp',
+    'tech-faq-support.webp',
+    'Customer support team member helping with a vehicle question'
+  );
+  const shepLiveTrackingIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-live-tracking.webp',
+    'shep-live-tracking.webp',
+    'Live tracking icon'
+  );
+  const shepTripHistoryIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-trip-history.webp',
+    'shep-trip-history.webp',
+    'Trip history icon'
+  );
+  const shepChargingStatusIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-charging-status.webp',
+    'shep-charging-status.webp',
+    'Charging status icon'
+  );
+  const shepVehicleHealthIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-vehicle-health.webp',
+    'shep-vehicle-health.webp',
+    'Vehicle Health & Service icon'
+  );
+  const shepRemoteDiagIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-remote-diagnostics.webp',
+    'shep-remote-diagnostics.webp',
+    'Remote diagnostics icon'
+  );
+  const shepPerfReportsIconId = await resolveExistingOrUpload(
+    'public/assets/technology-page/icons/shep-performance-reports.webp',
+    'shep-performance-reports.webp',
+    'Performance reports icon'
+  );
+
+  // Link published Customer Reviews cleanly
+  const publishedReviews = await strapi.documents('api::review.review').findMany({
+    status: 'published',
+    sort: 'order:asc',
+  });
+  const reviewDocIds = Array.from(
+    new Set(publishedReviews.map((r: any) => r.documentId).filter(Boolean))
+  );
+
+  const technologyPageData = {
+    hero: {
+      eyebrow: 'Technology',
+      title: 'Built Smarter.\nBuilt for Business.',
+      subtitle: 'Every innovation is designed for everyday business.',
+      cta: {
+        label: 'Book a test drive',
+        href: '/products',
+        variant: 'primary',
+      },
+      desktopImage: techHeroDesktopImgId,
+      mobileImage: techHeroMobileImgId,
+      uptimeValue: '96.4',
+      uptimeUnit: '%',
+      uptimeDescription: 'Fleet uptime last year, across 15,000 vehicles',
+      philosophyEyebrow: 'Philosophy',
+      philosophyTitle: 'Technology That Helps You Earn More',
+      philosophyDescription:
+        "A commercial vehicle is part of your business. That's why every technology we build is designed to reduce costs.",
+      philosophyCards: [
+        {
+          title: 'Lower Running Cost',
+          description: 'Spend less on every kilometre you drive.',
+          icon: philCostIconId,
+        },
+        {
+          title: 'Less Downtime',
+          description: 'Built for reliable everyday performance.',
+          icon: philDowntimeIconId,
+        },
+        {
+          title: 'Easy to Service',
+          description: 'Quick repairs and readily available support.',
+          icon: philServiceIconId,
+        },
+      ],
+    },
+    loadSection: {
+      eyebrow: 'Load',
+      title: 'Rated with weight on it.',
+      subtitle: 'Payload, range and gradient are quoted loaded. Empty numbers help nobody.',
+      cards: [
+        {
+          eyebrow: 'Load',
+          title: 'Rated with weight on it.',
+          description: 'Payload, range and gradient are quoted\nloaded. Empty numbers help nobody.',
+          image: loadDriveImgId,
+          statValue: '1,500',
+          statUnit: 'kg',
+          statLabel: 'payload, rated',
+        },
+        {
+          eyebrow: 'Payload',
+          title: 'Carry More Every Trip',
+          description: 'Built to carry heavy loads without compromising performance.',
+          image: loadPayloadImgId,
+          statValue: '1,500',
+          statUnit: 'kg',
+          statLabel: 'Maximum Payload',
+        },
+      ],
+    },
+    indianRoads: {
+      eyebrow: 'Built for here',
+      title: 'Built for Indian roads.',
+      subtitle:
+        'From busy city streets to uneven roads and heavy loads, every detail is built to perform.',
+      problemLabel: 'The problem',
+      solutionLabel: 'What Euler does',
+      cards: [
+        {
+          condition: 'Dust',
+          problem: 'Dust gets into everything and kills electronics.',
+          solution: 'The battery box and motor are sealed to IP67. Dust stays outside.',
+          icon: roadDustIconId,
+        },
+        {
+          condition: 'Rain',
+          problem: 'Flooded roads stop work for days every monsoon.',
+          solution: 'The pack is water sealed and the floor is raised. You keep running.',
+          icon: roadRainIconId,
+        },
+        {
+          condition: 'Heavy loads',
+          problem: 'Overloading is normal, and it breaks lighter vehicles.',
+          solution: 'A steel frame rated well past the load on the paperwork.',
+          icon: roadLoadIconId,
+        },
+        {
+          condition: 'Daily use',
+          problem: 'Two shifts a day wears a vehicle out fast.',
+          solution: 'Tested to 200,000 km. Service every 10,000, not every month.',
+          icon: roadDailyIconId,
+        },
+        {
+          condition: 'Heat',
+          problem: 'Forty five degrees drains a battery and shortens its life.',
+          solution: 'Liquid cooling holds the pack in its safe range all summer.',
+          icon: roadHeatIconId,
+        },
+      ],
+    },
+    manufacturing: {
+      eyebrow: 'Manufacturing',
+      title: 'Where Every Vehicle Begins',
+      description:
+        'Packs, drivetrains and final assembly in one building, so a fault found in the field reaches the line that made it.',
+      mainImage: mfgPlantImgId,
+      mobileImage: mfgPlantImgId,
+      videoUrl: '',
+      videoBadgeLabel: 'Factory film',
+      videoBadgeTag: '',
+    },
+    knowVehicle: {
+      eyebrow: 'The parts',
+      title: 'Know Your Vehicle Better',
+      subtitle: 'Understand what each key part does and how it helps you on every trip.',
+      vehicleImage: kvDiagramImgId,
+      whatIsItLabel: 'WHAT IS IT',
+      whyMatterLabel: 'WHY DOES IT MATTER',
+      businessMeaningLabel: 'WHAT IT MEANS FOR YOUR BUSINESS',
+      parts: [
+        {
+          partName: 'Motor',
+          title: 'Full loads, from standstill.',
+          whatIsIt: 'A motor that makes its pulling power from zero, with no gearbox.',
+          whyDoesItMatter: 'City work is stop and start all day, with weight on board.',
+          businessMeaning: 'Up a flyover loaded, without dropping a trip from the route.',
+          icon: kvMotorImgId,
+        },
+        {
+          partName: 'Battery',
+          title: 'Full range, even in garmi.',
+          whatIsIt: 'The Euler battery is water cooled.',
+          whyDoesItMatter: 'Batteries lose range above 40 degrees.',
+          businessMeaning: 'It maintains range year-round.',
+          icon: kvBatteryImgId,
+        },
+        {
+          partName: 'Charging',
+          title: 'Where will I charge?',
+          whatIsIt: 'Different businesses have different charging needs.',
+          whyDoesItMatter: 'Choose the charging setup that works best for your operations.',
+          businessMeaning: 'Find compatible charging stations in the Euler app.',
+          icon: kvChargingImgId,
+        },
+      ],
+    },
+    chargingSection: {
+      eyebrow: 'Charging',
+      title: 'Where Will I Charge?',
+      subtitle:
+        'Different businesses have different needs. Choose the charging setup that works best for your operations.',
+      homeTabLabel: 'Home',
+      publicTabLabel: 'Public',
+      homeImage: chargingShowcaseImgId,
+      publicImage: chargingShowcaseImgId,
+      actionTiles: [
+        {
+          title: 'How it works',
+          subtitle: 'Find it on the app',
+          href: '/products',
+          iconType: 'app',
+        },
+        {
+          title: 'Charging stations',
+          subtitle: 'Find a charging point',
+          href: '/charging-stations',
+          iconType: 'station',
+        },
+      ],
+      dosTitle: "Do's",
+      dos: [
+        { text: 'Charge conveniently at home or work whenever possible.' },
+        { text: 'Always use verified and compatible charging points.' },
+        { text: 'Plan your charging stops before the battery runs low.' },
+      ],
+      dontsTitle: "Don'ts",
+      donts: [
+        { text: 'Avoid using unsuitable sockets or unverified charging setups.' },
+        { text: 'Never wait until the battery is completely empty.' },
+        { text: "Don't skip planning your route around charging points." },
+      ],
+    },
+    faqSection: {
+      eyebrow: 'FAQ',
+      title: 'Frequently asked questions',
+      subtitle:
+        'Find answers to the most common questions about our vehicles, charging, service, warranty and more.',
+      allCategoryLabel: 'All',
+      image: techFaqImgId,
+      items: [
+        {
+          question: 'How long does it take to fully charge an EV?',
+          answer:
+            'Charging time varies by battery capacity and charger type. Using a DC fast charger, you can reach 80% charge in about 30 to 45 minutes, while standard AC charging takes 4 to 6 hours.',
+          category: 'General, Charging',
+        },
+        {
+          question: 'What types of charging stations are available?',
+          answer:
+            'There are three main types: Level 1 (standard household outlet), Level 2 (dedicated home or public charger), and DC fast charging (rapid public stations).',
+          category: 'Charging',
+        },
+        {
+          question: 'Can I charge my EV at home?',
+          answer:
+            'Yes, you can charge your EV at home using a standard 15A wall socket or with an installed dedicated Level 2 wall-box charger for faster overnight charging.',
+          category: 'General, Charging',
+        },
+        {
+          question: 'How much does it cost to charge an electric vehicle?',
+          answer:
+            'Charging costs depend on local electricity tariffs. On average, commercial EV charging costs between ₹1.2 to ₹1.8 per kilometer, which is significantly lower than petrol or diesel.',
+          category: 'General, Charging',
+        },
+        {
+          question: 'How do I find nearby charging stations?',
+          answer:
+            'You can locate nearby compatible charging stations directly in the Euler mobile app with real-time station availability, navigation directions, and socket types.',
+          category: 'Charging',
+        },
+        {
+          question: 'Is it safe to charge in the rain?',
+          answer:
+            'Yes, it is completely safe. EV charging plugs and vehicle inlets are weatherproof (rated IP65/IP67) with built-in safety interlocks that prevent power flow until a secure seal is confirmed.',
+          category: 'General, Charging',
+        },
+      ],
+    },
+    shepherdSection: {
+      eyebrow: 'Shepherd app',
+      title: 'Manage Everything in One Place',
+      subtitle:
+        'Track your vehicles, battery, trips, charging and service updates from one simple dashboard.',
+      appImage: shepDashboardImgId,
+      cta: {
+        label: 'Download the app',
+        href: '/products',
+        variant: 'outline',
+      },
+      secondaryCta: {
+        label: 'See how it connects',
+        href: '/products',
+        variant: 'primary',
+      },
+      features: [
+        {
+          title: 'Live tracking',
+          description: 'Where every vehicle is, updated every ten seconds.',
+          icon: shepLiveTrackingIconId,
+        },
+        {
+          title: 'Trip history',
+          description: 'Every trip, stop and time on site, per driver.',
+          icon: shepTripHistoryIconId,
+        },
+        {
+          title: 'Charging status',
+          description: 'What is charging, how far along, and when it is done.',
+          icon: shepChargingStatusIconId,
+        },
+        {
+          title: 'Vehicle Health & Service',
+          description: 'Monitor vehicle health and service reminders in one place.',
+          icon: shepVehicleHealthIconId,
+        },
+        {
+          title: 'Remote diagnostics',
+          description: 'Fault codes read from your depot, not from a workshop.',
+          icon: shepRemoteDiagIconId,
+        },
+        {
+          title: 'Performance reports',
+          description: 'Trips, distance, uptime and cost per kilometre.',
+          icon: shepPerfReportsIconId,
+        },
+      ],
+    },
+    proofSection: {
+      eyebrow: 'Proof',
+      title: 'Why businesses trust Euler.',
+      stats: [
+        { value: '96.4', unit: '%', label: 'Fleet uptime' },
+        { value: '1,412', unit: '', label: 'Charging points' },
+        { value: '15,000', unit: '+', label: 'Vehicles on the road' },
+        { value: '480', unit: 'M', label: 'Kilometres driven' },
+      ],
+    },
+    reviewsSection: {
+      eyebrow: 'Customers',
+      title: 'Customer reviews',
+      description: 'Watch real customers share their experience with Euler Motors.',
+      reviews: reviewDocIds,
+    },
+    contactSection: {
+      eyebrow: 'Next step',
+      title: 'Tell us what you need!',
+      description:
+        'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.',
+      phone: '1800 000 0000',
+      email: 'fleet@eulermotors.com',
+      form: {
+        heading: 'What are you looking for?',
+        subheading: 'Two steps. We call you within one working day.',
+        vehicleOptions:
+          'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
+        tabs: [
+          {
+            tabTitle: 'Test drive',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Kilometres per day',
+            customFieldPlaceholder: '150',
+            customFieldRequired: true,
+            ctaLabel: 'Confirm test drive',
+          },
+          {
+            tabTitle: 'Price enquiry',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Quantity of vehicles',
+            customFieldPlaceholder: '5',
+            customFieldRequired: true,
+            ctaLabel: 'Get price list',
+          },
+          {
+            tabTitle: 'Fleet solutions',
+            nameLabel: 'Company name',
+            namePlaceholder: 'Company',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Fleet size',
+            customFieldPlaceholder: 'Number of vehicles',
+            customFieldRequired: true,
+            ctaLabel: 'Talk to our fleet team',
+          },
+        ],
+        privacyNotice:
+          'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
+        disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+    },
+    seo: {
+      metaTitle: 'Technology | Euler Motors',
+      metaDescription:
+        'Commercial EV engineering built smarter for Indian roads, liquid-cooled battery reliability, fast charging, and the Shepherd fleet platform.',
+      keywords:
+        'euler motors technology, liquid cooled battery, commercial ev engineering, shepherd app, ip67 electric vehicle',
+    },
+  };
+
+  const existingTechPage = await strapi.documents('api::technology-page.technology-page').findFirst({
+    fields: ['documentId'],
+  });
+  if (!existingTechPage) {
+    const created = await strapi.documents('api::technology-page.technology-page').create({
+      data: technologyPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Created Technology Page singleType successfully! (${created.documentId})`);
+  } else {
+    const updated = await strapi.documents('api::technology-page.technology-page').update({
+      documentId: existingTechPage.documentId,
+      data: technologyPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Updated Technology Page singleType successfully! (${updated.documentId})`);
+  }
+
+  // Ensure Public Role has permission for Technology Page
+  const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
+    where: { type: 'public' },
+  });
+  if (publicRole) {
+    const perm = await strapi.query('plugin::users-permissions.permission').findOne({
+      where: { action: 'api::technology-page.technology-page.find' },
+    });
+    if (perm) {
+      const knex = strapi.db.connection;
+      const link = await knex('up_permissions_role_lnk')
+        .where({ permission_id: perm.id, role_id: publicRole.id })
+        .first();
+      if (!link) {
+        await knex('up_permissions_role_lnk').insert({
+          permission_id: perm.id,
+          role_id: publicRole.id,
+        });
+      }
+    }
   }
 }

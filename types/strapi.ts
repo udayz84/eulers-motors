@@ -244,6 +244,7 @@ export interface HomeContactFormData extends Partial<FormTabFields> {
   ctaLabel?: string;
   privacyNotice?: string;
   disclaimer?: string;
+  thankYouMessage?: string;
 }
 
 export interface HomePageData {
@@ -326,6 +327,7 @@ export interface StrapiDealer {
   city?: string;
   state?: string;
   hours?: string;
+  operatingDays?: string;
   distance?: string;
   phone?: string;
   badges?: string[];
@@ -340,6 +342,7 @@ export interface StrapiChargingStation {
   address: string;
   city?: string;
   hours?: string;
+  operatingDays?: string;
   distance?: string;
   phone?: string;
   badges?: string[];
@@ -354,6 +357,7 @@ export interface StrapiServiceCenter {
   address: string;
   city?: string;
   hours?: string;
+  operatingDays?: string;
   distance?: string;
   phone?: string;
   badges?: string[];
@@ -363,6 +367,8 @@ export interface StrapiServiceCenter {
 export interface DealerContactCard {
   id?: number;
   icon: string;
+  iconMedia?: StrapiMedia | string;
+  mobileIconMedia?: StrapiMedia | string;
   title: string;
   detail: string;
   mobileOrder?: string;
@@ -388,20 +394,33 @@ export interface DealerContactSectionData extends Partial<FormTabFields> {
   ctaLabel?: string;
   privacyNotice?: string;
   disclaimer?: string;
+  thankYouMessage?: string;
 }
 
 export interface DealerLocatorHeroData {
   supportBadge?: string;
+  dealerTabLabel?: string;
   dealerTabTitle?: string;
   dealerTabSubtitle?: string;
   dealerSearchPlaceholder?: string;
+  chargingTabLabel?: string;
   chargingTabTitle?: string;
   chargingTabSubtitle?: string;
   chargingSearchPlaceholder?: string;
+  serviceTabLabel?: string;
   serviceTabTitle?: string;
   serviceTabSubtitle?: string;
   serviceSearchPlaceholder?: string;
   cities?: string[] | string;
+  defaultCity?: string;
+  locationButtonLabel?: string;
+  dealerResultsLabel?: string;
+  chargingResultsLabel?: string;
+  serviceResultsLabel?: string;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+  emptyStateText?: string;
+  mapImage?: StrapiMedia | string;
   dealers?: StrapiDealer[];
   chargingStations?: StrapiChargingStation[];
   serviceCenters?: StrapiServiceCenter[];
@@ -443,6 +462,7 @@ export interface ChargingFormData {
   ctaLabel?: string;
   privacyNotice?: string;
   disclaimer?: string;
+  thankYouMessage?: string;
 }
 
 export interface ChargingContactSectionData {
@@ -472,6 +492,7 @@ export interface ChargingContactSectionData {
   ctaLabel?: string;
   privacyNotice?: string;
   disclaimer?: string;
+  thankYouMessage?: string;
 }
 
 export interface PartnerLogoItem {
@@ -495,9 +516,16 @@ export interface DealerLocatorPageData {
   documentId?: string;
   hero?: DealerLocatorHeroData;
   contactSection?: DealerContactSectionData;
-  chargingContactSection?: ChargingContactSectionData;
+  seo?: StrapiSEO;
+}
+
+export interface ChargingStationsPageData {
+  id?: number;
+  documentId?: string;
+  hero?: DealerLocatorHeroData;
   partnersSection?: PartnersSectionData;
   faqSection?: StrapiFaqSection;
+  chargingContactSection?: ChargingContactSectionData;
   seo?: StrapiSEO;
 }
 
@@ -538,6 +566,7 @@ export interface StrapiCareerPositionsSection {
   eyebrow?: string;
   title?: string;
   subtitle?: string;
+  positions?: StrapiCareerPosition[];
 }
 
 export interface StrapiCareerGallerySection {
@@ -591,11 +620,196 @@ export interface StrapiCareerPosition {
   department: string;
   location: string;
   experience?: string;
+  employmentType?: string;
   description: string;
   slug: string;
   isActive?: boolean;
   applyUrl?: string;
   order?: number;
+}
+
+/**
+ * Technology Page Single Type Types
+ */
+export interface StrapiTechnologyPhilosophyCard {
+  id?: number;
+  title: string;
+  description: string;
+  icon?: StrapiMedia | string;
+}
+
+export interface StrapiTechnologyHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  cta?: StrapiCTA;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+  uptimeValue?: string;
+  uptimeUnit?: string;
+  uptimeDescription?: string;
+  philosophyEyebrow?: string;
+  philosophyTitle?: string;
+  philosophyDescription?: string;
+  philosophyCards?: StrapiTechnologyPhilosophyCard[];
+}
+
+export interface StrapiTechnologyLoadCard {
+  id?: number;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  image?: StrapiMedia | string;
+  statValue?: string;
+  statUnit?: string;
+  statLabel?: string;
+}
+
+export interface StrapiTechnologyLoadSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  cards?: StrapiTechnologyLoadCard[];
+}
+
+export interface StrapiTechnologyRoadConditionCard {
+  id?: number;
+  condition: string;
+  problem: string;
+  solution: string;
+  icon?: StrapiMedia | string;
+}
+
+export interface StrapiTechnologyIndianRoadsSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  problemLabel?: string;
+  solutionLabel?: string;
+  cards?: StrapiTechnologyRoadConditionCard[];
+}
+
+export interface StrapiTechnologyManufacturingSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  mainImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+  videoUrl?: string;
+  videoBadgeLabel?: string;
+  videoBadgeTag?: string;
+}
+
+export interface StrapiTechnologyVehiclePart {
+  id?: number;
+  partName: string;
+  title: string;
+  whatIsIt: string;
+  whyDoesItMatter: string;
+  businessMeaning: string;
+  icon?: StrapiMedia | string;
+}
+
+export interface StrapiTechnologyKnowVehicleSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  vehicleImage?: StrapiMedia | string;
+  whatIsItLabel?: string;
+  whyMatterLabel?: string;
+  businessMeaningLabel?: string;
+  parts?: StrapiTechnologyVehiclePart[];
+}
+
+export interface StrapiTechnologyChargingTile {
+  id?: number;
+  title: string;
+  subtitle?: string;
+  href: string;
+  iconType?: "app" | "station";
+}
+
+export interface StrapiTechnologyChargingRule {
+  id?: number;
+  text: string;
+}
+
+export interface StrapiTechnologyChargingSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  homeTabLabel?: string;
+  publicTabLabel?: string;
+  homeImage?: StrapiMedia | string;
+  publicImage?: StrapiMedia | string;
+  actionTiles?: StrapiTechnologyChargingTile[];
+  dosTitle?: string;
+  dos?: StrapiTechnologyChargingRule[];
+  dontsTitle?: string;
+  donts?: StrapiTechnologyChargingRule[];
+}
+
+export interface StrapiTechnologyFaqItem {
+  id?: number;
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+export interface StrapiTechnologyFaqSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  allCategoryLabel?: string;
+  image?: StrapiMedia | string;
+  items?: StrapiTechnologyFaqItem[];
+}
+
+export interface StrapiTechnologyShepherdFeature {
+  id?: number;
+  title: string;
+  description: string;
+  icon?: StrapiMedia | string;
+}
+
+export interface StrapiTechnologyShepherdSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  appImage?: StrapiMedia | string;
+  cta?: StrapiCTA;
+  secondaryCta?: StrapiCTA;
+  features?: StrapiTechnologyShepherdFeature[];
+}
+
+export interface StrapiTechnologyProofSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  stats?: StrapiStat[];
+}
+
+export interface StrapiTechnologyPageData {
+  hero?: StrapiTechnologyHero;
+  loadSection?: StrapiTechnologyLoadSection;
+  indianRoads?: StrapiTechnologyIndianRoadsSection;
+  manufacturing?: StrapiTechnologyManufacturingSection;
+  knowVehicle?: StrapiTechnologyKnowVehicleSection;
+  chargingSection?: StrapiTechnologyChargingSection;
+  faqSection?: StrapiTechnologyFaqSection;
+  shepherdSection?: StrapiTechnologyShepherdSection;
+  proofSection?: StrapiTechnologyProofSection;
+  reviewsSection?: HomePageData["reviewsSection"];
+  contactSection?: HomePageData["contactSection"];
+  seo?: StrapiSEO;
 }
 
 /**

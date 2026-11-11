@@ -2,24 +2,40 @@
   "collectionName": "components_technology_load_cards",
   "info": {
     "displayName": "Load Card",
-    "icon": "truck",
-    "description": "Card showing payload capability"
+    "icon": "layers",
+    "description": "Engineering test card inside Load section"
   },
   "options": {},
   "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Load"
+    },
     "title": {
       "type": "string",
       "required": true
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "image": {
       "type": "media",
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
+    },
+    "statValue": {
+      "type": "string",
+      "default": "1,500"
+    },
+    "statUnit": {
+      "type": "string",
+      "default": "kg"
+    },
+    "statLabel": {
+      "type": "string",
+      "default": "payload, rated"
     }
   }
 }
-

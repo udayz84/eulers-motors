@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_technology_shepherd_features",
+  "info": {
+    "displayName": "Shepherd Feature",
+    "icon": "apps",
+    "description": "Individual telemetry/fleet management feature card in Shepherd section"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

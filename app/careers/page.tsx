@@ -1,33 +1,32 @@
-"use client";
-
-import { useState } from "react";
+import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
-import CareerBenefits from "@/components/sections/careers/CareerBenefits";
-import CareerGallery from "@/components/sections/careers/CareerGallery";
-import CareerHero from "@/components/sections/careers/CareerHero";
-import CareerOpenPositions from "@/components/sections/careers/CareerOpenPositions";
-import CareerSupport from "@/components/sections/careers/CareerSupport";
-import CareerTestimonials from "@/components/sections/careers/CareerTestimonials";
-import type { CareerFilters } from "@/components/sections/careers/types";
+import CareersClientView from "@/components/sections/careers/CareersClientView";
+import { getCareersPageData, getCareerPositions } from "@/lib/strapi/client";
 
-export default function CareersPage() {
-  const [filters, setFilters] = useState<CareerFilters>({
-    search: "",
-    department: "",
-    location: "",
-  });
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getCareersPageData();
+  const seo = data?.seo;
+  return {
+    title: seo?.metaTitle || "Euler Motors Careers",
+    description: seo?.metaDescription || "",
+    keywords: seo?.keywords || "",
+  };
+}
+
+export default async function CareersPage() {
+  const [data, positions] = await Promise.all([
+    getCareersPageData(),
+    getCareerPositions(),
+  ]);
 
   return (
     <>
       <Navbar />
       <main className="overflow-clip">
-        <CareerHero filters={filters} onChange={setFilters} />
-        <CareerBenefits />
-        <CareerSupport />
-        <CareerOpenPositions filters={filters} onChange={setFilters} />
-        <CareerGallery />
-        <CareerTestimonials />
+        <CareersClientView data={data} positions={positions} />
       </main>
       <Footer />
     </>

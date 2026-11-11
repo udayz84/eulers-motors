@@ -510,6 +510,8 @@ export interface ApiCareerPositionCareerPosition
     > &
       Schema.Attribute.Required;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
+    employmentType: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Full time'>;
     experience: Schema.Attribute.String;
     isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -619,6 +621,7 @@ export interface ApiChargingStationChargingStation
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    operatingDays: Schema.Attribute.String;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     phone: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'1800 000 0000'>;
@@ -674,7 +677,7 @@ export interface ApiDealerLocatorPageDealerLocatorPage
   extends Struct.SingleTypeSchema {
   collectionName: 'dealer_locator_pages';
   info: {
-    description: 'Dealer locator, charging network, service centers, and contact section';
+    description: 'Dealer locator hero, contact section, and SEO';
     displayName: 'Dealer Locator Page';
     pluralName: 'dealer-locator-pages';
     singularName: 'dealer-locator-page';
@@ -683,15 +686,10 @@ export interface ApiDealerLocatorPageDealerLocatorPage
     draftAndPublish: true;
   };
   attributes: {
-    chargingContactSection: Schema.Attribute.Component<
-      'dealer.charging-contact-section',
-      false
-    >;
     contactSection: Schema.Attribute.Component<'dealer.contact-section', false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
     hero: Schema.Attribute.Component<'dealer.hero', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -699,10 +697,6 @@ export interface ApiDealerLocatorPageDealerLocatorPage
       'api::dealer-locator-page.dealer-locator-page'
     > &
       Schema.Attribute.Private;
-    partnersSection: Schema.Attribute.Component<
-      'shared.partners-section',
-      false
-    >;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
@@ -739,6 +733,8 @@ export interface ApiDealerDealer extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    operatingDays: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mon - Fri'>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     phone: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'1800 000 0000'>;
@@ -940,6 +936,8 @@ export interface ApiServiceCenterServiceCenter
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    operatingDays: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mon - Sat'>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     phone: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'1800 000 0000'>;

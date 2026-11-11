@@ -6,7 +6,6 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import type { StrapiCareerTestimonialsSection } from "@/types/strapi";
-import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 import { mediaUrl } from "@/lib/strapi/client";
 
 type MappedTestimonial = {
@@ -15,30 +14,6 @@ type MappedTestimonial = {
   role: string;
   image: string;
 };
-
-const DEFAULT_TESTIMONIALS: MappedTestimonial[] = [
-  {
-    quote:
-      "Joined to work on advanced electric powertrains. Stayed because of the collaborative culture and freedom to innovate. The team here genuinely values engineering excellence and new ideas.",
-    name: "Rahul Deshmukh",
-    role: "Senior Engineer, Euler Motors",
-    image: "/assets/careers/testimonial-rahul.webp",
-  },
-  {
-    quote:
-      "Joined to build cutting-edge battery packs. Stayed because of the high trust and low bureaucracy. The ownership given to engineers here is rare in the EV sector.",
-    name: "Jahan Melad",
-    role: "Project Manager, Euler Motors",
-    image: "/assets/careers/testimonial-jahan.webp",
-  },
-  {
-    quote:
-      "Came here to solve real-world mobility challenges. Stayed because of the supportive leadership and meaningful work. Every project gives us the opportunity to build technology that makes a difference.",
-    name: "Priya Sharma",
-    role: "Manufacturing Lead, Euler Motors",
-    image: "/assets/careers/testimonial-priya.webp",
-  },
-];
 
 type CareerTestimonialsProps = {
   data?: StrapiCareerTestimonialsSection;
@@ -112,24 +87,16 @@ export default function CareerTestimonials({ data }: CareerTestimonialsProps) {
   const isInteractingRef = useRef(false);
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const eyebrow = data?.eyebrow || defaultCareersPageData.testimonialsSection?.eyebrow || "Employee voices";
-  const title = data?.title || defaultCareersPageData.testimonialsSection?.title || "What Our People Say";
-  const subtitle =
-    data?.subtitle ||
-    defaultCareersPageData.testimonialsSection?.subtitle ||
-    "Read unfiltered feedback and experiences shared by members of the Euler Motors tech, manufacturing, and support divisions.";
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const subtitle = data?.subtitle || "";
 
-  const testimonials: MappedTestimonial[] = data?.testimonials?.length
-    ? data.testimonials.map((t, idx) => {
-        const def = DEFAULT_TESTIMONIALS[idx % DEFAULT_TESTIMONIALS.length];
-        return {
-          quote: t.quote || def.quote,
-          name: t.name || def.name,
-          role: t.role || def.role,
-          image: t.image?.url ? mediaUrl(t.image.url, def.image) : def.image,
-        };
-      })
-    : DEFAULT_TESTIMONIALS;
+  const testimonials: MappedTestimonial[] = (data?.testimonials || []).map((t) => ({
+    quote: t.quote || "",
+    name: t.name || "",
+    role: t.role || "",
+    image: t.image?.url ? mediaUrl(t.image.url) : "",
+  }));
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;

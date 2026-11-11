@@ -2,39 +2,21 @@ import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
 import type { StrapiCareerGallerySection } from "@/types/strapi";
-import { defaultCareersPageData } from "@/lib/strapi/defaults/careers";
 import { mediaUrl } from "@/lib/strapi/client";
-
-const DEFAULT_GALLERY = [
-  { src: "/assets/careers/gallery-office.webp", alt: "A bright Euler Motors office space" },
-  { src: "/assets/careers/gallery-meeting-room.webp", alt: "A collaborative meeting space" },
-  { src: "/assets/careers/gallery-team.webp", alt: "Euler Motors colleagues working together" },
-  { src: "/assets/careers/gallery-team-work.webp", alt: "A team planning a project together" },
-  { src: "/assets/careers/gallery-workspace.webp", alt: "Colleagues walking through the office" },
-];
 
 type CareerGalleryProps = {
   data?: StrapiCareerGallerySection;
 };
 
 export default function CareerGallery({ data }: CareerGalleryProps) {
-  const eyebrow = data?.eyebrow || defaultCareersPageData.gallerySection?.eyebrow || "Inside the depots";
-  const title = data?.title || defaultCareersPageData.gallerySection?.title || "Life at Euler Motors";
-  const subtitle =
-    data?.subtitle ||
-    defaultCareersPageData.gallerySection?.subtitle ||
-    "From the assembly lines in New Delhi to real road testing across state lines — see what our day-to-day looks like.";
+  const eyebrow = data?.eyebrow || "";
+  const title = data?.title || "";
+  const subtitle = data?.subtitle || "";
 
-  const images = DEFAULT_GALLERY.map((def, idx) => {
-    const cmsImage = data?.images?.[idx];
-    if (cmsImage?.url) {
-      return {
-        src: mediaUrl(cmsImage.url, def.src),
-        alt: cmsImage.alternativeText || def.alt,
-      };
-    }
-    return def;
-  });
+  const images = (data?.images || []).map((cmsImage, idx) => ({
+    src: mediaUrl(cmsImage.url),
+    alt: cmsImage.alternativeText || `Euler Motors gallery image ${idx + 1}`,
+  }));
 
   return (
     <section
@@ -57,12 +39,11 @@ export default function CareerGallery({ data }: CareerGalleryProps) {
 
       <div
         id="career-gallery-row"
-        className="no-scrollbar -ml-5 flex h-[380px] w-[calc(100%+40px)] snap-x snap-mandatory scroll-pl-5 gap-[14px] self-start overflow-x-auto pl-5 lg:m-0 lg:h-[489.7px] lg:w-full lg:max-w-[1280px] lg:shrink-0 lg:gap-[17.97px] lg:self-auto lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
+        className="no-scrollbar -ml-5 flex h-[380px] w-[calc(100%+40px)] snap-x snap-mandatory scroll-pl-5 gap-[14px] self-start overflow-x-auto pl-5 pr-5 lg:m-0 lg:grid lg:h-auto lg:w-full lg:max-w-[1280px] lg:aspect-[1280/489.7] lg:grid-cols-[399.49fr_548.17fr_296.4fr] lg:gap-[18px] lg:self-auto lg:overflow-visible lg:p-0 lg:snap-none lg:scroll-pl-0"
         style={{
           touchAction: "pan-x pan-y",
           overscrollBehaviorX: "contain",
           overscrollBehaviorY: "auto",
-          paddingRight: "20px",
         }}
         onTouchMove={(e) => {
           const target = e.currentTarget;
@@ -79,55 +60,69 @@ export default function CareerGallery({ data }: CareerGalleryProps) {
         }}
         aria-label="Life at Euler Motors"
       >
-        <div className="relative h-full w-[310px] shrink-0 snap-start overflow-hidden rounded-[7px] lg:w-[399.49px] lg:rounded-[8.99px]">
-          <Image
-            src={images[0].src}
-            alt={images[0].alt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 767px) 310px, 400px"
-          />
-        </div>
-        <div className="flex h-full w-[426px] shrink-0 snap-start flex-col gap-[14px] lg:w-[548.17px] lg:gap-[18.04px]">
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-[7px] lg:flex-[1_1_0] lg:rounded-[8.99px]">
+        {images[0]?.src && (
+          <div className="relative h-full w-[310px] shrink-0 snap-start overflow-hidden rounded-[7px] lg:h-full lg:w-full lg:rounded-[8.99px]">
             <Image
-              src={images[1].src}
-              alt={images[1].alt}
+              src={images[0].src}
+              alt={images[0].alt}
               fill
               className="object-cover"
-              sizes="(max-width: 767px) 426px, 549px"
+              sizes="(max-width: 767px) 310px, 400px"
             />
           </div>
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-[7px] lg:flex-[0_0_265.95px] lg:rounded-[8.99px]">
-            <Image
-              src={images[2].src}
-              alt={images[2].alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 767px) 426px, 549px"
-            />
+        )}
+        {(images[1]?.src || images[2]?.src) && (
+          <div className="flex h-full w-[426px] shrink-0 snap-start flex-col gap-[14px] lg:grid lg:h-full lg:w-full lg:grid-rows-[205.71fr_265.95fr] lg:gap-[18px]">
+            {images[1]?.src && (
+              <div className="relative min-h-0 flex-1 overflow-hidden rounded-[7px] lg:h-full lg:w-full lg:rounded-[8.99px]">
+                <Image
+                  src={images[1].src}
+                  alt={images[1].alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 767px) 426px, 549px"
+                />
+              </div>
+            )}
+            {images[2]?.src && (
+              <div className="relative min-h-0 flex-1 overflow-hidden rounded-[7px] lg:h-full lg:w-full lg:rounded-[8.99px]">
+                <Image
+                  src={images[2].src}
+                  alt={images[2].alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 767px) 426px, 549px"
+                />
+              </div>
+            )}
           </div>
-        </div>
-        <div className="flex h-full w-[296px] shrink-0 snap-start flex-col gap-[14px] lg:w-[296.4px] lg:gap-[18.04px]">
-          <div className="relative min-h-0 flex-[1.15] overflow-hidden rounded-[7px] lg:flex-[0_0_331px] lg:rounded-[8.99px]">
-            <Image
-              src={images[3].src}
-              alt={images[3].alt}
-              fill
-              className="object-cover object-bottom"
-              sizes="(max-width: 767px) 296px, 296px"
-            />
+        )}
+        {(images[3]?.src || images[4]?.src) && (
+          <div className="flex h-full w-[296px] shrink-0 snap-start flex-col gap-[14px] lg:grid lg:h-full lg:w-full lg:grid-rows-[331fr_140.66fr] lg:gap-[18px]">
+            {images[3]?.src && (
+              <div className="relative min-h-0 flex-[1.15] overflow-hidden rounded-[7px] lg:h-full lg:w-full lg:rounded-[8.99px]">
+                <Image
+                  src={images[3].src}
+                  alt={images[3].alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 767px) 296px, 400px"
+                />
+              </div>
+            )}
+            {images[4]?.src && (
+              <div className="relative min-h-0 flex-[0.85] overflow-hidden rounded-[7px] lg:h-full lg:w-full lg:rounded-[8.99px]">
+                <Image
+                  src={images[4].src}
+                  alt={images[4].alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 767px) 296px, 296px"
+                />
+              </div>
+            )}
           </div>
-          <div className="relative min-h-0 flex-[0.85] overflow-hidden rounded-[7px] lg:flex-[1_1_0] lg:rounded-[8.99px]">
-            <Image
-              src={images[4].src}
-              alt={images[4].alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 767px) 296px, 296px"
-            />
-          </div>
-        </div>
+        )}
       </div>
 
       <PagerBar

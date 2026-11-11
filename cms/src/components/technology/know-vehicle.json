@@ -1,19 +1,40 @@
 {
   "collectionName": "components_technology_know_vehicles",
   "info": {
-    "displayName": "Know Your Vehicle Section",
+    "displayName": "Know Vehicle Section",
     "icon": "cog",
-    "description": "Interactive technical teardown for motor, battery, and charging"
+    "description": "Interactive diagram and technical breakdown of key vehicle parts"
   },
   "options": {},
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": "Know your vehicle"
+      "default": "The parts"
     },
     "title": {
       "type": "string",
-      "default": "Built for the driver, engineered for the fleet."
+      "default": "Know Your Vehicle Better"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "vehicleImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "whatIsItLabel": {
+      "type": "string",
+      "default": "WHAT IS IT"
+    },
+    "whyMatterLabel": {
+      "type": "string",
+      "default": "WHY DOES IT MATTER"
+    },
+    "businessMeaningLabel": {
+      "type": "string",
+      "default": "WHAT IT MEANS FOR YOUR BUSINESS"
     },
     "parts": {
       "type": "component",
@@ -22,4 +43,3 @@
     }
   }
 }
-

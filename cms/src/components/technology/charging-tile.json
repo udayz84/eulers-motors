@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_technology_charging_tiles",
+  "info": {
+    "displayName": "Charging Action Tile",
+    "icon": "cursor",
+    "description": "Quick action link tile in Charging showcase card"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string",
+      "required": true,
+      "default": "/products"
+    },
+    "iconType": {
+      "type": "enumeration",
+      "enum": ["app", "station"],
+      "default": "app"
+    }
+  }
+}
+

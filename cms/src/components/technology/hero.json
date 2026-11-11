@@ -2,8 +2,8 @@
   "collectionName": "components_technology_heroes",
   "info": {
     "displayName": "Technology Hero",
-    "icon": "shield",
-    "description": "Technology page hero and engineering philosophy section"
+    "icon": "rocket",
+    "description": "Technology page hero, uptime banner, and philosophy cards"
   },
   "options": {},
   "attributes": {
@@ -12,25 +12,56 @@
       "default": "Technology"
     },
     "title": {
-      "type": "string",
-      "default": "Built Smarter.\nBuilt for Business."
+      "type": "text",
+      "required": true
     },
     "subtitle": {
-      "type": "text",
-      "default": "Every innovation is designed for everyday business."
+      "type": "text"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "desktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "uptimeValue": {
+      "type": "string",
+      "default": "96.4"
+    },
+    "uptimeUnit": {
+      "type": "string",
+      "default": "%"
+    },
+    "uptimeDescription": {
+      "type": "string",
+      "default": "Fleet uptime last year, across 15,000 vehicles"
     },
     "philosophyEyebrow": {
       "type": "string",
-      "default": "OUR PHILOSOPHY"
+      "default": "Philosophy"
     },
     "philosophyTitle": {
       "type": "string",
-      "default": "Designed for commercial reality."
+      "default": "Technology That Helps You Earn More"
     },
     "philosophyDescription": {
-      "type": "text",
-      "default": "Commercial electric vehicles don't get gentle treatment. They run 14 hours a day, through monsoon waterlogging and summer heat, carrying every kilogram they are rated for and sometimes more."
+      "type": "text"
+    },
+    "philosophyCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.philosophy-card"
     }
   }
 }
-

@@ -1,14 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { StrapiMedia } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 export interface Dealer {
   id: string;
   name: string;
   badges: string[];
   address: string;
+  city?: string;
+  state?: string;
   hours: string;
+  operatingDays?: string;
   distance: string;
   phone: string;
 }
@@ -17,7 +22,9 @@ export interface ChargingStation {
   id: string;
   name: string;
   address: string;
+  city?: string;
   hours: string;
+  operatingDays?: string;
   distance: string;
   badges: string[];
   phone: string;
@@ -105,7 +112,9 @@ export interface ServiceCenter {
   id: string;
   name: string;
   address: string;
+  city?: string;
   hours: string;
+  operatingDays?: string;
   distance: string;
   badges: string[];
   phone: string;
@@ -208,7 +217,15 @@ function MapPin({ className = "" }: { className?: string }) {
   );
 }
 
-function DealerCard({ dealer }: { dealer: Dealer }) {
+function DealerCard({
+  dealer,
+  directionsButtonLabel = "Get Directions",
+  distanceUnit = "km",
+}: {
+  dealer: Dealer;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+}) {
   const directionsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${dealer.name} ${dealer.address}`)}`;
 
   return (
@@ -224,24 +241,29 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
             </span>
           ))}
         </div>
-        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px]">
+        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px] line-clamp-1">
           {dealer.name}
         </h3>
-        <p className="font-sans text-[12px] font-medium leading-none text-[#121212]">
-          <span className="lg:hidden">Marol MIDC, opposite Gate 2, Andheri East</span>
-          <span className="hidden lg:inline">{dealer.address}</span>
+        <p className="font-sans text-[12px] font-medium leading-none text-[#121212] line-clamp-1">
+          {dealer.address}
         </p>
         <div className="flex items-center gap-[10px] font-sans text-[12px] font-medium leading-none text-[rgba(18,18,18,0.6)]">
-          <span className="lg:hidden">Open 24 hours</span>
-          <span className="hidden lg:inline">{dealer.hours}</span>
-          <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
-          <span className="hidden lg:inline">Mon - Fri</span>
+          <span>{dealer.hours}</span>
+          {dealer.operatingDays && (
+            <>
+              <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
+              <span className="hidden lg:inline">{dealer.operatingDays}</span>
+            </>
+          )}
         </div>
       </div>
 
       <div className="flex h-8 items-center justify-between lg:h-[42px]">
         <p className="whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.4px] text-[#121212] lg:text-[22px] lg:tracking-[-0.44px]">
-          {dealer.distance} <span className="font-normal text-[16px] tracking-[-0.32px] lg:text-[18px] lg:tracking-[-0.36px]">km</span>
+          {dealer.distance}{" "}
+          <span className="font-normal text-[16px] tracking-[-0.32px] lg:text-[18px] lg:tracking-[-0.36px]">
+            {distanceUnit}
+          </span>
         </p>
         <div className="flex items-center gap-2">
           <a
@@ -250,7 +272,7 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
             rel="noopener noreferrer"
             className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
-            Get Directions
+            {directionsButtonLabel}
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
               <Image
                 src={`${ASSET}directions-desktop.svg`}
@@ -304,7 +326,15 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
   );
 }
 
-function ChargingStationCard({ station }: { station: ChargingStation }) {
+function ChargingStationCard({
+  station,
+  directionsButtonLabel = "Get Directions",
+  distanceUnit = "km",
+}: {
+  station: ChargingStation;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+}) {
   const directionsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${station.name} ${station.address}`)}`;
 
   return (
@@ -320,14 +350,20 @@ function ChargingStationCard({ station }: { station: ChargingStation }) {
             </span>
           ))}
         </div>
-        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px]">
+        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px] line-clamp-1">
           {station.name}
         </h3>
-        <p className="font-sans text-[12px] font-medium leading-none text-[#121212]">
+        <p className="font-sans text-[12px] font-medium leading-none text-[#121212] line-clamp-1">
           {station.address}
         </p>
         <div className="flex items-center gap-[10px] font-sans text-[12px] font-medium leading-none text-[rgba(18,18,18,0.6)]">
           <span>{station.hours}</span>
+          {station.operatingDays && (
+            <>
+              <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
+              <span className="hidden lg:inline">{station.operatingDays}</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -335,7 +371,7 @@ function ChargingStationCard({ station }: { station: ChargingStation }) {
         <p className="whitespace-nowrap font-sans text-[0px] font-semibold leading-[0] tracking-[-0.4px] text-[#121212]">
           <span className="font-bold text-[22px] leading-none tracking-[-0.44px]">{station.distance}</span>
           <span className="text-[22px] leading-none tracking-[-0.44px]">{" "}</span>
-          <span className="text-[18px] font-normal leading-none tracking-[-0.36px]">km</span>
+          <span className="text-[18px] font-normal leading-none tracking-[-0.36px]">{distanceUnit}</span>
         </p>
         <div className="flex items-center gap-2">
           <a
@@ -344,7 +380,7 @@ function ChargingStationCard({ station }: { station: ChargingStation }) {
             rel="noopener noreferrer"
             className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
-            Get Directions
+            {directionsButtonLabel}
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
               <Image
                 src={`${ASSET}directions-desktop.svg`}
@@ -398,7 +434,15 @@ function ChargingStationCard({ station }: { station: ChargingStation }) {
   );
 }
 
-function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) {
+function ServiceCenterCard({
+  serviceCenter,
+  directionsButtonLabel = "Get Directions",
+  distanceUnit = "km",
+}: {
+  serviceCenter: ServiceCenter;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+}) {
   const directionsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${serviceCenter.name} ${serviceCenter.address}`)}`;
 
   return (
@@ -414,24 +458,29 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
             </span>
           ))}
         </div>
-        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px]">
+        <h3 className="font-display text-[16px] font-semibold leading-none tracking-[-0.16px] text-[#121212] lg:text-[18px] line-clamp-1">
           {serviceCenter.name}
         </h3>
-        <p className="font-sans text-[12px] font-medium leading-none text-[#121212]">
-          <span className="lg:hidden">{serviceCenter.address.split(",")[0]}</span>
-          <span className="hidden lg:inline">{serviceCenter.address}</span>
+        <p className="font-sans text-[12px] font-medium leading-none text-[#121212] line-clamp-1">
+          {serviceCenter.address}
         </p>
         <div className="flex items-center gap-[10px] font-sans text-[12px] font-medium leading-none text-[rgba(18,18,18,0.6)]">
-          <span className="lg:hidden">{serviceCenter.hours}</span>
-          <span className="hidden lg:inline">{serviceCenter.hours}</span>
-          <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
-          <span className="hidden lg:inline">Mon - Sat</span>
+          <span>{serviceCenter.hours}</span>
+          {serviceCenter.operatingDays && (
+            <>
+              <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
+              <span className="hidden lg:inline">{serviceCenter.operatingDays}</span>
+            </>
+          )}
         </div>
       </div>
 
       <div className="flex h-8 items-center justify-between lg:h-[42px]">
         <p className="whitespace-nowrap font-sans text-[20px] font-bold leading-none tracking-[-0.4px] text-[#121212] lg:text-[22px] lg:tracking-[-0.44px]">
-          {serviceCenter.distance} <span className="font-normal text-[16px] tracking-[-0.32px] lg:text-[18px] lg:tracking-[-0.36px]">km</span>
+          {serviceCenter.distance}{" "}
+          <span className="font-normal text-[16px] tracking-[-0.32px] lg:text-[18px] lg:tracking-[-0.36px]">
+            {distanceUnit}
+          </span>
         </p>
         <div className="flex items-center gap-2">
           <a
@@ -440,7 +489,7 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
             rel="noopener noreferrer"
             className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
-            Get Directions
+            {directionsButtonLabel}
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
               <Image
                 src={`${ASSET}directions-desktop.svg`}
@@ -494,9 +543,60 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
   );
 }
 
+const CITY_COORDS: Record<string, [number, number]> = {
+  mumbai: [19.076, 72.8777],
+  "delhi ncr": [28.6139, 77.209],
+  delhi: [28.6139, 77.209],
+  "new delhi": [28.6139, 77.209],
+  bengaluru: [12.9716, 77.5946],
+  bangalore: [12.9716, 77.5946],
+  hyderabad: [17.385, 78.4867],
+  ahmedabad: [23.0225, 72.5714],
+  kolkata: [22.5726, 88.3639],
+  chennai: [13.0827, 80.2707],
+  pune: [18.5204, 73.8567],
+};
+
+function matchesCity(itemCity: string | undefined, itemAddress: string, selectedCity: string): boolean {
+  if (!selectedCity) return false;
+  const target = selectedCity.toLowerCase().trim();
+  const baseToken = target.replace(/\s+ncr$/, "").trim();
+  const haystack = `${itemCity ?? ""} ${itemAddress}`.toLowerCase();
+  if (haystack.includes(target) || (baseToken && haystack.includes(baseToken))) return true;
+  if (baseToken === "bengaluru" && haystack.includes("bangalore")) return true;
+  return false;
+}
+
+function filterAndPrioritizeLocations<
+  T extends { name: string; address: string; city?: string; state?: string; badges: string[] }
+>(items: T[], query: string, selectedCity: string): T[] {
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? items.filter((item) =>
+        `${item.name} ${item.address} ${item.city ?? ""} ${item.state ?? ""} ${item.badges.join(" ")}`
+          .toLowerCase()
+          .includes(q)
+      )
+    : items;
+
+  if (!selectedCity) return filtered;
+
+  return filtered
+    .map((item, idx) => ({ item, idx, match: matchesCity(item.city, item.address, selectedCity) }))
+    .sort((a, b) => (a.match === b.match ? a.idx - b.idx : a.match ? -1 : 1))
+    .map((entry) => entry.item);
+}
+
 export interface DealerLocatorProps {
   variant?: "dealer" | "charging" | "service";
   searchLabel?: string;
+  locationButtonLabel?: string;
+  resultsLabel?: string;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+  emptyStateText?: string;
+  defaultCity?: string;
+  mapImage?: StrapiMedia | string;
   dealers?: Dealer[];
   chargingStations?: ChargingStation[];
   serviceCenters?: ServiceCenter[];
@@ -506,6 +606,13 @@ export interface DealerLocatorProps {
 export default function DealerLocator({
   variant = "dealer",
   searchLabel = "Search dealers by area",
+  locationButtonLabel = "Use my current location",
+  resultsLabel,
+  directionsButtonLabel = "Get Directions",
+  distanceUnit = "km",
+  emptyStateText = "No matching locations found.",
+  defaultCity,
+  mapImage,
   dealers,
   chargingStations,
   serviceCenters,
@@ -514,10 +621,16 @@ export default function DealerLocator({
   const charging = variant === "charging";
   const isService = variant === "service";
 
-  const activeDealers = dealers && dealers.length > 0 ? dealers : DEALERS;
-  const activeStations = chargingStations && chargingStations.length > 0 ? chargingStations : CHARGING_STATIONS;
-  const activeServiceCenters = serviceCenters && serviceCenters.length > 0 ? serviceCenters : SERVICE_CENTERS;
-  const activeCities = cities && cities.length > 0 ? cities : CITIES;
+  const activeDealers = dealers !== undefined ? dealers : DEALERS;
+  const activeStations = chargingStations !== undefined ? chargingStations : CHARGING_STATIONS;
+  const activeServiceCenters = serviceCenters !== undefined ? serviceCenters : SERVICE_CENTERS;
+  const activeCities = cities !== undefined && cities.length > 0 ? cities : CITIES;
+
+  const initialCity = useMemo(() => {
+    if (defaultCity && activeCities.includes(defaultCity)) return defaultCity;
+    if (activeCities.includes("Mumbai")) return "Mumbai";
+    return activeCities[0] || defaultCity || "";
+  }, [activeCities, defaultCity]);
 
   /**
    * Figma frames the charging locator's map higher than the dealer one: on
@@ -529,31 +642,73 @@ export default function DealerLocator({
    * the bottom sits under the bottom blur ellipse, so it is not visible.
    */
   const mobileMapShift = charging ? "max-lg:-translate-y-[150px]" : "";
-  const [selectedCity, setSelectedCity] = useState("Mumbai");
+  const [selectedCity, setSelectedCity] = useState(initialCity);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cityRowScrollRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const filteredDealers = activeDealers.filter((dealer) =>
-    `${dealer.name} ${dealer.address}`.toLowerCase().includes(searchQuery.toLowerCase())
+  useEffect(() => {
+    setSelectedCity((prev) => (activeCities.includes(prev) ? prev : initialCity));
+  }, [activeCities, initialCity]);
+
+  const filteredDealers = useMemo(
+    () => filterAndPrioritizeLocations(activeDealers, searchQuery, selectedCity),
+    [activeDealers, searchQuery, selectedCity]
   );
-  const filteredStations = activeStations.filter((station) =>
-    `${station.name} ${station.address} ${station.badges.join(" ")}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
+  const filteredStations = useMemo(
+    () => filterAndPrioritizeLocations(activeStations, searchQuery, selectedCity),
+    [activeStations, searchQuery, selectedCity]
   );
-  const filteredServiceCenters = activeServiceCenters.filter((sc) =>
-    `${sc.name} ${sc.address} ${sc.badges.join(" ")}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
+  const filteredServiceCenters = useMemo(
+    () => filterAndPrioritizeLocations(activeServiceCenters, searchQuery, selectedCity),
+    [activeServiceCenters, searchQuery, selectedCity]
   );
   const resultCount = charging
     ? filteredStations.length
     : isService
     ? filteredServiceCenters.length
     : filteredDealers.length;
+
+  const fallbackResultsLabel = charging
+    ? "Charging Points"
+    : isService
+    ? "Service Centers Found"
+    : "Dealers Found";
+  const countHeadingText = `${String(resultCount).padStart(2, "0")} ${resultsLabel || fallbackResultsLabel}`;
+  const mapSrc = mediaUrl(mapImage, `${ASSET}map-hq.webp`);
+
+  const handleUseCurrentLocation = () => {
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      searchInputRef.current?.focus();
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        let closestCity = selectedCity;
+        let minDist = Infinity;
+        for (const city of activeCities) {
+          const ref = CITY_COORDS[city.toLowerCase().trim()];
+          if (!ref) continue;
+          const dist = Math.hypot(coords.latitude - ref[0], coords.longitude - ref[1]);
+          if (dist < minDist) {
+            minDist = dist;
+            closestCity = city;
+          }
+        }
+        if (closestCity) {
+          setSelectedCity(closestCity);
+          setSearchQuery("");
+        }
+      },
+      () => {
+        searchInputRef.current?.focus();
+      },
+      { timeout: 6000 }
+    );
+  };
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 1023px)").matches && cityRowScrollRef.current) {
@@ -608,7 +763,7 @@ export default function DealerLocator({
     >
       <div className="absolute inset-0 size-full overflow-hidden">
         <Image
-          src={`${ASSET}map-hq.webp`}
+          src={mapSrc}
           alt=""
           fill
           priority
@@ -664,8 +819,8 @@ export default function DealerLocator({
             className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-[691.148px] max-w-none -translate-x-1/2 lg:block pointer-events-none"
           />
 
-          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 shadow-[0px_2px_12px_rgba(0,0,0,0.08)] lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
-            <label className="flex w-[120px] sm:w-[160px] shrink-0 items-center gap-2 lg:w-[150px] lg:gap-3">
+          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between gap-2 rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 shadow-[0px_2px_12px_rgba(0,0,0,0.08)] lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
+            <label className="flex flex-1 min-w-0 items-center gap-2 lg:gap-3">
               <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
                 <Image
                   src={`${ASSET}search-icon-desktop.svg`}
@@ -687,15 +842,17 @@ export default function DealerLocator({
                 />
               </span>
               <input
+                ref={searchInputRef}
                 aria-label={searchLabel}
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Search here..."
-                className="w-full bg-transparent font-sans text-[13px] sm:text-[14px] font-normal sm:font-medium leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
+                placeholder={searchLabel}
+                className="w-full min-w-0 bg-transparent font-sans text-[13px] sm:text-[14px] font-normal sm:font-medium leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
               />
             </label>
             <button
               type="button"
+              onClick={handleUseCurrentLocation}
               className="flex h-[28px] sm:h-[32px] shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 sm:px-3.5 border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer lg:h-[38px] lg:px-4 lg:text-[12px]"
             >
               <Image
@@ -714,7 +871,7 @@ export default function DealerLocator({
                 aria-hidden="true"
                 className="max-w-none lg:hidden"
               />
-              Use my current location
+              {locationButtonLabel}
             </button>
           </div>
 
@@ -870,11 +1027,7 @@ export default function DealerLocator({
           <div className="absolute inset-x-0 top-[536px] z-10 flex w-full flex-col gap-3 lg:bottom-[36px] lg:top-auto lg:gap-[18px]">
             <div className="flex items-center justify-between px-3 lg:px-[39px]">
               <h2 className="font-display text-[16px] sm:text-[20px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] lg:text-[24px] lg:tracking-[-0.48px]">
-                {charging
-                  ? "12 Charging Points"
-                  : isService
-                  ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
-                  : `${String(resultCount).padStart(2, "0")} Dealers Found`}
+                {countHeadingText}
               </h2>
               <div className="flex items-center gap-2">
                 <button
@@ -910,23 +1063,41 @@ export default function DealerLocator({
               aria-label={charging ? "Charging station locations" : "Dealer locations"}
               className="no-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-center gap-3 overflow-x-auto overscroll-x-contain px-3 lg:scroll-pl-[39px] lg:gap-5 lg:px-[39px]"
             >
-              {charging
-                ? filteredStations.map((station) => (
-                    <div key={station.id} className="shrink-0 snap-start">
-                      <ChargingStationCard station={station} />
-                    </div>
-                  ))
-                : isService
-                ? filteredServiceCenters.map((serviceCenter) => (
-                    <div key={serviceCenter.id} className="shrink-0 snap-start">
-                      <ServiceCenterCard serviceCenter={serviceCenter} />
-                    </div>
-                  ))
-                : filteredDealers.map((dealer) => (
-                    <div key={dealer.id} className="shrink-0 snap-start">
-                      <DealerCard dealer={dealer} />
-                    </div>
-                  ))}
+              {resultCount === 0 ? (
+                <div className="flex h-[180px] w-full items-center justify-center rounded-[12px] bg-white/90 px-6 text-center font-sans text-sm font-medium text-[#121212] lg:h-[204px]">
+                  {emptyStateText}
+                </div>
+              ) : charging ? (
+                filteredStations.map((station) => (
+                  <div key={station.id} className="shrink-0 snap-start">
+                    <ChargingStationCard
+                      station={station}
+                      directionsButtonLabel={directionsButtonLabel}
+                      distanceUnit={distanceUnit}
+                    />
+                  </div>
+                ))
+              ) : isService ? (
+                filteredServiceCenters.map((serviceCenter) => (
+                  <div key={serviceCenter.id} className="shrink-0 snap-start">
+                    <ServiceCenterCard
+                      serviceCenter={serviceCenter}
+                      directionsButtonLabel={directionsButtonLabel}
+                      distanceUnit={distanceUnit}
+                    />
+                  </div>
+                ))
+              ) : (
+                filteredDealers.map((dealer) => (
+                  <div key={dealer.id} className="shrink-0 snap-start">
+                    <DealerCard
+                      dealer={dealer}
+                      directionsButtonLabel={directionsButtonLabel}
+                      distanceUnit={distanceUnit}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -943,31 +1114,45 @@ export default function DealerLocator({
         <div className="absolute inset-x-0 bottom-0 top-[140px] sm:top-[150px] lg:top-[180px] z-20 flex flex-col overflow-y-auto bg-[#eef2f8]/95 px-4 pb-8 backdrop-blur-md lg:px-10">
           <div className="mb-4 flex items-center justify-between pt-2">
             <h2 className="font-display text-[16px] font-semibold leading-[1.15] tracking-[-0.32px] text-[#121212] sm:text-[20px] lg:text-[24px] lg:tracking-[-0.48px]">
-              {charging
-                ? "12 Charging Points"
-                : isService
-                ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
-                : `${String(resultCount).padStart(2, "0")} Dealers Found`}
+              {countHeadingText}
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-4 pb-6 lg:gap-5">
-            {charging
-              ? filteredStations.map((station) => (
-                  <div key={station.id} className="w-[300px] shrink-0 lg:w-[400px]">
-                    <ChargingStationCard station={station} />
-                  </div>
-                ))
-              : isService
-              ? filteredServiceCenters.map((serviceCenter) => (
-                  <div key={serviceCenter.id} className="w-[300px] shrink-0 lg:w-[400px]">
-                    <ServiceCenterCard serviceCenter={serviceCenter} />
-                  </div>
-                ))
-              : filteredDealers.map((dealer) => (
-                  <div key={dealer.id} className="w-[300px] shrink-0 lg:w-[400px]">
-                    <DealerCard dealer={dealer} />
-                  </div>
-                ))}
+            {resultCount === 0 ? (
+              <div className="flex w-full max-w-[420px] items-center justify-center rounded-[12px] bg-white px-6 py-10 text-center font-sans text-sm font-medium text-[#121212]">
+                {emptyStateText}
+              </div>
+            ) : charging ? (
+              filteredStations.map((station) => (
+                <div key={station.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                  <ChargingStationCard
+                    station={station}
+                    directionsButtonLabel={directionsButtonLabel}
+                    distanceUnit={distanceUnit}
+                  />
+                </div>
+              ))
+            ) : isService ? (
+              filteredServiceCenters.map((serviceCenter) => (
+                <div key={serviceCenter.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                  <ServiceCenterCard
+                    serviceCenter={serviceCenter}
+                    directionsButtonLabel={directionsButtonLabel}
+                    distanceUnit={distanceUnit}
+                  />
+                </div>
+              ))
+            ) : (
+              filteredDealers.map((dealer) => (
+                <div key={dealer.id} className="w-[300px] shrink-0 lg:w-[400px]">
+                  <DealerCard
+                    dealer={dealer}
+                    directionsButtonLabel={directionsButtonLabel}
+                    distanceUnit={distanceUnit}
+                  />
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}

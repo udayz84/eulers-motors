@@ -18,6 +18,11 @@
     "subtitle": {
       "type": "text",
       "default": "Take the next step with a role where your ideas and work can make a real impact."
+    },
+    "positions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::career-position.career-position"
     }
   }
 }

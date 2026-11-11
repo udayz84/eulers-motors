@@ -5,7 +5,7 @@
     "singularName": "dealer-locator-page",
     "pluralName": "dealer-locator-pages",
     "displayName": "Dealer Locator Page",
-    "description": "Dealer locator, charging network, service centers, and contact section"
+    "description": "Dealer locator hero, contact section, and SEO"
   },
   "options": {
     "draftAndPublish": true
@@ -21,21 +21,6 @@
       "type": "component",
       "repeatable": false,
       "component": "dealer.contact-section"
-    },
-    "chargingContactSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "dealer.charging-contact-section"
-    },
-    "partnersSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.partners-section"
-    },
-    "faqSection": {
-      "type": "component",
-      "repeatable": false,
-      "component": "dealer.faq-section"
     },
     "seo": {
       "type": "component",

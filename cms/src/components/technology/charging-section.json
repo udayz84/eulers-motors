@@ -2,8 +2,8 @@
   "collectionName": "components_technology_charging_sections",
   "info": {
     "displayName": "Charging Section",
-    "icon": "lightning",
-    "description": "Charging guidance with dos and donts"
+    "icon": "bolt",
+    "description": "Charging guidance with Home/Public toggle, action tiles, Do's and Don'ts"
   },
   "options": {},
   "attributes": {
@@ -16,15 +16,50 @@
       "default": "Where Will I Charge?"
     },
     "subtitle": {
-      "type": "text",
-      "default": "Different businesses have different needs. Choose the charging setup that works best for your operations."
+      "type": "text"
+    },
+    "homeTabLabel": {
+      "type": "string",
+      "default": "Home"
+    },
+    "publicTabLabel": {
+      "type": "string",
+      "default": "Public"
+    },
+    "homeImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "publicImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "actionTiles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.charging-tile"
+    },
+    "dosTitle": {
+      "type": "string",
+      "default": "Do's"
     },
     "dos": {
-      "type": "json"
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.charging-rule"
+    },
+    "dontsTitle": {
+      "type": "string",
+      "default": "Don'ts"
     },
     "donts": {
-      "type": "json"
+      "type": "component",
+      "repeatable": true,
+      "component": "technology.charging-rule"
     }
   }
 }
-

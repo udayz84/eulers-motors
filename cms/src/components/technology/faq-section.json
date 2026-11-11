@@ -1,9 +1,9 @@
 {
   "collectionName": "components_technology_faq_sections",
   "info": {
-    "displayName": "Technology FAQ Section",
+    "displayName": "FAQ Section",
     "icon": "question",
-    "description": "Technology page categorized FAQ section"
+    "description": "Categorized technology FAQ accordion section"
   },
   "options": {},
   "attributes": {
@@ -13,7 +13,20 @@
     },
     "title": {
       "type": "string",
-      "default": "Frequently Asked Questions"
+      "default": "Frequently asked questions"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "allCategoryLabel": {
+      "type": "string",
+      "default": "All"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
     },
     "items": {
       "type": "component",
@@ -22,4 +35,3 @@
     }
   }
 }
-
