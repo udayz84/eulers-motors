@@ -458,7 +458,7 @@ export default function CareerHero({
               type="search"
               value={filters.search}
               onChange={(event) => onChange({ ...filters, search: event.target.value })}
-              placeholder="Search for the question"
+              placeholder="Search open roles"
             />
           </label>
 

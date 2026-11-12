@@ -19,6 +19,15 @@ type CareerTestimonialsProps = {
   data?: StrapiCareerTestimonialsSection;
 };
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "EM";
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
+}
+
 function TestimonialCard({
   testimonial,
   isDuplicate = false,
@@ -52,13 +61,22 @@ function TestimonialCard({
       </p>
       <div className="h-px w-[86px] bg-ink/20 lg:h-0.5 lg:w-[121px]" />
       <div className="flex items-center gap-2.5 self-stretch">
-        <Image
-          src={testimonial.image}
-          alt={testimonial.name}
-          width={62}
-          height={62}
-          className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]"
-        />
+        {testimonial.image ? (
+          <Image
+            src={testimonial.image}
+            alt={testimonial.name}
+            width={62}
+            height={62}
+            className="size-[42px] shrink-0 rounded-full object-cover lg:size-[62px]"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-brand/10 font-display text-sm font-bold text-brand lg:size-[62px] lg:text-lg"
+          >
+            {getInitials(testimonial.name)}
+          </div>
+        )}
         <div className="flex min-w-0 flex-1 flex-col">
           <h3 className="mb-1 mt-0 self-stretch font-sans text-base font-bold leading-none tracking-[-0.32px] text-ink [transform:rotate(-0.772deg)] lg:text-2xl lg:leading-none lg:tracking-[-0.48px] lg:[transform:rotate(-0.77deg)]">
             {testimonial.name}
@@ -95,7 +113,7 @@ export default function CareerTestimonials({ data }: CareerTestimonialsProps) {
     quote: t.quote || "",
     name: t.name || "",
     role: t.role || "",
-    image: t.image?.url ? mediaUrl(t.image.url) : "",
+    image: t.image ? mediaUrl(t.image) : "",
   }));
 
   const updateProgress = useCallback(() => {
