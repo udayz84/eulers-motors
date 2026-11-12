@@ -449,7 +449,7 @@ export default function ChargingStationFaq({
                 alt=""
                 width={14}
                 height={7}
-                className="h-[6px] w-[13px] rotate-180 opacity-80 hover:opacity-100"
+                className="h-[6px] w-[14px] opacity-80 hover:opacity-100"
               />
             </button>
           </div>
