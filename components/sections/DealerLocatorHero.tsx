@@ -160,7 +160,7 @@ export default function DealerLocatorHero({
       aria-label={currentContent.title}
       className={`relative isolate w-full self-stretch overflow-hidden bg-[#1d6fff] ${
         isServicePage
-          ? "h-[1166px] max-[359px]:h-[1190px] sm:h-[1175px] lg:h-[1265px]"
+          ? "h-[1214px] max-[359px]:h-[1190px] sm:h-[1214px] lg:h-[1265px]"
           : "h-[1166px] lg:h-[1265px]"
       } ${isCharging ? "mb-5" : ""}`}
       style={{
@@ -230,7 +230,7 @@ export default function DealerLocatorHero({
 
         {/* Service page only: mobile button + helpline */}
         {currentVariant === "service" && (
-          <div className="pb-[8px] flex flex-col gap-[4px] items-center justify-center relative w-full lg:hidden">
+          <div className="pb-[8px] flex flex-col gap-[8px] items-center justify-center relative w-full lg:hidden">
             <div className="bg-white flex gap-[5.333px] h-[42px] items-center justify-center px-[12px] py-[10.667px] relative rounded-[2px] shrink-0 min-w-fit">
               <p className="font-display font-semibold leading-none text-[#121212] text-[12px] whitespace-nowrap shrink-0">
                 Book a Service
