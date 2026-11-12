@@ -16,7 +16,7 @@ export default function ServiceCentersPage() {
         <DealerLocatorHero variant="service" />
         <ServiceNextStep />
         <ServicePreventiveAdvice />
-        <PrimeBanner />
+        <PrimeBanner isServicePage={true} />
 
         <ServiceInstantChat />
         <ChargingStationFaq />

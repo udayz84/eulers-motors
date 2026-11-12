@@ -16,7 +16,7 @@ const FEATURES = [
  * Mobile: black base + a single bg-3 strip in the bottom half, right-anchored
  * (178.63% × 51.83% at (-78.67, 48.03)), content top-aligned at 36.33px.
  */
-export default function PrimeBanner() {
+export default function PrimeBanner({ isServicePage = false }: { isServicePage?: boolean }) {
   return (
     <section className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -88,6 +88,13 @@ export default function PrimeBanner() {
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
           Get free check-up at your depot with Prime
         </h2>
+
+        {/* Service page specific text */}
+        {isServicePage && (
+          <p className="w-[295.766px] font-sans text-[12px] font-normal leading-normal text-[#ccc] lg:w-[413px] lg:self-stretch lg:text-[16px] lg:leading-normal lg:!text-[#FFF]">
+            Return the car within 24 hours, and we'll provide you with a complimentary spare vehicle.
+          </p>
+        )}
 
         {/* features — desktop: flat row [col · dot · col · dot · col] gap 20 (Figma 1:1827–38);
             mobile: inline rows [value · dot · label] gap 5.5, stacked gap 11 (Figma 1:4903–14).

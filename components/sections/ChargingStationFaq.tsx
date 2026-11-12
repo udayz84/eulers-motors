@@ -157,7 +157,7 @@ export default function ChargingStationFaq() {
       <div className="flex w-full flex-col items-center gap-[20px] lg:flex-row lg:items-start lg:justify-between lg:gap-[41px]">
         {/* Left Column: Heading, Categories & Map */}
         <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
-          <div className="flex w-full flex-col items-start">
+          <div className="flex w-full flex-col items-start pt-[14px] lg:pt-0">
             <Eyebrow label="FAQ" />
             <div className="mt-[14px] flex flex-col gap-[14px] text-[#121212] lg:mt-4 lg:gap-4">
               <h2
@@ -166,7 +166,7 @@ export default function ChargingStationFaq() {
               >
                 Frequently asked questions
               </h2>
-              <p className="max-w-[474px] font-sans text-[12px] leading-normal sm:text-[15px] lg:text-[16px] text-[#121212]/80">
+              <p className="max-w-[474px] font-sans text-[12px] leading-normal sm:text-[15px] lg:text-[16px] lg:leading-[22px] text-[#121212]/80">
                 Find answers to the most common questions about our vehicles,
                 charging, service, warranty and more.
               </p>
@@ -176,7 +176,7 @@ export default function ChargingStationFaq() {
           {/* Categories Pill Bar */}
           <div className="relative w-full overflow-hidden">
             <div
-              className="no-scrollbar flex w-full items-center gap-[6.4px] overflow-x-auto pb-1 pr-14 lg:gap-[8px]"
+              className="no-scrollbar flex w-full items-center gap-[6.4px] overflow-x-auto pb-1 pr-14 lg:gap-[8px] lg:pb-0"
               aria-label="FAQ categories"
             >
               {categories.map((category) => {
@@ -195,7 +195,7 @@ export default function ChargingStationFaq() {
                           }
                         : undefined
                     }
-                    className={`flex shrink-0 items-center gap-[6.4px] rounded-[400px] border-[0.4px] border-solid border-white px-[12px] h-[32px] sm:px-4 sm:py-[11px] lg:px-[16px] lg:py-[13px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
+                    className={`flex shrink-0 items-center gap-[6.4px] rounded-[400px] border-[0.4px] border-solid border-white px-[12px] h-[32px] sm:px-4 sm:py-[11px] lg:h-[42px] lg:py-[13px] lg:px-[16px] lg:justify-center cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
                       selected
                         ? "text-white"
                         : "bg-[rgba(204,204,204,0.32)] text-[#121212]"
@@ -232,7 +232,7 @@ export default function ChargingStationFaq() {
           <div
             role="img"
             aria-label="Euler charging station location network map"
-            className="relative w-full flex-none self-stretch overflow-hidden rounded-[20.655px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
+            className="relative w-full flex-none self-stretch overflow-hidden rounded-[20.655px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px] hidden lg:block"
           >
             <Image
               src="/assets/charging-station-faq/location-map-hq.jpg"
@@ -251,7 +251,7 @@ export default function ChargingStationFaq() {
           <div
             ref={listRef}
             onScroll={updateScrollbar}
-            className="no-scrollbar flex h-[440px] sm:h-[500px] lg:h-[578px] min-h-0 flex-1 flex-col gap-[10px] lg:gap-[12px] overflow-y-auto"
+            className="no-scrollbar flex h-auto sm:h-[500px] lg:h-[578px] min-h-0 flex-1 flex-col gap-[10px] lg:gap-[16px] overflow-y-auto lg:overflow-y-auto"
             aria-label="Frequently asked questions"
           >
             {visibleQuestions.map((faq, index) => {
@@ -269,7 +269,7 @@ export default function ChargingStationFaq() {
                     onClick={() => setOpenQuestion(expanded ? null : index)}
                     className="flex w-full items-center justify-between gap-[10px] text-left cursor-pointer lg:gap-[24px]"
                   >
-                    <span className="min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.32px] lg:tracking-[-0.4px] text-[#121212]">
+                    <span className={`min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.32px] lg:tracking-[-0.4px] text-[#121212] ${index === 0 ? 'whitespace-nowrap' : ''}`}>
                       {faq.question}
                     </span>
                     <span className="relative flex size-6 shrink-0 items-center justify-center">
@@ -295,7 +295,7 @@ export default function ChargingStationFaq() {
                       />
                     </span>
                   </button>
-                  <div className="accordion-grid" data-open={expanded}>
+                  <div className={`accordion-grid ${expanded ? 'is-open' : ''}`} data-open={expanded ? "true" : "false"}>
                     <div className="accordion-inner">
                       <p className="mt-3 font-sans text-[12px] leading-[1.4] sm:text-[15px] lg:text-[16px] lg:leading-[1.4] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
                         {faq.answer}

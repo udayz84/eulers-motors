@@ -102,7 +102,7 @@ function Badge({ tone }: { tone: "do" | "dont" }) {
       </div>
       <span
         className={`relative font-sans text-sm font-bold uppercase leading-[19px] tracking-[0.7px] text-white lg:text-lg lg:leading-[25px] lg:tracking-[0.9px] ${
-          isDont ? "shrink-0" : "flex-1 lg:flex-none"
+          isDont ? "shrink-0 pr-1" : "flex-1 lg:flex-none"
         }`}
       >
         <span className="lg:hidden">{isDont ? " Don'ts" : " Do's"}</span>
@@ -116,7 +116,7 @@ function GuidelineCard({ items, tone }: { items: string[]; tone: "do" | "dont" }
   const isDont = tone === "dont";
 
   return (
-    <div className="relative z-10 flex w-full flex-col gap-[14px] rounded-[12px] bg-white p-4 lg:gap-6 lg:p-6">
+    <div className="relative z-10 flex w-full flex-col gap-[14px] rounded-[12px] bg-white p-[16px] lg:gap-6 lg:p-[24px]">
       {items.map((item, index) => (
         <Fragment key={item}>
           {index > 0 && (
@@ -177,10 +177,10 @@ export default function ServiceGuidelines() {
   return (
     <section className="relative isolate w-full flex-col items-center justify-center bg-[#d4dbec]">
       {/* Full-width background; content centred & capped at 1440px so it stays responsive */}
-      <div className="mx-auto max-w-[1440px] w-full px-5 pb-5 pt-8 lg:px-16 lg:py-[62px] flex flex-col items-center justify-center">
+      <div className="mx-auto max-w-[1440px] w-full px-[24px] pb-5 pt-8 lg:px-16 lg:pt-[62px] lg:pb-[55px] flex flex-col items-center justify-center">
         <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6 lg:gap-[55px]">
         {/* Header */}
-        <div className="flex w-full flex-col items-start gap-[14px] lg:items-center lg:gap-4">
+        <div className="flex w-full flex-col items-start gap-[14px] lg:items-center lg:gap-[16px]">
           <Eyebrow />
           <h2 className="w-[279.376px] font-display text-[28px] font-semibold leading-[32px] tracking-[-0.56px] text-[#121212] lg:w-auto lg:whitespace-nowrap lg:text-[42px] lg:leading-[48px] lg:tracking-[-0.84px]">
             Do&apos;s and Don&apos;ts at Our Service Centres

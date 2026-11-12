@@ -65,7 +65,7 @@ export default function ServiceInstantChat() {
             <div className="flex w-full flex-col items-center justify-center gap-[14px] lg:flex-row lg:items-center lg:gap-6">
               <div className="flex w-full flex-col items-center justify-center gap-[14px] lg:w-[414.434px] lg:shrink-0 lg:items-start lg:gap-4">
                 <Eyebrow dark label="Customer Support" />
-                <p className="w-[214.283px] text-center font-sans text-[16px] capitalize leading-[22px] text-white lg:w-full lg:font-display lg:text-[32px] lg:font-semibold lg:normal-case lg:leading-[38px] lg:tracking-[-0.64px]">
+                <p className="w-[214.283px] text-center font-sans text-[16px] capitalize leading-[22px] text-white lg:w-full lg:text-left lg:font-display lg:text-[32px] lg:font-semibold lg:normal-case lg:leading-[38px] lg:tracking-[-0.64px]">
                   Need Emergency assistance right now?
                 </p>
               </div>

@@ -656,7 +656,7 @@ export default function DealerLocator({
               height="173"
               style={{ backdropFilter: "blur(26px)", height: "100%", width: "100%" }}
             >
-              <div xmlns="http://www.w3.org/1999/xhtml" style={{ height: "100%", width: "100%" }} />
+              <div style={{ height: "100%", width: "100%" }} />
             </foreignObject>
             <g data-figma-bg-blur-radius="52">
               <path
@@ -699,7 +699,11 @@ export default function DealerLocator({
             </defs>
           </svg>
 
-          <div className="relative flex h-8 sm:h-10 w-full items-center justify-between rounded-[500px] sm:rounded-[20px] lg:rounded-[500px] border border-[rgba(0,0,0,0.1)] border-[rgba(0,0,0,0.04)] bg-[#f3f4f5] sm:bg-white lg:bg-[#f3f4f5] drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] py-0.5 pl-2 pr-0.5 sm:py-1 sm:pl-4 sm:pr-1.5 lg:h-[46px] lg:py-[3px] lg:pl-[16px] lg:pr-[3px]">
+          <div className="flex w-full flex-col gap-5">
+            <p className="w-full self-stretch text-center font-display text-[12px] font-semibold leading-[1.15] tracking-[-0.24px] text-[#121212] opacity-80 lg:text-[16px] lg:tracking-[-0.32px]">
+              {searchLabel}
+            </p>
+            <div className="relative flex h-8 sm:h-10 w-full items-center justify-between rounded-[500px] sm:rounded-[20px] lg:rounded-[500px] border border-[rgba(0,0,0,0.1)] border-[rgba(0,0,0,0.04)] bg-[#f3f4f5] sm:bg-white lg:bg-[#f3f4f5] drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] py-0.5 pl-2 pr-0.5 sm:py-1 sm:pl-4 sm:pr-1.5 lg:py-[3px] lg:pl-[16px] lg:pr-[3px] lg:h-[46px]">
             <label className="flex w-[120px] sm:w-[160px] shrink-0 items-center gap-2 lg:w-[150px] lg:gap-3">
               <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
                 <svg
@@ -715,14 +719,14 @@ export default function DealerLocator({
                       d="M14.5835 14.5834L18.3335 18.3334"
                       strokeWidth="1.5"
                       strokeLinecap="round"
-                      strokeLineJoin="round"
+                      strokeLinejoin="round"
                       stroke="#121212"
                       strokeOpacity={0.8}
                     />
                     <path
                       d="M16.6665 9.16663C16.6665 5.02449 13.3086 1.66663 9.1665 1.66663C5.02437 1.66663 1.6665 5.02449 1.6665 9.16663C1.6665 13.3088 5.02437 16.6666 9.1665 16.6666C13.3086 16.6666 16.6665 13.3088 16.6665 9.16663Z"
                       strokeWidth="1.5"
-                      strokeLineJoin="round"
+                      strokeLinejoin="round"
                       stroke="#121212"
                       strokeOpacity={0.8}
                     />
@@ -774,9 +778,10 @@ export default function DealerLocator({
               />
               Use my current location
             </button>
+            </div>
           </div>
 
-          <div className="relative w-[331px] max-w-full sm:w-[480px] lg:w-[600px] lg:max-w-none">
+          <div className="relative h-8 w-[331px] max-w-full overflow-hidden rounded-b-[24px] sm:h-9 sm:w-[480px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible lg:rounded-none">
             <div
               ref={cityRowScrollRef}
               className="no-scrollbar relative h-8 sm:h-9 w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:overflow-visible"
@@ -791,7 +796,7 @@ export default function DealerLocator({
                       onClick={() => setSelectedCity(city)}
                       className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[42px] lg:text-[16px] ${
                         selected
-                          ? "bg-[#1363DF] text-white px-3 lg:px-4 shadow-sm"
+                          ? "bg-[#1363DF] text-white px-3 lg:px-4 lg:shadow-sm"
                           : "text-[#121212] px-3 hover:text-[#1363DF]"
                       }`}
                     >
@@ -807,7 +812,7 @@ export default function DealerLocator({
               width={27.2397}
               height={23.1431}
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-1/2 h-[23.143px] w-[27.24px] max-w-none -translate-y-1/2 lg:hidden"
+              className="pointer-events-none absolute left-0 top-[4.43px] h-[23.143px] w-[27.24px] max-w-none lg:hidden"
             />
             <Image
               src={`${ASSET}chips-fade-right.svg`}
@@ -815,13 +820,14 @@ export default function DealerLocator({
               width={27.2397}
               height={23.1431}
               aria-hidden="true"
-              className="pointer-events-none absolute right-0 top-1/2 h-[23.143px] w-[27.24px] max-w-none -translate-y-1/2 rotate-180 lg:hidden"
+              className="pointer-events-none absolute right-0 top-[4.43px] h-[23.143px] w-[27.24px] max-w-none -scale-x-100 lg:hidden"
             />
           </div>
         </div>
+      </div>
 
-        {/* Map / Cards toggle directly under Cities matching Figma */}
-        <div className="mt-2.5 sm:mt-3 flex items-center gap-[6px] rounded-[6px] bg-[#f3f4f5] p-1 shadow-sm border border-black/5">
+        {isService && (
+        <div className="absolute left-[24px] top-[134px] flex items-center gap-[6px] rounded-[6px] bg-[#f3f4f5] p-1 shadow-sm border border-black/5 lg:left-[calc(16.67%-101px)] lg:top-[81.58px] lg:-translate-x-1/2">
           <button
             type="button"
             aria-label="Map view"
@@ -881,7 +887,7 @@ export default function DealerLocator({
             </svg>
           </button>
         </div>
-      </div>
+        )}
 
       {/* Map pins and details - only in map view */}
       {viewMode === "map" && (

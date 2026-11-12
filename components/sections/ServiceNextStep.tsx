@@ -171,7 +171,7 @@ export default function ServiceNextStep() {
               </p>
             </div>
             <div className="flex w-full flex-col gap-[20px] lg:gap-[26px]">
-              <div className="flex flex-col gap-[4px] lg:gap-[6px]">
+              <div className="flex flex-col gap-[4px] lg:gap-[16px]">
                 <BulletPoint text="Scheduled periodic services included" />
                 <BulletPoint text="Free roadside assistance 24/7" />
                 <BulletPoint text="Subsidized accidental repairs & towing" />

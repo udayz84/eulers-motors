@@ -64,7 +64,7 @@ function PreventiveCard({ tip }: { tip: Tip }) {
     <div
       className="flex min-h-[102px] w-full shrink-0 snap-center flex-row items-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 lg:min-h-[250px] lg:w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8"
     >
-      <div className="relative h-[62px] w-[64.333px] shrink-0 lg:aspect-[74.71/72] lg:h-[72px] lg:w-[74.709px]">
+      <div className="relative h-[62px] w-[64.333px] shrink-0 aspect-[64.33/62] lg:aspect-[74.71/72] lg:h-[72px] lg:w-[74.709px]">
         <Image
           src={tip.icon}
           alt=""
@@ -109,7 +109,7 @@ export default function ServicePreventiveAdvice() {
               Keep your Neo running better
             </h2>
           </div>
-          <p className="max-w-[295.766px] text-center font-sans text-xs leading-[16px] text-[#ccc] lg:max-w-[493.137px] lg:text-base lg:leading-[24px] lg:text-white">
+          <p className="max-w-[295.766px] text-center font-sans text-xs leading-[16px] text-[#ccc] lg:max-w-[493.137px] lg:text-base lg:leading-[22px] lg:text-white">
             Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function ServicePreventiveAdvice() {
           {/* Desktop Track: Continuous infinite auto-sliding marquee */}
           <div className="hidden md:block">
             <div
-              className="flex w-max shrink-0 gap-6 animate-marquee [--marquee-gap:24px] will-change-transform"
+              className="flex w-max shrink-0 gap-6 lg:gap-[10px] animate-marquee [--marquee-gap:24px] lg:[--marquee-gap:10px] will-change-transform"
               style={{ animationDuration: "40s" }}
             >
               {[...TIPS, ...TIPS, ...TIPS, ...TIPS].map((tip, i) => (
@@ -136,6 +136,14 @@ export default function ServicePreventiveAdvice() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Desktop pager — Figma node 3354:19618 */}
+        <div
+          aria-hidden="true"
+          className="hidden h-5 w-[116.2px] shrink-0 items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1 lg:flex"
+        >
+          <div className="h-3 w-[29.891px] rounded-[23.04px] bg-white" />
         </div>
       </div>
     </section>

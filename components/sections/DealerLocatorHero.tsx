@@ -103,12 +103,12 @@ const tabContent = {
   dealer: {
     title: "Find your nearest dealer.",
     subtitle: "Every dealer brings the vehicle to you for a test drive.",
-    searchLabel: "Search dealers by area",
+    searchLabel: "Search by an area",
   },
   charging: {
     title: "Find a charging point.",
     subtitle: "1,412 points across India, with live status on each one.",
-    searchLabel: "Search charging points by area",
+    searchLabel: "Search by an area",
   },
   service: {
     title: "Find a Service Station",
