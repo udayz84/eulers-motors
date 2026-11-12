@@ -10,7 +10,7 @@ const ASSET = "/assets/dealer-locator-hero/";
 
 function SupportBadge() {
   return (
-    <div className="relative flex h-5 items-center gap-1 lg:h-[21px] lg:gap-[6px]">
+    <div className="relative flex h-4 items-center gap-1 lg:h-[21px] lg:gap-[6px]">
       <Image src={`${ASSET}desktop-support-left.svg`} alt="" width={149} height={21} aria-hidden="true" className="absolute left-[3px] top-0 hidden h-[21px] w-[149px] lg:block" />
       <Image src={`${ASSET}desktop-support-right.svg`} alt="" width={19} height={21} aria-hidden="true" className="relative hidden h-[21px] w-[19px] lg:block" />
       <span aria-hidden="true" className="absolute left-[3.43px] top-[2px] block h-4 w-[116.978px] lg:hidden">
@@ -34,12 +34,12 @@ function SupportTabs({
   onTabChange?: (tab: SupportTabType) => void;
 }) {
   const pad = "px-2 max-[359px]:px-1.5 sm:px-3.5";
-  const text = "text-[11px] max-[359px]:text-[10px] sm:text-[13px]";
+  const text = "text-[12px] sm:text-[13px]";
   return (
     <div
       role="tablist"
       aria-label="Support navigation"
-      className="relative flex h-9 w-full max-w-[353px] items-center justify-between rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0.5 sm:h-10 sm:w-[420px] sm:max-w-[420px] lg:h-[46px] lg:w-[488px] lg:max-w-[488px] lg:p-0.5"
+      className="relative flex h-8 w-full max-w-[353px] items-center justify-between rounded-[43px] bg-[rgba(255,255,255,0.12)] p-0 sm:h-8 sm:w-[420px] sm:max-w-[420px] lg:h-[42px] lg:w-[473px] lg:max-w-[473px] lg:p-2"
     >
       <span
         aria-hidden="true"
@@ -61,7 +61,7 @@ function SupportTabs({
         role="tab"
         aria-selected={active === "dealer"}
         onClick={() => onTabChange?.("dealer")}
-        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-[500px] ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+        className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-[500px] ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
           active === "dealer"
             ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
             : "text-white hover:text-white/80"
@@ -74,7 +74,7 @@ function SupportTabs({
         role="tab"
         aria-selected={active === "charging"}
         onClick={() => onTabChange?.("charging")}
-        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+        className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
           active === "charging"
             ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
             : "text-white hover:text-white/80"
@@ -87,7 +87,7 @@ function SupportTabs({
         role="tab"
         aria-selected={active === "service"}
         onClick={() => onTabChange?.("service")}
-        className={`flex h-8 sm:h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
+        className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full ${pad} font-sans ${text} font-semibold leading-none cursor-pointer transition-all lg:h-[42px] lg:px-4 lg:text-base ${
           active === "service"
             ? "border-[0.5px] border-solid border-white bg-white text-[#121212] shadow-sm"
             : "text-white hover:text-white/80"
@@ -111,9 +111,9 @@ const tabContent = {
     searchLabel: "Search charging points by area",
   },
   service: {
-    title: "Find a service center.",
+    title: "Find a Service Station",
     subtitle: "1,412 points across India, with live status on each one.",
-    searchLabel: "Search service centers by area",
+    searchLabel: "Search by an area",
   },
 };
 
@@ -153,11 +153,16 @@ export default function DealerLocatorHero({
 
   const currentContent = tabContent[activeTab];
   const isCharging = activeTab === "charging";
+  const isServicePage = currentVariant === "service";
 
   return (
     <section
       aria-label={currentContent.title}
-      className={`relative isolate h-[1166px] w-full self-stretch overflow-hidden bg-[#1d6fff] lg:h-[1265px] ${isCharging ? "mb-5" : ""}`}
+      className={`relative isolate w-full self-stretch overflow-hidden bg-[#1d6fff] ${
+        isServicePage
+          ? "h-[1166px] max-[359px]:h-[1190px] sm:h-[1175px] lg:h-[1265px]"
+          : "h-[1166px] lg:h-[1265px]"
+      } ${isCharging ? "mb-5" : ""}`}
       style={{
         backgroundColor: "lightgray",
         backgroundImage: "linear-gradient(272deg, #0E2F6D -63.51%, #1D6FFF 87.23%)",
@@ -184,7 +189,7 @@ export default function DealerLocatorHero({
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className={`absolute left-1/2 top-[120px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-4 lg:top-[151px] lg:w-[846px] lg:gap-[14px] lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
+      <div className={`absolute left-1/2 top-[100px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-[14px] lg:top-[151px] lg:w-[846px] lg:gap-[14px] lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
         <SupportBadge />
         <SupportTabs
           active={activeTab}
@@ -193,7 +198,7 @@ export default function DealerLocatorHero({
         <h1 className="w-full text-center font-display text-[32px] sm:text-[40px] font-semibold leading-[1.15] tracking-[-0.64px] text-white lg:w-[789px] lg:text-[52px] lg:tracking-[-1.04px]">
           {currentContent.title}
         </h1>
-        <p className="whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base">
+        <p className="whitespace-nowrap text-center font-sans text-xs sm:text-sm leading-normal text-white lg:text-base lg:max-w-[493px]">
           {currentContent.subtitle}
         </p>
 
@@ -225,9 +230,9 @@ export default function DealerLocatorHero({
 
         {/* Service page only: mobile button + helpline */}
         {currentVariant === "service" && (
-          <div className="pt-[12px] pb-[42px] flex flex-col gap-[8px] items-center justify-center relative w-full lg:hidden">
-            <div className="bg-white flex gap-[5.333px] h-[42px] items-center justify-center px-[12px] py-[10.667px] relative rounded-[2px] shrink-0">
-              <p className="font-display leading-none text-[#121212] text-[12px] whitespace-nowrap shrink-0">
+          <div className="pb-[8px] flex flex-col gap-[4px] items-center justify-center relative w-full lg:hidden">
+            <div className="bg-white flex gap-[5.333px] h-[42px] items-center justify-center px-[12px] py-[10.667px] relative rounded-[2px] shrink-0 min-w-fit">
+              <p className="font-display font-semibold leading-none text-[#121212] text-[12px] whitespace-nowrap shrink-0">
                 Book a Service
               </p>
               <div className="h-[9.333px] relative shrink-0 w-[14.667px]">
@@ -250,7 +255,13 @@ export default function DealerLocatorHero({
         )}
       </div>
 
-      <div className="absolute left-1/2 top-[330.66px] z-10 w-full -translate-x-1/2 lg:top-[450px]">
+      <div
+        className={`absolute left-1/2 z-10 w-full -translate-x-1/2 lg:top-[450px] ${
+          isServicePage
+            ? "top-[354px] max-[359px]:top-[390px] sm:top-[374px]"
+            : "top-[330.66px]"
+        }`}
+      >
         <DealerLocator
           variant={activeTab}
           searchLabel={currentContent.searchLabel}

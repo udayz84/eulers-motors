@@ -152,21 +152,21 @@ export default function ChargingStationFaq() {
   return (
     <section
       aria-labelledby="charging-faq-title"
-      className="mx-auto w-full max-w-[1440px] bg-white px-4 py-8 sm:px-6 sm:py-12 md:px-8 lg:px-12 lg:py-[62px] xl:px-20"
+      className="mx-auto w-full max-w-[1440px] bg-white px-[20px] py-[32px] lg:px-[80px] lg:py-[62px]"
     >
-      <div className="flex w-full flex-col items-stretch gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-8 xl:gap-[41px]">
+      <div className="flex w-full flex-col items-center gap-[20px] lg:flex-row lg:items-start lg:justify-between lg:gap-[41px]">
         {/* Left Column: Heading, Categories & Map */}
         <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
           <div className="flex w-full flex-col items-start">
             <Eyebrow label="FAQ" />
-            <div className="mt-4 flex flex-col gap-3 text-[#121212] sm:gap-4">
+            <div className="mt-[14px] flex flex-col gap-[14px] text-[#121212] lg:mt-4 lg:gap-4">
               <h2
                 id="charging-faq-title"
-                className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] sm:text-[34px] sm:tracking-[-0.68px] lg:text-[40px] lg:tracking-[-0.8px] xl:text-[42px] xl:tracking-[-0.84px]"
+                className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] sm:text-[34px] sm:tracking-[-0.68px] lg:text-[42px] lg:tracking-[-0.84px]"
               >
                 Frequently asked questions
               </h2>
-              <p className="max-w-[474px] font-sans text-[14px] leading-normal sm:text-[15px] lg:text-[16px] text-[#121212]/80">
+              <p className="max-w-[474px] font-sans text-[12px] leading-normal sm:text-[15px] lg:text-[16px] text-[#121212]/80">
                 Find answers to the most common questions about our vehicles,
                 charging, service, warranty and more.
               </p>
@@ -176,7 +176,7 @@ export default function ChargingStationFaq() {
           {/* Categories Pill Bar */}
           <div className="relative w-full overflow-hidden">
             <div
-              className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto pb-1 pr-14"
+              className="no-scrollbar flex w-full items-center gap-[6.4px] overflow-x-auto pb-1 pr-14 lg:gap-[8px]"
               aria-label="FAQ categories"
             >
               {categories.map((category) => {
@@ -195,13 +195,13 @@ export default function ChargingStationFaq() {
                           }
                         : undefined
                     }
-                    className={`flex shrink-0 items-center gap-[6.4px] rounded-[400px] border-[0.4px] border-solid border-white px-3.5 py-2.5 sm:px-4 sm:py-[11px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
+                    className={`flex shrink-0 items-center gap-[6.4px] rounded-[400px] border-[0.4px] border-solid border-white px-[12px] h-[32px] sm:px-4 sm:py-[11px] lg:px-[16px] lg:py-[13px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
                       selected
                         ? "text-white"
                         : "bg-[rgba(204,204,204,0.32)] text-[#121212]"
                     }`}
                   >
-                    <span className="font-sans text-[14px] sm:text-[16px] font-semibold leading-none">
+                    <span className="font-sans text-[12px] sm:text-[16px] font-semibold leading-none">
                       {category.label}
                     </span>
                     <span
@@ -210,7 +210,7 @@ export default function ChargingStationFaq() {
                         selected ? "bg-white/50" : "bg-black/50"
                       }`}
                     />
-                    <span className="font-sans text-[12px] sm:text-[14px] font-normal leading-none">
+                    <span className="font-sans text-[10px] sm:text-[14px] font-normal leading-none">
                       {category.count}
                     </span>
                   </button>
@@ -232,7 +232,7 @@ export default function ChargingStationFaq() {
           <div
             role="img"
             aria-label="Euler charging station location network map"
-            className="relative w-full flex-none self-stretch overflow-hidden rounded-[20px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
+            className="relative w-full flex-none self-stretch overflow-hidden rounded-[20.655px] bg-[lightgray] aspect-[587/351] max-h-[352px] lg:aspect-auto lg:h-[351.64px]"
           >
             <Image
               src="/assets/charging-station-faq/location-map-hq.jpg"
@@ -246,12 +246,12 @@ export default function ChargingStationFaq() {
         </div>
 
         {/* Right Column: FAQ List & Custom Responsive Scrollbar */}
-        <div className="flex flex-1 min-w-0 w-full self-stretch items-stretch gap-2.5 sm:gap-3.5 lg:max-w-[652px]">
+        <div className="flex flex-1 min-w-0 w-full self-stretch items-stretch gap-[10px] lg:w-[624px] lg:gap-[12px]">
           {/* Scrollable FAQ List */}
           <div
             ref={listRef}
             onScroll={updateScrollbar}
-            className="no-scrollbar flex h-[440px] sm:h-[500px] lg:h-[578px] min-h-0 flex-1 flex-col gap-3 sm:gap-4 overflow-y-auto"
+            className="no-scrollbar flex h-[440px] sm:h-[500px] lg:h-[578px] min-h-0 flex-1 flex-col gap-[10px] lg:gap-[12px] overflow-y-auto"
             aria-label="Frequently asked questions"
           >
             {visibleQuestions.map((faq, index) => {
@@ -261,15 +261,15 @@ export default function ChargingStationFaq() {
               return (
                 <article
                   key={index}
-                  className="shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] p-4 sm:p-5 transition-all"
+                  className="shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] px-[12px] py-[21px] sm:p-5 lg:p-5 transition-all"
                 >
                   <button
                     type="button"
                     aria-expanded={expanded}
                     onClick={() => setOpenQuestion(expanded ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 text-left cursor-pointer"
+                    className="flex w-full items-center justify-between gap-[10px] text-left cursor-pointer lg:gap-[24px]"
                   >
-                    <span className="min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-[#121212]">
+                    <span className="min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.32px] lg:tracking-[-0.4px] text-[#121212]">
                       {faq.question}
                     </span>
                     <span className="relative flex size-6 shrink-0 items-center justify-center">
@@ -297,7 +297,7 @@ export default function ChargingStationFaq() {
                   </button>
                   <div className="accordion-grid" data-open={expanded}>
                     <div className="accordion-inner">
-                      <p className="mt-3 font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
+                      <p className="mt-3 font-sans text-[12px] leading-[1.4] sm:text-[15px] lg:text-[16px] lg:leading-[1.4] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3">
                         {faq.answer}
                       </p>
                     </div>
@@ -323,21 +323,21 @@ export default function ChargingStationFaq() {
               aria-label="Scroll FAQ list up"
               disabled={!canScrollUp}
               onClick={handleScrollUp}
-              className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full text-[#121212] transition-all hover:bg-black/5 active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              className="flex h-5 w-5 items-center justify-center rounded-full text-[#121212] transition-all hover:bg-black/5 active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer lg:h-[6px] lg:w-[14px]"
             >
               <Image
                 src="/assets/charging-station-faq/scroll-up.svg"
                 alt=""
                 width={14}
                 height={7}
-                className="h-[6px] w-[13px] opacity-80 hover:opacity-100"
+                className="h-[6px] w-[14px] opacity-80 hover:opacity-100"
               />
             </button>
 
             {/* Scroll Track */}
             <div
               ref={trackRef}
-              className="relative my-2 sm:my-2.5 w-3.5 sm:w-4 flex-1 rounded-[8px] bg-[#f3f4f5]"
+              className="relative my-2 sm:my-2.5 w-3.5 sm:w-4 flex-1 rounded-[8px] bg-[#f3f4f5] lg:rounded-[2px]"
             >
               {/* Thumb (position follows the list scroll) */}
               <div
@@ -345,7 +345,7 @@ export default function ChargingStationFaq() {
                   height: `${thumbHeight}px`,
                   transform: `translateY(${thumbTop}px)`,
                 }}
-                className="absolute left-0 top-0 w-full rounded-[8px] bg-[#0e2f6d] shadow-sm transition-[height] duration-150"
+                className="absolute left-0 top-0 w-full rounded-[8px] bg-[#112750] shadow-sm transition-[height] duration-150"
               />
             </div>
 
@@ -355,14 +355,14 @@ export default function ChargingStationFaq() {
               aria-label="Scroll FAQ list down"
               disabled={!canScrollDown}
               onClick={handleScrollDown}
-              className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full text-[#121212] transition-all hover:bg-black/5 active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              className="flex h-5 w-5 items-center justify-center rounded-full text-[#121212] transition-all hover:bg-black/5 active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer lg:h-[6px] lg:w-[14px]"
             >
               <Image
                 src="/assets/charging-station-faq/scroll-down.svg"
                 alt=""
                 width={14}
                 height={7}
-                className="h-[6px] w-[13px] opacity-80 hover:opacity-100"
+                className="h-[6px] w-[14px] opacity-80 hover:opacity-100"
               />
             </button>
           </div>

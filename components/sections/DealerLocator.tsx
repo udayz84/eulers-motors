@@ -233,7 +233,7 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
           <span className="hidden lg:inline">{dealer.address}</span>
         </p>
         <div className="flex items-center gap-[10px] font-sans text-[12px] font-medium leading-none text-[rgba(18,18,18,0.6)]">
-          <span className="lg:hidden">Open 24 hours</span>
+          <span className="lg:hidden">{dealer.hours}</span>
           <span className="hidden lg:inline">{dealer.hours}</span>
           <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
           <span className="hidden lg:inline">Mon - Fri</span>
@@ -249,7 +249,7 @@ function DealerCard({ dealer }: { dealer: Dealer }) {
             href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
+            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 py-[11px] font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
             Get Directions
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
@@ -343,7 +343,7 @@ function ChargingStationCard({ station }: { station: ChargingStation }) {
             href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
+            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 py-[11px] font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
             Get Directions
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
@@ -426,7 +426,7 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
           <span className="lg:hidden">{serviceCenter.hours}</span>
           <span className="hidden lg:inline">{serviceCenter.hours}</span>
           <span className="hidden h-1 w-1 rounded-full bg-[rgba(18,18,18,0.3)] lg:inline-block" />
-          <span className="hidden lg:inline">Mon - Sat</span>
+          <span className="hidden lg:inline">Mon - Fri</span>
         </div>
       </div>
 
@@ -439,7 +439,7 @@ function ServiceCenterCard({ serviceCenter }: { serviceCenter: ServiceCenter }) 
             href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
+            className="flex h-8 items-center justify-center gap-[10px] rounded-[4px] bg-[#121212] pl-5 pr-3 py-[11px] font-display text-[12px] font-semibold leading-none text-white lg:h-[42px] lg:text-[14px]"
           >
             Get Directions
             <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
@@ -630,8 +630,8 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[846px] lg:max-w-none">
-        <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">
+      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[36px] lg:w-[846px] lg:max-w-none">
+        <div className="relative flex w-full flex-col items-center gap-[12px] lg:gap-[10px]">
           <Image
             src={`${ASSET}search-swoosh-mobile.svg`}
             alt=""
@@ -699,7 +699,7 @@ export default function DealerLocator({
             </defs>
           </svg>
 
-          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between rounded-[20px] border border-[rgba(0,0,0,0.1)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
+          <div className="relative flex h-8 sm:h-10 w-full items-center justify-between rounded-[500px] sm:rounded-[20px] lg:rounded-[500px] border border-[rgba(0,0,0,0.1)] border-[rgba(0,0,0,0.04)] bg-[#f3f4f5] sm:bg-white lg:bg-[#f3f4f5] drop-shadow-[0px_2px_2px_rgba(0,0,0,0.1)] py-0.5 pl-2 pr-0.5 sm:py-1 sm:pl-4 sm:pr-1.5 lg:h-[46px] lg:py-[3px] lg:pl-[16px] lg:pr-[3px]">
             <label className="flex w-[120px] sm:w-[160px] shrink-0 items-center gap-2 lg:w-[150px] lg:gap-3">
               <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
                 <svg
@@ -734,7 +734,7 @@ export default function DealerLocator({
                   </defs>
                 </svg>
               </span>
-              <span className="flex size-3.5 shrink-0 items-center justify-center lg:hidden">
+              <span className="flex size-3 shrink-0 items-center justify-center lg:hidden">
                 <Image
                   src={`${ASSET}search-icon-mobile.svg`}
                   alt=""
@@ -749,12 +749,12 @@ export default function DealerLocator({
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search here..."
-                className="w-full bg-transparent font-sans text-[13px] sm:text-[14px] font-semibold leading-normal text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
+                className="w-full bg-transparent font-sans text-[12px] sm:text-[14px] font-semibold leading-normal text-[rgba(18,18,18,0.8)] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
               />
             </label>
             <button
               type="button"
-              className="flex h-[28px] sm:h-[32px] shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 sm:px-3.5 border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer lg:h-[38px] lg:px-4 lg:text-[12px]"
+              className="flex h-[32px] sm:h-[32px] shrink-0 items-center gap-[4px] rounded-full bg-white px-[8px] sm:px-3.5 py-[6px] border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer lg:h-[42px] lg:px-3 lg:text-[12px]"
             >
               <Image
                 src={`${ASSET}location-icon-desktop.svg`}
@@ -776,28 +776,30 @@ export default function DealerLocator({
             </button>
           </div>
 
-          <div
-            ref={cityRowScrollRef}
-            className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
-          >
-            <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
-              {CITIES.map((city) => {
-                const selected = city === selectedCity;
-                return (
-                  <button
-                    key={city}
-                    type="button"
-                    onClick={() => setSelectedCity(city)}
-                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[38px] lg:text-[16px] ${
-                      selected
-                        ? "bg-[#1363DF] text-white px-4 lg:px-5 shadow-sm"
-                        : "text-[#121212] px-2.5 sm:px-3 hover:text-[#1363DF]"
-                    }`}
-                  >
-                    {city}
-                  </button>
-                );
-              })}
+          <div className="relative w-[331px] max-w-full sm:w-[480px] lg:w-[600px] lg:max-w-none">
+            <div
+              ref={cityRowScrollRef}
+              className="no-scrollbar relative h-8 sm:h-9 w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:overflow-visible"
+            >
+              <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
+                {CITIES.map((city) => {
+                  const selected = city === selectedCity;
+                  return (
+                    <button
+                      key={city}
+                      type="button"
+                      onClick={() => setSelectedCity(city)}
+                      className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[42px] lg:text-[16px] ${
+                        selected
+                          ? "bg-[#1363DF] text-white px-3 lg:px-4 shadow-sm"
+                          : "text-[#121212] px-3 hover:text-[#1363DF]"
+                      }`}
+                    >
+                      {city}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             <Image
               src={`${ASSET}chips-fade-left.svg`}
@@ -805,7 +807,7 @@ export default function DealerLocator({
               width={27.2397}
               height={23.1431}
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-1 h-[23px] w-[27px] max-w-none lg:hidden"
+              className="pointer-events-none absolute left-0 top-1/2 h-[23.143px] w-[27.24px] max-w-none -translate-y-1/2 lg:hidden"
             />
             <Image
               src={`${ASSET}chips-fade-right.svg`}
@@ -813,7 +815,7 @@ export default function DealerLocator({
               width={27.2397}
               height={23.1431}
               aria-hidden="true"
-              className="pointer-events-none absolute right-0 top-1 h-[23px] w-[27px] max-w-none rotate-180 lg:hidden"
+              className="pointer-events-none absolute right-0 top-1/2 h-[23.143px] w-[27.24px] max-w-none -translate-y-1/2 rotate-180 lg:hidden"
             />
           </div>
         </div>
@@ -931,7 +933,7 @@ export default function DealerLocator({
                 {charging
                   ? "12 Charging Points"
                   : isService
-                  ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
+                  ? `${String(resultCount).padStart(2, "0")} Service Stations`
                   : `${String(resultCount).padStart(2, "0")} Dealers Found`}
               </h2>
             </div>
@@ -976,7 +978,7 @@ export default function DealerLocator({
               {charging
                 ? "12 Charging Points"
                 : isService
-                ? `${String(resultCount).padStart(2, "0")} Service Centers Found`
+                ? `${String(resultCount).padStart(2, "0")} Service Stations`
                 : `${String(resultCount).padStart(2, "0")} Dealers Found`}
             </h2>
           </div>

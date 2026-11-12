@@ -31,13 +31,13 @@ export default function ServiceInstantChat() {
   return (
     <section className="relative isolate w-full bg-gradient-to-b from-white from-[18.312%] to-[#d4dbec] to-[38.301%] lg:from-[41.542%] lg:to-[77.639%]">
       {/* Full-width background; content centred & capped at 1440px so it stays responsive */}
-      <div className="mx-auto max-w-[1440px] w-full px-5 pt-8 pb-5 sm:px-8 lg:px-20 lg:py-20">
+      <div className="mx-auto max-w-[1440px] w-full px-[20px] pt-[32px] pb-[20px] lg:p-[80px]">
         <div className="flex w-full flex-col items-center lg:flex-row lg:items-center lg:justify-between">
         {/* Left group — mobile: display:contents so the header and banner sit
             in the section column around the image/button; desktop: 791px stack */}
-        <div className="contents lg:flex lg:w-[791px] lg:shrink-0 lg:flex-col lg:items-start lg:gap-8">
+        <div className="contents lg:flex lg:w-[579.448px] lg:shrink-0 lg:flex-col lg:items-start lg:gap-[32px]">
           {/* Header — mobile 2828:11615 · desktop 3354:19623 */}
-          <div className="order-1 mb-[30px] flex w-full flex-col items-center justify-center gap-[14px] lg:order-none lg:mb-0 lg:w-[579.448px] lg:items-start lg:gap-4">
+          <div className="order-1 mb-[30px] flex w-full flex-col items-center justify-center gap-[14px] lg:order-none lg:mb-0 lg:w-[579.448px] lg:items-start lg:gap-[16px]">
             <Eyebrow label="INSTANT CHAT HELP" />
             <h2 className="w-[279.376px] text-center font-display text-[28px] font-semibold leading-[32px] tracking-[-0.56px] text-[#121212] lg:w-full lg:text-left lg:text-[42px] lg:leading-[48px] lg:tracking-[-0.84px]">
               Need help? WhatsApp Euler.

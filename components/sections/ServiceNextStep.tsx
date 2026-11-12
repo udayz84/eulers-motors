@@ -122,7 +122,7 @@ export default function ServiceNextStep() {
       {/* Cards — mobile 353px column / desktop 1280px row */}
       <div className="flex w-full flex-col gap-4 lg:w-[1280px] lg:flex-row lg:items-center lg:gap-5">
         {/* AMC card — mobile 2828:11486 / desktop 3353:13267 */}
-        <div className="relative h-[561px] w-full shrink-0 overflow-clip rounded-lg lg:h-[510px] lg:w-[660px] lg:rounded-[16px]">
+        <div className="relative h-[561px] w-[353px] shrink-0 overflow-clip rounded-lg lg:h-[510px] lg:w-[660px] lg:rounded-[16px]">
           <div className="absolute inset-0 bg-[#041231]" />
           <Image
             src={`${ASSET}amc-mobile.png`}
@@ -170,8 +170,8 @@ export default function ServiceNextStep() {
                 </span>
               </p>
             </div>
-            <div className="flex w-full flex-col gap-5 lg:gap-[26px]">
-              <div className="flex flex-col gap-[6px] lg:gap-4">
+            <div className="flex w-full flex-col gap-[20px] lg:gap-[26px]">
+              <div className="flex flex-col gap-[4px] lg:gap-[6px]">
                 <BulletPoint text="Scheduled periodic services included" />
                 <BulletPoint text="Free roadside assistance 24/7" />
                 <BulletPoint text="Subsidized accidental repairs & towing" />
@@ -187,7 +187,7 @@ export default function ServiceNextStep() {
         </div>
 
         {/* Warranty card — mobile 2828:11517 / desktop 3354:19331 */}
-        <div className="flex w-full shrink-0 flex-col gap-[26px] overflow-clip rounded-lg bg-white p-5 lg:flex-1 lg:self-stretch lg:justify-between lg:rounded-[16px] lg:p-8">
+        <div className="flex w-[353px] shrink-0 flex-col gap-[26px] overflow-clip rounded-lg bg-white p-5 lg:flex-1 lg:self-stretch lg:justify-between lg:rounded-[16px] lg:p-8 lg:w-auto">
           <div className="flex w-full flex-col gap-6 lg:gap-7">
             <div className="flex flex-col gap-3">
               <h3 className="w-[310.678px] font-display text-[32px] font-semibold leading-[40px] tracking-[-0.64px] text-[#121212] lg:w-auto lg:text-[52px] lg:leading-[1.15] lg:tracking-[-1.04px] lg:whitespace-nowrap">
@@ -214,11 +214,11 @@ export default function ServiceNextStep() {
                     Yrs
                   </p>
                 </div>
-                <p className="w-[131.425px] font-sans text-xs leading-4 text-[#121212] lg:w-auto lg:whitespace-nowrap">
+                <p className="w-[131.425px] font-sans text-xs leading-4 text-[#121212] whitespace-nowrap">
                   Standard Vehicle Warranty
                 </p>
               </div>
-              <div className="h-[56.116px] w-px shrink-0 translate-y-[56.116px] bg-[#d4dbec]" />
+              <div className="h-[56.116px] w-px shrink-0 bg-[#d4dbec]" />
               <div className="flex shrink-0 flex-col gap-4">
                 <div className="flex items-end gap-[3px] whitespace-nowrap">
                   <p
@@ -234,7 +234,7 @@ export default function ServiceNextStep() {
                     Yrs
                   </p>
                 </div>
-                <p className="w-[123.562px] font-sans text-xs leading-4 text-[#121212] lg:w-auto lg:whitespace-nowrap">
+                <p className="w-[123.562px] font-sans text-xs leading-4 text-[#121212] whitespace-nowrap">
                   Battery Pack Protection
                 </p>
               </div>
@@ -245,19 +245,21 @@ export default function ServiceNextStep() {
           </div>
           <div className="flex w-full flex-col gap-[26px] lg:gap-5">
             <div className="flex flex-col gap-3">
-              <p className="font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] lg:text-[18px] lg:tracking-[-0.36px]">
+              <p className="font-display text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-[#121212] sm:text-[18px] lg:text-[18px] sm:tracking-[-0.36px] lg:tracking-[-0.36px]">
                 Quick Terms:
               </p>
-              <p className="font-sans text-xs leading-4 text-[#121212] lg:text-sm lg:leading-[19px]">
+              <p className="font-sans text-xs leading-4 text-[#121212] sm:text-[14px] sm:leading-[20px] lg:text-[14px] lg:leading-[20px]">
                 Coverage includes the permanent battery management system, drivetrain motor, and
                 core chassis structures. Excludes regular wear-and-tear components such as brakes
                 and tires.
               </p>
             </div>
             <button className="flex h-[44px] w-full shrink-0 items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 lg:h-[50px] lg:w-fit lg:border-[0.5px] lg:border-solid lg:border-white lg:px-6">
-              <span className="whitespace-nowrap font-display text-xs font-bold leading-none text-white lg:text-base lg:font-semibold lg:leading-none">
-                <span className="lg:hidden">View Full Warranty Details</span>
-                <span className="hidden lg:inline">Confirm test drive</span>
+              <span className="whitespace-nowrap font-display text-xs font-bold leading-none text-white lg:hidden">
+                View Full Warranty Details
+              </span>
+              <span className="hidden whitespace-nowrap font-display text-xs font-bold leading-none text-white lg:inline lg:text-base lg:font-semibold lg:leading-none">
+                Confirm test drive
               </span>
               <ArrowIcon variant="white" />
             </button>

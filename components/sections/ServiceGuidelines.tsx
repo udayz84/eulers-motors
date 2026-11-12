@@ -128,12 +128,12 @@ function GuidelineCard({ items, tone }: { items: string[]; tone: "do" | "dont" }
             <div
               className={
                 isDont
-                  ? "flex size-[42px] shrink-0 items-center justify-center rounded-[20px] bg-[rgba(240,6,6,0.1)] lg:rounded-full lg:bg-[rgba(212,219,236,0.4)]"
-                  : "flex size-[42px] shrink-0 items-center justify-center rounded-[20px] bg-[rgba(212,219,236,0.4)] lg:rounded-full"
+                  ? "flex size-[42px] shrink-0 items-center justify-center rounded-[20px] p-1.5 bg-[rgba(240,6,6,0.1)] lg:rounded-full lg:bg-[rgba(212,219,236,0.4)]"
+                  : "flex size-[42px] shrink-0 items-center justify-center rounded-[20px] p-1.5 bg-[rgba(212,219,236,0.4)] lg:rounded-full"
               }
             >
               {isDont ? (
-                <div className="flex size-[42px] shrink-0 items-center justify-center rounded-[20px] bg-[rgba(240,6,6,0.1)]">
+                <div className="flex size-[42px] shrink-0 items-center justify-center rounded-[20px] p-1.5 bg-[rgba(240,6,6,0.1)]">
                   <Icon tone="dont" />
                 </div>
               ) : (
@@ -158,16 +158,16 @@ function Icon({ tone }: { tone: "do" | "dont" }) {
       <Image
         src={`${ASSET}${isDont ? "icon-cancel-mobile.svg" : "icon-check-mobile.svg"}`}
         alt=""
-        width={18.1667}
-        height={18.1667}
-        className="h-[18.1667px] w-[18.1667px] lg:hidden"
+        width={20}
+        height={20}
+        className="h-[20px] w-[20px] lg:hidden"
       />
       <Image
         src={`${ASSET}${isDont ? "icon-cancel.svg" : "icon-check.svg"}`}
         alt=""
-        width={16.5}
-        height={16.5}
-        className="hidden h-[16.5px] w-[16.5px] lg:block"
+        width={18}
+        height={18}
+        className="hidden h-[18px] w-[18px] lg:block"
       />
     </>
   );

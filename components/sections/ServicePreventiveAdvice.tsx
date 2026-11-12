@@ -64,14 +64,14 @@ function PreventiveCard({ tip }: { tip: Tip }) {
     <div
       className="flex min-h-[102px] w-full shrink-0 snap-center flex-row items-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 lg:min-h-[250px] lg:w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8"
     >
-      <div className="relative h-[62px] w-[64.333px] shrink-0 lg:h-[72px] lg:w-[74.709px]">
+      <div className="relative h-[62px] w-[64.333px] shrink-0 lg:aspect-[74.71/72] lg:h-[72px] lg:w-[74.709px]">
         <Image
           src={tip.icon}
           alt=""
           width={tip.size[0]}
           height={tip.size[1]}
           aria-hidden
-          className="absolute max-w-none"
+          className="absolute max-w-none lg:!left-0 lg:!top-0 lg:!h-full lg:!w-full lg:!object-contain"
           style={{
             left: `${tip.box[0]}%`,
             top: `${tip.box[1]}%`,
@@ -109,7 +109,7 @@ export default function ServicePreventiveAdvice() {
               Keep your Neo running better
             </h2>
           </div>
-          <p className="max-w-[295.766px] text-center font-sans text-xs leading-[16px] text-[#ccc] lg:max-w-[493.137px] lg:text-base lg:leading-[22px] lg:text-white">
+          <p className="max-w-[295.766px] text-center font-sans text-xs leading-[16px] text-[#ccc] lg:max-w-[493.137px] lg:text-base lg:leading-[24px] lg:text-white">
             Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.
           </p>
         </div>
