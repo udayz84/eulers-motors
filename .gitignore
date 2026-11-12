@@ -21,7 +21,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*
 
 # typescript
 *.tsbuildinfo
@@ -38,3 +37,4 @@ next-env.d.ts
 
 # visual regression testing artifacts
 /visual-regression/
+config.bat

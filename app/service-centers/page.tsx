@@ -1,8 +1,13 @@
 import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
+import ServiceNextStep from "@/components/sections/ServiceNextStep";
+import ServicePreventiveAdvice from "@/components/sections/ServicePreventiveAdvice";
+import PrimeBanner from "@/components/sections/PrimeBanner";
+import ServiceInstantChat from "@/components/sections/ServiceInstantChat";
+import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
+import ServiceGuidelines from "@/components/sections/ServiceGuidelines";
 import Footer from "@/components/sections/Footer";
-import DealerContactSection from "@/components/sections/DealerContactSection";
 import {
   getChargingStations,
   getDealerLocatorPageData,
@@ -46,7 +51,12 @@ export default async function ServiceCentersPage() {
       <Navbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="service" {...heroProps} />
-        <DealerContactSection {...data?.contactSection} />
+        <ServiceNextStep />
+        <ServicePreventiveAdvice />
+        <PrimeBanner isServicePage={true} />
+        <ServiceInstantChat />
+        <ChargingStationFaq />
+        <ServiceGuidelines />
       </main>
       <Footer />
     </>

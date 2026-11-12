@@ -14,6 +14,7 @@ export interface PrimeBannerProps {
   ctaLabel?: string;
   ctaHref?: string;
   features?: PrimeFeature[];
+  isServicePage?: boolean;
 }
 
 const DEFAULT_FEATURES: PrimeFeature[] = [
@@ -36,6 +37,7 @@ export default function PrimeBanner({
   ctaLabel = "Explore Euler Prime",
   ctaHref = "/products",
   features,
+  isServicePage = false,
 }: PrimeBannerProps = {}) {
   const currentFeatures = features !== undefined ? features : DEFAULT_FEATURES;
   const showCta = Boolean(ctaLabel && ctaHref);
@@ -111,6 +113,13 @@ export default function PrimeBanner({
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
           {title}
         </h2>
+
+        {/* Service page specific text */}
+        {isServicePage && (
+          <p className="w-[295.766px] font-sans text-[12px] font-normal leading-normal text-[#ccc] lg:w-[413px] lg:self-stretch lg:text-[16px] lg:leading-normal lg:!text-[#FFF]">
+            Return the car within 24 hours, and we&apos;ll provide you with a complimentary spare vehicle.
+          </p>
+        )}
 
         {/* features — desktop: 2-column grid when >3 items so text stays clear of the truck;
             single row for <=3 short items; mobile: stacked column */}

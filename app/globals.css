@@ -264,6 +264,27 @@ button {
   }
 }
 
+/* Preventive advice section (Figma 3354:19393 desktop · 2828:11548 mobile):
+   a 40% black wash over the navy→blue run; the desktop frame also carries
+   the mist base layer beneath the (opaque) run. The run's stops sit far
+   outside the frame — Figma blends in sRGB gamma space, so the stops below
+   were least-squares fitted to the exported renders (flat washed-blue
+   lead-in, ~55% toward navy at the right edge). */
+.preventive-bg {
+  background-image:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #1d6fff 13.99%, #0e2f6d 168.96%);
+}
+
+@media (min-width: 768px) {
+  .preventive-bg {
+    background-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%),
+      linear-gradient(90deg, #1d6fff 13.47%, #0e2f6d 167.36%),
+      linear-gradient(90deg, #e9edf3 0%, #e9edf3 100%);
+  }
+}
+
 /* ESG section background (Figma 3537:18846 · 2937:15792): a 40% black wash
    over the navy→blue diagonal run on a #041231 base. */
 .esg-bg {
