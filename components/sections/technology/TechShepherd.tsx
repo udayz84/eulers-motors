@@ -97,22 +97,22 @@ export default function TechShepherd() {
         </div>
 
         <div className="absolute left-0 right-0 top-[466px] z-10">
-        <div className="snap-row gap-3 px-5">
-          {FEATURES.map((f) => (
-            <article key={f.title} data-carousel-card className="flex w-[280px] shrink-0 snap-start flex-col items-start gap-2 overflow-clip rounded-[8px] bg-white p-[14px]">
-              <div className="flex w-full items-center gap-2">
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#eff3f8]">
-                  <img src={f.icon} alt="" className="size-5 object-contain" />
+          <div className="snap-row gap-3 px-5">
+            {FEATURES.map((f) => (
+              <article key={f.title} data-carousel-card className="flex w-[280px] shrink-0 snap-start flex-col items-start gap-2 overflow-clip rounded-[8px] bg-white p-[14px]">
+                <div className="flex w-full items-center gap-2">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#eff3f8]">
+                    <img src={f.icon} alt="" className="size-5 object-contain" />
+                  </div>
+                  <p className="whitespace-nowrap text-center text-[16px] font-bold capitalize leading-normal text-ink">{f.title}</p>
                 </div>
-                <p className="whitespace-nowrap text-center text-[16px] font-bold capitalize leading-normal text-ink">{f.title}</p>
-              </div>
-              <div className="flex w-full items-center justify-center pl-10">
-                <p className="min-w-px flex-1 text-[12px] leading-[1.4] text-[rgba(18,18,18,0.8)]">{f.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-[54px] bg-gradient-to-l from-[#f3f4f5] to-transparent" />
+                <div className="flex w-full items-center justify-center pl-10">
+                  <p className="min-w-px flex-1 text-[12px] leading-[1.4] text-[rgba(18,18,18,0.8)]">{f.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-[54px] bg-gradient-to-l from-[#f3f4f5] to-transparent" />
         </div>
 
         <div className="absolute left-1/2 top-[585px] z-10 flex w-[353px] -translate-x-1/2 items-start gap-2">
