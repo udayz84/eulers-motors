@@ -21,7 +21,7 @@ export default function FaqPage() {
         <FaqHero />
         <FaqContent />
         <FaqQuickHelp />
-        <ContactSection />
+        <ContactSection imageSrc="/assets/faq/next-step-truck-fade.png" />
         <FloatingWidget sticky />
       </main>
       <Footer />

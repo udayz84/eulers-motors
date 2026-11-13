@@ -249,7 +249,7 @@ export default function TechFaq() {
 
             <div className="min-h-0 w-full flex-1 overflow-hidden rounded-[16px] md:rounded-[20px]">
               <img
-                src="/assets/charging-station-faq/location-map.png"
+                src="/assets/technology-page/FAQ.webp"
                 alt="Customer support team member helping with a vehicle question"
                 className="h-full w-full object-cover"
               />

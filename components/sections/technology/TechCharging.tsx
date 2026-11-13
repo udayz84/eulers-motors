@@ -80,9 +80,9 @@ export default function TechCharging() {
           {/* Top image illustration */}
           <div className="relative h-[200px] w-full overflow-hidden rounded-[14px] bg-white border border-[#E2E6EE] shadow-[0_2px_8px_rgba(0,0,0,0.03)] mb-4">
             <img
-              src={`${A}/charge__imgRectangle1618873364.png`}
+              src={`${A}/charging-mobile.webp`}
               alt={`${chargingMode === "home" ? "Home" : "Public"} charging station preview`}
-              className="absolute left-[14.5%] top-[12%] h-[88%] w-[71%] object-contain"
+              className="absolute left-[7.4%] top-[12%] h-[88%] w-[85.2%] object-contain"
             />
           </div>
 
@@ -308,9 +308,9 @@ export default function TechCharging() {
             {/* Top illustration container */}
             <div className="relative h-[220px] w-full overflow-hidden rounded-[16px] bg-white border border-[#E2E6EE] shadow-[0_2px_12px_rgba(0,0,0,0.03)] md:h-[240px]">
               <img
-                src={`${A}/charge__imgRectangle1618873364.png`}
+                src={`${A}/charging-desktop.webp`}
                 alt="Public charging station"
-                className="absolute left-[14.45%] top-[11.87%] h-[88.13%] w-[71.1%] object-contain"
+                className="absolute left-[7.35%] top-[11.87%] h-[88.13%] w-[85.3%] object-contain"
               />
             </div>
 

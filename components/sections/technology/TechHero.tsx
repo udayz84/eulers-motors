@@ -73,7 +73,7 @@ export default function TechHero({ showPhilosophy = true }: { showPhilosophy?: b
         <div className="relative z-10 flex min-h-[500px] flex-col items-center justify-center gap-[42px] overflow-clip bg-[#041231] px-5 pb-[52px] pt-[62px]">
           <div className="flex w-full flex-col items-start gap-[14px]">
             <Eyebrow label="Philosophy" dark />
-            <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
+            <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
               Technology That Helps You Earn More
             </h2>
             <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">

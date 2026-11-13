@@ -19,11 +19,11 @@ export default function TechShepherd() {
     <section id="technology-app" className="relative bg-[#f3f4f5]" aria-label="Shepherd app">
       {/* Desktop & Tablet view */}
       <div className="relative mx-auto hidden h-[620px] w-full max-w-[1440px] overflow-clip md:block lg:h-[668px] min-[1440px]:px-[80px] min-[1440px]:py-[62px]">
-        <div className="absolute right-[-40px] top-[-20px] h-[440px] w-[540px] overflow-hidden rounded-lg md:right-0 md:top-[-30px] md:h-[480px] md:w-[580px] lg:left-[calc(25%+336.51px)] lg:top-[-41.75px] lg:h-[529.435px] lg:w-[642.52px]">
+        <div className="absolute right-[-40px] top-[-62px] h-[440px] w-[540px] overflow-hidden rounded-lg md:right-0 md:top-[-72px] md:h-[480px] md:w-[580px] lg:left-[calc(25%+336.51px)] lg:top-[-83.75px] lg:h-[529.435px] lg:w-[642.52px]">
           <img
-            src={`${A}/shep__imgImage749.png`}
+            src={`${A}/shepherd-desktop.webp`}
             alt="Shepherd app dashboard"
-            className="absolute left-0 top-[-5.82%] h-[105.79%] w-full max-w-none object-cover"
+            className="absolute inset-0 h-full w-full max-w-none object-cover"
           />
         </div>
         <div aria-hidden="true" className="absolute left-[20.49px] top-[333.21px] h-[252.152px] w-[1645.513px] bg-[#f3f4f5] blur-[47.1px]" />
@@ -74,7 +74,7 @@ export default function TechShepherd() {
       </div>
       <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[375px] z-[1] hidden h-[138.8px] w-[88px] bg-gradient-to-l from-[#f3f4f5] to-transparent md:block lg:top-[418.69px]" />
       <div className="relative mx-auto h-[663px] w-full max-w-[480px] overflow-clip md:hidden">
-        <div className="absolute left-5 right-5 top-[44px] flex max-w-[353px] flex-col items-start gap-[14px]">
+        <div className="absolute left-5 right-5 top-[44px] z-10 flex max-w-[353px] flex-col items-start gap-[14px]">
           <Eyebrow label="Shepherd app" />
           <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink">
             Manage Everything in One Place
@@ -86,17 +86,17 @@ export default function TechShepherd() {
         </div>
 
         <div className="absolute left-[23px] top-[156.5px] size-[350px]">
-          <div className="absolute left-[-66.82px] top-[20.71px] h-[378.772px] w-[459.675px] overflow-hidden rounded-[8px]">
+          <div className="absolute left-[-66.82px] top-[-51.29px] h-[378.772px] w-[459.675px] overflow-hidden rounded-[8px]">
             <img
-              src={`${A}/shep__imgImage749.png`}
+              src={`${A}/shepherd-mobile.webp`}
               alt="Shepherd app dashboard"
-              className="absolute left-0 top-[-5.82%] h-[105.79%] w-full max-w-none object-cover"
+              className="absolute inset-0 h-full w-full max-w-none object-cover"
             />
           </div>
           <div aria-hidden className="absolute left-[-581.19px] top-[294.79px] h-[233.914px] w-[1526.493px] bg-[#f3f4f5] blur-[47.1px]" />
         </div>
 
-        <div className="absolute left-0 right-0 top-[466px]">
+        <div className="absolute left-0 right-0 top-[466px] z-10">
         <div className="snap-row gap-3 px-5">
           {FEATURES.map((f) => (
             <article key={f.title} data-carousel-card className="flex w-[280px] shrink-0 snap-start flex-col items-start gap-2 overflow-clip rounded-[8px] bg-white p-[14px]">
@@ -115,7 +115,7 @@ export default function TechShepherd() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-[54px] bg-gradient-to-l from-[#f3f4f5] to-transparent" />
         </div>
 
-        <div className="absolute left-1/2 top-[585px] flex w-[353px] -translate-x-1/2 items-start gap-2">
+        <div className="absolute left-1/2 top-[585px] z-10 flex w-[353px] -translate-x-1/2 items-start gap-2">
           <Link
             href="/products"
             className="flex h-11 min-w-px flex-1 items-center justify-center gap-2 rounded-[4px] border border-[rgba(18,18,18,0.5)] bg-[#f3f4f5] px-4 hover:bg-white transition-colors"

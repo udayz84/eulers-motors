@@ -68,7 +68,12 @@ const VEHICLE_SELECT: Record<Tab, [string, string]> = {
   Fleet: ["Which vehicle *", "Not sure, please suggest one"],
 };
 
-export default function ContactSection() {
+export default function ContactSection({
+  imageSrc = "/assets/enterprise/truck-wash.png",
+}: {
+  /** Section photo (same box: 630×441). Pages can swap it without touching layout. */
+  imageSrc?: string;
+}) {
   const [tab, setTab] = useState<Tab>("Test drive");
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
@@ -83,7 +88,7 @@ export default function ContactSection() {
               as designed instead of approximating the gradients in CSS. */}
           <Image
             aria-hidden
-            src="/assets/enterprise/truck-wash.png"
+            src={imageSrc}
             alt=""
             width={630}
             height={441}

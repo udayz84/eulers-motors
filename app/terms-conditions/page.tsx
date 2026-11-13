@@ -118,8 +118,13 @@ export default function TermsConditionsPage() {
             label="Terms & Conditions"
             title="Terms of Use"
             titleId="terms-title-mobile"
+            className="!h-[392px] sm:!h-[440px]"
+            imageOffsetClassName="top-[36px]"
+            imageFitClassName="object-cover"
+            imagePositionClassName="object-center"
             description="Please read these terms carefully before using our services."
             hasWidget
+            imageSrc="/assets/policy-pages/terms-conditions.webp"
           />
         </div>
         <div className="hidden lg:block">
@@ -128,6 +133,7 @@ export default function TermsConditionsPage() {
             title="Terms of Use"
             description="Please read these terms carefully before using our services."
             hasWidget
+            imageSrc="/assets/policy-pages/terms-conditions.webp"
           />
         </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="terms-title">

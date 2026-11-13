@@ -6,8 +6,14 @@ import PagerBar from "@/components/ui/PagerBar";
 
 const A = "/assets/technology-page";
 const LOAD_CARD_IMAGES = {
-  load: `${A}/load-card-drive-exact.png`,
-  payload: `${A}/load-card-payload-exact.png`,
+  load: {
+    desktop: `${A}/load-card-drive-desktop.webp`,
+    mobile: `${A}/load-card-drive-mobile.webp`,
+  },
+  payload: {
+    desktop: `${A}/load-card-payload-desktop.webp`,
+    mobile: `${A}/load-card-payload-mobile.webp`,
+  },
 } as const;
 
 type CardVariant = "load" | "payload";
@@ -245,7 +251,7 @@ function MobileLoadCard({ variant }: { variant: "load" | "payload" }) {
     <div className="relative flex h-[488px] w-full shrink-0 flex-col items-center justify-end gap-[10px] overflow-clip rounded-[12px] border border-white/20 px-3 pb-3 pt-[252px]">
       <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[12px]">
         <div className="absolute inset-0 overflow-hidden rounded-[12px]">
-          <img src={LOAD_CARD_IMAGES[variant]} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
+          <img src={LOAD_CARD_IMAGES[variant].mobile} alt="" className="absolute inset-0 size-full rounded-[12px] object-cover object-top" />
         </div>
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>
@@ -286,9 +292,9 @@ function DesktopLoadCard({ variant }: { variant: "load" | "payload" }) {
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[12px]">
         <img
-          src={LOAD_CARD_IMAGES[variant]}
+          src={LOAD_CARD_IMAGES[variant].desktop}
           alt=""
-          className="absolute left-[0.117px] top-[-32.237px] h-[106.547%] w-[99.951%] max-w-none rounded-[12px] object-cover"
+          className="absolute inset-0 h-full w-full max-w-none rounded-[12px] object-cover"
         />
         <div className="absolute inset-0 rounded-[12px] bg-gradient-to-b from-transparent from-[53.37%] to-black to-[73.84%]" />
       </div>

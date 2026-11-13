@@ -10,7 +10,7 @@ export default function TechManufacturing() {
         <div className="relative h-full w-full overflow-clip rounded-[16px] md:rounded-[20px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[16px] md:rounded-[20px]">
             <img
-              src={`${A}/mfg__imgRectangle1618873365.png`}
+              src={`${A}/manufacturing-desktop.webp`}
               alt=""
               className="absolute inset-0 h-full w-full max-w-none object-cover object-[center_42%]"
             />
@@ -42,7 +42,7 @@ export default function TechManufacturing() {
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[#041231]" />
           <div className="absolute inset-0 overflow-hidden">
-            <img src={`${A}/mfg__imgEulerUiMobile.png`} alt="" className="absolute left-[-49.26%] top-0 h-full w-[192.4%] max-w-none" />
+            <img src={`${A}/manufacturing-mobile.webp`} alt="" className="absolute inset-0 size-full max-w-none object-cover object-center" />
           </div>
         </div>
 
@@ -66,7 +66,7 @@ export default function TechManufacturing() {
 
         <div className="absolute bottom-[39px] left-5 right-5 mx-auto max-w-[353px] flex flex-col items-start gap-3">
           <Eyebrow label="Manufacturing" dark />
-          <h2 className="w-full font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-white md:text-[42px] lg:text-[42px]">
+          <h2 className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white">
             Where Every Vehicle Begins
           </h2>
           <p className="w-full font-sans text-[12px] font-normal leading-normal text-white">

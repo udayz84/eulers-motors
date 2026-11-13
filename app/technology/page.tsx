@@ -32,7 +32,7 @@ export default function TechnologyPage() {
         <TechShepherd />
         <TechProof />
         <CustomerReviews autoScrollOnMobile={false} />
-        <ContactSection />
+        <ContactSection imageSrc="/assets/faq/next-step-truck-fade.png" />
       </main>
       <Footer />
     </>

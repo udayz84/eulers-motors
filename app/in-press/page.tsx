@@ -245,6 +245,7 @@ export default function InPressPage() {
             description="See the latest media coverage, company announcements and industry updates from Euler Motors."
             action={<a href="#media-kit" className="flex h-[44px] w-[313px] items-center justify-center gap-2 whitespace-nowrap rounded-[3px] bg-white px-5 font-display text-[12px] font-bold leading-[100%] text-[#121212] transition-colors hover:bg-[#e9edf3]">Download Media Kit <Arrow color="ink" /></a>}
             hasWidget
+            imageSrc="/assets/in-press/Last banners-04.webp"
           />
         </div>
         <div className="hidden lg:block">
@@ -254,8 +255,9 @@ export default function InPressPage() {
             description="See the latest media coverage, company announcements and industry updates from Euler Motors."
             action={<a href="#media-kit" className="flex h-[50.477px] w-[241px] items-center justify-center gap-2 whitespace-nowrap rounded-[4px] border-[0.5px] border-white bg-[#f2f2f2] px-6 font-display text-[16px] font-semibold leading-[100%] text-[#121212] transition-colors hover:bg-[#e9edf3]">Download Media Kit <Arrow color="ink" /></a>}
             hasWidget
-            widgetDesktopClassName="lg:top-[400px] lg:translate-y-0"
+            widgetDesktopClassName="lg:top-[calc(100%_-_20px)] lg:translate-y-0"
             widgetDesktopRightClassName="lg:right-[-30px]"
+            imageSrc="/assets/in-press/Last banners-04.webp"
           />
         </div>
 

@@ -13,12 +13,23 @@ export default function RefundPolicyPage() {
             label="Refund policy"
             title="Refund Policy"
             titleId="refund-title-mobile"
+            className="!h-[392px] sm:!h-[440px]"
+            imageOffsetClassName="top-[36px]"
+            imageFitClassName="object-cover"
+            imagePositionClassName="object-center"
             description="We protect your data and respect your privacy."
             hasWidget
+            imageSrc="/assets/policy-pages/refund-policy.webp"
           />
         </div>
         <div className="hidden lg:block">
-          <PolicyHero label="Refund policy" title="Refund Policy" variant="refund" hasWidget />
+          <PolicyHero
+            label="Refund policy"
+            title="Refund Policy"
+            variant="refund"
+            hasWidget
+            imageSrc="/assets/policy-pages/refund-policy.webp"
+          />
         </div>
         <div className="relative mx-auto flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-8 sm:gap-8 sm:px-8 sm:py-10 lg:w-full lg:max-w-none lg:gap-0 lg:px-8 xl:px-0 lg:pb-[62px] lg:pt-[64px]" aria-labelledby="refund-title">
           <div className="flex w-full max-w-[720px] mx-auto flex-col gap-6 p-0 sm:gap-8 lg:max-w-[1040px] lg:gap-[40px] lg:px-0">
