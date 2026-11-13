@@ -7,6 +7,7 @@ import FloatingWidget from "@/components/FloatingWidget";
 import Eyebrow from "@/components/ui/Eyebrow";
 import type { CareerFilters } from "./types";
 import type { StrapiCareerHero } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 type SelectOption = {
   label: string;
   value: string;
@@ -340,6 +341,8 @@ export default function CareerHero({
   const title = data?.title || "";
   const subtitle = data?.subtitle || "";
   const ctaLabel = data?.cta?.label || "";
+  const desktopHeroImg = mediaUrl(data?.desktopImage, "/assets/careers/hero-desktop.webp");
+  const mobileHeroImg = mediaUrl(data?.mobileImage, "/assets/careers/hero-mobile.webp");
 
   useEffect(() => {
     const el = textRef.current;
@@ -417,7 +420,7 @@ export default function CareerHero({
         <div className="absolute inset-x-0 top-[155.67px] bottom-0 min-h-[579px] w-full overflow-hidden lg:inset-0 lg:top-auto lg:bottom-[-204px] lg:h-[909px] lg:w-full">
           <div className="absolute inset-0 bg-black" />
           <Image
-            src="/assets/careers/hero-mobile.webp"
+            src={mobileHeroImg}
             alt=""
             width={1440}
             height={1394}
@@ -431,7 +434,7 @@ export default function CareerHero({
             }}
           />
           <Image
-            src="/assets/careers/hero-desktop.webp"
+            src={desktopHeroImg}
             alt=""
             width={1440}
             height={1394}

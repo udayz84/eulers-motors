@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import CarouselArrows from "../ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import type { StrapiAboutEulerSection } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const BASE_CARDS = [
   {
@@ -12,8 +14,8 @@ const BASE_CARDS = [
     title: "Built for Businesses",
     description: "We build electric commercial vehicles that help businesses move more and spend less.",
     stat: "Founded in New Delhi, 2018",
-    mobileImage: "/assets/about-euler/card-1-mobile.png",
-    desktopImage: "/assets/about-euler/card-1-desktop.png",
+    mobileImage: "/assets/about-euler/card-1-mobile.webp",
+    desktopImage: "/assets/about-euler/card-1-desktop.webp",
   },
   {
     id: 2,
@@ -21,8 +23,8 @@ const BASE_CARDS = [
     title: "Every Decision Starts Here",
     description: "We build around real customer needs, not assumptions.",
     stat: "1000+ Daily Business Trips",
-    mobileImage: "/assets/about-euler/card-2-mobile.png",
-    desktopImage: "/assets/about-euler/card-2-desktop.png",
+    mobileImage: "/assets/about-euler/card-2-mobile.webp",
+    desktopImage: "/assets/about-euler/card-2-desktop.webp",
   },
   {
     id: 3,
@@ -30,10 +32,14 @@ const BASE_CARDS = [
     title: "We Own the Outcome",
     description: "We take responsibility for every vehicle on the road, end to end.",
     stat: "24/7 Roadside Support",
-    mobileImage: "/assets/about-euler/card-3-mobile.png",
-    desktopImage: "/assets/about-euler/card-3-desktop.png",
+    mobileImage: "/assets/about-euler/card-3-mobile.webp",
+    desktopImage: "/assets/about-euler/card-3-desktop.webp",
   },
 ];
+
+export interface AboutEulerProps {
+  data?: StrapiAboutEulerSection;
+}
 
 /**
  * About Euler section (Figma 3223:16874).
@@ -41,11 +47,25 @@ const BASE_CARDS = [
  * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
  * blue navigation arrows with boundary auto-hide, full-bleed edge bleed without cropping.
  */
-export default function AboutEuler() {
-  const repeats = 4;
-  const displayCards = Array.from({ length: repeats }).flatMap((_, setIndex) =>
-    BASE_CARDS.map((c) => ({ ...c, uniqueKey: `${setIndex}-${c.id}` }))
-  );
+export default function AboutEuler({ data }: AboutEulerProps = {}) {
+  const eyebrow = data?.eyebrow || "About Euler";
+  const sourceCards =
+    data?.cards && data.cards.length > 0
+      ? data.cards.map((card, idx) => {
+        const fallback = BASE_CARDS[idx % BASE_CARDS.length];
+        return {
+          id: card.id ?? idx + 1,
+          badge: card.badge || fallback.badge,
+          title: card.title || fallback.title,
+          description: card.description || fallback.description,
+          stat: card.stat || fallback.stat,
+          mobileImage: mediaUrl(card.mobileImage, fallback.mobileImage),
+          desktopImage: mediaUrl(card.desktopImage, fallback.desktopImage),
+        };
+      })
+      : BASE_CARDS;
+
+  const displayCards = sourceCards.map((c) => ({ ...c, uniqueKey: `card-${c.id}` }));
 
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -124,7 +144,7 @@ export default function AboutEuler() {
     return () => observer.disconnect();
   }, []);
 
-  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
+  // Continuous auto-scroll loop (speed = 50px/s, stops at the end, does NOT pause on hover)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
@@ -154,12 +174,10 @@ export default function AboutEuler() {
               const advance = Math.floor(accumulator);
               accumulator -= advance;
 
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
-              } else {
-                row.scrollLeft += advance;
+              if (row.scrollLeft < maxScroll - 1) {
+                row.scrollLeft = Math.min(maxScroll, row.scrollLeft + advance);
+                updateProgress();
               }
-              updateProgress();
             }
           }
         }
@@ -202,7 +220,7 @@ export default function AboutEuler() {
                 />
               </div>
               <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] sm:text-[13px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
-                About Euler
+                {eyebrow}
               </p>
             </div>
             <div className="content-stretch flex gap-[6px] items-center relative shrink-0 max-lg:hidden">
@@ -223,7 +241,7 @@ export default function AboutEuler() {
                 />
               </div>
               <p className="font-sans font-bold leading-normal relative shrink-0 text-[14px] text-white tracking-[0.7px] uppercase whitespace-nowrap">
-                About Euler
+                {eyebrow}
               </p>
             </div>
           </div>
@@ -251,28 +269,30 @@ export default function AboutEuler() {
             >
               {/* Background Image */}
               <div className="absolute inset-0 overflow-hidden rounded-[12px] sm:rounded-[18px] lg:rounded-[20px]">
+                {/* Mobile */}
                 <Image
                   src={card.mobileImage}
-                  alt=""
+                  alt={card.title}
                   fill
                   sizes="(min-width: 640px) 480px, 324px"
                   className="object-cover lg:hidden"
+                  unoptimized
+                />
+                {/* Desktop */}
+                <Image
+                  src={card.desktopImage}
+                  alt={card.title}
+                  fill
+                  sizes="720px"
+                  className="object-cover max-lg:hidden"
+                  unoptimized
                 />
               </div>
 
-              {/* Desktop Background — gradient + image (Figma 3223:16874) */}
+              {/* Gradient Overlay */}
               <div
                 aria-hidden
-                className="absolute inset-0 max-lg:hidden"
-                style={{
-                  background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 68.87%, rgba(0, 0, 0, 0.60) 90.7%), url('${card.desktopImage}') lightgray 0px -106.086px / 100% 149.608% no-repeat`,
-                }}
-              />
-
-              {/* Gradient Overlay (mobile only) */}
-              <div
-                aria-hidden
-                className="absolute inset-0 rounded-[12px] sm:rounded-[18px] bg-gradient-to-b from-transparent from-[68.873%] to-black/60 to-[90.703%] lg:hidden"
+                className="pointer-events-none absolute inset-0 rounded-[12px] sm:rounded-[18px] lg:rounded-[20px] bg-gradient-to-b from-transparent from-[68.87%] to-black/60 to-[90.7%]"
               />
 
               {/* Info Card */}

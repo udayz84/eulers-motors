@@ -115,6 +115,35 @@ async function updateLayouts() {
       console.log('✅ Updated Product Content Manager layout in core_store (clean showcase layout)');
     }
 
+    // 5. About Page
+    const aboutKey = 'plugin_content_manager_configuration_content_types::api::about-page.about-page';
+    const aboutConfigRow = await app.db.query('strapi::core-store').findOne({ where: { key: aboutKey } });
+    if (aboutConfigRow) {
+      const config = JSON.parse(aboutConfigRow.value);
+      const aboutOrder = [
+        'hero',
+        'eulerSection',
+        'beliefSection',
+        'timelineSection',
+        'factorySection',
+        'leadershipSection',
+        'partnersSection',
+        'recognitionSection',
+        'esgSection',
+        'reportsSection',
+        'hiringSection',
+        'contactSection',
+        'faqSection',
+        'seo',
+      ];
+      config.layouts.edit = aboutOrder.map((name) => [{ name, size: 12 }]);
+      await app.db.query('strapi::core-store').update({
+        where: { key: aboutKey },
+        data: { value: JSON.stringify(config) },
+      });
+      console.log('✅ Updated About Page Content Manager layout in core_store');
+    }
+
     console.log('🎉 All Content Manager layouts successfully updated to match UI order with SEO last!');
   } finally {
     await app.destroy();

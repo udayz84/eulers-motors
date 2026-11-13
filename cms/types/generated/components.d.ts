@@ -1,5 +1,242 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface AboutBeliefCard extends Struct.ComponentSchema {
+  collectionName: 'components_about_belief_cards';
+  info: {
+    description: 'Belief section card with title and vehicle image';
+    displayName: 'Belief Card';
+    icon: 'heart';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface AboutBeliefSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_belief_sections';
+  info: {
+    description: 'Our Belief section with heading, description, and four cards';
+    displayName: 'Belief Section';
+    icon: 'heart';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'about.belief-card', true>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<"At Euler Motors, we believe a commercial vehicle should do more than move goods. It should help businesses grow, reduce running costs and make every working day more productive. That's why every vehicle, every technology and every decision starts with the people who use it every day.">;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Customers'>;
+    mobileEyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Our Belief'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Building More Than Electric Vehicles'>;
+  };
+}
+
+export interface AboutEsgCard extends Struct.ComponentSchema {
+  collectionName: 'components_about_esg_cards';
+  info: {
+    description: 'Numbered ESG impact highlight card';
+    displayName: 'ESG Impact Card';
+    icon: 'earth';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    number: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface AboutEsgSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_esg_sections';
+  info: {
+    description: 'ESG in Action section with tabbed impact breakdown';
+    displayName: 'ESG Section';
+    icon: 'earth';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<"See how we're creating a positive impact through sustainability, people and responsible business practices.">;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Esg in Action'>;
+    tabs: Schema.Attribute.Component<'about.esg-tab', true>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Building a Better Tomorrow'>;
+  };
+}
+
+export interface AboutEsgTab extends Struct.ComponentSchema {
+  collectionName: 'components_about_esg_tabs';
+  info: {
+    description: 'ESG focus area tab content with image, metrics, and impact cards';
+    displayName: 'ESG Tab';
+    icon: 'bulletList';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'about.esg-card', true>;
+    headline: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    stats: Schema.Attribute.Component<'shared.stat-item', true>;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    tabTitle: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface AboutEulerCard extends Struct.ComponentSchema {
+  collectionName: 'components_about_euler_cards';
+  info: {
+    description: 'Mission and values card in About Euler carousel';
+    displayName: 'Euler Card';
+    icon: 'apps';
+  };
+  attributes: {
+    badge: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    desktopImage: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    stat: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface AboutEulerSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_euler_sections';
+  info: {
+    description: 'Horizontal mission and values card carousel';
+    displayName: 'About Euler Section';
+    icon: 'layers';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'about.euler-card', true>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'About Euler'>;
+  };
+}
+
+export interface AboutFactorySection extends Struct.ComponentSchema {
+  collectionName: 'components_about_factory_sections';
+  info: {
+    description: 'Inside Our Factory showcase section';
+    displayName: 'Factory Section';
+    icon: 'cog';
+  };
+  attributes: {
+    cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'See how every Euler vehicle is built and tested.'>;
+    desktopImage: Schema.Attribute.Media<'images'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'How we build'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Inside Our Factory'>;
+    videoUrl: Schema.Attribute.String;
+  };
+}
+
+export interface AboutHero extends Struct.ComponentSchema {
+  collectionName: 'components_about_heroes';
+  info: {
+    description: 'About page hero banner with eyebrow, heading, description, and responsive background images';
+    displayName: 'About Hero';
+    icon: 'landscape';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.'>;
+    desktopImage: Schema.Attribute.Media<'images'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'About Euler Motors'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    mobileOverlayImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<"Driving India's Electric Future">;
+  };
+}
+
+export interface AboutHiringSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_hiring_sections';
+  info: {
+    description: 'Join the journey hiring callout banner';
+    displayName: 'Hiring Section';
+    icon: 'briefcase';
+  };
+  attributes: {
+    cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Either way, the same question applies. Does the work help somebody earn more than they did yesterday?'>;
+    desktopImage: Schema.Attribute.Media<'images'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Join the journey'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'We are hiring, and we are selling.'>;
+  };
+}
+
+export interface AboutLeadershipSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_leadership_sections';
+  info: {
+    description: 'Leadership section header (team members come from Leadership Member collection)';
+    displayName: 'Leadership Section';
+    icon: 'user';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'OUR LEADERSHIP'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<"The People Building What's Next">;
+  };
+}
+
+export interface AboutRecognitionSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_recognition_sections';
+  info: {
+    description: 'Awards and recognition section header and feature image (awards come from Award collection)';
+    displayName: 'Recognition Section';
+    icon: 'star';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Recognition'>;
+    image: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Awards and recognition.'>;
+  };
+}
+
+export interface AboutReportsSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_reports_sections';
+  info: {
+    description: 'ESG Reports & Policies section header and photo (reports come from ESG Report collection)';
+    displayName: 'Reports Section';
+    icon: 'filePdf';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Reports and disclosures'>;
+    image: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'ESG Reports & Policies'>;
+    viewAllCta: Schema.Attribute.Component<'shared.cta-button', false>;
+  };
+}
+
+export interface AboutTimelineSection extends Struct.ComponentSchema {
+  collectionName: 'components_about_timeline_sections';
+  info: {
+    description: 'Milestones timeline section header (items come from Timeline Milestone collection)';
+    displayName: 'Timeline Section';
+    icon: 'clock';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Timeline'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Milestones That Shaped Euler'>;
+  };
+}
+
 export interface CareersBenefitItem extends Struct.ComponentSchema {
   collectionName: 'components_careers_benefit_items';
   info: {
@@ -32,6 +269,24 @@ export interface CareersBenefitsSection extends Struct.ComponentSchema {
   };
 }
 
+export interface CareersCtaButton extends Struct.ComponentSchema {
+  collectionName: 'components_careers_cta_buttons';
+  info: {
+    description: 'Call-to-action button without variant';
+    displayName: 'CTA Button';
+    icon: 'cursor';
+  };
+  attributes: {
+    href: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'#open-positions'>;
+    isExternal: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Find Jobs'>;
+  };
+}
+
 export interface CareersGallerySection extends Struct.ComponentSchema {
   collectionName: 'components_careers_gallery_sections';
   info: {
@@ -58,9 +313,11 @@ export interface CareersHero extends Struct.ComponentSchema {
     icon: 'user';
   };
   attributes: {
-    cta: Schema.Attribute.Component<'shared.cta-button', false>;
+    cta: Schema.Attribute.Component<'careers.cta-button', false>;
+    desktopImage: Schema.Attribute.Media<'images'>;
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Grow with us'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     subtitle: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Be part of a collaborative, focused team solving real infrastructure and engineering challenges to clean commercial transport across India.'>;
     title: Schema.Attribute.String &
@@ -98,6 +355,7 @@ export interface CareersSupportItem extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -1305,8 +1563,23 @@ export interface TechnologyVehiclePart extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'about.belief-card': AboutBeliefCard;
+      'about.belief-section': AboutBeliefSection;
+      'about.esg-card': AboutEsgCard;
+      'about.esg-section': AboutEsgSection;
+      'about.esg-tab': AboutEsgTab;
+      'about.euler-card': AboutEulerCard;
+      'about.euler-section': AboutEulerSection;
+      'about.factory-section': AboutFactorySection;
+      'about.hero': AboutHero;
+      'about.hiring-section': AboutHiringSection;
+      'about.leadership-section': AboutLeadershipSection;
+      'about.recognition-section': AboutRecognitionSection;
+      'about.reports-section': AboutReportsSection;
+      'about.timeline-section': AboutTimelineSection;
       'careers.benefit-item': CareersBenefitItem;
       'careers.benefits-section': CareersBenefitsSection;
+      'careers.cta-button': CareersCtaButton;
       'careers.gallery-section': CareersGallerySection;
       'careers.hero': CareersHero;
       'careers.positions-section': CareersPositionsSection;

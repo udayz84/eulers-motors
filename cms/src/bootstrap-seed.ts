@@ -1,8 +1,27 @@
 import path from 'path';
 import fs from 'fs';
 
+function getMimeType(filePath: string): string {
+  const ext = path.extname(filePath).toLowerCase();
+  switch (ext) {
+    case '.png':
+      return 'image/png';
+    case '.jpg':
+    case '.jpeg':
+      return 'image/jpeg';
+    case '.webp':
+      return 'image/webp';
+    case '.svg':
+      return 'image/svg+xml';
+    case '.pdf':
+      return 'application/pdf';
+    default:
+      return 'application/octet-stream';
+  }
+}
+
 /**
- * Helper to upload WebP media into Strapi's Media Library if not already uploaded.
+ * Helper to upload media into Strapi's Media Library if not already uploaded.
  * Returns the media ID (number).
  */
 async function uploadMediaIfMissing(
@@ -37,7 +56,7 @@ async function uploadMediaIfMissing(
     files: {
       filepath: fullPath,
       originalFilename: path.basename(fullPath),
-      mimetype: 'image/webp',
+      mimetype: getMimeType(fullPath),
       size: stat.size,
     },
   });
@@ -202,6 +221,18 @@ export async function seedStrapi(strapi: any) {
     );
 
     // Careers Page Main Images
+    const careerHeroDesktopId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/hero-desktop.webp',
+      'career-hero-desktop.webp',
+      'Euler Motors Careers Hero Desktop'
+    );
+    const careerHeroMobileId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/hero-mobile.webp',
+      'career-hero-mobile.webp',
+      'Euler Motors Careers Hero Mobile'
+    );
     const galleryOfficeId = await uploadMediaIfMissing(
       strapi,
       'public/assets/careers/gallery-office.webp',
@@ -255,6 +286,56 @@ export async function seedStrapi(strapi: any) {
       'public/assets/careers/testimonial-priya.webp',
       'testimonial-priya.webp',
       'Priya Sharma'
+    );
+
+    // Careers Support Perks Icons
+    const supportMedicalId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-medical.webp',
+      'support-medical.webp',
+      'Medical Cover'
+    );
+    const supportLearningId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-learning.webp',
+      'support-learning.webp',
+      'Learning Budget'
+    );
+    const supportLeaveId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-leave.webp',
+      'support-leave.webp',
+      'Flexible Leave'
+    );
+    const supportCounselingId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-counseling.webp',
+      'support-counseling.webp',
+      'Counseling'
+    );
+    const supportEquityId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-equity.webp',
+      'support-equity.webp',
+      'Equity Options'
+    );
+    const supportWorkspaceId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-workspace.webp',
+      'support-workspace.webp',
+      'Modern Workspace'
+    );
+    const supportParentalId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-parental.webp',
+      'support-parental.webp',
+      'Parental Support'
+    );
+    const supportRecognitionId = await uploadMediaIfMissing(
+      strapi,
+      'public/assets/careers/support/support-recognition.webp',
+      'support-recognition.webp',
+      'Recognition'
     );
     const heroDesktopCareersId = await uploadMediaIfMissing(
       strapi,
@@ -1586,261 +1667,13 @@ export async function seedStrapi(strapi: any) {
     }
 
     // 4.5. Seed Career Positions & Careers Page Single Type
-    const careerPositionsData = [
-      {
-        title: 'Senior Engineer, Battery Systems',
-        department: 'Engineering',
-        location: 'New Delhi',
-        experience: '5 to 8 years',
-        employmentType: 'Full time',
-        description: 'Own the thermal and cell balancing behaviour of the pack across our range.',
-        slug: 'senior-engineer-battery-systems',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Senior%20Engineer,%20Battery%20Systems',
-        order: 1,
-      },
-      {
-        title: 'Manufacturing Engineer, Assembly',
-        department: 'Manufacturing',
-        location: 'New Delhi',
-        experience: '3 to 6 years',
-        employmentType: 'Full time',
-        description: 'Improve the assembly line that builds every Euler vehicle, one station at a time.',
-        slug: 'manufacturing-engineer-assembly',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Manufacturing%20Engineer,%20Assembly',
-        order: 2,
-      },
-      {
-        title: 'Fleet Sales Manager',
-        department: 'Sales',
-        location: 'Chennai',
-        experience: '4 to 8 years',
-        employmentType: 'Full time',
-        description: 'Drive commercial vehicle fleet adoption with enterprise logistics and cargo clients across South India.',
-        slug: 'fleet-sales-manager',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Fleet%20Sales%20Manager',
-        order: 3,
-      },
-      {
-        title: 'Lead Firmware Engineer, IoT',
-        department: 'Software',
-        location: 'Bengaluru',
-        experience: '5 to 8 years',
-        employmentType: 'Full time',
-        description: 'Architect vehicle telematics, BMS integration, and real-time charging telemetry platforms.',
-        slug: 'lead-firmware-engineer-iot',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Lead%20Firmware%20Engineer,%20IoT',
-        order: 4,
-      },
-      {
-        title: 'Quality Assurance Engineer, Powertrain',
-        department: 'Manufacturing',
-        location: 'Pune',
-        experience: '3 to 6 years',
-        employmentType: 'Full time',
-        description: 'Implement endurance testing and quality control for commercial electric drive trains.',
-        slug: 'qa-engineer-powertrain',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20QA%20Engineer,%20Powertrain',
-        order: 5,
-      },
-      {
-        title: 'Regional Service Operations Manager',
-        department: 'Service',
-        location: 'Mumbai',
-        experience: '4 to 8 years',
-        employmentType: 'Full time',
-        description: 'Lead regional service depot operations, warranty resolution, and depot technician readiness.',
-        slug: 'regional-service-manager',
-        isActive: true,
-        applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Regional%20Service%20Operations%20Manager',
-        order: 6,
-      },
-    ];
-
-    const seededPositionDocIds: string[] = [];
-    for (const pos of careerPositionsData) {
-      const existing = await strapi.documents('api::career-position.career-position').findFirst({
-        filters: { slug: pos.slug },
-      });
-      if (!existing) {
-        const created = await strapi.documents('api::career-position.career-position').create({
-          data: pos,
-          status: 'published',
-        });
-        seededPositionDocIds.push(created.documentId);
-      } else {
-        const updated = await strapi.documents('api::career-position.career-position').update({
-          documentId: existing.documentId,
-          data: pos,
-          status: 'published',
-        });
-        seededPositionDocIds.push(updated.documentId);
-      }
-    }
-    strapi.log.info('[Seeder] Populated Career Positions collection entries successfully!');
-
-    // Careers Page Single Type
-    const galleryImageIds = [
-      galleryOfficeId,
-      galleryMeetingId,
-      galleryTeamId,
-      galleryTeamWorkId,
-      galleryWorkspaceId,
-    ].filter(Boolean);
-
-    const careersPageData = {
-      hero: {
-        eyebrow: 'GROW WITH US',
-        title: 'Shape the Future of Electric Mobility.',
-        subtitle:
-          'Be part of a team engineering electric mobility and shaping the future of commercial transportation.',
-        cta: {
-          label: 'Find Jobs',
-          href: '#open-positions',
-          variant: 'primary',
-        },
-      },
-      benefitsSection: {
-        eyebrow: 'Why work with us',
-        title: 'Build More Than a Career.',
-        description:
-          'At Euler Motors, you work on real engineering challenges, build technology for Indian conditions and contribute to the future of commercial mobility.',
-        benefits: [
-          {
-            number: '01',
-            title: 'Solve Real-World Challenges',
-            description:
-              'Work on electric vehicles designed for the everyday demands of businesses, roads and logistics.',
-          },
-          {
-            number: '02',
-            title: 'Work Across Disciplines',
-            description:
-              'Bring engineering, software, design and technology together to solve complex mobility challenges.',
-          },
-          {
-            number: '03',
-            title: 'Make Innovation Happen',
-            description:
-              'Turn ideas into practical solutions that improve how commercial vehicles perform and operate.',
-          },
-        ],
-      },
-      supportSection: {
-        eyebrow: 'Our offering',
-        title: 'Support That Matters',
-        subtitle:
-          'We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks.',
-        items: [
-          {
-            title: 'Medical Cover',
-            description: 'Cover for you, spouse, children, and parents.',
-          },
-          {
-            title: 'Learning Budget',
-            description: 'Paid courses, workshops, and global certs.',
-          },
-          {
-            title: 'Flexible Leave',
-            description: 'Take the time you need comfortably.',
-          },
-          {
-            title: 'Counseling',
-            description: 'Confidential mental health support, free of cost.',
-          },
-          {
-            title: 'Equity Options',
-            description: 'Own a stake in the mobility revolution.',
-          },
-          {
-            title: 'Modern Workspace',
-            description: 'Spacious hubs in Delhi & Bangalore.',
-          },
-          {
-            title: 'Parental Support',
-            description: 'Helpful paid parent leave systems.',
-          },
-          {
-            title: 'Recognition',
-            description: 'Quarterly peer-voted awards & spot bonuses.',
-          },
-        ],
-      },
-      positionsSection: {
-        eyebrow: 'Open positions',
-        title: 'Find Your Place at Euler.',
-        subtitle:
-          'Explore opportunities across teams and locations. Find a role that matches your skills and helps shape the future of electric mobility.',
-        positions: seededPositionDocIds,
-      },
-      gallerySection: {
-        eyebrow: 'LIFE AT EULER',
-        title: 'A Place to Build, Learn and Grow.',
-        subtitle:
-          'From the shop floor to collaborative workspaces, get a glimpse of the people, ideas and everyday experiences that shape life at Euler Motors.',
-        images: galleryImageIds,
-      },
-      testimonialsSection: {
-        eyebrow: 'Employee voices',
-        title: 'Hear It from Our People.',
-        subtitle:
-          'Get a glimpse of life at Euler through the experiences and perspectives of the people building our electric mobility journey.',
-        testimonials: [
-          {
-            quote:
-              'Joined to work on advanced electric powertrains. Stayed because of the collaborative culture and freedom to innovate. The team here genuinely values engineering excellence and new ideas.',
-            name: 'Rahul Deshmukh',
-            role: 'Senior Engineer, Euler Motors',
-            image: testimonialRahulId,
-          },
-          {
-            quote:
-              'Joined to build cutting-edge battery packs. Stayed because of the high trust and low bureaucracy. The ownership given to engineers here is rare in the EV sector.',
-            name: 'Jahan Melad',
-            role: 'Project Manager, Euler Motors',
-            image: testimonialJahanId,
-          },
-          {
-            quote:
-              'Came here to solve real-world mobility challenges. Stayed because of the supportive leadership and meaningful work. Every project gives us the opportunity to build technology that makes a difference.',
-            name: 'Priya Sharma',
-            role: 'Manufacturing Lead, Euler Motors',
-            image: testimonialPriyaId,
-          },
-        ],
-      },
-      seo: {
-        metaTitle: 'Careers at Euler Motors — Shape the Future of Electric Mobility',
-        metaDescription:
-          'Be part of a team engineering electric mobility and shaping the future of commercial transportation.',
-        keywords: 'euler motors careers, ev jobs india, commercial ev engineering, automotive jobs, clean tech careers',
-      },
-    };
-
-    const existingCareersPage = await strapi.documents('api::careers-page.careers-page').findFirst({
-      fields: ['documentId'],
-    });
-    if (!existingCareersPage) {
-      const created = await strapi.documents('api::careers-page.careers-page').create({
-        data: careersPageData,
-        status: 'published',
-      });
-      strapi.log.info(`[Seeder] Created Careers Page singleType successfully! (${created.documentId})`);
-    } else {
-      const updated = await strapi.documents('api::careers-page.careers-page').update({
-        documentId: existingCareersPage.documentId,
-        data: careersPageData,
-        status: 'published',
-      });
-      strapi.log.info(`[Seeder] Updated Careers Page singleType successfully! (${updated.documentId})`);
-    }
+    await seedCareersPage(strapi);
 
     // 4.6. Seed Technology Page Single Type
     await seedTechnologyPage(strapi);
+
+    // 4.7. Seed About Page Single Type & Collections
+    await seedAboutPage(strapi);
 
     // 5. Grant Public Read Permissions in users-permissions plugin
     const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
@@ -1857,6 +1690,15 @@ export async function seedStrapi(strapi: any) {
         'api::article.article.find',
         'api::article.article.findOne',
         'api::technology-page.technology-page.find',
+        'api::about-page.about-page.find',
+        'api::timeline-milestone.timeline-milestone.find',
+        'api::timeline-milestone.timeline-milestone.findOne',
+        'api::leadership-member.leadership-member.find',
+        'api::leadership-member.leadership-member.findOne',
+        'api::award.award.find',
+        'api::award.award.findOne',
+        'api::esg-report.esg-report.find',
+        'api::esg-report.esg-report.findOne',
         'api::careers-page.careers-page.find',
         'api::career-position.career-position.find',
         'api::career-position.career-position.findOne',
@@ -2490,5 +2332,1139 @@ export async function seedTechnologyPage(strapi: any) {
         });
       }
     }
+  }
+}
+
+/**
+ * Targeted About Page Seeder
+ * Uploads About Page assets, creates/publishes About collections (`timeline-milestone`,
+ * `leadership-member`, `award`, `esg-report`), and creates/publishes `api::about-page.about-page`
+ * without disturbing existing data on other pages.
+ */
+export async function seedAboutPage(strapi: any) {
+  strapi.log.info('[Seeder] Starting About Page & collections seeding...');
+
+  async function resolveExistingOrUpload(relPath: string, targetFilename: string, altText: string) {
+    const existing = await strapi.query('plugin::upload.file').findOne({
+      where: { name: targetFilename },
+    });
+    if (existing) return existing.id;
+    return uploadMediaIfMissing(strapi, relPath, targetFilename, altText);
+  }
+
+  // Hero media
+  const heroDesktopId = await resolveExistingOrUpload(
+    'public/assets/about-euler/desktop-bg-new.png',
+    'about-hero-desktop.png',
+    'Euler Motors electric vehicles for Indian logistics'
+  );
+  const heroMobileId = await resolveExistingOrUpload(
+    'public/assets/about-euler/mobile-bg-new.png',
+    'about-hero-mobile.png',
+    'Euler Motors mobile hero background'
+  );
+  const heroMobileOverlayId = await resolveExistingOrUpload(
+    'public/assets/about-euler/mobile-overlay-new.png',
+    'about-hero-mobile-overlay.png',
+    'Euler Motors commercial EV'
+  );
+
+  // Euler mission cards media
+  const eulerCard1DesktopId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-1-desktop.png',
+    'about-euler-card-1-desktop.png',
+    'Built for Businesses'
+  );
+  const eulerCard1MobileId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-1-mobile.png',
+    'about-euler-card-1-mobile.png',
+    'Built for Businesses mobile'
+  );
+  const eulerCard2DesktopId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-2-desktop.png',
+    'about-euler-card-2-desktop.png',
+    'Every Decision Starts Here'
+  );
+  const eulerCard2MobileId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-2-mobile.png',
+    'about-euler-card-2-mobile.png',
+    'Every Decision Starts Here mobile'
+  );
+  const eulerCard3DesktopId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-3-desktop.png',
+    'about-euler-card-3-desktop.png',
+    'We Own the Outcome'
+  );
+  const eulerCard3MobileId = await resolveExistingOrUpload(
+    'public/assets/about-euler/card-3-mobile.png',
+    'about-euler-card-3-mobile.png',
+    'We Own the Outcome mobile'
+  );
+
+  // Belief cards media
+  const beliefCard1Id = await resolveExistingOrUpload(
+    'public/assets/about-euler/belief-card-1.png',
+    'about-belief-card-1.png',
+    'Built around real business needs'
+  );
+  const beliefCard2Id = await resolveExistingOrUpload(
+    'public/assets/about-euler/belief-card-2.png',
+    'about-belief-card-2.png',
+    'Designed for Indian roads'
+  );
+  const beliefCard3Id = await resolveExistingOrUpload(
+    'public/assets/about-euler/belief-card-3.png',
+    'about-belief-card-3.png',
+    'Customer feedback drives innovation'
+  );
+  const beliefCard4Id = await resolveExistingOrUpload(
+    'public/assets/about-euler/belief-card-4.png',
+    'about-belief-card-4.png',
+    'Reliable performance'
+  );
+
+  // Timeline media
+  const timeline1Id = await resolveExistingOrUpload(
+    'public/assets/timeline/timeline-1.png',
+    'about-timeline-1.png',
+    'Euler Motors milestone'
+  );
+  const timeline3Id = await resolveExistingOrUpload(
+    'public/assets/timeline/timeline-3.png',
+    'about-timeline-3.png',
+    'Euler Motors milestone'
+  );
+  const timelineMobile1Id = await resolveExistingOrUpload(
+    'public/assets/timeline/mobile-timeline-1.png',
+    'about-timeline-mobile-1.png',
+    'Euler Motors milestone mobile'
+  );
+
+  // Factory media
+  const factoryDesktopId = await resolveExistingOrUpload(
+    'public/assets/factory/desktop-bg.png',
+    'about-factory-desktop.png',
+    'Euler Motors manufacturing facility'
+  );
+  const factoryMobileId = await resolveExistingOrUpload(
+    'public/assets/factory/mobile-bg.png',
+    'about-factory-mobile.png',
+    'Euler Motors manufacturing facility mobile'
+  );
+
+  // Leadership media
+  const leaderDesktopIds = [
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-1.png', 'about-leader-desktop-1.png', 'Tarun'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-2.png', 'about-leader-desktop-2.png', 'Ravneet'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-3.png', 'about-leader-desktop-3.png', 'Swapnil'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-4.png', 'about-leader-desktop-4.png', 'Sohil'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-5.png', 'about-leader-desktop-5.png', 'Milind'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-6.png', 'about-leader-desktop-6.png', 'Sanjeev K.'),
+    await resolveExistingOrUpload('public/assets/about-euler/leader-desktop-7.png', 'about-leader-desktop-7.png', 'Harendra'),
+  ];
+  const leaderMob1Id = await resolveExistingOrUpload('public/assets/about-euler/leader-1-new.png', 'about-leader-mobile-1.png', 'Leadership portrait');
+  const leaderMob2Id = await resolveExistingOrUpload('public/assets/about-euler/leader-2-new.png', 'about-leader-mobile-2.png', 'Leadership portrait');
+  const leaderMob3Id = await resolveExistingOrUpload('public/assets/about-euler/leader-3-new.png', 'about-leader-mobile-3.png', 'Leadership portrait');
+  const leaderMob4Id = await resolveExistingOrUpload('public/assets/about-euler/leader-4-new.png', 'about-leader-mobile-4.png', 'Leadership portrait');
+  const leaderMob5Id = await resolveExistingOrUpload('public/assets/about-euler/leader-5-new.png', 'about-leader-mobile-5.png', 'Leadership portrait');
+
+  // Partners logos
+  const partnerQrgId = await resolveExistingOrUpload('public/assets/partners-investors/qrg.webp', 'about-partner-qrg.webp', 'QRG');
+  const partnerMoglixId = await resolveExistingOrUpload('public/assets/partners-investors/moglix.webp', 'about-partner-moglix.webp', 'Moglix');
+  const partnerJettyId = await resolveExistingOrUpload('public/assets/partners-investors/jetty.webp', 'about-partner-jetty.webp', 'JETTY Ventures');
+  const partnerBlumeId = await resolveExistingOrUpload('public/assets/partners-investors/blume.webp', 'about-partner-blume.webp', 'BLUME');
+  const partnerGicId = await resolveExistingOrUpload('public/assets/partners-investors/gic.webp', 'about-partner-gic.webp', 'GIC');
+
+  // Recognition & Awards media
+  const recognitionBgId = await resolveExistingOrUpload('public/assets/awards/desktop-bg.png', 'about-recognition-bg.png', 'Euler Motors recognition awards');
+  const awardThumbId = await resolveExistingOrUpload('public/assets/awards/desktop-bg-2.png', 'about-award-thumb.png', 'Euler Motors award trophy');
+
+  // ESG & Reports media
+  const esgPhotoId = await resolveExistingOrUpload('public/assets/about-euler/esg-photo.png', 'about-esg-photo.png', 'Euler electric commercial vehicle on a delivery route');
+  const reportsPhotoId = await resolveExistingOrUpload('public/assets/about-euler/reports-photo.png', 'about-reports-photo.png', 'Euler Motors ESG reports and disclosures');
+
+  // Hiring media
+  const hiringDesktopId = await resolveExistingOrUpload('public/assets/hiring/desktop-bg-new.png', 'about-hiring-desktop.png', 'Join Euler Motors');
+  const hiringMobileId = await resolveExistingOrUpload('public/assets/hiring/mobile-bg-new.png', 'about-hiring-mobile.png', 'Join Euler Motors mobile');
+
+  // FAQ map media
+  const faqImageId = await resolveExistingOrUpload('public/assets/charging-station-faq/location-map-hq.webp', 'about-faq-location-map.webp', 'Euler charging station location network map');
+
+  // 1. Seed Timeline Milestones collection
+  const milestonesData = [
+    {
+      year: 2018,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline1Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 1,
+    },
+    {
+      year: 2020,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline3Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 2,
+    },
+    {
+      year: 2022,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline1Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 3,
+    },
+    {
+      year: 2024,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline3Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 4,
+    },
+    {
+      year: 2025,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline1Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 5,
+    },
+    {
+      year: 2026,
+      title: 'One thousand vehicles at work.',
+      description: 'Enough data from enough routes to design the\nnext one with confidence.',
+      badges: ['CCS2', '60 kW', '4 of 6 free'],
+      desktopImage: timeline3Id,
+      mobileImage: timelineMobile1Id,
+      isActive: true,
+      order: 6,
+    },
+  ];
+
+  for (const item of milestonesData) {
+    const existing = await strapi.documents('api::timeline-milestone.timeline-milestone').findFirst({
+      filters: { year: item.year },
+    });
+    if (!existing) {
+      await strapi.documents('api::timeline-milestone.timeline-milestone').create({
+        data: item,
+        status: 'published',
+      });
+    } else {
+      await strapi.documents('api::timeline-milestone.timeline-milestone').update({
+        documentId: existing.documentId,
+        data: item,
+        status: 'published',
+      });
+    }
+  }
+
+  // 2. Seed Leadership Members collection
+  const leadersData = [
+    { name: 'Tarun', slug: 'tarun', desktopPhoto: leaderDesktopIds[0], mobilePhoto: leaderMob1Id, isActive: true, order: 1 },
+    { name: 'Ravneet', slug: 'ravneet', desktopPhoto: leaderDesktopIds[1], mobilePhoto: leaderMob3Id, isActive: true, order: 2 },
+    { name: 'Swapnil', slug: 'swapnil', desktopPhoto: leaderDesktopIds[2], mobilePhoto: leaderMob2Id, isActive: true, order: 3 },
+    { name: 'Sohil', slug: 'sohil', desktopPhoto: leaderDesktopIds[3], mobilePhoto: leaderMob4Id, isActive: true, order: 4 },
+    { name: 'Milind', slug: 'milind', desktopPhoto: leaderDesktopIds[4], mobilePhoto: leaderMob3Id, isActive: true, order: 5 },
+    { name: 'Sanjeev K.', slug: 'sanjeev-k', desktopPhoto: leaderDesktopIds[5], mobilePhoto: leaderMob1Id, isActive: true, order: 6 },
+    { name: 'Harendra', slug: 'harendra', desktopPhoto: leaderDesktopIds[6], mobilePhoto: leaderMob5Id, isActive: true, order: 7 },
+  ];
+
+  for (const member of leadersData) {
+    const existing = await strapi.documents('api::leadership-member.leadership-member').findFirst({
+      filters: { slug: member.slug },
+    });
+    if (!existing) {
+      await strapi.documents('api::leadership-member.leadership-member').create({
+        data: member,
+        status: 'published',
+      });
+    } else {
+      await strapi.documents('api::leadership-member.leadership-member').update({
+        documentId: existing.documentId,
+        data: member,
+        status: 'published',
+      });
+    }
+  }
+
+  // 3. Seed Awards collection
+  const awardsData = [
+    {
+      year: '2024',
+      title: 'Commercial EV of the year',
+      description: 'For moving from one product to a network of dealers and service centres.',
+      image: awardThumbId,
+      isActive: true,
+      order: 1,
+    },
+    {
+      year: '2024',
+      title: 'Design award, commercial vehicles',
+      description: 'For moving from one product to a network of dealers and service centres.',
+      image: awardThumbId,
+      isActive: true,
+      order: 2,
+    },
+    {
+      year: '2023',
+      title: 'Startup of the year, mobility',
+      description: 'For moving from one product to a network of dealers and service centres.',
+      image: awardThumbId,
+      isActive: true,
+      order: 3,
+    },
+    {
+      year: '2022',
+      title: 'Innovation in battery engineering',
+      description: 'For moving from one product to a network of dealers and service centres.',
+      image: awardThumbId,
+      isActive: true,
+      order: 4,
+    },
+    {
+      year: '2021',
+      title: 'Best last mile vehicle',
+      description: 'For moving from one product to a network of dealers and service centres.',
+      image: awardThumbId,
+      isActive: true,
+      order: 5,
+    },
+  ];
+
+  for (const award of awardsData) {
+    const existing = await strapi.documents('api::award.award').findFirst({
+      filters: { title: award.title },
+    });
+    if (!existing) {
+      await strapi.documents('api::award.award').create({
+        data: award,
+        status: 'published',
+      });
+    } else {
+      await strapi.documents('api::award.award').update({
+        documentId: existing.documentId,
+        data: award,
+        status: 'published',
+      });
+    }
+  }
+
+  // 4. Seed ESG Reports collection
+  const reportsData = [
+    { title: 'Annual report.pdf', fileSize: '2.4', externalUrl: '/products', iconVariant: 'default', isActive: true, order: 1 },
+    { title: 'Sustainability profile.pdf', fileSize: '2.4', externalUrl: '/products', iconVariant: 'default', isActive: true, order: 2 },
+    { title: 'ESG Report.pdf', fileSize: '5.4', externalUrl: '/products', iconVariant: 'highlight', isActive: true, order: 3 },
+    { title: 'CSR Report.pdf', fileSize: '8.4', externalUrl: '/products', iconVariant: 'default', isActive: true, order: 4 },
+  ];
+
+  for (const report of reportsData) {
+    const existing = await strapi.documents('api::esg-report.esg-report').findFirst({
+      filters: { title: report.title },
+    });
+    if (!existing) {
+      await strapi.documents('api::esg-report.esg-report').create({
+        data: report,
+        status: 'published',
+      });
+    } else {
+      await strapi.documents('api::esg-report.esg-report').update({
+        documentId: existing.documentId,
+        data: report,
+        status: 'published',
+      });
+    }
+  }
+
+  // 5. Seed About Page Single Type
+  const aboutPageData = {
+    hero: {
+      eyebrow: 'About Euler Motors',
+      title: "Driving India's Electric Future",
+      description:
+        'Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.',
+      desktopImage: heroDesktopId,
+      mobileImage: heroMobileId,
+      mobileOverlayImage: heroMobileOverlayId,
+    },
+    eulerSection: {
+      eyebrow: 'About Euler',
+      cards: [
+        {
+          badge: 'Purpose',
+          title: 'Built for Businesses',
+          description: 'We build electric commercial vehicles that help businesses move more and spend less.',
+          stat: 'Founded in New Delhi, 2018',
+          desktopImage: eulerCard1DesktopId,
+          mobileImage: eulerCard1MobileId,
+        },
+        {
+          badge: 'Customer First',
+          title: 'Every Decision Starts Here',
+          description: 'We build around real customer needs, not assumptions.',
+          stat: '1000+ Daily Business Trips',
+          desktopImage: eulerCard2DesktopId,
+          mobileImage: eulerCard2MobileId,
+        },
+        {
+          badge: 'Ownership',
+          title: 'We Own the Outcome',
+          description: 'We take responsibility for every vehicle on the road, end to end.',
+          stat: '24/7 Roadside Support',
+          desktopImage: eulerCard3DesktopId,
+          mobileImage: eulerCard3MobileId,
+        },
+      ],
+    },
+    beliefSection: {
+      eyebrow: 'Customers',
+      mobileEyebrow: 'Our Belief',
+      title: 'Building More Than Electric Vehicles',
+      description:
+        "At Euler Motors, we believe a commercial vehicle should do more than move goods. It should help businesses grow, reduce running costs and make every working day more productive. That's why every vehicle, every technology and every decision starts with the people who use it every day.",
+      cards: [
+        { title: 'Built around real business needs', image: beliefCard1Id },
+        { title: 'Designed for Indian roads', image: beliefCard2Id },
+        { title: 'Customer feedback drives innovation', image: beliefCard3Id },
+        { title: 'Reliable performance', image: beliefCard4Id },
+      ],
+    },
+    timelineSection: {
+      eyebrow: 'Timeline',
+      title: 'Milestones That\nShaped Euler',
+      description:
+        'Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.',
+    },
+    factorySection: {
+      eyebrow: 'How we build',
+      title: 'Inside Our Factory',
+      description: 'See how every Euler vehicle is built and tested.',
+      cta: {
+        label: 'Learn about our technology',
+        href: '/technology',
+        variant: 'primary',
+      },
+      desktopImage: factoryDesktopId,
+      mobileImage: factoryMobileId,
+    },
+    leadershipSection: {
+      eyebrow: 'OUR LEADERSHIP',
+      title: "The People Building\nWhat's Next",
+    },
+    partnersSection: {
+      eyebrow: 'Partners and investors',
+      title: 'Trusted by investors.',
+      partners: [
+        { name: 'QRG', logo: partnerQrgId },
+        { name: 'Moglix', logo: partnerMoglixId },
+        { name: 'JETTY Ventures', logo: partnerJettyId },
+        { name: 'BLUME', logo: partnerBlumeId },
+        { name: 'GIC', logo: partnerGicId },
+      ],
+    },
+    recognitionSection: {
+      eyebrow: 'Recognition',
+      title: 'Awards and recognition.',
+      image: recognitionBgId,
+    },
+    esgSection: {
+      eyebrow: 'Esg in Action',
+      title: 'Building a Better\nTomorrow',
+      description:
+        "See how we're creating a positive impact through sustainability, people and responsible business practices.",
+      tabs: [
+        {
+          tabTitle: 'Environment',
+          headline: 'Every kilometre driven electric is diesel never burned.',
+          summary:
+            'Our vehicles replace diesel on routes that run six days a week. The saving turns up in the fuel bill long before it turns up in a report.',
+          image: esgPhotoId,
+          stats: [
+            { value: '480M', unit: 'km', label: 'driven electric' },
+            { value: '1,000+', unit: '', label: 'EVs on road' },
+            { value: '40', unit: 'cities', label: 'with charging' },
+          ],
+          cards: [
+            {
+              number: '01',
+              title: 'Emissions cut at the source',
+              description:
+                'Every Euler on a route takes a diesel vehicle off it. Four hundred and eighty million kilometres so far, none of them burning fuel.',
+            },
+            {
+              number: '02',
+              title: 'A second life for every pack',
+              description:
+                'Packs come back to us at the end of their vehicle life. Cells that still hold charge go to stationary storage, the rest go to a licensed recycler.',
+            },
+            {
+              number: '03',
+              title: 'A plant that uses less to build more',
+              description:
+                'Rooftop solar, LED retrofits and a rebuilt compressed-air system cut the energy used for every vehicle we assemble.',
+            },
+          ],
+        },
+        {
+          tabTitle: 'People',
+          headline: 'Safer workdays on the factory floor and out on the road.',
+          summary:
+            'We design commercial EVs for driver ergonomics, lower cabin heat and vibration, and invest in continuous training across every plant and service depot.',
+          image: esgPhotoId,
+          stats: [
+            { value: '480M', unit: 'km', label: 'driven electric' },
+            { value: '1,000+', unit: '', label: 'EVs on road' },
+            { value: '40', unit: 'cities', label: 'with charging' },
+          ],
+          cards: [
+            {
+              number: '01',
+              title: 'Built for all-day driver comfort',
+              description:
+                'Zero engine vibration, reduced cabin noise and intuitive controls help commercial drivers finish long shifts with less fatigue.',
+            },
+            {
+              number: '02',
+              title: 'Skilling EV technicians across India',
+              description:
+                'Hands-on high-voltage safety and diagnostics certification programs prepare service teams across every region.',
+            },
+            {
+              number: '03',
+              title: 'Safe, inclusive manufacturing hubs',
+              description:
+                'Ergonomic assembly stations, air quality monitoring and workplace health support keep our teams protected.',
+            },
+          ],
+        },
+        {
+          tabTitle: 'Governance',
+          headline: 'Accountability across engineering, sourcing and compliance.',
+          summary:
+            'From AIS-156 certified battery packs to transparent supplier audits, every Euler vehicle is backed by measurable quality and safety standards.',
+          image: esgPhotoId,
+          stats: [
+            { value: '480M', unit: 'km', label: 'driven electric' },
+            { value: '1,000+', unit: '', label: 'EVs on road' },
+            { value: '40', unit: 'cities', label: 'with charging' },
+          ],
+          cards: [
+            {
+              number: '01',
+              title: 'Certified battery safety',
+              description:
+                'Multi-layer thermal management and cell-level telemetry exceed mandatory safety norms on every production pack.',
+            },
+            {
+              number: '02',
+              title: 'Responsible supply chain',
+              description:
+                'Vendor compliance reviews track material traceability, ethical labour standards and local component sourcing.',
+            },
+            {
+              number: '03',
+              title: 'Transparent fleet reporting',
+              description:
+                'Annual ESG disclosures and telematics-backed sustainability metrics keep customers and investors informed.',
+            },
+          ],
+        },
+      ],
+    },
+    reportsSection: {
+      eyebrow: 'Reports and disclosures',
+      title: 'ESG Reports & Policies',
+      image: reportsPhotoId,
+      viewAllCta: {
+        label: 'View All',
+        href: '/products',
+        variant: 'secondary',
+      },
+    },
+    hiringSection: {
+      eyebrow: 'Join the journey',
+      title: 'We are hiring, and we\nare selling.',
+      description:
+        'Either way, the same question applies. Does the work help somebody earn more than they did yesterday?',
+      cta: {
+        label: 'View Job openings',
+        href: '/careers',
+        variant: 'primary',
+      },
+      desktopImage: hiringDesktopId,
+      mobileImage: hiringMobileId,
+    },
+    contactSection: {
+      eyebrow: 'Next step',
+      title: 'Tell us what you need!',
+      description:
+        'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.',
+      phone: '1800-1238-1238',
+      email: 'customer.help@eulermotors.com',
+      form: {
+        heading: 'What are you looking for?',
+        subheading: 'Two steps. We call you within one working day.',
+        vehicleOptions:
+          'Storm EV LongRange 200, Storm EV T1500, HiLoad EV, Turbo EV 1000, Neo HiRange, Neo HiCity',
+        tabs: [
+          {
+            tabTitle: 'Test drive',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Kilometres per day',
+            customFieldPlaceholder: '150',
+            customFieldRequired: true,
+            ctaLabel: 'Confirm test drive',
+          },
+          {
+            tabTitle: 'Price enquiry',
+            nameLabel: 'Name',
+            namePlaceholder: 'Full name',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Quantity of vehicles',
+            customFieldPlaceholder: '5',
+            customFieldRequired: true,
+            ctaLabel: 'Get price list',
+          },
+          {
+            tabTitle: 'Fleet solutions',
+            nameLabel: 'Company name',
+            namePlaceholder: 'Company',
+            nameRequired: true,
+            phoneLabel: 'Mobile number',
+            phonePlaceholder: '10 digit',
+            phoneRequired: true,
+            vehicleLabel: 'Which vehicle',
+            vehiclePlaceholder: 'Not sure, please suggest one',
+            vehicleRequired: true,
+            cityLabel: 'City',
+            cityPlaceholder: 'Mumbai',
+            cityRequired: true,
+            customFieldLabel: 'Fleet size',
+            customFieldPlaceholder: 'Number of vehicles',
+            customFieldRequired: true,
+            ctaLabel: 'Talk to our fleet team',
+          },
+        ],
+        privacyNotice:
+          'Euler Motors and its dealers may contact me about this enquiry. Privacy policy.',
+        disclaimer: 'We never share your number with anyone else. No spam calls.',
+      },
+    },
+    faqSection: {
+      eyebrow: 'FAQ',
+      title: 'Frequently asked questions',
+      image: faqImageId,
+      items: [
+        {
+          question: 'How long does it take to fully charge an EV?',
+          answer:
+            'Charging time varies by battery capacity and charger type. Using a DC fast charger, you can reach 80% charge in about 30 to 45 minutes, while standard AC charging takes 4 to 6 hours.',
+          category: 'Charging',
+        },
+        {
+          question: 'What types of charging stations are available?',
+          answer:
+            'There are three main types: Level 1 (standard household outlet), Level 2 (dedicated home or public charger), and DC fast charging (rapid public stations).',
+          category: 'Charging',
+        },
+        {
+          question: 'Can I charge my EV at home?',
+          answer:
+            'Yes, you can charge your EV at home using a standard 15A wall socket or with an installed dedicated Level 2 wall-box charger for faster overnight charging.',
+          category: 'General',
+        },
+        {
+          question: 'How much does it cost to charge an electric vehicle?',
+          answer:
+            'Charging costs depend on local electricity tariffs. On average, commercial EV charging costs between ₹1.2 to ₹1.8 per kilometer, which is significantly lower than petrol or diesel.',
+          category: 'General',
+        },
+        {
+          question: 'How do I find nearby charging stations?',
+          answer:
+            'You can locate nearby compatible charging stations directly in the Euler mobile app with real-time station availability, navigation directions, and socket types.',
+          category: 'Charging',
+        },
+        {
+          question: 'Is it safe to charge in the rain?',
+          answer:
+            'Yes, it is completely safe. EV charging plugs and vehicle inlets are weatherproof (rated IP65/IP67) with built-in safety interlocks that prevent power flow until a secure seal is confirmed.',
+          category: 'General',
+        },
+      ],
+    },
+    seo: {
+      metaTitle: "About Euler Motors — Driving India's Electric Future",
+      metaDescription:
+        'Learn about Euler Motors, our leadership team, manufacturing excellence, ESG commitments, milestones, and commercial electric vehicle journey across India.',
+      keywords:
+        'about euler motors, euler motors leadership, commercial ev india, euler factory, euler esg',
+    },
+  };
+
+  const existingAboutPage = await strapi.documents('api::about-page.about-page').findFirst({
+    fields: ['documentId'],
+  });
+  if (!existingAboutPage) {
+    const created = await strapi.documents('api::about-page.about-page').create({
+      data: aboutPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Created About Page singleType successfully! (${created.documentId})`);
+  } else {
+    const updated = await strapi.documents('api::about-page.about-page').update({
+      documentId: existingAboutPage.documentId,
+      data: aboutPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Updated About Page singleType successfully! (${updated.documentId})`);
+  }
+
+  // Ensure Public Role has permission for About Page & its collection types
+  const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
+    where: { type: 'public' },
+  });
+  if (publicRole) {
+    const aboutActions = [
+      'api::about-page.about-page.find',
+      'api::timeline-milestone.timeline-milestone.find',
+      'api::timeline-milestone.timeline-milestone.findOne',
+      'api::leadership-member.leadership-member.find',
+      'api::leadership-member.leadership-member.findOne',
+      'api::award.award.find',
+      'api::award.award.findOne',
+      'api::esg-report.esg-report.find',
+      'api::esg-report.esg-report.findOne',
+    ];
+    for (const action of aboutActions) {
+      let perm = await strapi.query('plugin::users-permissions.permission').findOne({
+        where: { action },
+      });
+      if (!perm) {
+        perm = await strapi.query('plugin::users-permissions.permission').create({
+          data: { action },
+        });
+      }
+      if (perm) {
+        const knex = strapi.db.connection;
+        const link = await knex('up_permissions_role_lnk')
+          .where({ permission_id: perm.id, role_id: publicRole.id })
+          .first();
+        if (!link) {
+          await knex('up_permissions_role_lnk').insert({
+            permission_id: perm.id,
+            role_id: publicRole.id,
+          });
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Targeted Careers Page & Support Items Seeder
+ * Uploads Hero desktop/mobile images and all 8 Support perks icons,
+ * then updates `api::careers-page.careers-page` with published status.
+ */
+export async function seedCareersPage(strapi: any) {
+  strapi.log.info('[Seeder] Starting Careers Page & Support icons seeding...');
+
+  async function resolveExistingOrUpload(relPath: string, targetFilename: string, altText: string) {
+    const existing = await strapi.query('plugin::upload.file').findOne({
+      where: { name: targetFilename },
+    });
+    if (existing) return existing.id;
+    return uploadMediaIfMissing(strapi, relPath, targetFilename, altText);
+  }
+
+  // 1. Upload Hero Images
+  const careerHeroDesktopId = await resolveExistingOrUpload(
+    'public/assets/careers/hero-desktop.webp',
+    'career-hero-desktop.webp',
+    'Euler Motors Careers Hero Desktop'
+  );
+  const careerHeroMobileId = await resolveExistingOrUpload(
+    'public/assets/careers/hero-mobile.webp',
+    'career-hero-mobile.webp',
+    'Euler Motors Careers Hero Mobile'
+  );
+
+  // 2. Upload Support Perks Icons
+  const supportMedicalId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-medical.webp',
+    'support-medical.webp',
+    'Medical Cover'
+  );
+  const supportLearningId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-learning.webp',
+    'support-learning.webp',
+    'Learning Budget'
+  );
+  const supportLeaveId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-leave.webp',
+    'support-leave.webp',
+    'Flexible Leave'
+  );
+  const supportCounselingId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-counseling.webp',
+    'support-counseling.webp',
+    'Counseling'
+  );
+  const supportEquityId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-equity.webp',
+    'support-equity.webp',
+    'Equity Options'
+  );
+  const supportWorkspaceId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-workspace.webp',
+    'support-workspace.webp',
+    'Modern Workspace'
+  );
+  const supportParentalId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-parental.webp',
+    'support-parental.webp',
+    'Parental Support'
+  );
+  const supportRecognitionId = await resolveExistingOrUpload(
+    'public/assets/careers/support/support-recognition.webp',
+    'support-recognition.webp',
+    'Recognition'
+  );
+
+  // 3. Upload Gallery & Testimonials Images
+  const galleryOfficeId = await resolveExistingOrUpload(
+    'public/assets/careers/gallery-office.webp',
+    'gallery-office.webp',
+    'Euler Motors Office'
+  );
+  const galleryMeetingId = await resolveExistingOrUpload(
+    'public/assets/careers/gallery-meeting-room.webp',
+    'gallery-meeting-room.webp',
+    'Euler Motors Meeting Space'
+  );
+  const galleryTeamId = await resolveExistingOrUpload(
+    'public/assets/careers/gallery-team.webp',
+    'gallery-team.webp',
+    'Euler Motors Team'
+  );
+  const galleryTeamWorkId = await resolveExistingOrUpload(
+    'public/assets/careers/gallery-team-work.webp',
+    'gallery-team-work.webp',
+    'Euler Motors Collaboration'
+  );
+  const galleryWorkspaceId = await resolveExistingOrUpload(
+    'public/assets/careers/gallery-workspace.webp',
+    'gallery-workspace.webp',
+    'Euler Motors Workspace'
+  );
+  const testimonialRahulId = await resolveExistingOrUpload(
+    'public/assets/careers/testimonial-rahul.webp',
+    'testimonial-rahul.webp',
+    'Rahul Deshmukh'
+  );
+  const testimonialJahanId = await resolveExistingOrUpload(
+    'public/assets/careers/testimonial-jahan.webp',
+    'testimonial-jahan.webp',
+    'Jahan Melad'
+  );
+  const testimonialPriyaId = await resolveExistingOrUpload(
+    'public/assets/careers/testimonial-priya.webp',
+    'testimonial-priya.webp',
+    'Priya Sharma'
+  );
+
+  const galleryImageIds = [
+    galleryOfficeId,
+    galleryMeetingId,
+    galleryTeamId,
+    galleryTeamWorkId,
+    galleryWorkspaceId,
+  ].filter(Boolean);
+
+  // 4. Seed positions if missing
+  const careerPositionsData = [
+    {
+      title: 'Senior Engineer, Battery Systems',
+      department: 'Engineering',
+      location: 'New Delhi',
+      experience: '5 to 8 years',
+      employmentType: 'Full time',
+      description: 'Own the thermal and cell balancing behaviour of the pack across our range.',
+      slug: 'senior-engineer-battery-systems',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Senior%20Engineer,%20Battery%20Systems',
+      order: 1,
+    },
+    {
+      title: 'Manufacturing Engineer, Assembly',
+      department: 'Manufacturing',
+      location: 'New Delhi',
+      experience: '3 to 6 years',
+      employmentType: 'Full time',
+      description: 'Improve the assembly line that builds every Euler vehicle, one station at a time.',
+      slug: 'manufacturing-engineer-assembly',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Manufacturing%20Engineer,%20Assembly',
+      order: 2,
+    },
+    {
+      title: 'Fleet Sales Manager',
+      department: 'Sales',
+      location: 'Chennai',
+      experience: '4 to 8 years',
+      employmentType: 'Full time',
+      description: 'Drive commercial vehicle fleet adoption with enterprise logistics and cargo clients across South India.',
+      slug: 'fleet-sales-manager',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Fleet%20Sales%20Manager',
+      order: 3,
+    },
+    {
+      title: 'Lead Firmware Engineer, IoT',
+      department: 'Software',
+      location: 'Bengaluru',
+      experience: '5 to 8 years',
+      employmentType: 'Full time',
+      description: 'Architect vehicle telematics, BMS integration, and real-time charging telemetry platforms.',
+      slug: 'lead-firmware-engineer-iot',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Lead%20Firmware%20Engineer,%20IoT',
+      order: 4,
+    },
+    {
+      title: 'Quality Assurance Engineer, Powertrain',
+      department: 'Manufacturing',
+      location: 'Pune',
+      experience: '3 to 6 years',
+      employmentType: 'Full time',
+      description: 'Implement endurance testing and quality control for commercial electric drive trains.',
+      slug: 'qa-engineer-powertrain',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20QA%20Engineer,%20Powertrain',
+      order: 5,
+    },
+    {
+      title: 'Regional Service Operations Manager',
+      department: 'Service',
+      location: 'Mumbai',
+      experience: '4 to 8 years',
+      employmentType: 'Full time',
+      description: 'Lead regional service depot operations, warranty resolution, and depot technician readiness.',
+      slug: 'regional-service-manager',
+      isActive: true,
+      applyUrl: 'mailto:careers@eulermotors.com?subject=Application:%20Regional%20Service%20Operations%20Manager',
+      order: 6,
+    },
+  ];
+
+  const seededPositionDocIds: string[] = [];
+  for (const pos of careerPositionsData) {
+    const existing = await strapi.documents('api::career-position.career-position').findFirst({
+      filters: { slug: pos.slug },
+    });
+    if (!existing) {
+      const created = await strapi.documents('api::career-position.career-position').create({
+        data: pos,
+        status: 'published',
+      });
+      seededPositionDocIds.push(created.documentId);
+    } else {
+      const updated = await strapi.documents('api::career-position.career-position').update({
+        documentId: existing.documentId,
+        data: pos,
+        status: 'published',
+      });
+      seededPositionDocIds.push(updated.documentId);
+    }
+  }
+
+  // 5. Careers Page Single Type Data
+  const careersPageData = {
+    hero: {
+      eyebrow: 'GROW WITH US',
+      title: 'Shape the Future of Electric Mobility.',
+      subtitle:
+        'Be part of a team engineering electric mobility and shaping the future of commercial transportation.',
+      cta: {
+        label: 'Find Jobs',
+        href: '#open-positions',
+      },
+      desktopImage: careerHeroDesktopId,
+      mobileImage: careerHeroMobileId,
+    },
+    benefitsSection: {
+      eyebrow: 'Why work with us',
+      title: 'Build More Than a Career.',
+      description:
+        'At Euler Motors, you work on real engineering challenges, build technology for Indian conditions and contribute to the future of commercial mobility.',
+      benefits: [
+        {
+          number: '01',
+          title: 'Solve Real-World Challenges',
+          description:
+            'Work on electric vehicles designed for the everyday demands of businesses, roads and logistics.',
+        },
+        {
+          number: '02',
+          title: 'Work Across Disciplines',
+          description:
+            'Bring engineering, software, design and technology together to solve complex mobility challenges.',
+        },
+        {
+          number: '03',
+          title: 'Make Innovation Happen',
+          description:
+            'Turn ideas into practical solutions that improve how commercial vehicles perform and operate.',
+        },
+      ],
+    },
+    supportSection: {
+      eyebrow: 'Our offering',
+      title: 'Support That Matters',
+      subtitle:
+        'We focus on complete physical, mental, and professional growth support. No standard corporate fluff, just helpful baseline perks.',
+      items: [
+        {
+          title: 'Medical Cover',
+          description: 'Cover for you, spouse, children, and parents.',
+          icon: supportMedicalId,
+        },
+        {
+          title: 'Learning Budget',
+          description: 'Paid courses, workshops, and global certs.',
+          icon: supportLearningId,
+        },
+        {
+          title: 'Flexible Leave',
+          description: 'Take the time you need comfortably.',
+          icon: supportLeaveId,
+        },
+        {
+          title: 'Counseling',
+          description: 'Confidential mental health support, free of cost.',
+          icon: supportCounselingId,
+        },
+        {
+          title: 'Equity Options',
+          description: 'Own a stake in the mobility revolution.',
+          icon: supportEquityId,
+        },
+        {
+          title: 'Modern Workspace',
+          description: 'Spacious hubs in Delhi & Bangalore.',
+          icon: supportWorkspaceId,
+        },
+        {
+          title: 'Parental Support',
+          description: 'Helpful paid parent leave systems.',
+          icon: supportParentalId,
+        },
+        {
+          title: 'Recognition',
+          description: 'Quarterly peer-voted awards & spot bonuses.',
+          icon: supportRecognitionId,
+        },
+      ],
+    },
+    positionsSection: {
+      eyebrow: 'Open positions',
+      title: 'Find Your Place at Euler.',
+      subtitle:
+        'Explore opportunities across teams and locations. Find a role that matches your skills and helps shape the future of electric mobility.',
+      positions: seededPositionDocIds,
+    },
+    gallerySection: {
+      eyebrow: 'LIFE AT EULER',
+      title: 'A Place to Build, Learn and Grow.',
+      subtitle:
+        'From the shop floor to collaborative workspaces, get a glimpse of the people, ideas and everyday experiences that shape life at Euler Motors.',
+      images: galleryImageIds,
+    },
+    testimonialsSection: {
+      eyebrow: 'Employee voices',
+      title: 'Hear It from Our People.',
+      subtitle:
+        'Get a glimpse of life at Euler through the experiences and perspectives of the people building our electric mobility journey.',
+      testimonials: [
+        {
+          quote:
+            'Joined to work on advanced electric powertrains. Stayed because of the collaborative culture and freedom to innovate. The team here genuinely values engineering excellence and new ideas.',
+          name: 'Rahul Deshmukh',
+          role: 'Senior Engineer, Euler Motors',
+          image: testimonialRahulId,
+        },
+        {
+          quote:
+            'Joined to build cutting-edge battery packs. Stayed because of the high trust and low bureaucracy. The ownership given to engineers here is rare in the EV sector.',
+          name: 'Jahan Melad',
+          role: 'Project Manager, Euler Motors',
+          image: testimonialJahanId,
+        },
+        {
+          quote:
+            'Came here to solve real-world mobility challenges. Stayed because of the supportive leadership and meaningful work. Every project gives us the opportunity to build technology that makes a difference.',
+          name: 'Priya Sharma',
+          role: 'Manufacturing Lead, Euler Motors',
+          image: testimonialPriyaId,
+        },
+      ],
+    },
+    seo: {
+      metaTitle: 'Careers at Euler Motors — Shape the Future of Electric Mobility',
+      metaDescription:
+        'Be part of a team engineering electric mobility and shaping the future of commercial transportation.',
+      keywords: 'euler motors careers, ev jobs india, commercial ev engineering, automotive jobs, clean tech careers',
+    },
+  };
+
+  const existingCareersPage = await strapi.documents('api::careers-page.careers-page').findFirst({
+    fields: ['documentId'],
+  });
+  if (!existingCareersPage) {
+    const created = await strapi.documents('api::careers-page.careers-page').create({
+      data: careersPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Created Careers Page singleType successfully! (${created.documentId})`);
+  } else {
+    const updated = await strapi.documents('api::careers-page.careers-page').update({
+      documentId: existingCareersPage.documentId,
+      data: careersPageData,
+      status: 'published',
+    });
+    strapi.log.info(`[Seeder] Updated Careers Page singleType successfully! (${updated.documentId})`);
   }
 }

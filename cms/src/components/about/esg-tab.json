@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_about_esg_tabs",
+  "info": {
+    "displayName": "ESG Tab",
+    "icon": "bulletList",
+    "description": "ESG focus area tab content with image, metrics, and impact cards"
+  },
+  "options": {},
+  "attributes": {
+    "tabTitle": {
+      "type": "string",
+      "required": true
+    },
+    "headline": {
+      "type": "string",
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat-item"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "about.esg-card"
+    }
+  }
+}
+

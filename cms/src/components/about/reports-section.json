@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_about_reports_sections",
+  "info": {
+    "displayName": "Reports Section",
+    "icon": "filePdf",
+    "description": "ESG Reports & Policies section header and photo (reports come from ESG Report collection)"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Reports and disclosures"
+    },
+    "title": {
+      "type": "string",
+      "default": "ESG Reports & Policies"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "viewAllCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    }
+  }
+}
+

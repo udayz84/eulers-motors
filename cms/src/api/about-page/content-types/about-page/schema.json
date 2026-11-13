@@ -1,0 +1,87 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_pages",
+  "info": {
+    "singularName": "about-page",
+    "pluralName": "about-pages",
+    "displayName": "About Page",
+    "description": "About Euler Motors page layout, story, leadership, ESG, disclosures, and SEO"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.hero"
+    },
+    "eulerSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.euler-section"
+    },
+    "beliefSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.belief-section"
+    },
+    "timelineSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.timeline-section"
+    },
+    "factorySection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.factory-section"
+    },
+    "leadershipSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.leadership-section"
+    },
+    "partnersSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.partners-section"
+    },
+    "recognitionSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.recognition-section"
+    },
+    "esgSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.esg-section"
+    },
+    "reportsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.reports-section"
+    },
+    "hiringSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "about.hiring-section"
+    },
+    "contactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.contact-section"
+    },
+    "faqSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.faq-section"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
+

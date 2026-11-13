@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import CarouselArrows from "../ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import type { StrapiAboutTimelineSection, StrapiTimelineMilestone } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const YEARS = [2018, 2020, 2022, 2024, 2025, 2026];
 
@@ -21,6 +23,7 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_BASE,
   },
   {
@@ -29,6 +32,7 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_TOP,
   },
   {
@@ -37,6 +41,7 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_BASE,
   },
   {
@@ -45,6 +50,7 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_TOP,
   },
   {
@@ -53,6 +59,7 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_BASE,
   },
   {
@@ -61,9 +68,26 @@ const BASE_ITEMS = [
     descLine1: "Enough data from enough routes to design the",
     descLine2: "next one with confidence.",
     badges: ["CCS2", "60 kW", "4 of 6 free"],
+    mobileImage: "/assets/timeline/mobile-timeline-1.png",
     background: CARD_BG_TOP,
   },
 ];
+
+function parseBadges(raw?: string[] | string): string[] {
+  if (Array.isArray(raw)) return raw.filter(Boolean);
+  if (typeof raw === "string") {
+    return raw
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+export interface TimelineProps {
+  sectionData?: StrapiAboutTimelineSection;
+  milestones?: StrapiTimelineMilestone[];
+}
 
 /**
  * Timeline section (Figma desktop: 3530:16872, mobile: 2929-14952).
@@ -71,8 +95,50 @@ const BASE_ITEMS = [
  * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
  * blue navigation arrows with boundary auto-hide, full-bleed bleed layout without edge cropping.
  */
-export default function Timeline() {
-  const [selectedYear, setSelectedYear] = useState(2024);
+export default function Timeline({ sectionData, milestones }: TimelineProps = {}) {
+  const eyebrow = sectionData?.eyebrow || "Timeline";
+  const title = sectionData?.title || "Milestones That\nShaped Euler";
+  const titleLines = title.includes("\n")
+    ? title.split("\n")
+    : title === "Milestones That Shaped Euler"
+      ? ["Milestones That ", "Shaped Euler"]
+      : [title];
+  const description =
+    sectionData?.description ||
+    "Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.";
+
+  const items =
+    milestones && milestones.length > 0
+      ? milestones.map((m, idx) => {
+        const descLines = (m.description || "").split("\n");
+        const desktopImg = mediaUrl(m.desktopImage);
+        const fallbackBg = idx % 2 === 0 ? CARD_BG_BASE : CARD_BG_TOP;
+        const isDefaultTimelineAsset =
+          !desktopImg ||
+          desktopImg.includes("timeline-1") ||
+          desktopImg.includes("timeline-2") ||
+          desktopImg.includes("timeline-3");
+
+        return {
+          year: String(m.year),
+          title: m.title,
+          descLine1: descLines[0] || "",
+          descLine2: descLines.slice(1).join(" "),
+          badges: parseBadges(m.badges),
+          mobileImage: mediaUrl(m.mobileImage, "/assets/timeline/mobile-timeline-1.png"),
+          background: isDefaultTimelineAsset
+            ? fallbackBg
+            : `url('${desktopImg}') center / cover no-repeat, #D9D9D9`,
+        };
+      })
+      : BASE_ITEMS;
+
+  const years = Array.from(new Set(items.map((item) => Number(item.year)).filter(Boolean)));
+  const activeYears = years.length > 0 ? years : YEARS;
+
+  const [selectedYear, setSelectedYear] = useState(
+    activeYears.includes(2024) ? 2024 : activeYears[0] ?? 2024
+  );
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -84,7 +150,7 @@ export default function Timeline() {
 
   // Repeat for continuous runway
   const displayCards = Array.from({ length: 4 }).flatMap((_, setIndex) =>
-    BASE_ITEMS.map((item, idx) => ({
+    items.map((item, idx) => ({
       ...item,
       uniqueKey: `${setIndex}-${item.year}-${idx}`,
     }))
@@ -214,7 +280,7 @@ export default function Timeline() {
     const row = scrollRef.current;
     if (!row) return;
 
-    const targetIdx = BASE_ITEMS.findIndex((item) => Number(item.year) === year);
+    const targetIdx = items.findIndex((item) => Number(item.year) === year);
     if (targetIdx !== -1) {
       const cardWidth = 1015;
       row.scrollTo({
@@ -254,31 +320,32 @@ export default function Timeline() {
                 />
               </div>
               <p className="font-sans font-bold leading-normal relative shrink-0 text-[12px] text-white tracking-[0.6px] uppercase whitespace-nowrap">
-                Timeline
+                {eyebrow}
               </p>
             </div>
             <h2 className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] tracking-[-0.56px] text-white w-full">
-              Milestones That
-              <br />
-              Shaped Euler
+              {titleLines.map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
             </h2>
             <p className="font-sans font-normal leading-normal text-[12px] sm:text-[14px] text-white">
-              Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
+              {description}
             </p>
           </div>
 
           {/* Year Buttons — moveable (horizontal scroll) */}
           <div className="no-scrollbar flex overflow-x-auto -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] px-5 sm:px-8">
-            {YEARS.map((year) => (
+            {activeYears.map((year) => (
               <button
                 key={year}
                 type="button"
                 onClick={() => scrollToYear(year)}
-                className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] sm:h-[36px] items-center justify-center px-[14px] sm:px-[18px] relative rounded-[24.381px] shrink-0 ${
-                  selectedYear === year
+                className={`backdrop-blur-[7.619px] border-[0.762px] border-solid content-stretch flex h-[32px] sm:h-[36px] items-center justify-center px-[14px] sm:px-[18px] relative rounded-[24.381px] shrink-0 ${selectedYear === year
                     ? "bg-white border-[rgba(18,18,18,0.5)]"
                     : "bg-black border-[rgba(255,255,255,0.1)]"
-                }`}
+                  }`}
               >
                 <span className="font-display text-[12px] sm:text-[14px] font-semibold leading-none not-italic whitespace-nowrap" style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}>
                   {year}
@@ -291,7 +358,7 @@ export default function Timeline() {
           <div
             className="no-scrollbar flex overflow-x-auto -mx-5 sm:-mx-8 w-[calc(100%+40px)] sm:w-[calc(100%+64px)] gap-[12px] sm:gap-[16px] px-5 sm:px-8"
           >
-            {BASE_ITEMS.map((item, idx) => (
+            {items.map((item, idx) => (
               <div
                 key={`mobile-${item.year}-${idx}`}
                 className="border border-white/20 bg-[rgba(255,255,255,0.04)] content-stretch flex flex-col gap-[10px] items-start overflow-clip pb-[11px] pt-[252px] sm:pt-[295px] px-[12px] sm:px-[16px] relative rounded-[12px] shrink-0 w-[353px] sm:w-[420px]"
@@ -305,7 +372,7 @@ export default function Timeline() {
                   </p>
                   <div className="font-sans font-normal leading-[0] min-w-full relative shrink-0 text-[12px] sm:text-[14px] text-white w-[min-content]">
                     <p className="leading-[normal] mb-0">{item.descLine1}</p>
-                    <p className="leading-[normal]">{item.descLine2}</p>
+                    {item.descLine2 && <p className="leading-[normal]">{item.descLine2}</p>}
                   </div>
                   <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
                     {item.badges.map((badge, bIdx) => (
@@ -322,10 +389,10 @@ export default function Timeline() {
                     <div className="absolute bg-[#d9d9d9] inset-0" />
                     <div className="absolute inset-0 overflow-hidden">
                       <Image
-                        src="/assets/timeline/mobile-timeline-1.png"
+                        src={item.mobileImage}
                         alt=""
                         fill
-                        className="h-[234.09%] left-[0.02%] top-[-53.68%] w-[99.95%]"
+                        className="h-[234.09%] left-[0.02%] top-[-53.68%] w-[99.95%] object-cover"
                       />
                     </div>
                   </div>
@@ -375,29 +442,31 @@ export default function Timeline() {
                   />
                 </div>
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[14px] text-white tracking-[0.7px] uppercase w-[96px]">
-                  Timeline
+                  {eyebrow}
                 </p>
               </div>
               <div className="font-display font-semibold leading-[0] not-italic relative shrink-0 text-[52px] text-white tracking-[-1.04px] w-[575.92px] whitespace-pre-wrap">
-                <p className="leading-[1.15] mb-0">Milestones That </p>
-                <p className="leading-[1.15]">Shaped Euler</p>
+                {titleLines.map((line, i) => (
+                  <p key={i} className={`leading-[1.15] ${i === 0 ? "mb-0" : ""}`}>
+                    {line}
+                  </p>
+                ))}
               </div>
             </div>
             <div className="flex flex-col gap-[31px] items-end justify-center">
               <p className="font-sans font-normal leading-normal text-[16px] text-white w-[531px]">
-                Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day.
+                {description}
               </p>
               <div className="flex gap-[16px] items-center justify-end">
-                {YEARS.map((year) => (
+                {activeYears.map((year) => (
                   <button
                     key={year}
                     type="button"
                     onClick={() => scrollToYear(year)}
-                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 transition-colors ${
-                      selectedYear === year
+                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 transition-colors ${selectedYear === year
                         ? "bg-white border-[rgba(18,18,18,0.5)]"
                         : "bg-black border-[rgba(255,255,255,0.1)]"
-                    }`}
+                      }`}
                   >
                     <span
                       className="font-display text-[16px] font-semibold leading-none not-italic whitespace-nowrap"
@@ -446,7 +515,7 @@ export default function Timeline() {
                     </p>
                     <div className="font-sans font-normal min-w-full text-[14px] text-white">
                       <p className="leading-[normal] mb-0">{card.descLine1}</p>
-                      <p className="leading-[normal]">{card.descLine2}</p>
+                      {card.descLine2 && <p className="leading-[normal]">{card.descLine2}</p>}
                     </div>
                     <div className="flex gap-[10px] items-center relative shrink-0">
                       {card.badges.map((badge, bIdx) => (

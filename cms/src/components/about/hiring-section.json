@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_about_hiring_sections",
+  "info": {
+    "displayName": "Hiring Section",
+    "icon": "briefcase",
+    "description": "Join the journey hiring callout banner"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Join the journey"
+    },
+    "title": {
+      "type": "string",
+      "default": "We are hiring, and we are selling."
+    },
+    "description": {
+      "type": "text",
+      "default": "Either way, the same question applies. Does the work help somebody earn more than they did yesterday?"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "desktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

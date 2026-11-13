@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_about_factory_sections",
+  "info": {
+    "displayName": "Factory Section",
+    "icon": "cog",
+    "description": "Inside Our Factory showcase section"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "How we build"
+    },
+    "title": {
+      "type": "string",
+      "default": "Inside Our Factory"
+    },
+    "description": {
+      "type": "text",
+      "default": "See how every Euler vehicle is built and tested."
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-button"
+    },
+    "videoUrl": {
+      "type": "string"
+    },
+    "desktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

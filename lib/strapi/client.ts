@@ -10,12 +10,24 @@ import {
   StrapiCareersPageData,
   StrapiTechnologyPageData,
   StrapiCareerPosition,
+  StrapiAboutPageData,
+  StrapiTimelineMilestone,
+  StrapiLeadershipMember,
+  StrapiAward,
+  StrapiEsgReport,
 } from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
 import {
   DEFAULT_DEALER_LOCATOR_PAGE,
   DEFAULT_CHARGING_STATIONS_PAGE,
 } from "./defaults/dealer-locator";
+import {
+  DEFAULT_ABOUT_PAGE,
+  DEFAULT_AWARDS,
+  DEFAULT_ESG_REPORTS,
+  DEFAULT_LEADERSHIP_MEMBERS,
+  DEFAULT_TIMELINE_MILESTONES,
+} from "./defaults/about";
 
 const STRAPI_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
@@ -578,6 +590,8 @@ export async function getCareersPageData(): Promise<StrapiCareersPageData> {
     hero: {
       populate: {
         cta: { populate: "*" },
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
       },
     },
     benefitsSection: {
@@ -587,7 +601,11 @@ export async function getCareersPageData(): Promise<StrapiCareersPageData> {
     },
     supportSection: {
       populate: {
-        items: { populate: "*" },
+        items: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
       },
     },
     positionsSection: {
@@ -745,5 +763,189 @@ export async function getTechnologyPageData(): Promise<StrapiTechnologyPageData>
       revalidate: 60,
     },
     {} as StrapiTechnologyPageData
+  );
+}
+
+/**
+ * Fetch About Page Single Type with deeply populated components and shared sections.
+ */
+export async function getAboutPageData(): Promise<StrapiAboutPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+        mobileOverlayImage: { populate: "*" },
+      },
+    },
+    eulerSection: {
+      populate: {
+        cards: {
+          populate: {
+            desktopImage: { populate: "*" },
+            mobileImage: { populate: "*" },
+          },
+        },
+      },
+    },
+    beliefSection: {
+      populate: {
+        cards: {
+          populate: {
+            image: { populate: "*" },
+          },
+        },
+      },
+    },
+    timelineSection: { populate: "*" },
+    factorySection: {
+      populate: {
+        cta: { populate: "*" },
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    leadershipSection: { populate: "*" },
+    partnersSection: {
+      populate: {
+        partners: {
+          populate: {
+            logo: { populate: "*" },
+          },
+        },
+      },
+    },
+    recognitionSection: {
+      populate: {
+        image: { populate: "*" },
+      },
+    },
+    esgSection: {
+      populate: {
+        tabs: {
+          populate: {
+            image: { populate: "*" },
+            stats: { populate: "*" },
+            cards: { populate: "*" },
+          },
+        },
+      },
+    },
+    reportsSection: {
+      populate: {
+        image: { populate: "*" },
+        viewAllCta: { populate: "*" },
+      },
+    },
+    hiringSection: {
+      populate: {
+        cta: { populate: "*" },
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    contactSection: {
+      populate: {
+        form: {
+          populate: {
+            tabs: { populate: "*" },
+          },
+        },
+      },
+    },
+    faqSection: {
+      populate: {
+        items: { populate: "*" },
+        image: { populate: "*" },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiAboutPageData>(
+    "about-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    DEFAULT_ABOUT_PAGE
+  );
+}
+
+/**
+ * Fetch active Timeline Milestones sorted chronologically/by order.
+ */
+export async function getTimelineMilestones(): Promise<StrapiTimelineMilestone[]> {
+  return getCollection<StrapiTimelineMilestone>(
+    "timeline-milestones",
+    {
+      filters: { isActive: { $eq: true } },
+      sort: ["order:asc", "year:asc", "id:asc"],
+      pagination: { pageSize: 100 },
+      populate: {
+        desktopImage: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+      revalidate: 60,
+    },
+    DEFAULT_TIMELINE_MILESTONES
+  );
+}
+
+/**
+ * Fetch active Leadership Members ordered for display.
+ */
+export async function getLeadershipMembers(): Promise<StrapiLeadershipMember[]> {
+  return getCollection<StrapiLeadershipMember>(
+    "leadership-members",
+    {
+      filters: { isActive: { $eq: true } },
+      sort: ["order:asc", "id:asc"],
+      pagination: { pageSize: 100 },
+      populate: {
+        desktopPhoto: { populate: "*" },
+        mobilePhoto: { populate: "*" },
+      },
+      revalidate: 60,
+    },
+    DEFAULT_LEADERSHIP_MEMBERS
+  );
+}
+
+/**
+ * Fetch active Recognition Awards ordered for display.
+ */
+export async function getAwards(): Promise<StrapiAward[]> {
+  return getCollection<StrapiAward>(
+    "awards",
+    {
+      filters: { isActive: { $eq: true } },
+      sort: ["order:asc", "id:asc"],
+      pagination: { pageSize: 100 },
+      populate: {
+        image: { populate: "*" },
+      },
+      revalidate: 60,
+    },
+    DEFAULT_AWARDS
+  );
+}
+
+/**
+ * Fetch active ESG Reports & Disclosures ordered for display.
+ */
+export async function getEsgReports(): Promise<StrapiEsgReport[]> {
+  return getCollection<StrapiEsgReport>(
+    "esg-reports",
+    {
+      filters: { isActive: { $eq: true } },
+      sort: ["order:asc", "id:asc"],
+      pagination: { pageSize: 100 },
+      populate: {
+        file: { populate: "*" },
+      },
+      revalidate: 60,
+    },
+    DEFAULT_ESG_REPORTS
   );
 }

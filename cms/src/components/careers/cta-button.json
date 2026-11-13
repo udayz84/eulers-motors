@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_careers_cta_buttons",
+  "info": {
+    "displayName": "CTA Button",
+    "icon": "cursor",
+    "description": "Call-to-action button without variant"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "default": "Find Jobs"
+    },
+    "href": {
+      "type": "string",
+      "required": true,
+      "default": "#open-positions"
+    },
+    "isExternal": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
+

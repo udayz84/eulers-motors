@@ -551,6 +551,7 @@ export interface StrapiCareerSupportItem {
   id?: number;
   title: string;
   description: string;
+  icon?: StrapiMedia | string;
 }
 
 export interface StrapiCareerSupportSection {
@@ -599,6 +600,8 @@ export interface StrapiCareerHero {
   title?: string;
   subtitle?: string;
   cta?: StrapiCTA;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
 }
 
 export interface StrapiCareersPageData {
@@ -810,6 +813,191 @@ export interface StrapiTechnologyPageData {
   reviewsSection?: HomePageData["reviewsSection"];
   contactSection?: HomePageData["contactSection"];
   seo?: StrapiSEO;
+}
+
+/**
+ * About Page Single Type & Collection Types
+ */
+export interface StrapiAboutHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+  mobileOverlayImage?: StrapiMedia | string;
+}
+
+export interface StrapiAboutEulerCard {
+  id?: number;
+  badge: string;
+  title: string;
+  description: string;
+  stat?: string;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiAboutEulerSection {
+  id?: number;
+  eyebrow?: string;
+  cards?: StrapiAboutEulerCard[];
+}
+
+export interface StrapiAboutBeliefCard {
+  id?: number;
+  title: string;
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiAboutBeliefSection {
+  id?: number;
+  eyebrow?: string;
+  mobileEyebrow?: string;
+  title?: string;
+  description?: string;
+  cards?: StrapiAboutBeliefCard[];
+}
+
+export interface StrapiAboutTimelineSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface StrapiAboutFactorySection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  cta?: StrapiCTA;
+  videoUrl?: string;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiAboutLeadershipSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+}
+
+export interface StrapiAboutRecognitionSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiAboutEsgCard {
+  id?: number;
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface StrapiAboutEsgTab {
+  id?: number;
+  tabTitle: string;
+  headline: string;
+  summary: string;
+  image?: StrapiMedia | string;
+  stats?: StrapiStat[];
+  cards?: StrapiAboutEsgCard[];
+}
+
+export interface StrapiAboutEsgSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  tabs?: StrapiAboutEsgTab[];
+}
+
+export interface StrapiAboutReportsSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  image?: StrapiMedia | string;
+  viewAllCta?: StrapiCTA;
+}
+
+export interface StrapiAboutHiringSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  cta?: StrapiCTA;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiAboutPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiAboutHero;
+  eulerSection?: StrapiAboutEulerSection;
+  beliefSection?: StrapiAboutBeliefSection;
+  timelineSection?: StrapiAboutTimelineSection;
+  factorySection?: StrapiAboutFactorySection;
+  leadershipSection?: StrapiAboutLeadershipSection;
+  partnersSection?: PartnersSectionData;
+  recognitionSection?: StrapiAboutRecognitionSection;
+  esgSection?: StrapiAboutEsgSection;
+  reportsSection?: StrapiAboutReportsSection;
+  hiringSection?: StrapiAboutHiringSection;
+  contactSection?: HomePageData["contactSection"];
+  faqSection?: StrapiFaqSection;
+  seo?: StrapiSEO;
+}
+
+export interface StrapiTimelineMilestone {
+  id?: number;
+  documentId?: string;
+  year: number;
+  title: string;
+  description: string;
+  badges?: string[] | string;
+  desktopImage?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+  isActive?: boolean;
+  order?: number;
+}
+
+export interface StrapiLeadershipMember {
+  id?: number;
+  documentId?: string;
+  name: string;
+  role?: string;
+  slug: string;
+  desktopPhoto?: StrapiMedia | string;
+  mobilePhoto?: StrapiMedia | string;
+  isActive?: boolean;
+  order?: number;
+}
+
+export interface StrapiAward {
+  id?: number;
+  documentId?: string;
+  year: string;
+  title: string;
+  description: string;
+  image?: StrapiMedia | string;
+  isActive?: boolean;
+  order?: number;
+}
+
+export interface StrapiEsgReport {
+  id?: number;
+  documentId?: string;
+  title: string;
+  fileSize: string;
+  file?: StrapiMedia | string;
+  externalUrl?: string;
+  iconVariant?: "default" | "highlight";
+  isActive?: boolean;
+  order?: number;
 }
 
 /**

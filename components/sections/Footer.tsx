@@ -261,21 +261,27 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-clip lg:aspect-[1440/927] lg:[background:url('/assets/footer/bg.png')_lightgray_-34.444px_0.375px_/_103.326%_100%_no-repeat]">
-      {/* desktop bg is a CSS background on <footer> (Figma 1:2174:
-          url(bg.png) lightgray -34.444px 0.375px / 103.326% 100% no-repeat) */}
-      {/* mobile bg — whole image scaled to the full width (no crop),
-          bottom-anchored; its top cloud/sky edge fades into the white
-          background above via a mask */}
-      <Image
-        src="/assets/footer/bg.png"
-        alt=""
-        width={1588}
-        height={991}
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 z-0 h-auto w-full max-w-none object-cover lg:hidden max-lg:[mask-image:linear-gradient(to_bottom,transparent,black_22%)] max-lg:[-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
-        priority={false}
-      />
+    <footer className="relative overflow-clip lg:aspect-[1440/927] lg:[background:url('/assets/footer/bg-desktop.webp')_lightgray_center_bottom_/_cover_no-repeat]">
+      {/* desktop bg is a CSS background on <footer> (1440×927 desktop footer banner) */}
+      {/* mobile bg — zoomed out slightly and pulled down more */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden lg:hidden">
+        <div className="relative size-full translate-y-[20%] scale-105">
+          <Image
+            src="/assets/footer/bg-mobile.webp"
+            alt=""
+            fill
+            sizes="100vw"
+            aria-hidden
+            className="object-cover object-[50%_0%]"
+            priority={false}
+          />
+        </div>
+        {/* mobile top white fade gradient (seamless transition into white page content above) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent from-0% via-20% to-45%"
+        />
+      </div>
       {/* desktop washes — Figma 1:2176 white 3971×848 at (-1519, -351.73),
           blur 168.25 · Figma 1:2175 black 2509.121×754.59, centered, bottom
           -816.08, blur 102.15 (only its blurred tail rises into the frame) */}

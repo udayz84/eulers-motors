@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_about_euler_sections",
+  "info": {
+    "displayName": "About Euler Section",
+    "icon": "layers",
+    "description": "Horizontal mission and values card carousel"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "About Euler"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "about.euler-card"
+    }
+  }
+}
+

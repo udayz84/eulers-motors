@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_about_belief_cards",
+  "info": {
+    "displayName": "Belief Card",
+    "icon": "heart",
+    "description": "Belief section card with title and vehicle image"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

@@ -56,6 +56,21 @@ export async function POST(req: NextRequest) {
         revalidatePath("/charging-stations");
         revalidated.push("/charging-stations");
       }
+      if (
+        model === "about-page" ||
+        model === "timeline-milestone" ||
+        model === "leadership-member" ||
+        model === "award" ||
+        model === "esg-report"
+      ) {
+        if (model !== "about-page") {
+          const pluralTag = `strapi:${model}s`;
+          revalidateTag(pluralTag);
+          revalidated.push(pluralTag);
+        }
+        revalidatePath("/about");
+        revalidated.push("/about");
+      }
     }
 
     // Revalidate by explicit path

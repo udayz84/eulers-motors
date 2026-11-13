@@ -45,52 +45,73 @@ export default function PrimeBanner({
   return (
     <section id="prime-banner" className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
-        {/* mobile background (Figma 1:4894) — bg-3 only, bottom half of the section */}
+        {/* mobile background */}
         <div className="absolute inset-0 overflow-hidden lg:hidden">
-          <Image
-            src="/assets/prime/bg-3.png"
-            alt=""
-            width={2186}
-            height={941}
-            priority
-            className="absolute max-w-none"
-            style={{ left: "-78.67%", top: "48.03%", width: "178.63%", height: "51.83%" }}
-          />
-        </div>
-        {/* desktop background stack (Figma 1:1819, bottom → top) */}
-        <div className="absolute inset-0 hidden lg:block">
-          <div className="absolute inset-0 bg-white" />
-          <Image src="/assets/prime/bg-1.png" alt="" fill sizes="100vw" className="object-cover" />
-          <div className="absolute inset-0 overflow-hidden">
-            {/* bg-2 — h 175.86% at (-4.68, -37.93), w 119.36% */}
+          {isServicePage ? (
             <Image
-              src="/assets/prime/bg-2.png"
+              src="/assets/prime/service-prime-mobile.webp"
               alt=""
-              width={1670}
-              height={942}
-              className="absolute max-w-none"
-              style={{ left: "-4.68%", top: "-37.93%", width: "119.36%", height: "175.86%" }}
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover object-[50%_100%]"
             />
-          </div>
-          <div className="absolute inset-0 overflow-hidden">
-            {/* bg-3 — top layer, scaled up slightly (105%) to hide any right-edge export artifacts */}
+          ) : (
             <Image
               src="/assets/prime/bg-3.png"
               alt=""
               width={2186}
               height={941}
+              priority
               className="absolute max-w-none"
-              style={{ left: "-1%", top: "-1%", width: "105%", height: "108%" }}
+              style={{ left: "-78.67%", top: "48.03%", width: "178.63%", height: "51.83%" }}
             />
-          </div>
-          {/* left whitish edge wash to blend the left side softly */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 15%, rgba(0,0,0,0) 100%)",
-            }}
-          />
+          )}
+        </div>
+        {/* desktop background stack */}
+        <div className="absolute inset-0 hidden lg:block">
+          {isServicePage ? (
+            <Image
+              src="/assets/prime/service-prime-desktop.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover object-center"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-white" />
+              <Image src="/assets/prime/bg-1.png" alt="" fill sizes="100vw" className="object-cover" />
+              <div className="absolute inset-0 overflow-hidden">
+                <Image
+                  src="/assets/prime/bg-2.png"
+                  alt=""
+                  width={1670}
+                  height={942}
+                  className="absolute max-w-none"
+                  style={{ left: "-4.68%", top: "-37.93%", width: "119.36%", height: "175.86%" }}
+                />
+              </div>
+              <div className="absolute inset-0 overflow-hidden">
+                <Image
+                  src="/assets/prime/bg-3.png"
+                  alt=""
+                  width={2186}
+                  height={941}
+                  className="absolute max-w-none"
+                  style={{ left: "-1%", top: "-1%", width: "105%", height: "108%" }}
+                />
+              </div>
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 15%, rgba(0,0,0,0) 100%)",
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
       {/* Container Background (Figma 1:1820) — frosted-glass panel over the

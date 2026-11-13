@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_about_esg_sections",
+  "info": {
+    "displayName": "ESG Section",
+    "icon": "earth",
+    "description": "ESG in Action section with tabbed impact breakdown"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Esg in Action"
+    },
+    "title": {
+      "type": "string",
+      "default": "Building a Better Tomorrow"
+    },
+    "description": {
+      "type": "text",
+      "default": "See how we're creating a positive impact through sustainability, people and responsible business practices."
+    },
+    "tabs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "about.esg-tab"
+    }
+  }
+}
+

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_about_leadership_sections",
+  "info": {
+    "displayName": "Leadership Section",
+    "icon": "user",
+    "description": "Leadership section header (team members come from Leadership Member collection)"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "OUR LEADERSHIP"
+    },
+    "title": {
+      "type": "string",
+      "default": "The People Building What's Next"
+    }
+  }
+}
+

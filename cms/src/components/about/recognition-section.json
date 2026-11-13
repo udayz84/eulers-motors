@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_about_recognition_sections",
+  "info": {
+    "displayName": "Recognition Section",
+    "icon": "star",
+    "description": "Awards and recognition section header and feature image (awards come from Award collection)"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Recognition"
+    },
+    "title": {
+      "type": "string",
+      "default": "Awards and recognition."
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_about_belief_sections",
+  "info": {
+    "displayName": "Belief Section",
+    "icon": "heart",
+    "description": "Our Belief section with heading, description, and four cards"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Customers"
+    },
+    "mobileEyebrow": {
+      "type": "string",
+      "default": "Our Belief"
+    },
+    "title": {
+      "type": "string",
+      "default": "Building More Than Electric Vehicles"
+    },
+    "description": {
+      "type": "text",
+      "default": "At Euler Motors, we believe a commercial vehicle should do more than move goods. It should help businesses grow, reduce running costs and make every working day more productive. That's why every vehicle, every technology and every decision starts with the people who use it every day."
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "about.belief-card"
+    }
+  }
+}
+

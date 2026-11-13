@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_about_timeline_sections",
+  "info": {
+    "displayName": "Timeline Section",
+    "icon": "clock",
+    "description": "Milestones timeline section header (items come from Timeline Milestone collection)"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Timeline"
+    },
+    "title": {
+      "type": "string",
+      "default": "Milestones That Shaped Euler"
+    },
+    "description": {
+      "type": "text",
+      "default": "Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day."
+    }
+  }
+}
+

@@ -6,6 +6,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import type { StrapiCareerSupportSection, StrapiCareerSupportItem } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const SPRITE_COORDINATES = [
   { left: "-62.93%", top: "-8.32%" },
@@ -32,6 +33,7 @@ function SupportCard({
   isDuplicate?: boolean;
 }) {
   const coords = SPRITE_COORDINATES[index % SPRITE_COORDINATES.length];
+  const iconUrl = item.icon ? mediaUrl(item.icon) : null;
 
   return (
     <article
@@ -40,21 +42,31 @@ function SupportCard({
         isDuplicate ? "hidden lg:flex" : "flex"
       }`}
     >
-      <div className="relative h-[62px] w-[64.33px] shrink-0 overflow-hidden lg:h-[72px] lg:w-[74.71px]">
-        <Image
-          src="/assets/careers/support-illustrations.webp"
-          alt=""
-          width={630}
-          height={218}
-          style={{
-            position: "absolute",
-            width: "629.2%",
-            height: "217.63%",
-            left: coords.left,
-            top: coords.top,
-            maxWidth: "none",
-          }}
-        />
+      <div className="relative h-[62px] w-[64.33px] shrink-0 overflow-hidden lg:h-[72px] lg:w-[74.71px] flex items-center justify-center">
+        {iconUrl ? (
+          <Image
+            src={iconUrl}
+            alt=""
+            width={75}
+            height={72}
+            className="size-full object-contain"
+          />
+        ) : (
+          <Image
+            src="/assets/careers/support-illustrations.webp"
+            alt=""
+            width={630}
+            height={218}
+            style={{
+              position: "absolute",
+              width: "629.2%",
+              height: "217.63%",
+              left: coords.left,
+              top: coords.top,
+              maxWidth: "none",
+            }}
+          />
+        )}
       </div>
       <div className="flex flex-col gap-2">
         <h3 className="m-0 font-sans text-base font-bold leading-normal text-white lg:font-display lg:text-[26px] lg:font-semibold lg:leading-[1.15] lg:tracking-[-0.78px]">

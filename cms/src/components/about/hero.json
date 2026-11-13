@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_about_heroes",
+  "info": {
+    "displayName": "About Hero",
+    "icon": "landscape",
+    "description": "About page hero banner with eyebrow, heading, description, and responsive background images"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "About Euler Motors"
+    },
+    "title": {
+      "type": "string",
+      "default": "Driving India's Electric Future"
+    },
+    "description": {
+      "type": "text",
+      "default": "Euler Motors is an Indian electric vehicle company focused on building reliable commercial vehicles for businesses that move India every day."
+    },
+    "desktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileOverlayImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

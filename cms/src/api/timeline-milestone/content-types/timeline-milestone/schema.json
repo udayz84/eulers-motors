@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "timeline_milestones",
+  "info": {
+    "singularName": "timeline-milestone",
+    "pluralName": "timeline-milestones",
+    "displayName": "Timeline Milestone",
+    "description": "Company history milestones displayed in the About page timeline"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "year": {
+      "type": "integer",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "badges": {
+      "type": "json"
+    },
+    "desktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+

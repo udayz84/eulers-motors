@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_about_esg_cards",
+  "info": {
+    "displayName": "ESG Impact Card",
+    "icon": "earth",
+    "description": "Numbered ESG impact highlight card"
+  },
+  "options": {},
+  "attributes": {
+    "number": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
+

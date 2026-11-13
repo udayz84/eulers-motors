@@ -2,24 +2,26 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import type { StrapiAboutRecognitionSection, StrapiAward } from "@/types/strapi";
+import { DEFAULT_AWARDS } from "@/lib/strapi/defaults/about";
+import { mediaUrl } from "@/lib/strapi/client";
 
-const AWARDS = [
-  { year: "2024", title: "Commercial EV of the year" },
-  { year: "2024", title: "Design award, commercial vehicles" },
-  { year: "2023", title: "Startup of the year, mobility" },
-  { year: "2022", title: "Innovation in battery engineering" },
-  { year: "2021", title: "Best last mile vehicle" },
-];
-
-const AWARD_DETAIL =
-  "For moving from one product to a network of dealers and service centres.";
+export interface RecognitionProps {
+  sectionData?: StrapiAboutRecognitionSection;
+  awards?: StrapiAward[];
+}
 
 /**
  * Recognition/Awards section (Figma desktop: 3536:18588, mobile: 2937:15335).
  * Awards and recognition with a single-open accordion and a side scroll bar.
  */
-export default function Recognition() {
-  const [openAward, setOpenAward] = useState(2);
+export default function Recognition({ sectionData, awards }: RecognitionProps = {}) {
+  const eyebrow = sectionData?.eyebrow || "Recognition";
+  const title = sectionData?.title || "Awards and recognition.";
+  const sectionImage = mediaUrl(sectionData?.image, "/assets/awards/desktop-bg.png");
+  const list = awards && awards.length > 0 ? awards : DEFAULT_AWARDS;
+
+  const [openAward, setOpenAward] = useState(list.length > 2 ? 2 : 0);
   const listRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ startY: number; startScroll: number; trackH: number } | null>(null);
@@ -46,14 +48,14 @@ export default function Recognition() {
     syncBar();
     window.addEventListener("resize", syncBar);
     if (typeof document !== "undefined" && "fonts" in document) {
-      document.fonts.ready.then(syncBar).catch(() => {});
+      document.fonts.ready.then(syncBar).catch(() => { });
     }
     return () => window.removeEventListener("resize", syncBar);
   }, []);
 
   useEffect(() => {
     syncBar();
-  }, [openAward]);
+  }, [openAward, list.length]);
 
   function scrollListBy(top: number) {
     listRef.current?.scrollBy({ top, behavior: "smooth" });
@@ -111,125 +113,77 @@ export default function Recognition() {
               </div>
             </div>
             <p className="font-sans font-bold leading-normal relative shrink-0 text-[#0e2f6d] text-[12px] tracking-[0.6px] uppercase whitespace-nowrap">
-              Recognition
+              {eyebrow}
             </p>
           </div>
           <p className="font-display text-[28px] sm:text-[36px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.56px] w-full">
-            Awards and recognition.
+            {title}
           </p>
           <div className="absolute h-[49.664px] right-[-19.99px] top-[145.71px] w-[54.598px]" style={{ backgroundImage: "linear-gradient(-89.9999956537512deg, rgb(255, 255, 255) 13.618%, rgba(255, 255, 255, 0) 100%)" }} />
         </div>
         <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
-            <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
-                2024
-              </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
-                Commercial EV of the year
-              </div>
-            </div>
-            <div className="relative shrink-0 size-[24px]">
-              <Image
-                src="/assets/awards/mobile-icon.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
-            <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
-                2024
-              </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
-                Design award, commercial vehicles
-              </div>
-            </div>
-            <div className="relative shrink-0 size-[24px]">
-              <Image
-                src="/assets/awards/mobile-icon.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="bg-[#f3f4f5] content-stretch flex flex-col gap-[10px] items-center justify-center overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
-            <div className="relative shrink-0 w-full">
-              <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-                <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start justify-center min-w-px relative">
-                  <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
-                    2023
+          {list.map((award, index) => {
+            const expanded = openAward === index;
+            return (
+              <div
+                key={award.documentId || award.id || `${award.year}-${award.title}-${index}`}
+                className={`bg-[#f3f4f5] content-stretch flex ${expanded
+                    ? "flex-col gap-[10px] items-center justify-center"
+                    : "gap-[10px] items-center justify-end"
+                  } overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full`}
+              >
+                <button
+                  type="button"
+                  aria-expanded={expanded}
+                  onClick={() => setOpenAward(expanded ? -1 : index)}
+                  className="relative shrink-0 w-full text-left cursor-pointer"
+                >
+                  <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
+                    <div
+                      className={`content-stretch flex flex-[1_0_0] flex-col ${expanded ? "gap-[4px]" : ""
+                        } items-start justify-center min-w-px relative`}
+                    >
+                      <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
+                        {award.year}
+                      </div>
+                      <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
+                        {award.title}
+                      </div>
+                    </div>
+                    <div className="relative shrink-0 size-[24px]">
+                      <Image
+                        src={
+                          expanded
+                            ? "/assets/awards/mobile-icon-2.svg"
+                            : "/assets/awards/mobile-icon.svg"
+                        }
+                        alt=""
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                  <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
-                    Startup of the year, mobility
+                </button>
+                {expanded && (
+                  <div className="relative shrink-0 w-full">
+                    <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[10px] items-end relative size-full">
+                      <div className="relative shrink-0 size-[68.185px] sm:size-[80px]">
+                        <Image
+                          src={mediaUrl(award.image, "/assets/awards/mobile-bg.png")}
+                          alt=""
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <p className="font-sans font-normal leading-[1.4] min-w-px relative text-[12px] sm:text-[14px] text-[rgba(18,18,18,0.8)]">
+                        {award.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="relative shrink-0 size-[24px]">
-                  <Image
-                    src="/assets/awards/mobile-icon-2.svg"
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                )}
               </div>
-            </div>
-            <div className="relative shrink-0 w-full">
-              <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[10px] items-end relative size-full">
-                <div className="relative shrink-0 size-[68.185px] sm:size-[80px]">
-                  <Image
-                    src="/assets/awards/mobile-bg.png"
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="font-sans font-normal leading-[1.4] min-w-px relative text-[12px] sm:text-[14px] text-[rgba(18,18,18,0.8)]">
-                  <p className="leading-[1.4] mb-0">For moving from one product to a network of</p>
-                  <p className="leading-[1.4]">dealers and service centres.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
-            <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
-                2022
-              </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
-                Innovation in battery engineering
-              </div>
-            </div>
-            <div className="relative shrink-0 size-[24px]">
-              <Image
-                src="/assets/awards/mobile-icon.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="bg-[#f3f4f5] content-stretch flex gap-[10px] items-center justify-end overflow-clip px-[12px] sm:px-[18px] py-[21px] sm:py-[24px] relative rounded-[16px] shrink-0 w-full">
-            <div className="flex-[1_0_0] min-w-px relative">
-              <div className="font-sans font-extrabold relative shrink-0 text-[#1d6fff] text-[12px] sm:text-[13px] tracking-[-0.24px] w-full">
-                2021
-              </div>
-              <div className="font-sans font-semibold relative shrink-0 text-[#121212] text-[16px] sm:text-[18px] tracking-[-0.32px] w-full">
-                Best last mile vehicle
-              </div>
-            </div>
-            <div className="relative shrink-0 size-[24px]">
-              <Image
-                src="/assets/awards/mobile-icon.svg"
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
 
@@ -256,19 +210,19 @@ export default function Recognition() {
                   />
                 </div>
                 <p className="font-sans font-bold leading-normal relative shrink-0 text-[#0e2f6d] text-[14px] tracking-[0.7px] uppercase whitespace-nowrap">
-                  Recognition
+                  {eyebrow}
                 </p>
               </div>
               <div className="flex flex-col items-start relative w-full">
                 <p className="font-display text-[42px] font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] tracking-[-0.84px] w-full">
-                  Awards and recognition.
+                  {title}
                 </p>
               </div>
             </div>
             <div
               className="w-full shrink-0 lg:h-[420px] rounded-[20.655px]"
               style={{
-                backgroundImage: "url('/assets/awards/desktop-bg.png')",
+                backgroundImage: `url('${sectionImage}')`,
                 backgroundPosition: "50% 50%",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -282,14 +236,13 @@ export default function Recognition() {
               onScroll={syncBar}
               className="no-scrollbar flex w-full max-w-[568px] flex-col gap-[10px] lg:h-[525px] lg:w-[568px] lg:shrink-0 lg:min-h-0 lg:overflow-y-auto"
             >
-              {AWARDS.map((award, index) => {
+              {list.map((award, index) => {
                 const expanded = openAward === index;
                 return (
                   <article
-                    key={index}
-                    className={`bg-[#f3f4f5] overflow-clip rounded-[16px] p-[20px] w-full shrink-0 ${
-                      expanded ? "flex flex-col gap-[24px]" : ""
-                    }`}
+                    key={award.documentId || award.id || `${award.year}-${award.title}-${index}`}
+                    className={`bg-[#f3f4f5] overflow-clip rounded-[16px] p-[20px] w-full shrink-0 ${expanded ? "flex flex-col gap-[24px]" : ""
+                      }`}
                   >
                     <button
                       type="button"
@@ -322,14 +275,14 @@ export default function Recognition() {
                       <div className="content-stretch flex w-full gap-[10px] items-end">
                         <span className="relative shrink-0 size-[96.936px]">
                           <Image
-                            src="/assets/awards/desktop-bg-2.png"
+                            src={mediaUrl(award.image, "/assets/awards/desktop-bg-2.png")}
                             alt=""
                             fill
                             className="object-cover"
                           />
                         </span>
                         <p className="font-sans font-normal leading-[1.4] min-w-px text-[16px] text-[rgba(18,18,18,0.8)]">
-                          {AWARD_DETAIL}
+                          {award.description}
                         </p>
                       </div>
                     )}

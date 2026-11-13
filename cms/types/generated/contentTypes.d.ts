@@ -443,6 +443,60 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAboutPageAboutPage extends Struct.SingleTypeSchema {
+  collectionName: 'about_pages';
+  info: {
+    description: 'About Euler Motors page layout, story, leadership, ESG, disclosures, and SEO';
+    displayName: 'About Page';
+    pluralName: 'about-pages';
+    singularName: 'about-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    beliefSection: Schema.Attribute.Component<'about.belief-section', false>;
+    contactSection: Schema.Attribute.Component<'home.contact-section', false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    esgSection: Schema.Attribute.Component<'about.esg-section', false>;
+    eulerSection: Schema.Attribute.Component<'about.euler-section', false>;
+    factorySection: Schema.Attribute.Component<'about.factory-section', false>;
+    faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
+    hero: Schema.Attribute.Component<'about.hero', false>;
+    hiringSection: Schema.Attribute.Component<'about.hiring-section', false>;
+    leadershipSection: Schema.Attribute.Component<
+      'about.leadership-section',
+      false
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::about-page.about-page'
+    > &
+      Schema.Attribute.Private;
+    partnersSection: Schema.Attribute.Component<
+      'shared.partners-section',
+      false
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    recognitionSection: Schema.Attribute.Component<
+      'about.recognition-section',
+      false
+    >;
+    reportsSection: Schema.Attribute.Component<'about.reports-section', false>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    timelineSection: Schema.Attribute.Component<
+      'about.timeline-section',
+      false
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -476,6 +530,37 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAwardAward extends Struct.CollectionTypeSchema {
+  collectionName: 'awards';
+  info: {
+    description: 'Industry awards and recognitions displayed on About page';
+    displayName: 'Award';
+    pluralName: 'awards';
+    singularName: 'award';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::award.award'> &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    year: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -747,6 +832,42 @@ export interface ApiDealerDealer extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEsgReportEsgReport extends Struct.CollectionTypeSchema {
+  collectionName: 'esg_reports';
+  info: {
+    description: 'Downloadable ESG reports and corporate disclosure documents';
+    displayName: 'ESG Report';
+    pluralName: 'esg-reports';
+    singularName: 'esg-report';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    externalUrl: Schema.Attribute.String;
+    file: Schema.Attribute.Media<'files'>;
+    fileSize: Schema.Attribute.String & Schema.Attribute.Required;
+    iconVariant: Schema.Attribute.Enumeration<['default', 'highlight']> &
+      Schema.Attribute.DefaultTo<'default'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::esg-report.esg-report'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -823,6 +944,42 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
     statsBanner: Schema.Attribute.Component<'home.stats-banner', false>;
     talkPromo: Schema.Attribute.Component<'home.promo-card', false>;
     technology: Schema.Attribute.Component<'home.technology', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLeadershipMemberLeadershipMember
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'leadership_members';
+  info: {
+    description: 'Leadership team profiles shown on About page';
+    displayName: 'Leadership Member';
+    pluralName: 'leadership-members';
+    singularName: 'leadership-member';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    desktopPhoto: Schema.Attribute.Media<'images'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::leadership-member.leadership-member'
+    > &
+      Schema.Attribute.Private;
+    mobilePhoto: Schema.Attribute.Media<'images'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -996,6 +1153,43 @@ export interface ApiTechnologyPageTechnologyPage
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTimelineMilestoneTimelineMilestone
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'timeline_milestones';
+  info: {
+    description: 'Company history milestones displayed in the About page timeline';
+    displayName: 'Timeline Milestone';
+    pluralName: 'timeline-milestones';
+    singularName: 'timeline-milestone';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    badges: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    desktopImage: Schema.Attribute.Media<'images'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::timeline-milestone.timeline-milestone'
+    > &
+      Schema.Attribute.Private;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    year: Schema.Attribute.Integer & Schema.Attribute.Required;
   };
 }
 
@@ -1510,19 +1704,24 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::about-page.about-page': ApiAboutPageAboutPage;
       'api::article.article': ApiArticleArticle;
+      'api::award.award': ApiAwardAward;
       'api::career-position.career-position': ApiCareerPositionCareerPosition;
       'api::careers-page.careers-page': ApiCareersPageCareersPage;
       'api::charging-station.charging-station': ApiChargingStationChargingStation;
       'api::charging-stations-page.charging-stations-page': ApiChargingStationsPageChargingStationsPage;
       'api::dealer-locator-page.dealer-locator-page': ApiDealerLocatorPageDealerLocatorPage;
       'api::dealer.dealer': ApiDealerDealer;
+      'api::esg-report.esg-report': ApiEsgReportEsgReport;
       'api::faq.faq': ApiFaqFaq;
       'api::home-page.home-page': ApiHomePageHomePage;
+      'api::leadership-member.leadership-member': ApiLeadershipMemberLeadershipMember;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;
       'api::service-center.service-center': ApiServiceCenterServiceCenter;
       'api::technology-page.technology-page': ApiTechnologyPageTechnologyPage;
+      'api::timeline-milestone.timeline-milestone': ApiTimelineMilestoneTimelineMilestone;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

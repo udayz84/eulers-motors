@@ -418,10 +418,10 @@ export default function DealerContactSection({
           <Image
             src={bgImageSrc}
             alt=""
-            width={1476}
-            height={1066}
-            sizes="630px"
-            className="absolute left-[-0.09%] top-[-3.49%] h-[103.49%] max-w-none w-[100.19%]"
+            width={631}
+            height={441}
+            sizes="631px"
+            className="size-full object-cover"
           />
         </div>
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_65.285%,white_100%),linear-gradient(270deg,transparent_71.138%,white_100%),linear-gradient(0deg,transparent_69.07%,white_100%),linear-gradient(180deg,transparent_51.97%,white_99.827%)]" />
