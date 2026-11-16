@@ -26,13 +26,14 @@ const FEATURES: SpecRow[] = [
 const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
   Battery: {
     rows: [
-      { icon: "spec-ic-charge.svg", label: "State of charge on phone", value: "Yes" },
-      { icon: "spec-ic-clock.svg", label: "Full charge time", value: "90 min" },
-      { icon: "spec-ic-target.svg", label: "Range per charge", value: "200 km" },
-      { icon: "spec-ic-bell.svg", label: "Service alerts", value: "Predictive" },
+      { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
+      { icon: "spec-ic-charge.svg", label: "Certified Range", value: "210 Km (ARAI Certified)" },
+      { icon: "spec-ic-target.svg", label: "Real Range", value: "140+ Km Full Payload" },
+      { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "15 Min (50 Km) | 30 Min (100 Km)" },
+      { icon: "spec-ic-bell.svg", label: "Standard AC Charge", value: "3.3 KW (6 Hrs) | 6.6 KW (4 Hrs)" },
     ],
-    image: `${ASSET}spec-image.png`,
-    imageAlt: "Storm EV LR 200 cabin and controls",
+    image: `${ASSET}spec-battery.webp`,
+    imageAlt: "Storm EV LR 200 battery and liquid cooling system",
   },
   Dimensions: {
     rows: [
@@ -41,8 +42,8 @@ const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: s
       { icon: "spec-ic-location.svg", label: "Vehicle type", value: "Electric cargo" },
       { icon: "spec-ic-analytics.svg", label: "Fleet use", value: "10 vehicles and up" },
     ],
-    image: `${ASSET}spec-image.png`,
-    imageAlt: "Storm EV LR 200 cabin and controls",
+    image: `${ASSET}spec-dimensions-storm.webp`,
+    imageAlt: "Storm EV LR 200 dimensions and payload",
   },
   Performance: {
     rows: [
@@ -91,7 +92,7 @@ export const HILOAD_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: strin
       { icon: "spec-ic-clock.svg", label: "Charging Time", value: "3.5 - 4 hours (AC)" },
       { icon: "spec-ic-bell.svg", label: "Battery Warranty", value: "5 years / 1.25 Lakh km" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-battery.webp`,
     imageAlt: "Euler HiLoad EV battery and liquid cooling system",
   },
   Dimensions: {
@@ -102,7 +103,7 @@ export const HILOAD_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: strin
       { icon: "spec-ic-analytics.svg", label: "Wheelbase & Radius", value: "2,200 mm | 3.5 m turning" },
       { icon: "spec-ic-location.svg", label: "Vehicle Category", value: "L5N Electric Cargo 3W" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-dimensions-storm.webp`,
     imageAlt: "Euler HiLoad EV dimensions and container body",
   },
   Performance: {
@@ -160,7 +161,7 @@ export const TURBO_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string
       { icon: "spec-ic-bell.svg", label: "Battery Protection", value: "IP67 Dust & Water Ingress" },
       { icon: "spec-ic-doc.svg", label: "Battery Warranty", value: "5 years / 1.25 Lakh km" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-battery.webp`,
     imageAlt: "Euler Turbo EV 1000 battery and powertrain",
   },
   Dimensions: {
@@ -171,7 +172,7 @@ export const TURBO_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string
       { icon: "spec-ic-analytics.svg", label: "Category", value: "N1 Goods Carrier" },
       { icon: "spec-ic-location.svg", label: "Fleet Use", value: "Urban & intercity logistics" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-dimensions-turbo.webp`,
     imageAlt: "Euler Turbo EV 1000 dimensions and cargo deck",
   },
   Performance: {
@@ -227,7 +228,7 @@ export const STORM_T1500_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: 
       { icon: "spec-ic-clock.svg", label: "DC Fast Charge", value: "15 min (50 km) | 30 min (100 km)" },
       { icon: "spec-ic-bell.svg", label: "Standard AC Charge", value: "3.3 kW (6 hrs) | 6.6 kW (4 hrs)" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-battery.webp`,
     imageAlt: "Euler Storm EV T1500 liquid cooling and battery",
   },
   Dimensions: {
@@ -238,7 +239,7 @@ export const STORM_T1500_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: 
       { icon: "spec-ic-analytics.svg", label: "Wheelbase & Radius", value: "2,170 mm | 4.7 m turning" },
       { icon: "spec-ic-location.svg", label: "Gross Vehicle Weight", value: "2,600 kg (Kerb 1,350 kg)" },
     ],
-    image: `${ASSET}spec-image.png`,
+    image: `${ASSET}spec-dimensions-storm.webp`,
     imageAlt: "Euler Storm EV T1500 dimensions and 8ft deck",
   },
   Performance: {
@@ -297,16 +298,14 @@ export default function ProductSpecs({
 }: {
   specContent?: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }>;
 } = {}) {
-  const [activeTab, setActiveTab] = useState("Features");
+  const [activeTab, setActiveTab] = useState("Battery");
   const content = specContent || SPEC_CONTENT;
   const currentSpec = content[activeTab] || SPEC_CONTENT[activeTab];
   const activeTabIndex = TABS.indexOf(activeTab);
-  const currentImage = activeTabIndex % 2 === 0
-    ? `${ASSET}spec-image.png`
-    : "/assets/technology-page/hero__imgRectangle42158.png";
-  const currentImageAlt = activeTabIndex % 2 === 0
-    ? "Euler Motors vehicle cabin and controls"
-    : "Euler Motors vehicle on an Indian road";
+  const currentImage = currentSpec?.image || (activeTabIndex % 2 === 0
+    ? `${ASSET}spec-battery.webp`
+    : "/assets/technology-page/hero__imgRectangle42158.png");
+  const currentImageAlt = currentSpec?.imageAlt || "Euler Motors specifications";
 
   return (
     <section aria-label="Specifications" className="flex w-full flex-col items-center gap-5 bg-surface px-5 sm:px-8 py-[42px] sm:py-12 lg:bg-white lg:px-0 lg:py-12">

@@ -67,7 +67,7 @@ const ALL_OTHER_VEHICLES: VehicleCard[] = [
   {
     id: "storm-ev-lr200",
     name: "Storm EV LR 200",
-    image: "/assets/other-vehicles/storm-ev-lr200.png",
+    image: "/assets/other-vehicles/storm-ev-lr200.webp",
     ground: "#4B423F",
     href: "/products/lr200",
     stats: [
@@ -131,14 +131,10 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
     ? ALL_OTHER_VEHICLES.filter((v) => v.id !== currentVehicleId).slice(0, 3)
     : VEHICLES;
 
-  // Duplicate 4x for continuous infinite runway
-  const loopedVehicles = Array.from({ length: 4 }).flatMap(() => displayVehicles);
+  // Display exactly the 3 other vehicles (no infinite loop/duplication)
+  const loopedVehicles = displayVehicles;
 
   const [scrollProgress, setScrollProgress] = useState(0);
-  const isVisibleRef = useRef(true);
-  const isDraggingRef = useRef(false);
-  const isInteractingRef = useRef(false);
-  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;
@@ -151,109 +147,25 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
     }
   }, []);
 
-  const pauseAutoScroll = useCallback((duration = 600) => {
-    isInteractingRef.current = true;
-    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
-    interactionTimerRef.current = setTimeout(() => {
-      isInteractingRef.current = false;
-    }, duration);
-  }, []);
-
   useDraggableScroll(scrollRef, {
-    onDragStart: () => {
-      isDraggingRef.current = true;
-      pauseAutoScroll(600);
-    },
     onDragEnd: () => {
-      isDraggingRef.current = false;
-      pauseAutoScroll(400);
       updateProgress();
     },
   });
 
-  // Track initial scroll progress and attach resize/scroll sync
+  // Track scroll progress and attach resize/scroll sync
   useEffect(() => {
     updateProgress();
     const row = scrollRef.current;
     if (!row) return;
 
-    const onStep = () => pauseAutoScroll(600);
-
     row.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
-    row.addEventListener("carousel-step", onStep);
 
     return () => {
       row.removeEventListener("scroll", updateProgress);
       window.removeEventListener("resize", updateProgress);
-      row.removeEventListener("carousel-step", onStep);
     };
-  }, [updateProgress, pauseAutoScroll]);
-
-  // Section visibility tracking
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisibleRef.current = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  // Continuous auto-scroll loop (speed = 50px/s, does NOT pause on hover)
-  useEffect(() => {
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
-    let lastTime: number | null = null;
-    let animId: number;
-    let accumulator = 0;
-
-    const tick = (now: number) => {
-      if (lastTime === null) lastTime = now;
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
-      const isDesktop = window.innerWidth >= 1024;
-      if (
-        isDesktop &&
-        isVisibleRef.current &&
-        !isInteractingRef.current &&
-        !isDraggingRef.current
-      ) {
-        const row = scrollRef.current;
-        if (row) {
-          const maxScroll = row.scrollWidth - row.clientWidth;
-          if (maxScroll > 1) {
-            accumulator += 50 * delta;
-            if (accumulator >= 1) {
-              const advance = Math.floor(accumulator);
-              accumulator -= advance;
-
-              if (row.scrollLeft >= maxScroll - 2) {
-                row.scrollLeft = 0;
-              } else {
-                row.scrollLeft += advance;
-              }
-              updateProgress();
-            }
-          }
-        }
-      }
-
-      animId = requestAnimationFrame(tick);
-    };
-
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
   }, [updateProgress]);
 
   return (
@@ -282,11 +194,11 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
         <div
           id="other-vehicles-snap-row"
           ref={scrollRef}
-          className="no-scrollbar flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory lg:snap-none lg:[scroll-snap-type:none] scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
+          className="no-scrollbar flex w-full gap-5 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory scroll-pl-5 sm:gap-6 sm:px-8 sm:scroll-pl-8 lg:gap-6 lg:pl-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] lg:pr-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
         >
           {loopedVehicles.map((vehicle, index) => (
             <article
-              key={`${vehicle.id}-${index}`}
+              key={vehicle.id}
               className="relative h-[353px] w-[320px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:h-[485px] sm:w-[720px]"
             >
               {/* Vehicle photo render */}
@@ -393,7 +305,7 @@ export default function ProductOtherVehicles({ currentVehicleId }: { currentVehi
           rowId="other-vehicles-snap-row"
           label="other vehicles"
           variant="blue"
-          onStep={() => pauseAutoScroll(600)}
+          onStep={() => updateProgress()}
         />
       </div>
 

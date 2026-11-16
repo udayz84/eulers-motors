@@ -34,6 +34,7 @@ export interface ContactSectionProps {
   formSubheading?: string;
   formCtaLabel?: string;
   formDisclaimer?: string;
+  image?: string;
 }
 
 export default function ContactSection({
@@ -48,6 +49,7 @@ export default function ContactSection({
   formSubheading,
   formCtaLabel,
   formDisclaimer,
+  image = "/assets/contact/showroom-map.jpg",
 }: ContactSectionProps = {}) {
   const effectiveHeading = form?.heading || formHeading || "What are you looking for?";
   const effectiveSubheading = form?.subheading || formSubheading || "Two steps. We call you within one working day.";
@@ -199,14 +201,19 @@ export default function ContactSection({
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 pb-6 pt-6 lg:flex-row lg:items-stretch lg:justify-between lg:gap-10 lg:px-[80px] lg:pb-[42px] lg:pt-[64px]">
         {/* left column — heading top · contacts bottom */}
         <div className="relative flex flex-col gap-6 lg:justify-between lg:gap-0">
-          <Image
-            aria-hidden
-            src="/assets/enterprise/truck-wash.png"
-            alt=""
-            width={630}
-            height={441}
-            className="absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[630.733px] object-cover lg:block"
-          />
+          <div
+            className="pointer-events-none absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[631px] overflow-hidden rounded-[8px] lg:block"
+            aria-hidden="true"
+          >
+            <Image
+              src={image}
+              alt=""
+              width={631}
+              height={441}
+              className="size-full object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_65.285%,white_100%),linear-gradient(270deg,transparent_71.138%,white_100%),linear-gradient(0deg,transparent_69.07%,white_100%),linear-gradient(180deg,transparent_51.97%,white_99.827%)]" />
+          </div>
 
           <div className="relative flex flex-col gap-4">
             {eyebrow && <Eyebrow label={eyebrow} />}
