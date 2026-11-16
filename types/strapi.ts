@@ -71,6 +71,7 @@ export interface ProductItem {
   specsChargeTime: string;
   productUrl?: string;
   image?: StrapiMedia;
+  mobileImage?: StrapiMedia;
   order?: number;
 }
 
@@ -112,6 +113,7 @@ export interface PromoCardData {
   ctaLabel?: string;
   ctaHref?: string;
   image?: StrapiMedia;
+  mobileImage?: StrapiMedia;
   imageAlt?: string;
   wash?: "blue" | "white" | "mobile-blue";
   align?: "left" | "right";
@@ -124,6 +126,7 @@ export interface PrimeBannerData {
   description?: string;
   cta?: StrapiCTA;
   backgroundImage?: StrapiMedia | string;
+  mobileBackgroundImage?: StrapiMedia | string;
   features?: { value: string; label: string }[];
 }
 
@@ -158,6 +161,8 @@ export interface TechnologyCardData {
   tag?: string;
   title: string;
   description: string;
+  image?: StrapiMedia;
+  mobileImage?: StrapiMedia;
 }
 
 export interface TechnologySectionData {
@@ -381,6 +386,7 @@ export interface DealerContactSectionData extends Partial<FormTabFields> {
   desktopDescription?: string;
   mobileDescription?: string;
   backgroundImage?: StrapiMedia | string;
+  mobileBackgroundImage?: StrapiMedia | string;
   cards?: DealerContactCard[];
   form?: HomeContactFormData;
   formHeading?: string;
@@ -473,6 +479,7 @@ export interface ChargingContactSectionData {
   description?: string;
   mobileDescription?: string;
   backgroundImage?: StrapiMedia | string;
+  mobileBackgroundImage?: StrapiMedia | string;
   cards?: DealerContactCard[];
   form?: ChargingFormData;
   formHeading?: string;
@@ -848,6 +855,7 @@ export interface StrapiAboutBeliefCard {
   id?: number;
   title: string;
   image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
 }
 
 export interface StrapiAboutBeliefSection {

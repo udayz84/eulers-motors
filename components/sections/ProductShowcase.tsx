@@ -14,6 +14,7 @@ export type VehicleData = {
   title: string;
   /** Truck cutout swapped into the scene's truck region (desktop carousel) */
   image: string;
+  mobileImage?: string;
   crop: [number, number, number, number];
   specs: {
     range: string;
@@ -284,7 +285,7 @@ export default function ProductShowcase({
                 frontWheelLeft={current.id === "hiload-ev" ? "20%" : "17%"}
               />
               <Image
-                src={current.image}
+                src={current.mobileImage || current.image}
                 alt={current.title}
                 fill
                 sizes="(max-width: 640px) 360px, 420px"

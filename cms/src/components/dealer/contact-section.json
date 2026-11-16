@@ -35,6 +35,14 @@
         "images"
       ]
     },
+    "mobileBackgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "cards": {
       "type": "component",
       "repeatable": true,

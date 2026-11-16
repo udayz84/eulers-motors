@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
+import { StrapiMedia } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 export interface TechnologyCardItem {
   id?: number;
   tag?: string;
   title: string;
   description: string;
+  image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
 }
 
 export interface TechnologyProps {
@@ -63,6 +67,18 @@ export default function Technology({
   const card3 = activeCards[2] || DEFAULT_CARDS[2];
   const card4 = activeCards[3] || DEFAULT_CARDS[3];
 
+  const card1Img = card1.image ? mediaUrl(card1.image) : undefined;
+  const card1MobileImg = card1.mobileImage ? mediaUrl(card1.mobileImage) : card1Img;
+
+  const card2Img = card2.image ? mediaUrl(card2.image) : undefined;
+  const card2MobileImg = card2.mobileImage ? mediaUrl(card2.mobileImage) : card2Img;
+
+  const card3Img = card3.image ? mediaUrl(card3.image) : undefined;
+  const card3MobileImg = card3.mobileImage ? mediaUrl(card3.mobileImage) : card3Img;
+
+  const card4Img = card4.image ? mediaUrl(card4.image) : undefined;
+  const card4MobileImg = card4.mobileImage ? mediaUrl(card4.mobileImage) : card4Img;
+
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
       {/* container — Figma 1:1618: 1440×1036, padding 48/80, column, items-start,
@@ -94,66 +110,110 @@ export default function Technology({
             {/* row 1 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
               <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
-                {/* desktop card art — both Figma CARD fills (1:1641), bottom-anchored */}
-                <Image src="/assets/technology/card-battery.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
-                <Image src="/assets/technology/card-battery2.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
-                {/* battery pack — mobile Figma 1:4798: 309.6×229.3 at (114.13, -81.26)
-                    of the 353px card · desktop Figma 1:1646: 470.947×348.682 at (164.57, -108.52) */}
-                <Image
-                  src="/assets/technology/battery.png"
-                  alt="Water-cooled Euler battery pack"
-                  width={471}
-                  height={349}
-                  className="pointer-events-none absolute left-[32.35%] top-[-81.26px] w-[87.72%] object-cover lg:left-[164.57px] lg:top-[-108.52px] lg:h-[348.682px] lg:w-[470.947px]"
-                />
+                {card1Img ? (
+                  <>
+                    <Image
+                      src={card1Img}
+                      alt={card1.title}
+                      fill
+                      sizes="(max-width:1024px) 393px, 519px"
+                      className="hidden object-cover lg:block"
+                    />
+                    <Image
+                      src={card1MobileImg || card1Img}
+                      alt={card1.title}
+                      fill
+                      sizes="393px"
+                      className="object-cover lg:hidden"
+                    />
+                  </>
+                ) : (
+                  <>
+                    {/* desktop card art — both Figma CARD fills (1:1641), bottom-anchored */}
+                    <Image src="/assets/technology/card-battery.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
+                    <Image src="/assets/technology/card-battery2.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
+                    {/* battery pack — mobile Figma 1:4798: 309.6×229.3 at (114.13, -81.26)
+                        of the 353px card · desktop Figma 1:1646: 470.947×348.682 at (164.57, -108.52) */}
+                    <Image
+                      src="/assets/technology/battery.png"
+                      alt="Water-cooled Euler battery pack"
+                      width={471}
+                      height={349}
+                      className="pointer-events-none absolute left-[32.35%] top-[-81.26px] w-[87.72%] object-cover lg:left-[164.57px] lg:top-[-108.52px] lg:h-[348.682px] lg:w-[470.947px]"
+                    />
+                  </>
+                )}
                 <CardHeading
-                  className="lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
+                  className="z-10 lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
                   num={card1.tag || "01 / Battery"}
                   title={card1.title}
                   desc={card1.description}
                 />
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
-                {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
-                <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
-                {/* mobile: the truck split from its background — the card base
-                    is the truck-free gradient strip (top third of the Figma
-                    fill 1:4799, stretched), and the truck itself is a crop
-                    from the same render parked bottom-right, masked with a
-                    diagonal fade so its edges melt into the identical
-                    gradient (no rectangle seam, and only the truck moves) */}
-                <Image
-                  src="/assets/technology/card-safety-mobile-bg.png"
-                  alt=""
-                  fill
-                  sizes="393px"
-                  className="object-fill lg:hidden"
-                />
-                <Image
-                  src="/assets/technology/card-safety-mobile-truck.png"
-                  alt=""
-                  width={1909}
-                  height={1040}
-                  sizes="240px"
-                  className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
-                />
-                {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
-                <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
-                {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
-                    at (-79.29, -16.87), svg oversized via insets -85.11%/-19.39% */}
-                <div aria-hidden className="absolute left-[-79.29px] top-[-16.87px] hidden h-[184.94px] w-[811.56px] lg:block">
-                  <div className="absolute inset-[-85.11%_-19.39%]">
-                    <Image src="/assets/technology/ellipse.svg" alt="" fill sizes="1127px" className="pointer-events-none" />
-                  </div>
-                </div>
-                {/* mobile: heading at top-left over the fade (Figma 1:4801) ·
-                    desktop: below the glow */}
+                {card2Img ? (
+                  <>
+                    <Image
+                      src={card2Img}
+                      alt={card2.title}
+                      fill
+                      sizes="(max-width:1024px) 393px, 741px"
+                      className="hidden object-cover object-[right_top] lg:block"
+                    />
+                    <Image
+                      src={card2MobileImg || card2Img}
+                      alt={card2.title}
+                      fill
+                      sizes="393px"
+                      className="object-cover object-[right_top] lg:hidden"
+                    />
+                  </>
+                ) : (
+                  <>
+                    {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
+                    <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
+                    {/* mobile: the truck split from its background — the card base
+                        is the truck-free gradient strip (top third of the Figma
+                        fill 1:4799, stretched), and the truck itself is a crop
+                        from the same render parked bottom-right, masked with a
+                        diagonal fade so its edges melt into the identical
+                        gradient (no rectangle seam, and only the truck moves) */}
+                    <Image
+                      src="/assets/technology/card-safety-mobile-bg.png"
+                      alt=""
+                      fill
+                      sizes="393px"
+                      className="object-fill lg:hidden"
+                    />
+                    <Image
+                      src="/assets/technology/card-safety-mobile-truck.png"
+                      alt=""
+                      width={1909}
+                      height={1040}
+                      sizes="240px"
+                      className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
+                    />
+                    {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
+                    <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
+                    {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
+                        at (-79.29, -16.87), svg oversized via insets -85.11%/-19.39% */}
+                    <div aria-hidden className="absolute left-[-79.29px] top-[-16.87px] hidden h-[184.94px] w-[811.56px] lg:block">
+                      <div className="absolute inset-[-85.11%_-19.39%]">
+                        <Image src="/assets/technology/ellipse.svg" alt="" fill sizes="1127px" className="pointer-events-none" />
+                      </div>
+                    </div>
+                  </>
+                )}
                 <CardHeading
-                  className="max-lg:bottom-auto max-lg:right-auto max-lg:top-[14px] max-lg:w-[281px] lg:bottom-auto lg:left-[28px] lg:top-[30px] lg:w-[534px]"
+                  className={
+                    card2Img
+                      ? "z-10 bottom-[14px] left-[14px] lg:bottom-[28px] lg:left-[28px] lg:top-auto lg:w-[480px]"
+                      : "z-10 max-lg:bottom-auto max-lg:right-auto max-lg:top-[14px] max-lg:w-[281px] lg:bottom-auto lg:left-[28px] lg:top-[30px] lg:w-[534px]"
+                  }
                   num={card2.tag || "02 / Safety"}
                   title={card2.title}
-                  titleW="max-lg:max-w-[236px] lg:max-w-[244px]"
-                  descW="max-lg:max-w-[187px] lg:max-w-[327px]"
+                  titleW={card2Img ? "max-w-[240px] lg:max-w-[320px]" : "max-lg:max-w-[236px] lg:max-w-[244px]"}
+                  descW={card2Img ? "max-w-[240px] lg:max-w-[320px]" : "max-lg:max-w-[187px] lg:max-w-[327px]"}
                   desc={card2.description}
                 />
               </article>
@@ -161,86 +221,139 @@ export default function Technology({
 
             {/* row 2 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative min-h-[260px] h-[260px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
-                {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
-                <Image
-                  src="/assets/technology/app-photo.png"
-                  alt=""
-                  width={671}
-                  height={442}
-                  className="pointer-events-none absolute left-0 top-[0.36px] h-[442px] w-[671px] object-cover max-lg:hidden"
-                />
-                <Image src="/assets/technology/card-app-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.15] lg:hidden" />
-                {/* mobile phone mockup — Figma 1:4799 overlay: 51.41% wide at
-                    (55.15%, 6.34%), bleeding past the card bottom */}
-                <Image
-                  src="/assets/technology/app-phone-mobile.png"
-                  alt="Euler fleet app on a phone"
-                  width={181}
-                  height={259}
-                  className="pointer-events-none absolute left-[55.15%] top-[6.34%] h-[103.63%] w-[51.41%] object-cover lg:hidden"
-                />
-                {/* phone — desktop Figma 1:1656: 292×440 at (370, 25.22) */}
-                <Image
-                  src="/assets/technology/app-phone.png"
-                  alt="Euler fleet app on a phone"
-                  width={292}
-                  height={440}
-                  className="pointer-events-none absolute left-[370px] top-[25.22px] h-[440px] w-[292px] object-cover max-lg:hidden"
-                />
+              <article className={`relative min-h-[260px] h-[260px] w-full overflow-clip rounded-xl ${card3Img ? "bg-[#c5d2e5]" : "bg-[#d9e1eb]"} sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl`}>
+                {card3Img ? (
+                  <>
+                    <Image
+                      src={card3Img}
+                      alt={card3.title}
+                      fill
+                      sizes="(max-width:1024px) 393px, 671px"
+                      className="hidden object-contain object-right-bottom scale-[0.85] origin-bottom-right lg:block"
+                    />
+                    <Image
+                      src={card3MobileImg || card3Img}
+                      alt={card3.title}
+                      fill
+                      sizes="393px"
+                      className="object-contain object-right-bottom scale-[0.85] origin-bottom-right lg:hidden"
+                    />
+                  </>
+                ) : (
+                  <>
+                    {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
+                    <Image
+                      src="/assets/technology/app-photo.png"
+                      alt=""
+                      width={671}
+                      height={442}
+                      className="pointer-events-none absolute left-0 top-[0.36px] h-[442px] w-[671px] object-cover max-lg:hidden"
+                    />
+                    <Image src="/assets/technology/card-app-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.15] lg:hidden" />
+                    {/* mobile phone mockup — Figma 1:4799 overlay: 51.41% wide at
+                        (55.15%, 6.34%), bleeding past the card bottom */}
+                    <Image
+                      src="/assets/technology/app-phone-mobile.png"
+                      alt="Euler fleet app on a phone"
+                      width={181}
+                      height={259}
+                      className="pointer-events-none absolute left-[55.15%] top-[6.34%] h-[103.63%] w-[51.41%] object-cover lg:hidden"
+                    />
+                    {/* phone — desktop Figma 1:1656: 292×440 at (370, 25.22) */}
+                    <Image
+                      src="/assets/technology/app-phone.png"
+                      alt="Euler fleet app on a phone"
+                      width={292}
+                      height={440}
+                      className="pointer-events-none absolute left-[370px] top-[25.22px] h-[440px] w-[292px] object-cover max-lg:hidden"
+                    />
+                  </>
+                )}
                 {/* on lg the wrapper spans the card so heading and badges place
                     independently (Figma 1:1657/1:1661); mobile keeps the narrow
                     heading column at bottom-left, badges in flow (Figma 1:4806) */}
-                <div className="absolute bottom-[14px] left-[14px] flex w-[197.8px] flex-col gap-2 sm:gap-3 lg:inset-0 lg:w-auto lg:p-0">
+                <div className="z-10 absolute bottom-[14px] left-[14px] flex w-[197.8px] flex-col gap-2 sm:gap-3 lg:inset-0 lg:w-auto lg:p-0">
                   <CardHeading
-                    className="max-lg:static lg:right-auto lg:bottom-[123.36px] lg:left-[30px] lg:w-[376px]"
+                    className={
+                      card3Img
+                        ? "max-lg:static lg:right-auto lg:top-[30px] lg:bottom-auto lg:left-[30px] lg:w-[320px]"
+                        : "max-lg:static lg:right-auto lg:bottom-[123.36px] lg:left-[30px] lg:w-[376px]"
+                    }
                     num={card3.tag || "03 / App"}
                     title={card3.title}
-                    descW="lg:max-w-[376px]"
+                    descW={card3Img ? "max-lg:max-w-[200px] lg:max-w-[280px]" : "lg:max-w-[376px]"}
                     desc={card3.description}
                   />
-                  <div className="flex items-start gap-[4.8px] lg:absolute lg:left-[30px] lg:top-[253.29px]">
-                    {/* App Store badge — Figma "Component 2" (r6, border #a6a6a6). Width is
-                        content-hugged: Manrope runs wider than Figma's SF Compact at 18.9px */}
-                    <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
-                      <Image src="/assets/technology/apple.svg" alt="" width={11} height={13} aria-hidden className="h-[13px] w-[11px] lg:h-[25.2px] lg:w-[21px]" />
-                      <span className="flex flex-col whitespace-nowrap text-white">
-                        <span className="text-[5px] leading-[1.2] lg:text-[9.45px] lg:leading-[9.45px]">Download on the</span>
-                        <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">App Store</span>
+                  {!card3Img && (
+                    <div className="flex items-start gap-[4.8px] lg:absolute lg:left-[30px] lg:top-[253.29px]">
+                      {/* App Store badge — Figma "Component 2" (r6, border #a6a6a6). Width is
+                          content-hugged: Manrope runs wider than Figma's SF Compact at 18.9px */}
+                      <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
+                        <Image src="/assets/technology/apple.svg" alt="" width={11} height={13} aria-hidden className="h-[13px] w-[11px] lg:h-[25.2px] lg:w-[21px]" />
+                        <span className="flex flex-col whitespace-nowrap text-white">
+                          <span className="text-[5px] leading-[1.2] lg:text-[9.45px] lg:leading-[9.45px]">Download on the</span>
+                          <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">App Store</span>
+                        </span>
                       </span>
-                    </span>
-                    {/* Google Play badge — Figma "Component 3". The path90 wordmark is stored
-                        vertically flipped in Figma and rendered with -scale-y-100 */}
-                    <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
-                      <Image src="/assets/technology/playstore.svg" alt="" width={12} height={13} aria-hidden className="h-[13px] w-[12px] lg:h-[25.2px] lg:w-[22.05px]" />
-                      <span className="flex flex-col gap-[1.7px] whitespace-nowrap text-white lg:gap-[3.15px]">
-                        <span className="text-[5.5px] uppercase leading-none lg:text-[10.5px]">GET IT ON</span>
-                        <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">Google Play</span>
+                      {/* Google Play badge — Figma "Component 3". The path90 wordmark is stored
+                          vertically flipped in Figma and rendered with -scale-y-100 */}
+                      <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
+                        <Image src="/assets/technology/playstore.svg" alt="" width={12} height={13} aria-hidden className="h-[13px] w-[12px] lg:h-[25.2px] lg:w-[22.05px]" />
+                        <span className="flex flex-col gap-[1.7px] whitespace-nowrap text-white lg:gap-[3.15px]">
+                          <span className="text-[5.5px] uppercase leading-none lg:text-[10.5px]">GET IT ON</span>
+                          <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">Google Play</span>
+                        </span>
                       </span>
-                    </span>
-                  </div>
+                    </div>
+                  )}
                 </div>
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
-                {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
-                    top-right — this flex-1 card runs wider than Figma's 588px, and a
-                    filling object-cover would zoom the truck down over the heading.
-                    The flat wash left of the photo matches the photo background (same
-                    family as the 01 battery card's bg) */}
-                <Image
-                  src="/assets/technology/card-perf.png"
-                  alt=""
-                  width={588}
-                  height={369}
-                  sizes="588px"
-                  className="absolute right-0 top-0 h-[343px] w-[588px] object-cover object-top max-lg:hidden"
-                />
-                <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
+                {card4Img ? (
+                  <>
+                    <Image
+                      src={card4Img}
+                      alt={card4.title}
+                      fill
+                      sizes="(max-width:1024px) 393px, 588px"
+                      className="hidden object-cover object-[center_52%] lg:block"
+                    />
+                    <Image
+                      src={card4MobileImg || card4Img}
+                      alt={card4.title}
+                      fill
+                      sizes="393px"
+                      className="object-cover object-[center_52%] lg:hidden"
+                    />
+                  </>
+                ) : (
+                  <>
+                    {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
+                        top-right — this flex-1 card runs wider than Figma's 588px, and a
+                        filling object-cover would zoom the truck down over the heading.
+                        The flat wash left of the photo matches the photo background (same
+                        family as the 01 battery card's bg) */}
+                    <Image
+                      src="/assets/technology/card-perf.png"
+                      alt=""
+                      width={588}
+                      height={369}
+                      sizes="588px"
+                      className="absolute right-0 top-0 h-[343px] w-[588px] object-cover object-top max-lg:hidden"
+                    />
+                    <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
+                  </>
+                )}
                 <CardHeading
-                  className="lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
+                  className={
+                    card4Img
+                      ? "z-10 bottom-[14px] left-[14px] lg:bottom-auto lg:top-[28px] lg:left-[32px] lg:w-[280px]"
+                      : "z-10 lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
+                  }
                   num={card4.tag || "04 / Performance"}
                   title={card4.title}
-                  descW="max-lg:max-w-[315px] lg:max-w-[484px]"
+                  titleW={card4Img ? "max-w-[240px] lg:max-w-[260px]" : ""}
+                  descW={card4Img ? "max-w-[240px] lg:max-w-[260px]" : "max-lg:max-w-[315px] lg:max-w-[484px]"}
                   desc={card4.description}
                 />
               </article>

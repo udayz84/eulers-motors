@@ -183,6 +183,7 @@ export default function DealerContactSection({
   desktopDescription = "Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.",
   mobileDescription = "We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.",
   backgroundImage,
+  mobileBackgroundImage,
   cards,
   form,
   formHeading = "What are you looking for?",
@@ -407,9 +408,26 @@ export default function DealerContactSection({
   const bgImageSrc = backgroundImage
     ? mediaUrl(backgroundImage, `${ASSET}background.webp`)
     : `${ASSET}background.webp`;
+  const mobileBgSrc = mobileBackgroundImage
+    ? mediaUrl(mobileBackgroundImage, bgImageSrc)
+    : undefined;
 
   return (
     <section className="relative isolate mx-auto flex min-h-[678px] w-full overflow-hidden bg-white px-5 py-6 sm:px-8 lg:min-h-[789.477px] lg:w-[1440px] lg:max-w-full lg:items-center lg:justify-between lg:px-20 lg:pt-16 lg:pb-[42px]">
+      {mobileBgSrc && (
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 block lg:hidden"
+          aria-hidden="true"
+        >
+          <Image
+            src={mobileBgSrc}
+            alt=""
+            fill
+            sizes="100vw"
+            className="size-full object-cover opacity-20"
+          />
+        </div>
+      )}
       <div
         className="pointer-events-none absolute left-[72px] top-[203.55px] -z-10 hidden h-[441px] w-[631px] max-w-[55vw] lg:block"
         aria-hidden="true"

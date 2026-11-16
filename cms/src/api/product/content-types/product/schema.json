@@ -33,6 +33,14 @@
         "images"
       ]
     },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "specsRange": {
       "type": "string",
       "required": true

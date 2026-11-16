@@ -10,6 +10,7 @@ type PromoCardProps = {
   /** desktop content alignment, per Figma */
   align?: "left" | "right";
   image: string;
+  mobileImage?: string;
   imageAlt: string;
   /** card wash: "blue" both breakpoints · "mobile-blue" = blue only on mobile (Figma) */
   wash?: "blue" | "white" | "mobile-blue";
@@ -29,6 +30,8 @@ type PromoCardProps = {
   mobileLayers?: { src: string; box: [number, number, number, number] }[];
   /** mobile photo object-position */
   mobilePosition?: string;
+  /** desktop photo object-position (defaults to right-anchored for left-aligned text, left-anchored for right-aligned text) */
+  desktopPosition?: string;
   href?: string;
 };
 
@@ -44,6 +47,7 @@ export default function PromoCard({
   cta,
   align = "left",
   image,
+  mobileImage,
   imageAlt,
   wash = "blue",
   icon = "arrow",
@@ -53,9 +57,11 @@ export default function PromoCard({
   cropMobile,
   mobileLayers,
   mobilePosition = "50% 100%",
+  desktopPosition,
   href = "/products",
 }: PromoCardProps) {
   const right = align === "right";
+  const effectiveDesktopPosition = desktopPosition || (right ? "left center" : "right center");
   const washCls =
     wash === "blue" ? "bg-[#D2E2FF]" : wash === "mobile-blue" ? "bg-white max-lg:bg-[#D2E2FF]" : "bg-white";
   const cropStyle: React.CSSProperties | undefined = crop
@@ -91,7 +97,7 @@ export default function PromoCard({
                     : "lg:h-[413px]"
           } ${washCls}`}
         >
-          {crop && (
+          {crop ? (
             /* desktop: exact Figma placement — the photo fills an oversized,
                absolutely-positioned box (left/top only apply when positioned;
                max-w-none escapes preflight's img max-width clamp at 114% width) */
@@ -104,8 +110,25 @@ export default function PromoCard({
               style={cropStyle}
               className="absolute hidden max-w-none lg:block"
             />
+          ) : (
+            <Image
+              src={image}
+              alt={imageAlt}
+              fill
+              sizes="(max-width: 1024px) 393px, 1320px"
+              className="hidden object-cover lg:block"
+              style={{ objectPosition: effectiveDesktopPosition }}
+            />
           )}
-          {mobileLayers ? (
+          {mobileImage ? (
+            <Image
+              src={mobileImage}
+              alt={imageAlt}
+              fill
+              sizes="(max-width: 1024px) 393px, 100vw"
+              className="object-cover lg:hidden"
+            />
+          ) : mobileLayers ? (
             /* stacked mobile layers with exact Figma boxes (Talk 1:4691) */
             mobileLayers.map((m, i) => (
               <Image
@@ -149,7 +172,7 @@ export default function PromoCard({
               aria-hidden={!!crop}
               fill
               sizes="(max-width: 1024px) 393px, 1320px"
-              className={`object-cover ${crop ? "lg:hidden" : ""}`}
+              className="object-cover lg:hidden"
               style={{ objectPosition: mobilePosition }}
             />
           )}

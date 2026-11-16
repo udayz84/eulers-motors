@@ -81,6 +81,7 @@ function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined 
       tabLabel: match.tabLabel || base.tabLabel,
       title: match.title || base.title,
       image: match.image ? mediaUrl(match.image, base.image) : base.image,
+      mobileImage: match.mobileImage ? mediaUrl(match.mobileImage) : undefined,
       specs: {
         range: match.specsRange || base.specs.range,
         capacity: match.specsCapacity || base.specs.capacity,
@@ -201,14 +202,15 @@ export default async function Home() {
           }
           cta={data.neoPromo?.ctaLabel ?? "Explore Neo"}
           image={mediaUrl(data.neoPromo?.image, "/assets/neo/product.webp")}
+          mobileImage={data.neoPromo?.mobileImage ? mediaUrl(data.neoPromo.mobileImage) : undefined}
           imageAlt={data.neoPromo?.imageAlt ?? "Neo by Euler three-wheelers"}
           wash="blue"
           cardH="413"
           frame="neo"
           /* Figma 1:1443 crop: left -14.13% · top -52.08% · 114.13% × 178.14% */
-          crop={[-14.13, -52.08, 114.13, 178.14]}
+          crop={data.neoPromo?.image ? undefined : [-14.13, -52.08, 114.13, 178.14]}
           /* Figma 1:4671 mobile crop: left -116.95% · top 14.1% · 243.08% × 102.25% */
-          cropMobile={[-116.95, 14.1, 243.08, 102.25]}
+          cropMobile={data.neoPromo?.mobileImage ? undefined : [-116.95, 14.1, 243.08, 102.25]}
           mobilePosition="62% 100%"
           href={data.neoPromo?.ctaHref ?? "/products"}
         />
@@ -235,6 +237,7 @@ export default async function Home() {
           }
           cta={data.talkPromo?.ctaLabel ?? "Request a call back"}
           image={mediaUrl(data.talkPromo?.image, "/assets/talk/desktop-bg.webp")}
+          mobileImage={data.talkPromo?.mobileImage ? mediaUrl(data.talkPromo.mobileImage) : undefined}
           imageAlt={data.talkPromo?.imageAlt ?? "Euler expert with a customer"}
           wash="mobile-blue"
           align="right"
@@ -242,12 +245,16 @@ export default async function Home() {
           cardH="450"
           frame="talk"
           /* Figma 1:1473 crop: left -5.58% · top -11.78% · 76.19% × 126% */
-          crop={[-5.58, -11.78, 76.19, 126]}
+          crop={data.talkPromo?.image ? undefined : [-5.58, -11.78, 76.19, 126]}
           /* Figma 1:4691 mobile layers: desktop-bg low + talk-3 on top */
-          mobileLayers={[
-            { src: "/assets/talk/desktop-bg.png", box: [-27.67, 114.9, 211.03, 100] },
-            { src: "/assets/mobile/talk-3.png", box: [-17.49, 0.09, 165.27, 106.26] },
-          ]}
+          mobileLayers={
+            data.talkPromo?.mobileImage
+              ? undefined
+              : [
+                  { src: "/assets/talk/desktop-bg.png", box: [-27.67, 114.9, 211.03, 100] },
+                  { src: "/assets/mobile/talk-3.png", box: [-17.49, 0.09, 165.27, 106.26] },
+                ]
+          }
           mobilePosition="78% 40%"
           href={data.talkPromo?.ctaHref ?? "#contact"}
         />
@@ -285,6 +292,16 @@ export default async function Home() {
           ctaLabel={data.primeBanner?.cta?.label}
           ctaHref={data.primeBanner?.cta?.href}
           features={data.primeBanner?.features}
+          backgroundImage={
+            data.primeBanner?.backgroundImage
+              ? mediaUrl(data.primeBanner.backgroundImage)
+              : undefined
+          }
+          mobileBackgroundImage={
+            data.primeBanner?.mobileBackgroundImage
+              ? mediaUrl(data.primeBanner.mobileBackgroundImage)
+              : undefined
+          }
         />
 
         <Insights

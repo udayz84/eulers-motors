@@ -9,6 +9,7 @@ export interface AboutBeliefCard extends Struct.ComponentSchema {
   };
   attributes: {
     image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -199,6 +200,7 @@ export interface AboutRecognitionSection extends Struct.ComponentSchema {
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Recognition'>;
     image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Awards and recognition.'>;
   };
@@ -215,6 +217,7 @@ export interface AboutReportsSection extends Struct.ComponentSchema {
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Reports and disclosures'>;
     image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'ESG Reports & Policies'>;
     viewAllCta: Schema.Attribute.Component<'shared.cta-button', false>;
@@ -443,6 +446,7 @@ export interface DealerChargingContactSection extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Book a test drive'>;
     formSubheading: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Two steps. We call you within one working day.'>;
+    mobileBackgroundImage: Schema.Attribute.Media<'images'>;
     mobileDescription: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Have land, a warehouse or a petrol pump on a freight route? Host an Euler charging point and earn from it.'>;
     mobileLabel: Schema.Attribute.String &
@@ -536,6 +540,7 @@ export interface DealerContactSection extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Not sure which dealer to use?'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'NEXT STEP'>;
     form: Schema.Attribute.Component<'home.contact-form', false>;
+    mobileBackgroundImage: Schema.Attribute.Media<'images'>;
     mobileDescription: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.'>;
     mobileTitle: Schema.Attribute.String &
@@ -554,6 +559,7 @@ export interface DealerFaqSection extends Struct.ComponentSchema {
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'FAQ'>;
     image: Schema.Attribute.Media<'images'>;
     items: Schema.Attribute.Component<'technology.faq-item', true>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Frequently Asked Questions'>;
   };
@@ -770,6 +776,7 @@ export interface HomePrimeBanner extends Struct.ComponentSchema {
     backgroundImage: Schema.Attribute.Media<'images'>;
     cta: Schema.Attribute.Component<'shared.cta-button', false>;
     description: Schema.Attribute.Text;
+    mobileBackgroundImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Euler Prime'>;
   };
 }
@@ -806,6 +813,7 @@ export interface HomePromoCard extends Struct.ComponentSchema {
     eyebrow: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images'>;
     imageAlt: Schema.Attribute.String;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     wash: Schema.Attribute.Enumeration<['blue', 'white', 'mobile-blue']> &
       Schema.Attribute.DefaultTo<'blue'>;
@@ -906,6 +914,8 @@ export interface HomeTechnologyCard extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     tag: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };

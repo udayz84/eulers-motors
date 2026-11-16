@@ -1008,6 +1008,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'api::product.product'
     > &
       Schema.Attribute.Private;
+    mobileImage: Schema.Attribute.Media<'images'>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     productUrl: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;

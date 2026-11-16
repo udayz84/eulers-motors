@@ -302,9 +302,19 @@ export async function getHomePageData(): Promise<HomePageData> {
         },
       },
     },
-    neoPromo: { populate: "*" },
+    neoPromo: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
     savingsCalculator: { populate: "*" },
-    talkPromo: { populate: "*" },
+    talkPromo: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
     compareSection: {
       populate: {
         quizCta: { populate: "*" },
@@ -313,7 +323,12 @@ export async function getHomePageData(): Promise<HomePageData> {
     technology: {
       populate: {
         cta: { populate: "*" },
-        cards: { populate: "*" },
+        cards: {
+          populate: {
+            image: { populate: "*" },
+            mobileImage: { populate: "*" },
+          },
+        },
       },
     },
     reviewsSection: {
@@ -323,7 +338,13 @@ export async function getHomePageData(): Promise<HomePageData> {
         },
       },
     },
-    primeBanner: { populate: "*" },
+    primeBanner: {
+      populate: {
+        backgroundImage: { populate: "*" },
+        mobileBackgroundImage: { populate: "*" },
+        cta: { populate: "*" },
+      },
+    },
     insightsSection: {
       populate: {
         articles: {
@@ -338,9 +359,6 @@ export async function getHomePageData(): Promise<HomePageData> {
         form: {
           populate: {
             tabs: { populate: "*" },
-            tab1: { populate: "*" },
-            tab2: { populate: "*" },
-            tab3: { populate: "*" },
           },
         },
       },
@@ -793,6 +811,7 @@ export async function getAboutPageData(): Promise<StrapiAboutPageData> {
         cards: {
           populate: {
             image: { populate: "*" },
+            mobileImage: { populate: "*" },
           },
         },
       },
@@ -818,6 +837,7 @@ export async function getAboutPageData(): Promise<StrapiAboutPageData> {
     recognitionSection: {
       populate: {
         image: { populate: "*" },
+        mobileImage: { populate: "*" },
       },
     },
     esgSection: {
@@ -834,6 +854,7 @@ export async function getAboutPageData(): Promise<StrapiAboutPageData> {
     reportsSection: {
       populate: {
         image: { populate: "*" },
+        mobileImage: { populate: "*" },
         viewAllCta: { populate: "*" },
       },
     },

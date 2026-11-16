@@ -15,6 +15,8 @@ export interface PrimeBannerProps {
   ctaHref?: string;
   features?: PrimeFeature[];
   isServicePage?: boolean;
+  backgroundImage?: string;
+  mobileBackgroundImage?: string;
 }
 
 const DEFAULT_FEATURES: PrimeFeature[] = [
@@ -38,6 +40,8 @@ export default function PrimeBanner({
   ctaHref = "/products",
   features,
   isServicePage = false,
+  backgroundImage,
+  mobileBackgroundImage,
 }: PrimeBannerProps = {}) {
   const currentFeatures = features !== undefined ? features : DEFAULT_FEATURES;
   const showCta = Boolean(ctaLabel && ctaHref);
@@ -47,7 +51,16 @@ export default function PrimeBanner({
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         {/* mobile background */}
         <div className="absolute inset-0 overflow-hidden lg:hidden">
-          {isServicePage ? (
+          {mobileBackgroundImage ? (
+            <Image
+              src={mobileBackgroundImage}
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover object-center"
+            />
+          ) : isServicePage ? (
             <Image
               src="/assets/prime/service-prime-mobile.webp"
               alt=""
@@ -70,7 +83,16 @@ export default function PrimeBanner({
         </div>
         {/* desktop background stack */}
         <div className="absolute inset-0 hidden lg:block">
-          {isServicePage ? (
+          {backgroundImage ? (
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover object-center"
+            />
+          ) : isServicePage ? (
             <Image
               src="/assets/prime/service-prime-desktop.webp"
               alt=""

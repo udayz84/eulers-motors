@@ -7,7 +7,14 @@ import { mediaUrl } from "@/lib/strapi/client";
    fill and cropped by the card's overflow-clip. Positions transcribed from
    Figma (image boxes keep each PNG's natural aspect, so a single rect per
    breakpoint reproduces the crop exactly). */
-const CARDS = [
+type BeliefCardItem = {
+  title: string;
+  image: string;
+  mobileImage?: string;
+  titleCls: string;
+};
+
+const CARDS: BeliefCardItem[] = [
   {
     title: "Built around real business needs",
     image: "/assets/about-euler/belief-card-1.webp",
@@ -59,6 +66,7 @@ export default function AboutBelief({ data }: AboutBeliefProps = {}) {
           ...slot,
           title: card.title || slot.title,
           image: mediaUrl(card.image, slot.image),
+          mobileImage: card.mobileImage ? mediaUrl(card.mobileImage) : undefined,
         };
       })
       : CARDS;
@@ -96,9 +104,19 @@ export default function AboutBelief({ data }: AboutBeliefProps = {}) {
                 alt={card.title}
                 fill
                 sizes="(min-width: 1024px) 311px, (min-width: 640px) 50vw, 100vw"
-                className="pointer-events-none object-cover"
+                className={`pointer-events-none object-cover ${card.mobileImage ? "hidden lg:block" : ""}`}
                 unoptimized
               />
+              {card.mobileImage && (
+                <Image
+                  src={card.mobileImage}
+                  alt={card.title}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="pointer-events-none object-cover lg:hidden"
+                  unoptimized
+                />
+              )}
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 top-0 h-[130px] bg-gradient-to-b from-black/75 via-black/35 to-transparent"
