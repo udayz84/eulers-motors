@@ -75,6 +75,13 @@ export default function ContactSection({
   imageSrc?: string;
 }) {
   const [tab, setTab] = useState<Tab>("Test drive");
+  // The Figma composite bakes strong blur and white fades into this photo.
+  // Use the crisp source for desktop without changing the mobile section.
+  const desktopImageSrc = imageSrc.endsWith("/assets/faq/next-step-truck-fade.png")
+    ? "/assets/faq/next-step-truck.jpg"
+    : imageSrc.endsWith("/assets/enterprise/truck-wash.png")
+      ? "/assets/faq/next-step-dashboard.png"
+      : imageSrc;
   return (
     <section id="book-test-drive" className="relative overflow-clip bg-white" aria-label="Contact">
       {/* Figma 1:1974 — width 1440 · padding 64px 80px 42px 80px ·
@@ -88,11 +95,13 @@ export default function ContactSection({
               as designed instead of approximating the gradients in CSS. */}
           <Image
             aria-hidden
-            src={imageSrc}
+            src={desktopImageSrc}
             alt=""
             width={630}
             height={441}
-            className="absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[630.733px] object-cover lg:block"
+            unoptimized
+            style={{ filter: "none", opacity: 1 }}
+            className="absolute left-[-8px] top-[139.55px] hidden h-[441px] w-[630.733px] object-cover blur-none opacity-100 lg:block"
           />
 
           <div className="relative flex flex-col gap-4">
@@ -144,7 +153,7 @@ export default function ContactSection({
         </div>
 
         {/* form card — desktop variant, Figma 1:2006/1:2007 exact */}
-        <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:flex">
+        <div className="hidden w-[517px] shrink-0 flex-col gap-8 rounded-2xl bg-surface p-8 lg:mt-[36.355px] lg:flex lg:h-[610.645px]">
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink">
               Book a test drive
@@ -239,7 +248,7 @@ function FormTabs({
   mobile?: boolean;
 }) {
   return (
-    <div className={mobile ? "flex w-full gap-2" : "flex gap-3"} role="tablist" aria-label="Enquiry type">
+    <div className={mobile ? "flex w-full gap-2" : "grid w-full grid-cols-3 gap-3"} role="tablist" aria-label="Enquiry type">
       {TABS.map((t) => {
         const on = t === active;
         return (
@@ -249,8 +258,8 @@ function FormTabs({
             role="tab"
             aria-selected={on}
             onClick={() => onSelect(t)}
-            className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none ${
-              mobile ? "h-8 text-[12px]" : "h-[42px] text-[16px]"
+            className={`flex min-w-0 items-center justify-center whitespace-nowrap rounded-full px-1 font-display font-semibold leading-none ${
+              mobile ? "h-8 flex-1 text-[12px]" : "h-[42px] w-full text-[16px]"
             } ${
               on ? "bg-deep-card text-white" : "border border-white/50 bg-white/80 text-ink backdrop-blur-[10px]"
             }`}

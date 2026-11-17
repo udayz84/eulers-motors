@@ -127,16 +127,19 @@ export default function BlogListingPage() {
     <div className="min-h-screen overflow-x-clip bg-white">
       <Navbar />
       <main>
-        <section className="relative flex h-[324px] items-center justify-center overflow-visible bg-[linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)] px-5 pt-[120.32px] pb-[57.68px] lg:block lg:h-[420px] lg:px-20 lg:py-0">
-          <div aria-hidden className="absolute inset-0 bg-cover bg-center lg:hidden" style={{ backgroundImage: "url('/assets/insights/mobile-hero-bg.png')" }} />
-          <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block" style={{ backgroundImage: "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px), repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px)" }} />
+        <section className="relative flex h-[392px] items-center justify-center overflow-visible bg-[linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)] px-5 pt-[120.32px] pb-[57.68px] sm:h-[440px] lg:block lg:aspect-[1440/420] lg:box-content lg:px-0 lg:pt-[71px] lg:pb-0">
+          <div aria-hidden className="pointer-events-none absolute inset-0 select-none">
+            <Image src="/assets/insights/Last banners-05.webp" alt="" fill priority sizes="100vw" className="object-cover object-[85%_center] lg:object-right" />
+          </div>
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[#041231]/35" />
           <div className="relative flex w-full max-w-[353px] flex-col items-center gap-3 text-center lg:absolute lg:left-1/2 lg:top-[calc(50%+30px)] lg:w-auto lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:gap-6">
             <Eyebrow label="Insights" variant="hero" />
             <h1 className="w-full text-balance font-display text-[32px] font-semibold leading-[115%] tracking-[-0.64px] text-white lg:whitespace-nowrap lg:text-[52px] lg:tracking-[-1.04px]">Stories, Ideas &amp; Insights</h1>
             <p className="w-full text-[12px] leading-normal text-white lg:max-w-[493px] lg:text-[16px]">Practical thinking about electric commercial mobility, from technology and operations to the business of running a fleet.</p>
           </div>
+          <FloatingWidget mobileOnly mobileClassName="bottom-[22px]" mobileRightClassName="right-[-16px]" />
           <div className="hidden lg:block">
-            <FloatingWidget />
+            <FloatingWidget desktopRightClassName="lg:right-[-40px]" />
           </div>
         </section>
 

@@ -1,236 +1,92 @@
 import Image from "next/image";
-import Eyebrow from "../ui/Eyebrow";
-import Button from "../ui/Button";
+import TechnologyMobile from "./TechnologyMobile";
 
-/**
- * TECHNOLOGY section (desktop 1:1618 · mobile 1:4784).
- * Four cards: 01 Battery · 02 Safety (heading top-left on mobile) · 03 App
- * (+store badges, phone mockup on mobile) · 04 Performance. Mobile CTA sits
- * below the cards, centered (1:4818); desktop keeps it in the header.
- * Desktop card art/positions follow Figma 1:1640–1:1668 exactly.
- */
+const A = "/assets/technology-page/know-your-vehicle";
+
 export default function Technology() {
   return (
-    <section id="technology" className="bg-white" aria-label="Technology">
-      {/* container — Figma 1:1618: 1440×1036, padding 48/80, column, items-start,
-          gap 42 (header 1280×100 → cards 1280×798: rows 431 + 20 + 343) */}
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-3 pt-[42px] lg:h-[1036px] lg:items-start lg:gap-[42px] lg:px-[80px] lg:pb-12 lg:pt-12">
-        {/* header — Figma 1:1619: subheading left · button bottom-aligned right (lg) */}
-        <div className="flex w-full flex-col gap-5 lg:h-[100px] lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-col gap-4 lg:self-start">
-            <Eyebrow label="Built for the job" />
-            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]">
-              Built for Indian roads.
+    <section id="technology" aria-label="Technology">
+    <div className="hidden lg:block">
+    <section aria-label="Technology" className="bg-white">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 pb-5 pt-[42px] lg:px-20 lg:pb-[42px]">
+        <header className="flex w-full flex-col gap-[14px] lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-[14px]">
+            <div className="flex items-center gap-1.5 lg:gap-3">
+              <Image src={`${A}/vehicle-logo.svg`} alt="" width={14} height={14} />
+              <span className="font-sans text-xs leading-normal text-ink lg:text-base">TECHNOLOGY</span>
+            </div>
+            <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:w-[552px] lg:text-[42px] lg:tracking-[-0.84px]">
+              Your vehicle tells you<br className="hidden lg:block" /> what&apos;s happening.
             </h2>
           </div>
-          {/* wrapper hides on mobile — Button's base `inline-flex` beats a plain
-              `hidden` under Tailwind v4's cascade, so the display toggle lives here */}
-          <div className="hidden lg:block">
-            <Button href="/products" variant="dark" arrow="white">
-              See how it works
-            </Button>
+          <p className="max-w-[319px] font-sans text-xs leading-normal text-ink lg:max-w-[412px] lg:text-[18px]">
+            No manuals, no guessing. Everything you need to know sits on your phone and on your dashboard.
+          </p>
+        </header>
+
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-[1.737fr_1fr] lg:gap-[18px]">
+          <div className="relative col-span-2 h-[180px] overflow-hidden rounded-[6px] text-white lg:col-span-1 lg:h-[303px] lg:rounded-lg">
+            <Image src={`${A}/vehicle-shepherd-desktop.png`} alt="" width={2400} height={1200} className="absolute left-[-27.67%] top-[-7.73%] h-[116.09%] w-[127.66%] object-cover" />
+            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(155deg,rgba(0,104,177,.82)_0%,rgba(0,111,164,.66)_38%,rgba(0,160,143,.78)_66%,transparent_91%)]" />
+            <CardCopy className="left-6 top-6 w-[260px] gap-[10px]" label="SHEPHERD APP" title="Track your vehicle from your phone" description="Live location, battery, trip history and anti-theft alerts." titleWidth="max-w-[213px]" descriptionWidth="max-w-[230px]" />
           </div>
-        </div>
 
-        {/* cards — mobile 12px apart, rows 20px apart on lg (Figma 1:1639) ·
-            mobile CTA 24px below the cards, centered (Figma 1:4818) */}
-        <div className="flex w-full flex-col gap-6">
-          <div className="flex w-full flex-col gap-3 lg:gap-5">
-            {/* row 1 */}
-            <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
-                {/* desktop card art — both Figma CARD fills (1:1641), bottom-anchored */}
-                <Image src="/assets/technology/card-battery.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
-                <Image src="/assets/technology/card-battery2.png" alt="" fill sizes="(max-width:1024px) 393px, 519px" className="object-cover object-bottom max-lg:hidden" />
-                {/* battery pack — mobile Figma 1:4798: 309.6×229.3 at (114.13, -81.26)
-                    of the 353px card · desktop Figma 1:1646: 470.947×348.682 at (164.57, -108.52) */}
-                <Image
-                  src="/assets/technology/battery.png"
-                  alt="Water-cooled Euler battery pack"
-                  width={471}
-                  height={349}
-                  className="pointer-events-none absolute left-[32.35%] top-[-81.26px] w-[87.72%] object-cover lg:left-[164.57px] lg:top-[-108.52px] lg:h-[348.682px] lg:w-[470.947px]"
-                />
-                <CardHeading
-                  className="lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
-                  num="01 / Battery"
-                  title="Full range, even in garmi."
-                  desc="Batteries lose range above 40 degrees. The Euler battery is water cooled, maintaining range year-round."
-                />
-              </article>
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
-                {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
-                <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
-                {/* mobile: the truck split from its background — the card base
-                    is the truck-free gradient strip (top third of the Figma
-                    fill 1:4799, stretched), and the truck itself is a crop
-                    from the same render parked bottom-right, masked with a
-                    diagonal fade so its edges melt into the identical
-                    gradient (no rectangle seam, and only the truck moves) */}
-                <Image
-                  src="/assets/technology/card-safety-mobile-bg.png"
-                  alt=""
-                  fill
-                  sizes="393px"
-                  className="object-fill lg:hidden"
-                />
-                <Image
-                  src="/assets/technology/card-safety-mobile-truck.png"
-                  alt=""
-                  width={1909}
-                  height={1040}
-                  sizes="240px"
-                  className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
-                />
-                {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
-                <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
-                {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
-                    at (-79.29, -16.87), svg oversized via insets -85.11%/-19.39% */}
-                <div aria-hidden className="absolute left-[-79.29px] top-[-16.87px] hidden h-[184.94px] w-[811.56px] lg:block">
-                  <div className="absolute inset-[-85.11%_-19.39%]">
-                    <Image src="/assets/technology/ellipse.svg" alt="" fill sizes="1127px" className="pointer-events-none" />
-                  </div>
-                </div>
-                {/* mobile: heading at top-left over the fade (Figma 1:4801) ·
-                    desktop: below the glow */}
-                <CardHeading
-                  className="max-lg:bottom-auto max-lg:right-auto max-lg:top-[14px] max-lg:w-[281px] lg:bottom-auto lg:left-[28px] lg:top-[30px] lg:w-[534px]"
-                  num="02 / Safety"
-                  title="Comfortable for an 11-hour day."
-                  titleW="max-lg:max-w-[236px] lg:max-w-[244px]"
-                  descW="max-lg:max-w-[187px] lg:max-w-[327px]"
-                  desc="Steel cabin, power steering, good seats, AC. Reverse camera and warnings included."
-                />
-              </article>
-            </div>
+          <div className="relative h-[220px] overflow-hidden rounded-[6px] bg-[#121212] text-white lg:h-[303px] lg:rounded-lg">
+            <Glow />
+            <CardCopy className="left-6 top-6 w-[260px] gap-[10px]" label="XAVIER™ CLUSTER" title="See speed, charge and distance at a glance" description="See speed, charge and distance at a glance" titleWidth="max-w-[330px]" descriptionWidth="max-w-[206px]" small />
+            <Image src={`${A}/vehicle-cluster.png`} alt="Xavier digital vehicle cluster" width={1728} height={928} className="absolute left-[154px] top-[98px] h-[190.782px] w-[397.826px] object-cover" />
+          </div>
 
-            {/* row 2 */}
-            <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:w-[671px] lg:rounded-3xl">
-                {/* bg — Figma 1:1655: a 671×442 image frame at top-0.36, clipped by the card */}
-                <Image
-                  src="/assets/technology/app-photo.png"
-                  alt=""
-                  width={671}
-                  height={442}
-                  className="pointer-events-none absolute left-0 top-[0.36px] h-[442px] w-[671px] object-cover max-lg:hidden"
-                />
-                <Image src="/assets/technology/card-app-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.15] lg:hidden" />
-                {/* mobile phone mockup — Figma 1:4799 overlay: 51.41% wide at
-                    (55.15%, 6.34%), bleeding past the card bottom */}
-                <Image
-                  src="/assets/technology/app-phone-mobile.png"
-                  alt="Euler fleet app on a phone"
-                  width={181}
-                  height={259}
-                  className="pointer-events-none absolute left-[55.15%] top-[6.34%] h-[103.63%] w-[51.41%] object-cover lg:hidden"
-                />
-                {/* phone — desktop Figma 1:1656: 292×440 at (370, 25.22) */}
-                <Image
-                  src="/assets/technology/app-phone.png"
-                  alt="Euler fleet app on a phone"
-                  width={292}
-                  height={440}
-                  className="pointer-events-none absolute left-[370px] top-[25.22px] h-[440px] w-[292px] object-cover max-lg:hidden"
-                />
-                {/* on lg the wrapper spans the card so heading and badges place
-                    independently (Figma 1:1657/1:1661); mobile keeps the narrow
-                    heading column at bottom-left, badges in flow (Figma 1:4806) */}
-                <div className="absolute bottom-[76.9px] left-[14px] flex w-[197.8px] flex-col gap-3 lg:inset-0 lg:w-auto lg:p-0">
-                  <CardHeading
-                    className="max-lg:static lg:right-auto lg:bottom-[123.36px] lg:left-[30px] lg:w-[376px]"
-                    num="03 / App"
-                    title="Poori fleet, ek phone mein."
-                    descW="lg:max-w-[376px]"
-                    desc="Track vehicle locations, charge levels, driving behavior, and service due dates all on one screen."
-                  />
-                  <div className="flex items-start gap-[4.8px] lg:absolute lg:left-[30px] lg:top-[253.29px]">
-                    {/* App Store badge — Figma "Component 2" (r6, border #a6a6a6). Width is
-                        content-hugged: Manrope runs wider than Figma's SF Compact at 18.9px */}
-                    <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
-                      <Image src="/assets/technology/apple.svg" alt="" width={11} height={13} aria-hidden className="h-[13px] w-[11px] lg:h-[25.2px] lg:w-[21px]" />
-                      <span className="flex flex-col whitespace-nowrap text-white">
-                        <span className="text-[5px] leading-[1.2] lg:text-[9.45px] lg:leading-[9.45px]">Download on the</span>
-                        <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">App Store</span>
-                      </span>
-                    </span>
-                    {/* Google Play badge — Figma "Component 3". The path90 wordmark is stored
-                        vertically flipped in Figma and rendered with -scale-y-100 */}
-                    <span className="flex h-[22.1px] w-auto shrink-0 items-center gap-[2.35px] rounded-[3.3px] border border-[#a6a6a6] bg-black px-[3.7px] lg:h-[42px] lg:gap-2 lg:rounded-md lg:px-[7.35px]">
-                      <Image src="/assets/technology/playstore.svg" alt="" width={12} height={13} aria-hidden className="h-[13px] w-[12px] lg:h-[25.2px] lg:w-[22.05px]" />
-                      <span className="flex flex-col gap-[1.7px] whitespace-nowrap text-white lg:gap-[3.15px]">
-                        <span className="text-[5.5px] uppercase leading-none lg:text-[10.5px]">GET IT ON</span>
-                        <span className="text-[9.9px] font-medium leading-none tracking-[-0.47px] lg:text-[18.9px]">Google Play</span>
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </article>
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
-                {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
-                    top-right — this flex-1 card runs wider than Figma's 588px, and a
-                    filling object-cover would zoom the truck down over the heading.
-                    The flat wash left of the photo matches the photo background (same
-                    family as the 01 battery card's bg) */}
-                <Image
-                  src="/assets/technology/card-perf.png"
-                  alt=""
-                  width={588}
-                  height={369}
-                  sizes="588px"
-                  className="absolute right-0 top-0 h-[343px] w-[588px] object-cover object-top max-lg:hidden"
-                />
-                <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
-                <CardHeading
-                  className="lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
-                  num="04 / Performance"
-                  title="Climbs a slope on a full load"
-                  descW="max-lg:max-w-[315px] lg:max-w-[484px]"
-                  desc="Our own Arc Reactor motor. It climbs 22 to 25 percent slopes with a full load. Ramps, flyovers and rough roads are no problem."
-                />
-              </article>
+          <div className="relative h-[220px] overflow-hidden rounded-[6px] bg-[#121212] text-white lg:h-[303px] lg:rounded-lg">
+            <Glow reverse />
+            <CardCopy className="left-6 top-6 w-[260px] gap-[10px]" label="BUILT FOR OUR ROADS" title={<>0.8mm metal body.<br />13% thicker.</>} description="Hill assist for smoother climbs with heavy loads." titleWidth="max-w-[240px]" descriptionWidth="max-w-[192px]" small />
+            <div aria-hidden className="absolute left-[8.23px] top-[73px] h-[288.523px] w-[601.639px] scale-x-[-1]">
+              <Image src={`${A}/vehicle-body.png`} alt="" width={1728} height={928} className="absolute left-[7.38%] top-[4.75%] h-full w-[65.88%] object-fill" />
             </div>
           </div>
 
-          {/* mobile CTA (Figma 1:4818) — 24px below the cards, centered;
-              the heading area carries no button on mobile (1:4785) */}
-          <Button href="/products" variant="dark" arrow="white" className="self-center lg:hidden">
-            See how it works
-          </Button>
+          <div className="relative col-span-2 h-[180px] overflow-hidden rounded-[6px] text-white lg:col-span-1 lg:h-[303px] lg:rounded-lg">
+            <Image src={`${A}/vehicle-charging-desktop.png`} alt="" width={2400} height={1200} className="absolute left-[0.02%] top-[-23.57%] h-[138.68%] w-[99.98%] object-cover" />
+            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(155deg,rgba(0,104,177,.82)_0%,rgba(0,111,164,.66)_38%,rgba(0,160,143,.78)_66%,transparent_91%)]" />
+            <CardCopy className="bottom-6 left-6 w-[260px] gap-[10px]" label="BATTERY & CHARGING" title="Charge with a 16-amp socket." description="Charge from zero to full in about 3.5 hours." titleWidth="max-w-[181px]" descriptionWidth="max-w-[196px]" small />
+          </div>
         </div>
       </div>
+    </section>
+    </div>
+    <div className="lg:hidden"><TechnologyMobile /></div>
     </section>
   );
 }
 
-function CardHeading({
-  num,
+function CardCopy({
+  className,
+  label,
   title,
-  desc,
-  titleW = "",
-  descW = "lg:max-w-[427px]",
-  className = "",
+  description,
+  titleWidth,
+  descriptionWidth,
+  small = false,
 }: {
-  num: string;
-  title: string;
-  desc: string;
-  /** per-card title max-width (Figma), e.g. the Safety title wraps at 244px */
-  titleW?: string;
-  /** per-card description max-width (Figma: 427 · 327 · 376 · 484) */
-  descW?: string;
-  className?: string;
+  className: string;
+  label: string;
+  title: React.ReactNode;
+  description: string;
+  titleWidth: string;
+  descriptionWidth: string;
+  small?: boolean;
 }) {
   return (
-    <div className={`absolute inset-x-[14px] bottom-[14px] flex flex-col gap-3 lg:gap-3 ${className}`}>
-      <p className="font-display text-[12px] font-bold leading-[10.75px] tracking-[1.19px] text-ink-3 lg:text-[11px] lg:leading-[17.82px] lg:tracking-[1.98px]">
-        {num}
-      </p>
-      <h3 className={`font-display text-[18px] font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:text-[28px] lg:font-semibold lg:tracking-[-0.84px] ${titleW}`}>
-        {title}
-      </h3>
-      <p className={`max-w-full text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-normal ${descW}`}>
-        {desc}
-      </p>
+    <div className={`absolute z-10 flex flex-col items-start ${className}`}>
+      <p className="font-sans text-[10px] font-bold leading-[1.15] tracking-[1px] opacity-80 lg:text-xs lg:tracking-[1.2px]">{label}</p>
+      <h3 className={`font-display font-semibold leading-[1.15] text-white ${small ? "text-base tracking-[-0.32px] lg:text-[22px] lg:tracking-[-0.44px]" : "text-base tracking-[-0.32px] lg:text-[22px] lg:tracking-[-0.44px]"} ${titleWidth}`}>{title}</h3>
+      <p className={`font-sans text-[11px] leading-normal lg:text-sm ${descriptionWidth}`}>{description}</p>
     </div>
+  );
+}
+
+function Glow({ reverse = false }: { reverse?: boolean }) {
+  return (
+    <div aria-hidden className={`absolute inset-0 ${reverse ? "bg-[radial-gradient(ellipse_at_95%_105%,rgba(0,95,162,.64),transparent_57%),radial-gradient(ellipse_at_66%_83%,rgba(0,176,160,.56),transparent_47%)]" : "bg-[radial-gradient(ellipse_at_100%_100%,rgba(0,182,166,.58),transparent_55%),radial-gradient(ellipse_at_72%_60%,rgba(0,94,160,.45),transparent_58%)]"}`} />
   );
 }

@@ -1,0 +1,27 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1006.66" height="630.402" viewBox="0 0 1006.66 630.402" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 2147239482" filter="url(#filter0_f_0_8)">
+<g id="Vector 182" filter="url(#filter1_f_0_8)">
+<path d="M243.277 110.006L56.7 275.115V455.089H930.142L949.955 393.997C918.584 375.835 854.52 338.52 849.237 334.557C843.953 330.595 783.192 320.798 753.472 316.395H586.71C554.788 297.682 489.294 260.587 482.689 261.908C476.085 263.229 392.979 271.263 352.251 275.115L297.764 157.888L243.277 110.006Z" fill="#04956D"/>
+</g>
+<g id="Vector 181" filter="url(#filter2_f_0_8)">
+<path d="M230.018 71.9121L112.21 304.721V558.49H663.717L676.228 472.349C656.42 446.74 615.969 394.124 612.633 388.537C609.297 382.949 570.931 369.136 552.165 362.927H446.868C426.712 336.542 385.358 284.237 381.188 286.099C377.017 287.962 324.543 299.29 298.826 304.721L264.422 139.428L230.018 71.9121Z" fill="#73DAFF"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_8" x="0" y="15.2121" width="1006.66" height="599.978" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="28.35" result="effect1_foregroundBlur_0_8"/>
+</filter>
+<filter id="filter1_f_0_8" x="5.4" y="58.7056" width="995.855" height="447.683" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="25.65" result="effect1_foregroundBlur_0_8"/>
+</filter>
+<filter id="filter2_f_0_8" x="40.2977" y="7.62939e-06" width="707.842" height="630.402" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="35.9561" result="effect1_foregroundBlur_0_8"/>
+</filter>
+</defs>
+</svg>
