@@ -1165,6 +1165,7 @@ export interface InsightsHero extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Practical thinking about electric commercial mobility, from technology and operations to the business of running a fleet.'>;
     eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Insights'>;
     image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Stories, Ideas & Insights'>;
   };

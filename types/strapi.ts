@@ -921,6 +921,7 @@ export interface StrapiInsightsHero {
   title?: string;
   description?: string;
   image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
 }
 
 export interface StrapiInsightsCategory {

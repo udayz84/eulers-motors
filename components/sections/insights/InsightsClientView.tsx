@@ -82,6 +82,9 @@ export default function InsightsClientView({ data }: { data?: StrapiInsightsPage
   const heroImage = data?.hero?.image
     ? mediaUrl(data.hero.image, "/assets/insights/mobile-hero-bg.png")
     : "/assets/insights/mobile-hero-bg.png";
+  const heroMobileImage = data?.hero?.mobileImage
+    ? mediaUrl(data.hero.mobileImage, heroImage)
+    : heroImage;
 
   const categories = useMemo(() => {
     const articles = allArticles;
@@ -233,10 +236,12 @@ export default function InsightsClientView({ data }: { data?: StrapiInsightsPage
   return (
     <div className="min-h-screen overflow-x-clip bg-white">
       <main>
-        <section className="relative flex h-[380px] items-center justify-center overflow-visible bg-[linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)] px-5 pt-[120.32px] pb-[57.68px] lg:block lg:h-[500px] lg:px-20 lg:py-0">
-          <div aria-hidden className="absolute inset-0 bg-cover bg-right" style={{ backgroundImage: `url('${heroImage}')` }} />
+        <section className="relative flex h-[420px] items-center justify-center overflow-visible bg-[linear-gradient(272deg,#0e2f6d_-63.51%,#1d6fff_87.23%)] px-5 pt-[120.32px] pb-[57.68px] lg:block lg:h-[540px] lg:px-20 lg:py-0">
+          <div aria-hidden className="absolute inset-0 bg-cover max-lg:hidden" style={{ backgroundImage: `url('${heroImage}')`, backgroundPosition: "right 70%" }} />
+          <div aria-hidden className="absolute inset-0 bg-cover lg:hidden" style={{ backgroundImage: `url('${heroMobileImage}')`, backgroundPosition: "center 70%" }} />
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.45)_50%,rgba(255,255,255,0.85)_100%)] lg:hidden" />
           <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block" style={{ backgroundImage: "repeating-linear-gradient(90deg,transparent_0,transparent 67px,rgba(0,0,0,.12) 68px), repeating-linear-gradient(0deg,transparent_0,transparent 67px,rgba(0,0,0,.12) 68px)" }} />
-          <div className="relative flex w-full max-w-[353px] flex-col items-center gap-3 text-center lg:absolute lg:left-1/2 lg:top-[calc(50%+30px)] lg:w-auto lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:gap-6">
+          <div className="relative flex w-full max-w-[353px] flex-col items-start gap-3 text-left max-lg:mt-12 lg:absolute lg:left-[max(80px,calc((100vw-1440px)/2+80px))] lg:top-1/2 lg:w-auto lg:max-w-none lg:-translate-y-1/2 lg:items-start lg:text-left lg:gap-6">
             <Eyebrow label={data?.hero?.eyebrow || "Insights"} variant="hero" />
             <h1 className="w-full text-balance font-display text-[32px] font-semibold leading-[115%] tracking-[-0.64px] text-[#121212] lg:whitespace-nowrap lg:text-[52px] lg:tracking-[-1.04px]">{data?.hero?.title || "Stories, Ideas & Insights"}</h1>
             <p className="w-full text-[12px] leading-normal text-[#121212] lg:max-w-[493px] lg:text-[16px]">{data?.hero?.description || "Practical thinking about electric commercial mobility, from technology and operations to the business of running a fleet."}</p>

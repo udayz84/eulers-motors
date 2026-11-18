@@ -16,10 +16,16 @@ export default function PolicyHero({
   hasWidget?: boolean;
   image?: string;
 }) {
+  // When a hero image is uploaded the copy switches to the "photo" treatment:
+  // left-aligned black text at the standard content margin. Without an image
+  // the original centered white-on-blue look is kept.
+  const photo = Boolean(image);
+  const textColor = photo ? "#121212" : "#FFF";
+
   return (
     <section
       aria-label={`${title} Banner`}
-      className="policy-hero relative flex w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] text-white lg:h-[420px] lg:w-full lg:max-w-full"
+      className="policy-hero relative flex w-full items-center justify-center overflow-x-clip overflow-y-visible bg-[#1d6fff] lg:h-[480px] lg:w-full lg:max-w-full"
       style={{
         backgroundImage:
           "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
@@ -28,16 +34,26 @@ export default function PolicyHero({
       {image && (
         <div
           aria-hidden
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${image}')` }}
+          className="absolute inset-0 z-0 bg-cover"
+          style={{ backgroundImage: `url('${image}')`, backgroundPosition: "center 70%" }}
         />
       )}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[420px] lg:w-full lg:max-w-full lg:items-center lg:justify-center lg:px-0 lg:pt-0 lg:pb-0">
-        <div className="lg:inline-flex lg:flex-col lg:items-center lg:gap-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
+      <div
+        className={`relative z-10 mx-auto flex w-full max-w-[1440px] flex-col px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[480px] lg:w-full lg:max-w-full lg:justify-center lg:px-[max(80px,calc((100vw-1440px)/2+80px))] lg:pt-0 lg:pb-0 ${
+          photo ? "items-start lg:text-left text-white lg:text-[#121212]" : "items-center text-white"
+        }`}
+      >
+        <div
+          className="lg:inline-flex lg:flex-col lg:gap-6"
+          style={{ display: "flex", flexDirection: "column", alignItems: photo ? "flex-start" : "center", gap: "24px" }}
+        >
           {/* Eyebrow badge */}
-          <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]" style={{ color: "#FFF", fontFamily: "Manrope", fontSize: "14px", fontStyle: "normal", fontWeight: 700, lineHeight: "normal", letterSpacing: "0.7px", textTransform: "uppercase" }}>
+          <div
+            className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px] lg:gap-1.5 lg:text-[14px] lg:leading-none lg:tracking-[0.7px]"
+            style={{ color: photo ? "#0e2f6d" : "#FFF", fontFamily: "Manrope", fontSize: "14px", fontStyle: "normal", fontWeight: 700, lineHeight: "normal", letterSpacing: "0.7px", textTransform: "uppercase" }}
+          >
             <Image
-              src="/assets/products/badge-line-white.svg"
+              src={photo ? "/assets/products/badge-line.svg" : "/assets/products/badge-line-white.svg"}
               alt=""
               width={117}
               height={16}
@@ -45,7 +61,7 @@ export default function PolicyHero({
               className="absolute left-[3.43px] top-0 h-4 w-[117px] lg:h-[20.355px] lg:w-[148.821px]"
             />
             <Image
-              src="/assets/products/badge-cap-white.svg"
+              src={photo ? "/assets/products/badge-cap.svg" : "/assets/products/badge-cap-white.svg"}
               alt=""
               width={14.794}
               height={16}
@@ -55,11 +71,17 @@ export default function PolicyHero({
             {label}
           </div>
           {/* Heading */}
-          <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-white mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-0 lg:text-[52px] lg:tracking-[-1.04px]" style={{ width: "788.543px", color: "#FFF", textAlign: "center", fontFamily: "Archia", fontSize: "52px", fontStyle: "normal", fontWeight: 600, lineHeight: "115%", letterSpacing: "-1.04px" }}>
+          <h1
+            className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] mt-3 sm:mt-4 sm:text-[40px] md:mt-5 md:text-[46px] md:tracking-[-0.88px] lg:mt-0 lg:text-[52px] lg:tracking-[-1.04px]"
+            style={{ color: textColor, textAlign: photo ? "left" : "center", fontFamily: "Archia", fontSize: "52px", fontStyle: "normal", fontWeight: 600, lineHeight: "115%", letterSpacing: "-1.04px" }}
+          >
             {title}
           </h1>
           {/* Description */}
-          <p className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal text-white sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px] sm:text-white/90" style={{ width: "493.019px", color: "#FFF", textAlign: "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}>
+          <p
+            className="mt-3 max-w-[311px] font-sans text-[12px] font-normal leading-normal sm:mt-4 sm:max-w-[420px] sm:text-[14px] md:max-w-[493px] md:text-[15px] md:leading-relaxed lg:mt-0 lg:text-[16px]"
+            style={{ color: textColor, textAlign: photo ? "left" : "center", fontFamily: "Manrope", fontSize: "16px", fontStyle: "normal", fontWeight: 400, lineHeight: "normal" }}
+          >
             {description}
           </p>
         </div>
