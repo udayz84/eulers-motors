@@ -205,18 +205,18 @@ export function NeoAboutMobile() {
       data-name="banner"
     >
       <div
-        className="relative z-10 mx-auto flex w-full max-w-[393px] flex-col items-start gap-[14px] px-5"
+        className="relative z-10 mx-auto flex w-full max-w-[393px] flex-col items-start gap-[14px] px-5 min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:px-8"
         data-node-id="4064:16242"
       >
         <AboutEyebrow size="mobile" />
         <h2
-          className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212]"
+          className="w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[768px]:max-[1023px]:text-[36px] min-[768px]:max-[1023px]:tracking-[-0.72px]"
           data-node-id="4064:16247"
         >
           Built around real drives.
         </h2>
         <p
-          className="w-[325.103px] max-w-full font-sans text-[12px] leading-[normal] text-[#121212]"
+          className="w-[325.103px] max-w-full font-sans text-[12px] leading-[normal] text-[#121212] min-[768px]:max-[1023px]:w-full min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]"
           data-node-id="4064:16248"
         >
           {DESCRIPTION}
@@ -225,7 +225,7 @@ export function NeoAboutMobile() {
       </div>
 
       {/* 555.28 × 277.64 scene frame (x −144.64), pulled 21px up under the CTA */}
-      <div aria-hidden className="relative z-0 -mt-[21px] h-[70.6465vw] w-full">
+      <div aria-hidden className="relative z-0 -mt-[21px] h-[70.6465vw] w-full min-[768px]:max-[1023px]:h-[42vw]">
         <div className="absolute left-[-36.8042%] top-0 h-full w-[141.2934%] overflow-hidden">
           <SceneWindow blur={12.262} />
         </div>

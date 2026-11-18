@@ -8,7 +8,7 @@ import NeoRoadStories from "@/components/sections/NeoRoadStories";
 import NeoContactSection from "@/components/sections/NeoContactSection";
 import { NeoAbout } from "@/components/sections/NeoAbout";
 import NeoSavingsCalculator from "@/components/sections/NeoSavingsCalculator";
-import InsightsSection from "@/components/sections/Insights";
+import InsightsSection from "@/components/sections/NeoInsights";
 import NeoMobile from "./NeoMobile";
 import { NeoFooterDesktop } from "@/components/sections/NeoFooter";
 import { NeoEnterpriseDesktop } from "@/components/sections/NeoEnterprise";
@@ -241,23 +241,23 @@ function Technology() {
   const ellipse30 = "/assets/neo/figma/technology/ellipse-3430.svg";
   return <section id="technology" className="bg-white px-5 py-[42px] min-[1440px]:px-[80px]">
     <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[32px]">
-      <header className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-between gap-5 min-[900px]:flex-row min-[900px]:items-end">
+      <header className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-between gap-5 lg:flex-row lg:items-end">
         <div className="flex flex-col items-start gap-[14px]">
           <div className="flex items-center gap-[12px] font-sans text-[16px] font-normal leading-normal text-[#121212]">
             <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
             <span>TECHNOLOGY</span>
           </div>
-          <h2 className="m-0 w-full max-w-[552.26px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212] min-[900px]:text-[42px] min-[900px]:tracking-[-0.84px]">
+          <h2 className="m-0 w-full max-w-[552.26px] font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] text-[#121212] lg:text-[42px] lg:tracking-[-0.84px]">
             Your vehicle tells you<br />what&apos;s happening.
           </h2>
         </div>
-        <p className="mb-[3px] w-full max-w-[411.799px] font-sans text-[16px] font-normal leading-normal text-[#121212] min-[900px]:text-[18px]">
+        <p className="mb-[3px] w-full max-w-[411.799px] font-sans text-[16px] font-normal leading-normal text-[#121212] lg:text-[18px]">
           No manuals, no guessing. Everything you need to know sits on your phone and on your dashboard.
         </p>
       </header>
 
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-[18px]">
-        <div className="grid grid-cols-1 gap-[18px] min-[900px]:grid-cols-[minmax(0,1.737fr)_minmax(0,1fr)]">
+        <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[minmax(0,1.737fr)_minmax(0,1fr)]">
         <article className="relative h-[303px] overflow-hidden rounded-[8px]">
           <div className="absolute inset-0 overflow-hidden rounded-[8px]">
             <Image src="/assets/technology-page/know-your-vehicle/vehicle-shepherd-desktop.png" alt="" width={3061} height={1053} sizes="(min-width: 1440px) 1024px, 80vw" className="absolute max-w-none object-cover" style={{ width: "127.66%", height: "116.09%", left: "-27.67%", top: "-7.73%" }} />
@@ -289,7 +289,7 @@ function Technology() {
         </article>
         </div>
 
-        <div className="grid grid-cols-1 gap-[18px] min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1.737fr)]">
+        <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.737fr)]">
         <article className="relative h-[303px] overflow-hidden rounded-[8px] bg-[#121212]">
           <div className="absolute bottom-[57.74px] right-[-80.25px] h-[197.262px] w-[223.192px]">
             <div className="absolute inset-[-69.07%_-61.05%] scale-y-[-1]"><Image src="/assets/neo/figma/technology/ellipse-3434.svg" alt="" fill sizes="497px" className="max-w-none" /></div>
@@ -304,7 +304,7 @@ function Technology() {
           </div>
           <div className="absolute left-[8.23px] top-[73px] h-[288.523px] w-[601.639px] scale-x-[-1]">
             <div className="absolute inset-0 overflow-hidden">
-              <Image src="/assets/technology-page/know-your-vehicle/vehicle-body.png" alt="" width={1470} height={1070} sizes="397px" className="absolute max-w-none" style={{ left: "7.38%", top: "4.75%", width: "65.88%", height: "100%" }} />
+              <Image src="/assets/technology-page/know-your-vehicle/vehicle-body.png" alt="" width={1470} height={1070} sizes="397px" className="absolute max-w-none object-contain" style={{ left: "7.38%", top: "4.75%", width: "65.88%", height: "100%" }} />
             </div>
           </div>
         </article>
@@ -367,8 +367,8 @@ function HowItWorks() {
       </div>
       <h2 className="m-0 text-[42px] font-semibold leading-[1.15] tracking-[-.02em] text-[#111]">A day with Neo.</h2>
     </div>
-    <div ref={rail} className="how-it-works-rail flex snap-x snap-mandatory gap-[16px] overflow-x-auto px-[max(5.55vw,32px)] min-[900px]:!pl-[80px] min-[900px]:scroll-pl-[80px] pb-[32px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      {steps.map((step, i) => <article key={step} className="group relative flex aspect-[1.083/1] w-[clamp(320px,29vw,418px)] shrink-0 snap-start min-[900px]:h-[386px] min-[900px]:w-[418px] flex-col justify-between overflow-hidden rounded-[12px] border-[4px] border-white bg-[#536060] px-[18px] py-[20px] text-white shadow-[0_12px_12px_rgba(33,158,182,0.2)] min-[900px]:items-start">
+    <div ref={rail} className="how-it-works-rail flex snap-x snap-mandatory gap-[16px] overflow-x-auto px-[max(5.55vw,32px)] lg:!pl-[80px] lg:scroll-pl-[80px] pb-[32px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {steps.map((step, i) => <article key={step} className="group relative flex aspect-[1.083/1] w-[clamp(320px,29vw,418px)] shrink-0 snap-start lg:h-[386px] lg:w-[418px] flex-col justify-between overflow-hidden rounded-[12px] border-[4px] border-white bg-[#536060] px-[18px] py-[20px] text-white shadow-[0_12px_12px_rgba(33,158,182,0.2)] lg:items-start">
         <div className="absolute inset-0 overflow-hidden">
           <Image src={stepImages[i]} alt="" fill sizes="(min-width: 1440px) 418px, 29vw" className={`max-w-none object-cover ${i === 0 ? "!h-[162.32%] !w-[216.79%] !left-[-3.66%] !top-[-5%]" : i === 1 ? "!h-full !w-[104.32%] !left-[-2.16%] !top-[-10.36%]" : i === 2 ? "!h-full !w-[119.97%] !left-[-17.16%] !top-0" : "!h-full !w-full !left-0 !top-0"}`} />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_63.322%,rgba(0,0,0,.8)_73.947%)]" />
@@ -414,6 +414,6 @@ function Contact() {
 
 
 export default function NeoHomePage() {
-  return <><NeoMobile /><div id="top" className={`${tw.neo} max-[1023px]:hidden`}><NeoAnnouncement /><NeoNav /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
+  return <><div className="lg:hidden"><NeoMobile /></div><div id="top" className={`${tw.neo} hidden lg:block`}><NeoAnnouncement /><NeoNav /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
 }
 

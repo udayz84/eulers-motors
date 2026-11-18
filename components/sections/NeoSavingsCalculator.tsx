@@ -179,7 +179,7 @@ export default function NeoSavingsCalculator() {
   return (
     <section
       aria-label="Neo running cost savings calculator"
-      className="relative h-[710px] w-full overflow-hidden bg-[#121212] max-[1100px]:h-auto max-[1100px]:px-6 max-[1100px]:py-[42px]"
+      className="relative h-[710px] w-full overflow-hidden bg-[#121212] max-[767px]:h-auto max-[767px]:px-6 max-[767px]:py-[42px]"
       data-node-id="4064:13961"
       data-name="Saving Calculator"
     >
@@ -194,7 +194,7 @@ export default function NeoSavingsCalculator() {
         </div>
       </div>
 
-      <div className="absolute left-1/2 top-[42px] flex w-[min(1280px,calc(100%_-_48px))] -translate-x-1/2 items-end justify-between max-[1100px]:relative max-[1100px]:left-auto max-[1100px]:top-auto max-[1100px]:mx-auto max-[1100px]:w-full max-[1100px]:translate-x-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:gap-5" data-node-id="4064:13964">
+      <div className="absolute left-1/2 top-[42px] flex w-[min(1280px,calc(100%_-_48px))] -translate-x-1/2 items-end justify-between max-[767px]:relative max-[767px]:left-auto max-[767px]:top-auto max-[767px]:mx-auto max-[767px]:w-full max-[767px]:translate-x-0 max-[767px]:flex-col max-[767px]:items-start max-[767px]:gap-5" data-node-id="4064:13964">
         <div className="flex flex-col items-start gap-[14px]">
           <div className="flex items-center gap-[12px]">
             <div className="relative size-[14px] shrink-0">
@@ -208,14 +208,14 @@ export default function NeoSavingsCalculator() {
             Let’s do the maths
           </p>
         </div>
-        <p className="w-[338.041px] font-sans text-[18px] font-normal leading-[normal] text-white max-[900px]:w-full max-[900px]:max-w-[520px]">
+        <p className="w-[338.041px] font-sans text-[18px] font-normal leading-[normal] text-white">
           Put in how you drive today. We will show you what changes.
         </p>
       </div>
 
-      <div className="absolute left-1/2 top-[183px] flex h-[491px] w-[min(1280px,calc(100%_-_48px))] -translate-x-1/2 items-center gap-[20px] max-[1100px]:relative max-[1100px]:left-auto max-[1100px]:top-auto max-[1100px]:mx-auto max-[1100px]:mt-12 max-[1100px]:h-auto max-[1100px]:w-full max-[1100px]:translate-x-0 max-[1100px]:flex-col max-[1100px]:items-stretch" data-node-id="4064:13972">
+      <div className="absolute left-1/2 top-[183px] flex h-[491px] w-[min(1280px,calc(100%_-_48px))] -translate-x-1/2 items-center gap-[20px] max-[767px]:relative max-[767px]:left-auto max-[767px]:top-auto max-[767px]:mx-auto max-[767px]:mt-12 max-[767px]:h-auto max-[767px]:w-full max-[767px]:translate-x-0 max-[767px]:flex-col max-[767px]:items-stretch" data-node-id="4064:13972">
         {/* Savings summary + chart */}
-        <div className="relative flex shrink-0 flex-col items-start gap-[24px] rounded-[12px] bg-[rgba(0,0,0,0.42)] p-[12px] backdrop-blur-[38.85px] max-[1100px]:w-full">
+        <div className="relative flex shrink-0 flex-col items-start gap-[24px] rounded-[12px] bg-[rgba(0,0,0,0.42)] p-[12px] backdrop-blur-[38.85px]">
           <div className="relative flex shrink-0 flex-col items-start justify-center gap-[4px] px-[20px] pt-[20px] leading-[1.15] whitespace-nowrap" data-node-id="4064:13974">
             <p className="font-display text-right text-[62px] font-semibold tracking-[-3.72px] text-white">
               {money(total)}
@@ -224,7 +224,7 @@ export default function NeoSavingsCalculator() {
               over {years} years
             </p>
           </div>
-          <div className="relative flex h-[330px] shrink-0 items-start gap-[41px] overflow-clip rounded-[12px] bg-[rgba(255,255,255,0.02)] p-[42px] backdrop-blur-[101.3px] max-[1100px]:w-full max-[900px]:justify-between max-[900px]:gap-4 max-[900px]:p-6" data-node-id="4064:13977">
+          <div className="relative flex h-[330px] shrink-0 items-start gap-[41px] overflow-clip rounded-[12px] bg-[rgba(255,255,255,0.02)] p-[42px] backdrop-blur-[101.3px]" data-node-id="4064:13977">
             <ChartColumn
               value={money(monthly)}
               label="A Month"
@@ -249,7 +249,7 @@ export default function NeoSavingsCalculator() {
         </div>
 
         {/* Controls */}
-        <div className="relative flex min-w-px flex-1 flex-col items-start gap-[42px] max-[1100px]:w-full">
+        <div className="relative flex min-w-px flex-1 flex-col items-start gap-[42px]">
           <div className="flex w-full flex-col items-start gap-[20px]">
             <p className="w-full font-sans text-[20px] font-medium leading-[1.15] tracking-[-0.4px] text-white">
               Select Vehicle
@@ -297,7 +297,7 @@ export default function NeoSavingsCalculator() {
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-[32px] rounded-[16px] bg-[rgba(255,255,255,0.04)] p-[24px] max-[900px]:p-5">
+          <div className="flex w-full flex-col items-center gap-[32px] rounded-[16px] bg-[rgba(255,255,255,0.04)] p-[24px]">
             <div className="flex h-[108px] w-full flex-col items-center gap-[24px] py-[8px]" data-name="Saving Container">
               <div className="flex w-full items-center justify-between text-center leading-[1.15] text-white whitespace-nowrap">
                 <p className="font-sans text-[20px] font-medium tracking-[-0.4px]">How many kilometres driven per day?</p>

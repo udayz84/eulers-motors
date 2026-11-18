@@ -219,7 +219,7 @@ export function NeoEnterpriseDesktop() {
 
 export function NeoEnterpriseMobile() {
   return (
-    <section className="flex w-full flex-col items-start gap-[16px] bg-white px-[20px] pb-[20px] pt-[8px]" aria-label="Enterprise and dealer opportunities" data-node-id="4064:16310">
+    <section className="flex w-full flex-col items-start gap-[16px] bg-white px-[20px] pb-[20px] pt-[8px] min-[768px]:max-[1023px]:mx-auto min-[768px]:max-[1023px]:max-w-[1440px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:items-stretch min-[768px]:max-[1023px]:gap-4 min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:pb-12 min-[768px]:max-[1023px]:pt-8 [&>*]:min-w-0" aria-label="Enterprise and dealer opportunities" data-node-id="4064:16310">
       <FleetCard mobile />
       <DealerCard mobile />
     </section>

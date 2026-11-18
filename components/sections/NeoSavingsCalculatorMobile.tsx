@@ -169,27 +169,27 @@ export default function NeoSavingsCalculatorMobile() {
   return (
     <section
       aria-label="Neo running cost savings calculator"
-      className="relative flex w-full flex-col items-center gap-[34px] px-[10px] pb-[20px] pt-[42px]"
+      className="relative flex w-full flex-col items-center gap-[34px] px-[10px] pb-[20px] pt-[42px] min-[768px]:max-[1023px]:gap-10 min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:pb-10 min-[768px]:max-[1023px]:pt-12"
       data-node-id="4064:15979"
       data-name="Euler - UI Mobile"
       style={{ backgroundImage: "linear-gradient(90deg, rgb(18, 18, 18) 0%, rgb(18, 18, 18) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }}
     >
-      <div className="flex w-full max-w-[353px] shrink-0 flex-col items-start gap-[12px]" data-node-id="4064:15980">
+      <div className="flex w-full max-w-[353px] shrink-0 flex-col items-start gap-[12px] min-[768px]:max-[1023px]:max-w-[760px]" data-node-id="4064:15980">
         <div className="flex items-center gap-[6px]">
           <div className="relative size-[14px] shrink-0">
             <img alt="" className="absolute inset-0 block size-full max-w-none" src={`${A}logo.svg`} />
           </div>
           <p className="font-sans text-[12px] font-normal uppercase leading-[normal] text-white whitespace-nowrap">Running costs</p>
         </div>
-        <p className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white whitespace-nowrap">Let&apos;s do the maths</p>
-        <p className="w-full max-w-[332.967px] font-sans text-[12px] font-normal leading-[normal] text-white">Put in how you drive today. We will show you what changes.</p>
+        <p className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white whitespace-nowrap min-[768px]:max-[1023px]:text-[36px]">Let&apos;s do the maths</p>
+        <p className="w-full max-w-[332.967px] font-sans text-[12px] font-normal leading-[normal] text-white min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]">Put in how you drive today. We will show you what changes.</p>
       </div>
 
-      <div className="flex w-full shrink-0 flex-col items-center gap-[24px]" data-node-id="4064:15987">
-        <div className="flex w-full max-w-[373px] shrink-0 flex-col items-center gap-[24px]">
-          <div className="flex w-full max-w-[353px] shrink-0 flex-col items-start gap-[20px]">
+      <div className="flex w-full shrink-0 flex-col items-center gap-[24px] min-[768px]:max-[1023px]:max-w-[760px]" data-node-id="4064:15987">
+        <div className="flex w-full max-w-[373px] shrink-0 flex-col items-center gap-[24px] min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:items-start min-[768px]:max-[1023px]:gap-4">
+          <div className="flex w-full max-w-[353px] shrink-0 flex-col items-start gap-[20px] min-[768px]:max-[1023px]:col-span-2 min-[768px]:max-[1023px]:max-w-none">
             <p className="w-full font-sans text-[12px] font-medium leading-[1.15] tracking-[-0.24px] text-white">Select Vehicle</p>
-            <div className="flex w-full items-start gap-[18px]">
+            <div className="flex w-full items-start gap-[18px] min-[768px]:max-[1023px]:justify-center">
               <button
                 type="button"
                 onClick={() => setVehicle("HiRANGE")}
@@ -220,7 +220,7 @@ export default function NeoSavingsCalculatorMobile() {
             </div>
           </div>
 
-          <div className="flex w-full max-w-[373px] shrink-0 flex-col items-center gap-[12px] rounded-[8px] bg-[rgba(255,255,255,0.04)] p-[12px]">
+          <div className="flex w-full max-w-[373px] shrink-0 flex-col items-center gap-[12px] rounded-[8px] bg-[rgba(255,255,255,0.04)] p-[12px] min-[768px]:max-[1023px]:max-w-none min-[768px]:max-[1023px]:p-5">
             <div className="flex w-full flex-col items-start justify-center gap-[8px]">
               <div className="flex w-full items-center justify-between leading-[1.15] text-white whitespace-nowrap">
                 <p className="font-sans text-[14px] font-medium tracking-[-0.28px]">How many kilometres driven per day?</p>
@@ -254,7 +254,7 @@ export default function NeoSavingsCalculatorMobile() {
             </div>
           </div>
 
-          <div className="relative h-[310.059px] w-full max-w-[373px] shrink-0" data-node-id="4064:16037">
+          <div className="relative h-[310.059px] w-full max-w-[373px] shrink-0 min-[768px]:max-[1023px]:max-w-none" data-node-id="4064:16037">
             <div aria-hidden className="absolute bottom-[51.78px] right-[71.73px] h-[167.94px] w-[190.016px]" data-node-id="4064:16038">
               <div className="absolute inset-[-69.07%_-61.05%]">
                 <img alt="" className="block max-w-none size-full" src={`${A}ellipse-3433.svg`} />

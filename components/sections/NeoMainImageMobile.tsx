@@ -58,12 +58,12 @@ export default function NeoMainImageMobile() {
   return (
     <section
       aria-label="NEO by Euler — More trips, less kharcha"
-      className="relative isolate h-[1701px] w-full overflow-hidden bg-black text-white"
+      className="relative isolate h-[1701px] w-full overflow-hidden bg-black text-white min-[768px]:max-[1023px]:h-[1550px]"
       data-node-id="4064:15781"
     >
       {/* The top navigation floats over the hero art in the mobile Figma frame. */}
       <div className="sticky top-0 z-50 -mb-[60px]">
-        {announcementVisible && <div className="flex h-6 shrink-0 items-center justify-between self-stretch bg-[#121212] px-5 py-1 font-sans text-[10px] font-[700] not-italic leading-normal text-white">
+        {announcementVisible && <div className="flex h-6 shrink-0 items-center justify-between self-stretch bg-[#121212] px-5 py-1 font-sans text-[10px] font-[700] not-italic leading-normal text-white min-[768px]:max-[1023px]:h-[30px] min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:text-[12px]">
           <span>Euler - Explore our electric 4 wheeler range</span>
           <button type="button" aria-label="Close announcement" onClick={() => setAnnouncementVisible(false)} className="grid size-[9px] shrink-0 cursor-pointer place-items-center border-0 bg-transparent p-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" className="block size-[9px]">
@@ -71,12 +71,12 @@ export default function NeoMainImageMobile() {
             </svg>
           </button>
         </div>}
-        <header className="flex h-[41px] items-center justify-between border-b border-white/30 bg-black/20 py-[2px] pl-5 pr-[2px] backdrop-blur-[15px]">
-          <button type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" className="grid size-[18px] place-items-center text-[18px] leading-none text-white">☰</button>
-          <a href="#top" aria-label="NEO by Euler home" className="relative h-[31.4px] w-[112.3px] shrink-0 overflow-hidden">
+        <header className="flex h-[41px] items-center justify-between border-b border-white/30 bg-black/20 py-[2px] pl-5 pr-[2px] backdrop-blur-[15px] min-[768px]:max-[1023px]:h-[64px] min-[768px]:max-[1023px]:pl-8 min-[768px]:max-[1023px]:pr-8">
+          <button type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" className="grid size-[18px] place-items-center text-[18px] leading-none text-white min-[768px]:max-[1023px]:size-6 min-[768px]:max-[1023px]:text-[24px]">☰</button>
+          <a href="#top" aria-label="NEO by Euler home" className="relative h-[31.4px] w-[112.3px] shrink-0 overflow-hidden min-[768px]:max-[1023px]:h-[42px] min-[768px]:max-[1023px]:w-[150px]">
             <Image src={`${A}mobile-nav-logo.png`} alt="NEO by Euler" width={1} height={1} sizes="112px" className="absolute max-w-none object-fill" style={{ left: 0, top: "-268.34%", width: "100%", height: "637.58%" }} />
           </a>
-          <a href="#contact" className="flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-[4px] bg-gradient-to-r from-[#00ff87] to-[#1d6fff] py-[2px] pl-3 pr-[2px] font-display text-[12px] font-semibold leading-none text-white no-underline">
+          <a href="#contact" className="flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-[4px] bg-gradient-to-r from-[#00ff87] to-[#1d6fff] py-[2px] pl-3 pr-[2px] font-display text-[12px] font-semibold leading-none text-white no-underline min-[768px]:max-[1023px]:h-[42px] min-[768px]:max-[1023px]:gap-3 min-[768px]:max-[1023px]:pl-4 min-[768px]:max-[1023px]:text-[14px]">
             Book a Test Drive <Arrow />
           </a>
           {menuOpen && (
@@ -106,7 +106,7 @@ export default function NeoMainImageMobile() {
       </div>
       <div aria-hidden="true" className="pointer-events-none absolute -left-[442.2px] top-[437.49px] h-[460.837px] w-[1119.366px] bg-black/40 blur-[102.15px]" />
 
-      <div className="absolute left-5 right-5 top-[415.83px] flex flex-col items-start gap-3">
+      <div className="absolute left-5 right-5 top-[415.83px] flex flex-col items-start gap-3 min-[768px]:max-[1023px]:left-8 min-[768px]:max-[1023px]:right-8 min-[768px]:max-[1023px]:top-[240px] min-[768px]:max-[1023px]:gap-4">
         <div className="flex w-full items-end justify-between">
           <div className="flex shrink-0 items-center gap-[6px]">
             <Image src={`${A}logo.svg`} alt="" width={14} height={14} />
@@ -130,7 +130,7 @@ export default function NeoMainImageMobile() {
         <svg xmlns="http://www.w3.org/2000/svg" width="353" height="1" viewBox="0 0 353 1" fill="none" className="h-px w-[353px] max-w-full shrink-0" aria-hidden="true">
           <path opacity="0.5" d="M0 0.5H353" stroke="white" strokeOpacity="0.5" />
         </svg>
-        <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-.64px]">
+        <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-.64px] min-[768px]:max-[1023px]:text-[44px] min-[768px]:max-[1023px]:tracking-[-.88px]">
           More trips.<br />Less kharcha.
         </h1>
         <div className="flex w-full items-start gap-3">
@@ -141,23 +141,23 @@ export default function NeoMainImageMobile() {
         </div>
       </div>
 
-      {/* Four specifications: exact mobile frame position and two by two layout. */}
-      <div className="absolute left-1/2 top-[719.33px] inline-flex w-[calc(100vw_-_40px)] max-w-[351.6px] -translate-x-1/2 flex-col items-center gap-4 overflow-hidden rounded-[10px] p-5" style={{ background: "rgba(0, 0, 0, 0.5)", backdropFilter: "blur(38.849998474121094px)", WebkitBackdropFilter: "blur(38.849998474121094px)" }}>
-        <div className="relative grid w-full grid-cols-2 items-center gap-5">
+      {/* Four specifications: tablet and mobile layouts keep their own grouping. */}
+      <div className="absolute left-1/2 top-[719.33px] inline-flex w-[calc(100vw_-_40px)] max-w-[351.6px] -translate-x-1/2 flex-col items-center gap-4 overflow-hidden rounded-[10px] p-5 min-[768px]:max-[1023px]:top-[590px] min-[768px]:max-[1023px]:w-[calc(100vw_-_64px)] min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:flex-row min-[768px]:max-[1023px]:gap-3 min-[768px]:max-[1023px]:p-7" style={{ background: "rgba(0, 0, 0, 0.5)", backdropFilter: "blur(38.849998474121094px)", WebkitBackdropFilter: "blur(38.849998474121094px)" }}>
+        <div className="relative grid w-full grid-cols-2 items-center gap-5 min-[768px]:max-[1023px]:w-1/2 min-[768px]:max-[1023px]:gap-3">
           <Stat value="200+" unit="Km" label="RealRange™" />
           <Stat value="3.5" unit="Hrs" label="0 to full charge" />
-          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)]" />
+          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)] min-[768px]:max-[1023px]:hidden" />
         </div>
-        <div aria-hidden="true" className="relative h-px w-[313px] max-w-full" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }} />
-        <div className="relative grid w-full grid-cols-2 items-center gap-5">
+        <div aria-hidden="true" className="relative h-px w-[313px] max-w-full min-[768px]:max-[1023px]:h-8 min-[768px]:max-[1023px]:w-px" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }} />
+        <div className="relative grid w-full grid-cols-2 items-center gap-5 min-[768px]:max-[1023px]:w-1/2 min-[768px]:max-[1023px]:gap-3">
           <Stat value="5" unit="Yrs" label="Vehicle warranty" />
           <Stat value="D+3" label="Seating" />
-          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)]" />
+          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)] min-[768px]:max-[1023px]:hidden" />
         </div>
       </div>
 
       {/* Vehicle card: 373 × 774 Figma slot, fluidly reduced on narrower phones. */}
-      <div id="vehicles" className="absolute left-1/2 top-[926.67px] h-[774px] w-[calc(100vw_-_20px)] max-w-[373px] -translate-x-1/2 overflow-hidden rounded-[12px]">
+      <div id="vehicles" className="absolute left-1/2 top-[926.67px] h-[774px] w-[calc(100vw_-_20px)] max-w-[373px] -translate-x-1/2 overflow-hidden rounded-[12px] min-[768px]:max-[1023px]:top-[850px] min-[768px]:max-[1023px]:h-[660px] min-[768px]:max-[1023px]:w-[calc(100vw_-_64px)] min-[768px]:max-[1023px]:max-w-[900px]">
         <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-[12px] bg-white">
           <Image src={`${A}mobile-showcase-bg.png`} alt="" width={1} height={1} sizes="373px" className="absolute max-w-none object-cover" style={{ left: "-57.48%", top: "-7.26%", width: "214.96%", height: "107.25%" }} />
           <div className="absolute inset-0 bg-black/[.12]" />
@@ -170,12 +170,12 @@ export default function NeoMainImageMobile() {
           <Image src={`${A}mobile-showcase-layer-2.png`} alt="" width={1} height={1} sizes="373px" className="absolute max-w-none object-fill" style={{ left: "-57.48%", top: "-7.42%", width: "214.96%", height: "107.39%" }} />
         </div>
 
-        <div className="absolute left-5 right-0 top-[20.33px] flex flex-col items-start gap-3">
+        <div className="absolute left-5 right-0 top-[20.33px] flex flex-col items-start gap-3 min-[768px]:max-[1023px]:left-8 min-[768px]:max-[1023px]:top-7">
           <div className="flex items-center gap-[6px]">
             <Image src={`${A}logo.svg`} alt="" width={14} height={14} />
             <span className="font-sans text-[12px] leading-normal">OUR VEHICLES</span>
           </div>
-          <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-.56px]">Meet the Neo family.</h2>
+          <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-.56px] min-[768px]:max-[1023px]:text-[36px]">Meet the Neo family.</h2>
           <div role="tablist" aria-label="Neo model" className="flex h-[42px] items-center rounded-[4px] bg-black/[.12] p-1">
             {(["HiRANGE", "HiCITY"] as const).map((key) => (
               <button key={key} type="button" role="tab" aria-selected={vehicle === key} onClick={() => setVehicle(key)} className={`flex h-9 items-center justify-center rounded-[2px] px-5 font-display text-[12px] font-semibold leading-none ${vehicle === key ? "bg-white text-[#121212]" : "text-white"}`}>
@@ -185,7 +185,7 @@ export default function NeoMainImageMobile() {
           </div>
         </div>
 
-        <div className="absolute left-[10px] right-[10px] top-[363.33px] flex flex-col gap-3">
+        <div className="absolute left-[10px] right-[10px] top-[363.33px] flex flex-col gap-3 min-[768px]:max-[1023px]:left-6 min-[768px]:max-[1023px]:right-6 min-[768px]:max-[1023px]:top-[245px]">
           <div className={`rounded-[4px] bg-black/[.42] p-3 backdrop-blur-[38.85px] ${vehicle === "HiRANGE" ? "h-[348.399px]" : ""}`}>
             <div className="relative flex flex-col gap-[10px] py-3">
               <span className="absolute right-0 top-0 flex h-8 items-center gap-3 rounded-[4px] bg-[#f3f4f5] px-3 py-[6px] font-sans text-[12px] font-semibold leading-[1.15] tracking-[-.24px] text-[#121212]">
@@ -242,10 +242,10 @@ export default function NeoMainImageMobile() {
 function Stat({ value, unit, label }: { value: string; unit?: string; label: string }) {
   return (
     <div className="flex min-w-0 flex-col items-center gap-2 text-center">
-      <p className="whitespace-nowrap font-display text-[28px] font-medium leading-[1.15] tracking-[-.56px]">
+      <p className="whitespace-nowrap font-display text-[28px] font-medium leading-[1.15] tracking-[-.56px] min-[768px]:max-[1023px]:text-[34px]">
         {value}{unit && <span className="ml-1 text-[16px] tracking-normal">{unit}</span>}
       </p>
-      <p className="whitespace-nowrap font-sans text-[12px] font-medium leading-normal text-white/80">{label}</p>
+      <p className="whitespace-nowrap font-sans text-[12px] font-medium leading-normal text-white/80 min-[768px]:max-[1023px]:text-[14px]">{label}</p>
     </div>
   );
 }

@@ -8,9 +8,20 @@ const features = [
   ["Every 3 months", "Free check-up at your depot"],
 ];
 
-export default function EulerPrimeBannerMobile() {
+export default function EulerPrimeBannerMobile({ neoTablet = false }: { neoTablet?: boolean }) {
+  const visibility = neoTablet ? "min-[1024px]:hidden" : "lg:hidden";
+  const tabletHeight = neoTablet ? "min-[768px]:max-[1023px]:h-[540px]" : "";
+  const tabletCopy = neoTablet
+    ? "min-[768px]:max-[1023px]:top-8 min-[768px]:max-[1023px]:w-[min(760px,calc(100%-64px))] min-[768px]:max-[1023px]:gap-4"
+    : "";
+  const tabletHeading = neoTablet
+    ? "min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[38px]"
+    : "";
+  const tabletDescription = neoTablet
+    ? "min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]"
+    : "";
   return (
-    <section id="prime" className="relative h-[583px] w-full overflow-hidden bg-black lg:hidden" aria-label="Euler Prime service">
+    <section id="prime" className={`relative h-[583px] w-full overflow-hidden bg-black ${visibility} ${tabletHeight}`} aria-label="Euler Prime service">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <Image
           src="/assets/euler-prime/prime-mobile-layer-1.png"
@@ -30,17 +41,17 @@ export default function EulerPrimeBannerMobile() {
         />
       </div>
 
-      <div className="absolute left-1/2 top-[36.33px] flex w-[min(353px,calc(100%-40px))] -translate-x-1/2 flex-col items-start justify-center gap-[14px]">
+      <div className={`absolute left-1/2 top-[36.33px] flex w-[min(353px,calc(100%-40px))] -translate-x-1/2 flex-col items-start justify-center gap-[14px] ${tabletCopy}`}>
         <div className="flex items-center gap-[6px]">
           <Image src="/assets/euler-prime-logo.svg" alt="" width={14} height={14} aria-hidden />
           <p className="font-sans text-[12px] font-normal leading-normal text-white uppercase">Euler Prime</p>
         </div>
 
-        <h2 className="w-full max-w-[310.678px] font-display text-[28px] font-semibold leading-[1.2] tracking-[-0.56px] text-white">
+        <h2 className={`w-full max-w-[310.678px] font-display text-[28px] font-semibold leading-[1.2] tracking-[-0.56px] text-white ${tabletHeading}`}>
           Your work does not stop for service.
         </h2>
 
-        <p className="w-full max-w-[332.967px] font-sans text-[12px] font-normal leading-normal text-white">
+        <p className={`w-full max-w-[332.967px] font-sans text-[12px] font-normal leading-normal text-white ${tabletDescription}`}>
           Return the car within 24 hours, and we&rsquo;ll provide you with a complimentary spare vehicle.
         </p>
 

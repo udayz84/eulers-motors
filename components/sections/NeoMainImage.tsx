@@ -186,10 +186,10 @@ export default function NeoMainImage() {
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute bg-white inset-0" />
         <div className="absolute inset-0 overflow-hidden">
-          <img alt="" className="absolute h-auto left-0 max-w-none top-[-13.76%] w-full" src={`${A}main-bg-1.png`} />
+          <img alt="" className="absolute h-auto left-0 max-w-none top-[-13.76%] w-full object-cover" src={`${A}main-bg-1.png`} />
         </div>
         <div className="absolute inset-0 overflow-hidden">
-          <img alt="" className="absolute h-auto left-[0.12%] max-w-none top-[-7.93%] w-[99.76%]" src={`${A}main-bg-2.png`} />
+          <img alt="" className="absolute h-auto left-[0.12%] max-w-none top-[-7.93%] w-[99.76%] object-cover" src={`${A}main-bg-2.png`} />
         </div>
         <div
           className="absolute inset-0"
@@ -215,7 +215,7 @@ export default function NeoMainImage() {
       {/* Hero copy + stats banner (full-width 1440px column)                */}
       {/* ------------------------------------------------------------------ */}
       <div
-        className="-translate-x-1/2 absolute bottom-[829px] content-stretch flex flex-col gap-[20px] items-start left-1/2 w-[min(1280px,calc(100vw-40px))]"
+        className="-translate-x-1/2 absolute bottom-[829px] content-stretch flex flex-col gap-[20px] items-start left-1/2 w-[1280px]"
         data-node-id="4064:13644"
       >
         {/* eyebrow */}
@@ -343,18 +343,18 @@ export default function NeoMainImage() {
       {/* Vehicle showcase card (full-width 1440 × 760)                      */}
       {/* ------------------------------------------------------------------ */}
       <div
-        className="-translate-x-1/2 absolute bottom-[20px] h-[760px] left-1/2 overflow-clip rounded-[12px] w-[min(1400px,calc(100vw-40px))]"
+        className="-translate-x-1/2 absolute bottom-[20px] h-[760px] left-1/2 overflow-clip rounded-[12px] w-[1400px]"
         data-node-id="4064:13822"
         data-name="Main image"
       >
         <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
-          <img alt="" className="absolute h-[167.04%] left-[-11.87%] max-w-none top-[-33.52%] w-[123.73%]" src={`${A}main-bg-2.png`} />
+          <img alt="" className="absolute h-[167.04%] left-[-11.87%] max-w-none top-[-33.52%] w-[123.73%] object-cover" src={`${A}main-bg-2.png`} />
         </div>
 
         <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[1040px] left-[calc(50%-254px)] top-[calc(50%+65px)] w-[1910px]" aria-hidden>
           <div aria-hidden className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 overflow-hidden">
-              <img alt="" className="absolute h-[147.95%] left-[0.01%] max-w-none top-[-23.98%] w-[99.98%]" src={`${A}showcase-bg-1.png`} />
+              <img alt="" className="absolute h-[147.95%] left-[0.01%] max-w-none top-[-23.98%] w-[99.98%] object-cover" src={`${A}showcase-bg-1.png`} />
             </div>
             <div className="absolute backdrop-blur-[2px] bg-[rgba(0,0,0,0.12)] inset-0" />
           </div>
