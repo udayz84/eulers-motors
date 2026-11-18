@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/sections/Footer";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import CustomerReviews, { ReviewItem } from "@/components/sections/CustomerReviews";
 import ContactSection from "@/components/sections/ContactSection";
 import TechFaq from "@/components/sections/technology/TechFaq";
@@ -55,7 +55,7 @@ export default async function TechnologyPage() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <TechHero data={data.hero} />
         <TechLoad data={data.loadSection} />
@@ -82,7 +82,7 @@ export default async function TechnologyPage() {
           form={data.contactSection?.form}
         />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

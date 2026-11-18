@@ -868,6 +868,41 @@ export interface ApiEsgReportEsgReport extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFaqPageFaqPage extends Struct.SingleTypeSchema {
+  collectionName: 'faq_pages';
+  info: {
+    description: 'Frequently asked questions page banner, searchable FAQ list, and quick help cards';
+    displayName: 'FAQ Page';
+    pluralName: 'faq-pages';
+    singularName: 'faq-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faqsSection: Schema.Attribute.Component<'faq.faqs-section', false>;
+    hero: Schema.Attribute.Component<'faq.hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::faq-page.faq-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    quickHelpSection: Schema.Attribute.Component<
+      'faq.quick-help-section',
+      false
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -895,6 +930,39 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFooterFooter extends Struct.SingleTypeSchema {
+  collectionName: 'footers';
+  info: {
+    description: 'Site footer: logo, link columns, social profiles, and legal line';
+    displayName: 'Footer';
+    pluralName: 'footers';
+    singularName: 'footer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cin: Schema.Attribute.String;
+    columns: Schema.Attribute.Component<'chrome.footer-column', true>;
+    copyright: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::footer.footer'
+    > &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    socials: Schema.Attribute.Component<'chrome.social-link', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -950,6 +1018,87 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiInPressPageInPressPage extends Struct.SingleTypeSchema {
+  collectionName: 'in_press_pages';
+  info: {
+    description: 'Newsroom page: featured stories, press coverage, media kit, and press contact';
+    displayName: 'In Press Page';
+    pluralName: 'in-press-pages';
+    singularName: 'in-press-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contactSection: Schema.Attribute.Component<'press.contact-section', false>;
+    coverageSection: Schema.Attribute.Component<
+      'press.coverage-section',
+      false
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    featuredSection: Schema.Attribute.Component<
+      'press.featured-section',
+      false
+    >;
+    hero: Schema.Attribute.Component<'press.hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::in-press-page.in-press-page'
+    > &
+      Schema.Attribute.Private;
+    mediaKitSection: Schema.Attribute.Component<
+      'press.media-kit-section',
+      false
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiInsightsPageInsightsPage extends Struct.SingleTypeSchema {
+  collectionName: 'insights_pages';
+  info: {
+    description: "Insights blog listing: hero, editor's picks, categories, and article grid";
+    displayName: 'Insights Page';
+    pluralName: 'insights-pages';
+    singularName: 'insights-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    featuredSection: Schema.Attribute.Component<
+      'insights.featured-section',
+      false
+    >;
+    hero: Schema.Attribute.Component<'insights.hero', false>;
+    listingSection: Schema.Attribute.Component<
+      'insights.listing-section',
+      false
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::insights-page.insights-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiLeadershipMemberLeadershipMember
   extends Struct.CollectionTypeSchema {
   collectionName: 'leadership_members';
@@ -986,6 +1135,75 @@ export interface ApiLeadershipMemberLeadershipMember
   };
 }
 
+export interface ApiNavbarNavbar extends Struct.SingleTypeSchema {
+  collectionName: 'navbars';
+  info: {
+    description: 'Site navigation: logo, main links, dropdown menus, product mega-menu, and CTA';
+    displayName: 'Navbar';
+    pluralName: 'navbars';
+    singularName: 'navbar';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    companyLinks: Schema.Attribute.Component<'chrome.menu-item', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ctaHref: Schema.Attribute.String;
+    ctaLabel: Schema.Attribute.String;
+    links: Schema.Attribute.Component<'chrome.nav-link', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::navbar.navbar'
+    > &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.String;
+    megaVehicles: Schema.Attribute.Component<'chrome.vehicle-card', true>;
+    productLinks: Schema.Attribute.Component<'chrome.menu-item', true>;
+    publishedAt: Schema.Attribute.DateTime;
+    searchPlaceholder: Schema.Attribute.String;
+    supportLinks: Schema.Attribute.Component<'chrome.menu-item', true>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPrivacyPolicyPrivacyPolicy extends Struct.SingleTypeSchema {
+  collectionName: 'privacy_policies';
+  info: {
+    description: 'Privacy policy banner, intro copy, and accordion sections';
+    displayName: 'Privacy Policy Page';
+    pluralName: 'privacy-policies';
+    singularName: 'privacy-policy';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'legal.hero', false>;
+    intro: Schema.Attribute.Component<'legal.intro', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::privacy-policy.privacy-policy'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    sections: Schema.Attribute.Component<'legal.section-item', true>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -1001,23 +1219,71 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'product.hero', false>;
     image: Schema.Attribute.Media<'images'>;
+    loanCalculator: Schema.Attribute.Component<
+      'product.loan-calculator',
+      false
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::product.product'
     > &
       Schema.Attribute.Private;
+    metaDescription: Schema.Attribute.Text;
+    metaTitle: Schema.Attribute.String;
     mobileImage: Schema.Attribute.Media<'images'>;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    otherVehicles: Schema.Attribute.Component<'product.other-vehicles', false>;
+    overview: Schema.Attribute.Component<'product.overview', false>;
     productUrl: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    specs: Schema.Attribute.Component<'product.specs', false>;
     specsCapacity: Schema.Attribute.String & Schema.Attribute.Required;
     specsChargeTime: Schema.Attribute.String & Schema.Attribute.Required;
     specsRange: Schema.Attribute.String & Schema.Attribute.Required;
     tabLabel: Schema.Attribute.String & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    variantsCompare: Schema.Attribute.Component<
+      'product.variants-compare',
+      false
+    >;
+  };
+}
+
+export interface ApiRefundPolicyRefundPolicy extends Struct.SingleTypeSchema {
+  collectionName: 'refund_policies';
+  info: {
+    description: 'Refund and cancellation policy banner, intro copy, callouts, and closing text';
+    displayName: 'Refund Policy Page';
+    pluralName: 'refund-policies';
+    singularName: 'refund-policy';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    callouts: Schema.Attribute.Component<'legal.callout', true>;
+    closingText: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'legal.hero', false>;
+    intro: Schema.Attribute.Component<'legal.intro', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::refund-policy.refund-policy'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1151,6 +1417,39 @@ export interface ApiTechnologyPageTechnologyPage
       'technology.shepherd-section',
       false
     >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTermsConditionsTermsConditions
+  extends Struct.SingleTypeSchema {
+  collectionName: 'terms_conditions';
+  info: {
+    description: 'Terms of use banner, intro copy, and accordion sections';
+    displayName: 'Terms & Conditions Page';
+    pluralName: 'terms-conditions-pages';
+    singularName: 'terms-conditions';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'legal.hero', false>;
+    intro: Schema.Attribute.Component<'legal.intro', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::terms-conditions.terms-conditions'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    sections: Schema.Attribute.Component<'legal.section-item', true>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1715,13 +2014,21 @@ declare module '@strapi/strapi' {
       'api::dealer-locator-page.dealer-locator-page': ApiDealerLocatorPageDealerLocatorPage;
       'api::dealer.dealer': ApiDealerDealer;
       'api::esg-report.esg-report': ApiEsgReportEsgReport;
+      'api::faq-page.faq-page': ApiFaqPageFaqPage;
       'api::faq.faq': ApiFaqFaq;
+      'api::footer.footer': ApiFooterFooter;
       'api::home-page.home-page': ApiHomePageHomePage;
+      'api::in-press-page.in-press-page': ApiInPressPageInPressPage;
+      'api::insights-page.insights-page': ApiInsightsPageInsightsPage;
       'api::leadership-member.leadership-member': ApiLeadershipMemberLeadershipMember;
+      'api::navbar.navbar': ApiNavbarNavbar;
+      'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::product.product': ApiProductProduct;
+      'api::refund-policy.refund-policy': ApiRefundPolicyRefundPolicy;
       'api::review.review': ApiReviewReview;
       'api::service-center.service-center': ApiServiceCenterServiceCenter;
       'api::technology-page.technology-page': ApiTechnologyPageTechnologyPage;
+      'api::terms-conditions.terms-conditions': ApiTermsConditionsTermsConditions;
       'api::timeline-milestone.timeline-milestone': ApiTimelineMilestoneTimelineMilestone;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

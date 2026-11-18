@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_chrome_footer_columns",
+  "info": { "displayName": "Footer Column", "icon": "apps", "description": "Footer link column" },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "openOnMobile": { "type": "boolean", "default": false },
+    "links": { "type": "component", "repeatable": true, "component": "chrome.footer-link" }
+  }
+}

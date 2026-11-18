@@ -7,12 +7,14 @@ export default function PolicyHero({
   description = "We protect your data and respect your privacy.",
   variant = "privacy",
   hasWidget = false,
+  image,
 }: {
   label: string;
   title: string;
   description?: React.ReactNode;
   variant?: "refund" | "privacy";
   hasWidget?: boolean;
+  image?: string;
 }) {
   return (
     <section
@@ -23,6 +25,13 @@ export default function PolicyHero({
           "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
       }}
     >
+      {image && (
+        <div
+          aria-hidden
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${image}')` }}
+        />
+      )}
       <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 pt-[108px] pb-8 text-center sm:px-8 sm:pt-[124px] sm:pb-12 md:px-12 md:pt-[140px] md:pb-16 lg:h-[420px] lg:w-full lg:max-w-full lg:items-center lg:justify-center lg:px-0 lg:pt-0 lg:pb-0">
         <div className="lg:inline-flex lg:flex-col lg:items-center lg:gap-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
           {/* Eyebrow badge */}

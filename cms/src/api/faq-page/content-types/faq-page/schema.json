@@ -1,0 +1,36 @@
+{
+  "kind": "singleType",
+  "collectionName": "faq_pages",
+  "info": {
+    "singularName": "faq-page",
+    "pluralName": "faq-pages",
+    "displayName": "FAQ Page",
+    "description": "Frequently asked questions page banner, searchable FAQ list, and quick help cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "faq.hero"
+    },
+    "faqsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "faq.faqs-section"
+    },
+    "quickHelpSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "faq.quick-help-section"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

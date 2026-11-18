@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
 import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
 import PartnersInvestors from "@/components/sections/PartnersInvestors";
 import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
 import ChargingStationNextStep from "@/components/sections/ChargingStationNextStep";
-import Footer from "@/components/sections/Footer";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import {
   getChargingStations,
   getChargingStationsPageData,
@@ -46,7 +46,7 @@ export default async function ChargingStationsPage() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="charging" {...heroProps} />
         <PartnersInvestors
@@ -61,7 +61,7 @@ export default async function ChargingStationsPage() {
         />
         <ChargingStationNextStep data={data?.chargingContactSection} />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

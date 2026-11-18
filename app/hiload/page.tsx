@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import HiLoadHero from "@/components/sections/products/HiLoadHero";
-import ProductSpecs, { HILOAD_SPEC_CONTENT } from "@/components/sections/products/ProductSpecs";
-import SavingsCalculator from "@/components/sections/SavingsCalculator";
-import ProductVariantsCompare, { HILOAD_VARIANTS } from "@/components/sections/products/ProductVariantsCompare";
-import ProductLoanCalculator from "@/components/sections/products/ProductLoanCalculator";
-import ProductOverview from "@/components/sections/products/ProductOverview";
-import CustomerReviews from "@/components/sections/CustomerReviews";
-import ProductOtherVehicles from "@/components/sections/products/ProductOtherVehicles";
-import ContactSection from "@/components/sections/ContactSection";
-import Footer from "@/components/sections/Footer";
+import ProductDetailView from "@/components/sections/products/ProductDetailView";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 
 export const metadata: Metadata = {
   title: "HiLoad EV | Euler Motors - India's Most Powerful Electric 3-Wheeler",
@@ -20,22 +12,9 @@ export const metadata: Metadata = {
 export default function HiLoadPage() {
   return (
     <>
-      <Navbar />
-      <main className="overflow-clip">
-        <HiLoadHero />
-        <ProductSpecs specContent={HILOAD_SPEC_CONTENT} />
-        <SavingsCalculator />
-        <ProductVariantsCompare
-          variants={HILOAD_VARIANTS}
-          truckImg="/assets/products/vehicle-hiload-ev-clean.png"
-        />
-        <ProductLoanCalculator defaultVehicleIndex={3} />
-        <CustomerReviews autoScrollOnMobile={false} />
-        <ProductOverview />
-        <ProductOtherVehicles currentVehicleId="hiload-ev" />
-        <ContactSection />
-      </main>
-      <Footer />
+      <SiteNavbar />
+      <ProductDetailView slug="hiload-ev" />
+      <SiteFooter />
     </>
   );
 }

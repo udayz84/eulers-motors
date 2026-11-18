@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "@/components/ui/Eyebrow";
+import type { StrapiFaqQuickHelpSection } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 interface QuickHelpCard {
   id: string;
@@ -15,44 +17,31 @@ interface QuickHelpCard {
   href: string;
 }
 
-const CARDS: QuickHelpCard[] = [
-  {
-    id: "test-drive",
-    icon: "/assets/faq/icon-test-drive.png",
-    iconAlt: "Book a test drive",
-    title: "Book a test drive",
-    description: "Not sure which vehicle fits your route? We bring one to your depot with a load.",
-    buttonText: "Book Now",
-    href: "/contact",
-  },
-  {
-    id: "dealer",
-    icon: "/assets/faq/icon-dealer.png",
-    iconAlt: "Locate a dealer",
-    title: "Locate a dealer",
-    description: "112 dealers across 24 states, every one with a workshop bay.",
-    buttonText: "Find Dealer",
-    href: "/dealer-locator",
-  },
-  {
-    id: "service",
-    icon: "/assets/faq/icon-service.png",
-    iconAlt: "Book a service",
-    title: "Book a service",
-    description: "Pick a centre, a date and a slot. Or ask the mobile van to come to you.",
-    buttonText: "Book Service",
-    href: "/service-centers",
-  },
+const FALLBACK_ICONS = [
+  "/assets/faq/icon-test-drive.png",
+  "/assets/faq/icon-dealer.png",
+  "/assets/faq/icon-service.png",
 ];
 
 /**
  * FAQ Quick Help Section — Figma node 3538:26434 (Desktop) & 2980:8763 (Mobile)
  * Dark section highlighting "The three things people ask for next" with 3D blue icons.
  * Mobile includes horizontal touch swipe snap carousel with interactive pill progress indicator.
+ * Cards are powered by the Strapi `faq-page` single type (quickHelpSection component).
  */
-export default function FaqQuickHelp() {
+export default function FaqQuickHelp({ data }: { data?: StrapiFaqQuickHelpSection }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  const cards: QuickHelpCard[] = (data?.items || []).map((item, index) => ({
+    id: String(item.id ?? index),
+    icon: item.icon ? mediaUrl(item.icon, FALLBACK_ICONS[index % FALLBACK_ICONS.length]) : FALLBACK_ICONS[index % FALLBACK_ICONS.length],
+    iconAlt: item.title,
+    title: item.title,
+    description: item.description,
+    buttonText: item.buttonText || "Learn more",
+    href: item.href || "#",
+  }));
 
   const handleScroll = () => {
     if (!carouselRef.current) return;
@@ -60,8 +49,8 @@ export default function FaqQuickHelp() {
     const maxScroll = scrollWidth - clientWidth;
     if (maxScroll <= 0) return;
     const progress = scrollLeft / maxScroll;
-    const index = Math.round(progress * (CARDS.length - 1));
-    setActiveIndex(Math.max(0, Math.min(CARDS.length - 1, index)));
+    const index = Math.round(progress * (cards.length - 1));
+    setActiveIndex(Math.max(0, Math.min(cards.length - 1, index)));
   };
 
   return (
@@ -78,17 +67,15 @@ export default function FaqQuickHelp() {
         {/* Header Block (Figma 3538:26435 / 2980:8764) */}
           <div className="flex flex-col items-center gap-3 text-center sm:gap-4 md:justify-center md:gap-6 md:self-stretch">
           <div className="flex h-6 items-center">
-            <Eyebrow label="Quick help" dark icons="white" className="font-bold uppercase text-[12px] sm:text-[13px] md:text-[14px] tracking-[0.6px] md:tracking-[0.7px]" />
+            <Eyebrow label={data?.eyebrow || "Quick help"} dark icons="white" className="font-bold uppercase text-[12px] sm:text-[13px] md:text-[14px] tracking-[0.6px] md:tracking-[0.7px]" />
           </div>
 
           <h2 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white sm:text-[34px] md:text-[42px] md:leading-[1.05] md:tracking-[-0.84px]">
-            The three things people <br className="sm:hidden lg:block" />
-            ask for next.
+            {data?.title || "The three things people ask for next."}
           </h2>
 
           <p className="hidden max-w-[494px] font-sans text-[13px] font-normal leading-normal text-white sm:text-[14px] md:block md:text-[16px] lg:w-[493.137px] lg:max-w-full">
-            Maximize efficiency and prolong vehicle battery lifespan
-            <br className="hidden lg:block" /> with simple routine habits.
+            {data?.subtitle || "Maximize efficiency and prolong vehicle battery lifespan with simple routine habits."}
           </p>
         </div>
 
@@ -98,7 +85,7 @@ export default function FaqQuickHelp() {
           onScroll={handleScroll}
           className="-mx-5 flex w-[calc(100%+40px)] snap-x snap-mandatory gap-2.5 overflow-x-auto px-5 pb-2 scrollbar-none sm:-mx-8 sm:w-[calc(100%+64px)] sm:px-8 md:mx-0 md:flex md:w-full md:items-center md:gap-5 md:overflow-visible md:px-0"
         >
-          {CARDS.map((card) => (
+          {cards.map((card) => (
             <article
               key={card.id}
               className="group flex w-[282px] shrink-0 snap-center flex-col justify-between gap-4 rounded-[12px] bg-white/[0.08] p-5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.12] hover:shadow-[0_12px_28px_rgba(0,0,0,0.3)] sm:w-[330px] sm:gap-5 sm:p-6 md:h-[266px] md:w-[413px] md:flex-none md:justify-center md:gap-5 md:rounded-[12px] md:p-6"
@@ -120,24 +107,7 @@ export default function FaqQuickHelp() {
                   {card.title}
                 </h3>
                 <p className="font-sans text-[12px] font-normal leading-normal text-white/90 sm:text-[13px] md:self-stretch md:text-[16px]">
-                  {card.id === "test-drive" ? (
-                    <>
-                      Not sure which vehicle fits your route? We bring
-                      <br className="hidden lg:block" /> one to your depot with a load.
-                    </>
-                  ) : card.id === "dealer" ? (
-                    <>
-                      112 dealers across 24 states, every one with a
-                      <br className="hidden lg:block" /> workshop bay.
-                    </>
-                  ) : card.id === "service" ? (
-                    <>
-                      Pick a centre, a date and a slot. Or ask the mobile
-                      <br className="hidden lg:block" /> van to come to you.
-                    </>
-                  ) : (
-                    card.description
-                  )}
+                  {card.description}
                 </p>
 
                 {/* Glassmorphic Link Button (Figma 2980:8870) */}

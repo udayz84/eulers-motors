@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_press_stories",
+  "info": {
+    "displayName": "Press Story",
+    "icon": "picture",
+    "description": "Featured press story card"
+  },
+  "options": {},
+  "attributes": {
+    "source": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "url": {
+      "type": "string",
+      "default": "#"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_legal_list_items",
+  "info": {
+    "displayName": "Legal List Item",
+    "icon": "bulletList",
+    "description": "Single bullet line inside a policy callout"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

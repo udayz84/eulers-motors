@@ -28,13 +28,19 @@ function Chip({
         type="button"
         aria-pressed="true"
         onClick={onSelect}
-        className="flex h-[88px] w-[113px] shrink-0 flex-col items-center justify-center gap-2 overflow-hidden rounded-[6px] border border-[#256dec] px-4 py-[6px] cursor-pointer"
+        className="flex h-[88px] w-[113px] shrink-0 flex-col items-center justify-center gap-1.5 overflow-hidden rounded-[6px] border border-[#256dec] px-2 py-[6px] cursor-pointer"
         style={{
           backgroundImage:
             "linear-gradient(-30.732deg,#0e2f6d 10.379%,#1d6fff 90.974%), linear-gradient(90deg,#121212 0%,#121212 100%)",
         }}
       >
-        {icon && <img src={icon} alt="" className="size-[48px] shrink-0 object-contain" />}
+        {icon && (
+          <img
+            src={icon}
+            alt=""
+            className="h-[46px] max-w-[84px] w-auto shrink-0 object-contain rounded-[4px]"
+          />
+        )}
         <p className="w-full text-center text-[12px] font-bold leading-normal text-white">{label}</p>
       </button>
     );
@@ -45,7 +51,7 @@ function Chip({
       type="button"
       aria-pressed="false"
       onClick={onSelect}
-      className="relative flex h-[88px] w-[113px] shrink-0 flex-col items-center justify-center gap-2 overflow-hidden rounded-[6px] border border-[rgba(204,204,204,0.12)] bg-[#121212] px-4 py-1.5 opacity-80 cursor-pointer"
+      className="relative flex h-[88px] w-[113px] shrink-0 flex-col items-center justify-center gap-1.5 overflow-hidden rounded-[6px] border border-[rgba(204,204,204,0.12)] bg-[#121212] px-2 py-1.5 opacity-80 cursor-pointer"
     >
       <div className="pointer-events-none absolute left-[33.77px] top-[31.44px] h-[31.73px] w-[25.076px]">
         <div className="absolute inset-[-137.09%_-173.47%]">
@@ -53,8 +59,8 @@ function Chip({
         </div>
       </div>
       {icon && (
-        <div className="relative size-[48px] shrink-0 opacity-50">
-          <img src={icon} alt="" className="size-full object-contain" />
+        <div className="relative flex h-[46px] max-w-[84px] w-auto shrink-0 items-center justify-center opacity-60">
+          <img src={icon} alt="" className="size-full object-contain rounded-[4px]" />
         </div>
       )}
       <p className="w-full text-center text-[12px] font-bold leading-normal text-[#ccc] opacity-50">{label}</p>
@@ -90,13 +96,19 @@ function DesktopChip({
         type="button"
         aria-pressed="true"
         onClick={onSelect}
-        className="relative flex h-[110px] w-[135.6px] shrink-0 flex-col items-center justify-center gap-[12px] overflow-hidden rounded-[7.2px] border-[1.2px] border-[#256dec] px-[19.2px] py-[7.2px] cursor-pointer min-[1440px]:h-[115.6px]"
+        className="relative flex h-[110px] w-[135.6px] shrink-0 flex-col items-center justify-center gap-[8px] overflow-hidden rounded-[7.2px] border-[1.2px] border-[#256dec] px-[12px] py-[7.2px] cursor-pointer min-[1440px]:h-[115.6px]"
         style={{
           backgroundImage:
             "linear-gradient(-31.352deg,#0e2f6d 10.379%,#1d6fff 90.974%),linear-gradient(90deg,#121212 0%,#121212 100%)",
         }}
       >
-        {icon && <img src={icon} alt="" className="size-[60px] shrink-0 object-contain" />}
+        {icon && (
+          <img
+            src={icon}
+            alt=""
+            className="h-[58px] max-w-[104px] w-auto shrink-0 object-contain rounded-[4px]"
+          />
+        )}
         <p className="w-full text-center font-sans text-[16px] font-bold leading-normal text-white">
           {label}
         </p>
@@ -109,14 +121,14 @@ function DesktopChip({
       type="button"
       aria-pressed="false"
       onClick={onSelect}
-      className="relative flex h-[110px] w-[135.6px] shrink-0 flex-col items-center justify-center gap-[12px] overflow-hidden rounded-[7.2px] border-[1.2px] border-[rgba(204,204,204,0.12)] bg-[#121212] px-[19.2px] py-[7.2px] opacity-80 cursor-pointer min-[1440px]:h-[115.6px]"
+      className="relative flex h-[110px] w-[135.6px] shrink-0 flex-col items-center justify-center gap-[8px] overflow-hidden rounded-[7.2px] border-[1.2px] border-[rgba(204,204,204,0.12)] bg-[#121212] px-[12px] py-[7.2px] opacity-80 cursor-pointer min-[1440px]:h-[115.6px]"
     >
       {glow}
       {icon && (
         <img
           src={icon}
           alt=""
-          className="relative size-[60px] shrink-0 object-contain opacity-50"
+          className="relative h-[58px] max-w-[104px] w-auto shrink-0 object-contain rounded-[4px] opacity-60"
         />
       )}
       <p className="relative w-full text-center font-sans text-[16px] font-bold leading-normal text-[#ccc] opacity-50">

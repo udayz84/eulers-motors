@@ -1,0 +1,36 @@
+{
+  "kind": "singleType",
+  "collectionName": "insights_pages",
+  "info": {
+    "singularName": "insights-page",
+    "pluralName": "insights-pages",
+    "displayName": "Insights Page",
+    "description": "Insights blog listing: hero, editor's picks, categories, and article grid"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "insights.hero"
+    },
+    "featuredSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "insights.featured-section"
+    },
+    "listingSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "insights.listing-section"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

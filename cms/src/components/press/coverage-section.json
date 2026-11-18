@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_press_coverage_sections",
+  "info": {
+    "displayName": "Coverage Section",
+    "icon": "grid",
+    "description": "Latest press coverage carousel with category filters"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Latest press coverage"
+    },
+    "title": {
+      "type": "string",
+      "default": "News & Media Coverage"
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "press.category"
+    },
+    "articles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "press.article"
+    }
+  }
+}

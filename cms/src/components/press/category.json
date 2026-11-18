@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_press_categories",
+  "info": {
+    "displayName": "Press Category",
+    "icon": "tag",
+    "description": "Press coverage category pill label"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

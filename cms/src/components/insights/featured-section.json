@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_insights_featured_sections",
+  "info": {
+    "displayName": "Featured Section",
+    "icon": "star",
+    "description": "Editor's picks featured articles carousel"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Featured"
+    },
+    "title": {
+      "type": "string",
+      "default": "Editor's picks"
+    },
+    "articles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "insights.article"
+    }
+  }
+}

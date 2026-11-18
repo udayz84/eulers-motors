@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_faq_quick_help_sections",
+  "info": {
+    "displayName": "Quick Help Section",
+    "icon": "handHeart",
+    "description": "Dark next-steps section with quick help cards"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Quick help"
+    },
+    "title": {
+      "type": "string",
+      "default": "The three things people ask for next."
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Maximize efficiency and prolong vehicle battery lifespan with simple routine habits."
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "faq.quick-help-card"
+    }
+  }
+}

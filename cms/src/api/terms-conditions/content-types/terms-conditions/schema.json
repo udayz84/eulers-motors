@@ -1,0 +1,36 @@
+{
+  "kind": "singleType",
+  "collectionName": "terms_conditions",
+  "info": {
+    "singularName": "terms-conditions",
+    "pluralName": "terms-conditions-pages",
+    "displayName": "Terms & Conditions Page",
+    "description": "Terms of use banner, intro copy, and accordion sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "legal.hero"
+    },
+    "intro": {
+      "type": "component",
+      "repeatable": false,
+      "component": "legal.intro"
+    },
+    "sections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "legal.section-item"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

@@ -20,6 +20,12 @@ export async function GET(
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   const { path: urlSegments } = await params;
+
+  // Path traversal guard: reject any attempt to escape the uploads directories
+  if (urlSegments.some((segment) => segment.includes(".."))) {
+    return new NextResponse("Bad Request", { status: 400 });
+  }
+
   const filename = urlSegments.join("/");
 
   // Check cms/public/uploads first

@@ -8,7 +8,7 @@ import { calculateMonthlyEmi } from "@/components/data/vehicle-finance";
 
 const TRUCK_IMG = "/assets/products/variant-compare-truck.png";
 
-type VariantData = {
+export type VariantData = {
   name: string;
   price: number;
   bodyType: string;

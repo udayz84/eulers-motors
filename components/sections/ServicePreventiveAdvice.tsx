@@ -1,5 +1,10 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import Eyebrow from "../ui/Eyebrow";
+import Eyebrow from "@/components/ui/Eyebrow";
+import CarouselArrows from "@/components/ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 type Tip = {
   title: string;
@@ -15,11 +20,13 @@ type Tip = {
 
 /**
  * Preventive advice — Figma desktop 3354:19393 · mobile 2828:11548.
- * Navy→blue washed section with five routine-habit cards.
- * Desktop: continuous looping marquee — two identical sets of 412×250 cards
- * scroll left-to-right forever (seamless loop via the duplicated set),
- * bleeding edge-to-edge on the full-width section.
- * Mobile/tablet: 353×102 icon-left cards stacked in a single list.
+ * Navy→blue washed section with routine-habit cards.
+ * Global carousel behavior matching CustomerReviews, Insights & AboutEuler:
+ * - Desktop/tablet (>=768px): draggable mouse scroll, continuous auto-sliding (speed 50px/s,
+ *   loops continuously, no hover freeze, pauses on drag or arrow navigation), blue navigation
+ *   arrows with boundary auto-hide, and interactive progress indicator pill.
+ * - Mobile (<768px): full-bleed touch swipeable snap carousel with peek, snap-center alignment,
+ *   and real-time interactive progress pill.
  */
 const TIPS: Tip[] = [
   {
@@ -61,17 +68,17 @@ const TIPS: Tip[] = [
 
 function PreventiveCard({ tip }: { tip: Tip }) {
   return (
-    <div
-      className="flex min-h-[102px] w-full shrink-0 snap-center flex-row items-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 lg:min-h-[250px] lg:w-[412px] lg:flex-col lg:items-start lg:justify-center lg:gap-8 lg:p-8"
+    <article
+      className="flex min-h-[102px] w-[300px] sm:w-[353px] shrink-0 snap-center flex-row items-center gap-4 sm:gap-5 rounded-[12px] border border-white/10 bg-[rgba(255,255,255,0.08)] p-4 sm:p-5 shadow-xs backdrop-blur-sm select-none md:min-h-[250px] md:w-[412px] md:min-w-[412px] md:max-w-[412px] md:flex-col md:items-start md:justify-center md:gap-8 md:p-8"
     >
-      <div className="relative h-[62px] w-[64.333px] shrink-0 aspect-[64.33/62] lg:aspect-[74.71/72] lg:h-[72px] lg:w-[74.709px]">
+      <div className="relative h-[62px] w-[64.333px] shrink-0 aspect-[64.33/62] md:aspect-[74.71/72] md:h-[72px] md:w-[74.709px]">
         <Image
           src={tip.icon}
           alt=""
           width={tip.size[0]}
           height={tip.size[1]}
           aria-hidden
-          className="absolute max-w-none lg:!left-0 lg:!top-0 lg:!h-full lg:!w-full lg:!object-contain"
+          className="absolute max-w-none md:!left-0 md:!top-0 md:!h-full md:!w-full md:!object-contain"
           style={{
             left: `${tip.box[0]}%`,
             top: `${tip.box[1]}%`,
@@ -81,69 +88,220 @@ function PreventiveCard({ tip }: { tip: Tip }) {
           }}
         />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-2">
-        <h3 className="font-sans text-[16px] font-bold leading-[22px] text-white lg:font-display lg:text-[26px] lg:font-semibold lg:leading-[30px] lg:tracking-[-0.78px]">
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:gap-2">
+        <h3 className="font-sans text-[15px] sm:text-[16px] font-bold leading-[20px] sm:leading-[22px] text-white md:font-display md:text-[26px] md:font-semibold md:leading-[30px] md:tracking-[-0.78px]">
           {tip.title}
         </h3>
-        <p className="font-sans text-xs leading-[16px] text-white lg:text-base lg:leading-[22px]">
+        <p className="font-sans text-xs leading-[16px] text-white/90 md:text-base md:leading-[22px]">
           {tip.description}
         </p>
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function ServicePreventiveAdvice() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Repeat collection to provide comfortable continuous auto-sliding runway (matching CustomerReviews & Insights)
+  const repeats = Math.max(2, Math.ceil(10 / TIPS.length));
+  const displayTips = Array.from({ length: repeats }).flatMap(() => TIPS);
+
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
+    }
+  }, []);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility tracking via IntersectionObserver with immediate viewport check
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      isVisibleRef.current = true;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) {
+          isVisibleRef.current = entry.isIntersecting;
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-sliding loop (speed = 50px/s, loops continuously, pauses on drag or arrow clicks)
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+    const speed = 50; // pixels per second
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
+      if (
+        isDesktop &&
+        isVisibleRef.current &&
+        !isInteractingRef.current &&
+        !isDraggingRef.current
+      ) {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (maxScroll > 1) {
+          accumulator += speed * delta;
+          if (accumulator >= 1) {
+            const advance = Math.floor(accumulator);
+            accumulator -= advance;
+
+            if (container.scrollLeft >= maxScroll - 2) {
+              container.scrollLeft = 0;
+            } else {
+              container.scrollLeft += advance;
+            }
+            updateProgress();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(animId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
+  }, [updateProgress]);
+
   return (
-    /* Section frame: mobile 2828:11548 — 31.63px top / 31.19px bottom padding,
-       40.18px between header and cards; desktop 3354:19393 — 62px paddings,
-       42px gaps. Background `.preventive-bg` (globals.css). */
-    <section className="preventive-bg relative isolate w-full flex-col items-center justify-center pt-[31.63px] pb-[31.19px] lg:pt-[62px] lg:pb-[62px]">
-      <div className="flex w-full flex-col items-center gap-[40.18px] lg:gap-[42px] px-5 sm:px-8 lg:px-0">
-        {/* header — mobile: eyebrow/title/description stack with 14px gaps;
-            desktop: eyebrow+title group (16px) then subtitle (24px) */}
-        <div className="flex flex-col items-center gap-[14px] lg:gap-6">
-          <div className="flex flex-col items-center gap-[14px] lg:gap-4">
+    <section
+      ref={sectionRef}
+      className="preventive-bg relative isolate w-full flex-col items-center justify-center py-8 sm:py-10 md:py-[62px]"
+      aria-label="Preventive advice"
+    >
+      {/* Header Container — padded container */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 sm:px-8 pb-7 sm:pb-9 md:pb-[42px]">
+        <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-6 text-center">
+          <div className="flex flex-col items-center gap-3 sm:gap-3.5 md:gap-4">
             <Eyebrow dark label="Preventive advice" />
-            <h2 className="max-w-[273.396px] text-center font-display text-[28px] font-semibold leading-[34px] tracking-[-0.56px] text-white lg:max-w-none lg:text-[42px] lg:leading-[50px] lg:tracking-[-0.84px]">
+            <h2 className="w-full max-w-[420px] font-display text-[26px] sm:text-[32px] font-semibold leading-[32px] sm:leading-[38px] tracking-[-0.56px] text-white md:max-w-none md:text-[42px] md:leading-[50px] md:tracking-[-0.84px]">
               Keep your Neo running better
             </h2>
           </div>
-          <p className="max-w-[295.766px] text-center font-sans text-xs leading-[16px] text-[#ccc] lg:max-w-[493.137px] lg:text-base lg:leading-[22px] lg:text-white">
+          <p className="w-full max-w-[340px] sm:max-w-[420px] font-sans text-xs leading-[18px] text-[#ccc] md:max-w-[493.137px] md:text-base md:leading-[22px] md:text-white">
             Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.
           </p>
         </div>
+      </div>
 
-        {/* cards — mobile: stacked single list; desktop:
-            continuous infinite auto-sliding marquee (4× duplicated set,
-            gap-24, snap-center, 40s) — same desktop scroll type as
-            TechIndianRoads "Built for here" */}
-        <div className="relative w-full overflow-hidden">
-          {/* Mobile: stacked single list */}
-          <div className="flex flex-col gap-2.5 lg:hidden">
-            {TIPS.map((tip) => (
-              <PreventiveCard key={tip.title} tip={tip} />
-            ))}
-          </div>
-          {/* Desktop Track: Continuous infinite auto-sliding marquee */}
-          <div className="hidden md:block">
-            <div
-              className="flex w-max shrink-0 gap-6 lg:gap-[10px] animate-marquee [--marquee-gap:24px] lg:[--marquee-gap:10px] will-change-transform"
-              style={{ animationDuration: "40s" }}
-            >
-              {[...TIPS, ...TIPS, ...TIPS, ...TIPS].map((tip, i) => (
-                <PreventiveCard key={`${i}-${tip.title}`} tip={tip} />
-              ))}
-            </div>
-          </div>
+      {/* Cards Track Container — full bleed across the screen */}
+      <div className="relative w-full overflow-hidden">
+        <div
+          id="service-preventive-row"
+          ref={scrollRef}
+          className="no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex w-full items-center gap-3.5 overflow-x-auto px-5 snap-x snap-mandatory md:snap-none md:gap-6 md:px-[max(40px,calc((100vw-1280px)/2))] lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))] cursor-grab active:cursor-grabbing select-none"
+          style={{ WebkitOverflowScrolling: "touch" }}
+          aria-label="Preventive advice cards"
+        >
+          {displayTips.map((tip, index) => (
+            <PreventiveCard key={`${tip.title}-${index}`} tip={tip} />
+          ))}
+          <div aria-hidden className="shrink-0 w-2 md:w-16" />
         </div>
 
-        {/* Desktop pager — Figma node 3354:19618 */}
+        {/* Navigation Arrows with boundary auto-hide (desktop/tablet only) */}
+        <CarouselArrows
+          rowId="service-preventive-row"
+          label="preventive advice"
+          variant="blue"
+          className="hidden md:block"
+          onStep={() => pauseAutoScroll(600)}
+        />
+      </div>
+
+      {/* Progress Indicator Pill (Figma node 3354:19618 / 3321:13258) — visible on mobile and desktop */}
+      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center pt-5 sm:pt-6 md:pt-8">
         <div
-          aria-hidden="true"
-          className="hidden h-5 w-[116.2px] shrink-0 items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1 lg:flex"
+          role="progressbar"
+          aria-label="Preventive advice scroll progress"
+          aria-valuenow={Math.round(scrollProgress * 100)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-[rgba(204,204,204,0.2)] p-1"
         >
-          <div className="h-3 w-[29.891px] rounded-[23.04px] bg-white" />
+          <div
+            className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
+            style={{
+              transform: `translateX(${scrollProgress * 78.308}px)`,
+            }}
+          />
         </div>
       </div>
     </section>

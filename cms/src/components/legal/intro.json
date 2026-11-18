@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_legal_intros",
+  "info": {
+    "displayName": "Legal Intro",
+    "icon": "clock",
+    "description": "Last updated date and intro paragraphs (separate paragraphs with a blank line)"
+  },
+  "options": {},
+  "attributes": {
+    "lastUpdated": {
+      "type": "string",
+      "default": "October 22, 2021"
+    },
+    "paragraphs": {
+      "type": "text"
+    }
+  }
+}

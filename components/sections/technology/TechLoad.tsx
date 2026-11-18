@@ -1,8 +1,10 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, useCallback } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import PagerBar from "@/components/ui/PagerBar";
+import CarouselArrows from "@/components/ui/CarouselArrows";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import { mediaUrl } from "@/lib/strapi/client";
 import { StrapiTechnologyLoadCard, StrapiTechnologyLoadSection } from "@/types/strapi";
 
@@ -22,145 +24,148 @@ function renderMultiline(text: string) {
   ));
 }
 
-/** TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885, 393×601). */
+/** TECHNOLOGY page — "Load / Rated with weight on it." (Figma 3019:11885 / 3321:13258). */
 export default function TechLoad({ data }: TechLoadProps) {
   const cards = data?.cards || [];
-  const uniqueCount = Math.max(cards.length, 1);
-  const baseCycle =
-    cards.length > 0
-      ? Array.from({ length: Math.max(4, cards.length) }, (_, i) => cards[i % cards.length])
-      : [];
-  const setSize = baseCycle.length;
-  const loopedCards = setSize > 0 ? [...baseCycle, ...baseCycle, ...baseCycle] : [];
+
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
-  const desktopCarousel = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const virtualIndexRef = useRef(setSize);
-  const isVisibleRef = useRef(false);
-  const isHoveredRef = useRef(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
   const isInteractingRef = useRef(false);
-  const interactionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const getCardStep = () => {
-    const container = desktopCarousel.current;
-    if (!container) return 640;
-    const card = container.querySelector<HTMLElement>("[data-carousel-card]");
-    if (!card) return 640;
-    const gap = parseFloat(getComputedStyle(container).columnGap) || 20;
-    return card.offsetWidth + gap;
-  };
-
-  // Center on middle set (Set 1) on initial client mount
-  useEffect(() => {
-    const container = desktopCarousel.current;
-    if (!container || setSize === 0) return;
-    const step = getCardStep();
-    container.scrollLeft = setSize * step;
-    virtualIndexRef.current = setSize;
-  }, [setSize]);
-
-  const scrollToVirtualIndex = (vIndex: number, behavior: ScrollBehavior = "smooth") => {
-    const container = desktopCarousel.current;
-    if (!container || setSize === 0) return;
-    const step = getCardStep();
-    virtualIndexRef.current = vIndex;
-
-    container.scrollTo({
-      left: vIndex * step,
-      behavior,
-    });
-
-    const normalized = ((vIndex % uniqueCount) + uniqueCount) % uniqueCount;
-    setActiveIndex(normalized);
-
-    // If scrolled past the center set into Set 0 or Set 2, seamlessly jump back to Set 1
-    if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
-    if (vIndex >= 2 * setSize || vIndex < setSize) {
-      jumpTimeoutRef.current = setTimeout(() => {
-        if (!desktopCarousel.current) return;
-        const resetIndex = (((vIndex % setSize) + setSize) % setSize) + setSize;
-        virtualIndexRef.current = resetIndex;
-        desktopCarousel.current.style.scrollSnapType = "none";
-        desktopCarousel.current.scrollLeft = resetIndex * getCardStep();
-        requestAnimationFrame(() => {
-          if (desktopCarousel.current) {
-            desktopCarousel.current.style.scrollSnapType = "";
-          }
-        });
-      }, 500);
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / max)));
+    } else {
+      setScrollProgress(0);
     }
-  };
+  }, []);
 
-  // Section visibility tracking
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+      updateProgress();
+    },
+  });
+
+  // Track initial scroll progress and attach resize/scroll sync
+  useEffect(() => {
+    updateProgress();
+    const row = scrollRef.current;
+    if (!row) return;
+
+    const onStep = () => pauseAutoScroll(600);
+
+    row.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    row.addEventListener("carousel-step", onStep);
+
+    return () => {
+      row.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      row.removeEventListener("carousel-step", onStep);
+    };
+  }, [updateProgress, pauseAutoScroll]);
+
+  // Section visibility tracking via IntersectionObserver with immediate viewport check
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      isVisibleRef.current = true;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting;
+        if (entry) {
+          isVisibleRef.current = entry.isIntersecting;
+        }
       },
-      { threshold: 0.15 }
+      { threshold: 0 }
     );
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Desktop auto-scroll loop
+  // Continuous auto-sliding loop (matching CustomerReviews, AboutEuler, Insights, ServicePreventiveAdvice)
   useEffect(() => {
-    const reducedMotion =
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion || setSize === 0) return;
+    if (prefersReducedMotion) return;
 
-    const interval = setInterval(() => {
+    let lastTime: number | null = null;
+    let animId: number;
+    let accumulator = 0;
+    const speed = 50; // pixels per second
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
       const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
       if (
         isDesktop &&
         isVisibleRef.current &&
-        !isHoveredRef.current &&
-        !isInteractingRef.current
+        !isInteractingRef.current &&
+        !isDraggingRef.current
       ) {
-        scrollToVirtualIndex(virtualIndexRef.current + 1, "smooth");
-      }
-    }, 3500);
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (maxScroll > 1) {
+          accumulator += speed * delta;
+          if (accumulator >= 1) {
+            const advance = Math.floor(accumulator);
+            accumulator -= advance;
 
-    return () => {
-      clearInterval(interval);
-      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-      if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+            if (container.scrollLeft >= maxScroll - 2) {
+              container.scrollLeft = 0;
+            } else {
+              container.scrollLeft += advance;
+            }
+            updateProgress();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(tick);
     };
-  }, [setSize, uniqueCount]);
+
+    animId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(animId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
+  }, [updateProgress]);
 
   if (cards.length === 0) return null;
 
-  const scroll = (direction: -1 | 1) => {
-    isInteractingRef.current = true;
-    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
-
-    const nextVirtual = virtualIndexRef.current + direction;
-    scrollToVirtualIndex(nextVirtual, "smooth");
-
-    interactionTimeoutRef.current = setTimeout(() => {
-      isInteractingRef.current = false;
-    }, 4000);
-  };
-
-  const handleScroll = () => {
-    if (!desktopCarousel.current) return;
-    const scrollLeft = desktopCarousel.current.scrollLeft;
-    const step = getCardStep();
-    if (step <= 0) return;
-    const vIndex = Math.round(scrollLeft / step);
-    const normalized = ((vIndex % uniqueCount) + uniqueCount) % uniqueCount;
-    setActiveIndex(normalized);
-
-    if (isInteractingRef.current) {
-      virtualIndexRef.current = vIndex;
-    }
-  };
+  const isCentered = cards.length <= 2;
 
   return (
     <section
@@ -168,68 +173,56 @@ export default function TechLoad({ data }: TechLoadProps) {
       className="relative bg-[#041231] bg-[linear-gradient(180deg,#041231_0%,#0c3797_100%)] overflow-hidden"
       aria-label={data?.eyebrow || "Load"}
     >
-      <div
-        className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 min-[1440px]:gap-[42px] min-[1440px]:pb-[62px]"
-        onMouseEnter={() => {
-          isHoveredRef.current = true;
-        }}
-        onMouseLeave={() => {
-          isHoveredRef.current = false;
-        }}
-      >
+      <div className="relative mx-auto hidden w-full max-w-none flex-col items-center gap-6 pb-12 pt-0 md:flex md:gap-8 min-[1440px]:gap-[42px] min-[1440px]:pb-[62px]">
         <div className="relative w-full">
           <div
             id="load-carousel-desktop"
-            ref={desktopCarousel}
-            onScroll={handleScroll}
-            className="snap-row w-full items-center gap-3.5 md:gap-5 lg:gap-5 min-[1440px]:gap-5 px-6 md:px-10 lg:px-[max(80px,calc((100vw-1280px)/2))] lg:scroll-pl-[max(80px,calc((100vw-1280px)/2))]"
-            style={{ scrollSnapType: "x mandatory" }}
+            ref={scrollRef}
+            className={`no-scrollbar flex w-full items-center gap-3.5 md:gap-5 min-[1440px]:gap-5 px-6 md:px-10 overflow-x-auto cursor-grab active:cursor-grabbing select-none ${
+              isCentered
+                ? "min-[1260px]:justify-center min-[1260px]:px-0 xl:justify-center xl:px-0"
+                : "lg:px-16"
+            }`}
           >
-            {loopedCards.map((card, index) => (
+            {cards.map((card, index) => (
               <DesktopLoadCard
-                key={`${card.id ?? card.title}-${index}`}
+                key={card.id ?? `${card.title}-${index}`}
                 card={card}
               />
             ))}
           </div>
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute right-0 bottom-[-20px] z-20 hidden h-[532.059px] w-[210.81px] bg-black/[0.01] backdrop-blur-[8px] [-webkit-mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] [mask-image:linear-gradient(to_left,black_0%,black_20%,rgba(0,0,0,0.55)_50%,transparent_100%)] md:block"
+          {/* Blue Navigation Arrows with boundary auto-hide (matching global standard) */}
+          <CarouselArrows
+            rowId="load-carousel-desktop"
+            label="load features"
+            variant="blue"
+            className="hidden md:block"
+            onStep={() => pauseAutoScroll(600)}
           />
-
-          <button
-            type="button"
-            aria-label="Previous load features"
-            onClick={() => scroll(-1)}
-            className="absolute top-1/2 left-4 z-30 flex h-[48px] w-[48px] -translate-y-1/2 -scale-x-100 items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:left-6 md:h-[55px] md:w-[55px] md:p-4 lg:left-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
-          >
-            <img src={`${A}/load__imgRightArrowContainer.svg`} alt="" width="55" height="55" className="max-w-none" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next load features"
-            onClick={() => scroll(1)}
-            className="absolute top-1/2 right-4 z-30 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center rounded-[8px] bg-[linear-gradient(258deg,#0E2F6D_-138.16%,#1D6FFF_87.02%),#212121] p-3 md:right-6 md:h-[55px] md:w-[55px] md:p-4 lg:right-[calc(max(0px,(100vw-1440px)/2)+max(0px,(min(100vw,1440px)-1400px)/2)+40px)] transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
-          >
-            <img src={`${A}/load__imgRightArrowContainer1.svg`} alt="" width="55" height="55" className="max-w-none" />
-          </button>
         </div>
 
-        {/* Carousel Progress Indicator Pill */}
+        {/* Carousel Progress Indicator Pill (Figma 3321:13258 / 3354:19618) */}
         <div className="mx-auto hidden w-full max-w-[1440px] items-center justify-center md:flex">
-          <div className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1">
+          <div
+            role="progressbar"
+            aria-label="Load features scroll progress"
+            aria-valuenow={Math.round(scrollProgress * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="flex h-5 w-[116.2px] items-center rounded-[14.4px] bg-white/20 p-1"
+          >
             <div
-              className="h-full rounded-[23px] bg-white transition-all duration-300"
+              className="h-full w-[29.891px] rounded-[23.04px] bg-white transition-transform duration-75 ease-out will-change-transform"
               style={{
-                width: `${100 / uniqueCount}%`,
-                transform: `translateX(${activeIndex * 100}%)`,
+                transform: `translateX(${scrollProgress * 78.308}px)`,
               }}
             />
           </div>
         </div>
       </div>
 
+      {/* Mobile view (<768px) */}
       <div className="mx-auto flex w-full max-w-[480px] flex-col items-center justify-center gap-6 px-5 py-[35px] md:hidden">
         <div className="relative -mx-5 w-[calc(100%+40px)]">
           <div id="load-carousel-mobile" className="snap-row snap-center-mobile gap-3 px-5">

@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_chrome_menu_items",
+  "info": { "displayName": "Menu Item", "icon": "list", "description": "Dropdown menu entry with label, description, and link" },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "desc": { "type": "string" },
+    "href": { "type": "string" }
+  }
+}

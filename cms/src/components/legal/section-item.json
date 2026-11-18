@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_legal_section_items",
+  "info": {
+    "displayName": "Legal Section Item",
+    "icon": "list",
+    "description": "Accordion section with title and body copy"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

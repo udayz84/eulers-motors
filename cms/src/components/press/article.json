@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_press_articles",
+  "info": {
+    "displayName": "Press Article",
+    "icon": "file",
+    "description": "Press coverage article card"
+  },
+  "options": {},
+  "attributes": {
+    "source": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "default": "#"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_press_media_kit_items",
+  "info": {
+    "displayName": "Media Kit Item",
+    "icon": "package",
+    "description": "Downloadable media resource card"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "text",
+      "required": true
+    },
+    "size": {
+      "type": "string"
+    },
+    "filename": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

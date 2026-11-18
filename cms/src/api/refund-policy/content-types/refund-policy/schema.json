@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "refund_policies",
+  "info": {
+    "singularName": "refund-policy",
+    "pluralName": "refund-policies",
+    "displayName": "Refund Policy Page",
+    "description": "Refund and cancellation policy banner, intro copy, callouts, and closing text"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "legal.hero"
+    },
+    "intro": {
+      "type": "component",
+      "repeatable": false,
+      "component": "legal.intro"
+    },
+    "callouts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "legal.callout"
+    },
+    "closingText": {
+      "type": "text"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

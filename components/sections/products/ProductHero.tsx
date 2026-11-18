@@ -4,8 +4,14 @@ import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
+import type { StrapiProductHero } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const ASSET = "/assets/products/";
+
+// Variant images may come from the CMS as absolute /uploads/... URLs or as
+// bare filenames in /assets/products/ — resolve both.
+const variantImg = (p: string) => (p.startsWith("/") || p.startsWith("http")) ? p : `${ASSET}${p}`;
 
 /** Stats entries */
 const STATS = [
@@ -21,6 +27,9 @@ const VARIANTS = [
   { name: "LR 200 FB", fullName: "Storm EV LR 200 FB", range: "200+ km RealRange™", price: "₹13.60 L", image: "vehicle-storm-lr200-clean.png" },
 ];
 
+type HeroStat = { value: string; unit: string; label: string };
+type HeroVariant = { name: string; fullName?: string; range: string; price: string; image: string };
+
 type VariantSelectorProps = {
   selectedIndex: number;
   expanded: boolean;
@@ -28,10 +37,10 @@ type VariantSelectorProps = {
   onSelect: (index: number) => void;
 };
 
-function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, "selectedIndex" | "onSelect">) {
+function VariantOptions({ selectedIndex, onSelect, variants }: Pick<VariantSelectorProps, "selectedIndex" | "onSelect"> & { variants: HeroVariant[] }) {
   return (
     <div className="flex flex-col gap-1.5">
-      {VARIANTS.map((variant, index) => (
+      {variants.map((variant, index) => (
         <button
           key={variant.name}
           type="button"
@@ -43,7 +52,7 @@ function VariantOptions({ selectedIndex, onSelect }: Pick<VariantSelectorProps, 
           aria-pressed={index === selectedIndex}
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-[5px] bg-[#d9d9d9]">
-            <Image src={`${ASSET}${variant.image}`} alt="" aria-hidden fill sizes="36px" className="object-contain p-0.5" />
+            <Image src={`${variantImg(variant.image)}`} alt="" aria-hidden fill sizes="36px" className="object-contain p-0.5" />
           </span>
           <span className="min-w-0">
             <span className="block truncate font-sans text-[13px] font-bold leading-tight text-[#0E2F6D]">{variant.name}</span>
@@ -130,8 +139,8 @@ function Thumbs({ className = "" }: { className?: string }) {
 /**
  * Variants tab pill
  */
-function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
-  const selected = VARIANTS[selectedIndex];
+function VariantsTab({ selectedIndex, expanded, onToggle, onSelect, variants }: VariantSelectorProps & { variants: HeroVariant[] }) {
+  const selected = variants[selectedIndex];
   return (
     <div className="relative z-40 flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
@@ -151,7 +160,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
         >
           <div className="flex items-center gap-2 min-w-0">
             <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
-              <Image src={`${ASSET}${selected.image}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
+              <Image src={`${variantImg(selected.image)}`} alt={`${selected.name} variant`} fill sizes="30px" className="object-contain p-0.5" />
             </div>
 
             <div className="flex flex-col justify-center items-start gap-[2px] min-w-0">
@@ -189,7 +198,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
           id="mobile-variant-options"
           className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[280px] overflow-y-auto rounded-[8px] border border-gray-200 bg-white p-2 shadow-2xl"
         >
-          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
+          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} variants={variants} />
         </div>
       )}
     </div>
@@ -199,7 +208,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
 /**
  * 2x2 Specs Grid Element
  */
-function SpecsGrid() {
+function SpecsGrid({ stats }: { stats: HeroStat[] }) {
   return (
     <div className="relative z-10 flex w-full flex-col self-stretch rounded-[8px] bg-white/20 p-[14px] backdrop-blur-[12px] border border-white/30 shadow-sm">
       {/* Row 1 */}
@@ -207,10 +216,10 @@ function SpecsGrid() {
         {/* Spec 1 */}
         <div className="flex flex-1 flex-col items-start pr-3">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[0].value} <span className="font-sans text-[14px] font-medium">{STATS[0].unit}</span>
+            {stats[0].value} <span className="font-sans text-[14px] font-medium">{stats[0].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[0].label}
+            {stats[0].label}
           </p>
         </div>
 
@@ -220,10 +229,10 @@ function SpecsGrid() {
         {/* Spec 2 */}
         <div className="flex flex-1 flex-col items-start pl-4">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[1].value} <span className="font-sans text-[14px] font-medium">{STATS[1].unit}</span>
+            {stats[1].value} <span className="font-sans text-[14px] font-medium">{stats[1].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[1].label}
+            {stats[1].label}
           </p>
         </div>
       </div>
@@ -236,11 +245,11 @@ function SpecsGrid() {
         {/* Spec 3 */}
         <div className="flex flex-1 flex-col items-start pr-3">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[2].value}
-            <span className="font-sans text-[14px] font-medium">{STATS[2].unit}</span>
+            {stats[2].value}
+            <span className="font-sans text-[14px] font-medium">{stats[2].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[2].label}
+            {stats[2].label}
           </p>
         </div>
 
@@ -250,10 +259,10 @@ function SpecsGrid() {
         {/* Spec 4 */}
         <div className="flex flex-1 flex-col items-start pl-4">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[3].value} <span className="font-sans text-[14px] font-medium">{STATS[3].unit}</span>
+            {stats[3].value} <span className="font-sans text-[14px] font-medium">{stats[3].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[3].label}
+            {stats[3].label}
           </p>
         </div>
       </div>
@@ -264,8 +273,8 @@ function SpecsGrid() {
 /**
  * Desktop Variants Panel
  */
-function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
-  const selected = VARIANTS[selectedIndex];
+function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect, variants }: VariantSelectorProps & { variants: HeroVariant[] }) {
+  const selected = variants[selectedIndex];
   return (
     <div className="relative z-30 flex w-[320px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
@@ -283,7 +292,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
-            <Image src={`${ASSET}${selected.image}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
+            <Image src={`${variantImg(selected.image)}`} alt="" aria-hidden fill sizes="42px" className="object-contain p-0.5" />
           </div>
           <div className="flex flex-col justify-center gap-1 min-w-0">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
@@ -314,7 +323,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           id="desktop-variant-options"
           className="flex flex-col gap-1.5 rounded-lg border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-md"
         >
-          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} />
+          <VariantOptions selectedIndex={selectedIndex} onSelect={onSelect} variants={variants} />
         </div>
       )}
     </div>
@@ -324,7 +333,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
 /**
  * Product Hero Section
  */
-export default function ProductHero() {
+export default function ProductHero({ data }: { data?: StrapiProductHero }) {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [variantsExpanded, setVariantsExpanded] = useState(false);
   const desktopPanelRef = useRef<HTMLDivElement>(null);
@@ -354,7 +363,23 @@ export default function ProductHero() {
     setSelectedVariant(index);
     setVariantsExpanded(false);
   };
-  const selected = VARIANTS[selectedVariant];
+  // CMS-driven content with hardcoded fallbacks (careers page pattern)
+  const stats: HeroStat[] = data?.stats?.length
+    ? data.stats.map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
+    : STATS;
+  const variants: HeroVariant[] = data?.variants?.length
+    ? data.variants.map((v) => ({
+        name: v.name,
+        fullName: v.fullName || v.name,
+        range: v.range || "",
+        price: v.price || "",
+        image: v.image ? mediaUrl(v.image, "${ASSET}vehicle-storm-lr200-clean.png") : "${ASSET}vehicle-storm-lr200-clean.png",
+      }))
+    : VARIANTS;
+  const tagline = data?.tagline || "Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.";
+  const ctaLabel = data?.primaryCta?.label || "Download Brochure";
+
+  const selected = variants[selectedVariant];
 
   return (
     <section
@@ -427,13 +452,13 @@ export default function ProductHero() {
             {selected.fullName}
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
-            Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
+            {tagline}
           </p>
           <a
             href="#book-test-drive"
             className="flex h-[44px] sm:h-[48px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] sm:px-[24px] font-sans text-[14px] sm:text-[15px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
-            <span>Download Brochure</span>
+            <span>{ctaLabel}</span>
             <Arrow color="white" />
           </a>
         </div>
@@ -444,10 +469,10 @@ export default function ProductHero() {
           <Thumbs />
 
           {/* Variants tab pill */}
-          <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
+          <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} variants={variants} />
 
           {/* 2x2 Specs element */}
-          <SpecsGrid />
+          <SpecsGrid stats={stats} />
         </div>
       </div>
 
@@ -459,20 +484,20 @@ export default function ProductHero() {
             {selected.fullName}
           </h1>
           <p className="w-[308.7px] font-sans text-[16px] leading-normal text-ink">
-            Built for intercity and long highway runs. 1,500 kg payload with 200+ km RealRange™ and CCS2 fast charging.
+            {tagline}
           </p>
           <a
             href="#book-test-drive"
             className="flex h-[50.477px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[24px] font-display text-[16px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
-            <span>Download Brochure</span>
+            <span>{ctaLabel}</span>
             <Arrow color="white" />
           </a>
         </div>
 
         {/* Right variants */}
         <div ref={desktopPanelRef} className="absolute right-20 top-[130px]">
-          <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
+          <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} variants={variants} />
         </div>
 
         {/* Bottom-left thumbnails */}
@@ -482,7 +507,7 @@ export default function ProductHero() {
 
         {/* Bottom-right horizontal stats */}
         <div className="absolute bottom-0 right-20 flex w-[720px] items-center justify-between rounded-t-lg bg-white/60 px-5 py-[14px] backdrop-blur-[10px] shadow-sm">
-          {STATS.map((s, i) => (
+          {stats.map((s, i) => (
             <Fragment key={s.label}>
               {i > 0 && <span className="h-[21.143px] w-[0.8px] shrink-0 bg-ink/30" />}
               <div className="flex w-[120px] shrink-0 flex-col gap-[4.8px] whitespace-nowrap">

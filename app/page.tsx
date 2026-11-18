@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
 import Hero from "@/components/sections/Hero";
 import StatsBanner, { Stat } from "@/components/sections/StatsBanner";
 import ProductShowcase, { VehicleData } from "@/components/sections/ProductShowcase";
@@ -13,7 +13,7 @@ import Insights, { InsightsArticleItem } from "@/components/sections/Insights";
 import EnterpriseDealer from "@/components/sections/EnterpriseDealer";
 import ContactSection from "@/components/sections/ContactSection";
 import SocialWall from "@/components/sections/SocialWall";
-import Footer from "@/components/sections/Footer";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import { getHomePageData, mediaUrl } from "@/lib/strapi/client";
 import { ProductItem } from "@/types/strapi";
 
@@ -180,7 +180,7 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <Hero slides={heroSlides} />
 
@@ -358,7 +358,7 @@ export default async function Home() {
           posts={socialPosts && socialPosts.length > 0 ? socialPosts : undefined}
         />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

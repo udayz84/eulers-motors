@@ -9,7 +9,9 @@ const ASSET = "/assets/products/";
 /** Spec tabs — the card keeps the Features layout for every state. */
 const TABS = ["Battery", "Dimensions", "Performance", "Features", "Safety", "Comfort"];
 
-type SpecRow = { icon: string; label: string; value: string };
+export type SpecRow = { icon: string; label: string; value: string };
+
+export type SpecContent = Record<string, { rows: SpecRow[]; image: string; imageAlt: string }>;
 
 /** Features tab rows — Figma 3241:17072 */
 const FEATURES: SpecRow[] = [
@@ -23,7 +25,7 @@ const FEATURES: SpecRow[] = [
   { icon: "spec-ic-doc.svg", label: "Fleet API", value: "On request" },
 ];
 
-const SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }> = {
+export const SPEC_CONTENT: SpecContent = {
   Battery: {
     rows: [
       { icon: "spec-ic-target.svg", label: "Thermal Management", value: "ArcReactor™ Liquid Cooled" },
@@ -296,10 +298,11 @@ export const STORM_T1500_SPEC_CONTENT: Record<string, { rows: SpecRow[]; image: 
 export default function ProductSpecs({
   specContent = SPEC_CONTENT,
 }: {
-  specContent?: Record<string, { rows: SpecRow[]; image: string; imageAlt: string }>;
+  specContent?: SpecContent;
 } = {}) {
-  const [activeTab, setActiveTab] = useState("Battery");
   const content = specContent || SPEC_CONTENT;
+  const tabs = Object.keys(content).length ? Object.keys(content) : TABS;
+  const [activeTab, setActiveTab] = useState(tabs[0] || "Battery");
   const currentSpec = content[activeTab] || SPEC_CONTENT[activeTab];
   const activeTabIndex = TABS.indexOf(activeTab);
   const currentImage = currentSpec?.image || (activeTabIndex % 2 === 0
@@ -328,7 +331,7 @@ export default function ProductSpecs({
             desktop: pills tucked into the card's top notch */}
         <div className="relative isolate flex w-full max-w-[680px] lg:max-w-[1282px] flex-col items-center gap-5 lg:block">
           <div className="relative z-10 mt-2.5 flex w-full flex-row flex-nowrap items-center gap-2 overflow-x-auto scrollbar-none lg:absolute lg:left-1/2 lg:top-[11.54px] lg:mt-0 lg:w-auto lg:-translate-x-1/2 lg:gap-0 lg:overflow-visible">
-            {TABS.map((tab) => {
+            {tabs.map((tab) => {
               const active = tab === activeTab;
               return (
                 <button

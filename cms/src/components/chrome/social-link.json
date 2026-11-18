@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_chrome_social_links",
+  "info": { "displayName": "Social Link", "icon": "earth", "description": "Social profile link with icon asset path" },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "href": { "type": "string", "required": true },
+    "icon": { "type": "string" },
+    "flip": { "type": "boolean", "default": false }
+  }
+}

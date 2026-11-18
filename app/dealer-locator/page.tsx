@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
 import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
-import Footer from "@/components/sections/Footer";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import DealerContactSection from "@/components/sections/DealerContactSection";
 import {
   getChargingStations,
@@ -41,12 +41,12 @@ export default async function DealerLocatorPage() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="dealer" {...heroProps} />
         <DealerContactSection {...data?.contactSection} />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_press_contact_sections",
+  "info": {
+    "displayName": "Press Contact Section",
+    "icon": "envelope",
+    "description": "Press enquiries banner with communications email"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Looking to speak with Euler Motors?"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "For media enquiries, interviews or press requests, our communications team is here to help."
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "Contact communications"
+    },
+    "email": {
+      "type": "string",
+      "default": "press@eulermotors.com"
+    }
+  }
+}

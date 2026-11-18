@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_press_media_kit_sections",
+  "info": {
+    "displayName": "Media Kit Section",
+    "icon": "download",
+    "description": "Media kit downloads carousel"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Media kit"
+    },
+    "title": {
+      "type": "string",
+      "default": "Everything you need to cover Euler"
+    },
+    "subtitle": {
+      "type": "text",
+      "default": "Official company information, brand assets and media resources, all in one place."
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "press.media-kit-item"
+    }
+  }
+}

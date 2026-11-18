@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_faq_items",
+  "info": {
+    "displayName": "FAQ Item",
+    "icon": "question",
+    "description": "A single question and answer with its category"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "answer": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

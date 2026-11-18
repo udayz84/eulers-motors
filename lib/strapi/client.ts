@@ -15,6 +15,15 @@ import {
   StrapiLeadershipMember,
   StrapiAward,
   StrapiEsgReport,
+  StrapiFaqPageData,
+  StrapiInPressPageData,
+  StrapiInsightsPageData,
+  StrapiPrivacyPolicyPageData,
+  StrapiRefundPolicyPageData,
+  StrapiTermsConditionsPageData,
+  StrapiProductDetail,
+  StrapiNavbarData,
+  StrapiFooterData,
 } from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
 import {
@@ -28,6 +37,16 @@ import {
   DEFAULT_LEADERSHIP_MEMBERS,
   DEFAULT_TIMELINE_MILESTONES,
 } from "./defaults/about";
+import { defaultFaqPageData } from "./defaults/faq";
+import { defaultInPressPageData } from "./defaults/press";
+import { defaultInsightsPageData } from "./defaults/insights";
+import { defaultCareersPageData, defaultCareerPositions } from "./defaults/careers";
+import { defaultNavbarData, defaultFooterData } from "./defaults/chrome";
+import {
+  defaultPrivacyPolicyPageData,
+  defaultRefundPolicyPageData,
+  defaultTermsConditionsPageData,
+} from "./defaults/legal";
 
 const STRAPI_BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
@@ -654,7 +673,7 @@ export async function getCareersPageData(): Promise<StrapiCareersPageData> {
       populate,
       revalidate: 60,
     },
-    {} as StrapiCareersPageData
+    defaultCareersPageData
   );
 }
 
@@ -668,7 +687,330 @@ export async function getCareerPositions(): Promise<StrapiCareerPosition[]> {
       sort: ["order:asc", "id:asc"],
       revalidate: 60,
     },
-    []
+    defaultCareerPositions
+  );
+}
+
+/**
+ * Fetch FAQ Page Single Type
+ */
+export async function getFaqPageData(): Promise<StrapiFaqPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    faqsSection: {
+      populate: {
+        categories: { populate: "*" },
+        items: { populate: "*" },
+      },
+    },
+    quickHelpSection: {
+      populate: {
+        items: {
+          populate: {
+            icon: { populate: "*" },
+          },
+        },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiFaqPageData>(
+    "faq-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultFaqPageData
+  );
+}
+
+/**
+ * Fetch In-Press (Newsroom) Page Single Type
+ */
+export async function getInPressPageData(): Promise<StrapiInPressPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    featuredSection: {
+      populate: {
+        stories: {
+          populate: {
+            image: { populate: "*" },
+          },
+        },
+      },
+    },
+    coverageSection: {
+      populate: {
+        categories: { populate: "*" },
+        articles: { populate: "*" },
+      },
+    },
+    mediaKitSection: {
+      populate: {
+        items: { populate: "*" },
+      },
+    },
+    contactSection: { populate: "*" },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiInPressPageData>(
+    "in-press-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultInPressPageData
+  );
+}
+
+/**
+ * Fetch Insights (Blog) Page Single Type
+ */
+export async function getInsightsPageData(): Promise<StrapiInsightsPageData> {
+  const articlePopulate = {
+    image: { populate: "*" },
+    authorImage: { populate: "*" },
+  };
+
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    featuredSection: {
+      populate: {
+        articles: { populate: articlePopulate },
+      },
+    },
+    listingSection: {
+      populate: {
+        categories: { populate: "*" },
+        articles: { populate: articlePopulate },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiInsightsPageData>(
+    "insights-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultInsightsPageData
+  );
+}
+
+/**
+ * Fetch Privacy Policy Page Single Type
+ */
+export async function getPrivacyPolicyPageData(): Promise<StrapiPrivacyPolicyPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    intro: { populate: "*" },
+    sections: { populate: "*" },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiPrivacyPolicyPageData>(
+    "privacy-policy",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultPrivacyPolicyPageData
+  );
+}
+
+/**
+ * Fetch Refund Policy Page Single Type
+ */
+export async function getRefundPolicyPageData(): Promise<StrapiRefundPolicyPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    intro: { populate: "*" },
+    callouts: {
+      populate: {
+        items: { populate: "*" },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiRefundPolicyPageData>(
+    "refund-policy",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultRefundPolicyPageData
+  );
+}
+
+/**
+ * Fetch Terms & Conditions Page Single Type
+ */
+export async function getTermsConditionsPageData(): Promise<StrapiTermsConditionsPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
+      },
+    },
+    intro: { populate: "*" },
+    sections: { populate: "*" },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiTermsConditionsPageData>(
+    "terms-conditions",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultTermsConditionsPageData
+  );
+}
+
+/**
+ * Fetch a single Product with its detail sections (specs + variants comparison)
+ * deeply populated. Returns null when Strapi is offline or the slug is unknown;
+ * per-product hardcoded fallbacks cover both cases in the product pages.
+ */
+export async function getProductDetail(slug: string): Promise<StrapiProductDetail | null> {
+  const response = await fetchStrapi<StrapiProductDetail[]>("products", {
+    filters: { slug: { $eq: slug } },
+    populate: {
+      specs: {
+        populate: {
+          categories: {
+            populate: {
+              rows: { populate: "*" },
+              image: { populate: "*" },
+            },
+          },
+        },
+      },
+      variantsCompare: {
+        populate: {
+          truckImage: { populate: "*" },
+          variants: { populate: "*" },
+        },
+      },
+      hero: {
+        populate: {
+          stats: { populate: "*" },
+          primaryCta: { populate: "*" },
+          secondaryCta: { populate: "*" },
+          variants: {
+            populate: {
+              image: { populate: "*" },
+            },
+          },
+          mainImage: { populate: "*" },
+          gallery: { populate: "*" },
+          brochureFile: { populate: "*" },
+        },
+      },
+      overview: {
+        populate: {
+          cards: {
+            populate: {
+              image: { populate: "*" },
+            },
+          },
+        },
+      },
+      loanCalculator: {
+        populate: {
+          partners: { populate: "*" },
+          cta: { populate: "*" },
+        },
+      },
+      otherVehicles: {
+        populate: {
+          vehicles: { populate: "*" },
+        },
+      },
+      reviews: { populate: "*" },
+    },
+    revalidate: 60,
+  });
+
+  return response?.data?.[0] ?? null;
+}
+
+/**
+ * Fetch Navbar Single Type (site chrome)
+ */
+export async function getNavbarData(): Promise<StrapiNavbarData> {
+  const populate = {
+    links: { populate: "*" },
+    companyLinks: { populate: "*" },
+    supportLinks: { populate: "*" },
+    productLinks: { populate: "*" },
+    megaVehicles: {
+      populate: {
+        image: { populate: "*" },
+      },
+    },
+  };
+
+  return getSingleType<StrapiNavbarData>(
+    "navbar",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultNavbarData
+  );
+}
+
+/**
+ * Fetch Footer Single Type (site chrome)
+ */
+export async function getFooterData(): Promise<StrapiFooterData> {
+  const populate = {
+    columns: {
+      populate: {
+        links: { populate: "*" },
+      },
+    },
+    socials: { populate: "*" },
+  };
+
+  return getSingleType<StrapiFooterData>(
+    "footer",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultFooterData
   );
 }
 

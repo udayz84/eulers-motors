@@ -1,0 +1,9 @@
+{
+  "collectionName": "components_chrome_nav_links",
+  "info": { "displayName": "Nav Link", "icon": "link", "description": "Main navbar link" },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "href": { "type": "string", "required": true }
+  }
+}

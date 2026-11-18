@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_faq_quick_help_cards",
+  "info": {
+    "displayName": "Quick Help Card",
+    "icon": "cursor",
+    "description": "Quick help action card with icon, copy, and link"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "buttonText": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

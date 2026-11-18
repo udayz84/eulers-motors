@@ -1,0 +1,9 @@
+{
+  "collectionName": "components_chrome_footer_links",
+  "info": { "displayName": "Footer Link", "icon": "link", "description": "Single footer column link" },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "href": { "type": "string", "required": true }
+  }
+}

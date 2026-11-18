@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_press_heroes",
+  "info": {
+    "displayName": "Press Hero",
+    "icon": "newspaper",
+    "description": "Newsroom banner eyebrow, heading, description, and CTA"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Newsroom"
+    },
+    "title": {
+      "type": "string",
+      "default": "In the News"
+    },
+    "description": {
+      "type": "text",
+      "default": "See the latest media coverage, company announcements and industry updates from Euler Motors."
+    },
+    "ctaLabel": {
+      "type": "string",
+      "default": "Download Media Kit"
+    },
+    "ctaHref": {
+      "type": "string",
+      "default": "#media-kit"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

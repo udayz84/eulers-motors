@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "footers",
+  "info": {
+    "singularName": "footer",
+    "pluralName": "footers",
+    "displayName": "Footer",
+    "description": "Site footer: logo, link columns, social profiles, and legal line"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": {},
+  "attributes": {
+    "logo": { "type": "string" },
+    "columns": { "type": "component", "repeatable": true, "component": "chrome.footer-column" },
+    "socials": { "type": "component", "repeatable": true, "component": "chrome.social-link" },
+    "copyright": { "type": "string" },
+    "cin": { "type": "string" }
+  }
+}

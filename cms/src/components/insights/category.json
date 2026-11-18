@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_insights_categories",
+  "info": {
+    "displayName": "Insights Category",
+    "icon": "tag",
+    "description": "Article category pill label"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

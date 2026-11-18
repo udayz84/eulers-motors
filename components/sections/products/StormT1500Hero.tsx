@@ -4,8 +4,14 @@ import { Fragment, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
+import type { StrapiProductHero } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 const ASSET = "/assets/products/";
+
+// Variant images may come from the CMS as absolute /uploads/... URLs or as
+// bare filenames in /assets/products/ — resolve both.
+const variantImg = (p: string) => (p.startsWith("/") || p.startsWith("http")) ? p : `${ASSET}${p}`;
 
 const STATS = [
   { value: "210", unit: "km", label: "Certified Range" },
@@ -19,6 +25,9 @@ const STORM_T1500_VARIANTS = [
   { name: "T1500 PV", fullName: "Storm EV T1500 PV", range: "210 km ARAI", price: "₹12.50 L", image: "vehicle-storm-t1500-clean.png" },
   { name: "T1500 FB", fullName: "Storm EV T1500 FB", range: "210 km ARAI", price: "₹12.60 L", image: "vehicle-storm-t1500-clean.png" },
 ];
+
+type HeroStat = { value: string; unit: string; label: string };
+type HeroVariant = { name: string; fullName?: string; range: string; price: string; image: string };
 
 type VariantSelectorProps = {
   selectedIndex: number;
@@ -74,8 +83,8 @@ function Thumbs({ className = "" }: { className?: string }) {
   );
 }
 
-function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
-  const selected = STORM_T1500_VARIANTS[selectedIndex];
+function VariantsTab({ selectedIndex, expanded, onToggle, onSelect, variants }: VariantSelectorProps & { variants: HeroVariant[] }) {
+  const selected = variants[selectedIndex];
   return (
     <div className="relative z-40 flex w-full flex-col rounded-[8px] border border-white/40 bg-white/20 p-1.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between">
@@ -94,7 +103,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
         >
           <div className="flex items-center gap-2">
             <div className="relative size-[30.414px] shrink-0 overflow-hidden rounded-[5.799px] bg-[#D9D9D9]">
-              <Image src={`${ASSET}${selected.image}`} alt={selected.name} fill sizes="30px" className="object-contain p-0.5" />
+              <Image src={`${variantImg(selected.image)}`} alt={selected.name} fill sizes="30px" className="object-contain p-0.5" />
             </div>
             <div className="flex flex-col justify-center items-start gap-[2px]">
               <span className="font-sans text-[14px] font-bold leading-[115%] tracking-[-0.28px] text-[#0E2F6D]">
@@ -132,7 +141,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
           className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[280px] overflow-y-auto rounded-[8px] border border-gray-200 bg-white p-2 shadow-2xl"
         >
           <div className="flex flex-col gap-1.5">
-            {STORM_T1500_VARIANTS.map((v, i) => (
+            {variants.map((v, i) => (
               <button
                 key={v.name}
                 type="button"
@@ -144,7 +153,7 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
               >
                 <div className="flex items-center gap-2">
                   <div className="relative size-7 shrink-0 overflow-hidden rounded bg-gray-100">
-                    <Image src={`${ASSET}${v.image}`} alt="" fill sizes="28px" className="object-contain p-0.5" />
+                    <Image src={`${variantImg(v.image)}`} alt="" fill sizes="28px" className="object-contain p-0.5" />
                   </div>
                   <span className="text-[13px]">{v.name}</span>
                 </div>
@@ -158,8 +167,8 @@ function VariantsTab({ selectedIndex, expanded, onToggle, onSelect }: VariantSel
   );
 }
 
-function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: VariantSelectorProps) {
-  const selected = STORM_T1500_VARIANTS[selectedIndex];
+function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect, variants }: VariantSelectorProps & { variants: HeroVariant[] }) {
+  const selected = variants[selectedIndex];
   return (
     <div className="relative z-30 flex w-[285px] flex-col gap-3 rounded-lg border border-white/30 bg-white/20 p-[14px] shadow-sm backdrop-blur-[12px]">
       <p className="w-full font-sans text-[14px] font-bold uppercase leading-normal tracking-[0.7px] text-[#0E2F6D]">
@@ -177,7 +186,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="relative size-[42px] shrink-0 overflow-hidden rounded-[6px] bg-[#D9D9D9]">
-            <Image src={`${ASSET}${selected.image}`} alt="" fill sizes="42px" className="object-contain p-0.5" />
+            <Image src={`${variantImg(selected.image)}`} alt="" fill sizes="42px" className="object-contain p-0.5" />
           </div>
           <div className="flex flex-col justify-center gap-1 min-w-0">
             <p className="whitespace-nowrap font-sans text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#0E2F6D]">
@@ -209,7 +218,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
           id="storm-t1500-desktop-variant-options"
           className="flex flex-col gap-1.5 rounded-lg border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-md"
         >
-          {STORM_T1500_VARIANTS.map((v, i) => (
+          {variants.map((v, i) => (
             <button
               key={v.name}
               type="button"
@@ -221,7 +230,7 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
             >
               <div className="flex items-center gap-2">
                 <div className="relative size-8 shrink-0 overflow-hidden rounded bg-gray-100">
-                  <Image src={`${ASSET}${v.image}`} alt="" fill sizes="32px" className="object-contain p-0.5" />
+                  <Image src={`${variantImg(v.image)}`} alt="" fill sizes="32px" className="object-contain p-0.5" />
                 </div>
                 <span className="text-[13px]">{v.name}</span>
               </div>
@@ -234,25 +243,25 @@ function DesktopVariantsPanel({ selectedIndex, expanded, onToggle, onSelect }: V
   );
 }
 
-function SpecsGrid() {
+function SpecsGrid({ stats }: { stats: HeroStat[] }) {
   return (
     <div className="relative z-10 flex w-full flex-col items-center justify-center rounded-[8px] border border-white/40 bg-white/20 p-2.5 shadow-sm backdrop-blur-[12px]">
       <div className="flex w-full items-center justify-between pb-2.5">
         <div className="flex flex-1 flex-col items-start pr-3">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[0].value} <span className="font-sans text-[14px] font-medium">{STATS[0].unit}</span>
+            {stats[0].value} <span className="font-sans text-[14px] font-medium">{stats[0].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[0].label}
+            {stats[0].label}
           </p>
         </div>
         <div className="h-[38px] w-[1px] bg-[#121212]/15" />
         <div className="flex flex-1 flex-col items-start pl-4">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[1].value} <span className="font-sans text-[14px] font-medium">{STATS[1].unit}</span>
+            {stats[1].value} <span className="font-sans text-[14px] font-medium">{stats[1].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[1].label}
+            {stats[1].label}
           </p>
         </div>
       </div>
@@ -260,19 +269,19 @@ function SpecsGrid() {
       <div className="flex w-full items-center justify-between pt-2.5">
         <div className="flex flex-1 flex-col items-start pr-3">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[2].value} <span className="font-sans text-[14px] font-medium">{STATS[2].unit}</span>
+            {stats[2].value} <span className="font-sans text-[14px] font-medium">{stats[2].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[2].label}
+            {stats[2].label}
           </p>
         </div>
         <div className="h-[38px] w-[1px] bg-[#121212]/15" />
         <div className="flex flex-1 flex-col items-start pl-4">
           <p className="font-display text-[20px] font-semibold leading-[115%] tracking-[-0.4px] text-[#121212]">
-            {STATS[3].value} <span className="font-sans text-[14px] font-medium">{STATS[3].unit}</span>
+            {stats[3].value} <span className="font-sans text-[14px] font-medium">{stats[3].unit}</span>
           </p>
           <p className="font-sans text-[14px] font-medium capitalize leading-normal text-[#121212]">
-            {STATS[3].label}
+            {stats[3].label}
           </p>
         </div>
       </div>
@@ -280,7 +289,7 @@ function SpecsGrid() {
   );
 }
 
-export default function StormT1500Hero() {
+export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [variantsExpanded, setVariantsExpanded] = useState(false);
   const desktopPanelRef = useRef<HTMLDivElement>(null);
@@ -310,7 +319,23 @@ export default function StormT1500Hero() {
     setSelectedVariant(index);
     setVariantsExpanded(false);
   };
-  const selected = STORM_T1500_VARIANTS[selectedVariant];
+  // CMS-driven content with hardcoded fallbacks (careers page pattern)
+  const stats: HeroStat[] = data?.stats?.length
+    ? data.stats.map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
+    : STATS;
+  const variants: HeroVariant[] = data?.variants?.length
+    ? data.variants.map((v) => ({
+        name: v.name,
+        fullName: v.fullName || v.name,
+        range: v.range || "",
+        price: v.price || "",
+        image: v.image ? mediaUrl(v.image, "${ASSET}vehicle-storm-t1500-clean.png") : "${ASSET}vehicle-storm-t1500-clean.png",
+      }))
+    : STORM_T1500_VARIANTS;
+  const tagline = data?.tagline || "India\u2019s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.";
+  const ctaLabel = data?.primaryCta?.label || "Download Brochure";
+
+  const selected = variants[selectedVariant];
 
   return (
     <section
@@ -382,21 +407,21 @@ export default function StormT1500Hero() {
             {selected.fullName}
           </h1>
           <p className="w-[308.685px] sm:w-[420px] max-w-full font-sans text-[12px] sm:text-[14px] font-normal leading-normal text-[#121212]">
-            India&apos;s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.
+            {tagline}
           </p>
           <a
             href="#book-test-drive"
             className="flex h-[44px] sm:h-[48px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[20px] sm:px-[24px] font-sans text-[14px] sm:text-[15px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
-            <span>Download Brochure</span>
+            <span>{ctaLabel}</span>
             <Arrow color="white" />
           </a>
         </div>
 
         <div ref={mobilePanelRef} className="relative z-20 flex w-full flex-col items-start gap-3">
           <Thumbs />
-          <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
-          <SpecsGrid />
+          <VariantsTab selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} variants={variants} />
+          <SpecsGrid stats={stats} />
         </div>
       </div>
 
@@ -408,20 +433,20 @@ export default function StormT1500Hero() {
             {selected.fullName}
           </h1>
           <p className="w-[310px] font-sans text-[16px] leading-normal text-ink">
-            India&apos;s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.
+            {tagline}
           </p>
           <a
             href="#book-test-drive"
             className="flex h-[50.477px] items-center justify-center gap-[8px] rounded-[4px] bg-[#121212] px-[24px] font-display text-[16px] font-semibold text-white transition-transform active:scale-[0.98]"
           >
-            <span>Download Brochure</span>
+            <span>{ctaLabel}</span>
             <Arrow color="white" />
           </a>
         </div>
 
         {/* Right variants */}
         <div ref={desktopPanelRef} className="absolute right-20 top-[130px]">
-          <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} />
+          <DesktopVariantsPanel selectedIndex={selectedVariant} expanded={variantsExpanded} onToggle={toggleVariants} onSelect={selectVariant} variants={variants} />
         </div>
 
         {/* Bottom-left thumbnails */}
@@ -431,7 +456,7 @@ export default function StormT1500Hero() {
 
         {/* Bottom-right horizontal stats */}
         <div className="absolute bottom-0 right-20 flex w-[720px] items-center justify-between rounded-t-lg bg-white/60 px-5 py-[14px] backdrop-blur-[10px] shadow-sm">
-          {STATS.map((s, i) => (
+          {stats.map((s, i) => (
             <Fragment key={s.label}>
               {i > 0 && <span className="h-[21.143px] w-[0.8px] shrink-0 bg-ink/30" />}
               <div className="flex w-[120px] shrink-0 flex-col gap-[4.8px] whitespace-nowrap">

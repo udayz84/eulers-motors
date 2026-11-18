@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_legal_callouts",
+  "info": {
+    "displayName": "Legal Callout",
+    "icon": "layer",
+    "description": "Highlighted policy callout with a bulleted list"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "legal.list-item"
+    }
+  }
+}

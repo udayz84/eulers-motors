@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
-type VehicleCard = {
+export type VehicleCard = {
   id: string;
   name: string;
   image: string;
@@ -123,12 +123,19 @@ const ALL_OTHER_VEHICLES: VehicleCard[] = [
  * Unified slider: continuous desktop auto-scroll (no hover pause), draggable mouse,
  * blue navigation arrows with boundary auto-hide, and Figma 3321:13258 progress pill.
  */
-export default function ProductOtherVehicles({ currentVehicleId }: { currentVehicleId?: string } = {}) {
+export default function ProductOtherVehicles({
+  currentVehicleId,
+  vehicles,
+}: {
+  currentVehicleId?: string;
+  vehicles?: VehicleCard[];
+} = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const sourceVehicles = vehicles && vehicles.length ? vehicles : ALL_OTHER_VEHICLES;
   const displayVehicles = currentVehicleId
-    ? ALL_OTHER_VEHICLES.filter((v) => v.id !== currentVehicleId).slice(0, 3)
+    ? sourceVehicles.filter((v) => v.id !== currentVehicleId).slice(0, 3)
     : VEHICLES;
 
   // Display exactly the 3 other vehicles (no infinite loop/duplication)

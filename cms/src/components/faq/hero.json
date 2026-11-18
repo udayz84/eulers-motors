@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_faq_heroes",
+  "info": {
+    "displayName": "FAQ Hero",
+    "icon": "question",
+    "description": "FAQ page banner eyebrow, heading, and description"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Help centre"
+    },
+    "title": {
+      "type": "string",
+      "default": "Frequently asked questions"
+    },
+    "description": {
+      "type": "text",
+      "default": "Find answers to the most common questions about our vehicles, charging, service, warranty and more."
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "mobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

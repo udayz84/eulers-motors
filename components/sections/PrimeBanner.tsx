@@ -28,10 +28,10 @@ const DEFAULT_FEATURES: PrimeFeature[] = [
 
 /**
  * Euler Prime banner (desktop 1:1819 · mobile 1:4894).
- * Desktop: exact Figma layer stack — bg-3 sits on top (103.32%×106.74%),
- * so the white base, bg-1/bg-2 and the gradient renders beneath it, clipped.
- * Mobile: black base + a single bg-3 strip in the bottom half, right-anchored
- * (178.63% × 51.83% at (-78.67, 48.03)), content top-aligned at 36.33px.
+ * Desktop & Tablet (>=768px): Uses the widescreen art stack with the truck positioned
+ * on the right half, a dark gradient backdrop on the left for maximum contrast and legibility,
+ * and a 2-column feature grid that keeps all copy completely clear of the vehicle.
+ * Mobile (<768px): Single-column content with vertical readability gradient overlay.
  */
 export default function PrimeBanner({
   eyebrow = "Euler Prime",
@@ -47,10 +47,14 @@ export default function PrimeBanner({
   const showCta = Boolean(ctaLabel && ctaHref);
 
   return (
-    <section id="prime-banner" className="relative h-[620px] overflow-clip bg-black lg:h-[600px] lg:bg-white" aria-label="Euler Prime">
+    <section
+      id="prime-banner"
+      className="relative min-h-[620px] md:h-[600px] overflow-clip bg-[#030a18] md:bg-white"
+      aria-label="Euler Prime"
+    >
       <div aria-hidden className="absolute inset-0 pointer-events-none">
-        {/* mobile background */}
-        <div className="absolute inset-0 overflow-hidden lg:hidden">
+        {/* mobile background (<768px) */}
+        <div className="absolute inset-0 overflow-hidden md:hidden">
           {mobileBackgroundImage ? (
             <Image
               src={mobileBackgroundImage}
@@ -80,9 +84,18 @@ export default function PrimeBanner({
               style={{ left: "-78.67%", top: "48.03%", width: "178.63%", height: "51.83%" }}
             />
           )}
+          {/* Mobile dark vignette overlay to ensure text is 100% readable over vehicle */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(3,10,24,0.95) 0%, rgba(3,10,24,0.85) 45%, rgba(3,10,24,0.3) 75%, rgba(3,10,24,0.85) 100%)",
+            }}
+          />
         </div>
-        {/* desktop background stack */}
-        <div className="absolute inset-0 hidden lg:block">
+
+        {/* desktop & tablet background stack (>=768px) */}
+        <div className="absolute inset-0 hidden md:block">
           {backgroundImage ? (
             <Image
               src={backgroundImage}
@@ -99,7 +112,7 @@ export default function PrimeBanner({
               fill
               sizes="100vw"
               priority
-              className="object-cover object-center"
+              className="object-cover object-[75%_center] lg:object-center"
             />
           ) : (
             <>
@@ -134,55 +147,58 @@ export default function PrimeBanner({
               />
             </>
           )}
+
+          {/* Left-side dark vignette on tablet/desktop to keep left column clear & readable */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(3,10,24,0.92) 0%, rgba(3,10,24,0.82) 32%, rgba(3,10,24,0.35) 55%, rgba(3,10,24,0) 75%)",
+            }}
+          />
         </div>
       </div>
-      {/* Container Background (Figma 1:1820) — frosted-glass panel over the
-          left bg stack: inner backdrop-blur 16 + black/20 wash, its edges
-          softened by the 102.15px gaussian on the wrapper */}
-      <div aria-hidden className="absolute -left-[204.85px] -top-[74.54px] hidden h-[816.697px] w-[646.484px] blur-[102.15px] lg:block">
+
+      {/* Container Background (Figma 1:1820) — frosted-glass panel over left background */}
+      <div
+        aria-hidden
+        className="absolute -left-[204.85px] -top-[74.54px] hidden h-[816.697px] w-[646.484px] blur-[102.15px] md:block"
+      >
         <div className="absolute inset-0 bg-black/20 backdrop-blur-[16px]" />
       </div>
 
-      {/* desktop column per Figma 1:1821: left 80px inside the 1440px frame,
-          vertically centered, w 636. The anchor tracks the centered 1440px
-          frame on wider viewports (50vw-640px = frame left + 80px), floored
-          at 80px below it; the bg art scales with the viewport. Mobile stays
-          top-left as before. Below 1440px the truck (bg-3, 105vw wide) slides
-          left under the fixed 80px anchor, so the column is capped at 39vw
-          and the text scales down to keep clear of the vehicle; min-[1440px]
-          restores the exact Figma values. */}
-      <div className="absolute inset-0 flex flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)] lg:justify-center lg:gap-[18px] min-[1440px]:gap-[25px] lg:px-0 lg:pl-[max(80px,calc(50vw-640px))] lg:pt-0">
+      {/* Content column: left-anchored on tablet & desktop, keeps all text & cards clear of truck */}
+      <div className="relative z-10 flex min-h-[620px] md:min-h-0 md:h-full flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] pb-8 md:justify-center md:gap-[18px] min-[1440px]:gap-[25px] md:pt-0 md:pb-0 md:px-0 md:pl-[max(32px,calc(50vw-640px))] lg:pl-[max(80px,calc(50vw-640px))] md:w-[calc(max(32px,calc(50vw-640px))+min(520px,46vw))] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)]">
         {eyebrow && <Eyebrow label={eyebrow} dark />}
-        <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white lg:max-w-none lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
+        <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white md:max-w-none md:text-[34px] lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
           {title}
         </h2>
 
-        {/* Service page specific text */}
+        {/* Service page specific subtitle */}
         {isServicePage && (
-          <p className="w-[295.766px] font-sans text-[12px] font-normal leading-normal text-[#ccc] lg:w-[413px] lg:self-stretch lg:text-[16px] lg:leading-normal lg:!text-[#FFF]">
+          <p className="w-full max-w-[340px] font-sans text-[12px] font-normal leading-normal text-[#ccc] md:max-w-[480px] md:text-[15px] lg:text-[16px] lg:leading-normal md:!text-[#FFF]">
             Return the car within 24 hours, and we&apos;ll provide you with a complimentary spare vehicle.
           </p>
         )}
 
-        {/* features — desktop: 2-column grid when >3 items so text stays clear of the truck;
-            single row for <=3 short items; mobile: stacked column */}
+        {/* features — 2-column grid on tablet/desktop to keep height compact and clear of the vehicle */}
         {currentFeatures.length > 0 && (
           <div
-            className={`w-full max-w-[353px] rounded-[5.5px] bg-navy/35 p-2.5 backdrop-blur-[4px] glass-rim lg:max-w-none lg:rounded-[10px] lg:p-4 min-[1440px]:p-5 ${
+            className={`w-full max-w-[353px] rounded-[5.5px] bg-navy/40 p-2.5 backdrop-blur-[6px] glass-rim md:max-w-none md:rounded-[10px] md:p-3.5 lg:p-4 min-[1440px]:p-5 ${
               currentFeatures.length > 3
-                ? "flex flex-col items-start gap-[11px] lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-3.5"
-                : "flex flex-col items-start gap-[11px] lg:flex-row lg:flex-wrap lg:items-center lg:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5"
+                ? "flex flex-col items-start gap-[11px] md:grid md:grid-cols-2 md:gap-x-5 md:gap-y-3 lg:gap-x-6 lg:gap-y-3.5"
+                : "flex flex-col items-start gap-[11px] md:flex-row md:flex-wrap md:items-center md:gap-4 min-[1440px]:flex-nowrap min-[1440px]:gap-5"
             }`}
           >
             {currentFeatures.map((f, i) => (
               <Fragment key={`${f.value}-${i}`}>
-                <div className="flex items-center gap-[5.5px] lg:flex-col lg:items-start lg:gap-1.5">
-                  <span className="font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] lg:text-[18px] lg:tracking-[-0.36px] min-[1440px]:text-[20px] min-[1440px]:tracking-[-0.4px]">
+                <div className="flex items-center gap-[5.5px] md:flex-col md:items-start md:gap-1.5">
+                  <span className="font-display text-[14px] font-bold leading-[1.15] tracking-[-0.28px] text-[#f3f4f5] md:text-[16px] lg:text-[18px] lg:tracking-[-0.36px] min-[1440px]:text-[20px] min-[1440px]:tracking-[-0.4px]">
                     {f.value}
                   </span>
-                  {/* mobile separator — sits between value and label (Figma 1:4905) */}
-                  <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 lg:hidden" />
-                  <span className="text-[12px] leading-snug text-[#ccc] lg:text-[13px] min-[1440px]:text-[14px]">
+                  {/* mobile separator — sits between value and label */}
+                  <span aria-hidden className="h-[4.4px] w-[5px] shrink-0 rounded-full bg-white/50 md:hidden" />
+                  <span className="text-[12px] leading-snug text-[#ccc] md:text-[13px] min-[1440px]:text-[14px]">
                     {f.label}
                   </span>
                 </div>
@@ -201,7 +217,7 @@ export default function PrimeBanner({
         {showCta && (
           <a
             href={ctaHref}
-            className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 font-display text-[12px] font-semibold leading-none text-navy lg:h-[50.477px] lg:px-6 lg:text-[16px]"
+            className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 font-display text-[12px] font-semibold leading-none text-navy md:h-[46px] lg:h-[50.477px] md:px-6 md:text-[15px] lg:text-[16px] transition-opacity hover:opacity-90"
           >
             {ctaLabel}
             <Arrow color="navy" />

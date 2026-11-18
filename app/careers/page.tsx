@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/sections/Footer";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import CareersClientView from "@/components/sections/careers/CareersClientView";
 import { getCareersPageData, getCareerPositions, mediaUrl } from "@/lib/strapi/client";
 
@@ -62,11 +62,11 @@ export default async function CareersPage() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <CareersClientView data={data} positions={positions} />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_insights_heroes",
+  "info": {
+    "displayName": "Insights Hero",
+    "icon": "bulb",
+    "description": "Insights listing banner eyebrow, heading, and description"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Insights"
+    },
+    "title": {
+      "type": "string",
+      "default": "Stories, Ideas & Insights"
+    },
+    "description": {
+      "type": "text",
+      "default": "Practical thinking about electric commercial mobility, from technology and operations to the business of running a fleet."
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

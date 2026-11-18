@@ -3,13 +3,24 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
+import type { StrapiProductOverviewSection } from "@/types/strapi";
 
 /**
- * "What this vehicle is good at." — Figma node 3453:13505 (and 3453:13501)
+ * "{sectionTitle}" — Figma node 3453:13505 (and 3453:13501)
  * Desktop: 2-row Bento grid (3 top, 2 bottom) with Figma Default-state fly-in assembly animation.
  * Mobile (<1024px): Touch-friendly snap carousel with next-card peek & interactive progress pill.
  */
-export default function ProductOverview() {
+export default function ProductOverview({ data }: { data?: StrapiProductOverviewSection }) {
+  const fallbackCards = [
+    { title: "Features", description: "Designed for Indian roads, rugged for heat. Fast charging, long range, smart connectivity." },
+    { title: "Shepherd App", description: "Track battery health, trips, charging, and updates from one dashboard." },
+    { title: "Benefits", description: "Lower costs with less fuel and maintenance. Reliable, quiet, eco-friendly performance." },
+    { title: "Ideal for", description: "Fleet owners and transport businesses. 10 vehicles and up." },
+    { title: "Key Use Cases", description: "Ideal for last-mile delivery and fleet operations, designed for daily routes in urban areas." },
+  ];
+  const cards = data?.cards?.length ? data.cards : fallbackCards;
+  const card = (i: number) => cards[i] ?? fallbackCards[i];
+  const sectionTitle = data?.title || "What this vehicle is good at.";
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -112,10 +123,10 @@ export default function ProductOverview() {
           }}
         >
           <div className="flex h-6 items-center">
-            <Eyebrow label="Overview" icons="navy" className="font-bold" />
+            <Eyebrow label={data?.eyebrow || "Overview"} icons="navy" className="font-bold" />
           </div>
           <h2 className="font-display text-[30px] font-semibold leading-[1.15] tracking-[-0.64px] text-ink sm:text-[40px] lg:text-[52px] lg:tracking-[-1.04px]">
-            What this vehicle is good at.
+            {sectionTitle}
           </h2>
         </div>
 
@@ -140,10 +151,10 @@ export default function ProductOverview() {
             >
               <div className="absolute right-[16px] top-[18px] z-10 flex max-w-[210px] flex-col items-end gap-1.5 text-right sm:right-[20px] sm:top-[20px] sm:max-w-[240px]">
                 <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.66px] text-ink sm:text-[26px]">
-                  Features
+                  {card(0).title}
                 </h3>
                 <p className="font-sans text-[13px] font-normal leading-snug text-ink sm:text-[15px]">
-                  Designed for Indian roads, rugged for heat. Fast charging, long range, smart connectivity.
+                  {card(0).description}
                 </p>
               </div>
               <div className="pointer-events-none absolute bottom-0 left-[-30px] h-[170px] w-[340px] select-none sm:left-[-40px] sm:h-[192px] sm:w-[400px]">
@@ -170,10 +181,10 @@ export default function ProductOverview() {
             >
               <div className="absolute left-[16px] top-[18px] z-10 flex max-w-[170px] flex-col items-start gap-1.5 text-left sm:left-[20px] sm:top-[20px] sm:max-w-[190px]">
                 <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.66px] text-ink sm:text-[26px]">
-                  Shepherd App
+                  {card(1).title}
                 </h3>
                 <p className="font-sans text-[13px] font-normal leading-snug text-ink sm:text-[15px]">
-                  Track battery health, trips, charging, and updates from one dashboard.
+                  {card(1).description}
                 </p>
               </div>
               <div className="pointer-events-none absolute right-[-15px] top-[10px] h-[300px] w-[190px] select-none sm:right-0 sm:h-[340px] sm:w-[220px]">
@@ -198,10 +209,10 @@ export default function ProductOverview() {
             >
               <div className="absolute left-[16px] top-[18px] z-10 flex max-w-[180px] flex-col items-start gap-1.5 text-left sm:left-[20px] sm:top-[20px] sm:max-w-[210px]">
                 <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.66px] text-ink sm:text-[26px]">
-                  Benefits
+                  {card(2).title}
                 </h3>
                 <p className="font-sans text-[13px] font-normal leading-snug text-ink sm:text-[15px]">
-                  Lower costs with less fuel and maintenance. Reliable, quiet, eco-friendly performance.
+                  {card(2).description}
                 </p>
               </div>
               <div className="pointer-events-none absolute bottom-[-10px] right-[-25px] h-[280px] w-[290px] select-none sm:right-[-10px] sm:h-[320px] sm:w-[340px]">
@@ -244,10 +255,10 @@ export default function ProductOverview() {
               </div>
               <div className="absolute left-[16px] top-[18px] z-10 flex max-w-[170px] flex-col items-start gap-1.5 text-left sm:left-[20px] sm:top-[20px] sm:max-w-[200px]">
                 <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.66px] text-ink sm:text-[26px]">
-                  Ideal for
+                  {card(3).title}
                 </h3>
                 <p className="font-sans text-[13px] font-normal leading-snug text-ink sm:text-[15px]">
-                  Fleet owners and transport businesses. 10 vehicles and up.
+                  {card(3).description}
                 </p>
               </div>
             </article>
@@ -281,10 +292,10 @@ export default function ProductOverview() {
               </div>
               <div className="absolute bottom-[16px] left-[16px] z-10 flex max-w-[180px] flex-col items-start gap-1.5 text-left sm:bottom-[20px] sm:left-[20px] sm:max-w-[210px]">
                 <h3 className="font-display text-[22px] font-semibold leading-[1.15] tracking-[-0.66px] text-ink sm:text-[26px]">
-                  Key Use Cases
+                  {card(4).title}
                 </h3>
                 <p className="font-sans text-[13px] font-normal leading-snug text-ink sm:text-[15px]">
-                  Ideal for last-mile delivery and fleet operations, designed for daily routes in urban areas.
+                  {card(4).description}
                 </p>
               </div>
             </article>
@@ -323,10 +334,10 @@ export default function ProductOverview() {
               {/* Text: Top-Right aligned */}
               <div className="absolute right-[20px] top-[20px] z-10 flex max-w-[270px] flex-col items-end gap-2 text-right">
                 <h3 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink whitespace-nowrap">
-                  Features
+                  {card(0).title}
                 </h3>
                 <p className="font-sans text-[16px] font-normal leading-normal text-ink">
-                  Designed for Indian roads, rugged for heat. Fast charging, long range, smart connectivity.
+                  {card(0).description}
                 </p>
               </div>
 
@@ -357,10 +368,10 @@ export default function ProductOverview() {
               {/* Text: Top-Left aligned */}
               <div className="absolute left-[20px] top-[20px] z-10 flex max-w-[204px] flex-col items-start gap-2 text-left">
                 <h3 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink whitespace-nowrap">
-                  Shepherd App
+                  {card(1).title}
                 </h3>
                 <p className="font-sans text-[16px] font-normal leading-normal text-ink">
-                  Track battery health, trips, charging, and updates from one dashboard.
+                  {card(1).description}
                 </p>
               </div>
 
@@ -389,10 +400,10 @@ export default function ProductOverview() {
               {/* Text: Top-Left aligned */}
               <div className="absolute left-[20px] top-[20px] z-10 flex max-w-[243px] flex-col items-start gap-2 text-left">
                 <h3 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink whitespace-nowrap">
-                  Benefits
+                  {card(2).title}
                 </h3>
                 <p className="font-sans text-[16px] font-normal leading-normal text-ink">
-                  Lower costs with less fuel and maintenance. Reliable, quiet, eco-friendly performance.
+                  {card(2).description}
                 </p>
               </div>
 
@@ -444,10 +455,10 @@ export default function ProductOverview() {
               {/* Text: Top-Left aligned */}
               <div className="absolute left-[23px] top-[20px] z-10 flex max-w-[232px] flex-col items-start gap-2 text-left">
                 <h3 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink whitespace-nowrap">
-                  Ideal for
+                  {card(3).title}
                 </h3>
                 <p className="font-sans text-[16px] font-normal leading-normal text-ink">
-                  Fleet owners and transport businesses. 10 vehicles and up.
+                  {card(3).description}
                 </p>
               </div>
             </article>
@@ -485,10 +496,10 @@ export default function ProductOverview() {
               {/* Text: Bottom-Left aligned */}
               <div className="absolute bottom-[20px] left-[20px] z-10 flex max-w-[232px] flex-col items-start gap-2 text-left">
                 <h3 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink whitespace-nowrap">
-                  Key Use Cases
+                  {card(4).title}
                 </h3>
                 <p className="font-sans text-[16px] font-normal leading-normal text-ink">
-                  Ideal for last-mile delivery and fleet operations, designed for daily routes in urban areas.
+                  {card(4).description}
                 </p>
               </div>
             </article>

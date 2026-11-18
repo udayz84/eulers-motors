@@ -75,6 +75,131 @@ export interface ProductItem {
   order?: number;
 }
 
+/**
+ * Product Detail Page Component Types
+ */
+export interface StrapiSpecRow {
+  id?: number;
+  label: string;
+  value: string;
+  icon?: string;
+}
+
+export interface StrapiSpecCategory {
+  id?: number;
+  categoryName: string;
+  image?: StrapiMedia | string;
+  imageAlt?: string;
+  rows?: StrapiSpecRow[];
+}
+
+export interface StrapiProductSpecs {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  categories?: StrapiSpecCategory[];
+}
+
+export interface StrapiVariantDetail {
+  id?: number;
+  name: string;
+  price?: string;
+  priceNumeric?: number;
+  bodyType?: string;
+  payload?: string;
+  range?: string;
+  runningCost?: string;
+  fullCharge?: string;
+  cargoSpace?: string;
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiVariantsCompare {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  truckImage?: StrapiMedia | string;
+  variants?: StrapiVariantDetail[];
+}
+
+export interface StrapiVariantOption {
+  id?: number;
+  name: string;
+  fullName?: string;
+  range?: string;
+  price?: string;
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiProductHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  tagline?: string;
+  startingPrice?: string;
+  priceNote?: string;
+  stats?: StrapiStat[];
+  primaryCta?: StrapiCTA;
+  secondaryCta?: StrapiCTA;
+  variants?: StrapiVariantOption[];
+  mainImage?: StrapiMedia | string;
+  gallery?: StrapiMedia[];
+  brochureFile?: StrapiMedia | string;
+}
+
+export interface StrapiOverviewCard {
+  id?: number;
+  title: string;
+  description: string;
+  badge?: string;
+  image?: StrapiMedia | string;
+  imageAlt?: string;
+  tags?: string;
+}
+
+export interface StrapiProductOverviewSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  cards?: StrapiOverviewCard[];
+}
+
+export interface StrapiProductLoanCalculator {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  defaultPrice?: number;
+  defaultDownPayment?: number;
+  defaultTenureMonths?: number;
+  defaultInterestRate?: number;
+  partners?: StrapiMedia[];
+  cta?: StrapiCTA;
+}
+
+export interface StrapiOtherVehiclesSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  vehicles?: ProductItem[];
+}
+
+export interface StrapiProductDetail extends ProductItem {
+  metaTitle?: string;
+  metaDescription?: string;
+  specs?: StrapiProductSpecs;
+  variantsCompare?: StrapiVariantsCompare;
+  hero?: StrapiProductHero;
+  overview?: StrapiProductOverviewSection;
+  loanCalculator?: StrapiProductLoanCalculator;
+  otherVehicles?: StrapiOtherVehiclesSection;
+  reviews?: ReviewItem[];
+}
+
 export interface ReviewItem {
   id?: number;
   documentId?: string;
@@ -636,6 +761,341 @@ export interface StrapiCareerPosition {
   isActive?: boolean;
   applyUrl?: string;
   order?: number;
+}
+
+/**
+ * FAQ Page Component Types
+ */
+export interface StrapiFaqHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiFaqCategory {
+  id?: number;
+  label: string;
+}
+
+export interface StrapiFaqPageItem {
+  id?: number;
+  question: string;
+  answer: string;
+  category: string;
+  isFeatured?: boolean;
+  order?: number;
+}
+
+export interface StrapiFaqQuickHelpCard {
+  id?: number;
+  icon?: StrapiMedia | string;
+  title: string;
+  description: string;
+  buttonText?: string;
+  href?: string;
+}
+
+export interface StrapiFaqQuickHelpSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  items?: StrapiFaqQuickHelpCard[];
+}
+
+export interface StrapiFaqFaqsSection {
+  id?: number;
+  searchPlaceholder?: string;
+  lastUpdated?: string;
+  introText?: string;
+  categories?: StrapiFaqCategory[];
+  items?: StrapiFaqPageItem[];
+}
+
+export interface StrapiFaqPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiFaqHero;
+  faqsSection?: StrapiFaqFaqsSection;
+  quickHelpSection?: StrapiFaqQuickHelpSection;
+  seo?: StrapiSEO;
+}
+
+/**
+ * In-Press Page Component Types
+ */
+export interface StrapiPressHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiPressStory {
+  id?: number;
+  source: string;
+  date: string;
+  title: string;
+  summary: string;
+  image?: StrapiMedia | string;
+  url?: string;
+}
+
+export interface StrapiPressFeaturedSection {
+  id?: number;
+  title?: string;
+  stories?: StrapiPressStory[];
+}
+
+export interface StrapiPressCategory {
+  id?: number;
+  label: string;
+}
+
+export interface StrapiPressArticle {
+  id?: number;
+  source: string;
+  date: string;
+  title: string;
+  summary: string;
+  category: string;
+  url?: string;
+}
+
+export interface StrapiPressCoverageSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  categories?: StrapiPressCategory[];
+  articles?: StrapiPressArticle[];
+}
+
+export interface StrapiPressMediaKitItem {
+  id?: number;
+  label: string;
+  title: string;
+  size?: string;
+  filename: string;
+}
+
+export interface StrapiPressMediaKitSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  items?: StrapiPressMediaKitItem[];
+}
+
+export interface StrapiPressContactSection {
+  id?: number;
+  title?: string;
+  subtitle?: string;
+  buttonLabel?: string;
+  email?: string;
+}
+
+export interface StrapiInPressPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiPressHero;
+  featuredSection?: StrapiPressFeaturedSection;
+  coverageSection?: StrapiPressCoverageSection;
+  mediaKitSection?: StrapiPressMediaKitSection;
+  contactSection?: StrapiPressContactSection;
+  seo?: StrapiSEO;
+}
+
+/**
+ * Insights Page Component Types
+ */
+export interface StrapiInsightsHero {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiInsightsCategory {
+  id?: number;
+  label: string;
+}
+
+export interface StrapiInsightsArticle {
+  id?: number;
+  title: string;
+  slug: string;
+  category?: string;
+  date?: string;
+  readTime?: string;
+  excerpt?: string;
+  image?: StrapiMedia | string;
+  author?: string;
+  authorImage?: StrapiMedia | string;
+}
+
+export interface StrapiInsightsFeaturedSection {
+  id?: number;
+  eyebrow?: string;
+  title?: string;
+  articles?: StrapiInsightsArticle[];
+}
+
+export interface StrapiInsightsListingSection {
+  id?: number;
+  searchPlaceholder?: string;
+  categories?: StrapiInsightsCategory[];
+  articles?: StrapiInsightsArticle[];
+}
+
+export interface StrapiInsightsPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiInsightsHero;
+  featuredSection?: StrapiInsightsFeaturedSection;
+  listingSection?: StrapiInsightsListingSection;
+  seo?: StrapiSEO;
+}
+
+/**
+ * Legal Policy Page Component Types
+ * Shared by privacy-policy, refund-policy, and terms-conditions single types.
+ */
+export interface StrapiLegalHero {
+  id?: number;
+  label?: string;
+  title?: string;
+  description?: string;
+  image?: StrapiMedia | string;
+  mobileImage?: StrapiMedia | string;
+}
+
+export interface StrapiLegalIntro {
+  id?: number;
+  lastUpdated?: string;
+  paragraphs?: string;
+}
+
+export interface StrapiLegalSectionItem {
+  id?: number;
+  title: string;
+  body: string;
+}
+
+export interface StrapiLegalListItem {
+  id?: number;
+  text: string;
+}
+
+export interface StrapiLegalCallout {
+  id?: number;
+  title: string;
+  items?: StrapiLegalListItem[];
+}
+
+export interface StrapiPrivacyPolicyPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiLegalHero;
+  intro?: StrapiLegalIntro;
+  sections?: StrapiLegalSectionItem[];
+  seo?: StrapiSEO;
+}
+
+export interface StrapiRefundPolicyPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiLegalHero;
+  intro?: StrapiLegalIntro;
+  callouts?: StrapiLegalCallout[];
+  closingText?: string;
+  seo?: StrapiSEO;
+}
+
+export interface StrapiTermsConditionsPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiLegalHero;
+  intro?: StrapiLegalIntro;
+  sections?: StrapiLegalSectionItem[];
+  seo?: StrapiSEO;
+}
+
+/**
+ * Site Chrome (Navbar / Footer) Component Types
+ */
+export interface StrapiNavLink {
+  id?: number;
+  label: string;
+  href: string;
+}
+
+export interface StrapiMenuItem {
+  id?: number;
+  label: string;
+  desc?: string;
+  href?: string;
+}
+
+export interface StrapiVehicleCard {
+  id?: number;
+  name: string;
+  payload?: string;
+  href: string;
+  category?: "4-Wheelers" | "3-Wheelers";
+  image?: StrapiMedia | string;
+}
+
+export interface StrapiNavbarData {
+  id?: number;
+  documentId?: string;
+  logo?: string;
+  links?: StrapiNavLink[];
+  companyLinks?: StrapiMenuItem[];
+  supportLinks?: StrapiMenuItem[];
+  productLinks?: StrapiMenuItem[];
+  megaVehicles?: StrapiVehicleCard[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  searchPlaceholder?: string;
+}
+
+export interface StrapiFooterLink {
+  id?: number;
+  label: string;
+  href: string;
+}
+
+export interface StrapiFooterColumn {
+  id?: number;
+  title: string;
+  openOnMobile?: boolean;
+  links?: StrapiFooterLink[];
+}
+
+export interface StrapiSocialLink {
+  id?: number;
+  label: string;
+  href: string;
+  icon?: string;
+  flip?: boolean;
+}
+
+export interface StrapiFooterData {
+  id?: number;
+  documentId?: string;
+  logo?: string;
+  columns?: StrapiFooterColumn[];
+  socials?: StrapiSocialLink[];
+  copyright?: string;
+  cin?: string;
 }
 
 /**

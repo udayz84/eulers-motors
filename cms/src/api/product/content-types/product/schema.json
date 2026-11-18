@@ -59,6 +59,47 @@
     "order": {
       "type": "integer",
       "default": 0
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    },
+    "specs": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.specs"
+    },
+    "variantsCompare": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.variants-compare"
+    },
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.hero"
+    },
+    "overview": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.overview"
+    },
+    "loanCalculator": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.loan-calculator"
+    },
+    "otherVehicles": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.other-vehicles"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review"
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_chrome_vehicle_cards",
+  "info": { "displayName": "Vehicle Card", "icon": "car", "description": "Product mega-menu vehicle card" },
+  "options": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "payload": { "type": "string" },
+    "href": { "type": "string", "required": true },
+    "category": { "type": "enumeration", "enum": ["4-Wheelers", "3-Wheelers"], "default": "4-Wheelers", "required": true },
+    "image": { "type": "media", "multiple": false, "required": false, "allowedTypes": ["images"] }
+  }
+}

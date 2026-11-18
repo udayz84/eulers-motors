@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_faq_categories",
+  "info": {
+    "displayName": "FAQ Category",
+    "icon": "tag",
+    "description": "Category pill label used to filter FAQ items"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_faq_faqs_sections",
+  "info": {
+    "displayName": "FAQs Section",
+    "icon": "list",
+    "description": "Searchable FAQ accordion list with category filters and intro text"
+  },
+  "options": {},
+  "attributes": {
+    "searchPlaceholder": {
+      "type": "string",
+      "default": "Search for the question"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "default": "October 22, 2021"
+    },
+    "introText": {
+      "type": "text"
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "faq.category"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "faq.item"
+    }
+  }
+}

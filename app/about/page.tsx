@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
 import AboutHero from "@/components/sections/AboutHero";
 import AboutEuler from "@/components/sections/AboutEuler";
 import AboutBelief from "@/components/sections/AboutBelief";
@@ -13,7 +13,7 @@ import AboutReports from "@/components/sections/AboutReports";
 import Hiring from "@/components/sections/Hiring";
 import ContactSection from "@/components/sections/ContactSection";
 import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
-import Footer from "@/components/sections/Footer";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import {
   getAboutPageData,
   getAwards,
@@ -92,7 +92,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <Navbar />
+      <SiteNavbar />
       <main className="overflow-clip">
         <AboutHero data={data?.hero} />
         <AboutEuler data={data?.eulerSection} />
@@ -120,7 +120,7 @@ export default async function AboutPage() {
           image={data?.faqSection?.image}
         />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

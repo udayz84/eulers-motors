@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Arrow from "./ui/Arrow";
 import Button from "./ui/Button";
+import type { StrapiNavbarData } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 /**
  * Dropdown content — Figma "Component 20" Company-open state (panel 1:2826)
@@ -45,6 +47,14 @@ const DROPDOWNS: Record<"Product" | "Company" | "Support", { heading: string; it
 };
 
 type DropdownKey = keyof typeof DROPDOWNS;
+
+/** Main nav link row fallback (label + href per position) */
+const NAV_LINKS: readonly { label: string; href: string }[] = [
+  { label: "Product", href: "/products" },
+  { label: "Company", href: "#" },
+  { label: "Technology", href: "/technology" },
+  { label: "Support", href: "#" },
+];
 
 /** Mobile Products menu cards — payloads from the Figma mega-menu data */
 const PRODUCT_MOBILE: readonly { label: string; desc?: string; href?: string }[] = [
@@ -307,7 +317,41 @@ function MenuCardLink({
  * Sticky glass navbar (Figma "Component 20" / mobile "Component 26").
  * Top gradient strip: linear 90deg #1D6FFF → #4A8CFF 50% → #347EFF 75% → #4A8CFF.
  */
-export default function Navbar() {
+export default function Navbar({ data }: { data?: StrapiNavbarData }) {
+  // CMS-driven chrome with hardcoded fallbacks (careers page pattern)
+  const navLinks = data?.links?.length ? data.links : NAV_LINKS;
+  const link = (i: number) => navLinks[i] ?? NAV_LINKS[i];
+  const dropdowns: typeof DROPDOWNS = {
+    Product: DROPDOWNS.Product,
+    Company: {
+      ...DROPDOWNS.Company,
+      items: data?.companyLinks?.length
+        ? data.companyLinks.map((i) => ({ label: i.label, desc: i.desc ?? "", href: i.href }))
+        : DROPDOWNS.Company.items,
+    },
+    Support: {
+      ...DROPDOWNS.Support,
+      items: data?.supportLinks?.length
+        ? data.supportLinks.map((i) => ({ label: i.label, desc: i.desc ?? "", href: i.href }))
+        : DROPDOWNS.Support.items,
+    },
+  };
+  const productMobile = data?.productLinks?.length ? data.productLinks : PRODUCT_MOBILE;
+  const mapMega = (category: "4-Wheelers" | "3-Wheelers") =>
+    (data?.megaVehicles ?? [])
+      .filter((v) => (v.category ?? "4-Wheelers") === category)
+      .map((v) => ({
+        name: v.name,
+        payload: v.payload || "",
+        href: v.href,
+        img: v.image ? mediaUrl(v.image) : "/assets/products/vehicle-storm-lr200.png",
+      }));
+  const mega4w = data?.megaVehicles?.length ? mapMega("4-Wheelers") : MEGA_4W;
+  const mega3w = data?.megaVehicles?.length ? mapMega("3-Wheelers") : MEGA_3W;
+  const logoSrc = data?.logo || "/assets/nav/logo-white.svg";
+  const ctaLabel = data?.ctaLabel || "Book a Test Drive";
+  const ctaHref = data?.ctaHref || "#book-test-drive";
+  const searchPlaceholder = data?.searchPlaceholder || "Search here...";
   const pathname = usePathname();
   const isHome = pathname === "/" || pathname === "/about";
   const [bannerOpen, setBannerOpen] = useState(true);
@@ -428,7 +472,7 @@ export default function Navbar() {
           <div className="flex flex-1 items-center justify-center pr-2 lg:hidden">
             <Link href="/" aria-label="Euler Motors home">
               <Image
-                src="/assets/nav/logo-white.svg"
+                src={logoSrc}
                 alt="Euler Motors"
                 width={121}
                 height={20}
@@ -441,7 +485,7 @@ export default function Navbar() {
           <div className="hidden items-center lg:contents">
             <Link href="/" aria-label="Euler Motors home" className="flex items-center">
               <Image
-                src="/assets/nav/logo-white.svg"
+                src={logoSrc}
                 alt="Euler Motors"
                 width={145}
                 height={24}
@@ -459,13 +503,13 @@ export default function Navbar() {
                   onMouseEnter={() => setOpenDropdown("Product")}
                 >
                   <Link
-                    href="/products"
+                    href={link(0).href}
                     onClick={() => setOpenDropdown(null)}
                     className={`flex items-center text-[14px] font-semibold transition-colors ${
                       isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"
                     }`}
                   >
-                    Product
+                    {link(0).label}
                   </Link>
                   <button
                     type="button"
@@ -493,16 +537,16 @@ export default function Navbar() {
                     onClick={() => toggleDropdown("Company")}
                     className={`flex items-center gap-2.5 text-[14px] font-semibold ${isHome ? "text-white" : "text-ink"}`}
                   >
-                    Company
+                    {link(1).label}
                     {chevron(openDropdown === "Company", isHome)}
                   </button>
                 </li>
                 <li>
                   <Link
-                    href="/technology"
+                    href={link(2).href}
                     className={`text-[14px] font-semibold ${isHome ? "text-white hover:text-white/80" : "text-ink hover:text-ink/80"}`}
                   >
-                    Technology
+                    {link(2).label}
                   </Link>
                 </li>
                 <li className="relative" onMouseEnter={() => setOpenDropdown("Support")}>
@@ -522,7 +566,7 @@ export default function Navbar() {
                       aria-hidden
                       className={`h-[17.31px] w-[17.46px] ${isHome ? "" : "brightness-0"}`}
                     />
-                    Support
+                    {link(3).label}
                     {chevron(openDropdown === "Support", isHome)}
                   </button>
                 </li>
@@ -552,16 +596,16 @@ export default function Navbar() {
                 id="nav-search"
                 type="search"
                 name="q"
-                placeholder="Search here..."
+                placeholder={searchPlaceholder}
                 className={`w-[110px] bg-transparent text-[14px] font-semibold focus:outline-none ${isHome ? "text-white placeholder:text-white/80" : "text-ink placeholder:text-ink/60"}`}
               />
             </form>
             <Link
-              href="#book-test-drive"
+              href={ctaHref}
               className={`flex h-[42px] items-center justify-center gap-[5.3px] rounded-[2px] max-lg:rounded-r-none px-3 lg:gap-2 lg:px-8 ${isHome ? "bg-white text-ink" : "bg-white text-ink lg:bg-ink lg:text-white"}`}
             >
               <span className={`font-display text-[12px] font-semibold leading-none lg:text-[16px] ${isHome ? "text-ink" : "text-ink lg:text-white"}`}>
-                Book a Test Drive
+                {ctaLabel}
               </span>
               {isHome ? (
                 <Arrow color="ink" />
@@ -578,8 +622,8 @@ export default function Navbar() {
         {/* Company / Support dropdown panels (Figma 1:2826) */}
         {openDropdown && openDropdown !== "Product" && (
           <MenuPanel
-            heading={DROPDOWNS[openDropdown].heading}
-            items={DROPDOWNS[openDropdown].items}
+            heading={dropdowns[openDropdown].heading}
+            items={dropdowns[openDropdown].items}
             isHome={isHome}
             onNavigate={() => setOpenDropdown(null)}
           />
@@ -599,7 +643,7 @@ export default function Navbar() {
                   4 WHEELER GOODS VEHICLES
                 </Link>
                 <div className="flex gap-4">
-                  {MEGA_4W.map((p) => (
+                  {mega4w.map((p) => (
                     <ProductCard key={p.name} {...p} onNavigate={() => setOpenDropdown(null)} />
                   ))}
                 </div>
@@ -615,7 +659,7 @@ export default function Navbar() {
                 >
                   3 WHEELER GOODS VEHICLES
                 </Link>
-                {MEGA_3W.map((p) => (
+                {mega3w.map((p) => (
                   <ProductCard key={p.name} {...p} onNavigate={() => setOpenDropdown(null)} />
                 ))}
               </div>
@@ -693,7 +737,7 @@ export default function Navbar() {
                   }}
                 >
                   <div className="grid grid-cols-2 gap-2.5 pb-4">
-                    {PRODUCT_MOBILE.map((item) => (
+                    {productMobile.map((item) => (
                       <MenuCardLink
                         key={item.label}
                         item={item}
@@ -749,10 +793,10 @@ export default function Navbar() {
                 </MenuRow>
                 {/* TECHNOLOGY — plain link row */}
                 <Link
-                  href="/technology"
+                  href={link(2).href}
                   className={`flex h-[52px] items-center border-b text-[18px] font-bold uppercase tracking-[0.5px] ${isHome ? "border-white/25 text-white" : "border-[#EAECEF] text-ink"}`}
                 >
-                  Technology
+                  {link(2).label}
                 </Link>
                 {/* RESOURCES — plain link row */}
                 <Link
@@ -762,9 +806,9 @@ export default function Navbar() {
                   Resources
                 </Link>
                 {/* COMPANY */}
-                <MenuRow label="Company" open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")} isHome={isHome}>
+                <MenuRow label={link(1).label} open={openDropdown === "Company"} onToggle={() => toggleDropdown("Company")} isHome={isHome}>
                   <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
-                    {DROPDOWNS.Company.items.map((item) => (
+                    {dropdowns.Company.items.map((item) => (
                       <MenuCardLink
                         key={item.label}
                         item={item}
@@ -778,9 +822,9 @@ export default function Navbar() {
                   </div>
                 </MenuRow>
                 {/* SUPPORT */}
-                <MenuRow label="Support" open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")} isHome={isHome}>
+                <MenuRow label={link(3).label} open={openDropdown === "Support"} onToggle={() => toggleDropdown("Support")} isHome={isHome}>
                   <div className={isHome ? "grid grid-cols-2 gap-2.5 border-b border-white/25 pb-4" : "grid grid-cols-2 gap-2.5 border-b border-[#EAECEF] pb-4"}>
-                    {DROPDOWNS.Support.items.map((item) => (
+                    {dropdowns.Support.items.map((item) => (
                       <MenuCardLink
                         key={item.label}
                         item={item}

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_insights_listing_sections",
+  "info": {
+    "displayName": "Listing Section",
+    "icon": "grid",
+    "description": "Article grid with search and category filters"
+  },
+  "options": {},
+  "attributes": {
+    "searchPlaceholder": {
+      "type": "string",
+      "default": "Search articles"
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "insights.category"
+    },
+    "articles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "insights.article"
+    }
+  }
+}

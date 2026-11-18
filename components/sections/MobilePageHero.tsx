@@ -5,11 +5,13 @@ export default function MobilePageHero({
   title,
   titleId,
   description,
+  image,
 }: {
   label: string;
   title: React.ReactNode;
   titleId?: string;
   description: React.ReactNode;
+  image?: string;
 }) {
   return (
     <section
@@ -20,7 +22,14 @@ export default function MobilePageHero({
           "repeating-linear-gradient(90deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),repeating-linear-gradient(0deg,transparent 0,transparent 67px,rgba(0,0,0,.12) 68px),linear-gradient(272deg,#0e2f6d -63.51%,#1d6fff 87.23%)",
       }}
     >
-      <div className="flex flex-col items-center gap-3">
+      {image && (
+        <div
+          aria-hidden
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${image}')` }}
+        />
+      )}
+      <div className="relative z-10 flex flex-col items-center gap-3">
         <div className="relative flex items-center gap-1 text-[12px] font-bold uppercase leading-normal tracking-[0.6px] sm:text-[13px]">
           <Image
             src="/assets/products/badge-line-white.svg"

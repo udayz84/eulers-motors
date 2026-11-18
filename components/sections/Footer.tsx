@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { StrapiFooterData } from "@/types/strapi";
 
 type FooterColumn = {
   title: string;
@@ -93,6 +94,17 @@ function getFooterHref(link: string): string {
   }
 }
 
+/** CMS fallback columns with hrefs resolved through the legacy link map */
+const FOOTER_COLUMNS: {
+  title: string;
+  openOnMobile: boolean;
+  links: { label: string; href: string }[];
+}[] = COLUMNS.map((c) => ({
+  title: c.title,
+  openOnMobile: c.openOnMobile,
+  links: c.links.map((l) => ({ label: l, href: getFooterHref(l) })),
+}));
+
 /* ------------------------------------------------------------------ *
  * Brand pronunciation — "OY-ler" across multiple Indian languages.
  * Cycles dynamically through English, Hindi, Tamil, Telugu, Kannada, Bengali.
@@ -159,8 +171,18 @@ function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null 
 /**
  * Footer (desktop 1:2174 · mobile 1:5128 with accordion link columns).
  */
-export default function Footer() {
-  const [open, setOpen] = useState<string | null>(COLUMNS[0].title);
+export default function Footer({ data }: { data?: StrapiFooterData }) {
+  // CMS-driven chrome with hardcoded fallbacks (careers page pattern)
+  const columns = data?.columns?.length
+    ? data.columns.map((c) => ({ ...c, links: c.links ?? [] }))
+    : FOOTER_COLUMNS;
+  const socials = data?.socials?.length
+    ? data.socials.map((s) => ({ ...s, icon: s.icon || "" }))
+    : SOCIALS;
+  const logoSrc = data?.logo || "/assets/footer/logo-dark.svg";
+  const copyrightText = data?.copyright || "© 2026 Euler Motors. All rights reserved.";
+  const cinText = data?.cin || "CIN U34100DL2018PTC000000.";
+  const [open, setOpen] = useState<string | null>(columns[0]?.title ?? null);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   /* bumped on every click so a cancelled utterance never re-speaks itself */
   const speakToken = useRef(0);
@@ -315,7 +337,7 @@ export default function Footer() {
                 <source src="/assets/footer/euler-audio.mp3" type="audio/mpeg" />
                 <source src="/assets/footer/euler_audio_caf9cd309b.mp3" type="audio/mpeg" />
               </audio>
-              <Image src="/assets/footer/logo-dark.svg" alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
+              <Image src={logoSrc} alt="Euler Motors" width={145} height={24} className="h-[19.9px] w-[120.2px] lg:h-6 lg:w-[144.889px]" />
               <span className="flex items-center gap-1.5 text-[12px] font-medium leading-none text-ink">
                 <Image
                   src="/assets/footer/icon-audio.svg"
@@ -339,7 +361,7 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-5">
-            {SOCIALS.map((s) => (
+            {socials.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
@@ -363,17 +385,17 @@ export default function Footer() {
 
         {/* link columns — desktop grid / mobile accordion. */}
         <div className="hidden w-full max-w-[1280px] justify-between pt-[28px] lg:flex lg:items-start">
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <nav key={col.title} aria-label={col.title} className="flex flex-col gap-6">
               <h3 className="text-[16px] font-bold leading-[1.15] tracking-[-0.32px] text-ink">{col.title}</h3>
               <ul className="flex flex-col gap-3">
                 {col.links.map((l) => (
-                  <li key={l}>
+                  <li key={l.label}>
                     <Link
-                      href={getFooterHref(l)}
+                      href={l.href}
                       className="text-[14px] leading-none text-ink hover:underline"
                     >
-                      {l}
+                      {l.label}
                     </Link>
                   </li>
                 ))}
@@ -386,7 +408,7 @@ export default function Footer() {
             two-line imprint 20px below, crafted-by centered at frame bottom */}
         <div className="flex flex-col gap-5 lg:hidden">
           <div className="flex flex-col gap-3">
-            {COLUMNS.map((col) => {
+            {columns.map((col) => {
               const isOpen = open === col.title;
               return (
                 <div key={col.title} className={`overflow-clip rounded-[8px] bg-surface ${isOpen ? "flex flex-col gap-3 p-3" : ""}`}>
@@ -413,12 +435,12 @@ export default function Footer() {
                       <div aria-hidden className="h-[0.7px] w-full bg-white/80" />
                       <ul className="flex flex-col gap-3">
                         {col.links.map((l) => (
-                          <li key={l}>
+                          <li key={l.label}>
                             <Link
-                              href={getFooterHref(l)}
+                              href={l.href}
                               className="text-[12px] font-medium text-ink hover:underline"
                             >
-                              {l}
+                              {l.label}
                             </Link>
                           </li>
                         ))}
@@ -430,8 +452,8 @@ export default function Footer() {
             })}
           </div>
           <p className="flex flex-col text-[12px] font-medium leading-[21px] text-ink">
-            <span>© 2026 Euler Motors. All rights reserved.</span>
-            <span>CIN U34100DL2018PTC000000.</span>
+            <span>{copyrightText}</span>
+            <span>{cinText}</span>
           </p>
         </div>
 
@@ -439,7 +461,7 @@ export default function Footer() {
             centered at the frame bottom instead */}
         <div className="mt-auto hidden lg:flex lg:items-center lg:justify-between">
           <p className="text-[14px] font-medium leading-[21px] text-white">
-            © 2026 Euler Motors. All rights reserved. CIN U34100DL2018PTC000000.
+            {`${copyrightText} ${cinText}`}
           </p>
           <CraftedBy />
         </div>

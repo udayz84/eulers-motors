@@ -1,0 +1,46 @@
+{
+  "kind": "singleType",
+  "collectionName": "in_press_pages",
+  "info": {
+    "singularName": "in-press-page",
+    "pluralName": "in-press-pages",
+    "displayName": "In Press Page",
+    "description": "Newsroom page: featured stories, press coverage, media kit, and press contact"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "press.hero"
+    },
+    "featuredSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "press.featured-section"
+    },
+    "coverageSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "press.coverage-section"
+    },
+    "mediaKitSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "press.media-kit-section"
+    },
+    "contactSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "press.contact-section"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

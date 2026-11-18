@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import ProductsPage from "@/app/products/page";
+import ProductDetailView from "@/components/sections/products/ProductDetailView";
+import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
+import SiteFooter from "@/components/sections/chrome/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Storm EV LR 200 | Euler Motors - Commercial 4-Wheeler EV",
@@ -8,5 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default function Lr200Page() {
-  return <ProductsPage />;
+  return (
+    <>
+      <SiteNavbar />
+      <ProductDetailView slug="storm-ev-lr200" />
+      <SiteFooter />
+    </>
+  );
 }

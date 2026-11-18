@@ -711,8 +711,9 @@ export default function DealerLocator({
   };
 
   useEffect(() => {
-    if (window.matchMedia("(max-width: 1023px)").matches && cityRowScrollRef.current) {
-      cityRowScrollRef.current.scrollLeft = 49;
+    // Start city row scroll cleanly at 0 so first item is never cut off
+    if (cityRowScrollRef.current) {
+      cityRowScrollRef.current.scrollLeft = 0;
     }
   }, []);
 
@@ -800,43 +801,37 @@ export default function DealerLocator({
         </div>
       </div>
 
-      <div className="absolute left-1/2 top-[14px] z-10 flex w-[353px] max-w-[calc(100%-24px)] sm:w-[480px] -translate-x-1/2 flex-col items-center lg:top-[30px] lg:w-[692px] lg:max-w-none">
-        <div className="relative flex w-full flex-col items-center gap-1 lg:gap-[10px]">
-          <Image
-            src={`${ASSET}search-swoosh-mobile.svg`}
-            alt=""
-            width={348.409}
-            height={60}
-            aria-hidden="true"
-            className="absolute bottom-[-3.42px] left-1/2 h-[60px] w-[348.409px] max-w-none -translate-x-1/2 lg:hidden pointer-events-none"
-          />
-          <Image
-            src={`${ASSET}search-swoosh-desktop.svg`}
-            alt=""
-            width={691.148}
-            height={69}
-            aria-hidden="true"
-            className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-[691.148px] max-w-none -translate-x-1/2 lg:block pointer-events-none"
-          />
+      <div className="absolute left-1/2 top-[14px] z-10 flex w-[calc(100%-24px)] max-w-[353px] sm:w-[calc(100%-32px)] sm:max-w-[692px] -translate-x-1/2 flex-col items-center sm:top-[24px] lg:top-[30px]">
+        <div className="relative flex w-full flex-col items-center gap-1 sm:gap-[10px]">
+          {/* Mobile trapezoid (<640px) */}
+          <div className="absolute bottom-[-3.42px] left-1/2 h-[60px] w-full max-w-[348.409px] -translate-x-1/2 sm:hidden pointer-events-none">
+            <Image
+              src={`${ASSET}search-swoosh-mobile.svg`}
+              alt=""
+              fill
+              aria-hidden="true"
+              className="object-fill"
+            />
+          </div>
+          {/* Desktop/tablet trapezoid (>=640px) */}
+          <div className="absolute bottom-[-12.42px] left-1/2 hidden h-[69px] w-full max-w-[691.148px] -translate-x-1/2 sm:block pointer-events-none">
+            <Image
+              src={`${ASSET}search-swoosh-desktop.svg`}
+              alt=""
+              fill
+              aria-hidden="true"
+              className="object-fill"
+            />
+          </div>
 
-          <div className="relative flex h-9 sm:h-10 w-full items-center justify-between gap-2 rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-1 sm:pl-4 sm:pr-1.5 shadow-[0px_2px_12px_rgba(0,0,0,0.08)] lg:h-[46px] lg:py-[3px] lg:pl-5 lg:pr-[4px]">
-            <label className="flex flex-1 min-w-0 items-center gap-2 lg:gap-3">
-              <span className="hidden size-5 shrink-0 items-center justify-center lg:flex">
+          <div className="relative flex h-9 sm:h-10 lg:h-[46px] w-full items-center justify-between gap-2 rounded-full border border-[rgba(0,0,0,0.06)] bg-white py-0.5 pl-3 pr-1 sm:py-[3px] sm:pl-4 lg:pl-5 sm:pr-[4px] shadow-[0px_2px_12px_rgba(0,0,0,0.08)]">
+            <label className="flex flex-1 min-w-0 items-center gap-2 sm:gap-2.5 lg:gap-3">
+              <span className="flex size-3.5 shrink-0 items-center justify-center sm:size-4 lg:size-5">
                 <Image
                   src={`${ASSET}search-icon-desktop.svg`}
                   alt=""
                   width={18.1667}
                   height={18.1667}
-                  aria-hidden="true"
-                  className="max-w-none"
-                />
-              </span>
-              <span className="flex size-3.5 shrink-0 items-center justify-center lg:hidden">
-                <Image
-                  src={`${ASSET}search-icon-mobile.svg`}
-                  alt=""
-                  width={12}
-                  height={12}
                   aria-hidden="true"
                   className="max-w-none"
                 />
@@ -847,13 +842,13 @@ export default function DealerLocator({
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder={searchLabel}
-                className="w-full min-w-0 bg-transparent font-sans text-[13px] sm:text-[14px] font-normal sm:font-medium leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)] lg:text-[16px]"
+                className="w-full min-w-0 bg-transparent font-sans text-[12px] sm:text-[14px] lg:text-[16px] font-normal leading-none text-[#121212] outline-none placeholder:text-[rgba(18,18,18,0.65)]"
               />
             </label>
             <button
               type="button"
               onClick={handleUseCurrentLocation}
-              className="flex h-[28px] sm:h-[32px] shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 sm:px-3.5 border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer lg:h-[38px] lg:px-4 lg:text-[12px]"
+              className="flex h-[28px] sm:h-[34px] lg:h-[38px] shrink-0 items-center gap-1 sm:gap-1.5 rounded-full bg-white px-2.5 sm:px-3.5 lg:px-4 border border-[rgba(0,0,0,0.08)] shadow-sm text-center font-sans text-[10px] sm:text-[11px] lg:text-[12px] font-semibold leading-[1.2] text-[#4a4f57] hover:bg-[#f8f9fa] transition-colors cursor-pointer"
             >
               <Image
                 src={`${ASSET}location-icon-desktop.svg`}
@@ -861,25 +856,17 @@ export default function DealerLocator({
                 width={14}
                 height={14}
                 aria-hidden="true"
-                className="hidden max-w-none lg:block"
+                className="max-w-none size-3 sm:size-3.5 lg:size-[14px]"
               />
-              <Image
-                src={`${ASSET}location-icon-mobile.svg`}
-                alt=""
-                width={14}
-                height={14}
-                aria-hidden="true"
-                className="max-w-none lg:hidden"
-              />
-              {locationButtonLabel}
+              <span className="whitespace-nowrap">{locationButtonLabel}</span>
             </button>
           </div>
 
           <div
             ref={cityRowScrollRef}
-            className="no-scrollbar relative h-8 sm:h-9 w-[331px] sm:w-[480px] max-w-full overflow-x-auto overflow-y-hidden rounded-b-[24px] lg:h-[42px] lg:w-[600px] lg:max-w-none lg:overflow-visible"
+            className="no-scrollbar relative h-8 sm:h-9 lg:h-[42px] w-[290px] max-w-full overflow-x-auto sm:overflow-visible overflow-y-hidden rounded-b-[24px] sm:w-full sm:max-w-[560px] lg:max-w-[600px] snap-x snap-mandatory"
           >
-            <div className="flex h-8 sm:h-9 w-max lg:w-full items-center lg:justify-between px-1 lg:px-3 lg:h-[42px]">
+            <div className="flex h-8 sm:h-9 lg:h-[42px] w-max sm:w-full items-center sm:justify-between px-1 sm:px-2 lg:px-3">
               {activeCities.map((city) => {
                 const selected = city === selectedCity;
                 return (
@@ -887,10 +874,10 @@ export default function DealerLocator({
                     key={city}
                     type="button"
                     onClick={() => setSelectedCity(city)}
-                    className={`flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full font-sans text-[12px] font-semibold leading-none transition-all cursor-pointer lg:h-[38px] lg:text-[15px] ${
+                    className={`flex h-7 sm:h-8 lg:h-[38px] shrink-0 snap-start items-center justify-center whitespace-nowrap rounded-full font-sans text-[11px] sm:text-[13px] lg:text-[15px] font-semibold leading-none transition-all cursor-pointer ${
                       selected
-                        ? "bg-[#1363DF] text-white px-4 lg:px-5 shadow-sm"
-                        : "text-[#121212] px-2.5 sm:px-3 hover:text-[#1363DF]"
+                        ? "bg-[#1363DF] text-white px-3 sm:px-3.5 lg:px-5 shadow-sm"
+                        : "text-[#121212] px-2 sm:px-2.5 lg:px-3 hover:text-[#1363DF]"
                     }`}
                   >
                     {city}
@@ -898,22 +885,6 @@ export default function DealerLocator({
                 );
               })}
             </div>
-            <Image
-              src={`${ASSET}chips-fade-left.svg`}
-              alt=""
-              width={27.2397}
-              height={23.1431}
-              aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-1 h-[23px] w-[27px] max-w-none lg:hidden"
-            />
-            <Image
-              src={`${ASSET}chips-fade-right.svg`}
-              alt=""
-              width={27.2397}
-              height={23.1431}
-              aria-hidden="true"
-              className="pointer-events-none absolute right-0 top-1 h-[23px] w-[27px] max-w-none rotate-180 lg:hidden"
-            />
           </div>
         </div>
 

@@ -414,6 +414,93 @@ export interface CareersTestimonialsSection extends Struct.ComponentSchema {
   };
 }
 
+export interface ChromeFooterColumn extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_footer_columns';
+  info: {
+    description: 'Footer link column';
+    displayName: 'Footer Column';
+    icon: 'apps';
+  };
+  attributes: {
+    links: Schema.Attribute.Component<'chrome.footer-link', true>;
+    openOnMobile: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ChromeFooterLink extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_footer_links';
+  info: {
+    description: 'Single footer column link';
+    displayName: 'Footer Link';
+    icon: 'link';
+  };
+  attributes: {
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ChromeMenuItem extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_menu_items';
+  info: {
+    description: 'Dropdown menu entry with label, description, and link';
+    displayName: 'Menu Item';
+    icon: 'list';
+  };
+  attributes: {
+    desc: Schema.Attribute.String;
+    href: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ChromeNavLink extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_nav_links';
+  info: {
+    description: 'Main navbar link';
+    displayName: 'Nav Link';
+    icon: 'link';
+  };
+  attributes: {
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ChromeSocialLink extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_social_links';
+  info: {
+    description: 'Social profile link with icon asset path';
+    displayName: 'Social Link';
+    icon: 'earth';
+  };
+  attributes: {
+    flip: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ChromeVehicleCard extends Struct.ComponentSchema {
+  collectionName: 'components_chrome_vehicle_cards';
+  info: {
+    description: 'Product mega-menu vehicle card';
+    displayName: 'Vehicle Card';
+    icon: 'car';
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<['4-Wheelers', '3-Wheelers']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'4-Wheelers'>;
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    payload: Schema.Attribute.String;
+  };
+}
+
 export interface DealerChargingContactSection extends Struct.ComponentSchema {
   collectionName: 'components_dealer_charging_contact_sections';
   info: {
@@ -625,6 +712,104 @@ export interface DealerHero extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Find a service center.'>;
     supportBadge: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Support'>;
+  };
+}
+
+export interface FaqCategory extends Struct.ComponentSchema {
+  collectionName: 'components_faq_categories';
+  info: {
+    description: 'Category pill label used to filter FAQ items';
+    displayName: 'FAQ Category';
+    icon: 'tag';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface FaqFaqsSection extends Struct.ComponentSchema {
+  collectionName: 'components_faq_faqs_sections';
+  info: {
+    description: 'Searchable FAQ accordion list with category filters and intro text';
+    displayName: 'FAQs Section';
+    icon: 'list';
+  };
+  attributes: {
+    categories: Schema.Attribute.Component<'faq.category', true>;
+    introText: Schema.Attribute.Text;
+    items: Schema.Attribute.Component<'faq.item', true>;
+    lastUpdated: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'October 22, 2021'>;
+    searchPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search for the question'>;
+  };
+}
+
+export interface FaqHero extends Struct.ComponentSchema {
+  collectionName: 'components_faq_heroes';
+  info: {
+    description: 'FAQ page banner eyebrow, heading, and description';
+    displayName: 'FAQ Hero';
+    icon: 'question';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Find answers to the most common questions about our vehicles, charging, service, warranty and more.'>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Help centre'>;
+    image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Frequently asked questions'>;
+  };
+}
+
+export interface FaqItem extends Struct.ComponentSchema {
+  collectionName: 'components_faq_items';
+  info: {
+    description: 'A single question and answer with its category';
+    displayName: 'FAQ Item';
+    icon: 'question';
+  };
+  attributes: {
+    answer: Schema.Attribute.Text & Schema.Attribute.Required;
+    category: Schema.Attribute.String & Schema.Attribute.Required;
+    isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    question: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface FaqQuickHelpCard extends Struct.ComponentSchema {
+  collectionName: 'components_faq_quick_help_cards';
+  info: {
+    description: 'Quick help action card with icon, copy, and link';
+    displayName: 'Quick Help Card';
+    icon: 'cursor';
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface FaqQuickHelpSection extends Struct.ComponentSchema {
+  collectionName: 'components_faq_quick_help_sections';
+  info: {
+    description: 'Dark next-steps section with quick help cards';
+    displayName: 'Quick Help Section';
+    icon: 'handHeart';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Quick help'>;
+    items: Schema.Attribute.Component<'faq.quick-help-card', true>;
+    subtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'The three things people ask for next.'>;
   };
 }
 
@@ -918,6 +1103,301 @@ export interface HomeTechnologyCard extends Struct.ComponentSchema {
     mobileImage: Schema.Attribute.Media<'images'>;
     tag: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface InsightsArticle extends Struct.ComponentSchema {
+  collectionName: 'components_insights_articles';
+  info: {
+    description: 'Article card: title, slug, category, date, read time, excerpt, and cover image';
+    displayName: 'Insight Article';
+    icon: 'write';
+  };
+  attributes: {
+    author: Schema.Attribute.String;
+    authorImage: Schema.Attribute.Media<'images'>;
+    category: Schema.Attribute.String;
+    date: Schema.Attribute.String;
+    excerpt: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'>;
+    readTime: Schema.Attribute.String;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface InsightsCategory extends Struct.ComponentSchema {
+  collectionName: 'components_insights_categories';
+  info: {
+    description: 'Article category pill label';
+    displayName: 'Insights Category';
+    icon: 'tag';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface InsightsFeaturedSection extends Struct.ComponentSchema {
+  collectionName: 'components_insights_featured_sections';
+  info: {
+    description: "Editor's picks featured articles carousel";
+    displayName: 'Featured Section';
+    icon: 'star';
+  };
+  attributes: {
+    articles: Schema.Attribute.Component<'insights.article', true>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Featured'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<"Editor's picks">;
+  };
+}
+
+export interface InsightsHero extends Struct.ComponentSchema {
+  collectionName: 'components_insights_heroes';
+  info: {
+    description: 'Insights listing banner eyebrow, heading, and description';
+    displayName: 'Insights Hero';
+    icon: 'bulb';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Practical thinking about electric commercial mobility, from technology and operations to the business of running a fleet.'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Insights'>;
+    image: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Stories, Ideas & Insights'>;
+  };
+}
+
+export interface InsightsListingSection extends Struct.ComponentSchema {
+  collectionName: 'components_insights_listing_sections';
+  info: {
+    description: 'Article grid with search and category filters';
+    displayName: 'Listing Section';
+    icon: 'grid';
+  };
+  attributes: {
+    articles: Schema.Attribute.Component<'insights.article', true>;
+    categories: Schema.Attribute.Component<'insights.category', true>;
+    searchPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search articles'>;
+  };
+}
+
+export interface LegalCallout extends Struct.ComponentSchema {
+  collectionName: 'components_legal_callouts';
+  info: {
+    description: 'Highlighted policy callout with a bulleted list';
+    displayName: 'Legal Callout';
+    icon: 'layer';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'legal.list-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface LegalHero extends Struct.ComponentSchema {
+  collectionName: 'components_legal_heroes';
+  info: {
+    description: 'Policy page banner label, heading, and description';
+    displayName: 'Legal Hero';
+    icon: 'shield';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'>;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface LegalIntro extends Struct.ComponentSchema {
+  collectionName: 'components_legal_intros';
+  info: {
+    description: 'Last updated date and intro paragraphs (separate paragraphs with a blank line)';
+    displayName: 'Legal Intro';
+    icon: 'clock';
+  };
+  attributes: {
+    lastUpdated: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'October 22, 2021'>;
+    paragraphs: Schema.Attribute.Text;
+  };
+}
+
+export interface LegalListItem extends Struct.ComponentSchema {
+  collectionName: 'components_legal_list_items';
+  info: {
+    description: 'Single bullet line inside a policy callout';
+    displayName: 'Legal List Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface LegalSectionItem extends Struct.ComponentSchema {
+  collectionName: 'components_legal_section_items';
+  info: {
+    description: 'Accordion section with title and body copy';
+    displayName: 'Legal Section Item';
+    icon: 'list';
+  };
+  attributes: {
+    body: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface PressArticle extends Struct.ComponentSchema {
+  collectionName: 'components_press_articles';
+  info: {
+    description: 'Press coverage article card';
+    displayName: 'Press Article';
+    icon: 'file';
+  };
+  attributes: {
+    category: Schema.Attribute.String & Schema.Attribute.Required;
+    date: Schema.Attribute.String & Schema.Attribute.Required;
+    source: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+  };
+}
+
+export interface PressCategory extends Struct.ComponentSchema {
+  collectionName: 'components_press_categories';
+  info: {
+    description: 'Press coverage category pill label';
+    displayName: 'Press Category';
+    icon: 'tag';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface PressContactSection extends Struct.ComponentSchema {
+  collectionName: 'components_press_contact_sections';
+  info: {
+    description: 'Press enquiries banner with communications email';
+    displayName: 'Press Contact Section';
+    icon: 'envelope';
+  };
+  attributes: {
+    buttonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Contact communications'>;
+    email: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'press@eulermotors.com'>;
+    subtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'For media enquiries, interviews or press requests, our communications team is here to help.'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Looking to speak with Euler Motors?'>;
+  };
+}
+
+export interface PressCoverageSection extends Struct.ComponentSchema {
+  collectionName: 'components_press_coverage_sections';
+  info: {
+    description: 'Latest press coverage carousel with category filters';
+    displayName: 'Coverage Section';
+    icon: 'grid';
+  };
+  attributes: {
+    articles: Schema.Attribute.Component<'press.article', true>;
+    categories: Schema.Attribute.Component<'press.category', true>;
+    eyebrow: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Latest press coverage'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'News & Media Coverage'>;
+  };
+}
+
+export interface PressFeaturedSection extends Struct.ComponentSchema {
+  collectionName: 'components_press_featured_sections';
+  info: {
+    description: 'Featured story carousel section';
+    displayName: 'Featured Section';
+    icon: 'star';
+  };
+  attributes: {
+    stories: Schema.Attribute.Component<'press.story', true>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Featured story'>;
+  };
+}
+
+export interface PressHero extends Struct.ComponentSchema {
+  collectionName: 'components_press_heroes';
+  info: {
+    description: 'Newsroom banner eyebrow, heading, description, and CTA';
+    displayName: 'Press Hero';
+    icon: 'newspaper';
+  };
+  attributes: {
+    ctaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#media-kit'>;
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Download Media Kit'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'See the latest media coverage, company announcements and industry updates from Euler Motors.'>;
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Newsroom'>;
+    image: Schema.Attribute.Media<'images'>;
+    mobileImage: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'In the News'>;
+  };
+}
+
+export interface PressMediaKitItem extends Struct.ComponentSchema {
+  collectionName: 'components_press_media_kit_items';
+  info: {
+    description: 'Downloadable media resource card';
+    displayName: 'Media Kit Item';
+    icon: 'package';
+  };
+  attributes: {
+    filename: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    size: Schema.Attribute.String;
+    title: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface PressMediaKitSection extends Struct.ComponentSchema {
+  collectionName: 'components_press_media_kit_sections';
+  info: {
+    description: 'Media kit downloads carousel';
+    displayName: 'Media Kit Section';
+    icon: 'download';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Media kit'>;
+    items: Schema.Attribute.Component<'press.media-kit-item', true>;
+    subtitle: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Official company information, brand assets and media resources, all in one place.'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Everything you need to cover Euler'>;
+  };
+}
+
+export interface PressStory extends Struct.ComponentSchema {
+  collectionName: 'components_press_stories';
+  info: {
+    description: 'Featured press story card';
+    displayName: 'Press Story';
+    icon: 'picture';
+  };
+  attributes: {
+    date: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    source: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
   };
 }
 
@@ -1597,12 +2077,24 @@ declare module '@strapi/strapi' {
       'careers.support-section': CareersSupportSection;
       'careers.testimonial-item': CareersTestimonialItem;
       'careers.testimonials-section': CareersTestimonialsSection;
+      'chrome.footer-column': ChromeFooterColumn;
+      'chrome.footer-link': ChromeFooterLink;
+      'chrome.menu-item': ChromeMenuItem;
+      'chrome.nav-link': ChromeNavLink;
+      'chrome.social-link': ChromeSocialLink;
+      'chrome.vehicle-card': ChromeVehicleCard;
       'dealer.charging-contact-section': DealerChargingContactSection;
       'dealer.charging-form': DealerChargingForm;
       'dealer.contact-card': DealerContactCard;
       'dealer.contact-section': DealerContactSection;
       'dealer.faq-section': DealerFaqSection;
       'dealer.hero': DealerHero;
+      'faq.category': FaqCategory;
+      'faq.faqs-section': FaqFaqsSection;
+      'faq.hero': FaqHero;
+      'faq.item': FaqItem;
+      'faq.quick-help-card': FaqQuickHelpCard;
+      'faq.quick-help-section': FaqQuickHelpSection;
       'home.compare-section': HomeCompareSection;
       'home.contact-form': HomeContactForm;
       'home.contact-section': HomeContactSection;
@@ -1619,6 +2111,25 @@ declare module '@strapi/strapi' {
       'home.stats-banner': HomeStatsBanner;
       'home.technology': HomeTechnology;
       'home.technology-card': HomeTechnologyCard;
+      'insights.article': InsightsArticle;
+      'insights.category': InsightsCategory;
+      'insights.featured-section': InsightsFeaturedSection;
+      'insights.hero': InsightsHero;
+      'insights.listing-section': InsightsListingSection;
+      'legal.callout': LegalCallout;
+      'legal.hero': LegalHero;
+      'legal.intro': LegalIntro;
+      'legal.list-item': LegalListItem;
+      'legal.section-item': LegalSectionItem;
+      'press.article': PressArticle;
+      'press.category': PressCategory;
+      'press.contact-section': PressContactSection;
+      'press.coverage-section': PressCoverageSection;
+      'press.featured-section': PressFeaturedSection;
+      'press.hero': PressHero;
+      'press.media-kit-item': PressMediaKitItem;
+      'press.media-kit-section': PressMediaKitSection;
+      'press.story': PressStory;
       'product.hero': ProductHero;
       'product.loan-calculator': ProductLoanCalculator;
       'product.other-vehicles': ProductOtherVehicles;

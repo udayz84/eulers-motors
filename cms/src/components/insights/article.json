@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_insights_articles",
+  "info": {
+    "displayName": "Insight Article",
+    "icon": "write",
+    "description": "Article card: title, slug, category, date, read time, excerpt, and cover image"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": false,
+      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "category": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "readTime": {
+      "type": "string"
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "author": {
+      "type": "string"
+    },
+    "authorImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
