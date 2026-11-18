@@ -1,7 +1,9 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import PagerBar from "@/components/ui/PagerBar";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const ASSET = "/assets/neo/figma/stories/";
 const DESKTOP_STORIES = [
@@ -182,45 +184,153 @@ function RoadStoryCard({
   );
 }
 
-export default function NeoRoadStories({
-  mode,
-}: {
-  mode: "desktop" | "mobile";
-}) {
-  if (mode === "mobile") {
-    return (
-        <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px] min-[768px]:max-[1023px]:gap-8 min-[768px]:max-[1023px]:py-12">
-        <header className="flex w-full flex-col items-center justify-center gap-[14px]">
-          <div className="flex items-center gap-[6px]">
-            <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
-            <span className="font-sans text-[12px] font-normal uppercase leading-normal text-[#121212]">From the road</span>
-          </div>
-          <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[768px]:max-[1023px]:text-[36px]">
-            What other drivers say
-          </h2>
-        </header>
-
-        <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-visible">
-          <div
-            id="neo-road-mobile-row"
-            className="no-scrollbar flex w-full snap-x snap-mandatory gap-[13.02px] overflow-x-auto overflow-y-hidden"
-            style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
-          >
-            {MOBILE_STORIES.map((story, index) => (
-              <RoadStoryCard key={story.image} image={story.image} position={story.position} mobile first={index === 0} />
-            ))}
-          </div>
-        </div>
-        <PagerBar
-          rowId="neo-road-mobile-row"
-          className="rounded-full !bg-[#121212] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-[linear-gradient(100.21deg,#00ff87_28.559%,#1d6fff_124.97%)]"
-        />
-      </section>
-    );
-  }
+function MobileRoadStories() {
+  const rowRef = useRef<HTMLDivElement>(null);
+  useDraggableScroll(rowRef);
 
   return (
-    <section aria-labelledby="neo-road-title" className="relative flex w-full flex-col items-center gap-[42px] overflow-hidden bg-white py-[62px]">
+      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px] min-[768px]:max-[1023px]:gap-8 min-[768px]:max-[1023px]:py-12">
+      <header className="flex w-full flex-col items-center justify-center gap-[14px]">
+        <div className="flex items-center gap-[6px]">
+          <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
+          <span className="font-sans text-[12px] font-normal uppercase leading-normal text-[#121212]">From the road</span>
+        </div>
+        <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[768px]:max-[1023px]:text-[36px]">
+          What other drivers say
+        </h2>
+      </header>
+
+      <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-visible">
+        <div
+          id="neo-road-mobile-row"
+          ref={rowRef}
+          className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-[13.02px] overflow-x-auto overflow-y-hidden"
+          style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
+        >
+          {MOBILE_STORIES.map((story, index) => (
+            <RoadStoryCard key={story.image} image={story.image} position={story.position} mobile first={index === 0} />
+          ))}
+        </div>
+      </div>
+      <PagerBar
+        rowId="neo-road-mobile-row"
+        className="rounded-full !bg-[#121212] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-[linear-gradient(100.21deg,#00ff87_28.559%,#1d6fff_124.97%)]"
+      />
+    </section>
+  );
+}
+
+// Stories are repeated a few times to give the row a comfortable scroll runway
+const REPEATS = 3;
+
+function DesktopRoadStories() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true); // Default true so it does not delay starting
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(scrollRef, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+    },
+  });
+
+  // Section visibility tracking via IntersectionObserver
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      isVisibleRef.current = true;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Smooth auto-scroll loop (same feel as the homepage reviews row), pausing
+  // on drag/arrow clicks and stopping at the end of the row
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    let rafId: number;
+    let lastTime: number | null = null;
+    let accumulator = 0;
+    const speed = 50; // pixels per second
+
+    const step = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const reducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (
+        !reducedMotion &&
+        isVisibleRef.current &&
+        !isDraggingRef.current &&
+        !isInteractingRef.current
+      ) {
+        accumulator += speed * dt;
+        if (accumulator >= 1) {
+          const px = Math.floor(accumulator);
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          if (container.scrollLeft < maxScroll - 1) {
+            container.scrollLeft = Math.min(maxScroll, container.scrollLeft + px);
+            accumulator -= px;
+          } else {
+            accumulator = 0;
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
+  }, []);
+
+  // Arrow navigation, same treatment as the "A day with Neo" carousel
+  const scrollCards = (direction: -1 | 1) => {
+    const row = scrollRef.current;
+    const card = row?.querySelector<HTMLElement>("article");
+    if (!row || !card) return;
+    pauseAutoScroll(600);
+    const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+    row.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: "smooth" });
+  };
+
+  return (
+    <section ref={sectionRef} aria-labelledby="neo-road-title" className="relative flex w-full flex-col items-center gap-[42px] overflow-hidden bg-white py-[62px]">
       <header className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-[14px] px-[60px] text-center">
         <div className="flex items-center gap-3">
           <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
@@ -234,24 +344,52 @@ export default function NeoRoadStories({
       <div className="relative h-[485.645px] w-full overflow-hidden">
         <div
           id="neo-road-desktop-row"
-          className="relative h-full w-full overflow-hidden"
+          ref={scrollRef}
+          className="no-scrollbar flex h-full w-full cursor-grab gap-6 overflow-x-auto overflow-y-hidden pl-[56px]"
+          style={{ overscrollBehaviorX: "contain" }}
         >
-          <div className="flex h-full w-full overflow-hidden">
-            <div
-              aria-hidden
-              className="shrink-0"
-              style={{ width: "56px" }}
-            />
-            <div className="flex h-full w-max shrink-0 gap-6 will-change-transform [--marquee-gap:24px] animate-marquee">
-              {[...DESKTOP_STORIES, ...DESKTOP_STORIES].map((story, index) => (
-                <RoadStoryCard key={`${story.image}-${index}`} image={story.image} position={story.position} />
-              ))}
-            </div>
-          </div>
+          {Array.from({ length: REPEATS }).flatMap((_, repeat) =>
+            DESKTOP_STORIES.map((story, index) => (
+              <RoadStoryCard key={`${story.image}-${repeat}-${index}`} image={story.image} position={story.position} />
+            ))
+          )}
         </div>
         <div aria-hidden className="pointer-events-none absolute bottom-0 right-0 top-0 z-[5] w-[210.811px] bg-gradient-to-l from-white to-[rgba(255,255,255,0)]" />
+
+        {/* Arrows on both sides, same marks as "A day with Neo" */}
+        <button
+          type="button"
+          aria-label="Previous driver stories"
+          onClick={() => scrollCards(-1)}
+          className="absolute left-[16px] top-1/2 z-20 size-[55px] -translate-y-1/2 rotate-180 cursor-pointer transition-transform hover:scale-110"
+        >
+          <Image src="/assets/arrow-right.svg" alt="" fill sizes="55px" className="object-contain" />
+        </button>
+        <button
+          type="button"
+          aria-label="Next driver stories"
+          onClick={() => scrollCards(1)}
+          className="absolute right-[16px] top-1/2 z-20 size-[55px] -translate-y-1/2 cursor-pointer transition-transform hover:scale-110"
+        >
+          <Image src="/assets/arrow-right.svg" alt="" fill sizes="55px" className="object-contain" />
+        </button>
       </div>
-      <PagerBar className="rounded-full bg-[#111] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-gradient-to-r [&>div]:from-[#1d9eb6] [&>div]:to-[#a4e4c5]" />
+      <PagerBar
+        rowId="neo-road-desktop-row"
+        className="rounded-full bg-[#111] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-gradient-to-r [&>div]:from-[#1d9eb6] [&>div]:to-[#a4e4c5]"
+      />
     </section>
   );
+}
+
+export default function NeoRoadStories({
+  mode,
+}: {
+  mode: "desktop" | "mobile";
+}) {
+  if (mode === "mobile") {
+    return <MobileRoadStories />;
+  }
+
+  return <DesktopRoadStories />;
 }

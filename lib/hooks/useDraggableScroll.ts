@@ -18,6 +18,14 @@ export function useDraggableScroll<T extends HTMLElement = HTMLDivElement>(
   const localRef = useRef<T>(null);
   const ref = externalRef || localRef;
 
+  // Keep the latest callbacks in a ref: the options object is a new identity
+  // every render, so putting it in the effect deps re-attached the listeners
+  // on every re-render (e.g. progress updates fired while dragging), which
+  // reset the in-flight drag state and leaked onDragEnd — freezing the
+  // auto-scroll of carousels that pause while dragged.
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -48,7 +56,7 @@ export function useDraggableScroll<T extends HTMLElement = HTMLDivElement>(
       el.style.scrollBehavior = "auto";
       el.style.userSelect = "none";
       el.classList.add("cursor-grabbing");
-      options?.onDragStart?.();
+      optionsRef.current?.onDragStart?.();
     };
 
     const onMouseMove = (e: MouseEvent) => {
@@ -66,7 +74,7 @@ export function useDraggableScroll<T extends HTMLElement = HTMLDivElement>(
       el.style.scrollBehavior = "";
       el.style.userSelect = "";
       el.classList.remove("cursor-grabbing");
-      options?.onDragEnd?.();
+      optionsRef.current?.onDragEnd?.();
 
       if (hasMoved) {
         const preventClick = (clickEvent: MouseEvent) => {
@@ -87,7 +95,7 @@ export function useDraggableScroll<T extends HTMLElement = HTMLDivElement>(
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
     };
-  }, [ref, options]);
+  }, [ref]);
 
   return ref;
 }

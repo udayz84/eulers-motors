@@ -15,6 +15,7 @@ export default function CarouselArrows({
   label,
   className = "",
   variant = "default",
+  alwaysShow = false,
   onStep,
 }: {
   /** id of the .snap-row the arrows scroll */
@@ -25,6 +26,8 @@ export default function CarouselArrows({
   className?: string;
   /** "default" (white button) or "blue" (Figma node 3321:13434 blue gradient) */
   variant?: "default" | "blue";
+  /** keep both arrows visible/enabled for rows that wrap infinitely */
+  alwaysShow?: boolean;
   /** optional callback fired when a navigation arrow is clicked */
   onStep?: (dir: 1 | -1) => void;
 }) {
@@ -41,6 +44,7 @@ export default function CarouselArrows({
   }, [rowId]);
 
   useEffect(() => {
+    if (alwaysShow) return;
     const row = document.getElementById(rowId);
     if (!row) return;
 
@@ -56,7 +60,10 @@ export default function CarouselArrows({
       window.removeEventListener("resize", checkScroll);
       observer.disconnect();
     };
-  }, [rowId, checkScroll]);
+  }, [rowId, checkScroll, alwaysShow]);
+
+  const showLeft = alwaysShow || canScrollLeft;
+  const showRight = alwaysShow || canScrollRight;
 
   const step = (dir: 1 | -1) => {
     onStep?.(dir);
@@ -80,10 +87,10 @@ export default function CarouselArrows({
           type="button"
           aria-label={`Previous ${label}`}
           onClick={() => step(-1)}
-          tabIndex={canScrollLeft ? 0 : -1}
-          aria-hidden={!canScrollLeft}
+          tabIndex={showLeft ? 0 : -1}
+          aria-hidden={!showLeft}
           className={`${blueButton} left-4 lg:left-8 xl:left-[max(24px,calc((100vw-1440px)/2+50px))] ${
-            canScrollLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            showLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         >
           <svg
@@ -121,10 +128,10 @@ export default function CarouselArrows({
           type="button"
           aria-label={`Next ${label}`}
           onClick={() => step(1)}
-          tabIndex={canScrollRight ? 0 : -1}
-          aria-hidden={!canScrollRight}
+          tabIndex={showRight ? 0 : -1}
+          aria-hidden={!showRight}
           className={`${blueButton} right-4 lg:right-8 xl:right-[max(24px,calc((100vw-1440px)/2+50px))] ${
-            canScrollRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            showRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         >
           <svg
@@ -171,10 +178,10 @@ export default function CarouselArrows({
         type="button"
         aria-label={`Previous ${label}`}
         onClick={() => step(-1)}
-        tabIndex={canScrollLeft ? 0 : -1}
-        aria-hidden={!canScrollLeft}
+        tabIndex={showLeft ? 0 : -1}
+        aria-hidden={!showLeft}
         className={`${button} left-4 lg:left-10 ${
-          canScrollLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          showLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <svg
@@ -193,10 +200,10 @@ export default function CarouselArrows({
         type="button"
         aria-label={`Next ${label}`}
         onClick={() => step(1)}
-        tabIndex={canScrollRight ? 0 : -1}
-        aria-hidden={!canScrollRight}
+        tabIndex={showRight ? 0 : -1}
+        aria-hidden={!showRight}
         className={`${button} right-4 lg:right-10 ${
-          canScrollRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          showRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <svg

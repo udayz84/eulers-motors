@@ -11,6 +11,7 @@ import NeoRoadStories from "@/components/sections/NeoRoadStories";
 import NeoMainImageMobile from "@/components/sections/NeoMainImageMobile";
 import EulerPrimeBannerMobile from "@/components/sections/EulerPrimeBannerMobile";
 import InsightsSection from "@/components/sections/NeoInsights";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const A = "/assets/neo/figma/";
 const arrow = "inline-flex h-9 items-center gap-3 rounded bg-gradient-to-r from-[#00e99c] to-[#1685ff] px-3 text-[11px] font-semibold text-white";
@@ -48,6 +49,7 @@ function TechnologyGlowLayer({
 
 export default function NeoMobile() {
   const howItWorksRow = useRef<HTMLDivElement>(null);
+  useDraggableScroll(howItWorksRow);
   const [howItWorksProgress, setHowItWorksProgress] = useState(0);
   const updateHowItWorksProgress = () => {
     const row = howItWorksRow.current;
@@ -144,7 +146,7 @@ export default function NeoMobile() {
         <div
           ref={howItWorksRow}
           onScroll={updateHowItWorksProgress}
-          className="no-scrollbar flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth max-[767px]:pb-[56px] min-[768px]:max-[1023px]:gap-4 min-[768px]:max-[1023px]:px-8"
+          className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth max-[767px]:pb-[56px] min-[768px]:max-[1023px]:gap-4 min-[768px]:max-[1023px]:px-8"
           aria-label="How it works steps"
         >
           {[

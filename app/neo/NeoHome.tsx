@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import NeoMainImage from "@/components/sections/NeoMainImage";
 import EulerPrimeBanner from "@/components/sections/EulerPrimeBanner";
 import NeoRoadStories from "@/components/sections/NeoRoadStories";
@@ -12,6 +12,7 @@ import InsightsSection from "@/components/sections/NeoInsights";
 import NeoMobile from "./NeoMobile";
 import { NeoFooterDesktop } from "@/components/sections/NeoFooter";
 import { NeoEnterpriseDesktop } from "@/components/sections/NeoEnterprise";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const vehicleImage = "/assets/neo/figma/neo-image-6.png";
 const reviewImages = ["/assets/neo/figma/stories/story-1.png", "/assets/neo/figma/stories/story-2.png", "/assets/neo/figma/stories/story-3.jpeg", "/assets/neo/figma/stories/story-4.png"];
@@ -351,15 +352,150 @@ const stepImages = [
 ];
 function HowItWorks() {
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
   const rail = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isVisibleRef = useRef(true);
+  const isDraggingRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const pauseAutoScroll = useCallback((duration = 600) => {
+    isInteractingRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, duration);
+  }, []);
+
+  useDraggableScroll(rail, {
+    onDragStart: () => {
+      isDraggingRef.current = true;
+      pauseAutoScroll(600);
+    },
+    onDragEnd: () => {
+      isDraggingRef.current = false;
+      pauseAutoScroll(400);
+    },
+  });
+
+  const go = useCallback((index: number) => {
+    const row = rail.current;
+    const card = row?.children[index] as HTMLElement | undefined;
+    if (!row || !card) return;
+    activeRef.current = index;
+    setActive(index);
+    card.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+  }, []);
+
   useEffect(() => {
     rail.current?.scrollTo({ left: 0 });
   }, []);
-  const move = (direction: number) => {
-    rail.current?.scrollBy({ left: direction * (418 + 16), behavior: "smooth" });
-    setActive((current) => Math.max(0, Math.min(steps.length - 1, current + direction)));
+
+  // Section visibility tracking via IntersectionObserver
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous slide, same feel as the other carousels: drifts steadily,
+  // holds briefly at each end, then slides back. Paused while dragging,
+  // after arrow clicks, or when the section is off-screen.
+  useEffect(() => {
+    const container = rail.current;
+    if (!container) return;
+
+    let rafId: number;
+    let lastTime: number | null = null;
+    let accumulator = 0;
+    let holdUntil = 0;
+    let direction = 1;
+    const speed = 50; // pixels per second
+
+    const step = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const reducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (
+        !reducedMotion &&
+        isVisibleRef.current &&
+        !isDraggingRef.current &&
+        !isInteractingRef.current &&
+        now >= holdUntil
+      ) {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (maxScroll > 1) {
+          accumulator += speed * dt;
+          if (accumulator >= 1) {
+            const px = Math.floor(accumulator);
+            if (container.scrollLeft >= maxScroll - 1) {
+              direction = -1;
+              holdUntil = now + 1500;
+            } else if (container.scrollLeft <= 1) {
+              direction = 1;
+              holdUntil = now + 1500;
+            }
+            container.scrollLeft = Math.min(
+              maxScroll,
+              Math.max(0, container.scrollLeft + direction * px)
+            );
+            accumulator -= px;
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    };
+  }, []);
+
+  // Keep the indicator in sync while the row is dragged
+  const updateActive = () => {
+    const row = rail.current;
+    if (!row) return;
+    const style = getComputedStyle(row);
+    const sp = parseFloat(style.scrollPaddingLeft);
+    const pad = Number.isFinite(sp) && sp > 0 ? sp : parseFloat(style.paddingLeft) || 0;
+    const rowLeft = row.getBoundingClientRect().left;
+    const cards = Array.from(row.children) as HTMLElement[];
+    let best = 0;
+    let bestDist = Infinity;
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.getBoundingClientRect().left - rowLeft - pad);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    });
+    if (best !== activeRef.current) {
+      activeRef.current = best;
+      setActive(best);
+    }
   };
-  return <section className="relative overflow-hidden bg-[#f3f4f5] py-[80px]">
+
+  const move = (direction: number) => {
+    pauseAutoScroll(600);
+    go(Math.max(0, Math.min(steps.length - 1, activeRef.current + direction)));
+  };
+  return <section ref={sectionRef} className="relative overflow-hidden bg-[#f3f4f5] py-[80px]">
     <div className="mb-[50px] flex flex-col items-center gap-[14px] text-center">
       <div className="flex items-center gap-[8px] font-sans text-[16px] font-normal leading-[18px] text-[#111]">
         <Image src="/assets/logo-icon.svg" alt="" width={14} height={14} />
@@ -367,7 +503,7 @@ function HowItWorks() {
       </div>
       <h2 className="m-0 text-[42px] font-semibold leading-[1.15] tracking-[-.02em] text-[#111]">A day with Neo.</h2>
     </div>
-    <div ref={rail} className="how-it-works-rail flex snap-x snap-mandatory gap-[16px] overflow-x-auto px-[max(5.55vw,32px)] lg:!pl-[80px] lg:scroll-pl-[80px] pb-[32px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div ref={rail} onScroll={updateActive} className="how-it-works-rail flex cursor-grab snap-x snap-mandatory gap-[16px] overflow-x-auto px-[max(5.55vw,32px)] lg:!pl-[80px] lg:scroll-pl-[80px] lg:snap-none pb-[32px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {steps.map((step, i) => <article key={step} className="group relative flex aspect-[1.083/1] w-[clamp(320px,29vw,418px)] shrink-0 snap-start lg:h-[386px] lg:w-[418px] flex-col justify-between overflow-hidden rounded-[12px] border-[4px] border-white bg-[#536060] px-[18px] py-[20px] text-white shadow-[0_12px_12px_rgba(33,158,182,0.2)] lg:items-start">
         <div className="absolute inset-0 overflow-hidden">
           <Image src={stepImages[i]} alt="" fill sizes="(min-width: 1440px) 418px, 29vw" className={`max-w-none object-cover ${i === 0 ? "!h-[162.32%] !w-[216.79%] !left-[-3.66%] !top-[-5%]" : i === 1 ? "!h-full !w-[104.32%] !left-[-2.16%] !top-[-10.36%]" : i === 2 ? "!h-full !w-[119.97%] !left-[-17.16%] !top-0" : "!h-full !w-full !left-0 !top-0"}`} />

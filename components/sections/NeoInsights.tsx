@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Arrow from "../ui/Arrow";
+import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const ARTICLES = [
   {
@@ -117,6 +118,7 @@ function DesktopInsights() {
 
 function MobileInsights() {
   const rowRef = useRef<HTMLDivElement>(null);
+  useDraggableScroll(rowRef);
   const [progress, setProgress] = useState(0);
 
   const updateProgress = useCallback(() => {
@@ -136,7 +138,7 @@ function MobileInsights() {
         <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink min-[768px]:max-[1023px]:text-[36px]">Learn More About EVs</h2>
       </header>
 
-      <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth pr-[10.388px] max-[767px]:-mx-5 max-[767px]:w-[calc(100%+40px)] max-[767px]:pr-0 min-[768px]:max-[1023px]:gap-4" aria-label="Featured articles">
+      <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth pr-[10.388px] max-[767px]:-mx-5 max-[767px]:w-[calc(100%+40px)] max-[767px]:pr-0 min-[768px]:max-[1023px]:gap-4" aria-label="Featured articles">
         {ARTICLES.map((article, index) => (
           <article key={article.title} className={`relative h-[320px] w-[324px] shrink-0 snap-start overflow-clip rounded-[12.58px] min-[768px]:max-[1023px]:h-[390px] min-[768px]:max-[1023px]:w-[400px] ${index === 0 ? "max-[767px]:ml-5 max-[767px]:scroll-ml-5 min-[768px]:max-[1023px]:ml-0" : ""}`}>
             <div className="pointer-events-none absolute inset-0 rounded-[inherit]">
