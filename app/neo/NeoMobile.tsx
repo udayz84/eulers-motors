@@ -62,13 +62,13 @@ export default function NeoMobile() {
     <main>
       <NeoMainImageMobile />
       <NeoAboutMobile />
-      <section id="technology" className="px-4 py-8 max-[1023px]:flex max-[1023px]:w-full max-[1023px]:flex-col max-[1023px]:items-start max-[1023px]:gap-8 max-[1023px]:px-5 max-[1023px]:pb-5 max-[1023px]:pt-[42px] min-[768px]:max-[1023px]:gap-10 min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:pt-12">
-        <div className="max-[1023px]:mx-auto max-[1023px]:flex max-[1023px]:w-full max-[1023px]:max-w-[353px] max-[1023px]:flex-col max-[1023px]:items-start max-[1023px]:gap-[14px] min-[768px]:max-[1023px]:max-w-[736px]">
+      <section id="technology" className="px-4 py-8 max-[1023px]:flex max-[1023px]:w-full max-[1023px]:flex-col max-[1023px]:items-start max-[1023px]:gap-8 max-[1023px]:px-5 max-[1023px]:pb-5 max-[1023px]:pt-[42px] min-[640px]:max-[1023px]:gap-10 min-[640px]:max-[1023px]:px-8 min-[640px]:max-[1023px]:pt-12">
+        <div className="max-[1023px]:mx-auto max-[1023px]:flex max-[1023px]:w-full max-[1023px]:max-w-[353px] max-[1023px]:flex-col max-[1023px]:items-start max-[1023px]:gap-[14px] min-[640px]:max-[1023px]:max-w-[736px]">
           <div className={`${label} max-[1023px]:text-[12px] max-[1023px]:font-sans max-[1023px]:font-normal max-[1023px]:uppercase max-[1023px]:text-[#121212]`}>Technology</div>
-          <h2 className="mt-3 text-[22px] font-semibold leading-tight max-[1023px]:mt-0 max-[1023px]:self-stretch max-[1023px]:font-display max-[1023px]:text-[28px] max-[1023px]:font-semibold max-[1023px]:leading-[1.15] max-[1023px]:tracking-[-0.56px] max-[1023px]:text-[#121212] min-[768px]:max-[1023px]:text-[36px]">Your vehicle tells you<br />what&apos;s happening.</h2>
-          <p className="mt-3 text-[11px] leading-[1.4] max-[1023px]:mt-0 max-[1023px]:w-[318.758px] max-[1023px]:max-w-full max-[1023px]:font-sans max-[1023px]:text-[12px] max-[1023px]:font-normal max-[1023px]:leading-normal max-[1023px]:text-[#121212] min-[768px]:max-[1023px]:w-full min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]">No manuals, no guessing. Everything you need to know sits on your phone and on your dashboard.</p>
+          <h2 className="mt-3 text-[22px] font-semibold leading-tight max-[1023px]:mt-0 max-[1023px]:self-stretch max-[1023px]:font-display max-[1023px]:text-[28px] max-[1023px]:font-semibold max-[1023px]:leading-[1.15] max-[1023px]:tracking-[-0.56px] max-[1023px]:text-[#121212] min-[640px]:max-[1023px]:text-[36px]">Your vehicle tells you<br />what&apos;s happening.</h2>
+          <p className="mt-3 text-[11px] leading-[1.4] max-[1023px]:mt-0 max-[1023px]:w-[318.758px] max-[1023px]:max-w-full max-[1023px]:font-sans max-[1023px]:text-[12px] max-[1023px]:font-normal max-[1023px]:leading-normal max-[1023px]:text-[#121212] min-[640px]:max-[1023px]:w-full min-[640px]:max-[1023px]:max-w-[650px] min-[640px]:max-[1023px]:text-[14px]">No manuals, no guessing. Everything you need to know sits on your phone and on your dashboard.</p>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-2.5 max-[1023px]:mx-auto max-[1023px]:mt-0 max-[1023px]:w-full max-[1023px]:max-w-[353px] max-[1023px]:gap-3 min-[768px]:max-[1023px]:max-w-[736px] min-[768px]:max-[1023px]:gap-4">
+        <div className="mt-6 grid grid-cols-2 gap-2.5 max-[1023px]:mx-auto max-[1023px]:mt-0 max-[1023px]:w-full max-[1023px]:max-w-[353px] max-[1023px]:gap-3 min-[640px]:max-[1023px]:max-w-[736px] min-[640px]:max-[1023px]:gap-4">
           {[
             { tag: "SHEPHERD APP", title: "Track your vehicle from your phone", text: "Live location, battery, trip history and anti-theft alerts.", src: "technology/tech-image-1.png" },
             { tag: "XAVIER\u2122 CLUSTER", title: "See speed, charge and distance at a glance", text: "See speed, charge and distance at a glance", src: "technology/tech-image-2.png" },
@@ -78,7 +78,7 @@ export default function NeoMobile() {
             const wide = i === 0 || i === 3;
             const productCutout = i === 1 || i === 2;
             return (
-              <article key={item.tag} className={`relative ${wide ? "col-span-2 min-h-[170px]" : "min-h-[205px]"} overflow-hidden rounded-md bg-[#0b2630] p-3 text-white max-[1023px]:rounded-[6px] max-[1023px]:bg-[#121212] max-[1023px]:p-0 ${wide ? "max-[1023px]:h-[180px] max-[1023px]:min-h-0" : "max-[1023px]:h-[220px] max-[1023px]:min-h-0"} min-[768px]:max-[1023px]:col-span-1 min-[768px]:max-[1023px]:h-[230px]`}>
+              <article key={item.tag} className={`relative ${wide ? "col-span-2 min-h-[170px]" : "min-h-[205px]"} overflow-hidden rounded-md bg-[#0b2630] p-3 text-white max-[1023px]:rounded-[6px] max-[1023px]:bg-[#121212] max-[1023px]:p-0 ${wide ? "max-[1023px]:h-[180px] max-[1023px]:min-h-0" : "max-[1023px]:h-[220px] max-[1023px]:min-h-0"} min-[640px]:max-[1023px]:col-span-1 min-[640px]:max-[1023px]:h-[230px]`}>
                 {i === 0 && <Image src="/assets/neo/figma/technology/technology-card-shepherd-full.png" alt="" width={3061} height={1053} quality={100} sizes="353px" className="absolute left-0 top-0 hidden h-full w-full max-w-none object-cover max-[1023px]:z-[1] max-[1023px]:left-[-25.81%] max-[1023px]:block max-[1023px]:w-[148.23%]" />}
                 {i === 3 && <Image src="/assets/neo/figma/technology/technology-card-shepherd-full.png" alt="" width={3061} height={1053} quality={100} sizes="353px" className="absolute left-0 top-0 hidden h-full w-full max-w-none object-cover max-[1023px]:z-[1] max-[1023px]:left-[-37.32%] max-[1023px]:block max-[1023px]:w-[164.7%]" />}
                 {i === 3 && <Image src="/assets/neo/figma/technology/technology-card-charging-full.png" alt="" width={2249} height={1180} quality={100} sizes="353px" className="absolute inset-0 hidden h-full w-full max-w-none object-cover max-[1023px]:z-[1] max-[1023px]:block" />}
@@ -136,17 +136,17 @@ export default function NeoMobile() {
         </div>
       </section>
       <NeoSavingsCalculatorMobile />
-      <section className="flex flex-col items-center gap-[32px] overflow-hidden bg-white px-0 pb-5 pt-[42px] min-[768px]:max-[1023px]:gap-8 min-[768px]:max-[1023px]:pt-12">
+      <section className="flex flex-col items-center gap-[32px] overflow-hidden bg-white px-0 pb-5 pt-[42px] min-[640px]:max-[1023px]:gap-8 min-[640px]:max-[1023px]:pt-12">
         <header className="flex w-full flex-col items-center gap-[14px] text-center">
           <div className={`${label} justify-center text-[12px]`}>How it works</div>
-          <h2 className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] min-[768px]:max-[1023px]:text-[36px]">
+          <h2 className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] min-[640px]:max-[1023px]:text-[36px]">
             A day with Neo.
           </h2>
         </header>
         <div
           ref={howItWorksRow}
           onScroll={updateHowItWorksProgress}
-          className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth max-[767px]:pb-[56px] min-[768px]:max-[1023px]:gap-4 min-[768px]:max-[1023px]:px-8"
+          className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth max-[767px]:pb-[56px] min-[640px]:max-[1023px]:gap-4 min-[640px]:max-[1023px]:px-8"
           aria-label="How it works steps"
         >
           {[
@@ -155,7 +155,7 @@ export default function NeoMobile() {
             { title: "Track your day", copy: "View your vehicle, trips, and battery on your phone. Stay informed before anyone else.", crop: "!h-[99.98%] !w-[137.74%] !left-[-33.75%] !top-0" },
             { title: "Keep earning", copy: "Worry less about your vehicle. Doorstep servicing takes 30 minutes to 2 hours.", crop: "!h-[99.94%] !w-[115.75%] !left-[-4.62%] !top-[0.02%]" },
           ].map((step, i) => (
-            <article key={step.title} className={`relative flex h-[300px] w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[12px] border-4 border-white p-5 text-white shadow-[0_12px_12px_rgba(33,158,182,0.2)] max-[767px]:shadow-[0_12px_18px_rgba(33,158,182,0.2)] min-[768px]:max-[1023px]:h-[360px] min-[768px]:max-[1023px]:w-[420px] ${i === 0 ? "ml-5 scroll-ml-5 min-[768px]:max-[1023px]:ml-0" : ""}`}>
+            <article key={step.title} className={`relative flex h-[300px] w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[12px] border-4 border-white p-5 text-white shadow-[0_12px_12px_rgba(33,158,182,0.2)] max-[767px]:shadow-[0_12px_18px_rgba(33,158,182,0.2)] min-[640px]:max-[1023px]:h-[360px] min-[640px]:max-[1023px]:w-[420px] ${i === 0 ? "ml-5 scroll-ml-5 min-[640px]:max-[1023px]:ml-0" : ""}`}>
               <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[12px]">
                 <Image src={`/assets/neo/how-it-works/step-${i + 1}.png`} alt="" fill quality={100} unoptimized={i === 0} sizes="320px" className={`max-w-none object-cover ${step.crop}`} />
                 <div aria-hidden className="absolute inset-0 rounded-[12px] bg-[linear-gradient(180deg,transparent_63.322%,rgba(0,0,0,.8)_73.947%)]" />

@@ -363,13 +363,13 @@ export function NeoFooterMobile() {
   return (
     <footer
       aria-label="NEO by Euler footer"
-      className="relative min-h-[1006px] w-full overflow-hidden bg-[#121212] text-white min-[768px]:max-[1023px]:min-h-0 min-[768px]:max-[1023px]:pb-8"
+      className="relative min-h-[1006px] w-full overflow-hidden bg-[#121212] text-white min-[640px]:max-[1023px]:min-h-0 min-[640px]:max-[1023px]:pb-8"
       data-node-id="4064:16433"
       id="neo-footer-mobile"
     >
       <FooterArt mobile />
       <div
-        className="relative z-[1] mx-auto flex w-[calc(100%-40px)] max-w-[353px] flex-col gap-[32px] pt-[42px] min-[768px]:max-[1023px]:w-[calc(100%-64px)] min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:pt-12"
+        className="relative z-[1] mx-auto flex w-[calc(100%-40px)] max-w-[353px] flex-col gap-[32px] pt-[42px] min-[640px]:max-[1023px]:w-[calc(100%-64px)] min-[640px]:max-[1023px]:max-w-[760px] min-[640px]:max-[1023px]:pt-12"
         data-node-id="4064:16436"
       >
         <div className="flex w-full flex-col items-start gap-[20px]" data-node-id="4064:16437">
@@ -382,7 +382,7 @@ export function NeoFooterMobile() {
           <SocialLinks mobile />
         </div>
         <div className="flex w-full flex-col gap-[20px]" data-node-id="4064:16449">
-          <div className="flex w-full flex-col gap-[12px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:gap-4" data-node-id="4064:16450">
+          <div className="flex w-full flex-col gap-[12px] min-[640px]:max-[1023px]:grid min-[640px]:max-[1023px]:grid-cols-2 min-[640px]:max-[1023px]:gap-4" data-node-id="4064:16450">
             {FOOTER_COLUMNS.map((column) => (
               <MobileAccordion
                 key={column.title}
@@ -400,7 +400,7 @@ export function NeoFooterMobile() {
           </div>
         </div>
       </div>
-      <div className="absolute left-1/2 top-[979px] z-[1] -translate-x-1/2 min-[768px]:max-[1023px]:bottom-6 min-[768px]:max-[1023px]:top-auto">
+      <div className="absolute left-1/2 top-[979px] z-[1] -translate-x-1/2 min-[640px]:max-[1023px]:bottom-6 min-[640px]:max-[1023px]:top-auto">
         <CraftedBy mobile />
       </div>
     </footer>

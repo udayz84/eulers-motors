@@ -164,10 +164,10 @@ function NeoNav() {
         <Image src="/assets/neo/main-image/mobile-nav-logo.png" alt="NEO by Euler" width={335} height={597} className="absolute left-0 top-[-268.34%] h-[637.58%] w-full max-w-none" />
       </a>
       <nav className="flex shrink-0 items-center justify-center gap-[48px] px-[10px]" aria-label="Main navigation" data-node-id="4064:13786">
-        <NavDropdown label="Product" items={[{ label: "NEO HiRANGE", href: "/products" }, { label: "NEO HiCITY", href: "/products" }, { label: "Compare vehicles", href: "/products" }]} />
-        <NavDropdown label="Company" items={[{ label: "About us", href: "/about" }, { label: "Careers", href: "/careers" }]} />
-        <a href="#technology" className="shrink-0 whitespace-nowrap font-sans text-[14px] font-semibold leading-[normal] text-white no-underline" data-node-id="4064:13793">Technology</a>
-        <NavDropdown label="Support" support items={[{ label: "Service centres", href: "/service-centers" }, { label: "Dealer locator", href: "/dealer-locator" }, { label: "Charging stations", href: "/charging-stations" }]} />
+        <NavDropdown label="Product" items={[{ label: "Storm EV LongRange 200", href: "/products/lr200" }, { label: "Storm EV T1500", href: "/products/storm-ev-t1500" }, { label: "HiLoad EV", href: "/products/hiload-ev" }, { label: "Turbo EV 1000", href: "/products/turbo-ev-1000" }, { label: "Neo HiRange", href: "/products" }, { label: "Neo HiCity", href: "/products" }]} />
+        <NavDropdown label="Company" items={[{ label: "About us", href: "/about" }, { label: "Leadership", href: "#" }, { label: "Careers", href: "/careers" }, { label: "In press", href: "/in-press" }]} />
+        <a href="/technology" className="shrink-0 whitespace-nowrap font-sans text-[14px] font-semibold leading-[normal] text-white no-underline" data-node-id="4064:13793">Technology</a>
+        <NavDropdown label="Support" support items={[{ label: "Find a dealer", href: "/dealer-locator" }, { label: "Service centres", href: "/service-centers" }, { label: "Charging stations", href: "/charging-stations" }, { label: "Media Kit", href: "/in-press#media-kit" }, { label: "FAQs", href: "/faq" }]} />
       </nav>
       <div className="flex h-[48px] w-[224px] shrink-0 items-center justify-end pr-[3px]" data-node-id="4064:13800">
         <a href="#contact" className="flex h-[42px] shrink-0 items-center justify-center gap-[20px] rounded-[4px] bg-[linear-gradient(111deg,#00ff87_28.559%,#1d6fff_124.97%)] py-[2px] pl-[24px] pr-[2px] text-white no-underline transition-opacity hover:opacity-90" data-node-id="4064:13804">
@@ -351,7 +351,7 @@ const stepImages = [
   "/assets/neo/how-it-works/step-4.png",
 ];
 function HowItWorks() {
-  const [active, setActive] = useState(0);
+  const [slideProgress, setSlideProgress] = useState(0);
   const activeRef = useRef(0);
   const rail = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -384,7 +384,6 @@ function HowItWorks() {
     const card = row?.children[index] as HTMLElement | undefined;
     if (!row || !card) return;
     activeRef.current = index;
-    setActive(index);
     card.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
   }, []);
 
@@ -467,10 +466,12 @@ function HowItWorks() {
     };
   }, []);
 
-  // Keep the indicator in sync while the row is dragged
+  // Keep the indicator mirroring the true scroll position
   const updateActive = () => {
     const row = rail.current;
     if (!row) return;
+    const max = row.scrollWidth - row.clientWidth;
+    setSlideProgress(max > 0 ? Math.min(1, Math.max(0, row.scrollLeft / max)) : 0);
     const style = getComputedStyle(row);
     const sp = parseFloat(style.scrollPaddingLeft);
     const pad = Number.isFinite(sp) && sp > 0 ? sp : parseFloat(style.paddingLeft) || 0;
@@ -485,10 +486,7 @@ function HowItWorks() {
         best = i;
       }
     });
-    if (best !== activeRef.current) {
-      activeRef.current = best;
-      setActive(best);
-    }
+    activeRef.current = best;
   };
 
   const move = (direction: number) => {
@@ -522,8 +520,8 @@ function HowItWorks() {
     </div>
     <button type="button" onClick={() => move(-1)} aria-label="Previous steps" className="absolute left-[50px] top-[384px] z-[2] hidden h-[55px] w-[55px] rotate-180 md:block"><Image src="/assets/arrow-right.svg" alt="" fill sizes="55px" /></button>
     <button type="button" onClick={() => move(1)} aria-label="Next steps" className="absolute right-[50px] top-[384px] z-[2] hidden h-[55px] w-[55px] md:block"><Image src="/assets/arrow-right.svg" alt="" fill sizes="55px" /></button>
-    <div className="mx-auto mt-[16px] flex h-[20px] w-[116px] items-center rounded-full bg-[#111] p-[4px]" aria-label={`Step ${active + 1} of 4`}>
-      <span className="h-[12px] w-[30px] rounded-full bg-gradient-to-r from-[#1d9eb6] to-[#a4e4c5] transition-transform duration-300" style={{ transform: `translateX(${active * 25}px)` }} />
+    <div className="mx-auto mt-[16px] flex h-[20px] w-[116.2px] items-center rounded-full bg-[#111] p-[4px]" role="progressbar" aria-label="How it works slide position" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(slideProgress * 100)}>
+      <span className="h-[12px] w-[29.9px] rounded-full bg-gradient-to-r from-[#1d9eb6] to-[#a4e4c5] transition-transform duration-150" style={{ transform: `translateX(${slideProgress * 78.3}px)` }} />
     </div>
   </section>;
 }

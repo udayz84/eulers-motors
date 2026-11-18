@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import PagerBar from "@/components/ui/PagerBar";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
@@ -29,7 +29,7 @@ function RoadStoryCard({
     <article
       className={`relative shrink-0 overflow-clip text-white ${
         mobile
-          ? `aspect-[3/4] w-[350px] snap-start rounded-[14.614px] min-[768px]:max-[1023px]:w-[420px] ${first ? "ml-5 scroll-ml-5 min-[768px]:max-[1023px]:ml-8 min-[768px]:max-[1023px]:scroll-ml-8" : ""}`
+          ? `aspect-[3/4] w-[350px] snap-start rounded-[14.614px] min-[640px]:max-[1023px]:w-[420px] ${first ? "ml-5 scroll-ml-5 min-[640px]:max-[1023px]:ml-8 min-[640px]:max-[1023px]:scroll-ml-8" : ""}`
           : "h-[485.645px] aspect-[300/400] snap-start rounded-[20.442px]"
       }`}
     >
@@ -189,13 +189,13 @@ function MobileRoadStories() {
   useDraggableScroll(rowRef);
 
   return (
-      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px] min-[768px]:max-[1023px]:gap-8 min-[768px]:max-[1023px]:py-12">
+      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px] min-[640px]:max-[1023px]:gap-8 min-[640px]:max-[1023px]:py-12">
       <header className="flex w-full flex-col items-center justify-center gap-[14px]">
         <div className="flex items-center gap-[6px]">
           <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
           <span className="font-sans text-[12px] font-normal uppercase leading-normal text-[#121212]">From the road</span>
         </div>
-        <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[768px]:max-[1023px]:text-[36px]">
+        <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[640px]:max-[1023px]:text-[36px]">
           What other drivers say
         </h2>
       </header>
@@ -230,6 +230,29 @@ function DesktopRoadStories() {
   const isDraggingRef = useRef(false);
   const isInteractingRef = useRef(false);
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [progress, setProgress] = useState(0);
+
+  // Progress is measured against the unique stories only (the row repeats
+  // them for scroll runway): 100% once the last unique card fills the view
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    const lastUnique = el?.children[DESKTOP_STORIES.length - 1] as HTMLElement | undefined;
+    if (!el || !lastUnique) return;
+    const usefulMax = Math.max(1, lastUnique.offsetLeft + lastUnique.offsetWidth - el.clientWidth);
+    setProgress(Math.min(1, Math.max(0, el.scrollLeft / usefulMax)));
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateProgress();
+    el.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      el.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, [updateProgress]);
 
   const pauseAutoScroll = useCallback((duration = 600) => {
     isInteractingRef.current = true;
@@ -375,7 +398,7 @@ function DesktopRoadStories() {
         </button>
       </div>
       <PagerBar
-        rowId="neo-road-desktop-row"
+        progress={progress}
         className="rounded-full bg-[#111] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-gradient-to-r [&>div]:from-[#1d9eb6] [&>div]:to-[#a4e4c5]"
       />
     </section>

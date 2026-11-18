@@ -10,15 +10,15 @@ const features = [
 
 export default function EulerPrimeBannerMobile({ neoTablet = false }: { neoTablet?: boolean }) {
   const visibility = neoTablet ? "min-[1024px]:hidden" : "lg:hidden";
-  const tabletHeight = neoTablet ? "min-[768px]:max-[1023px]:h-[540px]" : "";
+  const tabletHeight = neoTablet ? "min-[640px]:max-[1023px]:h-[540px]" : "";
   const tabletCopy = neoTablet
-    ? "min-[768px]:max-[1023px]:top-8 min-[768px]:max-[1023px]:w-[min(760px,calc(100%-64px))] min-[768px]:max-[1023px]:gap-4"
+    ? "min-[640px]:max-[1023px]:top-8 min-[640px]:max-[1023px]:w-[min(760px,calc(100%-64px))] min-[640px]:max-[1023px]:gap-4"
     : "";
   const tabletHeading = neoTablet
-    ? "min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[38px]"
+    ? "min-[640px]:max-[1023px]:max-w-[650px] min-[640px]:max-[1023px]:text-[38px]"
     : "";
   const tabletDescription = neoTablet
-    ? "min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]"
+    ? "min-[640px]:max-[1023px]:max-w-[650px] min-[640px]:max-[1023px]:text-[14px]"
     : "";
   return (
     <section id="prime" className={`relative h-[583px] w-full overflow-hidden bg-black ${visibility} ${tabletHeight}`} aria-label="Euler Prime service">

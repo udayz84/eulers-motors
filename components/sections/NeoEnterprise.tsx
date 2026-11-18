@@ -178,7 +178,7 @@ function DealerCard({ mobile = false }: { mobile?: boolean }) {
           className="absolute left-0 top-0 h-[125.24%] w-full max-w-none"
         />
       </div>
-      <div className={`absolute left-1/2 flex -translate-x-1/2 flex-col items-start gap-[14px] ${mobile ? "top-[11.55px] w-[329px]" : "top-[40.27px] w-[calc(100%-52px)]"}`}>
+      <div className={`absolute flex flex-col items-start gap-[14px] ${mobile ? "left-[12px] top-[11.55px] w-[calc(100%-24px)]" : "left-1/2 top-[40.27px] w-[calc(100%-52px)] -translate-x-1/2"}`}>
         <Eyebrow mobile={mobile}>{mobile ? "38 cities open" : "38 cities open"}</Eyebrow>
         <h2 className={`w-full font-display font-semibold leading-[1.15] tracking-[-0.56px] ${mobile ? "text-[28px]" : "whitespace-nowrap text-[32px] tracking-[-0.64px]"}`}>
           Want to become a dealer?
@@ -219,7 +219,7 @@ export function NeoEnterpriseDesktop() {
 
 export function NeoEnterpriseMobile() {
   return (
-    <section className="flex w-full flex-col items-start gap-[16px] bg-white px-[20px] pb-[20px] pt-[8px] min-[768px]:max-[1023px]:mx-auto min-[768px]:max-[1023px]:max-w-[1440px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:items-stretch min-[768px]:max-[1023px]:gap-4 min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:pb-12 min-[768px]:max-[1023px]:pt-8 [&>*]:min-w-0" aria-label="Enterprise and dealer opportunities" data-node-id="4064:16310">
+    <section className="flex w-full flex-col items-start gap-[16px] bg-white px-[20px] pb-[20px] pt-[8px] min-[640px]:max-[1023px]:mx-auto min-[640px]:max-[1023px]:max-w-[1440px] min-[640px]:max-[1023px]:grid min-[640px]:max-[1023px]:grid-cols-2 min-[640px]:max-[1023px]:items-stretch min-[640px]:max-[1023px]:gap-4 min-[640px]:max-[1023px]:px-8 min-[640px]:max-[1023px]:pb-12 min-[640px]:max-[1023px]:pt-8 [&>*]:min-w-0" aria-label="Enterprise and dealer opportunities" data-node-id="4064:16310">
       <FleetCard mobile />
       <DealerCard mobile />
     </section>

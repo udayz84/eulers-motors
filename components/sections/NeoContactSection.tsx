@@ -152,22 +152,22 @@ export default function NeoContactSection({
 
   if (mode === "mobile") {
     return (
-      <section id="contact" className="bg-white px-5 py-6 text-[#121212] min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:py-12">
-        <div className="mx-auto flex w-full max-w-[353px] flex-col gap-6 min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:gap-8">
+      <section id="contact" className="bg-white px-5 py-6 text-[#121212] min-[640px]:max-[1023px]:px-8 min-[640px]:max-[1023px]:py-12">
+        <div className="mx-auto flex w-full max-w-[353px] flex-col gap-6 min-[640px]:max-[1023px]:max-w-[760px] min-[640px]:max-[1023px]:gap-8">
           <div className="flex flex-col items-start gap-[14px]">
             <div className="flex items-center gap-3">
               <Image src={`${A}logo.svg`} alt="" width={14} height={14} />
               <span className="font-sans text-[12px] uppercase leading-none">Next step</span>
             </div>
-            <h2 className="w-[291px] max-w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] min-[768px]:max-[1023px]:w-full min-[768px]:max-[1023px]:text-[36px]">
+            <h2 className="w-[291px] max-w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] min-[640px]:max-[1023px]:w-full min-[640px]:max-[1023px]:text-[36px]">
               Want to know more about Neo?
             </h2>
-            <p className="m-0 font-sans text-[12px] leading-[1.2] min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]">
+            <p className="m-0 font-sans text-[12px] leading-[1.2] min-[640px]:max-[1023px]:max-w-[650px] min-[640px]:max-[1023px]:text-[14px]">
               We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.
             </p>
           </div>
 
-          <div className="flex flex-col gap-[10px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:gap-4">
+          <div className="flex flex-col gap-[10px] min-[640px]:max-[1023px]:grid min-[640px]:max-[1023px]:grid-cols-2 min-[640px]:max-[1023px]:gap-4">
             <form
               onSubmit={(event) => event.preventDefault()}
               className="flex w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4"
