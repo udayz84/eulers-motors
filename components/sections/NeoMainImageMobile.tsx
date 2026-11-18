@@ -37,7 +37,15 @@ const VEHICLES = {
 type Vehicle = keyof typeof VEHICLES;
 
 function Arrow() {
-  return <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-[2px] bg-[#121212] text-[17px]">››</span>;
+  return (
+    <span aria-hidden="true" className="flex size-8 shrink-0 items-center justify-center rounded-[1.684px] bg-[#121212]">
+      <span className="relative h-[11.789px] w-[18.526px] shrink-0">
+        <span className="absolute inset-[-16.41%_-1.68%_-22.88%_-3.41%]">
+          <Image src={`${A}arrow.svg`} alt="" width={23} height={20} className="block size-full max-w-none" />
+        </span>
+      </span>
+    </span>
+  );
 }
 
 export default function NeoMainImageMobile() {
@@ -55,11 +63,15 @@ export default function NeoMainImageMobile() {
     >
       {/* The top navigation floats over the hero art in the mobile Figma frame. */}
       <div className="sticky top-0 z-50 -mb-[60px]">
-        {announcementVisible && <div className="flex h-6 items-center justify-between bg-[#121212] px-5 text-[10px] font-bold text-white">
+        {announcementVisible && <div className="flex h-6 shrink-0 items-center justify-between self-stretch bg-[#121212] px-5 py-1 font-sans text-[10px] font-[700] not-italic leading-normal text-white">
           <span>Euler - Explore our electric 4 wheeler range</span>
-          <button type="button" aria-label="Close announcement" onClick={() => setAnnouncementVisible(false)} className="grid size-3 cursor-pointer place-items-center border-0 bg-transparent p-0 text-[11px] leading-none text-white">×</button>
+          <button type="button" aria-label="Close announcement" onClick={() => setAnnouncementVisible(false)} className="grid size-[9px] shrink-0 cursor-pointer place-items-center border-0 bg-transparent p-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" className="block size-[9px]">
+              <path d="M0.75 0.75L7.75 7.75M7.75 0.75L0.75 7.75" strokeWidth="1.5" strokeLinecap="round" stroke="white" />
+            </svg>
+          </button>
         </div>}
-        <header className="flex h-[36px] items-center justify-between border-b border-white/30 bg-black/20 py-[2px] pl-5 pr-[2px] backdrop-blur-[15px]">
+        <header className="flex h-[41px] items-center justify-between border-b border-white/30 bg-black/20 py-[2px] pl-5 pr-[2px] backdrop-blur-[15px]">
           <button type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" className="grid size-[18px] place-items-center text-[18px] leading-none text-white">☰</button>
           <a href="#top" aria-label="NEO by Euler home" className="relative h-[31.4px] w-[112.3px] shrink-0 overflow-hidden">
             <Image src={`${A}mobile-nav-logo.png`} alt="NEO by Euler" width={1} height={1} sizes="112px" className="absolute max-w-none object-fill" style={{ left: 0, top: "-268.34%", width: "100%", height: "637.58%" }} />
@@ -101,17 +113,23 @@ export default function NeoMainImageMobile() {
             <p className="font-sans text-[12px] leading-normal">NEO BY EULER</p>
           </div>
           {proofVisible && (
-            <aside className="relative flex shrink-0 flex-col gap-[6px] rounded-lg bg-black/40 px-1 pb-1 pt-[6px] backdrop-blur-[38.85px]">
-              <p className="px-[6px] font-sans text-[12px] font-medium leading-normal">Built after talking to</p>
-              <div className="rounded-[6px] bg-black/20 p-3 backdrop-blur-[101px]">
+            <aside className="relative flex h-[117px] w-[147px] shrink-0 flex-col items-start gap-[6px] rounded-[8px] bg-[rgba(0,0,0,0.42)] px-1 pb-1 pt-[6px] backdrop-blur-[38.85px]">
+              <p className="flex self-stretch items-center gap-[10px] px-[6px] font-sans text-[12px] font-medium not-italic leading-normal text-white">Built after talking to</p>
+              <div className="flex w-full flex-col items-start gap-2 rounded-[6px] bg-[rgba(0,0,0,0.20)] p-3 text-white backdrop-blur-[101.3px]">
                 <p className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-.64px]">10,000+</p>
-                <p className="font-sans text-[12px] font-semibold leading-normal">auto drivers.</p>
+                <p className="font-sans text-[12px] font-semibold not-italic leading-normal">auto drivers.</p>
               </div>
-              <button type="button" onClick={() => setProofVisible(false)} aria-label="Dismiss" className="absolute -right-[9px] -top-[10px] grid size-[22px] place-items-center rounded-full bg-white text-[11px] text-black">×</button>
+              <button type="button" onClick={() => setProofVisible(false)} aria-label="Dismiss" className="absolute -right-[9.4px] -top-[10.4px] flex items-center justify-center gap-2 rounded-[640px] bg-white p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" className="block size-[9px] shrink-0">
+                  <path d="M1 1L7.4 7.4M7.4 1L1 7.4" strokeWidth="2" strokeLinecap="round" stroke="#121212" />
+                </svg>
+              </button>
             </aside>
           )}
         </div>
-        <div className="h-px w-full bg-white/40" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="353" height="1" viewBox="0 0 353 1" fill="none" className="h-px w-[353px] max-w-full shrink-0" aria-hidden="true">
+          <path opacity="0.5" d="M0 0.5H353" stroke="white" strokeOpacity="0.5" />
+        </svg>
         <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-.64px]">
           More trips.<br />Less kharcha.
         </h1>
@@ -124,19 +142,17 @@ export default function NeoMainImageMobile() {
       </div>
 
       {/* Four specifications: exact mobile frame position and two by two layout. */}
-      <div className="absolute left-1/2 top-[719.33px] flex w-[calc(100vw_-_40px)] max-w-[351.6px] -translate-x-1/2 flex-col items-center gap-4 overflow-hidden rounded-[10px] bg-black/[.42] p-5 backdrop-blur-[38.85px]">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-[120px] top-1/2 h-[172px] w-[182px] -translate-y-1/2 rounded-full border border-white/10 shadow-[0_0_0_25px_#ffffff08,0_0_0_55px_#ffffff06]" />
-        <div aria-hidden="true" className="pointer-events-none absolute -left-[129px] top-1/2 h-[172px] w-[182px] -translate-y-1/2 rounded-full border border-white/10 shadow-[0_0_0_25px_#ffffff08,0_0_0_55px_#ffffff06]" />
+      <div className="absolute left-1/2 top-[719.33px] inline-flex w-[calc(100vw_-_40px)] max-w-[351.6px] -translate-x-1/2 flex-col items-center gap-4 overflow-hidden rounded-[10px] p-5" style={{ background: "rgba(0, 0, 0, 0.5)", backdropFilter: "blur(38.849998474121094px)", WebkitBackdropFilter: "blur(38.849998474121094px)" }}>
         <div className="relative grid w-full grid-cols-2 items-center gap-5">
           <Stat value="200+" unit="Km" label="RealRange™" />
           <Stat value="3.5" unit="Hrs" label="0 to full charge" />
-          <span aria-hidden="true" className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 bg-white/40" />
+          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)]" />
         </div>
-        <div aria-hidden="true" className="relative h-px w-full bg-white/40" />
+        <div aria-hidden="true" className="relative h-px w-[313px] max-w-full" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }} />
         <div className="relative grid w-full grid-cols-2 items-center gap-5">
           <Stat value="5" unit="Yrs" label="Vehicle warranty" />
           <Stat value="D+3" label="Seating" />
-          <span aria-hidden="true" className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 bg-white/40" />
+          <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(255,255,255,0.40)]" />
         </div>
       </div>
 
@@ -170,28 +186,52 @@ export default function NeoMainImageMobile() {
         </div>
 
         <div className="absolute left-[10px] right-[10px] top-[363.33px] flex flex-col gap-3">
-          <div className="rounded-[4px] bg-black/[.42] p-3 backdrop-blur-[38.85px]">
+          <div className={`rounded-[4px] bg-black/[.42] p-3 backdrop-blur-[38.85px] ${vehicle === "HiRANGE" ? "h-[348.399px]" : ""}`}>
             <div className="relative flex flex-col gap-[10px] py-3">
-              <span className="absolute right-0 top-0 flex h-8 items-center gap-3 rounded-[4px] bg-[#f3f4f5] px-3 py-[6px] font-sans text-[12px] font-semibold leading-[1.15] tracking-[-.24px] text-[#121212]">{detail.chip}<span className="text-[9px]">⌄</span></span>
+              <span className="absolute right-0 top-0 flex h-8 items-center gap-3 rounded-[4px] bg-[#f3f4f5] px-3 py-[6px] font-sans text-[12px] font-semibold leading-[1.15] tracking-[-.24px] text-[#121212]">
+                {detail.chip}
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="6" viewBox="0 0 11 6" fill="none" aria-hidden="true" className="block h-[4px] w-[9.333px]">
+                  <path d="M0.75 0.75L4.63572 4.08061C5.0851 4.4658 5.74823 4.4658 6.19762 4.08061L10.0833 0.749999" strokeWidth="1.5" strokeLinecap="round" stroke="#112211" />
+                </svg>
+              </span>
               <h3 className="font-display text-[18px] font-semibold leading-[1.15] tracking-[-.36px]">Neo {vehicle}</h3>
               <p className="w-full pr-1 font-sans text-[12px] leading-normal">{detail.description}</p>
             </div>
-            <div className="flex flex-col gap-3 rounded-[4px] bg-black/20 p-[14px] backdrop-blur-[101px]">
+            <div className="flex flex-col items-center justify-center gap-3 self-stretch rounded-[4px] bg-black/20 p-[14px] backdrop-blur-[101.3px]">
               {[0, 1, 2].map((row) => (
-                <div key={row} className={`grid grid-cols-2 items-start gap-3 ${row > 0 ? "border-t border-white/40 pt-3" : ""}`}>
-                  {detail.specs.slice(row * 2, row * 2 + 2).map(([value, label], index) => (
-                    <div key={label} className={`flex h-[50px] flex-col gap-[4.8px] whitespace-nowrap ${index === 1 ? "border-l border-white/40 pl-2" : ""}`}>
-                      <span className="font-display text-[24px] leading-[1.15] tracking-[-.48px]">{value}</span>
-                      <span className="font-sans text-[12px] leading-normal">{label}</span>
-                    </div>
-                  ))}
+                <div key={row} className="flex w-full flex-col items-center gap-3">
+                  <div className="relative flex w-full items-start justify-center gap-3">
+                    {detail.specs.slice(row * 2, row * 2 + 2).map(([value, label]) => {
+                      const [mainValue, ...unitParts] = value.split(" ");
+                      const unit = unitParts.join(" ");
+                      return (
+                        <div key={label} className="flex h-[49.8px] min-w-0 flex-1 flex-col items-center gap-[4.8px] whitespace-nowrap">
+                          <p className="m-0 flex items-center justify-center gap-[2px] text-center font-display text-[24px] font-normal leading-[1.15] tracking-[-.48px] text-white">
+                            <span>{mainValue}</span>{unit && <span className="font-display text-[14px] font-normal leading-normal tracking-normal">{unit}</span>}
+                          </p>
+                          <span className="font-sans text-[12px] font-normal leading-normal text-white">{label}</span>
+                        </div>
+                      );
+                    })}
+                    <span aria-hidden="true" className="absolute left-1/2 top-0 h-[49.8px] w-[0.8px] -translate-x-1/2" style={{ backgroundColor: "rgba(255, 255, 255, 0.32)", opacity: 0.5 }} />
+                  </div>
+                  {row < 2 && <div aria-hidden="true" className="h-[0.8px] w-[301px] max-w-full" style={{ backgroundColor: "rgba(255, 255, 255, 0.32)", opacity: 0.5 }} />}
                 </div>
               ))}
             </div>
           </div>
           <div className="flex w-full gap-2">
-            <a href={`/products/${vehicle === "HiRANGE" ? "neo-hirange" : "neo-hicity"}`} className="flex h-9 min-w-0 flex-1 items-center justify-between rounded-[4px] bg-gradient-to-r from-[#00ff87] to-[#1d6fff] py-[2px] pl-[23px] pr-[2px] font-display text-[12px] font-semibold leading-none text-white no-underline">View Details<Arrow /></a>
-            <a href="/products" className="flex h-9 min-w-0 flex-1 items-center justify-center gap-2 rounded-[4px] border border-white/50 bg-white/[.08] px-3 font-display text-[12px] font-semibold leading-none text-white no-underline">Compare Vehicles<span aria-hidden="true">↔</span></a>
+            <a href={`/products/${vehicle === "HiRANGE" ? "neo-hirange" : "neo-hicity"}`} className="flex h-9 min-w-0 flex-[1_0_0] items-center justify-between rounded-[4px] bg-[linear-gradient(107.815deg,#00ff87_28.559%,#1d6fff_124.97%)] py-[2px] pl-[23px] pr-[2px] font-display text-[12px] font-semibold leading-none text-white no-underline">View Details<Arrow /></a>
+            <a href="/products" className="flex h-9 min-w-0 flex-[1_0_0] items-center justify-center gap-2 rounded-[4px] border border-white/50 bg-white/[.08] px-6 font-display text-[12px] font-semibold leading-none text-white no-underline">
+              <span className="whitespace-nowrap">Compare Vehicles</span>
+              <span aria-hidden="true" className="relative size-[18px] shrink-0 overflow-clip">
+                <span className="absolute inset-[20.83%]">
+                  <span className="absolute inset-[-7.14%_-7.16%]">
+                    <Image src={`${A}compare-icon.svg`} alt="" width={16} height={16} className="block size-full max-w-none" />
+                  </span>
+                </span>
+              </span>
+            </a>
           </div>
         </div>
       </div>

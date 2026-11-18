@@ -111,17 +111,16 @@ function MobileSlider({
 }) {
   return (
     <div className="relative h-[12px] w-[min(346px,calc(100vw_-_47px))] shrink-0 rounded-[11.429px]">
-      <div className="absolute bottom-[-0.27px] left-0 flex h-[1.069px] w-full items-center justify-center">
-        <div className="flex-none rotate-[-0.18deg]">
-          <div className="relative h-0 w-full">
-            <div className="absolute inset-[-11.43px_0_0_0]">
-              <img alt="" className="block max-w-none size-full" src={`${A}line-92.svg`} />
-            </div>
-          </div>
-        </div>
-      </div>
+      <img
+        alt=""
+        aria-hidden="true"
+        width={346}
+        height={11.4286}
+        className="pointer-events-none absolute left-0 top-1/2 z-[10] h-[11.429px] w-full -translate-y-1/2 max-w-none"
+        src={`${A}line-92.svg`}
+      />
       <div
-        className="absolute top-[calc(50%+0.27px)] h-[12px] overflow-clip -translate-y-1/2 transition-[width] duration-75 ease-out"
+        className="absolute top-[calc(50%+0.27px)] z-0 h-[12px] overflow-clip -translate-y-1/2 transition-[width] duration-75 ease-out"
         style={{
           width: `${fillPercent}%`,
           backgroundImage: "linear-gradient(90deg, rgb(3, 14, 25) 0%, rgb(24, 136, 234) 93.72%), linear-gradient(89.99999976805947deg, rgb(9, 28, 61) 0%, rgb(29, 111, 255) 83.874%)",
@@ -131,7 +130,7 @@ function MobileSlider({
         <div className="absolute left-[63.66px] top-0 h-[13.432px] w-[10.193px] rounded-bl-[12.571px] rounded-tl-[12px] bg-[#befae9] blur-[3.171px]" />
       </div>
       <div
-        className="absolute top-[calc(50%+0.27px)] flex h-[18px] w-[24px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-[1.8px] overflow-clip rounded-[4.5px] border-[1.125px] border-solid border-[#00ff87] px-[2.7px] py-[1.8px] transition-[left] duration-75 ease-out"
+        className="absolute top-[calc(50%+0.27px)] z-[20] flex h-[18px] w-[24px] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-[1.8px] overflow-clip rounded-[4.5px] border-[1.125px] border-solid border-[#00ff87] px-[2.7px] py-[1.8px] transition-[left] duration-75 ease-out"
         style={{ left: `${fillPercent}%` }}
       >
         <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[4.5px] bg-[#121212]" />
@@ -147,8 +146,8 @@ function MobileSlider({
         max={max}
         step={1}
         value={value}
-        onInput={(e) => onChange(Number(e.currentTarget.value))}
-        className="absolute -top-[10px] left-0 h-[32px] w-full cursor-pointer opacity-0"
+        onChange={(e) => onChange(Number(e.currentTarget.value))}
+        className="absolute -top-[10px] left-0 z-[30] h-[32px] w-full cursor-pointer opacity-0"
       />
     </div>
   );
@@ -195,7 +194,7 @@ export default function NeoSavingsCalculatorMobile() {
                 type="button"
                 onClick={() => setVehicle("HiRANGE")}
                 aria-pressed={vehicle === "HiRANGE"}
-                className={`flex min-w-px flex-1 items-center gap-[15px] rounded-[4px] border border-solid p-[4px] ${vehicle === "HiRANGE" ? "border-[rgba(29,111,255,0.5)] bg-white" : "border-[#00ff87] bg-[rgba(255,255,255,0.04)] opacity-60"}`}
+                className={`flex h-[58px] w-[167.5px] shrink-0 items-center gap-[15px] rounded-[4px] border border-solid p-[4px] ${vehicle === "HiRANGE" ? "border-[rgba(29,111,255,0.5)] bg-white" : "border-[#00ff87] bg-[rgba(255,255,255,0.04)] opacity-60"}`}
               >
                 <div className="relative size-[48px] shrink-0 rounded-[4px]" style={{ backgroundImage: "linear-gradient(94.13554258205404deg, rgb(0, 255, 135) 28.559%, rgb(29, 111, 255) 124.97%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }}>
                   <div className="absolute inset-[1.24px_0.83px] rounded-[6.627px]">
@@ -211,7 +210,7 @@ export default function NeoSavingsCalculatorMobile() {
                 type="button"
                 onClick={() => setVehicle("HiCITY")}
                 aria-pressed={vehicle === "HiCITY"}
-                className={`flex min-w-px flex-1 items-center gap-[15px] rounded-[4px] border border-solid border-[#00ff87] bg-[rgba(255,255,255,0.04)] p-[4px] ${vehicle === "HiCITY" ? "opacity-100" : "opacity-60"}`}
+                className={`flex h-[58px] w-[167.5px] shrink-0 items-center gap-[15px] rounded-[4px] border border-solid border-[#00ff87] bg-[rgba(255,255,255,0.04)] p-[4px] ${vehicle === "HiCITY" ? "opacity-100" : "opacity-60"}`}
               >
                 <div className="relative size-[48px] shrink-0 rounded-[4px] bg-white">
                   <img alt="" className="absolute inset-0 size-full max-w-none rounded-[4px] object-cover" src={`${A}vehicle-hicity.png`} />

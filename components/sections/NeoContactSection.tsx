@@ -134,7 +134,7 @@ function ArrowButton({ kind, mobile = false }: { kind: ContactKind; mobile?: boo
       }`}
     >
       <span className="whitespace-nowrap font-display text-[12px] font-semibold leading-none max-[767px]:text-[12px] min-[768px]:text-[16px]">
-        {mobile ? `Confirm ${kind.toLowerCase()}` : "Confirm test drive"}
+        {`Confirm ${kind.toLowerCase()}`}
       </span>
       <span className={`grid shrink-0 place-items-center bg-[#121212] ${mobile ? "size-8 rounded-[2px]" : "size-[38px] rounded-[2px]"}`}>
         <Image src={`${A}arrow.svg`} alt="" width={22} height={14} />

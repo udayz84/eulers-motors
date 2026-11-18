@@ -157,7 +157,7 @@ function NavDropdown({ label, items, support = false }: { label: string; items: 
 
 function NeoNav() {
   return (
-    <header className="absolute inset-x-0 top-[22px] z-30 h-[48px] w-full backdrop-blur-[51.25px]" data-node-id="4064:13784">
+    <header className="absolute inset-x-0 top-[22px] z-30 h-[48px] w-full backdrop-blur-[120px]" data-node-id="4064:13784">
       <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between pl-[80px]">
       <a href="/neo" aria-label="NEO by Euler home" className="relative block h-[30px] w-[107.331px] shrink-0 overflow-hidden mix-blend-lighten" data-node-id="4064:13785">
         <Image src="/assets/neo/main-image/mobile-nav-logo.png" alt="NEO by Euler" width={335} height={597} className="absolute left-0 top-[-268.34%] h-[637.58%] w-full max-w-none" />
@@ -191,7 +191,7 @@ function NeoAnnouncement() {
 
   return (
     <aside className="relative z-40 h-[22px] w-full bg-black text-white" data-node-id="4064:13675">
-      <p className="absolute left-1/2 top-0 h-[19px] w-[290px] -translate-x-1/2 whitespace-nowrap font-sans text-[14px] font-bold leading-[19px]">
+      <p className="absolute left-1/2 top-0 h-[19px] w-[290px] -translate-x-1/2 whitespace-nowrap font-sans text-[14px] font-[700] leading-[19px]">
         Euler - Explore our electric 4 wheeler range
       </p>
       <button
@@ -414,5 +414,6 @@ function Contact() {
 
 
 export default function NeoHomePage() {
-  return <><NeoMobile /><div id="top" className={`${tw.neo} max-[767px]:hidden`}><NeoAnnouncement /><NeoNav /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
+  return <><NeoMobile /><div id="top" className={`${tw.neo} max-[1023px]:hidden`}><NeoAnnouncement /><NeoNav /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
 }
+

@@ -36,7 +36,7 @@ export default function EulerPrimeBannerMobile() {
           <p className="font-sans text-[12px] font-normal leading-normal text-white uppercase">Euler Prime</p>
         </div>
 
-        <h2 className="w-full max-w-[310.678px] font-display text-[28px] font-semibold leading-normal tracking-[-0.56px] text-white">
+        <h2 className="w-full max-w-[310.678px] font-display text-[28px] font-semibold leading-[1.2] tracking-[-0.56px] text-white">
           Your work does not stop for service.
         </h2>
 
@@ -45,7 +45,7 @@ export default function EulerPrimeBannerMobile() {
         </p>
 
         <div
-          className="w-full rounded-[5.507px] p-[10px]"
+          className="h-[90px] w-full rounded-[5.507px] p-[10px]"
           style={{
             backgroundImage:
               "linear-gradient(90deg, rgba(19, 157, 216, 0.5), rgba(19, 157, 216, 0.5)), linear-gradient(90deg, rgba(14, 47, 109, 0.35), rgba(14, 47, 109, 0.35))",

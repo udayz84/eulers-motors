@@ -5,27 +5,29 @@ import PagerBar from "@/components/ui/PagerBar";
 
 const ASSET = "/assets/neo/figma/stories/";
 const DESKTOP_STORIES = [
-  { image: "story-1.png", position: "object-center" },
+  { image: "story-1-high-res.png", position: "object-center" },
   { image: "story-4.png", position: "object-[center_bottom]" },
   { image: "story-2.png", position: "object-center" },
   { image: "story-3.jpeg", position: "object-center" },
 ] as const;
-const MOBILE_STORIES = DESKTOP_STORIES;
+const MOBILE_STORIES = [DESKTOP_STORIES[0], DESKTOP_STORIES[1]] as const;
 
 function RoadStoryCard({
   image,
   position,
   mobile = false,
+  first = false,
 }: {
   image: string;
   position: string;
   mobile?: boolean;
+  first?: boolean;
 }) {
   return (
     <article
       className={`relative shrink-0 overflow-clip text-white ${
         mobile
-          ? "aspect-[3/4] w-[min(350px,calc(100vw-43px))] snap-start rounded-[14.614px]"
+          ? `aspect-[3/4] w-[350px] snap-start rounded-[14.614px] ${first ? "ml-5 scroll-ml-5" : ""}`
           : "h-[485.645px] aspect-[300/400] snap-start rounded-[20.442px]"
       }`}
     >
@@ -33,7 +35,8 @@ function RoadStoryCard({
         src={`${ASSET}${image}`}
         alt=""
         fill
-        sizes={mobile ? "(max-width: 393px) calc(100vw - 43px), 350px" : "364px"}
+        quality={100}
+        sizes={mobile ? "350px" : "364px"}
         className={`pointer-events-none object-cover ${position}`}
       />
 
@@ -161,13 +164,19 @@ function RoadStoryCard({
         aria-hidden
         className={`pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${mobile ? "size-[37.174px]" : "size-[52px]"}`}
       >
-        <Image
-          src="/assets/reviews/play-figma.png"
-          alt=""
-          width={52}
-          height={52}
-          className={mobile ? "size-[37.174px]" : "size-[52px]"}
-        />
+        {mobile ? (
+          <div className="flex size-full items-center justify-center rounded-full border border-white/40 bg-white/20 shadow-[0_2px_12px_rgba(0,0,0,0.16)] backdrop-blur-[8px]">
+            <span aria-hidden className="ml-[2px] h-[13px] w-[11px] bg-white [clip-path:polygon(0_0,100%_50%,0_100%)]" />
+          </div>
+        ) : (
+          <Image
+            src="/assets/reviews/play-figma.png"
+            alt=""
+            width={52}
+            height={52}
+            className="size-[52px]"
+          />
+        )}
       </div>
     </article>
   );
@@ -180,8 +189,8 @@ export default function NeoRoadStories({
 }) {
   if (mode === "mobile") {
     return (
-      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-5 py-[42px]">
-        <header className="flex w-full max-w-[353px] flex-col items-center justify-center gap-[14px]">
+      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px]">
+        <header className="flex w-full flex-col items-center justify-center gap-[14px]">
           <div className="flex items-center gap-[6px]">
             <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
             <span className="font-sans text-[12px] font-normal uppercase leading-normal text-[#121212]">From the road</span>
@@ -194,17 +203,17 @@ export default function NeoRoadStories({
         <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-visible">
           <div
             id="neo-road-mobile-row"
-            className="no-scrollbar flex w-full snap-x snap-mandatory gap-[13.019px] overflow-x-auto overflow-y-hidden px-5"
+            className="no-scrollbar flex w-full snap-x snap-mandatory gap-[13.02px] overflow-x-auto overflow-y-hidden"
             style={{ overscrollBehaviorX: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
           >
-            {MOBILE_STORIES.map((story) => (
-              <RoadStoryCard key={story.image} image={story.image} position={story.position} mobile />
+            {MOBILE_STORIES.map((story, index) => (
+              <RoadStoryCard key={story.image} image={story.image} position={story.position} mobile first={index === 0} />
             ))}
           </div>
         </div>
         <PagerBar
           rowId="neo-road-mobile-row"
-          className="rounded-full bg-[#111] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-gradient-to-r [&>div]:from-[#1d9eb6] [&>div]:to-[#a4e4c5]"
+          className="rounded-full !bg-[#121212] p-[4px] [&>div]:h-[12px] [&>div]:w-[30px] [&>div]:bg-[linear-gradient(100.21deg,#00ff87_28.559%,#1d6fff_124.97%)]"
         />
       </section>
     );

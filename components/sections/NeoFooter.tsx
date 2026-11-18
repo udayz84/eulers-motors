@@ -243,7 +243,7 @@ function AccordionChevron({ open }: { open: boolean }) {
         aria-hidden
         width={10.8334}
         height={5.11952}
-        className="absolute left-[-0.75px] top-[-0.37px]"
+        className={`absolute left-[-0.75px] top-[-0.37px] ${open ? "" : "rotate-180"}`}
       />
     </span>
   );

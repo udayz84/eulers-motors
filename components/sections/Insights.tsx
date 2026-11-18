@@ -87,7 +87,7 @@ function DesktopArticleCard({ index }: { index: number }) {
 
 function DesktopInsights() {
   return (
-    <div className="mx-auto hidden h-[695px] w-full max-w-[1440px] flex-col items-center gap-8 px-20 pb-14 pt-[42px] min-[1280px]:flex">
+    <div className="mx-auto hidden h-[695px] w-full max-w-[1440px] flex-col items-center gap-8 px-20 pb-14 pt-[42px] min-[1024px]:flex">
       <header className="flex shrink-0 flex-col items-center justify-center gap-[14px] text-center">
         <div className="flex items-center gap-3">
           <Image src="/assets/insights/figma-highlight/logo.svg" alt="" width={14} height={14} aria-hidden />
@@ -127,18 +127,18 @@ function MobileInsights() {
   }, []);
 
   return (
-    <div className="flex w-full flex-col items-center gap-6 px-5 pb-8 pt-[42px] min-[1280px]:hidden">
+    <div className="flex w-full flex-col items-center gap-6 px-5 pb-8 pt-[42px] min-[1024px]:hidden">
       <header className="flex flex-col items-center justify-center gap-[14px] text-center">
         <div className="flex items-center gap-[6px]">
-          <Image src="/assets/insights/figma-instagram.svg" alt="" width={14} height={14} aria-hidden />
+          <Image src="/assets/insights/figma-highlight/logo.svg" alt="" width={14} height={14} aria-hidden />
           <span className="font-sans text-[12px] font-normal uppercase leading-normal text-ink">insights</span>
         </div>
         <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink">Learn More About EVs</h2>
       </header>
 
-      <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth pr-[10.388px]" aria-label="Featured articles">
+      <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth pr-[10.388px] max-[767px]:-mx-5 max-[767px]:w-[calc(100%+40px)] max-[767px]:pr-0" aria-label="Featured articles">
         {ARTICLES.map((article, index) => (
-          <article key={article.title} className="relative h-[320px] w-[324px] shrink-0 snap-start overflow-clip rounded-[12.58px]">
+          <article key={article.title} className={`relative h-[320px] w-[324px] shrink-0 snap-start overflow-clip rounded-[12.58px] ${index === 0 ? "max-[767px]:ml-5 max-[767px]:scroll-ml-5" : ""}`}>
             <div className="pointer-events-none absolute inset-0 rounded-[inherit]">
               {index !== 1 && <Image src={article.mobileImage} alt="" fill sizes="324px" className="rounded-[inherit] object-cover" />}
               {index === 0 && <div className="absolute inset-0 overflow-hidden rounded-[inherit]"><Image src={mobileStoryOverlay} alt="" width={1049} height={728} className="absolute left-[-2.59%] top-[-15.36%] h-[227.4%] max-w-none w-[323.86%]" /></div>}
@@ -151,7 +151,7 @@ function MobileInsights() {
               <span className="whitespace-nowrap font-sans text-[12px] font-semibold leading-normal text-black">14 July 2026</span><span aria-hidden className="size-1 shrink-0 rounded-full bg-black/50" /><span className="whitespace-nowrap font-sans text-[12px] font-semibold leading-normal text-black">09 Min</span>
             </div>
             <div className="absolute inset-x-3 bottom-3 flex flex-col gap-[6px] rounded-lg bg-white/20 p-3 text-white backdrop-blur-[10px]">
-              <h3 className={`w-full text-[16px] font-bold leading-normal tracking-[-0.32px] ${index > 0 ? "overflow-hidden text-ellipsis whitespace-nowrap" : ""}`}>{article.title}</h3>
+              <h3 className={`w-full font-sans text-[16px] font-semibold leading-normal tracking-[-0.32px] ${index > 0 ? "overflow-hidden text-ellipsis whitespace-nowrap" : ""}`}>{article.title}</h3>
               <p className="h-9 w-full overflow-hidden text-ellipsis text-[12px] font-normal leading-[1.5]">{article.desc}</p>
             </div>
           </article>

@@ -362,7 +362,7 @@ export default function Footer() {
                       width={10}
                       height={6}
                       aria-hidden
-                      className={`h-[4px] w-[9.333px] ${isOpen ? "" : "-scale-y-100"}`}
+                      className={`h-[4px] w-[9.333px] ${isOpen ? "" : "rotate-180"}`}
                     />
                   </button>
                   {isOpen && (
