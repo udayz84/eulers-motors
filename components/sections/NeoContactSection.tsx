@@ -152,22 +152,22 @@ export default function NeoContactSection({
 
   if (mode === "mobile") {
     return (
-      <section id="contact" className="bg-white px-5 py-6 text-[#121212]">
-        <div className="mx-auto flex w-full max-w-[353px] flex-col gap-6">
+      <section id="contact" className="bg-white px-5 py-6 text-[#121212] min-[768px]:max-[1023px]:px-8 min-[768px]:max-[1023px]:py-12">
+        <div className="mx-auto flex w-full max-w-[353px] flex-col gap-6 min-[768px]:max-[1023px]:max-w-[760px] min-[768px]:max-[1023px]:gap-8">
           <div className="flex flex-col items-start gap-[14px]">
             <div className="flex items-center gap-3">
               <Image src={`${A}logo.svg`} alt="" width={14} height={14} />
               <span className="font-sans text-[12px] uppercase leading-none">Next step</span>
             </div>
-            <h2 className="w-[291px] max-w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px]">
+            <h2 className="w-[291px] max-w-full font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] min-[768px]:max-[1023px]:w-full min-[768px]:max-[1023px]:text-[36px]">
               Want to know more about Neo?
             </h2>
-            <p className="m-0 font-sans text-[12px] leading-[1.2]">
+            <p className="m-0 font-sans text-[12px] leading-[1.2] min-[768px]:max-[1023px]:max-w-[650px] min-[768px]:max-[1023px]:text-[14px]">
               We bring the vehicle to your depot with a load on it. Forty minutes. No pressure. You keep the cost report.
             </p>
           </div>
 
-          <div className="flex flex-col gap-[10px]">
+          <div className="flex flex-col gap-[10px] min-[768px]:max-[1023px]:grid min-[768px]:max-[1023px]:grid-cols-2 min-[768px]:max-[1023px]:gap-4">
             <form
               onSubmit={(event) => event.preventDefault()}
               className="flex w-full flex-col gap-3 rounded-[10px] bg-[#f3f4f5] p-4"
@@ -206,9 +206,9 @@ export default function NeoContactSection({
   return (
     <section
       id="contact"
-      className="relative isolate mx-auto grid min-h-[789px] w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_minmax(0,517px)] items-stretch gap-[clamp(24px,4.167vw,60px)] overflow-hidden bg-white px-[clamp(24px,5.556vw,80px)] pb-[42px] pt-[64px] max-[1100px]:min-h-0 max-[1100px]:grid-cols-1 max-[1100px]:gap-6 max-[1100px]:px-6 max-[1100px]:py-8"
+      className="relative isolate mx-auto grid min-h-[789px] w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_minmax(0,517px)] items-stretch gap-[60px] overflow-hidden bg-white px-[80px] pb-[42px] pt-[64px] max-[767px]:min-h-0 max-[767px]:grid-cols-1 max-[767px]:gap-6 max-[767px]:px-6 max-[767px]:py-8"
     >
-      <div aria-hidden className="pointer-events-none absolute left-[-8px] top-[192px] -z-10 h-[441px] w-[630.733px] max-w-[60%] max-[1100px]:left-0 max-[1100px]:top-[110px] max-[1100px]:w-[80%]">
+      <div aria-hidden className="pointer-events-none absolute left-[-8px] top-[192px] -z-10 h-[441px] w-[630.733px] max-w-[60%] max-[767px]:left-0 max-[767px]:top-[110px] max-[767px]:w-[80%]">
         <Image src="/assets/faq/next-step-dashboard.png" alt="" fill sizes="(max-width: 1100px) 80vw, 631px" className="object-cover blur-none opacity-100" />
         <div
           className="absolute inset-0"
@@ -219,8 +219,8 @@ export default function NeoContactSection({
         />
       </div>
 
-      <div className="relative z-10 flex min-h-[683px] min-w-0 flex-col justify-between max-[1100px]:min-h-0 max-[1100px]:gap-10">
-        <div className="flex max-w-[630px] -translate-y-2 flex-col items-start gap-[14px] max-[1100px]:translate-y-0">
+      <div className="relative z-10 flex min-h-[683px] min-w-0 flex-col justify-between max-[767px]:min-h-0 max-[767px]:gap-10">
+        <div className="flex max-w-[630px] -translate-y-2 flex-col items-start gap-[14px] max-[767px]:translate-y-0">
           <div className="flex items-center gap-3">
             <Image src={`${A}logo.svg`} alt="" width={14} height={14} />
             <span className="font-sans text-[16px] uppercase leading-none">Next step</span>
@@ -233,7 +233,7 @@ export default function NeoContactSection({
           </p>
         </div>
 
-        <div className="grid max-w-[610px] grid-cols-2 items-start gap-[10px] max-[1100px]:max-w-none max-[640px]:grid-cols-1">
+        <div className="grid max-w-[610px] grid-cols-2 items-start gap-[10px] max-[767px]:max-w-none max-[640px]:grid-cols-1">
           <div className="flex min-w-0 flex-col gap-[10px]">
             <ContactCard contact={CONTACTS[0]} />
             <ContactCard contact={CONTACTS[1]} />
@@ -244,7 +244,7 @@ export default function NeoContactSection({
 
       <form
         onSubmit={(event) => event.preventDefault()}
-        className="relative z-10 mt-[36.477px] flex h-[647px] w-full flex-col justify-center gap-8 rounded-[16px] bg-[#f3f4f5] p-8 max-[1100px]:mx-auto max-[1100px]:mt-0 max-[1100px]:h-auto max-[1100px]:min-h-0 max-[1100px]:max-w-[517px] max-[640px]:p-5"
+        className="relative z-10 mt-[36.477px] flex h-[647px] w-full flex-col justify-center gap-8 rounded-[16px] bg-[#f3f4f5] p-8 max-[767px]:mx-auto max-[767px]:mt-0 max-[767px]:h-auto max-[767px]:min-h-0 max-[767px]:max-w-[517px] max-[640px]:p-5"
       >
         <div className="flex flex-col gap-3">
           <h3 className="m-0 whitespace-nowrap font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.64px] max-[640px]:text-[24px]">

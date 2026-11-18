@@ -26,7 +26,7 @@ export default function EulerPrimeBanner() {
             alt=""
             width={1440}
             height={800}
-            className="absolute max-w-none h-[175.86%] left-[-4.68%] top-[-37.93%] w-[119.36%]"
+            className="absolute max-w-none h-[175.86%] left-[-4.68%] top-[-37.93%] w-[119.36%] object-cover"
           />
         </div>
         <div
@@ -42,7 +42,7 @@ export default function EulerPrimeBanner() {
             alt=""
             width={1440}
             height={800}
-            className="absolute max-w-none h-[117.64%] left-[-17.02%] top-[-11.93%] w-[122.39%]"
+            className="absolute max-w-none h-[117.64%] left-[-17.02%] top-[-11.93%] w-[122.39%] object-cover"
           />
         </div>
       </div>

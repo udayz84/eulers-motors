@@ -3,11 +3,6 @@ import Hero from "@/components/sections/Hero";
 import StatsBanner from "@/components/sections/StatsBanner";
 import ProductShowcase from "@/components/sections/ProductShowcase";
 import PromoCard from "@/components/sections/PromoCard";
-import NeoDayWithNeo from "@/components/sections/NeoDayWithNeo";
-import NeoDayWithNeoMobile from "@/components/sections/NeoDayWithNeoMobile";
-import NeoAboutBannerMobile from "@/components/sections/NeoAboutBannerMobile";
-import EulerPrimeBanner from "@/components/sections/EulerPrimeBanner";
-import EulerPrimeBannerMobile from "@/components/sections/EulerPrimeBannerMobile";
 import SavingsCalculator from "@/components/sections/SavingsCalculator";
 import CompareSection from "@/components/sections/CompareSection";
 import Technology from "@/components/sections/Technology";
@@ -43,11 +38,6 @@ export default function Home() {
           cropMobile={[-116.95, 14.1, 243.08, 102.25]}
           mobilePosition="62% 100%"
         />
-        <NeoAboutBannerMobile />
-        <NeoDayWithNeo />
-        <NeoDayWithNeoMobile />
-        <EulerPrimeBanner />
-        <EulerPrimeBannerMobile />
         <SavingsCalculator />
         <PromoCard
           title="Talk to an expert "

@@ -25,8 +25,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {/* Tablet scale-to-fit — set BEFORE first paint (no flash): in the
             768–1279.98px band, render the desktop design at its native 1440px
-            canvas, scaled to the exact viewport width. On Neo, tablets below
-            1024px use the expanded mobile layout and skip this page zoom.
+            canvas, scaled to the exact viewport width.
             Must be a JS-assigned number: Chrome silently drops calc() inside
             the zoom property, so the CSS calc version never applied.
             innerWidth is unaffected by root zoom (verified) and the band guard
@@ -34,7 +33,7 @@ export default function RootLayout({
             (≥1280): zoom removed. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){function z(){var w=window.innerWidth;var neo=location.pathname==="/neo"||location.pathname.indexOf("/neo/")===0;var m=matchMedia("(min-width:768px) and (max-width:1279.98px)");var applyZoom=m.matches&&!(neo&&w<1024);document.documentElement.style.zoom=applyZoom?w/1440:""}z();addEventListener("resize",z)})();`,
+            __html: `(function(){function z(){var w=window.innerWidth;var m=matchMedia("(min-width:768px) and (max-width:1279.98px)");document.documentElement.style.zoom=m.matches?w/1440:""}z();addEventListener("resize",z)})();`,
           }}
         />
         {children}

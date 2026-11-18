@@ -27,7 +27,7 @@ function RoadStoryCard({
     <article
       className={`relative shrink-0 overflow-clip text-white ${
         mobile
-          ? `aspect-[3/4] w-[350px] snap-start rounded-[14.614px] ${first ? "ml-5 scroll-ml-5" : ""}`
+          ? `aspect-[3/4] w-[350px] snap-start rounded-[14.614px] min-[768px]:max-[1023px]:w-[420px] ${first ? "ml-5 scroll-ml-5 min-[768px]:max-[1023px]:ml-8 min-[768px]:max-[1023px]:scroll-ml-8" : ""}`
           : "h-[485.645px] aspect-[300/400] snap-start rounded-[20.442px]"
       }`}
     >
@@ -189,13 +189,13 @@ export default function NeoRoadStories({
 }) {
   if (mode === "mobile") {
     return (
-      <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px]">
+        <section aria-labelledby="neo-road-title-mobile" className="flex flex-col items-center gap-6 bg-white px-0 py-[42px] min-[768px]:max-[1023px]:gap-8 min-[768px]:max-[1023px]:py-12">
         <header className="flex w-full flex-col items-center justify-center gap-[14px]">
           <div className="flex items-center gap-[6px]">
             <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
             <span className="font-sans text-[12px] font-normal uppercase leading-normal text-[#121212]">From the road</span>
           </div>
-          <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212]">
+          <h2 id="neo-road-title-mobile" className="m-0 whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-[#121212] min-[768px]:max-[1023px]:text-[36px]">
             What other drivers say
           </h2>
         </header>
@@ -231,7 +231,7 @@ export default function NeoRoadStories({
         </h2>
       </header>
 
-      <div className="relative left-1/2 h-[485.645px] w-screen -translate-x-1/2 overflow-hidden">
+      <div className="relative h-[485.645px] w-full overflow-hidden">
         <div
           id="neo-road-desktop-row"
           className="relative h-full w-full overflow-hidden"
@@ -240,10 +240,7 @@ export default function NeoRoadStories({
             <div
               aria-hidden
               className="shrink-0"
-              style={{
-                width:
-                  "calc(max(0px, (100vw - 1440px) / 2) + max(0px, (min(100vw, 1440px) - 1400px) / 2) + 36px)",
-              }}
+              style={{ width: "56px" }}
             />
             <div className="flex h-full w-max shrink-0 gap-6 will-change-transform [--marquee-gap:24px] animate-marquee">
               {[...DESKTOP_STORIES, ...DESKTOP_STORIES].map((story, index) => (
