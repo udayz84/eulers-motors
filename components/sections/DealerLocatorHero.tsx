@@ -131,6 +131,14 @@ const DEFAULT_TAB_CONTENT = {
 export interface DealerLocatorHeroProps {
   variant?: SupportTabType;
   supportBadgeText?: string;
+  pageContent?: {
+    title?: string;
+    subtitle?: string;
+    searchLabel?: string;
+    resultsLabel?: string;
+  };
+  helplineLabel?: string;
+  helplineNumber?: string;
   tabContent?: {
     dealer?: { tabLabel?: string; title?: string; subtitle?: string; searchLabel?: string; resultsLabel?: string };
     charging?: { tabLabel?: string; title?: string; subtitle?: string; searchLabel?: string; resultsLabel?: string };
@@ -151,6 +159,9 @@ export interface DealerLocatorHeroProps {
 export default function DealerLocatorHero({
   variant = "dealer",
   supportBadgeText = "Support",
+  pageContent,
+  helplineLabel = "Toll-Free Helpline",
+  helplineNumber = "1800-2128-2128",
   tabContent,
   cities,
   defaultCity,
@@ -206,7 +217,15 @@ export default function DealerLocatorHero({
     service: { ...DEFAULT_TAB_CONTENT.service, ...tabContent?.service },
   };
 
-  const currentContent = activeContent[activeTab];
+  const currentContent = pageContent
+    ? {
+        title: pageContent.title || activeContent[activeTab].title,
+        subtitle: pageContent.subtitle || activeContent[activeTab].subtitle,
+        searchLabel: pageContent.searchLabel || activeContent[activeTab].searchLabel,
+        resultsLabel: pageContent.resultsLabel || activeContent[activeTab].resultsLabel,
+        tabLabel: activeContent[activeTab].tabLabel,
+      }
+    : activeContent[activeTab];
   const isCharging = activeTab === "charging";
   const isServicePage = currentVariant === "service";
 
@@ -283,9 +302,9 @@ export default function DealerLocatorHero({
               </div>
             </a>
             <div className="flex flex-col gap-[2px] items-start justify-center relative shrink-0 text-center text-white whitespace-nowrap">
-              <p className="font-sans font-normal text-[12px]">Toll-Free Helpline</p>
+              <p className="font-sans font-normal text-[12px]">{helplineLabel}</p>
               <p className="font-display font-semibold leading-[1.15] tracking-[-0.36px] text-[18px]">
-                1800-2128-2128
+                {helplineNumber}
               </p>
             </div>
           </div>
@@ -312,9 +331,9 @@ export default function DealerLocatorHero({
               </div>
             </a>
             <div className="flex flex-col gap-[2px] items-center justify-center relative shrink-0 text-center text-white whitespace-nowrap">
-              <p className="font-sans font-normal text-[12px]">Toll-Free Helpline</p>
+              <p className="font-sans font-normal text-[12px]">{helplineLabel}</p>
               <p className="font-display font-semibold leading-[1.15] tracking-[-0.36px] text-[18px]">
-                1800-2128-2128
+                {helplineNumber}
               </p>
             </div>
           </div>

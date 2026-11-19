@@ -9,42 +9,33 @@ import ChargingStationFaq from "@/components/sections/ChargingStationFaq";
 import ServiceGuidelines from "@/components/sections/ServiceGuidelines";
 import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import {
-  getChargingStations,
-  getDealerLocatorPageData,
-  getDealers,
   getServiceCenters,
+  getServiceCentersPageData,
   mapDealerLocatorHeroProps,
 } from "@/lib/strapi/client";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await getDealerLocatorPageData();
-  const hero = data?.hero;
+  const data = await getServiceCentersPageData();
   const seo = data?.seo;
   return {
-    title: hero?.serviceTabTitle || seo?.metaTitle || "Find an Euler Motors Authorized Service Center",
+    title: seo?.metaTitle || data?.hero?.title || "Find an Euler Motors Authorized Service Center",
     description:
-      hero?.serviceTabSubtitle ||
       seo?.metaDescription ||
+      data?.hero?.subtitle ||
       "Authorized Euler service centers with genuine parts and certified experts across India.",
     keywords: seo?.keywords || "euler service center, commercial ev repairs, euler workshop, euler parts",
   };
 }
 
 export default async function ServiceCentersPage() {
-  const [data, dealers, chargingStations, serviceCenters] = await Promise.all([
-    getDealerLocatorPageData(),
-    getDealers(),
-    getChargingStations(),
+  const [data, serviceCenters] = await Promise.all([
+    getServiceCentersPageData(),
     getServiceCenters(),
   ]);
 
-  const heroProps = mapDealerLocatorHeroProps(data?.hero, {
-    dealers,
-    chargingStations,
-    serviceCenters,
-  });
+  const heroProps = mapDealerLocatorHeroProps(undefined, { serviceCenters }, data?.hero);
 
   return (
     <>

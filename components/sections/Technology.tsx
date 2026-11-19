@@ -70,14 +70,8 @@ export default function Technology({
   const card1Img = card1.image ? mediaUrl(card1.image) : undefined;
   const card1MobileImg = card1.mobileImage ? mediaUrl(card1.mobileImage) : card1Img;
 
-  const card2Img = card2.image ? mediaUrl(card2.image) : undefined;
-  const card2MobileImg = card2.mobileImage ? mediaUrl(card2.mobileImage) : card2Img;
-
   const card3Img = card3.image ? mediaUrl(card3.image) : undefined;
   const card3MobileImg = card3.mobileImage ? mediaUrl(card3.mobileImage) : card3Img;
-
-  const card4Img = card4.image ? mediaUrl(card4.image) : undefined;
-  const card4MobileImg = card4.mobileImage ? mediaUrl(card4.mobileImage) : card4Img;
 
   return (
     <section id="technology" className="bg-white" aria-label="Technology">
@@ -144,76 +138,53 @@ export default function Technology({
                   </>
                 )}
                 <CardHeading
-                  className="z-10 lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
+                  className="z-10 inset-x-[14px] bottom-[14px] lg:inset-x-auto lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
                   num={card1.tag || "01 / Battery"}
                   title={card1.title}
                   desc={card1.description}
                 />
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
-                {card2Img ? (
-                  <>
-                    <Image
-                      src={card2Img}
-                      alt={card2.title}
-                      fill
-                      sizes="(max-width:1024px) 393px, 741px"
-                      className="hidden object-cover object-[right_top] lg:block"
-                    />
-                    <Image
-                      src={card2MobileImg || card2Img}
-                      alt={card2.title}
-                      fill
-                      sizes="393px"
-                      className="object-cover object-[right_top] lg:hidden"
-                    />
-                  </>
-                ) : (
-                  <>
-                    {/* desktop: cabin interior · mobile: truck exterior photo (different Figma fills) */}
-                    <Image src="/assets/technology/card-safety.png" alt="" fill sizes="(max-width:1024px) 393px, 741px" className="object-cover max-lg:hidden" />
-                    {/* mobile: the truck split from its background — the card base
-                        is the truck-free gradient strip (top third of the Figma
-                        fill 1:4799, stretched), and the truck itself is a crop
-                        from the same render parked bottom-right, masked with a
-                        diagonal fade so its edges melt into the identical
-                        gradient (no rectangle seam, and only the truck moves) */}
-                    <Image
-                      src="/assets/technology/card-safety-mobile-bg.png"
-                      alt=""
-                      fill
-                      sizes="393px"
-                      className="object-fill lg:hidden"
-                    />
-                    <Image
-                      src="/assets/technology/card-safety-mobile-truck.png"
-                      alt=""
-                      width={1909}
-                      height={1040}
-                      sizes="240px"
-                      className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
-                    />
-                    {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
-                    <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
-                    {/* desktop glow — Ellipse 3424 svg (Figma 1:1648): container 811.56×184.94
-                        at (-79.29, -16.87), svg oversized via insets -85.11%/-19.39% */}
-                    <div aria-hidden className="absolute left-[-79.29px] top-[-16.87px] hidden h-[184.94px] w-[811.56px] lg:block">
-                      <div className="absolute inset-[-85.11%_-19.39%]">
-                        <Image src="/assets/technology/ellipse.svg" alt="" fill sizes="1127px" className="pointer-events-none" />
-                      </div>
-                    </div>
-                  </>
-                )}
+                {/* desktop: cabin interior · mobile: truck exterior photo (Figma node 2437:3959) */}
+                <Image
+                  src="/assets/technology/card-safety.png"
+                  alt=""
+                  fill
+                  sizes="(max-width:1024px) 393px, 741px"
+                  className="object-cover max-lg:hidden"
+                />
+                {/* mobile: the truck split from its background */}
+                <Image
+                  src="/assets/technology/card-safety-mobile-bg.png"
+                  alt=""
+                  fill
+                  sizes="393px"
+                  className="object-fill lg:hidden"
+                />
+                <Image
+                  src="/assets/technology/card-safety-mobile-truck.png"
+                  alt=""
+                  width={1909}
+                  height={1040}
+                  sizes="240px"
+                  className="pointer-events-none absolute -bottom-6 right-[-15px] w-[82%] [-webkit-mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] [mask-image:linear-gradient(to_bottom_right,transparent_15%,black_45%)] lg:hidden"
+                />
+                {/* mobile scrim behind the top-left heading (Figma 1:4800: #d0d9e9 fade) */}
+                <div aria-hidden className="absolute inset-x-0 top-0 h-[103px] bg-gradient-to-b from-[#d0d9e9] to-transparent lg:hidden" />
+                {/* desktop glow — Ellipse 3424 svg (Figma 1:1648 / 2437:3960): container 811.56×184.94
+                    at (-79.29, -16.87), svg oversized via insets -85.11%/-19.39% */}
+                <div aria-hidden className="absolute left-[-79.29px] top-[-16.87px] hidden h-[184.94px] w-[811.56px] lg:block">
+                  <div className="absolute inset-[-85.11%_-19.39%]">
+                    <Image src="/assets/technology/ellipse.svg" alt="" fill sizes="1127px" className="pointer-events-none" />
+                  </div>
+                </div>
+
                 <CardHeading
-                  className={
-                    card2Img
-                      ? "z-10 bottom-[14px] left-[14px] lg:bottom-[28px] lg:left-[28px] lg:top-auto lg:w-[480px]"
-                      : "z-10 max-lg:bottom-auto max-lg:right-auto max-lg:top-[14px] max-lg:w-[281px] lg:bottom-auto lg:left-[28px] lg:top-[30px] lg:w-[534px]"
-                  }
+                  className="z-10 left-[14px] top-[14px] w-[281px] lg:left-[28px] lg:top-[30px] lg:w-[534px]"
                   num={card2.tag || "02 / Safety"}
                   title={card2.title}
-                  titleW={card2Img ? "max-w-[240px] lg:max-w-[320px]" : "max-lg:max-w-[236px] lg:max-w-[244px]"}
-                  descW={card2Img ? "max-w-[240px] lg:max-w-[320px]" : "max-lg:max-w-[187px] lg:max-w-[327px]"}
+                  titleW="max-lg:max-w-[236px] lg:max-w-[244px]"
+                  descW="max-lg:max-w-[220px] lg:max-w-[327px]"
                   desc={card2.description}
                 />
               </article>
@@ -309,51 +280,26 @@ export default function Technology({
                 </div>
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[290px] lg:h-[343px] lg:flex-1 lg:rounded-3xl">
-                {card4Img ? (
-                  <>
-                    <Image
-                      src={card4Img}
-                      alt={card4.title}
-                      fill
-                      sizes="(max-width:1024px) 393px, 588px"
-                      className="hidden object-cover object-[center_52%] lg:block"
-                    />
-                    <Image
-                      src={card4MobileImg || card4Img}
-                      alt={card4.title}
-                      fill
-                      sizes="393px"
-                      className="object-cover object-[center_52%] lg:hidden"
-                    />
-                  </>
-                ) : (
-                  <>
-                    {/* desktop: rendered at the Figma 588px scale (Figma 1:1664) anchored
-                        top-right — this flex-1 card runs wider than Figma's 588px, and a
-                        filling object-cover would zoom the truck down over the heading.
-                        The flat wash left of the photo matches the photo background (same
-                        family as the 01 battery card's bg) */}
-                    <Image
-                      src="/assets/technology/card-perf.png"
-                      alt=""
-                      width={588}
-                      height={369}
-                      sizes="588px"
-                      className="absolute right-0 top-0 h-[343px] w-[588px] object-cover object-top max-lg:hidden"
-                    />
-                    <Image src="/assets/technology/card-perf-mobile.png" alt="" fill sizes="393px" className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden" />
-                  </>
-                )}
+                {/* desktop: Figma node 2437:3954 */}
+                <Image
+                  src="/assets/technology/card-perf.png"
+                  alt=""
+                  fill
+                  sizes="(max-width:1024px) 393px, 589px"
+                  className="pointer-events-none object-cover object-bottom max-lg:hidden"
+                />
+                <Image
+                  src="/assets/technology/card-perf-mobile.png"
+                  alt=""
+                  fill
+                  sizes="393px"
+                  className="object-cover scale-[1.25] -translate-y-[10%] translate-x-[10%] lg:hidden"
+                />
                 <CardHeading
-                  className={
-                    card4Img
-                      ? "z-10 bottom-[14px] left-[14px] lg:bottom-auto lg:top-[28px] lg:left-[32px] lg:w-[280px]"
-                      : "z-10 lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
-                  }
+                  className="z-10 bottom-[14px] left-[14px] lg:bottom-[21px] lg:left-[36px] lg:w-[534px]"
                   num={card4.tag || "04 / Performance"}
                   title={card4.title}
-                  titleW={card4Img ? "max-w-[240px] lg:max-w-[260px]" : ""}
-                  descW={card4Img ? "max-w-[240px] lg:max-w-[260px]" : "max-lg:max-w-[315px] lg:max-w-[484px]"}
+                  descW="max-lg:max-w-[315px] lg:max-w-[484px]"
                   desc={card4.description}
                 />
               </article>
@@ -379,7 +325,7 @@ function CardHeading({
   desc,
   titleW = "",
   descW = "lg:max-w-[427px]",
-  className = "",
+  className = "inset-x-[14px] bottom-[14px]",
 }: {
   num: string;
   title: string;
@@ -391,7 +337,7 @@ function CardHeading({
   className?: string;
 }) {
   return (
-    <div className={`absolute inset-x-[14px] bottom-[14px] flex flex-col gap-3 lg:gap-3 ${className}`}>
+    <div className={`absolute flex flex-col gap-3 lg:gap-3 ${className}`}>
       <p className="font-display text-[12px] font-bold leading-[10.75px] tracking-[1.19px] text-ink-3 lg:text-[11px] lg:leading-[17.82px] lg:tracking-[1.98px]">
         {num}
       </p>

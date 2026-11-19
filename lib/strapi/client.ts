@@ -24,6 +24,8 @@ import {
   StrapiProductDetail,
   StrapiNavbarData,
   StrapiFooterData,
+  StrapiServiceCentersPageData,
+  StrapiPageHero,
 } from "@/types/strapi";
 import { DEFAULT_HOME_PAGE } from "./defaults/home";
 import {
@@ -42,6 +44,7 @@ import { defaultInPressPageData } from "./defaults/press";
 import { defaultInsightsPageData } from "./defaults/insights";
 import { defaultCareersPageData, defaultCareerPositions } from "./defaults/careers";
 import { defaultNavbarData, defaultFooterData } from "./defaults/chrome";
+import { defaultServiceCentersPageData } from "./defaults/service-centers";
 import {
   defaultPrivacyPolicyPageData,
   defaultRefundPolicyPageData,
@@ -461,17 +464,84 @@ const CONTACT_CARDS_POPULATE = {
 /**
  * Maps Strapi dealer hero content & live collections into DealerLocatorHero props.
  */
+const mapChargingStation = (s: StrapiChargingStation) => ({
+  id: s.slug || String(s.id),
+  name: s.name,
+  badges: s.badges || ["CCS2"],
+  address: s.address,
+  city: s.city,
+  hours: s.hours || "Open 24 hours",
+  operatingDays: s.operatingDays,
+  distance: s.distance || "13",
+  phone: s.phone || "1800 000 0000",
+});
+
+const mapServiceCenter = (sc: StrapiServiceCenter) => ({
+  id: sc.slug || String(sc.id),
+  name: sc.name,
+  badges: sc.badges || ["Service"],
+  address: sc.address,
+  city: sc.city,
+  hours: sc.hours || "Open until 8 pm",
+  operatingDays: sc.operatingDays,
+  distance: sc.distance || "2.1",
+  phone: sc.phone || "1800 000 0000",
+});
+
 export function mapDealerLocatorHeroProps(
   hero?: DealerLocatorPageData["hero"],
   collections?: {
     dealers?: StrapiDealer[];
     chargingStations?: StrapiChargingStation[];
     serviceCenters?: StrapiServiceCenter[];
-  }
+  },
+  pageHero?: StrapiPageHero
 ) {
   const dealerSource = collections?.dealers ?? hero?.dealers;
   const stationSource = collections?.chargingStations ?? hero?.chargingStations;
   const serviceSource = collections?.serviceCenters ?? hero?.serviceCenters;
+
+  // Isolated per-page hero takes precedence; falls back to the shared
+  // all-tabs hero for pages that have not filled pageHero yet.
+  if (pageHero) {
+    return {
+      supportBadgeText: pageHero.supportBadge,
+      tabContent: {
+        dealer: { tabLabel: pageHero.tabDealerLabel },
+        charging: { tabLabel: pageHero.tabChargingLabel },
+        service: { tabLabel: pageHero.tabServiceLabel },
+      },
+      pageContent: {
+        title: pageHero.title,
+        subtitle: pageHero.subtitle,
+        searchLabel: pageHero.searchPlaceholder,
+        resultsLabel: pageHero.resultsLabel,
+      },
+      cities: pageHero.cities,
+      defaultCity: pageHero.defaultCity,
+      locationButtonLabel: pageHero.locationButtonLabel,
+      directionsButtonLabel: pageHero.directionsButtonLabel,
+      distanceUnit: pageHero.distanceUnit,
+      emptyStateText: pageHero.emptyStateText,
+      mapImage: pageHero.mapImage,
+      helplineLabel: pageHero.helplineLabel,
+      helplineNumber: pageHero.helplineNumber,
+      dealers: dealerSource?.map((d) => ({
+        id: d.slug || String(d.id),
+        name: d.name,
+        badges: d.badges || ["Dealer"],
+        address: d.address,
+        city: d.city,
+        state: d.state,
+        hours: d.hours || "Open until 7 pm",
+        operatingDays: d.operatingDays,
+        distance: d.distance || "1.3",
+        phone: d.phone || "1800 000 0000",
+      })),
+      chargingStations: stationSource?.map(mapChargingStation),
+      serviceCenters: serviceSource?.map(mapServiceCenter),
+    };
+  }
 
   return {
     supportBadgeText: hero?.supportBadge,
@@ -553,6 +623,11 @@ export async function getDealerLocatorPageData(): Promise<DealerLocatorPageData>
     hero: {
       populate: DEALER_HERO_POPULATE,
     },
+    pageHero: {
+      populate: {
+        mapImage: { populate: "*" },
+      },
+    },
     contactSection: {
       populate: {
         cards: CONTACT_CARDS_POPULATE,
@@ -584,6 +659,11 @@ export async function getChargingStationsPageData(): Promise<ChargingStationsPag
     seo: { populate: "*" },
     hero: {
       populate: DEALER_HERO_POPULATE,
+    },
+    pageHero: {
+      populate: {
+        mapImage: { populate: "*" },
+      },
     },
     chargingContactSection: {
       populate: {
@@ -688,6 +768,29 @@ export async function getCareerPositions(): Promise<StrapiCareerPosition[]> {
       revalidate: 60,
     },
     defaultCareerPositions
+  );
+}
+
+/**
+ * Fetch Service Centers Page Single Type (isolated hero + SEO)
+ */
+export async function getServiceCentersPageData(): Promise<StrapiServiceCentersPageData> {
+  const populate = {
+    hero: {
+      populate: {
+        mapImage: { populate: "*" },
+      },
+    },
+    seo: { populate: "*" },
+  };
+
+  return getSingleType<StrapiServiceCentersPageData>(
+    "service-centers-page",
+    {
+      populate,
+      revalidate: 60,
+    },
+    defaultServiceCentersPageData
   );
 }
 

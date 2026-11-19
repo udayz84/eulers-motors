@@ -1,0 +1,16 @@
+{
+  "kind": "singleType",
+  "collectionName": "service_centers_pages",
+  "info": {
+    "singularName": "service-centers-page",
+    "pluralName": "service-centers-pages",
+    "displayName": "Service Centers Page",
+    "description": "Service centers page: isolated hero, locator widget config, and SEO"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": { "type": "component", "repeatable": false, "component": "dealer.page-hero" },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" }
+  }
+}

@@ -356,7 +356,7 @@ export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
         <div
           className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
         >
-          <VehicleGroundShadow className="top-[93%] w-[84%] h-[48px] sm:h-[62px]" />
+          <VehicleGroundShadow vehicleId="storm-ev-t1500" className="top-[93%] w-[84%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-storm-t1500-clean.png"
             alt="Euler Storm EV T1500"
@@ -387,7 +387,7 @@ export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
         <div className="absolute left-1/2 -translate-x-1/2 w-[56%] h-[52%] top-[25.5%]">
-          <VehicleGroundShadow className="top-[93%] w-[84%] h-[68px] xl:h-[78px]" />
+          <VehicleGroundShadow vehicleId="storm-ev-t1500" className="top-[93%] w-[84%] h-[68px] xl:h-[78px]" />
           <Image
             src="/assets/products/vehicle-storm-t1500-clean.png"
             alt="Euler Storm EV T1500"

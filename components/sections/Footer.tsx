@@ -33,31 +33,25 @@ const COLUMNS: FooterColumn[] = [
 ];
 
 const SOCIALS = [
-  /* the Figma sources for instagram/youtube are stored flipped and
-     displayed with -rotate-180 -scale-x-100 (node 1:2235/39); X is upright */
   {
     icon: "/assets/footer/icon-facebook.svg",
     label: "Facebook",
     href: "https://www.facebook.com/EulerMotors/",
-    flip: false,
   },
   {
     icon: "/assets/footer/icon-instagram.svg",
     label: "Instagram",
     href: "https://www.instagram.com/eulermotors/",
-    flip: true,
   },
   {
     icon: "/assets/footer/icon-youtube.svg",
     label: "YouTube",
     href: "https://www.youtube.com/c/EulerMotors",
-    flip: true,
   },
   {
     icon: "/assets/footer/icon-x.svg",
     label: "X",
     href: "https://twitter.com/Euler_Motors",
-    flip: false,
   },
 ];
 
@@ -376,7 +370,7 @@ export default function Footer({ data }: { data?: StrapiFooterData }) {
                   width={18}
                   height={18}
                   aria-hidden
-                  className={`size-[18px] ${s.flip ? "-rotate-180 -scale-x-100" : ""}`}
+                  className="size-[18px]"
                 />
               </a>
             ))}

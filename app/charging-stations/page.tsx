@@ -8,8 +8,6 @@ import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import {
   getChargingStations,
   getChargingStationsPageData,
-  getDealers,
-  getServiceCenters,
   mapDealerLocatorHeroProps,
 } from "@/lib/strapi/client";
 
@@ -30,19 +28,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ChargingStationsPage() {
-  const [data, dealers, chargingStations, serviceCenters] = await Promise.all([
+  const [data, chargingStations] = await Promise.all([
     getChargingStationsPageData(),
-    getDealers(),
     getChargingStations(),
-    getServiceCenters(),
   ]);
 
   const faqSection = data?.faqSection;
-  const heroProps = mapDealerLocatorHeroProps(data?.hero, {
-    dealers,
-    chargingStations,
-    serviceCenters,
-  });
+  const heroProps = mapDealerLocatorHeroProps(data?.hero, { chargingStations }, data?.pageHero);
 
   return (
     <>

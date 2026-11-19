@@ -23,6 +23,7 @@ const SINGLE_TYPES = [
   "careers-page",
   "technology-page",
   "dealer-locator-page",
+  "service-centers-page",
   "charging-stations-page",
   "faq-page",
   "in-press-page",

@@ -141,7 +141,7 @@ export default function Insights({
             return (
               <article
                 key={`${cardTitle}-${i}`}
-                className={`relative h-[320px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px] ${
+                className={`relative h-[360px] w-[300px] shrink-0 overflow-clip rounded-[12.6px] lg:h-[407px] lg:w-auto lg:flex-1 lg:rounded-[16px] ${
                   currentArticles.length < 3 ? "lg:max-w-[413.33px]" : ""
                 }`}
               >
@@ -163,9 +163,10 @@ export default function Insights({
                   <Image
                     src={imgSrc}
                     alt=""
-                    fill
+                    width={592}
+                    height={407}
                     sizes="(max-width:1024px) 324px, 427px"
-                    className="object-cover"
+                    className="w-full h-auto object-cover"
                   />
                 )}
                 {hasOverlay && (

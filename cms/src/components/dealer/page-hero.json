@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_dealer_page_heroes",
+  "info": {
+    "displayName": "Locator Page Hero",
+    "icon": "mapPin",
+    "description": "Isolated per-page hero: support badge, the three tab labels, this page's title/subtitle, and locator widget config"
+  },
+  "options": {},
+  "attributes": {
+    "supportBadge": { "type": "string", "default": "Support" },
+    "tabDealerLabel": { "type": "string", "default": "Dealer Locator" },
+    "tabChargingLabel": { "type": "string", "default": "Charging Stations" },
+    "tabServiceLabel": { "type": "string", "default": "Service Centers" },
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" },
+    "searchPlaceholder": { "type": "string" },
+    "resultsLabel": { "type": "string" },
+    "cities": { "type": "string" },
+    "defaultCity": { "type": "string" },
+    "locationButtonLabel": { "type": "string" },
+    "directionsButtonLabel": { "type": "string" },
+    "distanceUnit": { "type": "string" },
+    "emptyStateText": { "type": "text" },
+    "mapImage": { "type": "media", "multiple": false, "required": false, "allowedTypes": ["images"] },
+    "helplineLabel": { "type": "string" },
+    "helplineNumber": { "type": "string" }
+  }
+}

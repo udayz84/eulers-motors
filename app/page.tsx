@@ -245,7 +245,7 @@ export default async function Home() {
           cardH="450"
           frame="talk"
           /* Figma 1:1473 crop: left -5.58% · top -11.78% · 76.19% × 126% */
-          crop={data.talkPromo?.image ? undefined : [-5.58, -11.78, 76.19, 126]}
+          crop={[-5.58, -11.78, 76.19, 126]}
           /* Figma 1:4691 mobile layers: desktop-bg low + talk-3 on top */
           mobileLayers={
             data.talkPromo?.mobileImage

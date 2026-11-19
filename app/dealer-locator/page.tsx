@@ -4,10 +4,8 @@ import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
 import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import DealerContactSection from "@/components/sections/DealerContactSection";
 import {
-  getChargingStations,
   getDealerLocatorPageData,
   getDealers,
-  getServiceCenters,
   mapDealerLocatorHeroProps,
 } from "@/lib/strapi/client";
 
@@ -26,18 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DealerLocatorPage() {
-  const [data, dealers, chargingStations, serviceCenters] = await Promise.all([
-    getDealerLocatorPageData(),
-    getDealers(),
-    getChargingStations(),
-    getServiceCenters(),
-  ]);
+  const [data, dealers] = await Promise.all([getDealerLocatorPageData(), getDealers()]);
 
-  const heroProps = mapDealerLocatorHeroProps(data?.hero, {
-    dealers,
-    chargingStations,
-    serviceCenters,
-  });
+  const heroProps = mapDealerLocatorHeroProps(data?.hero, { dealers }, data?.pageHero);
 
   return (
     <>

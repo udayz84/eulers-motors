@@ -49,7 +49,7 @@ export default function PrimeBanner({
   return (
     <section
       id="prime-banner"
-      className="relative min-h-[620px] md:h-[600px] overflow-clip bg-[#030a18] md:bg-white"
+      className="relative min-h-[760px] md:h-[600px] overflow-clip bg-[#030a18] md:bg-white"
       aria-label="Euler Prime"
     >
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -62,7 +62,7 @@ export default function PrimeBanner({
               fill
               sizes="100vw"
               priority
-              className="object-cover object-center"
+              className="object-cover object-bottom"
             />
           ) : isServicePage ? (
             <Image
@@ -168,7 +168,7 @@ export default function PrimeBanner({
       </div>
 
       {/* Content column: left-anchored on tablet & desktop, keeps all text & cards clear of truck */}
-      <div className="relative z-10 flex min-h-[620px] md:min-h-0 md:h-full flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] pb-8 md:justify-center md:gap-[18px] min-[1440px]:gap-[25px] md:pt-0 md:pb-0 md:px-0 md:pl-[max(32px,calc(50vw-640px))] lg:pl-[max(80px,calc(50vw-640px))] md:w-[calc(max(32px,calc(50vw-640px))+min(520px,46vw))] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)]">
+      <div className="relative z-10 flex min-h-[760px] md:min-h-0 md:h-full flex-col items-start justify-start gap-[14px] px-[20px] pt-[36px] pb-8 md:justify-center md:gap-[18px] min-[1440px]:gap-[25px] md:pt-0 md:pb-0 md:px-0 md:pl-[max(32px,calc(50vw-640px))] lg:pl-[max(80px,calc(50vw-640px))] md:w-[calc(max(32px,calc(50vw-640px))+min(520px,46vw))] lg:w-[calc(max(80px,calc(50vw-640px))+min(560px,39vw))] min-[1440px]:w-[calc(max(80px,calc(50vw-640px))+636px)]">
         {eyebrow && <Eyebrow label={eyebrow} dark />}
         <h2 className="w-full max-w-[311px] font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-white md:max-w-none md:text-[34px] lg:text-[38px] lg:tracking-[-0.76px] min-[1440px]:text-[52px] min-[1440px]:tracking-[-1.04px]">
           {title}

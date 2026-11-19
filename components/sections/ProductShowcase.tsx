@@ -162,8 +162,8 @@ export default function ProductShowcase({
           }`}
         >
           <VehicleGroundShadow
+            vehicleId={current.id}
             className="top-[93%] w-[84%] h-[68px] xl:h-[78px]"
-            frontWheelLeft={current.id === "hiload-ev" ? "20%" : "17%"}
           />
           <Image
             src={current.image}
@@ -281,8 +281,8 @@ export default function ProductShowcase({
               className="animate-fadeIn relative flex h-full w-full items-center justify-center"
             >
               <VehicleGroundShadow
+                vehicleId={current.id}
                 className="top-[86%] w-[86%] h-[38px]"
-                frontWheelLeft={current.id === "hiload-ev" ? "20%" : "17%"}
               />
               <Image
                 src={current.mobileImage || current.image}

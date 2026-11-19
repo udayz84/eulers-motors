@@ -63,14 +63,20 @@ export default function PromoCard({
   const right = align === "right";
   const effectiveDesktopPosition = desktopPosition || (right ? "left center" : "right center");
   const washCls =
-    wash === "blue" ? "bg-[#D2E2FF]" : wash === "mobile-blue" ? "bg-white max-lg:bg-[#D2E2FF]" : "bg-white";
+    frame === "talk"
+      ? "bg-[#E8ECF2] max-lg:bg-[#D2E2FF]"
+      : wash === "blue"
+        ? "bg-[#D2E2FF]"
+        : wash === "mobile-blue"
+          ? "bg-white max-lg:bg-[#D2E2FF]"
+          : "bg-white";
   const cropStyle: React.CSSProperties | undefined = crop
     ? {
         left: `${crop[0]}%`,
         top: `${crop[1]}%`,
         width: `${crop[2]}%`,
         height: `${crop[3]}%`,
-        objectFit: "fill",
+        objectFit: "cover",
       }
     : undefined;
   return (
@@ -108,7 +114,7 @@ export default function PromoCard({
               height={1200}
               aria-hidden={false}
               style={cropStyle}
-              className="absolute hidden max-w-none lg:block"
+              className="pointer-events-none absolute hidden max-w-none lg:block"
             />
           ) : (
             <Image
@@ -197,8 +203,15 @@ export default function PromoCard({
               </div>
             </div>
           )}
+          {/* Smooth gradient blend into #E8ECF2 over photo edge (Figma 2430:1985) */}
           {right && (
-            <div aria-hidden className="absolute left-[670.5px] top-[-630.1px] hidden h-[2002.27px] w-[1116.054px] lg:block">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-transparent from-42% via-[#E8ECF2]/80 via-60% to-[#E8ECF2] to-71% lg:block"
+            />
+          )}
+          {right && (
+            <div aria-hidden className="pointer-events-none absolute left-[670.5px] top-[-630.1px] hidden h-[2002.27px] w-[1116.054px] lg:block">
               <div className="absolute inset-[-12.5%_-22.43%]">
                 <Image src="/assets/talk/ellipse.svg" alt="" fill sizes="1617px" className="pointer-events-none" />
               </div>
@@ -228,7 +241,11 @@ export default function PromoCard({
                 right ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left lg:-translate-y-[34.81px]"
               }`}
             >
-              {eyebrow && <Eyebrow label={eyebrow} />}
+              {eyebrow && (
+                <span className={frame === "talk" ? "hidden lg:inline-flex" : undefined}>
+                  <Eyebrow label={eyebrow} />
+                </span>
+              )}
               <h2
                 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]"
               >

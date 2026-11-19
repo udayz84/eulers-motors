@@ -180,6 +180,34 @@ export interface StrapiProductLoanCalculator {
   cta?: StrapiCTA;
 }
 
+export interface StrapiPageHero {
+  id?: number;
+  supportBadge?: string;
+  tabDealerLabel?: string;
+  tabChargingLabel?: string;
+  tabServiceLabel?: string;
+  title: string;
+  subtitle?: string;
+  searchPlaceholder?: string;
+  resultsLabel?: string;
+  cities?: string;
+  defaultCity?: string;
+  locationButtonLabel?: string;
+  directionsButtonLabel?: string;
+  distanceUnit?: string;
+  emptyStateText?: string;
+  mapImage?: StrapiMedia | string;
+  helplineLabel?: string;
+  helplineNumber?: string;
+}
+
+export interface StrapiServiceCentersPageData {
+  id?: number;
+  documentId?: string;
+  hero?: StrapiPageHero;
+  seo?: StrapiSEO;
+}
+
 export interface StrapiOtherVehiclesSection {
   id?: number;
   eyebrow?: string;
@@ -649,6 +677,7 @@ export interface DealerLocatorPageData {
   hero?: DealerLocatorHeroData;
   contactSection?: DealerContactSectionData;
   seo?: StrapiSEO;
+  pageHero?: StrapiPageHero;
 }
 
 export interface ChargingStationsPageData {
@@ -659,6 +688,7 @@ export interface ChargingStationsPageData {
   faqSection?: StrapiFaqSection;
   chargingContactSection?: ChargingContactSectionData;
   seo?: StrapiSEO;
+  pageHero?: StrapiPageHero;
 }
 
 /**

@@ -357,7 +357,7 @@ export default function HiLoadHero({ data }: { data?: StrapiProductHero }) {
         <div
           className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
         >
-          <VehicleGroundShadow className="top-[93%] w-[82%] h-[48px] sm:h-[62px]" />
+          <VehicleGroundShadow vehicleId="hiload-ev" className="top-[93%] w-[82%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"
@@ -388,7 +388,7 @@ export default function HiLoadHero({ data }: { data?: StrapiProductHero }) {
         className="absolute bottom-0 left-1/2 hidden aspect-[1440/874] w-full max-w-[1440px] -translate-x-1/2 pointer-events-none lg:block"
       >
         <div className="absolute left-1/2 -translate-x-1/2 w-[62%] h-[57.5%] top-[21%]">
-          <VehicleGroundShadow className="top-[93%] w-[82%] h-[72px] xl:h-[82px]" />
+          <VehicleGroundShadow vehicleId="hiload-ev" className="top-[93%] w-[82%] h-[72px] xl:h-[82px]" />
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"

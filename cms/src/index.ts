@@ -22,6 +22,7 @@ const REVALIDATABLE_MODELS = [
   'api::career-position.career-position',
   'api::technology-page.technology-page',
   'api::dealer-locator-page.dealer-locator-page',
+  'api::service-centers-page.service-centers-page',
   'api::charging-stations-page.charging-stations-page',
   'api::faq-page.faq-page',
   'api::in-press-page.in-press-page',

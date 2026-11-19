@@ -26,6 +26,11 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "pageHero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.page-hero"
     }
   }
 }

@@ -27,6 +27,7 @@ const MODEL_TAGS = [
   "career-positions",
   "technology-page",
   "dealer-locator-page",
+  "service-centers-page",
   "charging-stations-page",
   "faq-page",
   "in-press-page",

@@ -715,6 +715,38 @@ export interface DealerHero extends Struct.ComponentSchema {
   };
 }
 
+export interface DealerPageHero extends Struct.ComponentSchema {
+  collectionName: 'components_dealer_page_heroes';
+  info: {
+    description: "Isolated per-page hero: support badge, the three tab labels, this page's title/subtitle, and locator widget config";
+    displayName: 'Locator Page Hero';
+    icon: 'mapPin';
+  };
+  attributes: {
+    cities: Schema.Attribute.String;
+    defaultCity: Schema.Attribute.String;
+    directionsButtonLabel: Schema.Attribute.String;
+    distanceUnit: Schema.Attribute.String;
+    emptyStateText: Schema.Attribute.Text;
+    helplineLabel: Schema.Attribute.String;
+    helplineNumber: Schema.Attribute.String;
+    locationButtonLabel: Schema.Attribute.String;
+    mapImage: Schema.Attribute.Media<'images'>;
+    resultsLabel: Schema.Attribute.String;
+    searchPlaceholder: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+    supportBadge: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Support'>;
+    tabChargingLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Charging Stations'>;
+    tabDealerLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Dealer Locator'>;
+    tabServiceLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Service Centers'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface FaqCategory extends Struct.ComponentSchema {
   collectionName: 'components_faq_categories';
   info: {
@@ -2090,6 +2122,7 @@ declare module '@strapi/strapi' {
       'dealer.contact-section': DealerContactSection;
       'dealer.faq-section': DealerFaqSection;
       'dealer.hero': DealerHero;
+      'dealer.page-hero': DealerPageHero;
       'faq.category': FaqCategory;
       'faq.faqs-section': FaqFaqsSection;
       'faq.hero': FaqHero;

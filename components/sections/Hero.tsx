@@ -247,7 +247,7 @@ export default function Hero({ slides }: HeroProps = {}) {
   return (
     <section
       id="hero"
-      className="relative aspect-[393/762] overflow-clip sm:aspect-[1440/800] select-none sm:select-auto cursor-grab active:cursor-grabbing sm:cursor-auto"
+      className="relative h-[100dvh] min-h-[560px] sm:min-h-[640px] overflow-clip select-none sm:select-auto cursor-grab active:cursor-grabbing sm:cursor-auto"
       aria-label="Featured vehicle"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -426,7 +426,7 @@ export default function Hero({ slides }: HeroProps = {}) {
         </div>
       )}
       {/* quick-action rail — scoped to the hero (Figma places it in the hero frame) */}
-      <FloatingWidget mobileClassName="max-lg:bottom-[82px]" />
+      <FloatingWidget mobileClassName="max-lg:bottom-[82px]" desktopClassName="lg:top-1/2 lg:-translate-y-1/2" />
 
     </section>
   );

@@ -746,6 +746,7 @@ export interface ApiChargingStationsPageChargingStationsPage
       'api::charging-stations-page.charging-stations-page'
     > &
       Schema.Attribute.Private;
+    pageHero: Schema.Attribute.Component<'dealer.page-hero', false>;
     partnersSection: Schema.Attribute.Component<
       'shared.partners-section',
       false
@@ -782,6 +783,7 @@ export interface ApiDealerLocatorPageDealerLocatorPage
       'api::dealer-locator-page.dealer-locator-page'
     > &
       Schema.Attribute.Private;
+    pageHero: Schema.Attribute.Component<'dealer.page-hero', false>;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
@@ -1367,6 +1369,37 @@ export interface ApiServiceCenterServiceCenter
       Schema.Attribute.DefaultTo<'1800 000 0000'>;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiServiceCentersPageServiceCentersPage
+  extends Struct.SingleTypeSchema {
+  collectionName: 'service_centers_pages';
+  info: {
+    description: 'Service centers page: isolated hero, locator widget config, and SEO';
+    displayName: 'Service Centers Page';
+    pluralName: 'service-centers-pages';
+    singularName: 'service-centers-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hero: Schema.Attribute.Component<'dealer.page-hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service-centers-page.service-centers-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -2027,6 +2060,7 @@ declare module '@strapi/strapi' {
       'api::refund-policy.refund-policy': ApiRefundPolicyRefundPolicy;
       'api::review.review': ApiReviewReview;
       'api::service-center.service-center': ApiServiceCenterServiceCenter;
+      'api::service-centers-page.service-centers-page': ApiServiceCentersPageServiceCentersPage;
       'api::technology-page.technology-page': ApiTechnologyPageTechnologyPage;
       'api::terms-conditions.terms-conditions': ApiTermsConditionsTermsConditions;
       'api::timeline-milestone.timeline-milestone': ApiTimelineMilestoneTimelineMilestone;
