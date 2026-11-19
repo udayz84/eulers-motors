@@ -104,7 +104,7 @@ export default function AboutBelief({ data }: AboutBeliefProps = {}) {
                 alt={card.title}
                 fill
                 sizes="(min-width: 1024px) 311px, (min-width: 640px) 50vw, 100vw"
-                className={`pointer-events-none object-cover ${card.mobileImage ? "hidden lg:block" : ""}`}
+                className={`pointer-events-none object-cover scale-[1.12] translate-y-3 sm:scale-[1.15] sm:translate-y-4 lg:scale-[1.14] lg:translate-y-[18px] ${card.mobileImage ? "hidden lg:block" : ""}`}
                 unoptimized
               />
               {card.mobileImage && (
@@ -113,7 +113,7 @@ export default function AboutBelief({ data }: AboutBeliefProps = {}) {
                   alt={card.title}
                   fill
                   sizes="(min-width: 640px) 50vw, 100vw"
-                  className="pointer-events-none object-cover lg:hidden"
+                  className="pointer-events-none object-cover scale-[1.12] translate-y-3 lg:hidden"
                   unoptimized
                 />
               )}

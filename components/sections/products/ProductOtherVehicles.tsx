@@ -8,6 +8,12 @@ import Button from "@/components/ui/Button";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
+export /** Per-vehicle styling tweaks */
+const VEHICLE_IMAGE_STYLES: Record<string, string> = {
+  "storm-ev-lr200": "object-[50%_22%]",
+  "hiload-ev": "scale-[0.82] origin-center",
+};
+
 export type VehicleCard = {
   id: string;
   name: string;
@@ -208,13 +214,13 @@ export default function ProductOtherVehicles({
               key={vehicle.id}
               className="relative h-[353px] w-[320px] shrink-0 snap-start overflow-hidden rounded-[8px] bg-surface sm:h-[485px] sm:w-[720px]"
             >
-              {/* Vehicle photo render */}
+              {/* Vehicle photo render — per-vehicle framing tweaks (art compositions differ) */}
               <Image
                 src={vehicle.image}
                 alt={vehicle.name}
                 fill
                 sizes="(min-width: 640px) 720px, 320px"
-                className="object-cover object-center pointer-events-none"
+                className={`object-cover pointer-events-none ${VEHICLE_IMAGE_STYLES[vehicle.id] ?? "object-center"}`}
                 priority={index < 3}
               />
 

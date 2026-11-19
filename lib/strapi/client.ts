@@ -1057,7 +1057,11 @@ export async function getProductDetail(slug: string): Promise<StrapiProductDetai
       },
       otherVehicles: {
         populate: {
-          vehicles: { populate: "*" },
+          items: {
+            populate: {
+              image: { populate: "*" },
+            },
+          },
         },
       },
       reviews: { populate: "*" },

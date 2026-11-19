@@ -130,26 +130,32 @@ const OTHER_VEHICLE_FALLBACKS: Record<string, VehicleCard> = {
 };
 
 function mapOtherVehicles(
-  vehicles: import("@/types/strapi").ProductItem[] | undefined
+  items:
+    | import("@/types/strapi").StrapiOtherVehicleItem[]
+    | undefined
 ): VehicleCard[] | undefined {
-  if (!vehicles || vehicles.length === 0) return undefined;
+  if (!items || items.length === 0) return undefined;
 
-  return vehicles.map((v) => {
-    const fb = OTHER_VEHICLE_FALLBACKS[v.slug];
-    return {
-      id: v.slug,
-      name: v.title,
-      image: v.image ? mediaUrl(v.image, fb?.image || "") : fb?.image || "",
-      ground: fb?.ground || "#4B423F",
-      href: v.productUrl || `/products/${v.slug}`,
-      stats: [
-        { label: "on one charge", value: v.specsRange || fb?.stats[0]?.value || "", unit: fb?.stats[0]?.unit || "" },
-        { label: "Load capacity", value: v.specsCapacity || fb?.stats[1]?.value || "", unit: fb?.stats[1]?.unit || "" },
-        { label: "Running cost", value: fb?.stats[2]?.value || "", unit: fb?.stats[2]?.unit || "" },
-        { label: "Charging Time", value: v.specsChargeTime || fb?.stats[3]?.value || "", unit: fb?.stats[3]?.unit || "" },
-      ],
-    };
-  });
+  return items
+    .filter((item) => item.slug)
+    .map((item) => {
+      const fb = OTHER_VEHICLE_FALLBACKS[item.slug] || Object.values(OTHER_VEHICLE_FALLBACKS)[0];
+      const cmsImageUrl = item.image ? mediaUrl(item.image, "") : "";
+      // If CMS has the duplicate generic cutout or is missing, use the dedicated local artwork
+      const isPlaceholderCutout =
+        !cmsImageUrl ||
+        cmsImageUrl.includes("vehicle_storm_lr200_clean") ||
+        cmsImageUrl.includes("vehicle_storm_t1500_clean");
+      const image = isPlaceholderCutout ? (fb?.image || "") : cmsImageUrl;
+      return {
+        id: item.slug,
+        name: fb?.name || item.slug,
+        image,
+        ground: fb?.ground || "#4B423F",
+        href: fb?.href || `/products/${item.slug}`,
+        stats: fb?.stats || [],
+      };
+    });
 }
 
 function mapReviews(
@@ -205,7 +211,7 @@ export default async function ProductDetailView({ slug }: { slug: ProductKey }) 
   const specContent = mapSpecContent(product?.specs) ?? config.specFallback;
   const variants = mapVariants(product?.variantsCompare) ?? config.variantsFallback;
   const truckImg = mapTruckImage(product?.variantsCompare, config.truckImgFallback);
-  const otherVehicles = mapOtherVehicles(product?.otherVehicles?.vehicles);
+  const otherVehicles = mapOtherVehicles(product?.otherVehicles?.items);
   const reviews = mapReviews(product?.reviews);
   const { Hero } = config;
 

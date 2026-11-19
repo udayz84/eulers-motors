@@ -95,7 +95,9 @@ export default {
     strapiInstance = strapi;
 
     // Instant ISR invalidation: publish/update/delete in Strapi -> revalidateTag in Next.js
-    strapi.db.lifecycles.subscribe({
+    // TEMP-DIAG: lifecycles disabled to test /admin/init
+    if (process.env.DISABLE_LIFECYCLES !== "1") {
+      strapi.db.lifecycles.subscribe({
       models: REVALIDATABLE_MODELS,
       afterCreate: (event: any) => {
         void notifyNextRevalidate(nextCacheTag(event.model?.uid, strapi));
@@ -106,7 +108,8 @@ export default {
       afterDelete: (event: any) => {
         void notifyNextRevalidate(nextCacheTag(event.model?.uid, strapi));
       },
-    });
+      });
+    }
   },
 
   async bootstrap() {

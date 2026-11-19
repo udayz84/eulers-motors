@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_product_other_vehicle_items",
+  "info": {
+    "displayName": "Other Vehicle Item",
+    "icon": "car",
+    "description": "One vehicle in the 'Also worth a look' section, linked to a product with an optional dedicated image override"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

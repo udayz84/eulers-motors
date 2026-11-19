@@ -1480,6 +1480,19 @@ export interface ProductLoanCalculator extends Struct.ComponentSchema {
   };
 }
 
+export interface ProductOtherVehicleItem extends Struct.ComponentSchema {
+  collectionName: 'components_product_other_vehicle_items';
+  info: {
+    description: "One vehicle in the 'Also worth a look' section, linked to a product with an optional dedicated image override";
+    displayName: 'Other Vehicle Item';
+    icon: 'car';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ProductOtherVehicles extends Struct.ComponentSchema {
   collectionName: 'components_product_other_vehicles';
   info: {
@@ -1490,10 +1503,10 @@ export interface ProductOtherVehicles extends Struct.ComponentSchema {
   attributes: {
     eyebrow: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'OTHER VEHICLES'>;
+    items: Schema.Attribute.Component<'product.other-vehicle-item', true>;
     subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Explore other vehicles in our fleet'>;
-    vehicles: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
   };
 }
 
@@ -2166,6 +2179,7 @@ declare module '@strapi/strapi' {
       'press.story': PressStory;
       'product.hero': ProductHero;
       'product.loan-calculator': ProductLoanCalculator;
+      'product.other-vehicle-item': ProductOtherVehicleItem;
       'product.other-vehicles': ProductOtherVehicles;
       'product.overview': ProductOverview;
       'product.overview-card': ProductOverviewCard;

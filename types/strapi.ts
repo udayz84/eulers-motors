@@ -208,12 +208,18 @@ export interface StrapiServiceCentersPageData {
   seo?: StrapiSEO;
 }
 
+export interface StrapiOtherVehicleItem {
+  id?: number;
+  slug: string;
+  image?: StrapiMedia | string;
+}
+
 export interface StrapiOtherVehiclesSection {
   id?: number;
   eyebrow?: string;
   title?: string;
   subtitle?: string;
-  vehicles?: ProductItem[];
+  items?: StrapiOtherVehicleItem[];
 }
 
 export interface StrapiProductDetail extends ProductItem {

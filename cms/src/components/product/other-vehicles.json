@@ -18,11 +18,10 @@
     "subtitle": {
       "type": "text"
     },
-    "vehicles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.other-vehicle-item"
     }
   }
 }
-

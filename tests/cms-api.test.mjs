@@ -101,7 +101,7 @@ test("every canonical product has specs, variants, hero and relations (seeded en
     assert.ok(p.variantsCompare?.variants?.length >= 2, `${slug}: compare variants missing`);
     assert.ok(p.hero?.stats?.length >= 3, `${slug}: hero stats missing`);
     assert.ok(p.hero?.variants?.length >= 2, `${slug}: hero variant options missing`);
-    assert.ok(p.otherVehicles?.vehicles?.length >= 2, `${slug}: other-vehicles relation broken`);
+    assert.ok(p.otherVehicles?.items?.length >= 2, `${slug}: other-vehicles relation broken`);
     assert.ok(p.reviews?.length >= 1, `${slug}: reviews relation broken`);
   }
 });
