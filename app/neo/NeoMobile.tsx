@@ -11,6 +11,7 @@ import NeoRoadStories from "@/components/sections/NeoRoadStories";
 import NeoMainImageMobile from "@/components/sections/NeoMainImageMobile";
 import EulerPrimeBannerMobile from "@/components/sections/EulerPrimeBannerMobile";
 import InsightsSection from "@/components/sections/NeoInsights";
+import NeoHeaderMobile from "@/components/sections/NeoHeaderMobile";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const A = "/assets/neo/figma/";
@@ -58,7 +59,8 @@ export default function NeoMobile() {
     setHowItWorksProgress(maxScroll > 0 ? row.scrollLeft / maxScroll : 0);
   };
   const btn = (title: string) => <a href="#contact" className={arrow}>{title}<b className="bg-[#111] px-2 py-1">❯❯</b></a>;
-  return <div id="top" className="min-[1024px]:hidden overflow-hidden bg-white font-display text-[#111]">
+  return <div id="top" className="min-[1024px]:hidden overflow-x-clip bg-white font-display text-[#111]">
+    <NeoHeaderMobile />
     <main>
       <NeoMainImageMobile />
       <NeoAboutMobile />

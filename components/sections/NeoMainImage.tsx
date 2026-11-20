@@ -174,179 +174,172 @@ export default function NeoMainImage() {
 
   return (
     <section aria-label="Neo by Euler — more trips, less kharcha" className="w-full bg-white">
-      <ResponsiveFigmaCanvas>
-      <div
-        className="relative mx-auto h-[1739px] w-full max-w-[1440px] overflow-hidden bg-white"
-        data-node-id="4064:13640"
-        data-name="Main image"
-      >
       {/* ------------------------------------------------------------------ */}
-      {/* Background plate + scrim                                            */}
+      {/* First Fold: Hero (fits in first fold & auto-adjusts on laptops)   */}
       {/* ------------------------------------------------------------------ */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <div className="absolute bg-white inset-0" />
-        <div className="absolute inset-0 overflow-hidden">
-          <img alt="" className="absolute h-auto left-0 max-w-none top-[-13.76%] w-full object-cover" src={`${A}main-bg-1.png`} />
-        </div>
-        <div className="absolute inset-0 overflow-hidden">
-          <img alt="" className="absolute h-auto left-[0.12%] max-w-none top-[-7.93%] w-[99.76%] object-cover" src={`${A}main-bg-2.png`} />
-        </div>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(180.00000273772486deg, rgba(0, 0, 0, 0) 36.212%, rgb(0, 0, 0) 46.277%, rgba(0, 0, 0, 0.75) 70.986%, rgb(255, 255, 255) 100%)",
-          }}
-        />
-      </div>
-
-      {/* Blurred dark blooms */}
-      <div aria-hidden className="-translate-x-1/2 absolute blur-[123.15px] h-[536.335px] left-1/2 top-[798px] w-[1895.95px]">
-        <div className="absolute backdrop-blur-[268.7px] bg-[rgba(0,0,0,0.32)] inset-0 pointer-events-none" />
-      </div>
-      <div aria-hidden className="-translate-x-1/2 absolute blur-[123.15px] h-[935.8px] left-1/2 opacity-50 top-[548px] w-[2874.083px]">
-        <div className="absolute backdrop-blur-[268.7px] bg-[rgba(0,0,0,0.4)] inset-0 pointer-events-none" />
-      </div>
-      <div aria-hidden className="-translate-x-1/2 absolute blur-[123.15px] h-[536.335px] left-1/2 opacity-50 top-[-480px] w-[1895.95px]">
-        <div className="absolute backdrop-blur-[75px] bg-black inset-0 pointer-events-none" />
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Hero copy + stats banner (full-width 1440px column)                */}
-      {/* ------------------------------------------------------------------ */}
-      <div
-        className="-translate-x-1/2 absolute bottom-[829px] content-stretch flex flex-col gap-[20px] items-start left-1/2 w-[1280px]"
-        data-node-id="4064:13644"
-      >
-        {/* eyebrow */}
-        <div className="content-stretch flex gap-[12px] items-center relative shrink-0" data-node-id="4064:13645">
-          <div className="relative shrink-0 size-[14px]">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={`${A}logo.svg`} />
+      <div className="relative h-[100dvh] min-h-[580px] max-h-[960px] w-full overflow-hidden bg-black text-white">
+        {/* Background plate + scrim */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-[center_55%] min-[1400px]:object-[center_50%]"
+              src={`${A}main-bg-1.png`}
+            />
           </div>
-          <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[16px] text-white whitespace-nowrap">
-            NEO BY EULER
-          </p>
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-[center_55%] min-[1400px]:object-[center_50%]"
+              src={`${A}main-bg-2.png`}
+            />
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.45) 100%)",
+            }}
+          />
         </div>
 
-        {/* hairline */}
-        <div className="h-0 relative shrink-0 w-full" data-node-id="4064:13649">
-          <div className="absolute inset-[-0.5px_0]">
-            <img alt="" className="block max-w-none size-full" src={`${A}divider.svg`} />
-          </div>
-        </div>
-
-        {/* headline + blurb + CTA */}
-        <div className="content-stretch flex items-end justify-between pb-[50px] relative shrink-0 w-full" data-node-id="4064:13650">
-          <div className="[word-break:break-word] font-display font-semibold leading-[0] not-italic relative shrink-0 text-[52px] text-white tracking-[-1.04px] w-[455.246px] whitespace-pre-wrap">
-            <p className="leading-[1.15] mb-0">{`More trips. `}</p>
-            <p className="leading-[1.15]">Less kharcha.</p>
-          </div>
-          <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-[372px]">
-            <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[18px] text-white w-[380px]">
-              200+ km on one charge. Charge it at home on a normal 16-amp plug full in about 3.5 hours.
-            </p>
-            <div className="content-stretch flex items-start relative shrink-0">
-              <a
-                href="/products"
-                className="bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.5)] border-solid content-stretch flex h-[42px] items-center justify-center px-[24px] relative rounded-[4px] shrink-0 w-[174px] no-underline"
-              >
-                <p className="[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
-                  Explore Vehicles
-                </p>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* glass stats bar */}
-        <div
-          className="content-stretch flex items-center justify-between overflow-clip px-[40px] py-[20px] relative shrink-0 w-full"
-          style={{ borderRadius: "12px", background: "rgba(0, 0, 0, 0.42)", backdropFilter: "blur(38.849998474121094px)" }}
-          data-node-id="4064:13658"
-        >
-          {/* decorative ellipse sweeps */}
-          <div aria-hidden className="-translate-x-1/2 absolute flex h-[517.422px] items-center justify-center left-[calc(50%-108.67px)] top-[-114.64px] w-[638.022px]">
-            <div className="flex-none rotate-[-31.12deg]">
-              <div className="h-[243.12px] relative w-[598.493px]">
-                <div className="absolute inset-[-75.56%_-30.69%]">
-                  <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-1.svg`} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div aria-hidden className="absolute flex h-[566.454px] items-center justify-center right-[1084.62px] top-[-189.54px] w-[737.948px]">
-            <div className="-rotate-30 flex-none">
-              <div className="h-[243.12px] relative w-[711.753px]">
-                <div className="absolute inset-[-75.56%_-25.81%]">
-                  <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-2.svg`} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div aria-hidden className="absolute flex h-[566.454px] items-center justify-center right-[23.62px] top-[-189.54px] w-[737.948px]">
-            <div className="-rotate-30 flex-none">
-              <div className="h-[243.12px] relative w-[711.753px]">
-                <div className="absolute inset-[-75.56%_-25.81%]">
-                  <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-2.svg`} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <StatBlock {...STATS[0]} />
-          <VLine src={`${A}stats-vline.svg`} />
-          <StatBlock {...STATS[1]} />
-          <VLine src={`${A}stats-vline.svg`} />
-          <StatBlock {...STATS[2]} />
-          <VLine src={`${A}stats-vline.svg`} />
-          <StatBlock {...STATS[3]} />
-        </div>
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* "Built after talking to" proof card                                 */}
-      {/* ------------------------------------------------------------------ */}
-      {proofVisible && (
-        <div
-          className="absolute backdrop-blur-[38.85px] bg-[rgba(0,0,0,0.42)] bottom-[1199px] content-stretch flex flex-col gap-[12px] items-start pb-[4px] pt-[12px] px-[4px] right-[80px] rounded-[8px]"
-          data-node-id="4064:13814"
-        >
-          <div className="content-stretch flex items-center justify-center px-[12px] relative shrink-0 w-full">
-            <p className="[word-break:break-word] flex-[1_0_0] font-sans font-semibold leading-[normal] min-w-px relative text-[16px] text-white">
-              Built after talking to
-            </p>
-          </div>
-          <div className="[word-break:break-word] backdrop-blur-[101.3px] bg-[rgba(0,0,0,0.2)] content-stretch flex flex-col gap-[8px] items-start p-[16px] relative rounded-[6px] shrink-0 text-white">
-            <p className="font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[52px] tracking-[-1.04px] whitespace-nowrap">
-              10,000+
-            </p>
-            <p className="font-sans font-semibold leading-[normal] min-w-full relative shrink-0 text-[20px] w-[min-content]">
-              auto drivers.
-            </p>
-          </div>
-          <button
-            type="button"
-            aria-label="Dismiss"
-            onClick={() => setProofVisible(false)}
-            className="absolute bg-white content-stretch flex items-center p-[8px] right-[10.8px] rounded-[640px] top-[11.8px] cursor-pointer"
+        {/* "Built after talking to" proof card */}
+        {proofVisible && (
+          <div
+            className="absolute backdrop-blur-[38.85px] bg-[rgba(0,0,0,0.42)] top-[165px] min-[1400px]:top-[185px] right-[max(calc((100vw-1440px)/2+80px),32px)] z-10 flex flex-col gap-[12px] items-start pb-[4px] pt-[12px] px-[4px] rounded-[8px]"
+            data-node-id="4064:13814"
           >
-            <span className="block relative shrink-0 size-[6.4px]">
-              <span className="absolute inset-[-15.62%_-15.63%_-15.63%_-15.62%]">
-                <img alt="" className="block max-w-none size-full" src={`${A}close-icon.svg`} />
+            <div className="flex items-center justify-center px-[12px] relative shrink-0 w-full">
+              <p className="flex-[1_0_0] font-sans font-semibold leading-[normal] text-[16px] text-white">
+                Built after talking to
+              </p>
+            </div>
+            <div className="backdrop-blur-[101.3px] bg-[rgba(0,0,0,0.2)] flex flex-col gap-[8px] items-start p-[16px] relative rounded-[6px] shrink-0 text-white">
+              <p className="font-display font-semibold leading-[1.15] text-[52px] tracking-[-1.04px] whitespace-nowrap">
+                10,000+
+              </p>
+              <p className="font-sans font-semibold leading-[normal] text-[20px]">
+                auto drivers.
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-label="Dismiss"
+              onClick={() => setProofVisible(false)}
+              className="absolute bg-white flex items-center p-[8px] right-[10.8px] rounded-[640px] top-[11.8px] cursor-pointer hover:bg-neutral-200 transition-colors"
+            >
+              <span className="block relative shrink-0 size-[6.4px]">
+                <span className="absolute inset-[-15.62%_-15.63%_-15.63%_-15.62%]">
+                  <img alt="" className="block max-w-none size-full" src={`${A}close-icon.svg`} />
+                </span>
               </span>
-            </span>
-          </button>
+            </button>
+          </div>
+        )}
+
+        {/* Hero copy banner (anchored to bottom of first fold so it is never cut off on laptop screens) */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 bottom-[20px] min-[1400px]:bottom-[32px] z-10 flex w-[1280px] max-w-[calc(100%-80px)] flex-col gap-[12px] min-[1400px]:gap-[16px] items-start"
+          data-node-id="4064:13644"
+        >
+          {/* eyebrow */}
+          <div className="flex gap-[12px] items-center relative shrink-0" data-node-id="4064:13645">
+            <div className="relative shrink-0 size-[14px]">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={`${A}logo.svg`} />
+            </div>
+            <p className="font-sans font-normal leading-[normal] relative shrink-0 text-[14px] min-[1400px]:text-[16px] text-white whitespace-nowrap">
+              NEO BY EULER
+            </p>
+          </div>
+
+          {/* hairline */}
+          <div className="h-0 relative shrink-0 w-full" data-node-id="4064:13649">
+            <div className="absolute inset-[-0.5px_0]">
+              <img alt="" className="block max-w-none size-full" src={`${A}divider.svg`} />
+            </div>
+          </div>
+
+          {/* headline + blurb + CTA */}
+          <div className="flex items-end justify-between relative shrink-0 w-full" data-node-id="4064:13650">
+            <div className="font-display font-semibold leading-[1.12] not-italic relative shrink-0 text-[36px] min-[1400px]:text-[52px] text-white tracking-[-1.04px] w-[455.246px] max-w-[48%] whitespace-pre-wrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]">
+              <p className="mb-0">{`More trips. `}</p>
+              <p>Less kharcha.</p>
+            </div>
+            <div className="flex flex-col gap-[10px] min-[1400px]:gap-[16px] items-start relative shrink-0 w-[380px] max-w-[48%] drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]">
+              <p className="font-sans font-normal leading-[normal] relative shrink-0 text-[14px] min-[1400px]:text-[18px] text-white w-full">
+                200+ km on one charge. Charge it at home on a normal 16-amp plug full in about 3.5 hours.
+              </p>
+              <div className="flex items-start relative shrink-0">
+                <a
+                  href="#vehicles"
+                  className="bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.5)] border-solid flex h-[38px] min-[1400px]:h-[42px] items-center justify-center px-[22px] min-[1400px]:px-[24px] relative rounded-[4px] shrink-0 w-[174px] no-underline transition-colors hover:bg-white/20"
+                >
+                  <p className="font-display font-semibold leading-none not-italic relative shrink-0 text-[14px] min-[1400px]:text-[16px] text-white whitespace-nowrap">
+                    Explore Vehicles
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* Vehicle showcase card (full-width 1440 × 760)                      */}
+      {/* Second Fold: Stats Bar + Vehicle Showcase                          */}
       {/* ------------------------------------------------------------------ */}
-      <div
-        className="-translate-x-1/2 absolute bottom-[20px] h-[760px] left-1/2 overflow-clip rounded-[12px] w-[1400px]"
-        data-node-id="4064:13822"
-        data-name="Main image"
-      >
+      <div id="vehicles" className="relative w-full bg-gradient-to-b from-black via-[#0a0a0a] to-white pt-[30px] pb-[60px]">
+        <ResponsiveFigmaCanvas>
+          <div className="relative mx-auto flex flex-col items-center gap-[36px] w-full max-w-[1400px] px-[20px]">
+            {/* glass stats bar */}
+            <div
+              className="flex items-center justify-between overflow-clip px-[28px] min-[1400px]:px-[40px] py-[16px] min-[1400px]:py-[20px] relative shrink-0 w-full rounded-[12px] border border-white/10"
+              style={{ background: "rgba(0, 0, 0, 0.42)", backdropFilter: "blur(38.85px)" }}
+              data-node-id="4064:13658"
+            >
+              {/* decorative ellipse sweeps */}
+              <div aria-hidden className="-translate-x-1/2 absolute flex h-[517.422px] items-center justify-center left-[calc(50%-108.67px)] top-[-114.64px] w-[638.022px] pointer-events-none">
+                <div className="flex-none rotate-[-31.12deg]">
+                  <div className="h-[243.12px] relative w-[598.493px]">
+                    <div className="absolute inset-[-75.56%_-30.69%]">
+                      <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-1.svg`} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div aria-hidden className="absolute flex h-[566.454px] items-center justify-center right-[1084.62px] top-[-189.54px] w-[737.948px] pointer-events-none">
+                <div className="-rotate-30 flex-none">
+                  <div className="h-[243.12px] relative w-[711.753px]">
+                    <div className="absolute inset-[-75.56%_-25.81%]">
+                      <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-2.svg`} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div aria-hidden className="absolute flex h-[566.454px] items-center justify-center right-[23.62px] top-[-189.54px] w-[737.948px] pointer-events-none">
+                <div className="-rotate-30 flex-none">
+                  <div className="h-[243.12px] relative w-[711.753px]">
+                    <div className="absolute inset-[-75.56%_-25.81%]">
+                      <img alt="" className="block max-w-none size-full" src={`${A}stats-ellipse-2.svg`} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <StatBlock {...STATS[0]} />
+              <VLine src={`${A}stats-vline.svg`} />
+              <StatBlock {...STATS[1]} />
+              <VLine src={`${A}stats-vline.svg`} />
+              <StatBlock {...STATS[2]} />
+              <VLine src={`${A}stats-vline.svg`} />
+              <StatBlock {...STATS[3]} />
+            </div>
+
+            {/* Vehicle showcase card (full-width 1400 × 760) */}
+            <div
+              className="relative mx-auto h-[760px] w-full overflow-clip rounded-[12px] shadow-2xl"
+              data-node-id="4064:13822"
+              data-name="Main image"
+            >
         <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
           <img alt="" className="absolute h-[167.04%] left-[-11.87%] max-w-none top-[-33.52%] w-[123.73%] object-cover" src={`${A}main-bg-2.png`} />
         </div>
@@ -497,6 +490,7 @@ export default function NeoMainImage() {
       </div>
       </div>
       </ResponsiveFigmaCanvas>
+    </div>
     </section>
   );
 }

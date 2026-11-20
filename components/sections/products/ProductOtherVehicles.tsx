@@ -7,6 +7,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import { VERIFY_CMS } from "@/lib/strapi/client";
 
 export /** Per-vehicle styling tweaks */
 const VEHICLE_IMAGE_STYLES: Record<string, string> = {
@@ -139,7 +140,11 @@ export default function ProductOtherVehicles({
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const sourceVehicles = vehicles && vehicles.length ? vehicles : ALL_OTHER_VEHICLES;
+  const sourceVehicles = VERIFY_CMS
+    ? vehicles ?? []
+    : vehicles && vehicles.length
+    ? vehicles
+    : ALL_OTHER_VEHICLES;
   const displayVehicles = currentVehicleId
     ? sourceVehicles.filter((v) => v.id !== currentVehicleId).slice(0, 3)
     : VEHICLES;

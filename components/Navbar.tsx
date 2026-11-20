@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Arrow from "./ui/Arrow";
 import Button from "./ui/Button";
 import type { StrapiNavbarData } from "@/types/strapi";
-import { mediaUrl } from "@/lib/strapi/client";
+import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 
 /**
  * Dropdown content — Figma "Component 20" Company-open state (panel 1:2826)
@@ -319,7 +319,11 @@ function MenuCardLink({
  */
 export default function Navbar({ data }: { data?: StrapiNavbarData }) {
   // CMS-driven chrome with hardcoded fallbacks (careers page pattern)
-  const navLinks = data?.links?.length ? data.links : NAV_LINKS;
+  const navLinks = VERIFY_CMS
+    ? data?.links ?? []
+    : data?.links?.length
+    ? data.links
+    : NAV_LINKS;
   const link = (i: number) => navLinks[i] ?? NAV_LINKS[i];
   const dropdowns: typeof DROPDOWNS = {
     Product: DROPDOWNS.Product,
@@ -336,7 +340,11 @@ export default function Navbar({ data }: { data?: StrapiNavbarData }) {
         : DROPDOWNS.Support.items,
     },
   };
-  const productMobile = data?.productLinks?.length ? data.productLinks : PRODUCT_MOBILE;
+  const productMobile = VERIFY_CMS
+    ? data?.productLinks ?? []
+    : data?.productLinks?.length
+    ? data.productLinks
+    : PRODUCT_MOBILE;
   const mapMega = (category: "4-Wheelers" | "3-Wheelers") =>
     (data?.megaVehicles ?? [])
       .filter((v) => (v.category ?? "4-Wheelers") === category)
@@ -346,8 +354,8 @@ export default function Navbar({ data }: { data?: StrapiNavbarData }) {
         href: v.href,
         img: v.image ? mediaUrl(v.image) : "/assets/products/vehicle-storm-lr200.png",
       }));
-  const mega4w = data?.megaVehicles?.length ? mapMega("4-Wheelers") : MEGA_4W;
-  const mega3w = data?.megaVehicles?.length ? mapMega("3-Wheelers") : MEGA_3W;
+  const mega4w = VERIFY_CMS ? mapMega("4-Wheelers") : data?.megaVehicles?.length ? mapMega("4-Wheelers") : MEGA_4W;
+  const mega3w = VERIFY_CMS ? mapMega("3-Wheelers") : data?.megaVehicles?.length ? mapMega("3-Wheelers") : MEGA_3W;
   const logoSrc = data?.logo || "/assets/nav/logo-white.svg";
   const ctaLabel = data?.ctaLabel || "Book a Test Drive";
   const ctaHref = data?.ctaHref || "#book-test-drive";

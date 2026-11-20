@@ -95,7 +95,7 @@ function DesktopInsights() {
           <span className="font-sans text-[16px] font-normal uppercase leading-normal text-ink">insights</span>
         </div>
         <h2 className="whitespace-nowrap font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-ink">
-          Learn More About EVs
+          Learn More About Neo
         </h2>
       </header>
 
@@ -135,7 +135,7 @@ function MobileInsights() {
           <Image src="/assets/insights/figma-highlight/logo.svg" alt="" width={14} height={14} aria-hidden />
           <span className="font-sans text-[12px] font-normal uppercase leading-normal text-ink">insights</span>
         </div>
-        <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink min-[640px]:max-[1023px]:text-[36px]">Learn More About EVs</h2>
+        <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink min-[640px]:max-[1023px]:text-[36px]">Learn More About Neo</h2>
       </header>
 
       <div ref={rowRef} onScroll={updateProgress} className="no-scrollbar flex w-full cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth pr-[10.388px] max-[767px]:-mx-5 max-[767px]:w-[calc(100%+40px)] max-[767px]:pr-0 min-[640px]:max-[1023px]:gap-4" aria-label="Featured articles">

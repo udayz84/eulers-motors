@@ -51,12 +51,12 @@ function SceneWindow({ blur }: { blur: number }) {
       {/* Photo window — road strip along the bottom edge */}
       <div
         aria-hidden
-        className="absolute left-0 top-[75.5967%] h-[24.4033%] w-full overflow-hidden bg-[#d9d9d9]"
+        className="absolute left-[-2px] top-[75.5967%] h-[24.4033%] w-[calc(100%+4px)] overflow-hidden bg-[#d9d9d9]"
         data-node-id="4064:14333"
       >
         <img
           alt=""
-          className="absolute left-[0.04%] top-[-365.19%] h-[477.13%] w-[116%] max-w-none"
+          className="absolute left-0 top-[-365.19%] h-[477.13%] w-[116%] max-w-none"
           src={`${ABOUT}scene.png`}
         />
       </div>
@@ -79,7 +79,7 @@ function SceneWindow({ blur }: { blur: number }) {
       <img
         alt=""
         aria-hidden
-        className="absolute left-[0.04%] top-[-13.52%] h-[116.43%] w-[116%] max-w-none"
+        className="absolute left-0 top-[-13.52%] h-[116.43%] w-[116%] max-w-none"
         src={`${ABOUT}vehicles.png`}
       />
 
@@ -161,11 +161,11 @@ export function NeoAbout() {
     <section aria-label="About Neo" className="w-full bg-white">
       <ResponsiveFigmaCanvas>
       <div
-        className="relative mx-auto h-[720px] w-full max-w-[1440px] overflow-hidden bg-white"
+        className="relative mx-auto h-[600px] w-full max-w-[1440px] overflow-hidden bg-white"
         data-node-id="4064:14314"
         data-name="Background Image"
       >
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-x-0 top-[-100px] h-[720px] w-full">
           <SceneWindow blur={31.8} />
         </div>
 
@@ -186,7 +186,9 @@ export function NeoAbout() {
             className="w-[368.4px] font-sans text-[16px] leading-[normal] text-[#121212]"
             data-node-id="4064:14321"
           >
-            {DESCRIPTION}
+            Neo is Euler Motors&apos; EV brand for drivers on the road. Each vehicle is designed for their routes
+            <br />
+            and work to help them earn more.
           </p>
           <AboutButton size="desktop" />
         </div>

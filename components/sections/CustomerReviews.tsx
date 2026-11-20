@@ -1,5 +1,6 @@
 "use client";
 
+import { VERIFY_CMS } from "@/lib/strapi/client";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
@@ -109,7 +110,11 @@ export default function CustomerReviews({
   description = "Watch real customers share their experience with Euler Motors.",
   reviews,
 }: CustomerReviewsProps = {}) {
-  const currentReviews = reviews !== undefined ? reviews : DEFAULT_REVIEWS;
+  const currentReviews = VERIFY_CMS
+    ? reviews ?? []
+    : reviews !== undefined
+    ? reviews
+    : DEFAULT_REVIEWS;
 
   // Clean unmount if empty collection intentionally provided by CMS
   if (currentReviews.length === 0) return null;

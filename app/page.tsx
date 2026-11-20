@@ -14,7 +14,7 @@ import EnterpriseDealer from "@/components/sections/EnterpriseDealer";
 import ContactSection from "@/components/sections/ContactSection";
 import SocialWall from "@/components/sections/SocialWall";
 import SiteFooter from "@/components/sections/chrome/SiteFooter";
-import { getHomePageData, mediaUrl } from "@/lib/strapi/client";
+import { getHomePageData, mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 import { ProductItem } from "@/types/strapi";
 
 export const revalidate = 60;
@@ -99,8 +99,16 @@ export default async function Home() {
     tag: slide.tag,
     headline: slide.headline,
     subheading: slide.subheading,
-    desktopImage: mediaUrl(slide.desktopImage, "/images/hero_desktop_clean.webp"),
-    mobileImage: mediaUrl(slide.mobileImage, "/images/hero_mobile_clean.webp"),
+    desktopImage: VERIFY_CMS
+      ? slide.desktopImage
+        ? mediaUrl(slide.desktopImage)
+        : ""
+      : mediaUrl(slide.desktopImage, "/images/hero_desktop_clean.webp"),
+    mobileImage: VERIFY_CMS
+      ? slide.mobileImage
+        ? mediaUrl(slide.mobileImage)
+        : ""
+      : mediaUrl(slide.mobileImage, "/images/hero_mobile_clean.webp"),
     primaryCta:
       slide.primaryCta?.label && slide.primaryCta?.href
         ? { label: slide.primaryCta.label, href: slide.primaryCta.href }

@@ -7,7 +7,7 @@ import FloatingWidget from "@/components/FloatingWidget";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import type { StrapiInsightsPageData } from "@/types/strapi";
-import { mediaUrl } from "@/lib/strapi/client";
+import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 import { mapInsightArticle, type MappedInsightArticle } from "./mapArticle";
 
 function Metadata({ article, mobile = false }: { article: MappedInsightArticle; mobile?: boolean }) {
@@ -79,7 +79,11 @@ export default function InsightsClientView({ data }: { data?: StrapiInsightsPage
     [data?.listingSection?.articles]
   );
   const searchPlaceholder = data?.listingSection?.searchPlaceholder || "Search articles";
-  const heroImage = data?.hero?.image
+  const heroImage = VERIFY_CMS
+    ? data?.hero?.image
+      ? mediaUrl(data.hero.image)
+      : ""
+    : data?.hero?.image
     ? mediaUrl(data.hero.image, "/assets/insights/mobile-hero-bg.png")
     : "/assets/insights/mobile-hero-bg.png";
   const heroMobileImage = data?.hero?.mobileImage

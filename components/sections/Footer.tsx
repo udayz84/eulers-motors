@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { StrapiFooterData } from "@/types/strapi";
+import { VERIFY_CMS } from "@/lib/strapi/client";
 
 type FooterColumn = {
   title: string;
@@ -167,10 +168,14 @@ function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null 
  */
 export default function Footer({ data }: { data?: StrapiFooterData }) {
   // CMS-driven chrome with hardcoded fallbacks (careers page pattern)
-  const columns = data?.columns?.length
+  const columns = VERIFY_CMS
+    ? data?.columns?.map((c) => ({ ...c, links: c.links ?? [] })) ?? []
+    : data?.columns?.length
     ? data.columns.map((c) => ({ ...c, links: c.links ?? [] }))
     : FOOTER_COLUMNS;
-  const socials = data?.socials?.length
+  const socials = VERIFY_CMS
+    ? data?.socials?.map((s) => ({ ...s, icon: s.icon || "" })) ?? []
+    : data?.socials?.length
     ? data.socials.map((s) => ({ ...s, icon: s.icon || "" }))
     : SOCIALS;
   const logoSrc = data?.logo || "/assets/footer/logo-dark.svg";

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
 import type { StrapiProductHero } from "@/types/strapi";
-import { mediaUrl } from "@/lib/strapi/client";
+import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 
 const ASSET = "/assets/products/";
 
@@ -320,7 +320,9 @@ export default function TurboHero({ data }: { data?: StrapiProductHero }) {
     setVariantsExpanded(false);
   };
   // CMS-driven content with hardcoded fallbacks (careers page pattern)
-  const stats: HeroStat[] = data?.stats?.length
+  const stats: HeroStat[] = VERIFY_CMS
+    ? (data?.stats ?? []).map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
+    : data?.stats?.length
     ? data.stats.map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
     : STATS;
   const variants: HeroVariant[] = data?.variants?.length
@@ -331,9 +333,11 @@ export default function TurboHero({ data }: { data?: StrapiProductHero }) {
         price: v.price || "",
         image: v.image ? mediaUrl(v.image, "${ASSET}vehicle-turbo-1000-clean.png") : "${ASSET}vehicle-turbo-1000-clean.png",
       }))
+    : VERIFY_CMS
+    ? []
     : TURBO_VARIANTS;
-  const tagline = data?.tagline || "World\u2019s first 1-tonne commercial EV truck. 1,000 kg payload capacity, up to 220 km certified range, and 140 Nm peak torque.";
-  const ctaLabel = data?.primaryCta?.label || "Download Brochure";
+  const tagline = VERIFY_CMS ? data?.tagline ?? "" : data?.tagline || "World\u2019s first 1-tonne commercial EV truck. 1,000 kg payload capacity, up to 220 km certified range, and 140 Nm peak torque.";
+  const ctaLabel = VERIFY_CMS ? data?.primaryCta?.label ?? "" : data?.primaryCta?.label || "Download Brochure";
 
   const selected = variants[selectedVariant];
 

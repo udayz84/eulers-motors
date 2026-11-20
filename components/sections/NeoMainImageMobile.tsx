@@ -49,9 +49,7 @@ function Arrow() {
 }
 
 export default function NeoMainImageMobile() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [proofVisible, setProofVisible] = useState(true);
-  const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [vehicle, setVehicle] = useState<Vehicle>("HiRANGE");
   const detail = VEHICLES[vehicle];
 
@@ -61,40 +59,6 @@ export default function NeoMainImageMobile() {
       className="relative isolate h-[1701px] w-full overflow-hidden bg-black text-white min-[640px]:max-[1023px]:h-[1550px]"
       data-node-id="4064:15781"
     >
-      {/* The top navigation floats over the hero art in the mobile Figma frame. */}
-      <div className="sticky top-0 z-50 -mb-[60px]">
-        {announcementVisible && <div className="flex h-6 shrink-0 items-center justify-between self-stretch bg-[#121212] px-5 py-1 font-sans text-[10px] font-[700] not-italic leading-normal text-white min-[640px]:max-[1023px]:h-[30px] min-[640px]:max-[1023px]:px-8 min-[640px]:max-[1023px]:text-[12px]">
-          <span>Euler - Explore our electric 4 wheeler range</span>
-          <button type="button" aria-label="Close announcement" onClick={() => setAnnouncementVisible(false)} className="grid size-[9px] shrink-0 cursor-pointer place-items-center border-0 bg-transparent p-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" className="block size-[9px]">
-              <path d="M0.75 0.75L7.75 7.75M7.75 0.75L0.75 7.75" strokeWidth="1.5" strokeLinecap="round" stroke="white" />
-            </svg>
-          </button>
-        </div>}
-        <header className="flex h-[41px] items-center justify-between border-b border-white/30 bg-black/20 py-[2px] pl-5 pr-[2px] backdrop-blur-[15px] min-[640px]:max-[1023px]:h-[64px] min-[640px]:max-[1023px]:pl-8 min-[640px]:max-[1023px]:pr-8">
-          <button type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" className="grid size-[18px] place-items-center text-[18px] leading-none text-white min-[640px]:max-[1023px]:size-6 min-[640px]:max-[1023px]:text-[24px]">☰</button>
-          <a href="#top" aria-label="NEO by Euler home" className="relative h-[31.4px] w-[112.3px] shrink-0 overflow-hidden min-[640px]:max-[1023px]:h-[42px] min-[640px]:max-[1023px]:w-[150px]">
-            <Image src={`${A}mobile-nav-logo.png`} alt="NEO by Euler" width={1} height={1} sizes="112px" className="absolute max-w-none object-fill" style={{ left: 0, top: "-268.34%", width: "100%", height: "637.58%" }} />
-          </a>
-          <a href="#contact" className="flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-[4px] bg-gradient-to-r from-[#00ff87] to-[#1d6fff] py-[2px] pl-3 pr-[2px] font-display text-[12px] font-semibold leading-none text-white no-underline min-[640px]:max-[1023px]:h-[42px] min-[640px]:max-[1023px]:gap-3 min-[640px]:max-[1023px]:pl-4 min-[640px]:max-[1023px]:text-[14px]">
-            Book a Test Drive <Arrow />
-          </a>
-          {menuOpen && (
-            <nav className="absolute left-0 right-0 top-full grid gap-3 bg-[#101719] p-5 text-sm text-white shadow-xl">
-              <a href="/products" onClick={() => setMenuOpen(false)}>Vehicles</a>
-              <a href="/technology" onClick={() => setMenuOpen(false)}>Technology</a>
-              <a href="/about" onClick={() => setMenuOpen(false)}>About us</a>
-              <a href="/careers" onClick={() => setMenuOpen(false)}>Careers</a>
-              <a href="/in-press" onClick={() => setMenuOpen(false)}>In press</a>
-              <a href="/dealer-locator" onClick={() => setMenuOpen(false)}>Find a dealer</a>
-              <a href="/service-centers" onClick={() => setMenuOpen(false)}>Service centres</a>
-              <a href="/charging-stations" onClick={() => setMenuOpen(false)}>Charging stations</a>
-              <a href="/faq" onClick={() => setMenuOpen(false)}>FAQs</a>
-            </nav>
-          )}
-        </header>
-      </div>
-
       {/* Figma's mobile background uses the source photo with the same crop and scrim as desktop. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <Image

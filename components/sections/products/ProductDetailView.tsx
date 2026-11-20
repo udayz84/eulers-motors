@@ -23,7 +23,7 @@ import ProductVariantsCompare, {
 import ProductLoanCalculator from "@/components/sections/products/ProductLoanCalculator";
 import ProductOverview from "@/components/sections/products/ProductOverview";
 import ProductOtherVehicles, { type VehicleCard } from "@/components/sections/products/ProductOtherVehicles";
-import { getProductDetail, mediaUrl } from "@/lib/strapi/client";
+import { getProductDetail, mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 import { mapSpecContent, mapVariants, mapTruckImage } from "./mapProduct";
 
 export type ProductKey = "storm-ev-lr200" | "hiload-ev" | "turbo-ev-1000" | "storm-ev-t1500";
@@ -208,11 +208,19 @@ export default async function ProductDetailView({ slug }: { slug: ProductKey }) 
   const config = PRODUCT_CONFIG[slug];
   const product = await getProductDetail(slug);
 
-  const specContent = mapSpecContent(product?.specs) ?? config.specFallback;
-  const variants = mapVariants(product?.variantsCompare) ?? config.variantsFallback;
+  const specContent = VERIFY_CMS
+    ? mapSpecContent(product?.specs) ?? {}
+    : mapSpecContent(product?.specs) ?? config.specFallback;
+  const variants = VERIFY_CMS
+    ? mapVariants(product?.variantsCompare) ?? []
+    : mapVariants(product?.variantsCompare) ?? config.variantsFallback;
   const truckImg = mapTruckImage(product?.variantsCompare, config.truckImgFallback);
-  const otherVehicles = mapOtherVehicles(product?.otherVehicles?.items);
-  const reviews = mapReviews(product?.reviews);
+  const otherVehicles = VERIFY_CMS
+    ? mapOtherVehicles(product?.otherVehicles?.items) ?? []
+    : mapOtherVehicles(product?.otherVehicles?.items);
+  const reviews = VERIFY_CMS
+    ? mapReviews(product?.reviews) ?? []
+    : mapReviews(product?.reviews);
   const { Hero } = config;
 
   return (

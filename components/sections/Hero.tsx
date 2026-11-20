@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Button from "../ui/Button";
 import FloatingWidget from "../FloatingWidget";
+import { VERIFY_CMS } from "@/lib/strapi/client";
 
 const HERO_SLIDES: HeroSlideData[] = [
   {
@@ -54,7 +55,11 @@ export interface HeroProps {
  * edge-to-edge.
  */
 export default function Hero({ slides }: HeroProps = {}) {
-  const currentSlides = slides !== undefined ? slides : HERO_SLIDES;
+  const currentSlides = VERIFY_CMS
+    ? slides ?? []
+    : slides !== undefined
+    ? slides
+    : HERO_SLIDES;
   const slideCount = currentSlides.length;
   const [active, setActive] = useState(() => (slideCount > 1 ? 1 : 0)); // Figma shows the 2nd dot active
   const [dragOffset, setDragOffset] = useState(0);
@@ -291,7 +296,7 @@ export default function Hero({ slides }: HeroProps = {}) {
               />
 
               <Image
-                src={slide.desktopImage || "/images/hero_desktop_clean.webp"}
+                src={slide.desktopImage || (VERIFY_CMS ? "" : "/images/hero_desktop_clean.webp")}
                 alt="Euler Turbo EV 1000 electric truck"
                 fill
                 priority

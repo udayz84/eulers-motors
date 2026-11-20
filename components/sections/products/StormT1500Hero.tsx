@@ -5,7 +5,7 @@ import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
 import type { StrapiProductHero } from "@/types/strapi";
-import { mediaUrl } from "@/lib/strapi/client";
+import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 
 const ASSET = "/assets/products/";
 
@@ -320,7 +320,9 @@ export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
     setVariantsExpanded(false);
   };
   // CMS-driven content with hardcoded fallbacks (careers page pattern)
-  const stats: HeroStat[] = data?.stats?.length
+  const stats: HeroStat[] = VERIFY_CMS
+    ? (data?.stats ?? []).map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
+    : data?.stats?.length
     ? data.stats.map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
     : STATS;
   const variants: HeroVariant[] = data?.variants?.length
@@ -331,9 +333,11 @@ export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
         price: v.price || "",
         image: v.image ? mediaUrl(v.image, "${ASSET}vehicle-storm-t1500-clean.png") : "${ASSET}vehicle-storm-t1500-clean.png",
       }))
+    : VERIFY_CMS
+    ? []
     : STORM_T1500_VARIANTS;
-  const tagline = data?.tagline || "India\u2019s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.";
-  const ctaLabel = data?.primaryCta?.label || "Download Brochure";
+  const tagline = VERIFY_CMS ? data?.tagline ?? "" : data?.tagline || "India\u2019s leading 1.5-tonne commercial EV goods carrier. 1,500 kg payload capacity, 8-foot deck length, 30 kW motor, and fast charging.";
+  const ctaLabel = VERIFY_CMS ? data?.primaryCta?.label ?? "" : data?.primaryCta?.label || "Download Brochure";
 
   const selected = variants[selectedVariant];
 

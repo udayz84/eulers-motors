@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const features = [
   ["24 hours", "Truck back in a day"],
-  ["Spare vehicle", "Totally free"],
   ["Every 3 months", "Free check-up at your depot"],
 ];
 
@@ -56,7 +55,7 @@ export default function EulerPrimeBannerMobile({ neoTablet = false }: { neoTable
         </p>
 
         <div
-          className="h-[90px] w-full rounded-[5.507px] p-[10px]"
+          className="w-full rounded-[5.507px] p-[12px]"
           style={{
             backgroundImage:
               "linear-gradient(90deg, rgba(19, 157, 216, 0.5), rgba(19, 157, 216, 0.5)), linear-gradient(90deg, rgba(14, 47, 109, 0.35), rgba(14, 47, 109, 0.35))",

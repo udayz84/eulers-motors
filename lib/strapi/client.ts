@@ -160,6 +160,13 @@ export interface StrapiFetchOptions {
 }
 
 /**
+ * VERIFICATION MODE — set NEXT_PUBLIC_VERIFY_CMS=1 to disable ALL hardcoded
+ * fallback content. Anything not present in Strapi will render empty, so you
+ * can visually confirm every section is genuinely served by Strapi.
+ */
+export const VERIFY_CMS = process.env.NEXT_PUBLIC_VERIFY_CMS === "1";
+
+/**
  * Fail-safe HTTP fetch layer for Strapi v5.
  * Never throws fatal exceptions if Strapi is offline; returns null instead.
  */
@@ -267,7 +274,7 @@ export async function getSingleType<T>(
     ...options,
   });
 
-  return mergeWithFallback<T>(response?.data, fallback);
+  return mergeWithFallback<T>(response?.data, VERIFY_CMS ? ({} as T) : fallback);
 }
 
 /**
@@ -284,14 +291,14 @@ export async function getCollection<T>(
   });
 
   if (!response) {
-    return fallback;
+    return VERIFY_CMS ? [] : fallback;
   }
 
   if (Array.isArray(response.data)) {
     return response.data;
   }
 
-  return fallback;
+  return VERIFY_CMS ? [] : fallback;
 }
 
 /**

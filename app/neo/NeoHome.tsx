@@ -20,7 +20,7 @@ const reviewImages = ["/assets/neo/figma/stories/story-1.png", "/assets/neo/figm
 // NEO uses the same Tailwind utility workflow as the rest of the app. Keeping
 // recurring utility groups here makes this long-form page easier to scan.
 const tw = {
-  neo: 'relative overflow-hidden bg-white text-[#111] [font-family:var(--font-display,"Archia",sans-serif)]',
+  neo: 'relative overflow-x-clip bg-white text-[#111] [font-family:var(--font-display,"Archia",sans-serif)]',
   button: 'inline-flex h-[46px] min-w-[157px] items-center justify-between gap-3.5 rounded-[3px] bg-[#0bd99a] px-[18px] font-sans text-[11px] font-bold text-[#071610] no-underline transition hover:-translate-y-0.5 hover:bg-[#72f1ca] [&>span]:text-[17px]',
   buttonLight: 'bg-[#effff9]',
   eyebrow: 'flex items-center gap-[9px] font-sans text-[9px] font-bold uppercase tracking-[.19em] text-[#0ab985] [&>i]:h-[7px] [&>i]:w-[7px] [&>i]:rounded-full [&>i]:bg-[#0bd99a] [&>i]:shadow-[0_0_14px_#00ffb6]',
@@ -214,7 +214,7 @@ function NavTrigger({ label, active, support = false, onHover, onToggle }: { lab
   );
 }
 
-function NeoNav() {
+function NeoNav({ scrolled = false }: { scrolled?: boolean }) {
   const [open, setOpen] = useState<NavKey | null>(null);
 
   useEffect(() => {
@@ -227,7 +227,15 @@ function NeoNav() {
   const panelBase = "absolute inset-x-0 top-full z-30 hidden bg-[#071511]/95 shadow-2xl backdrop-blur-[30px] lg:block";
 
   return (
-    <header className="absolute inset-x-0 top-[22px] z-30 h-[48px] w-full backdrop-blur-[120px]" data-node-id="4064:13784" onMouseLeave={() => setOpen(null)}>
+    <header
+      className={`relative inset-x-0 h-[48px] w-full transition-colors duration-200 backdrop-blur-[20px] ${
+        scrolled
+          ? "border-b border-white/10 bg-[#071511]/90 shadow-lg"
+          : "border-b border-white/10 bg-black/20"
+      }`}
+      data-node-id="4064:13784"
+      onMouseLeave={() => setOpen(null)}
+    >
       <div className="relative mx-auto flex h-full w-full max-w-[1440px] items-center justify-between pl-[80px]">
       <a href="/neo" aria-label="NEO by Euler home" className="relative block h-[30px] w-[107.331px] shrink-0 overflow-hidden mix-blend-lighten" data-node-id="4064:13785">
         <Image src="/assets/neo/main-image/mobile-nav-logo.png" alt="NEO by Euler" width={335} height={597} className="absolute left-0 top-[-268.34%] h-[637.58%] w-full max-w-none" />
@@ -323,24 +331,39 @@ function NeoNav() {
   );
 }
 
-function NeoAnnouncement() {
-  const [visible, setVisible] = useState(true);
-  if (!visible) return null;
+function NeoHeaderDesktop() {
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <aside className="relative z-40 h-[22px] w-full bg-black text-white" data-node-id="4064:13675">
-      <p className="absolute left-1/2 top-0 h-[19px] w-[290px] -translate-x-1/2 whitespace-nowrap font-sans text-[14px] font-[700] leading-[19px]">
-        Euler - Explore our electric 4 wheeler range
-      </p>
-      <button
-        type="button"
-        aria-label="Close announcement"
-        onClick={() => setVisible(false)}
-        className="absolute right-[max(calc((100vw_-_1440px)/2+49px),49px)] top-[6.5px] grid size-[7px] cursor-pointer place-items-center border-0 bg-transparent p-0"
-      >
-        <img src="/assets/neo/main-image/close-icon.svg" alt="" className="block size-full" />
-      </button>
-    </aside>
+    <div
+      className={`sticky top-0 z-50 w-full ${
+        announcementVisible ? "-mb-[70px]" : "-mb-[48px]"
+      }`}
+    >
+      {announcementVisible && (
+        <aside className="relative z-40 h-[22px] w-full bg-black text-white" data-node-id="4064:13675">
+          <p className="absolute left-1/2 top-0 h-[19px] w-[290px] -translate-x-1/2 whitespace-nowrap font-sans text-[14px] font-[700] leading-[19px]">
+            Euler - Explore our electric 4 wheeler range
+          </p>
+          <button
+            type="button"
+            aria-label="Close announcement"
+            onClick={() => setAnnouncementVisible(false)}
+            className="absolute right-[max(calc((100vw_-_1440px)/2+49px),49px)] top-[6.5px] grid size-[7px] cursor-pointer place-items-center border-0 bg-transparent p-0"
+          >
+            <img src="/assets/neo/main-image/close-icon.svg" alt="" className="block size-full" />
+          </button>
+        </aside>
+      )}
+      <NeoNav scrolled={scrolled} />
+    </div>
   );
 }
 
@@ -377,9 +400,64 @@ function TechnologyGlow({ src, className, flipped = false }: { src: string; clas
 function Technology() {
   const ellipse33 = "/assets/neo/figma/technology/ellipse-3433.svg";
   const ellipse30 = "/assets/neo/figma/technology/ellipse-3430.svg";
-  return <section id="technology" className="bg-white px-5 py-[42px] min-[1440px]:px-[80px]">
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  const getCardTransform = (index: number) => {
+    if (isVisible) return "translate3d(0, 0, 0)";
+    switch (index) {
+      case 0:
+        return "translate3d(-260px, -120px, 0)";
+      case 1:
+        return "translate3d(260px, -120px, 0)";
+      case 2:
+        return "translate3d(-260px, 120px, 0)";
+      case 3:
+        return "translate3d(260px, 120px, 0)";
+      default:
+        return "translate3d(0, 40px, 0)";
+    }
+  };
+
+  const getTransitionDelay = (index: number) => {
+    const delays = [0, 90, 150, 240];
+    return `${delays[index] ?? 0}ms`;
+  };
+
+  return <section id="technology" ref={sectionRef} onMouseEnter={() => setIsVisible(true)} className="bg-white px-5 py-[42px] min-[1440px]:px-[80px]">
     <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[32px]">
-      <header className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-between gap-5 lg:flex-row lg:items-end">
+      <header
+        className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-between gap-5 lg:flex-row lg:items-end"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translate3d(0, 0, 0)" : "translate3d(0, 20px, 0)",
+          transition: "opacity 700ms ease-out, transform 700ms cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      >
         <div className="flex flex-col items-start gap-[14px]">
           <div className="flex items-center gap-[12px] font-sans text-[16px] font-normal leading-normal text-[#121212]">
             <Image src="/assets/neo/main-image/logo.svg" alt="" width={14} height={14} />
@@ -396,7 +474,15 @@ function Technology() {
 
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-[18px]">
         <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[minmax(0,1.737fr)_minmax(0,1fr)]">
-        <article className="relative h-[303px] overflow-hidden rounded-[8px]">
+        <article
+          className="relative h-[303px] overflow-hidden rounded-[8px]"
+          style={{
+            transform: getCardTransform(0),
+            opacity: isVisible ? 1 : 0,
+            transition: `transform 900ms cubic-bezier(0.16, 1, 0.3, 1) ${getTransitionDelay(0)}, opacity 800ms ease-out ${getTransitionDelay(0)}`,
+            willChange: "transform, opacity",
+          }}
+        >
           <div className="absolute inset-0 overflow-hidden rounded-[8px]">
             <Image src="/assets/technology-page/know-your-vehicle/vehicle-shepherd-desktop.png" alt="" width={3061} height={1053} sizes="(min-width: 1440px) 1024px, 80vw" className="absolute max-w-none object-cover" style={{ width: "127.66%", height: "116.09%", left: "-27.67%", top: "-7.73%" }} />
           </div>
@@ -411,7 +497,15 @@ function Technology() {
           </div>
         </article>
 
-        <article className="relative h-[303px] overflow-hidden rounded-[8px] bg-[#121212]">
+        <article
+          className="relative h-[303px] overflow-hidden rounded-[8px] bg-[#121212]"
+          style={{
+            transform: getCardTransform(1),
+            opacity: isVisible ? 1 : 0,
+            transition: `transform 900ms cubic-bezier(0.16, 1, 0.3, 1) ${getTransitionDelay(1)}, opacity 800ms ease-out ${getTransitionDelay(1)}`,
+            willChange: "transform, opacity",
+          }}
+        >
           <div className="absolute bottom-[-136px] right-[-103.5px] h-[391px] w-[410.5px]">
             <div className="absolute inset-[-46.98%_-44.75%]"><Image src="/assets/neo/figma/technology/ellipse-3432.svg" alt="" fill sizes="777px" className="max-w-none" /></div>
           </div>
@@ -428,7 +522,15 @@ function Technology() {
         </div>
 
         <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.737fr)]">
-        <article className="relative h-[303px] overflow-hidden rounded-[8px] bg-[#121212]">
+        <article
+          className="relative h-[303px] overflow-hidden rounded-[8px] bg-[#121212]"
+          style={{
+            transform: getCardTransform(2),
+            opacity: isVisible ? 1 : 0,
+            transition: `transform 900ms cubic-bezier(0.16, 1, 0.3, 1) ${getTransitionDelay(2)}, opacity 800ms ease-out ${getTransitionDelay(2)}`,
+            willChange: "transform, opacity",
+          }}
+        >
           <div className="absolute bottom-[57.74px] right-[-80.25px] h-[197.262px] w-[223.192px]">
             <div className="absolute inset-[-69.07%_-61.05%] scale-y-[-1]"><Image src="/assets/neo/figma/technology/ellipse-3434.svg" alt="" fill sizes="497px" className="max-w-none" /></div>
           </div>
@@ -447,7 +549,15 @@ function Technology() {
           </div>
         </article>
 
-        <article className="relative h-[303px] overflow-hidden rounded-[8px]">
+        <article
+          className="relative h-[303px] overflow-hidden rounded-[8px]"
+          style={{
+            transform: getCardTransform(3),
+            opacity: isVisible ? 1 : 0,
+            transition: `transform 900ms cubic-bezier(0.16, 1, 0.3, 1) ${getTransitionDelay(3)}, opacity 800ms ease-out ${getTransitionDelay(3)}`,
+            willChange: "transform, opacity",
+          }}
+        >
           <div className="absolute inset-0 overflow-hidden rounded-[8px]">
             <Image src="/assets/technology-page/know-your-vehicle/vehicle-charging-desktop.png" alt="" width={2249} height={1180} sizes="(min-width: 1440px) 801px, 62vw" className="absolute max-w-none object-cover" style={{ width: "99.98%", height: "138.68%", left: "0.02%", top: "-23.57%" }} />
             <div className="absolute inset-0 bg-[#121212]/20" />
@@ -685,6 +795,6 @@ function Contact() {
 
 
 export default function NeoHomePage() {
-  return <><div className="lg:hidden"><NeoMobile /></div><div id="top" className={`${tw.neo} hidden lg:block`}><NeoAnnouncement /><NeoNav /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
+  return <><div className="lg:hidden"><NeoMobile /></div><div id="top" className={`${tw.neo} hidden lg:block`}><NeoHeaderDesktop /><main><NeoMainImage /><NeoAbout /><Technology /><NeoSavingsCalculator /><HowItWorks /><Prime /><Reviews /><Enterprise /><Insights /><Contact /></main><NeoFooterDesktop /></div></>;
 }
 

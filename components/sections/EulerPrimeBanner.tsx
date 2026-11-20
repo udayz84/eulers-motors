@@ -102,19 +102,6 @@ export default function EulerPrimeBanner() {
             {/* Feature 2 */}
             <div className="flex flex-col gap-[10px] items-start whitespace-nowrap">
               <p className="font-display text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#f3f4f5] text-center">
-                Spare vehicle
-              </p>
-              <p className="font-sans text-[16px] font-normal leading-normal text-[#ccc]">
-                Totally free
-              </p>
-            </div>
-
-            {/* Separator */}
-            <div className="bg-[rgba(255,255,255,0.5)] h-[8px] rounded-[500px] shrink-0 w-[9px]" />
-
-            {/* Feature 3 */}
-            <div className="flex flex-col gap-[10px] items-start whitespace-nowrap">
-              <p className="font-display text-[24px] font-bold leading-[1.15] tracking-[-0.48px] text-[#f3f4f5] text-center">
                 Every 3 months
               </p>
               <p className="font-sans text-[16px] font-normal leading-normal text-[#ccc]">

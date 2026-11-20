@@ -5,7 +5,7 @@ import Image from "next/image";
 import Arrow from "@/components/ui/Arrow";
 import VehicleGroundShadow from "@/components/ui/VehicleGroundShadow";
 import type { StrapiProductHero } from "@/types/strapi";
-import { mediaUrl } from "@/lib/strapi/client";
+import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
 
 const ASSET = "/assets/products/";
 
@@ -321,7 +321,9 @@ export default function HiLoadHero({ data }: { data?: StrapiProductHero }) {
     setVariantsExpanded(false);
   };
   // CMS-driven content with hardcoded fallbacks (careers page pattern)
-  const stats: HeroStat[] = data?.stats?.length
+  const stats: HeroStat[] = VERIFY_CMS
+    ? (data?.stats ?? []).map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
+    : data?.stats?.length
     ? data.stats.map((s) => ({ value: s.value, unit: s.unit || "", label: s.label }))
     : STATS;
   const variants: HeroVariant[] = data?.variants?.length
@@ -332,9 +334,11 @@ export default function HiLoadHero({ data }: { data?: StrapiProductHero }) {
         price: v.price || "",
         image: v.image ? mediaUrl(v.image, "${ASSET}vehicle-hiload-ev-clean.png") : "${ASSET}vehicle-hiload-ev-clean.png",
       }))
+    : VERIFY_CMS
+    ? []
     : HILOAD_VARIANTS;
-  const tagline = data?.tagline || "Xtra load needs Xtra performance. India\u2019s highest-rated electric cargo 3-wheeler with up to 688 kg payload, 170 km range, and 88.55 Nm peak torque.";
-  const ctaLabel = data?.primaryCta?.label || "Download Brochure";
+  const tagline = VERIFY_CMS ? data?.tagline ?? "" : data?.tagline || "Xtra load needs Xtra performance. India\u2019s highest-rated electric cargo 3-wheeler with up to 688 kg payload, 170 km range, and 88.55 Nm peak torque.";
+  const ctaLabel = VERIFY_CMS ? data?.primaryCta?.label ?? "" : data?.primaryCta?.label || "Download Brochure";
 
   const selected = variants[selectedVariant];
 
