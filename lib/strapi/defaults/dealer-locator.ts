@@ -388,8 +388,8 @@ export const DEFAULT_CHARGING_STATIONS_PAGE: ChargingStationsPageData = {
         order: 6,
       },
       {
-        question: "Which Euler EV is suitable for carrying loads of approximately one tonne?",
-        answer: "The Euler Turbo EV 1000 is designed for commercial cargo operations with a payload capacity of approximately 1,000 kg. It is suitable for businesses involved in deliveries, logistics and goods transportation. Explore its specifications to check whether it meets your load capacity, range and operational requirements.",
+        question: "Which Euler electric commercial vehicle can carry approximately one tonne of cargo?",
+        answer: "The Euler Turbo EV 1000 has a payload capacity of approximately 1,000 kg, making it suitable for businesses involved in deliveries, logistics and goods transportation. Explore its specifications to check whether it meets your approximate load capacity, range and operational requirements.",
         category: "Vehicles",
         order: 7,
       },
@@ -407,7 +407,7 @@ export const DEFAULT_CHARGING_STATIONS_PAGE: ChargingStationsPageData = {
       },
       {
         question: "How do I choose between Storm EV LongRange200 and Storm EV T1500?",
-        answer: "Compare both vehicles based on RealRange™, deck length, charging infrastructure available on your routes, ground clearance and battery capacity. The Storm EV LongRange200 offers a listed RealRange™ of 200+ km*, while the Storm EV T1500 offers 140+ km*. Both are listed with a payload capacity of up to 1,500 kg. Consider your daily travel distance, cargo dimensions, road conditions and charging access before deciding.",
+        answer: "Compare both vehicles based on RealRange™, deck length, ground clearance, battery capacity and the charging infrastructure available on your routes. The Storm EV LongRange 200 offers a listed RealRange™ of 200+ km*, while the Storm EV T1500 offers 140+ km*. Both have a payload capacity of up to 1,500 kg. For fast charging, the LongRange 200 uses a CCS2 fast charger, while the T1500 uses a GB/T charger. Consider your daily travel distance, cargo dimensions, road conditions and access to compatible charging points before deciding.",
         category: "Vehicles",
         order: 10,
       },
