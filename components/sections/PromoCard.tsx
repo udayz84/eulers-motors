@@ -233,12 +233,14 @@ export default function PromoCard({
                      desktop stays right-aligned per 1:1484 */
                   "items-start justify-center pt-[7px] lg:items-center lg:justify-end lg:pt-0"
                 : /* Neo mobile (1:4673): content sits in the upper part of the card */
-                  "items-start justify-center pt-[15px] lg:items-center lg:justify-start lg:pt-0"
+                  "items-start justify-center pt-2.5 sm:pt-[15px] lg:items-center lg:justify-start lg:pt-0"
             } ${right ? "lg:pl-15 lg:pr-[69.57px]" : "lg:pl-15 lg:pr-15"}`}
           >
             <div
-              className={`flex w-[312px] flex-col items-center gap-[14px] text-center lg:w-[414.434px] lg:gap-4 ${
-                right ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left lg:-translate-y-[34.81px]"
+              className={`flex flex-col items-center text-center lg:w-[414.434px] lg:gap-4 ${
+                right
+                  ? "w-[312px] gap-[14px] lg:items-end lg:text-right"
+                  : "w-[320px] max-w-full gap-2 sm:gap-[14px] lg:items-start lg:text-left lg:-translate-y-[34.81px]"
               }`}
             >
               {eyebrow && (
@@ -247,12 +249,18 @@ export default function PromoCard({
                 </span>
               )}
               <h2
-                className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] text-ink lg:text-[52px] lg:tracking-[-1.04px]"
+                className={`whitespace-nowrap font-display font-semibold leading-[1.15] text-ink lg:text-[52px] lg:tracking-[-1.04px] ${
+                  right ? "text-[28px] tracking-[-0.56px]" : "text-[22px] tracking-[-0.44px] sm:text-[28px] sm:tracking-[-0.56px]"
+                }`}
               >
                 {title}
               </h2>
               <p
-                className="text-[12px] font-normal leading-normal text-ink lg:text-[16px] lg:leading-[22px]"
+                className={`font-normal text-ink lg:text-[16px] lg:leading-[22px] ${
+                  right
+                    ? "text-[12px] leading-normal"
+                    : "text-[11px] leading-[14.5px] sm:text-[12px] sm:leading-normal"
+                }`}
               >
                 {body}
               </p>
@@ -263,7 +271,9 @@ export default function PromoCard({
                   href={href}
                   variant="dark"
                   arrow={icon === "phone" ? "none" : "white"}
-                  className="max-lg:font-bold"
+                  className={`max-lg:font-bold ${
+                    right ? "" : "max-lg:h-9 max-lg:px-4 max-lg:text-[11px]"
+                  }`}
                 >
                   <span className="inline-flex items-center gap-2">
                     {cta}

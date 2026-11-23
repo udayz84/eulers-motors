@@ -69,6 +69,7 @@ export interface ProductItem {
   specsRange: string;
   specsCapacity: string;
   specsChargeTime: string;
+  runningCost?: string;
   productUrl?: string;
   image?: StrapiMedia;
   mobileImage?: StrapiMedia;

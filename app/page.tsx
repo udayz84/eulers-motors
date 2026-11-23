@@ -34,14 +34,14 @@ export async function generateMetadata(): Promise<Metadata> {
 function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined {
   if (!products || products.length === 0) return undefined;
 
-  const baseVehicles = [
+  const baseVehicles: VehicleData[] = [
     {
       id: "storm-ev-t1500",
       tabLabel: "Storm EV T1500",
       title: "Storm EV T1500",
       image: "/assets/products/vehicle-storm-t1500-clean.webp",
       crop: [-228.13, -145.73, 335.27, 237.35] as [number, number, number, number],
-      specs: { range: "140+ km", capacity: "1,500 kg", chargeTime: "15 min fast charge" },
+      specs: { range: "140+ km", capacity: "1,500 kg", chargeTime: "15 min fast charge", runningCost: "₹1.15/km" },
     },
     {
       id: "storm-ev-lr-200",
@@ -49,7 +49,7 @@ function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined 
       title: "Storm EV LongRange 200",
       image: "/assets/products/vehicle-storm-lr200-clean.webp",
       crop: [-4.46, -140.4, 325.69, 230.57] as [number, number, number, number],
-      specs: { range: "200+ km", capacity: "1,500 kg", chargeTime: "15 min fast charge" },
+      specs: { range: "200+ km", capacity: "1,500 kg", chargeTime: "15 min fast charge", runningCost: "₹1.05/km" },
     },
     {
       id: "turbo-ev-1000",
@@ -57,7 +57,7 @@ function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined 
       title: "Turbo EV 1000",
       image: "/assets/products/vehicle-turbo-1000-clean.webp",
       crop: [-2.9, -6.56, 322.07, 228] as [number, number, number, number],
-      specs: { range: "180+ km", capacity: "1,000 kg", chargeTime: "15 min fast charge" },
+      specs: { range: "180+ km", capacity: "1,000 kg", chargeTime: "15 min fast charge", runningCost: "₹0.98/km" },
     },
     {
       id: "hiload-ev",
@@ -65,7 +65,7 @@ function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined 
       title: "HiLoad EV",
       image: "/assets/products/vehicle-hiload-ev-clean.webp",
       crop: [-295.3, -19.56, 415.35, 294.03] as [number, number, number, number],
-      specs: { range: "170 km", capacity: "688 kg", chargeTime: "15 min fast charge" },
+      specs: { range: "170 km", capacity: "688 kg", chargeTime: "15 min fast charge", runningCost: "₹0.85/km" },
     },
   ];
 
@@ -86,6 +86,7 @@ function mapStrapiVehicles(products?: ProductItem[]): VehicleData[] | undefined 
         range: match.specsRange || base.specs.range,
         capacity: match.specsCapacity || base.specs.capacity,
         chargeTime: match.specsChargeTime || base.specs.chargeTime,
+        runningCost: (match as any).runningCost || base.specs.runningCost,
       },
     };
   });

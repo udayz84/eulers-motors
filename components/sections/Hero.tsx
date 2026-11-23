@@ -61,7 +61,7 @@ export default function Hero({ slides }: HeroProps = {}) {
     ? slides
     : HERO_SLIDES;
   const slideCount = currentSlides.length;
-  const [active, setActive] = useState(() => (slideCount > 1 ? 1 : 0)); // Figma shows the 2nd dot active
+  const [active, setActive] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 

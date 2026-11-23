@@ -19,38 +19,37 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
         tag: "PERFORMANCE",
         headline: "Designed for demanding loads and everyday commercial operations.",
         subheading: "",
-        primaryCta: { label: "Explore our Vehicles", href: "/products", variant: "primary" },
+        primaryCta: { label: "Explore our vehicles", href: "/products", variant: "primary" },
       },
       {
         tag: "PERFORMANCE",
         headline:
           "From different cargo requirements to diverse business needs, find your fit in our electric vehicle portfolio.",
         subheading: "",
-        primaryCta: { label: "Explore our Vehicles", href: "/products", variant: "primary" },
+        primaryCta: { label: "View all vehicles", href: "/products", variant: "primary" },
       },
       {
         tag: "TECHNOLOGY",
         headline:
           "Purpose-built technology, thoughtful engineering, and safety-focused design for commercial mobility.",
         subheading: "",
-        primaryCta: { label: "Explore our Vehicles", href: "/products", variant: "primary" },
+        primaryCta: { label: "Discover our technology", href: "/technology", variant: "primary" },
       },
       {
         tag: "BUSINESS VALUE",
         headline: "Find the right balance of capability, operating needs, and value for your business.",
         subheading: "",
-        primaryCta: { label: "Explore our Vehicles", href: "/products", variant: "primary" },
+        primaryCta: { label: "Find your vehicle", href: "/products", variant: "primary" },
       },
     ],
   },
   statsBanner: {
     heading: "Euler Motors in numbers",
     stats: [
-      { value: "10,000+", valueMobile: "10,000", unitMobile: "+", label: "Units sold" },
-      { value: "52", label: "Cities" },
-      { value: "96.4%", valueMobile: "96.4", unitMobile: "%", label: "Uptime across India" },
-      { value: "112+", label: "Dealers & service touchpoints" },
-      { value: "08", unit: "yrs", label: "Battery warranty" },
+      { value: "10,000+", label: "Units sold" },
+      { value: "52", unit: "Crore+", label: "Kilometres driven" },
+      { value: "20", unit: "Crore+", label: "CO₂ emissions saved" },
+      { value: "6000+", label: "Compatible charging points PAN India" },
     ],
   },
   productShowcase: {
@@ -66,6 +65,7 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
         specsRange: "200+ km",
         specsCapacity: "1,500 kg",
         specsChargeTime: "15 min fast charge",
+        runningCost: "₹1.05/km",
         productUrl: "/products/storm-ev-lr200",
       },
       {
@@ -75,6 +75,7 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
         specsRange: "140+ km",
         specsCapacity: "1,500 kg",
         specsChargeTime: "15 min fast charge",
+        runningCost: "₹1.15/km",
         productUrl: "/products/storm-ev-t1500",
       },
       {
@@ -84,6 +85,7 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
         specsRange: "180+ km",
         specsCapacity: "1,000 kg",
         specsChargeTime: "15 min fast charge",
+        runningCost: "₹0.98/km",
         productUrl: "/products/turbo-ev-1000",
       },
       {
@@ -93,6 +95,7 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
         specsRange: "170 km",
         specsCapacity: "688 kg",
         specsChargeTime: "15 min fast charge",
+        runningCost: "₹0.85/km",
         productUrl: "/products/hiload-ev",
       },
     ],
@@ -100,18 +103,18 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
   neoPromo: {
     eyebrow: "Presenting the future of Auto",
     title: "Neo by Euler",
-    body: "Smaller three wheelers for city delivery. HiRange and HiCity. Sold and serviced by the same 112 dealers.",
-    ctaLabel: "Explore Neo",
+    body: "Discover HiLoad EV, HiRange EV and HiCity EV, designed for urban and semi-urban passenger mobility and cargo deliveries.",
+    ctaLabel: "Explore Neo by Euler",
     ctaHref: "/products",
-    imageAlt: "Neo by Euler three-wheelers",
+    imageAlt: "Neo by Euler electric 3-wheelers",
     wash: "blue",
     align: "left",
   },
   talkPromo: {
     eyebrow: "Support",
-    title: "Talk to an expert ",
-    body: "Need assistance? Request a callback, and our team will get in touch with you in just a few minutes!",
-    ctaLabel: "Request a call back",
+    title: "Talk to an expert",
+    body: "Have questions about our electric vehicles? Request a callback and our team will help you explore the right options for your business.",
+    ctaLabel: "Request a callback",
     ctaHref: "#contact",
     imageAlt: "Euler expert with a customer",
     wash: "mobile-blue",
@@ -130,9 +133,9 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
     cards: [
       {
         tag: "01 / Battery",
-        title: "Full range, even in garmi.",
+        title: "Full range, even in every weather condition",
         description:
-          "Indian summers can be tough on batteries. Our liquid-cooled battery helps manage heat, so you can keep moving.",
+          "Indian summers, winter chills and monsoon conditions can affect battery performance. Our liquid-cooled battery helps manage heat & cold weather, while the battery system is designed to handle varying weather conditions and keep your business moving.",
       },
       {
         tag: "02 / Comfort & Safety",
@@ -288,8 +291,8 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
     eyebrow: "WHY EULER",
     title: "What changes when you switch?",
     quizTitle: "Which vehicle fits your work?",
-    quizSubtitle: "Sirf 5 questions, 30 seconds. No phone number needed.",
-    quizCta: { label: "Take the 30 second test", href: "#quiz", variant: "primary" },
+    quizSubtitle: "Answer 5 quick questions to find the right vehicle for your business. No phone number needed.",
+    quizCta: { label: "Take the 30-second test", href: "#quiz", variant: "primary" },
     withoutEulerPoints: [
       {
         persona: "Fleet owner",
@@ -297,7 +300,7 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
       },
       {
         persona: "Transport company",
-        points: ["₹4–6/km running cost", "Margin pressure", "Fleet inefficiencies"],
+        points: ["Higher running costs", "More spent on fuel", "Higher operating expenses"],
       },
       {
         persona: "Small business",
@@ -319,11 +322,11 @@ export const DEFAULT_HOME_PAGE: HomePageData = {
       },
       {
         persona: "Transport company",
-        points: ["Less than ₹1/km running cost", "Better operating economics", "Efficient fleet operations"],
+        points: ["Lower running costs", "Less spent on charging", "Better control over operating costs"],
       },
       {
         persona: "Small business",
-        points: ["Potential savings", "Vehicles for your needs", "Better cost management"],
+        points: ["Lower delivery costs", "Vehicles for your needs", "Better cost management"],
       },
       {
         persona: "Driver",

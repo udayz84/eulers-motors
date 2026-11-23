@@ -113,7 +113,7 @@ export default function SavingsCalculator({
   defaultDailyKm = 60,
   defaultYears = 5,
 }: SavingsCalculatorProps = {}) {
-  const [vehicleId, setVehicleId] = useState("turbo-ev");
+  const [vehicleId, setVehicleId] = useState("storm-t1500");
   const [competitorId, setCompetitorId] = useState<string | undefined>(undefined);
   const [km, setKm] = useState(Math.min(300, Math.max(20, defaultDailyKm || 20)));
   const [years, setYears] = useState(Math.min(10, Math.max(1, defaultYears || 5)));

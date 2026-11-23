@@ -127,17 +127,32 @@ export default function NeoMainImageMobile() {
 
       {/* Vehicle card: 373 × 774 Figma slot, fluidly reduced on narrower phones. */}
       <div id="vehicles" className="absolute left-1/2 top-[926.67px] h-[774px] w-[calc(100vw_-_20px)] max-w-[373px] -translate-x-1/2 overflow-hidden rounded-[12px] min-[640px]:max-[1023px]:top-[850px] min-[640px]:max-[1023px]:h-[660px] min-[640px]:max-[1023px]:w-[calc(100vw_-_64px)] min-[640px]:max-[1023px]:max-w-[900px]">
-        <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-[12px] bg-white">
-          <Image src={`${A}mobile-showcase-bg.png`} alt="" width={2036} height={2108} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-57.48%", top: "-7.26%", width: "214.96%", height: "107.25%" }} />
-          <div className="absolute inset-0 bg-black/[.12]" />
-        </div>
-        <div aria-hidden="true" className="pointer-events-none absolute -top-5 left-0 h-[794px] w-full overflow-hidden">
-          <Image src={`${A}mobile-showcase-layer-1.png`} alt="" width={2036} height={2150} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-53.87%", top: "-7.42%", width: "207.74%", height: "107.38%" }} />
-          <div className="absolute inset-0 bg-black/[.32]" />
-        </div>
-        <div aria-hidden="true" className="pointer-events-none absolute -top-[19.67px] left-0 h-[762px] w-full overflow-hidden">
-          <Image src={`${A}mobile-showcase-layer-2.png`} alt="" width={2036} height={2078} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-57.48%", top: "-7.42%", width: "214.96%", height: "107.39%" }} />
-        </div>
+        {vehicle === "HiCITY" ? (
+          <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-[12px] bg-[#111]">
+            <Image
+              src={`${A}showcase-hicity-v2.png`}
+              alt=""
+              fill
+              sizes="(max-width: 639px) 373px, 900px"
+              className="object-cover object-[24%_top] min-[640px]:object-[center_top]"
+              priority
+            />
+          </div>
+        ) : (
+          <>
+            <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-[12px] bg-white">
+              <Image src={`${A}mobile-showcase-bg.png`} alt="" width={2036} height={2108} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-57.48%", top: "-7.26%", width: "214.96%", height: "107.25%" }} />
+              <div className="absolute inset-0 bg-black/[.12]" />
+            </div>
+            <div aria-hidden="true" className="pointer-events-none absolute -top-5 left-0 h-[794px] w-full overflow-hidden">
+              <Image src={`${A}mobile-showcase-layer-1.png`} alt="" width={2036} height={2150} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-53.87%", top: "-7.42%", width: "207.74%", height: "107.38%" }} />
+              <div className="absolute inset-0 bg-black/[.32]" />
+            </div>
+            <div aria-hidden="true" className="pointer-events-none absolute -top-[19.67px] left-0 h-[762px] w-full overflow-hidden">
+              <Image src={`${A}mobile-showcase-layer-2.png`} alt="" width={2036} height={2078} sizes="210vw" className="absolute max-w-none object-cover" style={{ left: "-57.48%", top: "-7.42%", width: "214.96%", height: "107.39%" }} />
+            </div>
+          </>
+        )}
 
         <div className="absolute left-5 right-0 top-[20.33px] flex flex-col items-start gap-3 min-[640px]:max-[1023px]:left-8 min-[640px]:max-[1023px]:top-7">
           <div className="flex items-center gap-[6px]">

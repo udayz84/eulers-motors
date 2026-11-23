@@ -340,157 +340,171 @@ export default function NeoMainImage() {
               data-node-id="4064:13822"
               data-name="Main image"
             >
-        <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
-          <img alt="" className="absolute h-[167.04%] left-[-11.87%] max-w-none top-[-33.52%] w-[123.73%] object-cover" src={`${A}main-bg-2.png`} />
-        </div>
+              {vehicle === "HiCITY" ? (
+                <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]" aria-hidden>
+                  <img
+                    alt="Neo HiCITY"
+                    className="h-full w-full object-cover object-center"
+                    src={`${A}showcase-hicity-v2.png?v=2`}
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
+                    <img alt="" className="absolute h-[167.04%] left-[-11.87%] max-w-none top-[-33.52%] w-[123.73%] object-cover" src={`${A}main-bg-2.png`} />
+                  </div>
 
-        <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[1040px] left-[calc(50%-254px)] top-[calc(50%+65px)] w-[1910px]" aria-hidden>
-          <div aria-hidden className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 overflow-hidden">
-              <img alt="" className="absolute h-[147.95%] left-[0.01%] max-w-none top-[-23.98%] w-[99.98%] object-cover" src={`${A}showcase-bg-1.png`} />
-            </div>
-            <div className="absolute backdrop-blur-[2px] bg-[rgba(0,0,0,0.12)] inset-0" />
-          </div>
-        </div>
-
-        {/* model spec panel */}
-        <div
-          className="absolute z-10 bg-[rgba(0,0,0,0.5)] bottom-[89.4px] content-stretch flex flex-col gap-[24px] items-start p-[12px] right-[60px] rounded-[8px] w-[554px]"
-          data-node-id="4064:13824"
-          style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none" }}
-        >
-          <div className="content-stretch flex flex-col gap-[10px] items-start justify-center px-[20px] py-[12px] relative shrink-0 w-full">
-            <div className="absolute bg-[#f3f4f5] content-stretch flex gap-[15px] h-[32px] items-center pl-[20px] pr-[16px] py-[6px] right-0 rounded-[4px] top-[12px]">
-              <div className="content-stretch flex items-center relative shrink-0">
-                <p className="[word-break:break-word] font-sans font-semibold leading-[1.15] relative shrink-0 text-[#121212] text-[14px] text-center tracking-[-0.28px] whitespace-nowrap">
-                  {data.chip}
-                </p>
-              </div>
-              <div className="flex items-center justify-center relative shrink-0">
-                <div className="-scale-y-100 flex-none">
-                  <div className="h-[4px] relative w-[9.333px]">
-                    <div className="absolute inset-[-9.24%_-8.04%_-18.75%_-8.04%]">
-                      <img alt="" className="block max-w-none size-full" src={`${A}chevron.svg`} />
+                  <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[1040px] left-[calc(50%-254px)] top-[calc(50%+65px)] w-[1910px]" aria-hidden>
+                    <div aria-hidden className="absolute inset-0 pointer-events-none">
+                      <div className="absolute inset-0 overflow-hidden">
+                        <img alt="" className="absolute h-[147.95%] left-[0.01%] max-w-none top-[-23.98%] w-[99.98%] object-cover" src={`${A}showcase-bg-1.png`} />
+                      </div>
+                      <div className="absolute backdrop-blur-[2px] bg-[rgba(0,0,0,0.12)] inset-0" />
                     </div>
                   </div>
+
+                  {/* foreground vehicle layer (transparent PNG) */}
+                  <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[1040.932px] left-[calc(50%-273.02px)] top-[calc(50%+64px)] w-[1873.677px]" aria-hidden>
+                    <img alt="" className="absolute backdrop-blur-[2px] inset-0 max-w-none object-cover pointer-events-none size-full" src={`${A}showcase-bg-2.png`} />
+                  </div>
+                </>
+              )}
+
+              {/* model spec panel */}
+              <div
+                className="absolute z-10 bg-[rgba(0,0,0,0.5)] bottom-[89.4px] content-stretch flex flex-col gap-[24px] items-start p-[12px] right-[60px] rounded-[8px] w-[554px]"
+                data-node-id="4064:13824"
+                style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none" }}
+              >
+                <div className="content-stretch flex flex-col gap-[10px] items-start justify-center px-[20px] py-[12px] relative shrink-0 w-full">
+                  <div className="absolute bg-[#f3f4f5] content-stretch flex gap-[15px] h-[32px] items-center pl-[20px] pr-[16px] py-[6px] right-0 rounded-[4px] top-[12px]">
+                    <div className="content-stretch flex items-center relative shrink-0">
+                      <p className="[word-break:break-word] font-sans font-semibold leading-[1.15] relative shrink-0 text-[#121212] text-[14px] text-center tracking-[-0.28px] whitespace-nowrap">
+                        {data.chip}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center relative shrink-0">
+                      <div className="-scale-y-100 flex-none">
+                        <div className="h-[4px] relative w-[9.333px]">
+                          <div className="absolute inset-[-9.24%_-8.04%_-18.75%_-8.04%]">
+                            <img alt="" className="block max-w-none size-full" src={`${A}chevron.svg`} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+                    <p className="[word-break:break-word] font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[28px] text-white tracking-[-0.56px] whitespace-nowrap">
+                      {data.name}
+                    </p>
+                  </div>
+                  <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[16px] text-white w-[439.236px]">
+                    {data.description}
+                  </p>
+                </div>
+
+                <div className="bg-[rgba(0,0,0,0.4)] content-stretch flex flex-col gap-[20px] items-center justify-center p-[24px] relative rounded-[6px] shrink-0 w-full">
+                  <SpecRow items={data.rows[0]} separators={[`${A}spec-vline-1.svg`, `${A}spec-vline-2.svg`]} />
+                  <div className="h-0 relative shrink-0 w-full">
+                    <div className="absolute inset-[-0.8px_0_0_0]">
+                      <img alt="" className="block max-w-none size-full" src={`${A}spec-hline.svg`} />
+                    </div>
+                  </div>
+                  <SpecRow items={data.rows[1]} separators={[`${A}spec-vline-1.svg`, `${A}spec-vline-1.svg`]} />
+                </div>
+              </div>
+
+              {/* title */}
+              <div className="absolute z-10 content-stretch flex flex-col gap-[14px] items-start left-[60px] top-[60px]">
+                <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
+                  <div className="relative shrink-0 size-[14px]">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={`${A}logo.svg`} />
+                  </div>
+                  <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[16px] text-white whitespace-nowrap">
+                    OUR VEHICLES
+                  </p>
+                </div>
+                <p className="[word-break:break-word] font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[42px] text-white tracking-[-0.84px] w-[455.246px]">
+                  Meet the Neo family.
+                </p>
+              </div>
+
+              {/* model switcher */}
+              <div className="absolute z-10 bg-[rgba(0,0,0,0.12)] bottom-[616px] content-stretch flex items-center justify-center right-[101px] p-[4px] rounded-tl-[8px] rounded-tr-[8px]">
+                <button
+                  type="button"
+                  onClick={() => setVehicle("HiRANGE")}
+                  className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${vehicle === "HiRANGE" ? "bg-white" : ""
+                    }`}
+                >
+                  <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiRANGE" ? "text-[#121212]" : "text-white"}`}>
+                    Neo HiRANGE
+                  </p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVehicle("HiCITY")}
+                  className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${vehicle === "HiCITY" ? "bg-white" : ""
+                    }`}
+                >
+                  <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiCITY" ? "text-[#121212]" : "text-white"}`}>
+                    Neo HiCITY
+                  </p>
+                </button>
+              </div>
+
+              {/* CTA row */}
+              <div className="absolute z-10 content-stretch flex gap-[14px] items-start right-[100px] top-[682.6px] w-[406px]" data-node-id="4064:13902">
+                <a
+                  href={`/products/${vehicle === "HiRANGE" ? "neo-hirange" : "neo-hicity"}`}
+                  className="content-stretch flex gap-[20px] h-[42px] items-center justify-center pl-[24px] pr-[2px] relative rounded-[4px] shrink-0 no-underline"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(107.75534555172112deg, rgb(0, 255, 135) 28.559%, rgb(29, 111, 255) 124.97%)",
+                  }}
+                >
+                  <p className="[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
+                    View Details
+                  </p>
+                  <span className="bg-[#121212] content-stretch flex flex-col items-center justify-center relative rounded-[2px] shrink-0 size-[38px]">
+                    <span className="h-[14px] relative shrink-0 w-[22px]">
+                      <span className="absolute inset-[-16.4%_-1.68%_-22.89%_-3.41%]">
+                        <img alt="" className="block max-w-none size-full" src={`${A}arrow.svg`} />
+                      </span>
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href="/products"
+                  className="bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.5)] border-solid content-stretch flex flex-[1_0_0] gap-[8px] h-[42px] items-center justify-center min-w-px px-[24px] relative rounded-[4px] no-underline"
+                >
+                  <p className="[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
+                    Compare Vehicles
+                  </p>
+                  <span className="overflow-clip relative shrink-0 size-[24px]">
+                    <span className="absolute inset-[20.83%]">
+                      <span className="absolute inset-[-7.14%_-7.16%]">
+                        <img alt="" className="block max-w-none size-full" src={`${A}compare-icon.svg`} />
+                      </span>
+                    </span>
+                  </span>
+                </a>
+              </div>
+
+              {/* small decorative swoosh */}
+              <div
+                className="absolute z-10 h-[65.078px] top-[271.92px] w-[166.378px]"
+                style={{ left: vehicle === "HiCITY" ? "618px" : "684.62px" }}
+                aria-hidden
+              >
+                <div className="absolute inset-[-0.77%_-1.6%_-4.1%_0]">
+                  <img alt="" className="block max-w-none size-full" src={`${A}decor.svg`} />
                 </div>
               </div>
             </div>
-            <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-              <p className="[word-break:break-word] font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[28px] text-white tracking-[-0.56px] whitespace-nowrap">
-                {data.name}
-              </p>
-            </div>
-            <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[16px] text-white w-[439.236px]">
-              {data.description}
-            </p>
           </div>
-
-          <div className="bg-[rgba(0,0,0,0.4)] content-stretch flex flex-col gap-[20px] items-center justify-center p-[24px] relative rounded-[6px] shrink-0 w-full">
-            <SpecRow items={data.rows[0]} separators={[`${A}spec-vline-1.svg`, `${A}spec-vline-2.svg`]} />
-            <div className="h-0 relative shrink-0 w-full">
-              <div className="absolute inset-[-0.8px_0_0_0]">
-                <img alt="" className="block max-w-none size-full" src={`${A}spec-hline.svg`} />
-              </div>
-            </div>
-            <SpecRow items={data.rows[1]} separators={[`${A}spec-vline-1.svg`, `${A}spec-vline-1.svg`]} />
-          </div>
-        </div>
-
-        {/* foreground vehicle layer (transparent PNG) */}
-        <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[1040.932px] left-[calc(50%-273.02px)] top-[calc(50%+64px)] w-[1873.677px]" aria-hidden>
-          <img alt="" className="absolute backdrop-blur-[2px] inset-0 max-w-none object-cover pointer-events-none size-full" src={`${A}showcase-bg-2.png`} />
-        </div>
-
-        {/* title */}
-        <div className="absolute content-stretch flex flex-col gap-[14px] items-start left-[60px] top-[60px]">
-          <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-            <div className="relative shrink-0 size-[14px]">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={`${A}logo.svg`} />
-            </div>
-            <p className="[word-break:break-word] font-sans font-normal leading-[normal] relative shrink-0 text-[16px] text-white whitespace-nowrap">
-              OUR VEHICLES
-            </p>
-          </div>
-          <p className="[word-break:break-word] font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[42px] text-white tracking-[-0.84px] w-[455.246px]">
-            Meet the Neo family.
-          </p>
-        </div>
-
-        {/* model switcher */}
-        <div className="absolute bg-[rgba(0,0,0,0.12)] bottom-[616px] content-stretch flex items-center justify-center right-[101px] p-[4px] rounded-tl-[8px] rounded-tr-[8px]">
-          <button
-            type="button"
-            onClick={() => setVehicle("HiRANGE")}
-            className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${
-              vehicle === "HiRANGE" ? "bg-white" : ""
-            }`}
-          >
-            <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiRANGE" ? "text-[#121212]" : "text-white"}`}>
-              Neo HiRANGE
-            </p>
-          </button>
-          <button
-            type="button"
-            onClick={() => setVehicle("HiCITY")}
-            className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${
-              vehicle === "HiCITY" ? "bg-white" : ""
-            }`}
-          >
-            <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiCITY" ? "text-[#121212]" : "text-white"}`}>
-              Neo HiCITY
-            </p>
-          </button>
-        </div>
-
-        {/* CTA row */}
-        <div className="absolute content-stretch flex gap-[14px] items-start right-[100px] top-[682.6px] w-[406px]" data-node-id="4064:13902">
-          <a
-            href={`/products/${vehicle === "HiRANGE" ? "neo-hirange" : "neo-hicity"}`}
-            className="content-stretch flex gap-[20px] h-[42px] items-center justify-center pl-[24px] pr-[2px] relative rounded-[4px] shrink-0 no-underline"
-            style={{
-              backgroundImage:
-                "linear-gradient(107.75534555172112deg, rgb(0, 255, 135) 28.559%, rgb(29, 111, 255) 124.97%)",
-            }}
-          >
-            <p className="[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
-              View Details
-            </p>
-            <span className="bg-[#121212] content-stretch flex flex-col items-center justify-center relative rounded-[2px] shrink-0 size-[38px]">
-              <span className="h-[14px] relative shrink-0 w-[22px]">
-                <span className="absolute inset-[-16.4%_-1.68%_-22.89%_-3.41%]">
-                  <img alt="" className="block max-w-none size-full" src={`${A}arrow.svg`} />
-                </span>
-              </span>
-            </span>
-          </a>
-          <a
-            href="/products"
-            className="bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.5)] border-solid content-stretch flex flex-[1_0_0] gap-[8px] h-[42px] items-center justify-center min-w-px px-[24px] relative rounded-[4px] no-underline"
-          >
-            <p className="[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
-              Compare Vehicles
-            </p>
-            <span className="overflow-clip relative shrink-0 size-[24px]">
-              <span className="absolute inset-[20.83%]">
-                <span className="absolute inset-[-7.14%_-7.16%]">
-                  <img alt="" className="block max-w-none size-full" src={`${A}compare-icon.svg`} />
-                </span>
-              </span>
-            </span>
-          </a>
-        </div>
-
-        {/* small decorative swoosh */}
-        <div className="absolute h-[65.078px] left-[684.62px] top-[271.92px] w-[166.378px]" aria-hidden>
-          <div className="absolute inset-[-0.77%_-1.6%_-4.1%_0]">
-            <img alt="" className="block max-w-none size-full" src={`${A}decor.svg`} />
-          </div>
-        </div>
+        </ResponsiveFigmaCanvas>
       </div>
-      </div>
-      </ResponsiveFigmaCanvas>
-    </div>
     </section>
   );
 }

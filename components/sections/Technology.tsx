@@ -26,23 +26,27 @@ export interface TechnologyProps {
 const DEFAULT_CARDS: TechnologyCardItem[] = [
   {
     tag: "01 / Battery",
-    title: "Full range, even in garmi.",
-    description: "Batteries lose range above 40 degrees. The Euler battery is water cooled, maintaining range year-round.",
+    title: "Full range, even in every weather condition",
+    description:
+      "Indian summers, winter chills and monsoon conditions can affect battery performance. Our liquid-cooled battery helps manage heat & cold weather, while the battery system is designed to handle varying weather conditions and keep your business moving.",
   },
   {
-    tag: "02 / Safety",
+    tag: "02 / Comfort & Safety",
     title: "Comfortable for an 11-hour day.",
-    description: "Steel cabin, power steering, good seats, AC. Reverse camera and warnings included.",
+    description:
+      "Spacious cabin, electronic power steering, comfortable seats, infotainment system, ADAS and reverse camera for a more comfortable, confident drive.",
   },
   {
-    tag: "03 / App",
-    title: "Poori fleet, ek phone mein.",
-    description: "Track vehicle locations, charge levels, driving behavior, and service due dates all on one screen.",
+    tag: "03 / Shepherd App",
+    title: "Your entire fleet, one app.",
+    description:
+      "Manage real-time vehicle tracking, locate charging stations and book slots, set geofences, manage fleet operations, use digital locks and receive regular service alerts with the Shepherd mobile app.",
   },
   {
     tag: "04 / Performance",
-    title: "Climbs a slope on a full load",
-    description: "Our own Arc Reactor motor. It climbs 22 to 25 percent slopes with a full load. Ramps, flyovers and rough roads are no problem.",
+    title: "Climbs a slope on a full load.",
+    description:
+      "Industry-leading torque and selectable driving modes deliver strong pulling power across steep slopes, flyovers and rough roads, even with a full load.",
   },
 ];
 
@@ -103,7 +107,7 @@ export default function Technology({
           <div className="flex w-full flex-col gap-3 lg:gap-5">
             {/* row 1 */}
             <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
-              <article className="relative h-[250px] w-full overflow-clip rounded-xl bg-[#d9e1eb] sm:h-[300px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl">
+              <article className={`relative min-h-[285px] h-[285px] w-full overflow-clip rounded-xl ${card1Img ? "bg-[#c5d2e5]" : "bg-[#d9e1eb]"} sm:min-h-[300px] sm:h-[300px] lg:h-[431px] lg:w-[519px] lg:rounded-3xl`}>
                 {card1Img ? (
                   <>
                     <Image
@@ -111,15 +115,17 @@ export default function Technology({
                       alt={card1.title}
                       fill
                       sizes="(max-width:1024px) 393px, 519px"
-                      className="hidden object-cover lg:block"
+                      className="hidden object-cover lg:block lg:scale-[1.3] lg:-translate-y-[14%] lg:translate-x-[10%]"
                     />
-                    <Image
-                      src={card1MobileImg || card1Img}
-                      alt={card1.title}
-                      fill
-                      sizes="393px"
-                      className="object-cover lg:hidden"
-                    />
+                    <div className="pointer-events-none absolute inset-x-0 -top-12 bottom-0 overflow-hidden lg:hidden">
+                      <Image
+                        src={card1MobileImg || card1Img}
+                        alt={card1.title}
+                        fill
+                        sizes="393px"
+                        className="object-cover object-[right_top]"
+                      />
+                    </div>
                   </>
                 ) : (
                   <>
@@ -133,15 +139,17 @@ export default function Technology({
                       alt="Water-cooled Euler battery pack"
                       width={471}
                       height={349}
-                      className="pointer-events-none absolute left-[32.35%] top-[-81.26px] w-[87.72%] object-cover lg:left-[164.57px] lg:top-[-108.52px] lg:h-[348.682px] lg:w-[470.947px]"
+                      className="pointer-events-none absolute left-auto right-[-10px] top-[-92px] w-[66%] max-w-[245px] object-cover sm:left-[35%] sm:right-auto sm:top-[-85px] sm:w-[60%] sm:max-w-[320px] lg:left-[185px] lg:top-[-125px] lg:h-[348.682px] lg:w-[470.947px] lg:max-w-none"
                     />
                   </>
                 )}
                 <CardHeading
-                  className="z-10 inset-x-[14px] bottom-[14px] lg:inset-x-auto lg:bottom-auto lg:left-[28px] lg:top-[281px] lg:w-[534px]"
+                  className="z-10 inset-x-[14px] bottom-[14px] lg:inset-x-auto lg:top-auto lg:bottom-[24px] lg:left-[28px] lg:w-[465px]"
                   num={card1.tag || "01 / Battery"}
                   title={card1.title}
+                  titleW="max-w-[260px] sm:max-w-none lg:max-w-[420px]"
                   desc={card1.description}
+                  descW="max-lg:max-w-full lg:max-w-[465px]"
                 />
               </article>
               <article className="relative h-[250px] w-full overflow-clip rounded-xl sm:h-[300px] lg:h-[431px] lg:flex-1 lg:rounded-3xl">
@@ -200,14 +208,14 @@ export default function Technology({
                       alt={card3.title}
                       fill
                       sizes="(max-width:1024px) 393px, 671px"
-                      className="hidden object-contain object-right-bottom scale-[0.85] origin-bottom-right lg:block"
+                      className="hidden object-contain object-right-bottom scale-[1.08] translate-y-[11%] origin-bottom-right lg:block"
                     />
                     <Image
                       src={card3MobileImg || card3Img}
                       alt={card3.title}
                       fill
                       sizes="393px"
-                      className="object-contain object-right-bottom scale-[0.85] origin-bottom-right lg:hidden"
+                      className="object-contain object-right-bottom scale-[1.08] translate-y-[11%] origin-bottom-right lg:hidden"
                     />
                   </>
                 ) : (
@@ -337,14 +345,14 @@ function CardHeading({
   className?: string;
 }) {
   return (
-    <div className={`absolute flex flex-col gap-3 lg:gap-3 ${className}`}>
+    <div className={`absolute flex flex-col gap-2.5 sm:gap-3 ${className}`}>
       <p className="font-display text-[12px] font-bold leading-[10.75px] tracking-[1.19px] text-ink-3 lg:text-[11px] lg:leading-[17.82px] lg:tracking-[1.98px]">
         {num}
       </p>
       <h3 className={`font-display text-[18px] font-bold leading-[1.15] tracking-[-0.36px] text-ink lg:text-[28px] lg:font-semibold lg:tracking-[-0.84px] ${titleW}`}>
         {title}
       </h3>
-      <p className={`max-w-full text-[12px] leading-snug text-ink lg:text-[16px] lg:leading-normal ${descW}`}>
+      <p className={`max-w-full text-[12px] leading-snug text-ink lg:text-[15px] xl:text-[16px] lg:leading-normal ${descW}`}>
         {desc}
       </p>
     </div>
