@@ -228,12 +228,6 @@ export default async function Home() {
           title={data.savingsCalculator?.title}
           defaultDailyKm={data.savingsCalculator?.defaultDailyKm}
           defaultYears={data.savingsCalculator?.defaultYears}
-          chartImage={
-            data.savingsCalculator?.chartImage
-              ? mediaUrl(data.savingsCalculator.chartImage as any)
-              : undefined
-          }
-          chartImageAlt={data.savingsCalculator?.chartImageAlt}
         />
 
         <PromoCard

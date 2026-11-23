@@ -77,7 +77,7 @@ test("every canonical product has specs, variants, hero and relations (seeded en
       specs: { populate: { categories: { populate: { rows: { populate: "*" } } } } },
       variantsCompare: { populate: { variants: { populate: "*" } } },
       hero: { populate: { stats: { populate: "*" }, variants: { populate: "*" } } },
-      otherVehicles: { populate: { vehicles: { populate: "*" } } },
+      otherVehicles: { populate: { items: { populate: { image: { populate: "*" } } } } },
       reviews: { populate: "*" },
     },
   });
