@@ -5,6 +5,8 @@ import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 import VehicleCompareModal from "./VehicleCompareModal";
+import { ComparePointItem, ComparePersonaPoints } from "@/types/strapi";
+import { mediaUrl } from "@/lib/strapi/client";
 
 /** Desktop strips (Figma 1:1520 / 1:1552 / 2605:3630 / 2605:3661): 8 cards each */
 type DeskCard = {
@@ -41,6 +43,19 @@ const AUDIENCE = ["Fleet owner", "Transport company", "Small business", "Driver"
 /** Inlined vector icons from Figma (Frame 2605:3630 & Frame 2605:3661) */
 function CompareIconView({ icon, className = "size-7" }: { icon?: string; className?: string }) {
   if (!icon) return null;
+
+  if (icon.startsWith("/") || icon.startsWith("http")) {
+    return (
+      <Image
+        src={icon}
+        alt=""
+        width={28}
+        height={28}
+        className={`${className} object-contain`}
+        aria-hidden
+      />
+    );
+  }
 
   const key = icon
     .replace(/^\/assets\/compare\/icon-/, "")
@@ -234,21 +249,48 @@ const ensureBuffer = (cards: DeskCard[]) => {
   return res;
 };
 
-export interface ComparePersonaPoints {
-  persona: string;
-  points: string[];
-}
-
 export interface CompareSectionProps {
   eyebrow?: string;
   title?: string;
   quizTitle?: string;
   quizSubtitle?: string;
   quizCtaLabel?: string;
-  withoutEulerPoints?: ComparePersonaPoints[];
-  withEulerPoints?: ComparePersonaPoints[];
+  withoutEulerPoints?: (ComparePointItem | ComparePersonaPoints)[];
+  withEulerPoints?: (ComparePointItem | ComparePersonaPoints)[];
   withoutCards?: DeskCard[];
   withCards?: DeskCard[];
+}
+
+function isPointItem(item: any): item is ComparePointItem {
+  return item && typeof item === "object" && typeof item.text === "string";
+}
+
+function isPersonaPoints(item: any): item is ComparePersonaPoints {
+  return item && typeof item === "object" && Array.isArray(item.points);
+}
+
+function pointItemToDeskCard(item: ComparePointItem, isWith: boolean, index: number): DeskCard {
+  const iconStr =
+    typeof item.iconMedia === "string"
+      ? item.iconMedia
+      : typeof item.iconMedia === "object" && item.iconMedia && "url" in item.iconMedia
+      ? mediaUrl(item.iconMedia as any)
+      : item.icon;
+
+  const imageStr =
+    typeof item.image === "string"
+      ? item.image
+      : typeof item.image === "object" && item.image && "url" in item.image
+      ? mediaUrl(item.image as any)
+      : undefined;
+
+  const fallback = isWith ? pointToWithCard(item.text, index) : pointToWithoutCard(item.text, index);
+
+  return {
+    text: item.text,
+    icon: iconStr && iconStr !== "custom" ? iconStr : fallback.icon,
+    image: imageStr || fallback.image,
+  };
 }
 
 function pointToWithoutCard(text: string, index: number): DeskCard {
@@ -309,23 +351,55 @@ export default function CompareSection({
 
   const currentAudience = AUDIENCE[activeTab] || AUDIENCE[0];
 
-  const matchedWithoutPoints = withoutEulerPoints?.find(
-    (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
-  )?.points;
+  // 1. Process Without Euler Points
+  const isStructuredWithout = Array.isArray(withoutEulerPoints) && withoutEulerPoints.some(isPointItem);
+  let personaWithoutCards: DeskCard[] | undefined = undefined;
 
-  const matchedWithPoints = withEulerPoints?.find(
-    (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
-  )?.points;
+  if (isStructuredWithout) {
+    const rawItems = (withoutEulerPoints as ComparePointItem[]).filter(isPointItem);
+    const audienceLower = currentAudience.toLowerCase();
+    const specific = rawItems.filter(
+      (it) => it.persona && it.persona.toLowerCase() === audienceLower
+    );
+    const general = rawItems.filter(
+      (it) => !it.persona || it.persona.toLowerCase() === "all"
+    );
+    const targetItems = specific.length > 0 ? specific : general.length > 0 ? general : rawItems;
+    personaWithoutCards = targetItems.map((it, i) => pointItemToDeskCard(it, false, i));
+  } else if (withoutEulerPoints) {
+    const legacyWithout = (withoutEulerPoints as ComparePersonaPoints[]).filter(isPersonaPoints);
+    const matched = legacyWithout.find(
+      (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
+    )?.points;
+    if (matched && matched.length > 0) {
+      personaWithoutCards = matched.map((pt, i) => pointToWithoutCard(pt, i));
+    }
+  }
 
-  const personaWithoutCards =
-    matchedWithoutPoints && matchedWithoutPoints.length > 0
-      ? matchedWithoutPoints.map((pt, i) => pointToWithoutCard(pt, i))
-      : undefined;
+  // 2. Process With Euler Points
+  const isStructuredWith = Array.isArray(withEulerPoints) && withEulerPoints.some(isPointItem);
+  let personaWithCards: DeskCard[] | undefined = undefined;
 
-  const personaWithCards =
-    matchedWithPoints && matchedWithPoints.length > 0
-      ? matchedWithPoints.map((pt, i) => pointToWithCard(pt, i))
-      : undefined;
+  if (isStructuredWith) {
+    const rawItems = (withEulerPoints as ComparePointItem[]).filter(isPointItem);
+    const audienceLower = currentAudience.toLowerCase();
+    const specific = rawItems.filter(
+      (it) => it.persona && it.persona.toLowerCase() === audienceLower
+    );
+    const general = rawItems.filter(
+      (it) => !it.persona || it.persona.toLowerCase() === "all"
+    );
+    const targetItems = specific.length > 0 ? specific : general.length > 0 ? general : rawItems;
+    personaWithCards = targetItems.map((it, i) => pointItemToDeskCard(it, true, i));
+  } else if (withEulerPoints) {
+    const legacyWith = (withEulerPoints as ComparePersonaPoints[]).filter(isPersonaPoints);
+    const matched = legacyWith.find(
+      (p) => p.persona?.toLowerCase() === currentAudience.toLowerCase()
+    )?.points;
+    if (matched && matched.length > 0) {
+      personaWithCards = matched.map((pt, i) => pointToWithCard(pt, i));
+    }
+  }
 
   const currentWithout = ensureBuffer(personaWithoutCards || withoutCards || WITHOUT_DESK);
   const currentWith = ensureBuffer(personaWithCards || withCards || WITH_DESK);
