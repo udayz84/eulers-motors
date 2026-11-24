@@ -29,11 +29,14 @@
       "component": "shared.cta-button"
     },
     "withoutEulerPoints": {
-      "type": "json"
+      "type": "component",
+      "repeatable": true,
+      "component": "home.compare-point"
     },
     "withEulerPoints": {
-      "type": "json"
+      "type": "component",
+      "repeatable": true,
+      "component": "home.compare-point"
     }
   }
 }
-

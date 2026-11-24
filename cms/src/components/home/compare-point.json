@@ -1,0 +1,58 @@
+{
+  "collectionName": "components_home_compare_points",
+  "info": {
+    "displayName": "Compare Point",
+    "icon": "bulletList",
+    "description": "A repeatable comparison point with text, icon, and optional persona/image"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "fuel",
+        "cancel",
+        "chart-down",
+        "swap",
+        "cash",
+        "clock",
+        "chart-up",
+        "truck",
+        "custom"
+      ],
+      "default": "fuel"
+    },
+    "iconMedia": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "persona": {
+      "type": "enumeration",
+      "enum": [
+        "All",
+        "Fleet owner",
+        "Transport company",
+        "Small business",
+        "Driver",
+        "Dealer"
+      ],
+      "default": "All"
+    }
+  }
+}

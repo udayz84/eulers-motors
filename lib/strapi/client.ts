@@ -347,6 +347,18 @@ export async function getHomePageData(): Promise<HomePageData> {
     compareSection: {
       populate: {
         quizCta: { populate: "*" },
+        withoutEulerPoints: {
+          populate: {
+            iconMedia: { populate: "*" },
+            image: { populate: "*" },
+          },
+        },
+        withEulerPoints: {
+          populate: {
+            iconMedia: { populate: "*" },
+            image: { populate: "*" },
+          },
+        },
       },
     },
     technology: {

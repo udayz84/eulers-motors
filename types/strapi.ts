@@ -295,6 +295,15 @@ export interface ComparePersonaPoints {
   points: string[];
 }
 
+export interface ComparePointItem {
+  id?: number;
+  text: string;
+  icon?: string;
+  iconMedia?: StrapiMedia | string;
+  image?: StrapiMedia | string;
+  persona?: "All" | "Fleet owner" | "Transport company" | "Small business" | "Driver" | "Dealer" | string;
+}
+
 export interface CompareSectionData {
   id?: number;
   eyebrow?: string;
@@ -302,8 +311,8 @@ export interface CompareSectionData {
   quizTitle?: string;
   quizSubtitle?: string;
   quizCta?: StrapiCTA;
-  withoutEulerPoints?: ComparePersonaPoints[];
-  withEulerPoints?: ComparePersonaPoints[];
+  withoutEulerPoints?: (ComparePointItem | ComparePersonaPoints)[];
+  withEulerPoints?: (ComparePointItem | ComparePersonaPoints)[];
 }
 
 export interface SavingsCalculatorData {
