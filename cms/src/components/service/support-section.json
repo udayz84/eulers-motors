@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_service_support_sections",
+  "info": {
+    "displayName": "Support Section",
+    "icon": "headphones",
+    "description": "Customer support banner with helpline and WhatsApp CTAs"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "panelHeading": { "type": "string" },
+    "helplineLabel": { "type": "string" },
+    "primeCtaLabel": { "type": "string" },
+    "whatsappCtaLabel": { "type": "string" }
+  }
+}

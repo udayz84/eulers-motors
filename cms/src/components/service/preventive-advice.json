@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_service_preventive_advice",
+  "info": {
+    "displayName": "Preventive Advice Section",
+    "icon": "heart",
+    "description": "Maintenance tips carousel for the service centers page"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "headerLine": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" },
+    "tips": { "type": "component", "repeatable": true, "component": "service.tip-item" }
+  }
+}

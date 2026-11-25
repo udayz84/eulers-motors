@@ -234,7 +234,7 @@ export default function DealerLocatorHero({
       aria-label={currentContent.title}
       className={`relative isolate w-full self-stretch overflow-hidden bg-[#1d6fff] ${
         isServicePage
-          ? "h-[1214px] max-[359px]:h-[1190px] sm:h-[1214px] lg:h-[1265px]"
+          ? "h-[1180px] max-[359px]:h-[1150px] sm:h-[1180px] lg:h-[1345px]"
           : "h-[1166px] lg:h-[1265px]"
       } ${isCharging ? "mb-5" : ""}`}
       style={{
@@ -263,7 +263,7 @@ export default function DealerLocatorHero({
         style={{ backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), #fff)" }}
       />
 
-      <div className={`absolute left-1/2 top-[100px] z-10 flex -translate-x-1/2 flex-col items-center gap-3 sm:gap-[14px] lg:top-[151px] lg:w-[846px] lg:gap-[14px] lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
+      <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 flex-col items-center ${isServicePage ? "top-[96px] gap-1.5 sm:gap-2 lg:top-[110px] lg:gap-3" : "top-[100px] gap-3 sm:gap-[14px] lg:top-[151px] lg:gap-[14px]"} lg:w-[846px] lg:max-w-none ${isCharging ? "w-full max-w-[353px] sm:max-w-[560px] px-4 sm:px-0" : "w-full max-w-[353px] sm:w-[500px] sm:max-w-[500px]"}`}>
         <SupportBadge text={supportBadgeText} />
         <SupportTabs
           active={activeTab}
@@ -283,7 +283,7 @@ export default function DealerLocatorHero({
 
         {/* Service page only: desktop button + helpline */}
         {currentVariant === "service" && (
-          <div className="pt-[12px] pb-[42px] hidden lg:flex lg:items-center lg:justify-center lg:w-full lg:gap-[14px]">
+          <div className="pt-[12px] pb-[16px] hidden lg:flex lg:items-center lg:justify-center lg:w-full lg:gap-[14px]">
             <a
               href="#prime-banner"
               className="bg-white flex gap-[8px] w-[202px] h-[50.477px] items-center justify-center px-[24px] relative rounded-[4px] shrink-0 transition-opacity hover:opacity-90"
@@ -341,10 +341,10 @@ export default function DealerLocatorHero({
       </div>
 
       <div
-        className={`absolute left-1/2 z-10 w-full -translate-x-1/2 lg:top-[450px] ${
+        className={`absolute left-1/2 z-10 w-full -translate-x-1/2 ${
           isServicePage
-            ? "top-[354px] max-[359px]:top-[390px] sm:top-[374px]"
-            : "top-[330.66px]"
+            ? "top-[380px] max-[359px]:top-[416px] sm:top-[410px] lg:top-[520px]"
+            : "top-[330.66px] lg:top-[450px]"
         }`}
       >
         <DealerLocator

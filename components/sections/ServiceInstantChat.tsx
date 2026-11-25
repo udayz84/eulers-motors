@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Eyebrow from "../ui/Eyebrow";
+import type { StrapiServiceSupportSection } from "@/types/strapi";
 
 const ASSET = "/assets/service-page/";
 
@@ -27,7 +28,20 @@ function ArrowIcon({ variant }: { variant: "dark" | "white" }) {
  * 315.726px image column. Tablet (768–1279.98) renders the desktop layout
  * scaled to fit by the root zoom script, matching the rest of the site.
  */
-export default function ServiceInstantChat() {
+export default function ServiceInstantChat({
+  data,
+}: {
+  data?: StrapiServiceSupportSection;
+}) {
+  // CMS-driven copy with hardcoded fallbacks (careers page pattern)
+  const eyebrowLabel = data?.eyebrow || "INSTANT CHAT HELP";
+  const heading = data?.heading || "Need help? WhatsApp Euler.";
+  const body =
+    data?.body ||
+    "Get immediate diagnostics support, check your active service booking status, and directly text our certified technical desk right from your phone.";
+  const panelHeading = data?.panelHeading || "Need Emergency assistance right now?";
+  const helplineLabelText = data?.helplineLabel || "Toll-Free Helpline";
+  const primeCtaText = data?.primeCtaLabel || "See Euler Prime";
   return (
     <section className="relative isolate w-full bg-gradient-to-b from-white from-[18.312%] to-[#d4dbec] to-[38.301%] lg:from-[41.542%] lg:to-[77.639%]">
       {/* Full-width background; content centred & capped at 1440px so it stays responsive */}
@@ -38,13 +52,12 @@ export default function ServiceInstantChat() {
         <div className="contents lg:flex lg:w-[579.448px] lg:shrink-0 lg:flex-col lg:items-start lg:gap-[32px]">
           {/* Header — mobile 2828:11615 · desktop 3354:19623 */}
           <div className="order-1 mb-[30px] flex w-full flex-col items-center justify-center gap-[14px] lg:order-none lg:mb-0 lg:w-[579.448px] lg:items-start lg:gap-[16px]">
-            <Eyebrow label="INSTANT CHAT HELP" />
-            <h2 className="w-[279.376px] text-center font-display text-[28px] font-semibold leading-[32px] tracking-[-0.56px] text-[#121212] lg:w-full lg:text-left lg:text-[42px] lg:leading-[48px] lg:tracking-[-0.84px]">
-              Need help? WhatsApp Euler.
+            <Eyebrow label={eyebrowLabel} />
+            <h2 className="whitespace-nowrap text-center font-display text-[20px] font-semibold leading-[30px] tracking-[-0.4px] text-[#121212] lg:text-left lg:text-[32px] lg:leading-[40px] lg:tracking-[-0.64px]">
+              {heading}
             </h2>
             <p className="w-full text-center font-sans text-[12px] leading-[16px] text-[#121212] lg:text-left lg:text-[16px] lg:leading-[22px]">
-              Get immediate diagnostics support, check your active service booking status, and
-              directly text our certified technical desk right from your phone.
+              {body}
             </p>
           </div>
 
@@ -66,13 +79,13 @@ export default function ServiceInstantChat() {
               <div className="flex w-full flex-col items-center justify-center gap-[14px] lg:w-[414.434px] lg:shrink-0 lg:items-start lg:gap-4">
                 <Eyebrow dark label="Customer Support" />
                 <p className="w-[214.283px] text-center font-sans text-[16px] capitalize leading-[22px] text-white lg:w-full lg:text-left lg:font-display lg:text-[32px] lg:font-semibold lg:normal-case lg:leading-[38px] lg:tracking-[-0.64px]">
-                  Need Emergency assistance right now?
+                  {panelHeading}
                 </p>
               </div>
 
               <div className="flex flex-col items-center gap-[14px] lg:items-start">
                 <div className="hidden flex-col items-center gap-[2px] text-center text-white lg:flex lg:items-start lg:text-left">
-                  <p className="font-sans text-[12px] leading-[16px]">Toll-Free Helpline</p>
+                  <p className="font-sans text-[12px] leading-[16px]">{helplineLabelText}</p>
                   <p className="font-display text-[18px] font-semibold leading-[21px] tracking-[-0.36px]">
                     1800-2128-2128
                   </p>
@@ -85,7 +98,7 @@ export default function ServiceInstantChat() {
                 <button className="flex h-11 items-center justify-center gap-2 rounded-[4px] bg-white px-5 lg:h-[50.477px] lg:px-6">
                   <span className="whitespace-nowrap font-display text-[12px] font-bold leading-none text-[#0e2f6d] lg:text-[16px] lg:font-semibold">
                     <span className="lg:hidden">Dial Helpline</span>
-                    <span className="hidden lg:inline">See Euler Prime</span>
+                    <span className="hidden lg:inline">{primeCtaText}</span>
                   </span>
                   <ArrowIcon variant="dark" />
                 </button>

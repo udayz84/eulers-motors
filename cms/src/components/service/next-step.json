@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_service_next_steps",
+  "info": {
+    "displayName": "Next Step Section",
+    "icon": "directions",
+    "description": "Maintenance and warranty cards section for the service centers page"
+  },
+  "options": {},
+  "attributes": {
+    "headerTitle": { "type": "string" },
+    "headerSubtitle": { "type": "text" },
+    "maintenanceTitle": { "type": "string", "required": true },
+    "maintenanceBody": { "type": "text" },
+    "maintenanceBullets": { "type": "component", "repeatable": true, "component": "service.text-item" },
+    "maintenanceCtaLabel": { "type": "string" },
+    "warrantyTitle": { "type": "string", "required": true },
+    "warrantyBody": { "type": "text" },
+    "warrantyStat1Value": { "type": "string" },
+    "warrantyStat1Label": { "type": "string" },
+    "warrantyStat2Value": { "type": "string" },
+    "warrantyStat2Label": { "type": "string" },
+    "warrantyTerms": { "type": "text" },
+    "warrantyCtaLabel": { "type": "string" }
+  }
+}

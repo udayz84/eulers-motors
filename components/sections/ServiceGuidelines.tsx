@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Fragment } from "react";
+import type { StrapiServiceGuidelines } from "@/types/strapi";
 
 const ASSET = "/assets/service-page/guidelines/";
 
@@ -173,7 +174,18 @@ function Icon({ tone }: { tone: "do" | "dont" }) {
   );
 }
 
-export default function ServiceGuidelines() {
+export default function ServiceGuidelines({
+  data,
+}: {
+  data?: StrapiServiceGuidelines;
+}) {
+  // CMS-driven copy with hardcoded fallbacks (careers page pattern)
+  const title = data?.title || "Do's and Don'ts at Our Service Centres";
+  const subtitle =
+    data?.subtitle ||
+    "Follow these guidelines to ensure a smooth and safe service experience for your Euler vehicle.";
+  const dos = data?.dos?.length ? data.dos.map((d) => d.text) : DOS;
+  const donts = data?.donts?.length ? data.donts.map((d) => d.text) : DONTS;
   return (
     <section className="relative isolate w-full flex-col items-center justify-center bg-[#d4dbec]">
       {/* Full-width background; content centred & capped at 1440px so it stays responsive */}
@@ -183,11 +195,10 @@ export default function ServiceGuidelines() {
         <div className="flex w-full flex-col items-start gap-[14px] lg:items-center lg:gap-[16px]">
           <Eyebrow />
           <h2 className="w-[279.376px] font-display text-[28px] font-semibold leading-[32px] tracking-[-0.56px] text-[#121212] lg:w-auto lg:whitespace-nowrap lg:text-[42px] lg:leading-[48px] lg:tracking-[-0.84px]">
-            Do&apos;s and Don&apos;ts at Our Service Centres
+            {title}
           </h2>
           <p className="w-full font-sans text-xs font-normal leading-[16px] text-[#121212] lg:w-auto lg:whitespace-nowrap lg:text-base lg:leading-[22px]">
-            Follow these guidelines to ensure a smooth and safe service experience for your Euler
-            vehicle.
+            {subtitle}
           </p>
         </div>
 

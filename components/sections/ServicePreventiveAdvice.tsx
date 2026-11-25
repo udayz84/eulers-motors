@@ -5,6 +5,7 @@ import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import CarouselArrows from "@/components/ui/CarouselArrows";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
+import type { StrapiServicePreventiveAdvice } from "@/types/strapi";
 
 type Tip = {
   title: string;
@@ -100,7 +101,24 @@ function PreventiveCard({ tip }: { tip: Tip }) {
   );
 }
 
-export default function ServicePreventiveAdvice() {
+export default function ServicePreventiveAdvice({
+  data,
+}: {
+  data?: StrapiServicePreventiveAdvice;
+}) {
+  // CMS-driven copy with hardcoded fallbacks (careers page pattern) — icon
+  // slices stay keyed to slot order since they are position-cropped art.
+  const cmsTips = data?.tips ?? [];
+  const activeTips: Tip[] = TIPS.map((t, i) => {
+    const cms = cmsTips[i];
+    return cms ? { ...t, title: cms.title, description: cms.description } : t;
+  });
+  const eyebrowLabel = data?.eyebrow || "Preventive advice";
+  const headerLine = data?.headerLine || "Keep your Euler performing at its best.";
+  const sectionTitle = data?.title || "Keep your Neo running better";
+  const sectionSubtitle =
+    data?.subtitle ||
+    "Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.";
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -111,8 +129,8 @@ export default function ServicePreventiveAdvice() {
   const interactionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Repeat collection to provide comfortable continuous auto-sliding runway (matching CustomerReviews & Insights)
-  const repeats = Math.max(2, Math.ceil(10 / TIPS.length));
-  const displayTips = Array.from({ length: repeats }).flatMap(() => TIPS);
+  const repeats = Math.max(2, Math.ceil(10 / activeTips.length));
+  const displayTips = Array.from({ length: repeats }).flatMap(() => activeTips);
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;
@@ -250,13 +268,16 @@ export default function ServicePreventiveAdvice() {
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-5 sm:px-8 pb-7 sm:pb-9 md:pb-[42px]">
         <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-6 text-center">
           <div className="flex flex-col items-center gap-3 sm:gap-3.5 md:gap-4">
-            <Eyebrow dark label="Preventive advice" />
+            <Eyebrow dark label={eyebrowLabel} />
+            <p className="font-sans text-[15px] sm:text-[16px] font-bold leading-[22px] text-white md:text-[18px] md:leading-[26px]">
+              {headerLine}
+            </p>
             <h2 className="w-full max-w-[420px] font-display text-[26px] sm:text-[32px] font-semibold leading-[32px] sm:leading-[38px] tracking-[-0.56px] text-white md:max-w-none md:text-[42px] md:leading-[50px] md:tracking-[-0.84px]">
-              Keep your Neo running better
+              {sectionTitle}
             </h2>
           </div>
           <p className="w-full max-w-[340px] sm:max-w-[420px] font-sans text-xs leading-[18px] text-[#ccc] md:max-w-[493.137px] md:text-base md:leading-[22px] md:text-white">
-            Maximize efficiency and prolong vehicle battery lifespan with simple routine habits.
+            {sectionSubtitle}
           </p>
         </div>
       </div>

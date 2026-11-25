@@ -202,10 +202,93 @@ export interface StrapiPageHero {
   helplineNumber?: string;
 }
 
+export interface StrapiServiceStatItem {
+  id?: number;
+  value: string;
+  label?: string;
+}
+
+export interface StrapiServiceNextStep {
+  id?: number;
+  headerTitle?: string;
+  headerSubtitle?: string;
+  maintenanceTitle?: string;
+  maintenanceBody?: string;
+  maintenanceBullets?: StrapiServiceTextItem[];
+  maintenanceCtaLabel?: string;
+  warrantyTitle?: string;
+  warrantyBody?: string;
+  warrantyStat1Value?: string;
+  warrantyStat1Label?: string;
+  warrantyStat2Value?: string;
+  warrantyStat2Label?: string;
+  warrantyTerms?: string;
+  warrantyCtaLabel?: string;
+}
+
+export interface StrapiServiceTextItem {
+  id?: number;
+  text: string;
+}
+
+export interface StrapiServiceTipItem {
+  id?: number;
+  title: string;
+  description: string;
+}
+
+export interface StrapiServiceStatItemX {
+  id?: number;
+  value: string;
+  label?: string;
+}
+
+export interface StrapiServicePreventiveAdvice {
+  id?: number;
+  eyebrow?: string;
+  headerLine?: string;
+  title?: string;
+  subtitle?: string;
+  tips?: StrapiServiceTipItem[];
+}
+
+export interface StrapiServicePrimeBanner {
+  id?: number;
+  title?: string;
+  body?: string;
+  stats?: StrapiServiceStatItem[];
+  ctaLabel?: string;
+}
+
+export interface StrapiServiceSupportSection {
+  id?: number;
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  panelHeading?: string;
+  helplineLabel?: string;
+  primeCtaLabel?: string;
+  whatsappCtaLabel?: string;
+}
+
+export interface StrapiServiceGuidelines {
+  id?: number;
+  title?: string;
+  subtitle?: string;
+  dos?: StrapiServiceTextItem[];
+  donts?: StrapiServiceTextItem[];
+}
+
 export interface StrapiServiceCentersPageData {
   id?: number;
   documentId?: string;
   hero?: StrapiPageHero;
+  nextStep?: StrapiServiceNextStep;
+  preventiveAdvice?: StrapiServicePreventiveAdvice;
+  primeBanner?: StrapiServicePrimeBanner;
+  supportSection?: StrapiServiceSupportSection;
+  guidelines?: StrapiServiceGuidelines;
+  faqSection?: StrapiFaqSection;
   seo?: StrapiSEO;
 }
 

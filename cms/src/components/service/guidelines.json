@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_service_guidelines",
+  "info": {
+    "displayName": "Guidelines Section",
+    "icon": "information",
+    "description": "Do's and Don'ts section for the service centers page"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" },
+    "dos": { "type": "component", "repeatable": true, "component": "service.text-item" },
+    "donts": { "type": "component", "repeatable": true, "component": "service.text-item" }
+  }
+}

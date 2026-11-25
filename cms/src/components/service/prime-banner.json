@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_service_prime_banners",
+  "info": {
+    "displayName": "Prime Assistance Section",
+    "icon": "car",
+    "description": "Euler Prime on-site assistance banner for the service centers page"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "stats": { "type": "component", "repeatable": true, "component": "service.stat-item" },
+    "ctaLabel": { "type": "string" }
+  }
+}

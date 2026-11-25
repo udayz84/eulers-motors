@@ -523,26 +523,31 @@ export function mapDealerLocatorHeroProps(
   // Isolated per-page hero takes precedence; falls back to the shared
   // all-tabs hero for pages that have not filled pageHero yet.
   if (pageHero) {
+    // Normalize: strip nulls so downstream "!== undefined" guards keep working
+    const ph: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(pageHero)) {
+      if (v !== null && v !== undefined && v !== "") ph[k] = v;
+    }
     return {
-      supportBadgeText: pageHero.supportBadge,
+      supportBadgeText: (ph.supportBadge as string) ?? undefined,
       tabContent: {
-        dealer: { tabLabel: pageHero.tabDealerLabel },
-        charging: { tabLabel: pageHero.tabChargingLabel },
-        service: { tabLabel: pageHero.tabServiceLabel },
+        dealer: { tabLabel: (ph.tabDealerLabel as string) ?? undefined },
+        charging: { tabLabel: (ph.tabChargingLabel as string) ?? undefined },
+        service: { tabLabel: (ph.tabServiceLabel as string) ?? undefined },
       },
       pageContent: {
-        title: pageHero.title,
-        subtitle: pageHero.subtitle,
-        searchLabel: pageHero.searchPlaceholder,
-        resultsLabel: pageHero.resultsLabel,
+        title: (ph.title as string) ?? undefined,
+        subtitle: (ph.subtitle as string) ?? undefined,
+        searchLabel: (ph.searchPlaceholder as string) ?? undefined,
+        resultsLabel: (ph.resultsLabel as string) ?? undefined,
       },
-      cities: pageHero.cities,
-      defaultCity: pageHero.defaultCity,
-      locationButtonLabel: pageHero.locationButtonLabel,
-      directionsButtonLabel: pageHero.directionsButtonLabel,
-      distanceUnit: pageHero.distanceUnit,
-      emptyStateText: pageHero.emptyStateText,
-      mapImage: pageHero.mapImage,
+      cities: (ph.cities as string) ?? undefined,
+      defaultCity: (ph.defaultCity as string) ?? undefined,
+      locationButtonLabel: (ph.locationButtonLabel as string) ?? undefined,
+      directionsButtonLabel: (ph.directionsButtonLabel as string) ?? undefined,
+      distanceUnit: (ph.distanceUnit as string) ?? undefined,
+      emptyStateText: (ph.emptyStateText as string) ?? undefined,
+      mapImage: (ph.mapImage as any) ?? undefined,
       helplineLabel: pageHero.helplineLabel,
       helplineNumber: pageHero.helplineNumber,
       dealers: dealerSource?.map((d) => ({
@@ -798,6 +803,31 @@ export async function getServiceCentersPageData(): Promise<StrapiServiceCentersP
     hero: {
       populate: {
         mapImage: { populate: "*" },
+      },
+    },
+    nextStep: { populate: "*" },
+    preventiveAdvice: {
+      populate: {
+        tips: { populate: "*" },
+      },
+    },
+    primeBanner: {
+      populate: {
+        stats: { populate: "*" },
+      },
+    },
+    supportSection: { populate: "*" },
+    guidelines: {
+      populate: {
+        dos: { populate: "*" },
+        donts: { populate: "*" },
+      },
+    },
+    faqSection: {
+      populate: {
+        items: { populate: "*" },
+        image: { populate: "*" },
+        mobileImage: { populate: "*" },
       },
     },
     seo: { populate: "*" },

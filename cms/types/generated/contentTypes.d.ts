@@ -1428,6 +1428,8 @@ export interface ApiServiceCentersPageServiceCentersPage
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
+    guidelines: Schema.Attribute.Component<'service.guidelines', false>;
     hero: Schema.Attribute.Component<'dealer.page-hero', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1435,8 +1437,18 @@ export interface ApiServiceCentersPageServiceCentersPage
       'api::service-centers-page.service-centers-page'
     > &
       Schema.Attribute.Private;
+    nextStep: Schema.Attribute.Component<'service.next-step', false>;
+    preventiveAdvice: Schema.Attribute.Component<
+      'service.preventive-advice',
+      false
+    >;
+    primeBanner: Schema.Attribute.Component<'service.prime-banner', false>;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
+    supportSection: Schema.Attribute.Component<
+      'service.support-section',
+      false
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

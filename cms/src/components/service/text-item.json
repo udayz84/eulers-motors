@@ -1,0 +1,6 @@
+{
+  "collectionName": "components_service_text_items",
+  "info": { "displayName": "Text Item", "icon": "write", "description": "Single line of text" },
+  "options": {},
+  "attributes": { "text": { "type": "string", "required": true } }
+}

@@ -17,6 +17,7 @@ export interface PrimeBannerProps {
   isServicePage?: boolean;
   backgroundImage?: string;
   mobileBackgroundImage?: string;
+  description?: string;
 }
 
 const DEFAULT_FEATURES: PrimeFeature[] = [
@@ -42,6 +43,7 @@ export default function PrimeBanner({
   isServicePage = false,
   backgroundImage,
   mobileBackgroundImage,
+  description,
 }: PrimeBannerProps = {}) {
   const currentFeatures = features !== undefined ? features : DEFAULT_FEATURES;
   const showCta = Boolean(ctaLabel && ctaHref);
@@ -177,7 +179,7 @@ export default function PrimeBanner({
         {/* Service page specific subtitle */}
         {isServicePage && (
           <p className="w-full max-w-[340px] font-sans text-[12px] font-normal leading-normal text-[#ccc] md:max-w-[480px] md:text-[15px] lg:text-[16px] lg:leading-normal md:!text-[#FFF]">
-            Return the car within 24 hours, and we&apos;ll provide you with a complimentary spare vehicle.
+            {description || "Return the car within 24 hours, and we'll provide you with a complimentary spare vehicle."}
           </p>
         )}
 

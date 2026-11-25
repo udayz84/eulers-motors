@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { StrapiServiceNextStep } from "@/types/strapi";
 
 const ASSET = "/assets/service-page/";
 
@@ -50,7 +51,32 @@ function BulletPoint({ text }: { text: string }) {
   );
 }
 
-export default function ServiceNextStep() {
+export default function ServiceNextStep({ data }: { data?: StrapiServiceNextStep }) {
+  // CMS-driven copy with hardcoded fallbacks (careers page pattern)
+  const headerTitle = data?.headerTitle || "Not sure which dealer to use?";
+  const headerSubtitle =
+    data?.headerSubtitle ||
+    "Tell us where you work and how much you carry. We will put you with the right dealer and call you within one working day.";
+  const maintenanceTitle = data?.maintenanceTitle || "Keep maintenance predictable.";
+  const maintenanceBody =
+    data?.maintenanceBody ||
+    "An Annual Maintenance Contract (AMC) covers your routine services, parts replacement, and priority breakdown support under one flat annual rate.";
+  const maintenanceBullets = data?.maintenanceBullets?.length
+    ? data.maintenanceBullets.map((b) => b.text)
+    : ["Scheduled periodic services included", "Free roadside assistance 24/7", "Subsidized accidental repairs & towing"];
+  const maintenanceCtaLabel = data?.maintenanceCtaLabel || "Enquire about AMC";
+  const warrantyTitle = data?.warrantyTitle || "Know what's covered.";
+  const warrantyBody =
+    data?.warrantyBody ||
+    "We stand behind our industrial-grade engineering with a comprehensive multi-year battery and vehicle warranty package.";
+  const warrantyStat1Value = data?.warrantyStat1Value || "03";
+  const warrantyStat1Label = data?.warrantyStat1Label || "Standard Vehicle Warranty";
+  const warrantyStat2Value = data?.warrantyStat2Value || "05";
+  const warrantyStat2Label = data?.warrantyStat2Label || "Battery Pack Protection";
+  const warrantyTerms =
+    data?.warrantyTerms ||
+    "Coverage includes the permanent battery management system, drivetrain motor, and core chassis structures. Excludes regular wear-and-tear components such as brakes and tires.";
+  const warrantyCtaLabel = data?.warrantyCtaLabel || "Confirm test drive";
   return (
     <section
       id="service-next-step"
@@ -84,11 +110,10 @@ export default function ServiceNextStep() {
             </span>
           </div>
           <h2 className="font-display text-[28px] sm:text-[36px] lg:text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-[#121212]">
-            Not sure which dealer to use?
+            {headerTitle}
           </h2>
           <p className="font-sans text-xs sm:text-sm lg:text-base leading-[22px] text-[#121212] max-w-[474px]">
-            Tell us where you work and how much you carry. We will put you with the right dealer
-            and call you within one working day.
+            {headerSubtitle}
           </p>
         </div>
 
@@ -124,22 +149,21 @@ export default function ServiceNextStep() {
             <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 sm:p-8 lg:p-10">
               <div className="flex w-full flex-col gap-4 lg:gap-5">
                 <h3 className="font-display text-[28px] sm:text-[34px] lg:text-[44px] xl:text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-white">
-                  Keep maintenance predictable.
+                  {maintenanceTitle}
                 </h3>
                 <p className="font-sans text-xs sm:text-sm lg:text-base leading-[22px] text-white max-w-[552px]">
-                  An Annual Maintenance Contract (AMC) covers your routine services, parts
-                  replacement, and priority breakdown support under one flat annual rate.
+                  {maintenanceBody}
                 </p>
               </div>
               <div className="flex w-full flex-col gap-[20px] lg:gap-[26px] mt-6">
                 <div className="flex flex-col gap-[12px] lg:gap-[16px]">
-                  <BulletPoint text="Scheduled periodic services included" />
-                  <BulletPoint text="Free roadside assistance 24/7" />
-                  <BulletPoint text="Subsidized accidental repairs & towing" />
+                  {maintenanceBullets.map((b, i) => (
+                    <BulletPoint key={i} text={b} />
+                  ))}
                 </div>
                 <button className="flex h-[46px] lg:h-[50px] w-fit items-center justify-center gap-2 rounded-[4px] bg-white px-5 lg:px-6 transition-opacity hover:opacity-90">
                   <span className="whitespace-nowrap font-display text-xs sm:text-sm lg:text-base font-semibold leading-none text-[#121212]">
-                    Enquire about AMC
+                    {maintenanceCtaLabel}
                   </span>
                   <ArrowIcon variant="dark" />
                 </button>
@@ -152,15 +176,14 @@ export default function ServiceNextStep() {
             <div className="flex w-full flex-col gap-6 lg:gap-7">
               <div className="flex flex-col gap-3">
                 <h3 className="font-display text-[28px] sm:text-[34px] lg:text-[44px] xl:text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-[#121212]">
-                  {"Know what's covered."}
+                  {warrantyTitle}
                 </h3>
                 <p className="font-sans text-xs sm:text-sm lg:text-base leading-[22px] text-[#121212] max-w-[478px]">
-                  We stand behind our industrial-grade engineering with a comprehensive multi-year
-                  battery and vehicle warranty package.
+                  {warrantyBody}
                 </p>
               </div>
-              <div className="flex w-full max-w-[379px] items-center justify-between">
-                <div className="flex w-[116px] shrink-0 flex-col gap-3 sm:gap-4">
+              <div className="flex w-full max-w-[379px] items-start justify-between gap-3">
+                <div className="flex min-w-0 flex-1 flex-col gap-3 sm:gap-4">
                   <div className="flex items-end gap-[3px] whitespace-nowrap">
                     <p
                       className="bg-clip-text font-display text-[48px] sm:text-[56px] lg:text-[62px] font-semibold leading-[0.73] tracking-[-1.24px] text-transparent"
@@ -169,18 +192,18 @@ export default function ServiceNextStep() {
                           "linear-gradient(215.37deg, rgb(14, 47, 109) 26.333%, rgb(29, 111, 255) 87.163%)",
                       }}
                     >
-                      03
+                      {warrantyStat1Value}
                     </p>
                     <p className="font-sans text-[18px] sm:text-[20px] font-semibold leading-none tracking-[-0.4px] text-[#0e2f6d]">
                       Yrs
                     </p>
                   </div>
-                  <p className="w-[131px] font-sans text-xs leading-4 text-[#121212] whitespace-nowrap">
-                    Standard Vehicle Warranty
+                  <p className="font-sans text-xs leading-4 text-[#121212]">
+                    {warrantyStat1Label}
                   </p>
                 </div>
                 <div className="h-[56px] w-px shrink-0 bg-[#d4dbec]" />
-                <div className="flex shrink-0 flex-col gap-3 sm:gap-4">
+                <div className="flex min-w-0 flex-1 flex-col gap-3 sm:gap-4">
                   <div className="flex items-end gap-[3px] whitespace-nowrap">
                     <p
                       className="bg-clip-text font-display text-[48px] sm:text-[56px] lg:text-[62px] font-semibold leading-[0.73] tracking-[-1.24px] text-transparent"
@@ -189,14 +212,14 @@ export default function ServiceNextStep() {
                           "linear-gradient(215.74deg, rgb(14, 47, 109) 26.333%, rgb(29, 111, 255) 87.163%)",
                       }}
                     >
-                      05
+                      {warrantyStat2Value}
                     </p>
                     <p className="font-sans text-[18px] sm:text-[20px] font-semibold leading-none tracking-[-0.4px] text-[#0e2f6d]">
                       Yrs
                     </p>
                   </div>
-                  <p className="w-[124px] font-sans text-xs leading-4 text-[#121212] whitespace-nowrap">
-                    Battery Pack Protection
+                  <p className="font-sans text-xs leading-4 text-[#121212]">
+                    {warrantyStat2Label}
                   </p>
                 </div>
               </div>
@@ -207,14 +230,12 @@ export default function ServiceNextStep() {
                   Quick Terms:
                 </p>
                 <p className="font-sans text-xs sm:text-[14px] leading-4 sm:leading-[20px] text-[#121212]">
-                  Coverage includes the permanent battery management system, drivetrain motor, and
-                  core chassis structures. Excludes regular wear-and-tear components such as brakes
-                  and tires.
+                  {warrantyTerms}
                 </p>
               </div>
               <button className="flex h-[46px] lg:h-[50px] w-fit items-center justify-center gap-2 rounded-[4px] bg-[#121212] px-5 lg:px-6 border-[0.5px] border-white transition-opacity hover:opacity-90">
                 <span className="whitespace-nowrap font-display text-xs sm:text-sm lg:text-base font-semibold leading-none text-white">
-                  Confirm test drive
+                  {warrantyCtaLabel}
                 </span>
                 <ArrowIcon variant="white" />
               </button>

@@ -1,0 +1,9 @@
+{
+  "collectionName": "components_service_tip_items",
+  "info": { "displayName": "Tip Item", "icon": "bulletList", "description": "Maintenance tip card" },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true }
+  }
+}

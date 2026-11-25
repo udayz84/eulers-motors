@@ -7,10 +7,50 @@
     "displayName": "Service Centers Page",
     "description": "Service centers page: isolated hero, locator widget config, and SEO"
   },
-  "options": { "draftAndPublish": true },
+  "options": {
+    "draftAndPublish": true
+  },
   "pluginOptions": {},
   "attributes": {
-    "hero": { "type": "component", "repeatable": false, "component": "dealer.page-hero" },
-    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" }
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.page-hero"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "nextStep": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.next-step"
+    },
+    "preventiveAdvice": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.preventive-advice"
+    },
+    "primeBanner": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.prime-banner"
+    },
+    "supportSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.support-section"
+    },
+    "guidelines": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.guidelines"
+    },
+    "faqSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dealer.faq-section"
+    }
   }
 }

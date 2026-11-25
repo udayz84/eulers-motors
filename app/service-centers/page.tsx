@@ -12,6 +12,7 @@ import {
   getServiceCenters,
   getServiceCentersPageData,
   mapDealerLocatorHeroProps,
+  VERIFY_CMS,
 } from "@/lib/strapi/client";
 
 export const revalidate = 60;
@@ -42,12 +43,24 @@ export default async function ServiceCentersPage() {
       <SiteNavbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="service" {...heroProps} />
-        <ServiceNextStep />
-        <ServicePreventiveAdvice />
-        <PrimeBanner isServicePage={true} />
-        <ServiceInstantChat />
-        <ChargingStationFaq />
-        <ServiceGuidelines />
+        <ServiceNextStep data={data.nextStep} />
+        <ServicePreventiveAdvice data={data.preventiveAdvice} />
+        <PrimeBanner
+          isServicePage={true}
+          eyebrow="EULER PRIME"
+          title={data.primeBanner?.title}
+          description={data.primeBanner?.body}
+          ctaLabel={data.primeBanner?.ctaLabel}
+          features={(data.primeBanner?.stats ?? []).map((s) => ({ value: s.value, label: s.label ?? "" }))}
+        />
+        <ServiceInstantChat data={data.supportSection} />
+        <ChargingStationFaq
+          eyebrow={data.faqSection?.eyebrow}
+          title={data.faqSection?.title}
+          items={data.faqSection?.items}
+          image={data.faqSection?.image}
+        />
+        <ServiceGuidelines data={data.guidelines} />
       </main>
       <SiteFooter />
     </>

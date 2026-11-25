@@ -845,6 +845,45 @@ export interface FaqQuickHelpSection extends Struct.ComponentSchema {
   };
 }
 
+export interface HomeComparePoint extends Struct.ComponentSchema {
+  collectionName: 'components_home_compare_points';
+  info: {
+    description: 'A repeatable comparison point with text, icon, and optional persona/image';
+    displayName: 'Compare Point';
+    icon: 'bulletList';
+  };
+  attributes: {
+    icon: Schema.Attribute.Enumeration<
+      [
+        'fuel',
+        'cancel',
+        'chart-down',
+        'swap',
+        'cash',
+        'clock',
+        'chart-up',
+        'truck',
+        'custom',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'fuel'>;
+    iconMedia: Schema.Attribute.Media<'images'>;
+    image: Schema.Attribute.Media<'images'>;
+    persona: Schema.Attribute.Enumeration<
+      [
+        'All',
+        'Fleet owner',
+        'Transport company',
+        'Small business',
+        'Driver',
+        'Dealer',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'All'>;
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface HomeCompareSection extends Struct.ComponentSchema {
   collectionName: 'components_home_compare_sections';
   info: {
@@ -862,8 +901,8 @@ export interface HomeCompareSection extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Which vehicle fits your work?'>;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'What changes when you switch?'>;
-    withEulerPoints: Schema.Attribute.JSON;
-    withoutEulerPoints: Schema.Attribute.JSON;
+    withEulerPoints: Schema.Attribute.Component<'home.compare-point', true>;
+    withoutEulerPoints: Schema.Attribute.Component<'home.compare-point', true>;
   };
 }
 
@@ -1645,6 +1684,133 @@ export interface ProductVariantsCompare extends Struct.ComponentSchema {
   };
 }
 
+export interface ServiceGuidelines extends Struct.ComponentSchema {
+  collectionName: 'components_service_guidelines';
+  info: {
+    description: "Do's and Don'ts section for the service centers page";
+    displayName: 'Guidelines Section';
+    icon: 'information';
+  };
+  attributes: {
+    donts: Schema.Attribute.Component<'service.text-item', true>;
+    dos: Schema.Attribute.Component<'service.text-item', true>;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServiceNextStep extends Struct.ComponentSchema {
+  collectionName: 'components_service_next_steps';
+  info: {
+    description: 'Maintenance and warranty cards section for the service centers page';
+    displayName: 'Next Step Section';
+    icon: 'directions';
+  };
+  attributes: {
+    headerSubtitle: Schema.Attribute.Text;
+    headerTitle: Schema.Attribute.String;
+    maintenanceBody: Schema.Attribute.Text;
+    maintenanceBullets: Schema.Attribute.Component<'service.text-item', true>;
+    maintenanceCtaLabel: Schema.Attribute.String;
+    maintenanceTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    warrantyBody: Schema.Attribute.Text;
+    warrantyCtaLabel: Schema.Attribute.String;
+    warrantyStat1Label: Schema.Attribute.String;
+    warrantyStat1Value: Schema.Attribute.String;
+    warrantyStat2Label: Schema.Attribute.String;
+    warrantyStat2Value: Schema.Attribute.String;
+    warrantyTerms: Schema.Attribute.Text;
+    warrantyTitle: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServicePreventiveAdvice extends Struct.ComponentSchema {
+  collectionName: 'components_service_preventive_advice';
+  info: {
+    description: 'Maintenance tips carousel for the service centers page';
+    displayName: 'Preventive Advice Section';
+    icon: 'heart';
+  };
+  attributes: {
+    eyebrow: Schema.Attribute.String;
+    headerLine: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+    tips: Schema.Attribute.Component<'service.tip-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServicePrimeBanner extends Struct.ComponentSchema {
+  collectionName: 'components_service_prime_banners';
+  info: {
+    description: 'Euler Prime on-site assistance banner for the service centers page';
+    displayName: 'Prime Assistance Section';
+    icon: 'car';
+  };
+  attributes: {
+    body: Schema.Attribute.Text;
+    ctaLabel: Schema.Attribute.String;
+    stats: Schema.Attribute.Component<'service.stat-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServiceStatItem extends Struct.ComponentSchema {
+  collectionName: 'components_service_stat_items';
+  info: {
+    description: 'Value + label stat';
+    displayName: 'Stat Item';
+    icon: 'chartBubble';
+  };
+  attributes: {
+    label: Schema.Attribute.String;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServiceSupportSection extends Struct.ComponentSchema {
+  collectionName: 'components_service_support_sections';
+  info: {
+    description: 'Customer support banner with helpline and WhatsApp CTAs';
+    displayName: 'Support Section';
+    icon: 'headphones';
+  };
+  attributes: {
+    body: Schema.Attribute.Text;
+    eyebrow: Schema.Attribute.String;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    helplineLabel: Schema.Attribute.String;
+    panelHeading: Schema.Attribute.String;
+    primeCtaLabel: Schema.Attribute.String;
+    whatsappCtaLabel: Schema.Attribute.String;
+  };
+}
+
+export interface ServiceTextItem extends Struct.ComponentSchema {
+  collectionName: 'components_service_text_items';
+  info: {
+    description: 'Single line of text';
+    displayName: 'Text Item';
+    icon: 'write';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ServiceTipItem extends Struct.ComponentSchema {
+  collectionName: 'components_service_tip_items';
+  info: {
+    description: 'Maintenance tip card';
+    displayName: 'Tip Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedCtaButton extends Struct.ComponentSchema {
   collectionName: 'components_shared_cta_buttons';
   info: {
@@ -2142,6 +2308,7 @@ declare module '@strapi/strapi' {
       'faq.item': FaqItem;
       'faq.quick-help-card': FaqQuickHelpCard;
       'faq.quick-help-section': FaqQuickHelpSection;
+      'home.compare-point': HomeComparePoint;
       'home.compare-section': HomeCompareSection;
       'home.contact-form': HomeContactForm;
       'home.contact-section': HomeContactSection;
@@ -2189,6 +2356,14 @@ declare module '@strapi/strapi' {
       'product.variant-detail': ProductVariantDetail;
       'product.variant-option': ProductVariantOption;
       'product.variants-compare': ProductVariantsCompare;
+      'service.guidelines': ServiceGuidelines;
+      'service.next-step': ServiceNextStep;
+      'service.preventive-advice': ServicePreventiveAdvice;
+      'service.prime-banner': ServicePrimeBanner;
+      'service.stat-item': ServiceStatItem;
+      'service.support-section': ServiceSupportSection;
+      'service.text-item': ServiceTextItem;
+      'service.tip-item': ServiceTipItem;
       'shared.cta-button': SharedCtaButton;
       'shared.form-tab': SharedFormTab;
       'shared.partner-logo': SharedPartnerLogo;

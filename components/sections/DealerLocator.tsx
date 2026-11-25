@@ -621,10 +621,10 @@ export default function DealerLocator({
   const charging = variant === "charging";
   const isService = variant === "service";
 
-  const activeDealers = dealers !== undefined ? dealers : DEALERS;
-  const activeStations = chargingStations !== undefined ? chargingStations : CHARGING_STATIONS;
-  const activeServiceCenters = serviceCenters !== undefined ? serviceCenters : SERVICE_CENTERS;
-  const activeCities = cities !== undefined && cities.length > 0 ? cities : CITIES;
+  const activeDealers = dealers ?? DEALERS;
+  const activeStations = chargingStations ?? CHARGING_STATIONS;
+  const activeServiceCenters = serviceCenters ?? SERVICE_CENTERS;
+  const activeCities = cities != null && cities.length > 0 ? cities : CITIES;
 
   const initialCity = useMemo(() => {
     if (defaultCity && activeCities.includes(defaultCity)) return defaultCity;
