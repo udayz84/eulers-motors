@@ -359,9 +359,9 @@ export default function HiLoadHero({ data }: { data?: StrapiProductHero }) {
         />
         {/* Mobile HiLoad EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[270px] sm:w-[440px] sm:h-[340px]"
+          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[440px] aspect-[1672/941] max-w-full"
         >
-          <VehicleGroundShadow vehicleId="hiload-ev" className="top-[93%] w-[82%] h-[48px] sm:h-[62px]" />
+          <VehicleGroundShadow vehicleId="hiload-ev" className="top-[92%] w-[82%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-hiload-ev-clean.png"
             alt="Euler HiLoad EV"

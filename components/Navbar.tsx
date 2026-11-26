@@ -29,7 +29,7 @@ const DROPDOWNS: Record<"Product" | "Company" | "Support", { heading: string; it
     heading: "EULER MOTORS",
     items: [
       { label: "About us", desc: "EV Revolution for India", href: "/about" },
-      { label: "Leadership", desc: "Founders and board", href: "#" },
+      { label: "Leadership", desc: "Founders and board", href: "/about#leadership" },
       { label: "Careers", desc: "Find the right role for you.", href: "/careers" },
       { label: "In press", desc: "News and media kit", href: "/in-press" },
     ],

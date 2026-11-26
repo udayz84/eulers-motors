@@ -358,9 +358,9 @@ export default function TurboHero({ data }: { data?: StrapiProductHero }) {
         />
         {/* Mobile Turbo EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
+          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[430px] aspect-[1672/941] max-w-full"
         >
-          <VehicleGroundShadow vehicleId="turbo-ev-1000" className="top-[93%] w-[84%] h-[48px] sm:h-[62px]" />
+          <VehicleGroundShadow vehicleId="turbo-ev-1000" className="top-[92%] w-[84%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-turbo-1000-clean.png"
             alt="Euler Turbo EV 1000"

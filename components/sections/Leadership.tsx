@@ -36,7 +36,7 @@ export default function Leadership({ sectionData, members }: LeadershipProps = {
   const list = members && members.length > 0 ? members : DEFAULT_LEADERSHIP_MEMBERS;
 
   return (
-    <section className="bg-[#f3f4f5] relative overflow-hidden" aria-label="Leadership">
+    <section id="leadership" className="bg-[#f3f4f5] relative overflow-hidden scroll-mt-24 lg:scroll-mt-28" aria-label="Leadership">
       {/* Mobile Layout */}
       <div className="mx-auto flex w-full max-w-[680px] flex-col items-center gap-[24px] sm:gap-[32px] px-5 sm:px-8 py-[24px] sm:py-[40px] lg:hidden">
         {/* Header */}

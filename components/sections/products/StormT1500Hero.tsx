@@ -358,9 +358,9 @@ export default function StormT1500Hero({ data }: { data?: StrapiProductHero }) {
         />
         {/* Mobile Storm EV vehicle cutout positioned in the tunnel */}
         <div
-          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[330px] h-[250px] sm:w-[420px] sm:h-[320px]"
+          className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[430px] aspect-[1672/941] max-w-full"
         >
-          <VehicleGroundShadow vehicleId="storm-ev-t1500" className="top-[93%] w-[84%] h-[48px] sm:h-[62px]" />
+          <VehicleGroundShadow vehicleId="storm-ev-t1500" className="top-[92%] w-[84%] h-[48px] sm:h-[62px]" />
           <Image
             src="/assets/products/vehicle-storm-t1500-clean.png"
             alt="Euler Storm EV T1500"

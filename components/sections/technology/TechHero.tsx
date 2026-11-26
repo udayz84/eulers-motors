@@ -211,14 +211,18 @@ export default function TechHero({ data, showPhilosophy = true }: TechHeroProps)
                   {uptimeValue && (
                     <p className="shrink-0 whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-0.84px]">
                       <span className="text-[34px] md:text-[38px]">{uptimeValue}</span>
-                      {uptimeUnit && <span className="text-[20px] md:text-[24px]">{uptimeUnit}</span>}
                     </p>
                   )}
-                  {uptimeDescription && (
-                    <p className="min-w-0 flex-1 font-display text-[13px] leading-[1.35] tracking-[-0.26px] md:text-[14px] md:leading-[1.4]">
-                      {uptimeDescription}
-                    </p>
-                  )}
+                  <div className="min-w-0 flex-1">
+                    {uptimeUnit && (
+                      <p className="font-display text-[14px] font-semibold leading-[1.2] text-white md:text-[15px]">{uptimeUnit}</p>
+                    )}
+                    {uptimeDescription && (
+                      <p className="min-w-0 font-display text-[12px] leading-[1.35] tracking-[-0.26px] text-white/85 md:text-[13px] md:leading-[1.4]">
+                        {uptimeDescription}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -267,21 +271,25 @@ export default function TechHero({ data, showPhilosophy = true }: TechHeroProps)
 
           <div className="flex w-[300px] shrink-0 flex-col items-start gap-4 md:w-[340px] lg:w-[386px] lg:gap-5">
             {(uptimeValue || uptimeDescription) && (
-              <div className="relative h-auto w-full overflow-clip rounded-lg bg-white/[0.04] p-4 md:p-5 lg:h-[96px] lg:p-6">
+              <div className="relative h-auto w-full overflow-clip rounded-lg bg-white/[0.04] p-4 md:p-5 lg:min-h-[96px] lg:p-6">
                 <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
                 <div className="absolute bottom-0 left-0 h-1 w-[140px] bg-white md:w-[160px] lg:w-[178px]" />
                 <div className="flex w-full items-center gap-3 text-white md:gap-4">
                   {uptimeValue && (
                     <p className="shrink-0 whitespace-nowrap font-display font-semibold leading-[1.15] tracking-[-0.84px]">
                       <span className="text-[34px] md:text-[38px] min-[1440px]:text-[42px]">{uptimeValue}</span>
-                      {uptimeUnit && <span className="text-[20px] md:text-[24px] min-[1440px]:text-[26px]">{uptimeUnit}</span>}
                     </p>
                   )}
-                  {uptimeDescription && (
-                    <p className="min-w-0 flex-1 font-display text-[13px] leading-[1.35] tracking-[-0.26px] md:text-[14px] md:leading-[1.4] min-[1440px]:text-[16px] min-[1440px]:tracking-[-0.32px]">
-                      {uptimeDescription}
-                    </p>
-                  )}
+                  <div className="min-w-0 flex-1">
+                    {uptimeUnit && (
+                      <p className="font-display text-[15px] font-semibold leading-[1.2] text-white min-[1440px]:text-[16px]">{uptimeUnit}</p>
+                    )}
+                    {uptimeDescription && (
+                      <p className="min-w-0 font-display text-[13px] leading-[1.35] tracking-[-0.26px] text-white/85 md:text-[14px] md:leading-[1.4] min-[1440px]:text-[15px] min-[1440px]:tracking-[-0.32px]">
+                        {uptimeDescription}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
