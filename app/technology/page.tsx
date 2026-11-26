@@ -63,7 +63,7 @@ export default async function TechnologyPage() {
         <TechManufacturing data={data.manufacturing} />
         <TechKnowVehicle data={data.knowVehicle} />
         <TechCharging data={data.chargingSection} />
-        <TechFaq data={data.faqSection} />
+        <TechFaq data={{ ...data.faqSection, items: data.faqs?.length ? data.faqs : data.faqSection?.items }} />
         <TechShepherd data={data.shepherdSection} />
         <TechProof data={data.proofSection} />
         <CustomerReviews

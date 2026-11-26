@@ -48,7 +48,7 @@ export default async function ChargingStationsPage() {
         <ChargingStationFaq
           eyebrow={faqSection?.eyebrow}
           title={faqSection?.title}
-          items={faqSection?.items}
+          items={data.faqs?.length ? data.faqs : faqSection?.items}
           image={faqSection?.image}
         />
         <ChargingStationNextStep data={data?.chargingContactSection} />

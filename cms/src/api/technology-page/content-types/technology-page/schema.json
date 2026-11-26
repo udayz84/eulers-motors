@@ -47,6 +47,11 @@
       "repeatable": false,
       "component": "technology.faq-section"
     },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq"
+    },
     "shepherdSection": {
       "type": "component",
       "repeatable": false,

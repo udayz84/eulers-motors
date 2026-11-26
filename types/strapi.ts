@@ -288,6 +288,7 @@ export interface StrapiServiceCentersPageData {
   primeBanner?: StrapiServicePrimeBanner;
   supportSection?: StrapiServiceSupportSection;
   guidelines?: StrapiServiceGuidelines;
+  faqs?: StrapiFaqItem[] | null;
   faqSection?: StrapiFaqSection;
   seo?: StrapiSEO;
 }
@@ -784,6 +785,7 @@ export interface ChargingStationsPageData {
   documentId?: string;
   hero?: DealerLocatorHeroData;
   partnersSection?: PartnersSectionData;
+  faqs?: StrapiFaqItem[] | null;
   faqSection?: StrapiFaqSection;
   chargingContactSection?: ChargingContactSectionData;
   seo?: StrapiSEO;
@@ -1404,6 +1406,7 @@ export interface StrapiTechnologyPageData {
   manufacturing?: StrapiTechnologyManufacturingSection;
   knowVehicle?: StrapiTechnologyKnowVehicleSection;
   chargingSection?: StrapiTechnologyChargingSection;
+  faqs?: StrapiFaqItem[] | null;
   faqSection?: StrapiTechnologyFaqSection;
   shepherdSection?: StrapiTechnologyShepherdSection;
   proofSection?: StrapiTechnologyProofSection;
@@ -1540,12 +1543,14 @@ export interface StrapiAboutPageData {
   timelineSection?: StrapiAboutTimelineSection;
   factorySection?: StrapiAboutFactorySection;
   leadershipSection?: StrapiAboutLeadershipSection;
+  leadershipMembers?: StrapiLeadershipMember[];
   partnersSection?: PartnersSectionData;
   recognitionSection?: StrapiAboutRecognitionSection;
   esgSection?: StrapiAboutEsgSection;
   reportsSection?: StrapiAboutReportsSection;
   hiringSection?: StrapiAboutHiringSection;
   contactSection?: HomePageData["contactSection"];
+  faqs?: StrapiFaqItem[] | null;
   faqSection?: StrapiFaqSection;
   seo?: StrapiSEO;
 }

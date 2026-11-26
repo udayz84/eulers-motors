@@ -57,7 +57,7 @@ export default async function ServiceCentersPage() {
         <ChargingStationFaq
           eyebrow={data.faqSection?.eyebrow}
           title={data.faqSection?.title}
-          items={data.faqSection?.items}
+          items={data.faqs?.length ? data.faqs : data.faqSection?.items}
           image={data.faqSection?.image}
         />
         <ServiceGuidelines data={data.guidelines} />

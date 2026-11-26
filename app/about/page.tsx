@@ -84,11 +84,17 @@ export default async function AboutPage() {
     getEsgReports(),
   ]);
 
-  const faqItems = data?.faqSection?.items?.map((item) => ({
+  const faqItems = (data?.faqs?.length ? data.faqs : data?.faqSection?.items)?.map((item) => ({
     question: item.question,
     answer: item.answer,
     category: item.category,
   }));
+
+  // Leadership members come from the About page relation; fall back to the
+  // collection fetch when the relation is empty or Strapi is unavailable.
+  const leadershipMembers = data?.leadershipMembers?.length
+    ? data.leadershipMembers
+    : members;
 
   return (
     <>
@@ -99,7 +105,7 @@ export default async function AboutPage() {
         <AboutBelief data={data?.beliefSection} />
         <Timeline sectionData={data?.timelineSection} milestones={milestones} />
         <Factory data={data?.factorySection} />
-        <Leadership sectionData={data?.leadershipSection} members={members} />
+        <Leadership sectionData={data?.leadershipSection} members={leadershipMembers} />
         <PartnersInvestors data={data?.partnersSection} />
         <Recognition sectionData={data?.recognitionSection} awards={awards} />
         <AboutEsG data={data?.esgSection} />

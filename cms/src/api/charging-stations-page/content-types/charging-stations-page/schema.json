@@ -27,6 +27,11 @@
       "repeatable": false,
       "component": "dealer.faq-section"
     },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq"
+    },
     "chargingContactSection": {
       "type": "component",
       "repeatable": false,

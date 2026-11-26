@@ -42,6 +42,12 @@
       "repeatable": false,
       "component": "about.leadership-section"
     },
+    "leadershipMembers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::leadership-member.leadership-member",
+      "mappedBy": "aboutPage"
+    },
     "partnersSection": {
       "type": "component",
       "repeatable": false,
@@ -77,6 +83,11 @@
       "repeatable": false,
       "component": "dealer.faq-section"
     },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq"
+    },
     "seo": {
       "type": "component",
       "repeatable": false,
@@ -84,4 +95,3 @@
     }
   }
 }
-

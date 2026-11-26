@@ -711,6 +711,7 @@ export async function getChargingStationsPageData(): Promise<ChargingStationsPag
         image: { populate: "*" },
       },
     },
+    faqs: { populate: "*" },
   };
 
   return getSingleType<ChargingStationsPageData>(
@@ -830,6 +831,7 @@ export async function getServiceCentersPageData(): Promise<StrapiServiceCentersP
         mobileImage: { populate: "*" },
       },
     },
+    faqs: { populate: "*" },
     seo: { populate: "*" },
   };
 
@@ -1236,6 +1238,7 @@ export async function getTechnologyPageData(): Promise<StrapiTechnologyPageData>
         items: { populate: "*" },
       },
     },
+    faqs: { populate: "*" },
     shepherdSection: {
       populate: {
         appImage: { populate: "*" },
@@ -1323,6 +1326,12 @@ export async function getAboutPageData(): Promise<StrapiAboutPageData> {
       },
     },
     leadershipSection: { populate: "*" },
+    leadershipMembers: {
+      populate: {
+        desktopPhoto: { populate: "*" },
+        mobilePhoto: { populate: "*" },
+      },
+    },
     partnersSection: {
       populate: {
         partners: {
@@ -1378,6 +1387,7 @@ export async function getAboutPageData(): Promise<StrapiAboutPageData> {
         image: { populate: "*" },
       },
     },
+    faqs: { populate: "*" },
     seo: { populate: "*" },
   };
 

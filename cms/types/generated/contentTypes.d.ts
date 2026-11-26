@@ -500,9 +500,14 @@ export interface ApiAboutPageAboutPage extends Struct.SingleTypeSchema {
     esgSection: Schema.Attribute.Component<'about.esg-section', false>;
     eulerSection: Schema.Attribute.Component<'about.euler-section', false>;
     factorySection: Schema.Attribute.Component<'about.factory-section', false>;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
     faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
     hero: Schema.Attribute.Component<'about.hero', false>;
     hiringSection: Schema.Attribute.Component<'about.hiring-section', false>;
+    leadershipMembers: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::leadership-member.leadership-member'
+    >;
     leadershipSection: Schema.Attribute.Component<
       'about.leadership-section',
       false
@@ -775,6 +780,7 @@ export interface ApiChargingStationsPageChargingStationsPage
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
     faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
     hero: Schema.Attribute.Component<'dealer.hero', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1151,6 +1157,10 @@ export interface ApiLeadershipMemberLeadershipMember
     draftAndPublish: true;
   };
   attributes: {
+    aboutPage: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::about-page.about-page'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1428,6 +1438,7 @@ export interface ApiServiceCentersPageServiceCentersPage
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
     faqSection: Schema.Attribute.Component<'dealer.faq-section', false>;
     guidelines: Schema.Attribute.Component<'service.guidelines', false>;
     hero: Schema.Attribute.Component<'dealer.page-hero', false>;
@@ -1476,6 +1487,7 @@ export interface ApiTechnologyPageTechnologyPage
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
     faqSection: Schema.Attribute.Component<'technology.faq-section', false>;
     hero: Schema.Attribute.Component<'technology.hero', false>;
     indianRoads: Schema.Attribute.Component<'technology.indian-roads', false>;
