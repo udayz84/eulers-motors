@@ -334,7 +334,7 @@ export default function TechHero({ data, showPhilosophy = true }: TechHeroProps)
                 {philosophyCards.map((card, idx) => {
                   const iconUrl = mediaUrl(card.icon);
                   return (
-                    <article key={card.id ?? `${card.title}-${idx}`} className="flex min-h-[200px] w-full flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 md:gap-6 md:p-6 lg:h-[228px] min-[1440px]:h-[228px] min-[1440px]:w-[420px] min-[1440px]:flex-[1_0_0] min-[1440px]:self-stretch min-[1440px]:gap-8 min-[1440px]:p-8">
+                    <article key={card.id ?? `${card.title}-${idx}`} className="flex min-h-[200px] w-full flex-col items-start justify-center gap-5 rounded-[12px] bg-[rgba(255,255,255,0.08)] p-5 pb-9 md:gap-6 md:p-6 md:pb-10 lg:h-[244px] lg:pb-11 min-[1440px]:h-[244px] min-[1440px]:w-[420px] min-[1440px]:flex-[1_0_0] min-[1440px]:self-stretch min-[1440px]:gap-8 min-[1440px]:p-8 min-[1440px]:pb-12">
                       {iconUrl && (
                         <div
                           aria-hidden="true"
