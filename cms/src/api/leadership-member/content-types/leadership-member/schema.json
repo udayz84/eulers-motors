@@ -28,13 +28,17 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "mobilePhoto": {
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "isActive": {
       "type": "boolean",
@@ -43,7 +47,12 @@
     "order": {
       "type": "integer",
       "default": 0
+    },
+    "aboutPage": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::about-page.about-page",
+      "inversedBy": "leadershipMembers"
     }
   }
 }
-
