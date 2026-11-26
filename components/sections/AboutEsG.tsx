@@ -91,16 +91,16 @@ export default function AboutEsG({ data }: AboutEsGProps = {}) {
                 {activeTab?.summary}
               </p>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               {stats.map((s, i) => (
                 <Fragment key={`${s.label}-${i}`}>
                   {i > 0 && (
-                    <div className="flex flex-1 items-center justify-center px-4">
+                    <div className="flex flex-1 items-center justify-center self-stretch px-4">
                       <span aria-hidden className="block h-[65px] w-px bg-white opacity-50" />
                     </div>
                   )}
                   <div className="flex flex-col gap-[2px] text-white">
-                    <p className="font-display text-[24px] sm:text-[28px] font-semibold leading-[1.15] tracking-[-0.48px] lg:text-[36px] lg:tracking-[-0.72px]">
+                    <p className="font-display text-[24px] sm:text-[28px] font-semibold leading-[1.15] tracking-[-0.48px] whitespace-nowrap lg:text-[36px] lg:tracking-[-0.72px]">
                       {s.value}{" "}
                       {s.unit && (
                         <span
@@ -111,7 +111,7 @@ export default function AboutEsG({ data }: AboutEsGProps = {}) {
                         </span>
                       )}
                     </p>
-                    <p className="text-[12px] sm:text-[13px] font-normal leading-[normal] lg:text-[16px]">{s.label}</p>
+                    <p className="max-w-[170px] text-[12px] sm:text-[13px] font-normal leading-[normal] lg:text-[16px]">{s.label}</p>
                   </div>
                 </Fragment>
               ))}

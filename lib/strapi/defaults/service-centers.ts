@@ -1,4 +1,5 @@
 import type { StrapiServiceCentersPageData } from "@/types/strapi";
+import { DEFAULT_CHARGING_STATIONS_PAGE } from "./dealer-locator";
 
 export const defaultServiceCentersPageData: StrapiServiceCentersPageData = {
   hero: {
@@ -19,6 +20,7 @@ export const defaultServiceCentersPageData: StrapiServiceCentersPageData = {
     helplineLabel: "Toll-Free Helpline",
     helplineNumber: "1800-2128-2128",
   },
+  faqSection: DEFAULT_CHARGING_STATIONS_PAGE.faqSection,
   seo: {
     metaTitle: "Find an Euler Motors Authorized Service Center",
     metaDescription:

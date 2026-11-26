@@ -58,7 +58,7 @@ export default function AboutEuler({ data }: AboutEulerProps = {}) {
           badge: card.badge || fallback.badge,
           title: card.title || fallback.title,
           description: card.description || fallback.description,
-          stat: card.stat || fallback.stat,
+          stat: card.stat ?? "",
           mobileImage: mediaUrl(card.mobileImage, fallback.mobileImage),
           desktopImage: mediaUrl(card.desktopImage, fallback.desktopImage),
         };
@@ -314,12 +314,14 @@ export default function AboutEuler({ data }: AboutEulerProps = {}) {
                   {card.description}
                 </p>
 
-                {/* Stat Badge */}
-                <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] lg:rounded-[14.614px] lg:border-[0.913px] lg:px-[6.51px] lg:py-[4.34px]">
-                  <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white lg:text-[12px]">
-                    {card.stat}
-                  </span>
-                </div>
+                {/* Stat Badge — only rendered when the CMS card provides a stat */}
+                {card.stat ? (
+                  <div className="inline-flex items-center rounded-[14.614px] border border-[#6fcf97] border-[0.913px] bg-[rgba(111,207,151,0.24)] px-[6.51px] py-[4.34px] backdrop-blur-[9.134px] lg:rounded-[14.614px] lg:border-[0.913px] lg:px-[6.51px] lg:py-[4.34px]">
+                    <span className="whitespace-nowrap text-[12px] font-bold leading-[1.15] tracking-[-0.24px] text-white lg:text-[12px]">
+                      {card.stat}
+                    </span>
+                  </div>
+                ) : null}
               </div>
             </article>
           ))}

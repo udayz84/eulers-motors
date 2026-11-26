@@ -151,7 +151,7 @@ export default function TechFaq({ data }: TechFaqProps) {
             return (
               <article
                 key={faq.id ?? `${faq.question}-${index}`}
-                className="w-full overflow-clip rounded-[16px] bg-[#f3f4f5] px-3 py-[21px]"
+                className="w-full overflow-clip rounded-[14px] bg-[#f3f4f5] px-3.5 py-3 sm:px-4 sm:py-3.5"
               >
                 <button
                   type="button"
@@ -159,21 +159,21 @@ export default function TechFaq({ data }: TechFaqProps) {
                   onClick={() => setOpen(expanded ? null : index)}
                   className="flex w-full items-center gap-[10px] text-left"
                 >
-                  <span className="min-w-px flex-1 font-sans text-[16px] font-semibold leading-[1.4] tracking-[-0.32px] text-ink">
+                  <span className="min-w-px flex-1 font-sans text-[14px] sm:text-[15px] font-semibold leading-[1.35] tracking-[-0.2px] text-ink">
                     {faq.question}
                   </span>
-                  <span className="relative flex size-6 shrink-0 items-center justify-center">
+                  <span className="relative flex size-5 shrink-0 items-center justify-center">
                     <img
                       src={`${A}/icon-plus.svg`}
                       alt=""
-                      className={`absolute size-6 select-none transition-all duration-300 ${
+                      className={`absolute size-5 select-none transition-all duration-300 ${
                         expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
                       }`}
                     />
                     <img
                       src={`${A}/icon-minus.svg`}
                       alt=""
-                      className={`absolute size-6 select-none transition-all duration-300 ${
+                      className={`absolute size-5 select-none transition-all duration-300 ${
                         expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
                       }`}
                     />
@@ -181,7 +181,7 @@ export default function TechFaq({ data }: TechFaqProps) {
                 </button>
                 <div className="accordion-grid" data-open={expanded}>
                   <div className="accordion-inner">
-                    <p className="pt-[10px] w-full font-sans text-[12px] font-normal leading-[1.4] text-[rgba(18,18,18,0.8)]">
+                    <p className="pt-2.5 w-full font-sans text-[13px] font-normal leading-[1.5] text-[rgba(18,18,18,0.78)]">
                       {faq.answer}
                     </p>
                   </div>
@@ -210,14 +210,14 @@ export default function TechFaq({ data }: TechFaqProps) {
           <div className="flex h-auto w-full flex-col gap-4 md:h-[578px] md:w-[45%] md:gap-5 lg:flex-1">
             <div className="flex w-full flex-col items-start gap-3 md:gap-4">
               {eyebrow && <Eyebrow label={eyebrow} />}
-              <div className="flex flex-col items-start gap-3 text-ink md:gap-4">
+              <div className="flex flex-col items-start gap-2.5 text-ink sm:gap-3">
                 {title && (
-                  <h2 className="text-[clamp(26px,3vw,42px)] font-display font-semibold leading-[1.15] tracking-[-0.84px]">
+                  <h2 className="text-[clamp(24px,2.5vw,36px)] font-display font-semibold leading-[1.15] tracking-[-0.72px]">
                     {title}
                   </h2>
                 )}
                 {subtitle && (
-                  <p className="max-w-[474px] font-sans text-[14px] leading-normal md:text-[15px] lg:text-[15px] min-[1440px]:text-[16px]">
+                  <p className="max-w-[474px] font-sans text-[13px] leading-normal md:text-[14px] lg:text-[14.5px]">
                     {subtitle}
                   </p>
                 )}
@@ -241,13 +241,13 @@ export default function TechFaq({ data }: TechFaqProps) {
                             : undefined,
                           backgroundColor: isSelected ? "#121212" : undefined,
                         }}
-                        className={`flex shrink-0 items-center justify-center gap-[6.4px] rounded-full border-[0.4px] border-solid px-3.5 py-2.5 md:px-4 md:py-[13px] cursor-pointer ${
+                        className={`flex shrink-0 items-center justify-center gap-[6px] rounded-full border-[0.4px] border-solid px-3 py-2 md:px-3.5 md:py-[9px] cursor-pointer ${
                           isSelected ? "border-white text-white" : "border-transparent bg-[rgba(204,204,204,0.32)] text-ink"
                         }`}
                       >
-                        <span className="whitespace-nowrap text-[14px] font-semibold leading-none md:text-[16px]">{category.label}</span>
-                        <span aria-hidden className={`size-[3.145px] shrink-0 rounded-full ${isSelected ? "bg-white/50" : "bg-black/50"}`} />
-                        <span className="whitespace-nowrap text-[12px] leading-none md:text-[14px]">{category.count}</span>
+                        <span className="whitespace-nowrap text-[13px] font-semibold leading-none md:text-[14px]">{category.label}</span>
+                        <span aria-hidden className={`size-[3px] shrink-0 rounded-full ${isSelected ? "bg-white/50" : "bg-black/50"}`} />
+                        <span className="whitespace-nowrap text-[11px] leading-none md:text-[12px]">{category.count}</span>
                       </button>
                     );
                   })}
@@ -275,32 +275,32 @@ export default function TechFaq({ data }: TechFaqProps) {
                 const maxScroll = list.scrollHeight - list.clientHeight;
                 setDesktopThumbTop(maxScroll > 0 ? (list.scrollTop / maxScroll) * 421 : 0);
               }}
-              className="no-scrollbar flex h-full w-[calc(100%-28px)] flex-col gap-4 overflow-y-auto"
+              className="no-scrollbar flex h-full w-[calc(100%-28px)] flex-col gap-2.5 sm:gap-3 overflow-y-auto"
               aria-label={title || "Frequently asked questions"}
             >
               {visible.map((faq, index) => {
                 const expanded = open === index;
                 return (
-                  <article key={faq.id ?? `${faq.question}-${index}`} className="shrink-0 overflow-hidden rounded-[16px] bg-[#f3f4f5] p-5">
+                  <article key={faq.id ?? `${faq.question}-${index}`} className="shrink-0 overflow-hidden rounded-[14px] bg-[#f3f4f5] px-4 py-3 sm:px-4 sm:py-3.5">
                     <button
                       type="button"
                       aria-expanded={expanded}
                       onClick={() => setOpen(expanded ? null : index)}
-                      className="flex w-full items-center justify-between gap-6 text-left cursor-pointer"
+                      className="flex w-full items-center justify-between gap-4 text-left cursor-pointer"
                     >
-                      <span className="min-w-0 flex-1 text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-ink">{faq.question}</span>
-                      <span className="relative flex size-6 shrink-0 items-center justify-center">
+                      <span className="min-w-0 flex-1 font-sans text-[14px] sm:text-[15px] lg:text-[16px] font-semibold leading-[1.35] tracking-[-0.2px] text-ink">{faq.question}</span>
+                      <span className="relative flex size-5 sm:size-6 shrink-0 items-center justify-center">
                         <img
                           src={`${A}/icon-plus.svg`}
                           alt=""
-                          className={`absolute size-6 select-none transition-all duration-300 ${
+                          className={`absolute size-5 sm:size-6 select-none transition-all duration-300 ${
                             expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
                           }`}
                         />
                         <img
                           src={`${A}/icon-minus.svg`}
                           alt=""
-                          className={`absolute size-6 select-none transition-all duration-300 ${
+                          className={`absolute size-5 sm:size-6 select-none transition-all duration-300 ${
                             expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
                           }`}
                         />
@@ -308,7 +308,7 @@ export default function TechFaq({ data }: TechFaqProps) {
                     </button>
                     <div className="accordion-grid" data-open={expanded}>
                       <div className="accordion-inner">
-                        <p className="pt-5 text-[16px] leading-[1.4] text-black/80">{faq.answer}</p>
+                        <p className="pt-2.5 text-[13px] sm:text-[13.5px] lg:text-[14px] leading-[1.55] text-black/80">{faq.answer}</p>
                       </div>
                     </div>
                   </article>

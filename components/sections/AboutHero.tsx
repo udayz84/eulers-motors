@@ -82,7 +82,7 @@ export default function AboutHero({ data }: AboutHeroProps = {}) {
         </div>
 
         {/* Desktop Content */}
-        <div className="absolute bottom-[60.52px] left-1/2 -translate-x-1/2 hidden lg:flex lg:flex-col lg:gap-[20px] lg:items-center">
+        <div className="absolute bottom-[40px] left-1/2 -translate-x-1/2 hidden lg:flex lg:flex-col lg:gap-[16px] lg:items-center">
           {/* Desktop Eyebrow */}
           <div className="content-stretch flex gap-[6px] items-center relative shrink-0">
             <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
@@ -105,10 +105,10 @@ export default function AboutHero({ data }: AboutHeroProps = {}) {
               {eyebrow}
             </p>
           </div>
-          <h1 className="w-[788.543px] font-display text-[52px] font-semibold leading-[1.15] tracking-[-1.04px] text-center text-white">
+          <h1 className="w-[788.543px] font-display text-[52px] font-semibold leading-[1.05] tracking-[-1.04px] text-center text-white">
             {title}
           </h1>
-          <p className="w-[604.962px] text-[16px] font-normal leading-normal text-center text-white">
+          <p className="w-[604.962px] text-[16px] font-normal leading-[1.45] text-center text-white">
             {description}
           </p>
         </div>

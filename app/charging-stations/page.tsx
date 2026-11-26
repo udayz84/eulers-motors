@@ -35,6 +35,11 @@ export default async function ChargingStationsPage() {
 
   const faqSection = data?.faqSection;
   const heroProps = mapDealerLocatorHeroProps(data?.hero, { chargingStations }, data?.pageHero);
+  const faqItems = (data.faqs?.length ? data.faqs : faqSection?.items)?.map((item) => ({
+    question: item.question,
+    answer: item.answer,
+    category: item.category,
+  }));
 
   return (
     <>
@@ -48,7 +53,7 @@ export default async function ChargingStationsPage() {
         <ChargingStationFaq
           eyebrow={faqSection?.eyebrow}
           title={faqSection?.title}
-          items={data.faqs?.length ? data.faqs : faqSection?.items}
+          items={faqItems}
           image={faqSection?.image}
         />
         <ChargingStationNextStep data={data?.chargingContactSection} />

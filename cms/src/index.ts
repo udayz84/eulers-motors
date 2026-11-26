@@ -65,29 +65,37 @@ function strapiLog(message: string) {
 
 /**
  * Notifies the Next.js on-demand revalidation endpoint (app/api/revalidate).
- * No-op unless NEXT_APP_URL is configured; failures are non-fatal because
+ * No-op unless NEXT_APP_URL is configured (comma-separated list supported so
+ * every running frontend gets invalidated); failures are non-fatal because
  * ISR still refreshes every page within 60 seconds.
  */
 async function notifyNextRevalidate(model: string | null) {
   if (!model) return;
-  const baseUrl = process.env.NEXT_APP_URL;
-  if (!baseUrl) return;
+  const baseUrls = (process.env.NEXT_APP_URL || '')
+    .split(',')
+    .map((url) => url.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+  if (!baseUrls.length) return;
 
   const secret = process.env.STRAPI_REVALIDATE_SECRET;
-  try {
-    await fetch(`${baseUrl.replace(/\/+$/, '')}/api/revalidate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(secret ? { 'x-strapi-revalidation-token': secret } : {}),
-      },
-      body: JSON.stringify({ model }),
-    });
-    strapiLog(`[Revalidate] Notified Next.js for "${model}"`);
-  } catch (error: any) {
-    // Next app unreachable — ISR fallback keeps content fresh within 60s
-    strapiInstance?.log?.warn?.(`[Revalidate] Could not notify Next.js for "${model}": ${error?.message || error}`);
-  }
+  await Promise.all(
+    baseUrls.map(async (baseUrl) => {
+      try {
+        await fetch(`${baseUrl}/api/revalidate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(secret ? { 'x-strapi-revalidation-token': secret } : {}),
+          },
+          body: JSON.stringify({ model }),
+        });
+        strapiLog(`[Revalidate] Notified Next.js (${baseUrl}) for "${model}"`);
+      } catch (error: any) {
+        // Next app unreachable — ISR fallback keeps content fresh within 60s
+        strapiInstance?.log?.warn?.(`[Revalidate] Could not notify Next.js (${baseUrl}) for "${model}": ${error?.message || error}`);
+      }
+    })
+  );
 }
 
 export default {

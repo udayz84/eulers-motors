@@ -265,14 +265,14 @@ export default function ChargingStationFaq({
         <div className="flex flex-1 min-w-0 w-full flex-col items-start gap-5 lg:max-w-[587px] self-stretch">
           <div className="flex w-full flex-col items-start">
             <FaqBadge text={eyebrow} />
-            <div className="mt-4 flex flex-col gap-3 text-[#121212] sm:gap-4">
+            <div className="mt-4 flex flex-col gap-2.5 text-[#121212] sm:gap-3">
               <h2
                 id="charging-faq-title"
-                className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.56px] sm:text-[34px] sm:tracking-[-0.68px] lg:text-[40px] lg:tracking-[-0.8px] xl:text-[42px] xl:tracking-[-0.84px]"
+                className="font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.52px] sm:text-[30px] sm:tracking-[-0.6px] lg:text-[34px] lg:tracking-[-0.68px] xl:text-[36px] xl:tracking-[-0.72px]"
               >
                 {title}
               </h2>
-              <p className="max-w-[474px] font-sans text-[14px] leading-normal sm:text-[15px] lg:text-[16px] text-[#121212]/80">
+              <p className="max-w-[474px] font-sans text-[13px] leading-normal sm:text-[14px] lg:text-[14.5px] text-[#121212]/80">
                 {subtitle}
               </p>
             </div>
@@ -300,22 +300,22 @@ export default function ChargingStationFaq({
                           }
                         : undefined
                     }
-                    className={`flex shrink-0 items-center gap-[6.4px] rounded-[400px] border-[0.4px] border-solid border-white px-3.5 py-2.5 sm:px-4 sm:py-[11px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
+                    className={`flex shrink-0 items-center gap-[6px] rounded-[400px] border-[0.4px] border-solid border-white px-3 py-2 sm:px-3.5 sm:py-[9px] cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] ${
                       selected
                         ? "text-white"
                         : "bg-[rgba(204,204,204,0.32)] text-[#121212]"
                     }`}
                   >
-                    <span className="font-sans text-[14px] sm:text-[16px] font-semibold leading-none">
+                    <span className="font-sans text-[13px] sm:text-[14px] font-semibold leading-none">
                       {category.label}
                     </span>
                     <span
                       aria-hidden="true"
-                      className={`size-[3.15px] rounded-full shrink-0 ${
+                      className={`size-[3px] rounded-full shrink-0 ${
                         selected ? "bg-white/50" : "bg-black/50"
                       }`}
                     />
-                    <span className="font-sans text-[12px] sm:text-[14px] font-normal leading-none">
+                    <span className="font-sans text-[11px] sm:text-[12px] font-normal leading-none">
                       {category.count}
                     </span>
                   </button>
@@ -356,7 +356,7 @@ export default function ChargingStationFaq({
           <div
             ref={listRef}
             onScroll={updateScrollbar}
-            className={`no-scrollbar flex min-h-0 flex-1 flex-col gap-3 sm:gap-4 ${
+            className={`no-scrollbar flex min-h-0 flex-1 flex-col gap-2.5 sm:gap-3 ${
               isMobile
                 ? "h-auto overflow-visible"
                 : "h-[440px] overflow-y-auto sm:h-[500px] lg:h-[578px]"
@@ -370,35 +370,35 @@ export default function ChargingStationFaq({
               return (
                 <article
                   key={index}
-                  className="shrink-0 overflow-hidden rounded-2xl bg-[#f3f4f5] p-4 sm:p-5 transition-all"
+                  className="shrink-0 overflow-hidden rounded-[14px] bg-[#f3f4f5] px-4 py-3 sm:px-4 sm:py-3.5 transition-all"
                 >
                   <button
                     type="button"
                     aria-expanded={expanded}
                     onClick={() => setOpenQuestion(expanded ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 text-left cursor-pointer"
+                    className="flex w-full items-center justify-between gap-3 text-left cursor-pointer"
                   >
-                    <span className="min-w-0 flex-1 font-sans text-[16px] sm:text-[18px] lg:text-[20px] font-semibold leading-[1.4] tracking-[-0.4px] text-[#121212]">
+                    <span className="min-w-0 flex-1 font-sans text-[14px] sm:text-[15px] lg:text-[16px] font-semibold leading-[1.35] tracking-[-0.2px] text-[#121212]">
                       {faq.question}
                     </span>
-                    <span className="relative flex size-6 shrink-0 items-center justify-center">
+                    <span className="relative flex size-5 sm:size-6 shrink-0 items-center justify-center">
                       <Image
                         src="/assets/charging-station-faq/icon-plus.svg"
                         alt=""
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         aria-hidden
-                        className={`absolute size-6 select-none transition-all duration-300 ${
+                        className={`absolute size-5 sm:size-6 select-none transition-all duration-300 ${
                           expanded ? "opacity-0 rotate-90 scale-75 pointer-events-none" : "opacity-100 rotate-0 scale-100"
                         }`}
                       />
                       <Image
                         src="/assets/charging-station-faq/icon-minus.svg"
                         alt=""
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         aria-hidden
-                        className={`absolute size-6 select-none transition-all duration-300 ${
+                        className={`absolute size-5 sm:size-6 select-none transition-all duration-300 ${
                           expanded ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75 pointer-events-none"
                         }`}
                       />
@@ -406,7 +406,7 @@ export default function ChargingStationFaq({
                   </button>
                   <div className="accordion-grid" data-open={expanded}>
                     <div className="accordion-inner">
-                      <p className="mt-3 font-sans text-[14px] sm:text-[15px] lg:text-[16px] leading-[1.5] text-[rgba(18,18,18,0.8)] border-t border-black/5 pt-3 whitespace-pre-line">
+                      <p className="mt-2.5 font-sans text-[13px] sm:text-[13.5px] lg:text-[14px] leading-[1.55] text-[rgba(18,18,18,0.78)] border-t border-black/5 pt-2.5 whitespace-pre-line">
                         {faq.answer}
                       </p>
                     </div>
@@ -416,7 +416,7 @@ export default function ChargingStationFaq({
             })}
             {visibleQuestions.length === 0 && (
               <p
-                className="rounded-2xl bg-[#f3f4f5] p-5 font-sans text-[15px] leading-normal text-[#121212]"
+                className="rounded-[14px] bg-[#f3f4f5] px-4 py-3.5 font-sans text-[14px] leading-normal text-[#121212]"
                 role="status"
               >
                 No questions found in this category.
@@ -426,10 +426,10 @@ export default function ChargingStationFaq({
               <button
                 type="button"
                 onClick={() => setVisibleCount((c) => c + 6)}
-                className="mx-auto mt-2 flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#0e2f6d]/30 bg-white px-6 font-sans text-[14px] font-semibold text-[#0e2f6d] transition-colors hover:bg-[#ebf2fe]"
+                className="mx-auto mt-2 flex h-9 shrink-0 items-center justify-center gap-2 rounded-full border border-[#0e2f6d]/30 bg-white px-5 font-sans text-[13px] font-semibold text-[#0e2f6d] transition-colors hover:bg-[#ebf2fe]"
               >
                 Load More
-                <span className="text-[12px] font-normal text-[#0e2f6d]/60">
+                <span className="text-[11px] font-normal text-[#0e2f6d]/60">
                   ({visibleQuestions.length - shownQuestions.length} more)
                 </span>
               </button>

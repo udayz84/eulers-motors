@@ -421,8 +421,8 @@ export default function Timeline({ sectionData, milestones }: TimelineProps = {}
       >
         {/* Header Row (Centered 1440 container) */}
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center px-[80px] pt-[60px] pb-[42px]">
-          <div className="flex w-full items-center justify-between">
-            <div className="flex w-[636px] flex-col gap-[25px] items-start">
+          <div className="flex w-full items-center justify-between gap-[24px]">
+            <div className="flex w-[636px] shrink-0 flex-col gap-[25px] items-start">
               {/* Eyebrow */}
               <div className="flex gap-[6px] items-center">
                 <div className="absolute h-[20.355px] left-[3.43px] top-0 w-[148.821px] overflow-hidden">
@@ -453,23 +453,23 @@ export default function Timeline({ sectionData, milestones }: TimelineProps = {}
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-[31px] items-end justify-center">
-              <p className="font-sans font-normal leading-normal text-[16px] text-white w-[531px]">
+            <div className="flex min-w-0 flex-1 flex-col gap-[31px] items-end justify-center">
+              <p className="font-sans font-normal leading-normal text-[16px] text-white max-w-[531px] w-full">
                 {description}
               </p>
-              <div className="flex gap-[16px] items-center justify-end">
+              <div className="flex flex-nowrap gap-[10px] items-center justify-end min-w-0">
                 {activeYears.map((year) => (
                   <button
                     key={year}
                     type="button"
                     onClick={() => scrollToYear(year)}
-                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid flex h-[42px] items-center justify-center px-[24px] relative rounded-[24.381px] shrink-0 transition-colors ${selectedYear === year
+                    className={`backdrop-blur-[7.619px] border-[0.762px] border-solid flex h-[38px] items-center justify-center px-[12px] relative rounded-[24.381px] shrink-0 transition-colors ${selectedYear === year
                         ? "bg-white border-[rgba(18,18,18,0.5)]"
                         : "bg-black border-[rgba(255,255,255,0.1)]"
                       }`}
                   >
                     <span
-                      className="font-display text-[16px] font-semibold leading-none not-italic whitespace-nowrap"
+                      className="font-display text-[15px] font-semibold leading-none not-italic whitespace-nowrap"
                       style={{ color: selectedYear === year ? "rgb(18,18,18)" : "white" }}
                     >
                       {year}
@@ -505,19 +505,19 @@ export default function Timeline({ sectionData, milestones }: TimelineProps = {}
                   className="h-[354.531px] shrink-0 w-[642.09px] rounded-l-[12px]"
                   style={{ background: card.background }}
                 />
-                <div className="flex flex-col h-full items-start justify-between py-[24px] relative shrink-0 w-[329.5px]">
+                <div className="flex flex-col h-full items-start justify-between py-[20px] relative min-w-0 flex-1">
                   <p className="font-display text-[42px] font-semibold leading-[1.15] not-italic text-white tracking-[-0.84px] w-full">
                     {card.year}
                   </p>
-                  <div className="flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-                    <p className="font-display text-[20px] font-semibold leading-[1.15] not-italic text-white tracking-[-0.4px] whitespace-nowrap">
+                  <div className="flex flex-col gap-[12px] items-start relative shrink-0 w-full">
+                    <p className="font-display text-[20px] font-semibold leading-[1.15] not-italic text-white tracking-[-0.4px]">
                       {card.title}
                     </p>
                     <div className="font-sans font-normal min-w-full text-[14px] text-white">
                       <p className="leading-[normal] mb-0">{card.descLine1}</p>
                       {card.descLine2 && <p className="leading-[normal]">{card.descLine2}</p>}
                     </div>
-                    <div className="flex gap-[10px] items-center relative shrink-0">
+                    <div className="flex flex-wrap gap-x-[10px] gap-y-[8px] items-center relative shrink-0">
                       {card.badges.map((badge, bIdx) => (
                         <div
                           key={bIdx}
