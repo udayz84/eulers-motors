@@ -7,7 +7,7 @@ import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 import type { StrapiAboutTimelineSection, StrapiTimelineMilestone } from "@/types/strapi";
 import { mediaUrl } from "@/lib/strapi/client";
 
-const YEARS = [2018, 2020, 2022, 2024, 2025, 2026];
+const YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
 
 /* Card image = 642.09×354.531 rounded-left, CSS background layers transcribed
    from Figma (image order: last background paints underneath). */

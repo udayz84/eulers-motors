@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import SiteNavbar from "@/components/sections/chrome/SiteNavbar";
 import DealerLocatorHero from "@/components/sections/DealerLocatorHero";
+import DealerOpportunityBanner from "@/components/sections/DealerOpportunityBanner";
 import SiteFooter from "@/components/sections/chrome/SiteFooter";
 import DealerContactSection from "@/components/sections/DealerContactSection";
 import {
@@ -33,6 +34,7 @@ export default async function DealerLocatorPage() {
       <SiteNavbar />
       <main className="overflow-clip">
         <DealerLocatorHero variant="dealer" {...heroProps} />
+        <DealerOpportunityBanner />
         <DealerContactSection {...data?.contactSection} />
       </main>
       <SiteFooter />

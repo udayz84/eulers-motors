@@ -75,13 +75,16 @@ export default function TechLoad({ data }: TechLoadProps) {
     if (!row) return;
 
     const onStep = () => pauseAutoScroll(600);
+    const onWheel = () => pauseAutoScroll(1000);
 
     row.addEventListener("scroll", updateProgress, { passive: true });
+    row.addEventListener("wheel", onWheel, { passive: true });
     window.addEventListener("resize", updateProgress);
     row.addEventListener("carousel-step", onStep);
 
     return () => {
       row.removeEventListener("scroll", updateProgress);
+      row.removeEventListener("wheel", onWheel);
       window.removeEventListener("resize", updateProgress);
       row.removeEventListener("carousel-step", onStep);
     };

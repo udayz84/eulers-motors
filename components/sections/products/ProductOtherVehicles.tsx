@@ -12,7 +12,7 @@ import { VERIFY_CMS } from "@/lib/strapi/client";
 export /** Per-vehicle styling tweaks */
 const VEHICLE_IMAGE_STYLES: Record<string, string> = {
   "storm-ev-lr200": "object-[50%_22%]",
-  "hiload-ev": "scale-[0.82] origin-center",
+  "hiload-ev": "scale-[0.82] -translate-x-6 sm:-translate-x-12 origin-center",
 };
 
 export type VehicleCard = {
