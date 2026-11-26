@@ -165,7 +165,7 @@ export default function TechKnowVehicle({ data }: TechKnowVehicleProps) {
   return (
     <section className="relative overflow-clip bg-[#041231]" aria-label={title || "Know your vehicle better"}>
       {/* Mobile view */}
-      <div className="relative mx-auto h-[743px] w-full max-w-[480px] overflow-clip md:hidden">
+      <div className="relative mx-auto h-[792px] w-full max-w-[480px] overflow-clip md:hidden">
         <div className="absolute left-[19.49px] right-[20.51px] top-[42.06px] flex flex-col items-start gap-[14px]">
           {eyebrow && <Eyebrow label={eyebrow} dark />}
           {title && (

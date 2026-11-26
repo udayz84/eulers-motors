@@ -101,6 +101,18 @@ export default function ChargingStationFaq({
   const [openQuestion, setOpenQuestion] = useState<number | null>(1);
   const listRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  // Mobile-only pagination: 6 at a time with a Load More button (desktop/tablet
+  // keep the fixed-height scrollable list with the custom scrollbar)
+  const [isMobile, setIsMobile] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   // Custom scrollbar states
   const [thumbHeight, setThumbHeight] = useState(80);
@@ -159,6 +171,11 @@ export default function ChargingStationFaq({
     });
   }, [allItems, selectedCategory]);
 
+  const shownQuestions = useMemo(
+    () => (isMobile ? visibleQuestions.slice(0, visibleCount) : visibleQuestions),
+    [isMobile, visibleQuestions, visibleCount]
+  );
+
   const updateScrollbar = useCallback(() => {
     const list = listRef.current;
     const track = trackRef.current;
@@ -213,6 +230,7 @@ export default function ChargingStationFaq({
   function selectCategory(category: string) {
     setSelectedCategory(category);
     setOpenQuestion(null);
+    setVisibleCount(6);
     if (listRef.current) {
       listRef.current.scrollTop = 0;
     }
@@ -334,14 +352,18 @@ export default function ChargingStationFaq({
 
         {/* Right Column: FAQ List & Custom Responsive Scrollbar */}
         <div className="flex flex-1 min-w-0 w-full self-stretch items-stretch gap-2.5 sm:gap-3.5 lg:max-w-[652px]">
-          {/* Scrollable FAQ List */}
+          {/* Scrollable FAQ List (desktop/tablet) — Load More flow (mobile) */}
           <div
             ref={listRef}
             onScroll={updateScrollbar}
-            className="no-scrollbar flex h-[440px] sm:h-[500px] lg:h-[578px] min-h-0 flex-1 flex-col gap-3 sm:gap-4 overflow-y-auto"
+            className={`no-scrollbar flex min-h-0 flex-1 flex-col gap-3 sm:gap-4 ${
+              isMobile
+                ? "h-auto overflow-visible"
+                : "h-[440px] overflow-y-auto sm:h-[500px] lg:h-[578px]"
+            }`}
             aria-label="Frequently asked questions"
           >
-            {visibleQuestions.map((faq, index) => {
+            {shownQuestions.map((faq, index) => {
               const expanded = openQuestion === index;
               const icon = expanded ? "icon-minus.svg" : "icon-plus.svg";
 
@@ -400,10 +422,22 @@ export default function ChargingStationFaq({
                 No questions found in this category.
               </p>
             )}
+            {isMobile && visibleQuestions.length > shownQuestions.length && (
+              <button
+                type="button"
+                onClick={() => setVisibleCount((c) => c + 6)}
+                className="mx-auto mt-2 flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#0e2f6d]/30 bg-white px-6 font-sans text-[14px] font-semibold text-[#0e2f6d] transition-colors hover:bg-[#ebf2fe]"
+              >
+                Load More
+                <span className="text-[12px] font-normal text-[#0e2f6d]/60">
+                  ({visibleQuestions.length - shownQuestions.length} more)
+                </span>
+              </button>
+            )}
           </div>
 
-          {/* Custom Interactive Scrollbar Track & Chevrons */}
-          <div className="hidden w-3.5 sm:flex sm:w-4 shrink-0 flex-col items-center py-1 select-none">
+          {/* Custom Interactive Scrollbar Track & Chevrons (desktop/tablet ≥768px) */}
+          <div className="hidden w-3.5 md:flex md:w-4 shrink-0 flex-col items-center py-1 select-none">
             {/* Scroll Up Button */}
             <button
               type="button"

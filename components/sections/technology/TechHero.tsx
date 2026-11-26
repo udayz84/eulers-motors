@@ -94,18 +94,22 @@ export default function TechHero({ data, showPhilosophy = true }: TechHeroProps)
             <div className="relative flex w-full flex-col gap-[10px] overflow-clip rounded-[7px] bg-[rgba(255,255,255,0.04)] px-[11px] pb-[13px] pt-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-[4px]">
               <div className="absolute bottom-0 left-0 h-1 w-full bg-white opacity-[0.12]" />
               <div className="absolute bottom-0 left-0 h-1 w-1/2 bg-white" />
-              <div className="flex items-center justify-center gap-[10px] text-white">
+              <div className="flex items-center justify-center gap-[12px] text-white">
                 {uptimeValue && (
                   <p className="shrink-0 font-display font-semibold leading-[1.15] tracking-[-0.84px]">
                     <span className="text-[36px]">{uptimeValue}</span>
-                    {uptimeUnit && <span className="text-[24px]">{uptimeUnit}</span>}
                   </p>
                 )}
-                {uptimeDescription && (
-                  <p className="min-w-px flex-1 font-display leading-[1.15] tracking-[-0.28px] text-[14px]">
-                    {uptimeDescription}
-                  </p>
-                )}
+                <div className="min-w-0 flex-1">
+                  {uptimeUnit && (
+                    <p className="font-display text-[14px] font-semibold leading-[1.2] text-white">{uptimeUnit}</p>
+                  )}
+                  {uptimeDescription && (
+                    <p className="min-w-0 font-display text-[12px] leading-[1.35] tracking-[-0.28px] text-white/85">
+                      {uptimeDescription}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>

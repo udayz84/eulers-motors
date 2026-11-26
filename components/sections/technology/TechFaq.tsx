@@ -50,15 +50,24 @@ export default function TechFaq({ data }: TechFaqProps) {
   const [open, setOpen] = useState<number | null>(0);
   const desktopListRef = useRef<HTMLDivElement>(null);
   const [desktopThumbTop, setDesktopThumbTop] = useState(0);
+  // Mobile-only pagination: 6 at a time with a Load More button (desktop
+  // keeps its full scrollable list)
+  const [mobileVisibleCount, setMobileVisibleCount] = useState(6);
 
   const visible = useMemo(() => {
     if (!selected || (allLabel && selected === allLabel)) return items;
     return items.filter((item) => parseCategories(item.category).includes(selected));
   }, [items, selected, allLabel]);
 
+  const mobileVisible = useMemo(
+    () => visible.slice(0, mobileVisibleCount),
+    [visible, mobileVisibleCount]
+  );
+
   function selectCategory(label: string) {
     setSelected(label);
     setOpen(0);
+    setMobileVisibleCount(6);
   }
 
   return (
@@ -137,7 +146,7 @@ export default function TechFaq({ data }: TechFaqProps) {
 
         {/* FAQ list */}
         <div className="flex w-full flex-col gap-[10px]">
-          {visible.map((faq, index) => {
+          {mobileVisible.map((faq, index) => {
             const expanded = open === index;
             return (
               <article
@@ -180,6 +189,18 @@ export default function TechFaq({ data }: TechFaqProps) {
               </article>
             );
           })}
+          {visible.length > mobileVisibleCount && (
+            <button
+              type="button"
+              onClick={() => setMobileVisibleCount((c) => c + 6)}
+              className="mx-auto mt-2 flex h-10 items-center justify-center gap-2 rounded-full border border-[#0e2f6d]/30 bg-white px-6 font-sans text-[14px] font-semibold text-[#0e2f6d] transition-colors hover:bg-[#ebf2fe]"
+            >
+              Load More
+              <span className="text-[12px] font-normal text-[#0e2f6d]/60">
+                ({visible.length - mobileVisibleCount} more)
+              </span>
+            </button>
+          )}
         </div>
       </div>
 
