@@ -8,18 +8,6 @@ const ASSETS = "/assets/neo/footer/";
 
 const FOOTER_COLUMNS = [
   {
-    title: "Neo by Euler VEHICLES",
-    links: ["HiRange", "HiCity"],
-    nodeId: "4064:14581",
-    mobileNodeId: "4064:16451",
-  },
-  {
-    title: "Euler MOTOR VEHICLES",
-    links: ["Storm EV LongRange 200", "Storm EV T1500", "HiLoad EV", "Turbo EV 1000"],
-    nodeId: "4064:14586",
-    mobileNodeId: "4064:16460",
-  },
-  {
     title: "Support",
     links: ["Dealer Locator", "Service Centres", "Charging Stations Locator", "Downloads"],
     nodeId: "4064:14593",
@@ -36,6 +24,8 @@ const FOOTER_COLUMNS = [
 ] as const;
 
 const FOOTER_HREFS: Record<string, string> = {
+  "Euler Motors": "/",
+  "NEO by Euler": "/neo",
   HiRange: "/products/neo-hirange",
   HiCity: "/products/neo-hicity",
   "Storm EV LongRange 200": "/lr200",
@@ -45,6 +35,7 @@ const FOOTER_HREFS: Record<string, string> = {
   "Dealer Locator": "/dealer-locator",
   "Service Centres": "/service-centers",
   "Charging Stations Locator": "/charging-stations",
+  Downloads: "/products",
   Blogs: "/insights",
   "In press": "/in-press",
   "About us": "/about",
@@ -52,6 +43,7 @@ const FOOTER_HREFS: Record<string, string> = {
   Sitemap: "/sitemap.xml",
   "Privacy policy": "/privacy-policy",
   "Terms and conditions": "/terms-conditions",
+  "Cookie policy": "/terms-conditions",
   "Refund policy": "/refund-policy",
 };
 
@@ -342,6 +334,17 @@ export function NeoFooterDesktop() {
           className="flex w-full items-start justify-between gap-5 text-white"
           data-node-id="4064:14580"
         >
+          <div
+            className="flex flex-col items-start gap-[24px] font-sans text-[16px] font-bold leading-[1.15] tracking-[-0.32px] whitespace-nowrap text-white shrink-0"
+            data-node-id="4064:14581"
+          >
+            <Link href="/" className="hover:underline" data-node-id="4736:15758">
+              Euler Motors
+            </Link>
+            <Link href="/neo" className="hover:underline" data-node-id="4064:14582">
+              NEO by Euler
+            </Link>
+          </div>
           {FOOTER_COLUMNS.map((column) => (
             <DesktopLinkColumn key={column.title} column={column} />
           ))}
@@ -383,6 +386,20 @@ export function NeoFooterMobile() {
         </div>
         <div className="flex w-full flex-col gap-[20px]" data-node-id="4064:16449">
           <div className="flex w-full flex-col gap-[12px] min-[640px]:max-[1023px]:grid min-[640px]:max-[1023px]:grid-cols-2 min-[640px]:max-[1023px]:gap-4" data-node-id="4064:16450">
+            <Link
+              href="/"
+              className="flex w-full items-center justify-between rounded-[8px] bg-[#222] py-[12px] pl-[12px] pr-[20px] font-sans text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white transition-colors hover:bg-[#2a2a2a]"
+              data-node-id="4736:15758"
+            >
+              <span>Euler Motors</span>
+            </Link>
+            <Link
+              href="/neo"
+              className="flex w-full items-center justify-between rounded-[8px] bg-[#222] py-[12px] pl-[12px] pr-[20px] font-sans text-[14px] font-medium leading-[1.15] tracking-[-0.28px] text-white transition-colors hover:bg-[#2a2a2a]"
+              data-node-id="4064:14582"
+            >
+              <span>NEO by Euler</span>
+            </Link>
             {FOOTER_COLUMNS.map((column) => (
               <MobileAccordion
                 key={column.title}
@@ -404,5 +421,18 @@ export function NeoFooterMobile() {
         <CraftedBy mobile />
       </div>
     </footer>
+  );
+}
+
+export default function NeoFooter() {
+  return (
+    <>
+      <div className="lg:hidden">
+        <NeoFooterMobile />
+      </div>
+      <div className="hidden lg:block">
+        <NeoFooterDesktop />
+      </div>
+    </>
   );
 }

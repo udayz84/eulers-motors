@@ -11,7 +11,7 @@ import NeoRoadStories from "@/components/sections/NeoRoadStories";
 import NeoMainImageMobile from "@/components/sections/NeoMainImageMobile";
 import EulerPrimeBannerMobile from "@/components/sections/EulerPrimeBannerMobile";
 import InsightsSection from "@/components/sections/NeoInsights";
-import NeoHeaderMobile from "@/components/sections/NeoHeaderMobile";
+import { NeoNavbarMobile as NeoHeaderMobile } from "@/components/sections/NeoNavbar";
 import { useDraggableScroll } from "@/lib/hooks/useDraggableScroll";
 
 const A = "/assets/neo/figma/";

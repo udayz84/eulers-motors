@@ -8,6 +8,7 @@ import Arrow from "./ui/Arrow";
 import Button from "./ui/Button";
 import type { StrapiNavbarData } from "@/types/strapi";
 import { mediaUrl, VERIFY_CMS } from "@/lib/strapi/client";
+import NeoNavbar from "@/components/sections/NeoNavbar";
 
 /**
  * Dropdown content — Figma "Component 20" Company-open state (panel 1:2826)
@@ -361,6 +362,10 @@ export default function Navbar({ data }: { data?: StrapiNavbarData }) {
   const ctaHref = data?.ctaHref || "#book-test-drive";
   const searchPlaceholder = data?.searchPlaceholder || "Search here...";
   const pathname = usePathname();
+  if (pathname?.startsWith("/neo")) {
+    return <NeoNavbar />;
+  }
+
   const isHome = pathname === "/" || pathname === "/about";
   const [bannerOpen, setBannerOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);

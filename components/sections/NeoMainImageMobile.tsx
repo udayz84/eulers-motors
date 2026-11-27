@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const A = "/assets/neo/main-image/";
 
@@ -51,7 +51,23 @@ function Arrow() {
 export default function NeoMainImageMobile() {
   const [proofVisible, setProofVisible] = useState(true);
   const [vehicle, setVehicle] = useState<Vehicle>("HiRANGE");
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const detail = VEHICLES[vehicle];
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setModelDropdownOpen(false);
+      }
+    }
+    if (modelDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modelDropdownOpen]);
 
   return (
     <section
@@ -160,12 +176,65 @@ export default function NeoMainImageMobile() {
             <span className="font-sans text-[12px] leading-normal">OUR VEHICLES</span>
           </div>
           <h2 className="whitespace-nowrap font-display text-[28px] font-semibold leading-[1.15] tracking-[-.56px] min-[640px]:max-[1023px]:text-[36px]">Meet the Neo family.</h2>
-          <div role="tablist" aria-label="Neo model" className="flex h-[42px] items-center rounded-[4px] bg-black/[.12] p-1">
-            {(["HiRANGE", "HiCITY"] as const).map((key) => (
-              <button key={key} type="button" role="tab" aria-selected={vehicle === key} onClick={() => setVehicle(key)} className={`flex h-9 items-center justify-center rounded-[2px] px-5 font-display text-[12px] font-semibold leading-none ${vehicle === key ? "bg-white text-[#121212]" : "text-white"}`}>
-                Neo {key}
-              </button>
-            ))}
+          {/* model switcher dropdown pill matching Figma 4705:9498 */}
+          <div ref={dropdownRef} className="relative z-30" data-node-id="4705:9498">
+            <button
+              type="button"
+              onClick={() => setModelDropdownOpen((prev) => !prev)}
+              className="bg-white flex items-center justify-between pl-[6px] pr-[16px] py-[6px] rounded-[12px] w-[200px] shadow-lg cursor-pointer transition-transform active:scale-95 text-[#121212]"
+            >
+              <div className="flex items-center gap-[8px]" data-node-id="4705:9499">
+                <div className="bg-[#f3f4f5] rounded-[6.146px] size-[36px] overflow-hidden flex items-center justify-center shrink-0" data-node-id="4705:9500">
+                  <Image
+                    src={vehicle === "HiRANGE" ? `${A}pill-thumb-hirange.png` : `${A}pill-thumb-hicity.png`}
+                    alt=""
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </div>
+                <span className="font-display font-semibold text-[13px] text-[#121212] tracking-[-0.26px] whitespace-nowrap" data-node-id="4736:15737">
+                  {vehicle === "HiRANGE" ? "Neo HiRANGE" : "Neo HiCITY"}
+                </span>
+              </div>
+              <div className={`transition-transform duration-200 ${modelDropdownOpen ? "rotate-180" : ""}`} data-node-id="4705:9509">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="6" viewBox="0 0 11 6" fill="none" aria-hidden="true" className="block h-[4px] w-[9.333px]">
+                  <path d="M0.75 0.75L4.63572 4.08061C5.0851 4.4658 5.74823 4.4658 6.19762 4.08061L10.0833 0.749999" strokeWidth="1.5" strokeLinecap="round" stroke="#121212" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Dropdown menu */}
+            {modelDropdownOpen && (
+              <div className="absolute top-[calc(100%+6px)] left-0 w-[200px] bg-white rounded-[12px] p-1.5 shadow-2xl border border-black/10 flex flex-col gap-1 z-40">
+                {(["HiRANGE", "HiCITY"] as Vehicle[]).map((vKey) => (
+                  <button
+                    key={vKey}
+                    type="button"
+                    onClick={() => {
+                      setVehicle(vKey);
+                      setModelDropdownOpen(false);
+                    }}
+                    className={`flex items-center gap-2 w-full p-2 rounded-[8px] text-left transition-colors cursor-pointer ${
+                      vehicle === vKey ? "bg-black/5 font-semibold text-[#121212]" : "text-[#555] hover:bg-black/[0.03]"
+                    }`}
+                  >
+                    <div className="bg-[#f3f4f5] size-[28px] rounded-[5px] shrink-0 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={vKey === "HiRANGE" ? `${A}pill-thumb-hirange.png` : `${A}pill-thumb-hicity.png`}
+                        alt=""
+                        width={22}
+                        height={22}
+                        className="object-contain"
+                      />
+                    </div>
+                    <span className="font-display text-[13px] text-[#121212]">
+                      {vKey === "HiRANGE" ? "Neo HiRANGE" : "Neo HiCITY"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { StrapiFooterData } from "@/types/strapi";
 import { VERIFY_CMS } from "@/lib/strapi/client";
+import NeoFooter from "@/components/sections/NeoFooter";
 
 type FooterColumn = {
   title: string;
@@ -167,6 +169,11 @@ function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null 
  * Footer (desktop 1:2174 · mobile 1:5128 with accordion link columns).
  */
 export default function Footer({ data }: { data?: StrapiFooterData }) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/neo")) {
+    return <NeoFooter />;
+  }
+
   // CMS-driven chrome with hardcoded fallbacks (careers page pattern)
   const columns = VERIFY_CMS
     ? data?.columns?.map((c) => ({ ...c, links: c.links ?? [] })) ?? []

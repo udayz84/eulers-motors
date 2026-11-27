@@ -96,18 +96,24 @@ function SceneWindow({ blur }: { blur: number }) {
 function AboutEyebrow({ size }: { size: "desktop" | "mobile" }) {
   const desktop = size === "desktop";
   return (
-    <div className={`flex items-center ${desktop ? "gap-[12px]" : "gap-[6px]"}`}>
-      <img
-        alt=""
-        className="block size-[14px]"
-        height={14}
-        src={LOGO}
-        width={14}
-      />
+    <div
+      className={`flex items-center ${desktop ? "gap-[12px]" : "gap-[6px]"}`}
+      data-node-id={desktop ? "4064:14316" : "4064:16243"}
+    >
+      <div className="relative shrink-0 size-[14px]" data-node-id={desktop ? "4304:8716" : undefined}>
+        <img
+          alt=""
+          className="block size-[14px]"
+          height={14}
+          src={LOGO}
+          width={14}
+        />
+      </div>
       <p
-        className={`font-sans leading-[normal] text-[#121212] ${
+        className={`font-sans leading-[normal] uppercase whitespace-nowrap text-[#121212] ${
           desktop ? "text-[16px]" : "text-[12px]"
         }`}
+        data-node-id={desktop ? "4064:14319" : "4064:16246"}
       >
         ABOUT NEO
       </p>
@@ -127,11 +133,13 @@ function AboutButton({ size }: { size: "desktop" | "mobile" }) {
       href="/about"
       style={{ backgroundImage: desktop ? CTA_GRADIENT.desktop : CTA_GRADIENT.mobile }}
       data-node-id={desktop ? "4064:14322" : "4064:16249"}
+      data-name="Right Button Container"
     >
       <span
         className={`font-display font-semibold leading-none text-white whitespace-nowrap ${
           desktop ? "text-[16px]" : "text-[12px]"
         }`}
+        data-node-id={desktop ? "4064:14323" : "4064:16250"}
       >
         About Neo
       </span>
@@ -141,13 +149,16 @@ function AboutButton({ size }: { size: "desktop" | "mobile" }) {
             ? "size-[38px] rounded-[2px]"
             : "size-[32px] rounded-[1.684px]"
         }`}
+        data-node-id={desktop ? "4064:14324" : undefined}
       >
         <span
           className={`relative block shrink-0 ${
             desktop ? "h-[14px] w-[22px]" : "h-[11.789px] w-[18.526px]"
           }`}
+          data-node-id={desktop ? "4064:14325" : undefined}
+          data-name="Arrow Container"
         >
-          <span className="absolute inset-[-16.4%_-1.68%_-22.89%_-3.41%]">
+          <span className="absolute inset-[-16.41%_-1.68%_-22.88%_-3.41%]">
             <img alt="" className="block size-full max-w-none" src={ARROW} />
           </span>
         </span>
@@ -158,41 +169,43 @@ function AboutButton({ size }: { size: "desktop" | "mobile" }) {
 
 export function NeoAbout() {
   return (
-    <section aria-label="About Neo" className="w-full bg-white">
+    <section aria-label="About Neo" className="w-full bg-white overflow-hidden">
       <ResponsiveFigmaCanvas>
-      <div
-        className="relative mx-auto h-[600px] w-full max-w-[1440px] overflow-hidden bg-white"
-        data-node-id="4064:14314"
-        data-name="Background Image"
-      >
-        <div className="pointer-events-none absolute inset-x-0 top-[-100px] h-[720px] w-full">
-          <SceneWindow blur={31.8} />
-        </div>
-
         <div
-          className="absolute left-[80px] top-[62px] z-10 flex w-[636px] flex-col gap-[14px]"
-          data-node-id="4064:14315"
+          className="relative h-[550px] w-[1440px] bg-white overflow-hidden"
+          data-node-id="4064:14314"
+          data-name="Background Image"
         >
-          <AboutEyebrow size="desktop" />
-          <h2
-            className="font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-[#121212]"
-            data-node-id="4064:14320"
+          <div
+            className="pointer-events-none absolute bottom-0 left-0 h-[720px] w-[1440px] overflow-hidden"
+            data-node-id="4064:14332"
+            data-name="Background Image"
           >
-            Built around
-            <br />
-            real drives.
-          </h2>
-          <p
-            className="w-[368.4px] font-sans text-[16px] leading-[normal] text-[#121212]"
-            data-node-id="4064:14321"
+            <SceneWindow blur={31.8} />
+          </div>
+
+          <div
+            className="absolute left-[80px] top-[82px] z-10 flex w-[636px] flex-col gap-[14px] items-start"
+            data-node-id="4064:14315"
+            data-name="Container"
           >
-            Neo is Euler Motors&apos; EV brand for drivers on the road. Each vehicle is designed for their routes
-            <br />
-            and work to help them earn more.
-          </p>
-          <AboutButton size="desktop" />
+            <AboutEyebrow size="desktop" />
+            <div
+              className="w-[552.26px] font-display text-[42px] font-semibold leading-[1.15] tracking-[-0.84px] text-[#121212]"
+              data-node-id="4064:14320"
+            >
+              <p className="leading-[1.15] mb-0">Built around</p>
+              <p className="leading-[1.15]">real drives.</p>
+            </div>
+            <p
+              className="w-[338px] font-sans text-[16px] font-normal leading-[normal] text-[#121212]"
+              data-node-id="4064:14321"
+            >
+              {DESCRIPTION}
+            </p>
+            <AboutButton size="desktop" />
+          </div>
         </div>
-      </div>
       </ResponsiveFigmaCanvas>
     </section>
   );

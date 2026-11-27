@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ResponsiveFigmaCanvas from "@/components/sections/ResponsiveFigmaCanvas";
 
 /**
@@ -170,7 +170,23 @@ function SpecRow({
 export default function NeoMainImage() {
   const [proofVisible, setProofVisible] = useState(true);
   const [vehicle, setVehicle] = useState<VehicleKey>("HiRANGE");
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const data = VEHICLES[vehicle];
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setModelDropdownOpen(false);
+      }
+    }
+    if (modelDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modelDropdownOpen]);
 
   return (
     <section aria-label="Neo by Euler — more trips, less kharcha" className="w-full bg-white">
@@ -178,35 +194,28 @@ export default function NeoMainImage() {
       {/* First Fold: Hero (fits in first fold & auto-adjusts on laptops)   */}
       {/* ------------------------------------------------------------------ */}
       <div className="relative h-[100dvh] min-h-[580px] max-h-[960px] w-full overflow-hidden bg-black text-white">
-        {/* Background plate + scrim */}
+        {/* Background plate + scrim matching Figma 4064:13640 */}
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 overflow-hidden">
             <img
               alt=""
-              className="absolute inset-0 h-full w-full object-cover object-[center_55%] min-[1400px]:object-[center_50%]"
-              src={`${A}main-bg-1.png`}
-            />
-          </div>
-          <div className="absolute inset-0 overflow-hidden">
-            <img
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover object-[center_55%] min-[1400px]:object-[center_50%]"
-              src={`${A}main-bg-2.png`}
+              className="absolute inset-0 h-full w-full object-cover object-[center_top]"
+              src={`${A}hero-bg-figma.png`}
             />
           </div>
           <div
             className="absolute inset-0"
             style={{
               backgroundImage:
-                "linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.45) 100%)",
+                "linear-gradient(180deg, rgba(0, 0, 0, 0) 36.212%, rgba(0, 0, 0, 0.2) 52%, rgba(0, 0, 0, 0.65) 75%, rgba(0, 0, 0, 0.9) 100%)",
             }}
           />
         </div>
 
-        {/* "Built after talking to" proof card */}
+        {/* "Built after talking to" proof card matching Figma 4064:13814 */}
         {proofVisible && (
           <div
-            className="absolute backdrop-blur-[38.85px] bg-[rgba(0,0,0,0.42)] top-[165px] min-[1400px]:top-[185px] right-[max(calc((100vw-1440px)/2+80px),32px)] z-10 flex flex-col gap-[12px] items-start pb-[4px] pt-[12px] px-[4px] rounded-[8px]"
+            className="absolute backdrop-blur-[38.85px] bg-[rgba(0,0,0,0.42)] top-[240px] min-[1400px]:top-[300px] right-[max(calc((100vw-1440px)/2+80px),32px)] z-10 flex flex-col gap-[12px] items-start pb-[4px] pt-[12px] px-[4px] rounded-[8px]"
             data-node-id="4064:13814"
           >
             <div className="flex items-center justify-center px-[12px] relative shrink-0 w-full">
@@ -429,28 +438,63 @@ export default function NeoMainImage() {
                 </p>
               </div>
 
-              {/* model switcher */}
-              <div className="absolute z-10 bg-[rgba(0,0,0,0.12)] bottom-[616px] content-stretch flex items-center justify-center right-[101px] p-[4px] rounded-tl-[8px] rounded-tr-[8px]">
+              {/* model switcher dropdown pill matching Figma 4705:9498 */}
+              <div ref={dropdownRef} className="absolute z-20 top-[90px] right-[60px]" data-node-id="4705:9498">
                 <button
                   type="button"
-                  onClick={() => setVehicle("HiRANGE")}
-                  className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${vehicle === "HiRANGE" ? "bg-white" : ""
-                    }`}
+                  onClick={() => setModelDropdownOpen((prev) => !prev)}
+                  className="bg-white content-stretch flex items-center justify-between pl-[6px] pr-[16px] py-[6px] rounded-[12px] w-[223px] shadow-lg cursor-pointer transition-transform active:scale-95"
                 >
-                  <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiRANGE" ? "text-[#121212]" : "text-white"}`}>
-                    Neo HiRANGE
-                  </p>
+                  <div className="content-stretch flex gap-[8px] items-center relative shrink-0" data-node-id="4705:9499">
+                    <div className="bg-[#f3f4f5] relative rounded-[6.146px] shrink-0 size-[42px] overflow-hidden flex items-center justify-center" data-node-id="4705:9500">
+                      <img
+                        alt=""
+                        className="h-[32px] w-[32px] object-contain"
+                        src={vehicle === "HiRANGE" ? `${A}pill-thumb-hirange.png` : `${A}pill-thumb-hicity.png`}
+                      />
+                    </div>
+                    <p className="font-display font-semibold leading-[1.15] not-italic relative shrink-0 text-[#121212] text-[14px] text-center tracking-[-0.28px] whitespace-nowrap" data-node-id="4736:15737">
+                      {vehicle === "HiRANGE" ? "Neo HiRANGE" : "Neo HiCITY"}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center relative shrink-0">
+                    <div className={`flex-none transition-transform duration-200 ${modelDropdownOpen ? "rotate-180" : ""}`}>
+                      <div className="h-[6px] relative w-[14px]">
+                        <img alt="" className="block max-w-none size-full" src={`${A}chevron.svg`} />
+                      </div>
+                    </div>
+                  </div>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setVehicle("HiCITY")}
-                  className={`backdrop-blur-[26px] content-stretch flex h-[42px] items-center justify-center px-[20px] relative rounded-[4px] shrink-0 cursor-pointer ${vehicle === "HiCITY" ? "bg-white" : ""
-                    }`}
-                >
-                  <p className={`[word-break:break-word] font-display font-semibold leading-none not-italic relative shrink-0 text-[16px] whitespace-nowrap ${vehicle === "HiCITY" ? "text-[#121212]" : "text-white"}`}>
-                    Neo HiCITY
-                  </p>
-                </button>
+
+                {/* Dropdown menu */}
+                {modelDropdownOpen && (
+                  <div className="absolute top-[calc(100%+8px)] right-0 w-[223px] bg-white rounded-[12px] p-2 shadow-2xl border border-black/10 flex flex-col gap-1 z-30">
+                    {(["HiRANGE", "HiCITY"] as VehicleKey[]).map((vKey) => (
+                      <button
+                        key={vKey}
+                        type="button"
+                        onClick={() => {
+                          setVehicle(vKey);
+                          setModelDropdownOpen(false);
+                        }}
+                        className={`flex items-center gap-[10px] w-full p-2 rounded-[8px] text-left transition-colors cursor-pointer ${
+                          vehicle === vKey ? "bg-black/5 font-semibold text-[#121212]" : "text-[#555] hover:bg-black/[0.03]"
+                        }`}
+                      >
+                        <div className="bg-[#f3f4f5] size-[32px] rounded-[6px] shrink-0 flex items-center justify-center overflow-hidden">
+                          <img
+                            alt=""
+                            className="h-[24px] w-[24px] object-contain"
+                            src={vKey === "HiRANGE" ? `${A}pill-thumb-hirange.png` : `${A}pill-thumb-hicity.png`}
+                          />
+                        </div>
+                        <span className="font-display text-[14px]">
+                          {vKey === "HiRANGE" ? "Neo HiRANGE" : "Neo HiCITY"}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* CTA row */}

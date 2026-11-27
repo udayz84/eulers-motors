@@ -20,11 +20,14 @@ export default function ResponsiveFigmaCanvas({
       if (!canvas) return;
 
       const availableWidth = document.documentElement.clientWidth;
-      const shouldScale = availableWidth > FIGMA_WIDTH;
-      canvas.style.width = shouldScale ? `${FIGMA_WIDTH}px` : "100%";
-      canvas.style.zoom = shouldScale
-        ? String(availableWidth / FIGMA_WIDTH)
-        : "1";
+      // On desktop (>=1024px), scale proportionally so the 1440px composition
+      // never squishes or misaligns on any viewport width (1280px, 1440px, 1920px+).
+      // Note: 768-1279px on tablet has documentElement zoom in app/layout.tsx
+      // where clientWidth already reflects 1440px.
+      const shouldScale = availableWidth >= 1024;
+      const scale = shouldScale ? availableWidth / FIGMA_WIDTH : 1;
+      canvas.style.width = `${FIGMA_WIDTH}px`;
+      canvas.style.zoom = scale !== 1 ? String(scale) : "1";
     };
 
     updateCanvasScale();

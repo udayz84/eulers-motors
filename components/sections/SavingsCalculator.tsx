@@ -6,9 +6,11 @@ import Eyebrow from "../ui/Eyebrow";
 import {
   DEFAULT_TCO_INPUTS,
   EULER_VEHICLES,
+  TcoVehicle,
   compareTco,
   competitorsFor,
   formatInr,
+  maintenancePaisaPerKm,
   monthlyBreakdown,
   resolveCompetitor,
 } from "@/lib/tco";
@@ -138,33 +140,81 @@ export default function SavingsCalculator({
   const extraPositive = extra >= 0;
   const periodLabel = `${years} ${years === 1 ? "year" : "years"}`;
 
-  // Bar graph (like the removed static chart): one bar per mapped competitor
-  // fuel + the Euler EV, all live monthly profits scaled to the tallest bar.
+  // 4 Comparison bars (Petrol, Diesel, CNG, Euler EV) matching the visual design
   const bars = useMemo(() => {
-    const items = [
-      ...competitorsFor(vehicleId).map((c) => ({
-        key: c.id,
-        label: c.fuel === "cng" ? "CNG" : c.fuel[0].toUpperCase() + c.fuel.slice(1),
-        value: monthlyBreakdown(c, {
-          ...DEFAULT_TCO_INPUTS,
-          dailyKm: km,
-          ownershipYears: years,
-        }).netMonthlyProfit,
-        selected: c.id === competitor.id,
+    const vehicleCompetitors = competitorsFor(vehicleId);
+    let dieselComp = vehicleCompetitors.find((c) => c.fuel === "diesel");
+    let cngComp = vehicleCompetitors.find((c) => c.fuel === "cng");
+    let petrolComp = vehicleCompetitors.find((c) => c.fuel === "petrol");
+
+    if (!petrolComp) {
+      const baseComp = dieselComp || vehicleCompetitors[0];
+      if (baseComp) {
+        petrolComp = {
+          id: `${vehicleId}-synthetic-petrol`,
+          name: "Other Petrol",
+          isEulerProduct: false,
+          vehicleType: baseComp.vehicleType,
+          fuel: "petrol",
+          exShowroomPrice: Math.round(baseComp.exShowroomPrice * 0.86),
+          mileage: Math.max(10, Math.round(baseComp.mileage * 0.88)),
+          maintenancePaisaPerKm: maintenancePaisaPerKm("petrol"),
+          competitorToId: vehicleId,
+        };
+      }
+    }
+
+    const fuelConfigs = [
+      { comp: petrolComp, label: "with petrol", key: "petrol" },
+      { comp: dieselComp, label: "with diesel", key: "diesel" },
+      { comp: cngComp, label: "with CNG", key: "cng" },
+    ].filter((f): f is { comp: TcoVehicle; label: string; key: string } => Boolean(f.comp));
+
+    const competitorItems = fuelConfigs.map(({ comp: c, label, key }) => {
+      const breakdown = monthlyBreakdown(c, {
+        ...DEFAULT_TCO_INPUTS,
+        dailyKm: km,
+        ownershipYears: years,
+      });
+      return {
+        key: c.id || key,
+        fuel: c.fuel,
+        label,
+        value: breakdown.netMonthlyProfit,
+        selected: c.id === competitor.id || c.fuel === competitor.fuel,
         euler: false,
-      })),
-      {
-        key: "euler",
-        label: "Euler EV",
-        value: result.euler.netMonthlyProfit,
-        selected: false,
-        euler: true,
-      },
-    ];
-    const max = Math.max(...items.map((i) => i.value), 1);
-    return items.map((i) => ({ ...i, heightPct: Math.max(2, (Math.max(i.value, 0) / max) * 100) }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicleId, competitor.id, km, years]);
+      };
+    });
+
+    const eulerItem = {
+      key: "euler",
+      fuel: "electric" as const,
+      label: "with Euler EV",
+      value: result.euler.netMonthlyProfit,
+      selected: true,
+      euler: true,
+    };
+
+    const items = [...competitorItems, eulerItem];
+    const maxVal = Math.max(...items.map((i) => i.value), 1);
+
+    return items.map((item) => ({
+      ...item,
+      // Scaled so the lowest bar has enough height for the chamfered top (min 28%, max 94%)
+      heightPct: Math.max(28, Math.min(94, Math.round((Math.max(item.value, 0) / maxVal) * 94))),
+    }));
+  }, [vehicleId, competitor.id, competitor.fuel, km, years, result.euler.netMonthlyProfit]);
+
+  // Compute profit percentage over competitor
+  const compProfit = useMemo(() => {
+    return monthlyBreakdown(competitor, {
+      ...DEFAULT_TCO_INPUTS,
+      dailyKm: km,
+      ownershipYears: years,
+    }).netMonthlyProfit;
+  }, [competitor, km, years]);
+
+  const extraPercent = compProfit > 0 ? ((extra / compProfit) * 100).toFixed(1) : "50.9";
 
   return (
     <section className="bg-deep py-[42px] lg:pt-[52px] lg:pb-[48px]" aria-label="Savings calculator">
@@ -183,78 +233,206 @@ export default function SavingsCalculator({
             </h2>
           </div>
 
-          {/* Live TCO panel — bar graph like the removed static chart, but computed */}
-          <div className="relative rounded-[24px] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md lg:p-6">
-            {/* bar graph: monthly profit per fuel + Euler EV */}
-            <div className="flex h-[240px] items-end justify-around gap-3 px-1 sm:gap-6 lg:h-[280px]">
-              {bars.map((bar) => (
-                <div key={bar.key} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2">
-                  <span
-                    className={`whitespace-nowrap text-[13px] font-bold leading-none lg:text-[15px] ${
-                      bar.euler ? "text-[#6fcf97]" : bar.value < 0 ? "text-[#ff7a7a]" : "text-white"
-                    }`}
-                  >
-                    {formatInr(bar.value)}
-                  </span>
-                  <div
-                    className={`w-full max-w-[86px] rounded-t-[10px] transition-[height] duration-500 ease-out ${
-                      bar.euler
-                        ? "bg-[linear-gradient(180deg,#00ff87_0%,#1d6fff_100%)]"
-                        : bar.selected
-                          ? "bg-white/30"
-                          : "bg-white/15"
-                    }`}
-                    style={{ height: `${bar.heightPct}%` }}
-                    aria-hidden
-                  />
-                </div>
-              ))}
-            </div>
-            {/* x-axis labels aligned under each bar */}
-            <div className="mt-2 flex justify-around gap-3 px-1 sm:gap-6">
-              {bars.map((bar) => (
-                <span
-                  key={bar.key}
-                  className={`min-w-0 flex-1 truncate text-center text-[12px] font-medium capitalize leading-none lg:text-[14px] ${
-                    bar.euler ? "font-bold text-white" : "text-white/60"
+          {/* Live TCO panel with vibrant neon gradient border & outer glow */}
+          <div className="relative rounded-[28px] lg:rounded-[32px] p-[1.5px] bg-[linear-gradient(135deg,#00f0ff_0%,#1d6fff_35%,#0052e6_70%,#00e5ff_100%)] shadow-[0_0_28px_rgba(29,111,255,0.55),0_0_65px_rgba(0,198,255,0.3),0_0_95px_rgba(29,111,255,0.18)]">
+            <div className="relative rounded-[26.5px] lg:rounded-[30.5px] bg-[radial-gradient(130%_110%_at_50%_0%,#081e4d_0%,#051336_50%,#020817_100%)] p-5 sm:p-7 lg:p-8 backdrop-blur-xl overflow-hidden shadow-[inset_0_0_30px_rgba(29,111,255,0.22)]">
+              {/* Top summary metric */}
+              <div className="mb-6 flex flex-col gap-1 sm:mb-8">
+                <span className="font-display text-[38px] sm:text-[48px] lg:text-[54px] font-bold leading-none text-white tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+                  {formatInr(extra)}
+                </span>
+                <span className="font-sans text-xs sm:text-sm font-medium text-[#8ea2c6] tracking-wide">
+                  {extraPositive ? `+${extraPercent}% more profit per month` : `${formatInr(Math.abs(extra))} less profit per month`}
+                </span>
+              </div>
+
+              {/* 4 Chamfered Bar Graphs */}
+              <div className="flex h-[280px] sm:h-[310px] lg:h-[330px] items-end justify-between gap-2.5 sm:gap-6 lg:gap-8 px-1 sm:px-3 pt-6">
+                {bars.map((bar) => {
+                  return (
+                    <div
+                      key={bar.key}
+                      onClick={() => {
+                        if (!bar.euler && bar.key !== competitor.id) {
+                          setCompetitorId(bar.key);
+                        }
+                      }}
+                      className="group flex flex-1 flex-col items-start justify-end h-full min-w-0 cursor-pointer"
+                    >
+                      {/* Bar wrapper animated to height */}
+                      <div
+                        className="relative w-full flex flex-col justify-end transition-[height] duration-500 ease-out"
+                        style={{ height: `${bar.heightPct}%` }}
+                      >
+                        {/* Pin Dot & Value/Label Stack above the bar */}
+                        <div className="absolute left-0 bottom-full flex flex-col items-start pb-1">
+                          <div className="flex flex-col items-start whitespace-nowrap mb-1.5">
+                            <span
+                              className={`font-display text-[13px] sm:text-[15px] lg:text-[16px] font-bold leading-tight ${
+                                bar.euler
+                                  ? "text-white drop-shadow-[0_0_8px_rgba(0,212,255,0.6)]"
+                                  : "text-white/95"
+                              }`}
+                            >
+                              {formatInr(bar.value)}
+                            </span>
+                            <span
+                              className={`font-sans text-[10px] sm:text-[11px] lg:text-[12px] font-medium leading-normal ${
+                                bar.euler ? "text-[#38bdf8] font-semibold" : "text-[#8ea2c6]"
+                              }`}
+                            >
+                              {bar.label}
+                            </span>
+                          </div>
+
+                          {/* Pin dot node */}
+                          <div className="relative flex items-center mb-1">
+                            <span
+                              className={`block size-[6px] rounded-full transition-transform group-hover:scale-125 ${
+                                bar.euler
+                                  ? "bg-[#00f0ff] shadow-[0_0_10px_#00f0ff]"
+                                  : "bg-white/80 group-hover:bg-white"
+                              }`}
+                            />
+                          </div>
+
+                          {/* Dashed vertical pin line from dot to top-left of bar */}
+                          <div
+                            className={`h-4 sm:h-5 w-px border-l border-dashed ${
+                              bar.euler ? "border-[#00f0ff]" : "border-white/40"
+                            }`}
+                          />
+                        </div>
+
+                        {/* Chamfered SVG bar */}
+                        <div className="relative w-full h-full min-h-[45px] transition-transform duration-200 group-hover:-translate-y-0.5">
+                          <svg
+                            viewBox="0 0 100 100"
+                            preserveAspectRatio="none"
+                            className="size-full overflow-visible"
+                          >
+                            <defs>
+                              {/* Glass gradient for competitor bars */}
+                              <linearGradient id={`comp-glass-${bar.key}`} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="rgba(255, 255, 255, 0.25)" />
+                                <stop offset="40%" stopColor="rgba(255, 255, 255, 0.08)" />
+                                <stop offset="100%" stopColor="rgba(255, 255, 255, 0.01)" />
+                              </linearGradient>
+
+                              {/* Base rich royal blue to electric cyan vertical gradient */}
+                              <linearGradient id="euler-base-grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="#144fe6" />
+                                <stop offset="30%" stopColor="#0b2c8a" />
+                                <stop offset="70%" stopColor="#0854c4" />
+                                <stop offset="100%" stopColor="#00d4ff" />
+                              </linearGradient>
+
+                              {/* Vertical 3D fluted ribs pattern overlay */}
+                              <pattern id="euler-fluted-3d" width="6" height="24" patternUnits="userSpaceOnUse">
+                                <rect x="0" y="0" width="2" height="24" fill="rgba(255, 255, 255, 0.22)" />
+                                <rect x="2" y="0" width="2" height="24" fill="rgba(0, 212, 255, 0.3)" />
+                                <rect x="4" y="0" width="2" height="24" fill="rgba(0, 0, 0, 0.32)" />
+                              </pattern>
+
+                              {/* Glow filter for Euler top highlight */}
+                              <filter id="glow-cyan-top" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="2.5" result="blur" />
+                                <feMerge>
+                                  <feMergeNode in="blur" />
+                                  <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                              </filter>
+                            </defs>
+
+                            {/* Main polygon fill (flat top 0..52, sloped 52..100) */}
+                            <path
+                              d="M 0 0 L 52 0 L 100 24 L 100 100 L 0 100 Z"
+                              fill={bar.euler ? "url(#euler-base-grad)" : `url(#comp-glass-${bar.key})`}
+                            />
+
+                            {/* Fluted 3D ribbed glass texture on Euler EV */}
+                            {bar.euler && (
+                              <path
+                                d="M 0 0 L 52 0 L 100 24 L 100 100 L 0 100 Z"
+                                fill="url(#euler-fluted-3d)"
+                              />
+                            )}
+
+                            {/* Crisp top contour highlight stroke */}
+                            <path
+                              d="M 0 0 L 52 0 L 100 24"
+                              fill="none"
+                              stroke={bar.euler ? "#ffffff" : "rgba(255, 255, 255, 0.95)"}
+                              strokeWidth={bar.euler ? "2.5" : "1.8"}
+                              strokeLinecap="round"
+                              style={bar.euler ? { filter: "url(#glow-cyan-top)" } : undefined}
+                            />
+
+                            {/* Left dashed edge line */}
+                            <line
+                              x1="0.5"
+                              y1="0"
+                              x2="0.5"
+                              y2="100"
+                              stroke={bar.euler ? "rgba(0, 229, 255, 0.55)" : "rgba(255, 255, 255, 0.32)"}
+                              strokeDasharray="3 3"
+                              strokeWidth="1"
+                            />
+
+                            {/* Middle inflection dashed line */}
+                            <line
+                              x1="52"
+                              y1="0"
+                              x2="52"
+                              y2="100"
+                              stroke={bar.euler ? "rgba(0, 229, 255, 0.55)" : "rgba(255, 255, 255, 0.32)"}
+                              strokeDasharray="3 3"
+                              strokeWidth="1"
+                            />
+
+                            {/* Right dashed edge line */}
+                            <line
+                              x1="99.5"
+                              y1="24"
+                              x2="99.5"
+                              y2="100"
+                              stroke={bar.euler ? "rgba(0, 229, 255, 0.55)" : "rgba(255, 255, 255, 0.32)"}
+                              strokeDasharray="3 3"
+                              strokeWidth="1"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Ownership-period projection summary */}
+              <div className="mt-7 flex flex-col gap-2.5 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <p
+                  className={`text-xs sm:text-sm font-bold leading-[1.2] ${
+                    extraPositive ? "text-[#6fcf97]" : "text-[#ff7a7a]"
                   }`}
                 >
-                  {bar.label}
-                </span>
-              ))}
-            </div>
-
-            {/* headline + ownership-period projection (§4) */}
-            <div className="mt-5 flex flex-col gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <p
-                className={`text-[15px] font-bold leading-[1.2] lg:text-[17px] ${
-                  extraPositive ? "text-[#6fcf97]" : "text-[#ff7a7a]"
-                }`}
-              >
-                {extraPositive
-                  ? `${formatInr(extra)} more profit every month vs ${competitor.fuel === "cng" ? "CNG" : competitor.fuel}`
-                  : `${formatInr(Math.abs(extra))} less profit every month vs ${competitor.fuel === "cng" ? "CNG" : competitor.fuel}`}
-              </p>
-              <p className="text-xs text-white lg:text-sm">
-                <span className="text-white/70">
-                  Over <span className="font-semibold text-white">{periodLabel}</span>:
-                </span>{" "}
-                <span
-                  className={`font-bold ${extraPositive ? "text-[#6fcf97]" : "text-[#ff7a7a]"}`}
-                >
                   {extraPositive
-                    ? `${formatInr(result.periodExtraProfit)} extra savings`
-                    : `${formatInr(Math.abs(result.periodExtraProfit))} less savings`}
-                </span>
-              </p>
+                    ? `${formatInr(extra)} more profit every month vs ${competitor.fuel === "cng" ? "CNG" : competitor.fuel}`
+                    : `${formatInr(Math.abs(extra))} less profit every month vs ${competitor.fuel === "cng" ? "CNG" : competitor.fuel}`}
+                </p>
+                <p className="text-xs text-white sm:text-sm">
+                  <span className="text-white/70">
+                    Over <span className="font-semibold text-white">{periodLabel}</span>:
+                  </span>{" "}
+                  <span
+                    className={`font-bold ${extraPositive ? "text-[#6fcf97]" : "text-[#ff7a7a]"}`}
+                  >
+                    {extraPositive
+                      ? `${formatInr(result.periodExtraProfit)} extra savings`
+                      : `${formatInr(Math.abs(result.periodExtraProfit))} less savings`}
+                  </span>
+                </p>
+              </div>
             </div>
-
-            {/* fixed assumptions (§2) — shown so the numbers have context */}
-            <p className="mt-3 text-[11px] leading-[1.5] text-white/45">
-              Assumes 25 operating days/month, ₹8/kWh electricity, ₹95/L diesel,
-              10% down payment, 12% annual interest over a 36-month loan.
-              Excludes insurance, registration and resale.
-            </p>
           </div>
         </div>
 
